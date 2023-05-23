@@ -7,7 +7,8 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ServerCommunicationLinks } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper";
+import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -19,23 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ServerCommunicationLink,
-  ServerCommunicationLinksListByServerOptionalParams,
-  ServerCommunicationLinksListByServerResponse,
-  ServerCommunicationLinksDeleteOptionalParams,
-  ServerCommunicationLinksGetOptionalParams,
-  ServerCommunicationLinksGetResponse,
-  ServerCommunicationLinksCreateOrUpdateOptionalParams,
-  ServerCommunicationLinksCreateOrUpdateResponse
+  NetworkSecurityPerimeterConfiguration,
+  NetworkSecurityPerimeterConfigurationsListByServerNextOptionalParams,
+  NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
+  NetworkSecurityPerimeterConfigurationsListByServerResponse,
+  NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetResponse,
+  NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  NetworkSecurityPerimeterConfigurationsReconcileResponse,
+  NetworkSecurityPerimeterConfigurationsListByServerNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ServerCommunicationLinks operations. */
-export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
+/** Class containing NetworkSecurityPerimeterConfigurations operations. */
+export class NetworkSecurityPerimeterConfigurationsImpl
+  implements NetworkSecurityPerimeterConfigurations {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class ServerCommunicationLinks class.
+   * Initialize a new instance of the class NetworkSecurityPerimeterConfigurations class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -43,7 +46,7 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   }
 
   /**
-   * Gets a list of server communication links.
+   * Gets a list of NSP configurations for a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -52,8 +55,8 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
-  ): PagedAsyncIterableIterator<ServerCommunicationLink> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
@@ -83,19 +86,37 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<ServerCommunicationLink[]> {
-    let result: ServerCommunicationLinksListByServerResponse;
-    result = await this._listByServer(resourceGroupName, serverName, options);
-    yield result.value || [];
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration[]> {
+    let result: NetworkSecurityPerimeterConfigurationsListByServerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByServer(resourceGroupName, serverName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServerNext(
+        resourceGroupName,
+        serverName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
-  ): AsyncIterableIterator<ServerCommunicationLink> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
@@ -106,70 +127,66 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
   }
 
   /**
-   * Deletes a server communication link.
+   * Gets a list of NSP configurations for a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param communicationLinkName The name of the server communication link.
    * @param options The options parameters.
    */
-  delete(
+  private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    communicationLinkName: string,
-    options?: ServerCommunicationLinksDeleteOptionalParams
-  ): Promise<void> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams
+  ): Promise<NetworkSecurityPerimeterConfigurationsListByServerResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, communicationLinkName, options },
-      deleteOperationSpec
+      { resourceGroupName, serverName, options },
+      listByServerOperationSpec
     );
   }
 
   /**
-   * Returns a server communication link.
+   * Gets a network security perimeter configuration.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param communicationLinkName The name of the server communication link.
+   * @param nspConfigName
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    communicationLinkName: string,
-    options?: ServerCommunicationLinksGetOptionalParams
-  ): Promise<ServerCommunicationLinksGetResponse> {
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, communicationLinkName, options },
+      { resourceGroupName, serverName, nspConfigName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a server communication link.
+   * Reconcile network security perimeter configuration for SQL Resource Provider
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param communicationLinkName The name of the server communication link.
-   * @param parameters The required parameters for creating a server communication link.
+   * @param nspConfigName
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginReconcile(
     resourceGroupName: string,
     serverName: string,
-    communicationLinkName: string,
-    parameters: ServerCommunicationLink,
-    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ServerCommunicationLinksCreateOrUpdateResponse>,
-      ServerCommunicationLinksCreateOrUpdateResponse
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>,
+      NetworkSecurityPerimeterConfigurationsReconcileResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ServerCommunicationLinksCreateOrUpdateResponse> => {
+    ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -207,154 +224,153 @@ export class ServerCommunicationLinksImpl implements ServerCommunicationLinks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serverName,
-        communicationLinkName,
-        parameters,
-        options
-      },
-      spec: createOrUpdateOperationSpec
+      args: { resourceGroupName, serverName, nspConfigName, options },
+      spec: reconcileOperationSpec
     });
     const poller = await createHttpPoller<
-      ServerCommunicationLinksCreateOrUpdateResponse,
-      OperationState<ServerCommunicationLinksCreateOrUpdateResponse>
+      NetworkSecurityPerimeterConfigurationsReconcileResponse,
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a server communication link.
+   * Reconcile network security perimeter configuration for SQL Resource Provider
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param communicationLinkName The name of the server communication link.
-   * @param parameters The required parameters for creating a server communication link.
+   * @param nspConfigName
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginReconcileAndWait(
     resourceGroupName: string,
     serverName: string,
-    communicationLinkName: string,
-    parameters: ServerCommunicationLink,
-    options?: ServerCommunicationLinksCreateOrUpdateOptionalParams
-  ): Promise<ServerCommunicationLinksCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse> {
+    const poller = await this.beginReconcile(
       resourceGroupName,
       serverName,
-      communicationLinkName,
-      parameters,
+      nspConfigName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a list of server communication links.
+   * ListByServerNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
+   * @param nextLink The nextLink from the previous successful call to the ListByServer method.
    * @param options The options parameters.
    */
-  private _listByServer(
+  private _listByServerNext(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCommunicationLinksListByServerOptionalParams
-  ): Promise<ServerCommunicationLinksListByServerResponse> {
+    nextLink: string,
+    options?: NetworkSecurityPerimeterConfigurationsListByServerNextOptionalParams
+  ): Promise<NetworkSecurityPerimeterConfigurationsListByServerNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      { resourceGroupName, serverName, nextLink, options },
+      listByServerNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const deleteOperationSpec: coreClient.OperationSpec = {
+const listByServerOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
-  httpMethod: "DELETE",
-  responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.communicationLinkName
-  ],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/networkSecurityPerimeterConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    }
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult
+    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.communicationLinkName
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    },
-    201: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    },
-    202: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    },
-    204: {
-      bodyMapper: Mappers.ServerCommunicationLink
-    }
-  },
-  requestBody: Parameters.parameters10,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.communicationLinkName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/networkSecurityPerimeterConfigurations/{nspConfigName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerCommunicationLinkListResult
-    }
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.nspConfigName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const reconcileOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/networkSecurityPerimeterConfigurations/{nspConfigName}/reconcile",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+    },
+    201: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+    },
+    202: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+    },
+    204: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.nspConfigName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByServerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult
+    },
+    default: {}
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
