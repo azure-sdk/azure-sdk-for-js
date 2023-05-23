@@ -12,7 +12,13 @@ import { ModelVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ModelVersion,
   ModelVersionsListNextOptionalParams,
@@ -23,19 +29,22 @@ import {
   ModelVersionsGetResponse,
   ModelVersionsCreateOrUpdateOptionalParams,
   ModelVersionsCreateOrUpdateResponse,
+  PackageRequest,
+  ModelVersionsPackageOptionalParams,
+  ModelVersionsPackageResponse,
   ModelVersionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ModelVersions operations. */
 export class ModelVersionsImpl implements ModelVersions {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class ModelVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -217,6 +226,112 @@ export class ModelVersionsImpl implements ModelVersions {
   }
 
   /**
+   * Model Version Package operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param version Version identifier. This is case-sensitive.
+   * @param body Package operation request body.
+   * @param options The options parameters.
+   */
+  async beginPackage(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: PackageRequest,
+    options?: ModelVersionsPackageOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ModelVersionsPackageResponse>,
+      ModelVersionsPackageResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ModelVersionsPackageResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, name, version, body, options },
+      spec: packageOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ModelVersionsPackageResponse,
+      OperationState<ModelVersionsPackageResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Model Version Package operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param version Version identifier. This is case-sensitive.
+   * @param body Package operation request body.
+   * @param options The options parameters.
+   */
+  async beginPackageAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: PackageRequest,
+    options?: ModelVersionsPackageOptionalParams
+  ): Promise<ModelVersionsPackageResponse> {
+    const poller = await this.beginPackage(
+      resourceGroupName,
+      workspaceName,
+      name,
+      version,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -257,12 +372,13 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.skip,
     Parameters.orderBy,
     Parameters.top,
+    Parameters.stage,
     Parameters.listViewType,
     Parameters.version1,
     Parameters.description,
-    Parameters.offset,
     Parameters.tags1,
     Parameters.properties1,
+    Parameters.offset,
     Parameters.feed
   ],
   urlParameters: [
@@ -292,8 +408,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name,
-    Parameters.version
+    Parameters.version,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -316,8 +432,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name,
-    Parameters.version
+    Parameters.version,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -337,15 +453,50 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name1,
-    Parameters.version
+    Parameters.version,
+    Parameters.name1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const packageOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}/package",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PackageResponse
+    },
+    201: {
+      bodyMapper: Mappers.PackageResponse
+    },
+    202: {
+      bodyMapper: Mappers.PackageResponse
+    },
+    204: {
+      bodyMapper: Mappers.PackageResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body11,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.version,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -362,19 +513,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top,
-    Parameters.listViewType,
-    Parameters.version1,
-    Parameters.description,
-    Parameters.offset,
-    Parameters.tags1,
-    Parameters.properties1,
-    Parameters.feed
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
