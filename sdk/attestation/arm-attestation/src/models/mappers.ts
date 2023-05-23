@@ -98,6 +98,13 @@ export const OperationsDefinition: coreClient.CompositeMapper = {
           name: "Composite",
           className: "OperationsDisplayDefinition"
         }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "OperationProperties"
+        }
       }
     }
   }
@@ -128,6 +135,64 @@ export const OperationsDisplayDefinition: coreClient.CompositeMapper = {
       },
       description: {
         serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationProperties",
+    modelProperties: {
+      serviceSpecification: {
+        serializedName: "serviceSpecification",
+        type: {
+          name: "Composite",
+          className: "ServiceSpecification"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceSpecification: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceSpecification",
+    modelProperties: {
+      logSpecifications: {
+        serializedName: "logSpecifications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LogSpecification"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LogSpecification: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LogSpecification",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
         type: {
           name: "String"
         }
@@ -281,11 +346,25 @@ export const AttestationServiceCreationSpecificParams: coreClient.CompositeMappe
     name: "Composite",
     className: "AttestationServiceCreationSpecificParams",
     modelProperties: {
+      publicNetworkAccess: {
+        defaultValue: "Enabled",
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
       policySigningCertificates: {
         serializedName: "policySigningCertificates",
         type: {
           name: "Composite",
           className: "JsonWebKeySet"
+        }
+      },
+      tpmAttestationAuthentication: {
+        defaultValue: "Enabled",
+        serializedName: "tpmAttestationAuthentication",
+        type: {
+          name: "String"
         }
       }
     }
@@ -441,6 +520,36 @@ export const AttestationServicePatchParams: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AttestationServicePatchSpecificParams"
+        }
+      }
+    }
+  }
+};
+
+export const AttestationServicePatchSpecificParams: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttestationServicePatchSpecificParams",
+    modelProperties: {
+      publicNetworkAccess: {
+        defaultValue: "Enabled",
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      tpmAttestationAuthentication: {
+        defaultValue: "Enabled",
+        serializedName: "tpmAttestationAuthentication",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -459,6 +568,27 @@ export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
             }
           }
         }
@@ -550,6 +680,46 @@ export const TrackedResource: coreClient.CompositeMapper = {
   }
 };
 
+export const PrivateLinkResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      groupId: {
+        serializedName: "properties.groupId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        serializedName: "properties.requiredMembers",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        serializedName: "properties.requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AttestationProvider: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -581,6 +751,13 @@ export const AttestationProvider: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      publicNetworkAccess: {
+        defaultValue: "Enabled",
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
         readOnly: true,
@@ -592,6 +769,13 @@ export const AttestationProvider: coreClient.CompositeMapper = {
               className: "PrivateEndpointConnection"
             }
           }
+        }
+      },
+      tpmAttestationAuthentication: {
+        defaultValue: "Enabled",
+        serializedName: "properties.tpmAttestationAuthentication",
+        type: {
+          name: "String"
         }
       }
     }
