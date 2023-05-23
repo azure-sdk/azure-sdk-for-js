@@ -17,12 +17,14 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   AttestationProvidersImpl,
-  PrivateEndpointConnectionsImpl
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl
 } from "./operations";
 import {
   Operations,
   AttestationProviders,
-  PrivateEndpointConnections
+  PrivateEndpointConnections,
+  PrivateLinkResources
 } from "./operationsInterfaces";
 import { AttestationManagementClientOptionalParams } from "./models";
 
@@ -58,7 +60,7 @@ export class AttestationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-attestation/2.1.1`;
+    const packageDetails = `azsdk-js-arm-attestation/2.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -111,10 +113,11 @@ export class AttestationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-10-01";
+    this.apiVersion = options.apiVersion || "2021-06-01";
     this.operations = new OperationsImpl(this);
     this.attestationProviders = new AttestationProvidersImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -149,4 +152,5 @@ export class AttestationManagementClient extends coreClient.ServiceClient {
   operations: Operations;
   attestationProviders: AttestationProviders;
   privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
 }

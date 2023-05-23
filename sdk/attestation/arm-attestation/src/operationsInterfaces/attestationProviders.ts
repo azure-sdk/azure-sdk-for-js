@@ -40,7 +40,7 @@ export interface AttestationProviders {
     options?: AttestationProvidersGetOptionalParams
   ): Promise<AttestationProvidersGetResponse>;
   /**
-   * Creates a new Attestation Provider.
+   * Creates or updates an Attestation Provider.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param providerName Name of the attestation provider.
    * @param creationParams Client supplied parameters.
