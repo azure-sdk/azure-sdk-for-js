@@ -174,7 +174,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/14.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/14.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -1142,7 +1142,8 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     parameterPath: {
       name: ["name"],
       typeParam: ["typeParam"],
-      isFqdn: ["options", "isFqdn"]
+      isFqdn: ["options", "isFqdn"],
+      environmentId: ["options", "environmentId"]
     },
     mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true }
   },

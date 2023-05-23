@@ -1885,6 +1885,7 @@ export type Channels = "Notification" | "Api" | "Email" | "Webhook" | "All";
 
 // @public
 export interface CheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+    environmentId?: string;
     isFqdn?: boolean;
 }
 
@@ -4325,6 +4326,16 @@ export enum KnownWorkflowSkuName {
 }
 
 // @public
+export enum KnownWorkflowState {
+    Completed = "Completed",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified",
+    Suspended = "Suspended"
+}
+
+// @public
 export enum KnownWorkflowStatus {
     Aborted = "Aborted",
     Cancelled = "Cancelled",
@@ -5806,6 +5817,7 @@ export interface ResourceNameAvailability {
 
 // @public
 export interface ResourceNameAvailabilityRequest {
+    environmentId?: string;
     isFqdn?: boolean;
     name: string;
     type: CheckNameResourceTypes;
@@ -12301,7 +12313,7 @@ export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.O
 }
 
 // @public
-export type WorkflowState = "NotSpecified" | "Completed" | "Enabled" | "Disabled" | "Deleted" | "Suspended";
+export type WorkflowState = string;
 
 // @public
 export type WorkflowStatus = string;

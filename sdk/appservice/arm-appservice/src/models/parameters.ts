@@ -904,6 +904,11 @@ export const isFqdn: OperationParameter = {
   mapper: ResourceNameAvailabilityRequestMapper
 };
 
+export const environmentId: OperationParameter = {
+  parameterPath: ["options", "environmentId"],
+  mapper: ResourceNameAvailabilityRequestMapper
+};
+
 export const hostname: OperationQueryParameter = {
   parameterPath: ["options", "hostname"],
   mapper: {
