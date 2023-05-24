@@ -3823,7 +3823,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230523
+      typescript: 5.2.0-dev.20230524
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8366,14 +8366,20 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230523:
-    resolution: {integrity: sha512-LrDMumdesS4xcmqzEwLqbg33EtWQeSSXqrydFklXphBiv5+aETXiyUnUStkje8syf4+6j0MQTW0KzijiLS+rew==}
+  /typescript/5.2.0-dev.20230524:
+    resolution: {integrity: sha512-1XzSUJCt31jm7jIZ3vBKzK46ZxnmqX2VdVg/dur9AIaz9WmidrABs7F8H8d4onpIV8RYD/L6xW6MXR5EHjl+LA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13064,7 +13070,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-gGxn8y+MWnI9ZcjkEEyWvTRuta7sRLQ5ioIzsvxS3ojT8VqnGr2OGHhFiORHSivRZt8kjHNM/Cqab8RuLdVJDw==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-HP4VbHNAjhBlsVcszfjybzzFd7MlgIBwbEnYhkPOk+uNySUPuU1whPAIPsgcbAkwf90ulTjitwCRSmBdf91Zhg==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -13085,7 +13091,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
       tslib: 2.5.2
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color

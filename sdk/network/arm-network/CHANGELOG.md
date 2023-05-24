@@ -1,15 +1,29 @@
 # Release History
+    
+## 32.0.0 (2023-05-24)
+    
+**Features**
 
-## 31.0.1 (Unreleased)
+  - Interface ActiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface ActiveSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface AdminRule has a new optional parameter resourceGuid
+  - Interface AdminRuleCollection has a new optional parameter resourceGuid
+  - Interface ConfigurationGroup has a new optional parameter resourceGuid
+  - Interface ConnectivityConfiguration has a new optional parameter resourceGuid
+  - Interface DdosProtectionPlan has a new optional parameter publicIpAddresses
+  - Interface DefaultAdminRule has a new optional parameter resourceGuid
+  - Interface EffectiveConnectivityConfiguration has a new optional parameter resourceGuid
+  - Interface EffectiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface EffectiveSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface NetworkGroup has a new optional parameter resourceGuid
+  - Interface NetworkManager has a new optional parameter resourceGuid
+  - Interface SecurityAdminConfiguration has a new optional parameter resourceGuid
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface DdosProtectionPlan no longer has parameter publicIPAddresses
+    
+    
 ## 31.0.0 (2023-05-19)
     
 **Features**

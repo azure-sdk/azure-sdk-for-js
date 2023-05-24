@@ -74,6 +74,7 @@ export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminR
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -89,6 +90,7 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -124,6 +126,7 @@ export interface AdminRule extends BaseAdminRule {
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -133,6 +136,7 @@ export interface AdminRuleCollection extends ChildResource {
     appliesToGroups?: NetworkManagerSecurityGroupItem[];
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -2249,6 +2253,7 @@ export interface ConfigurationGroup {
     description?: string;
     id?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -2610,6 +2615,7 @@ export interface ConnectivityConfiguration extends ChildResource {
     hubs?: Hub[];
     isGlobal?: IsGlobal;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -2951,7 +2957,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIPAddresses?: SubResource[];
+    readonly publicIpAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -3061,6 +3067,7 @@ export interface DefaultAdminRule extends BaseAdminRule {
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -3287,6 +3294,7 @@ export interface EffectiveConnectivityConfiguration {
     id?: string;
     isGlobal?: IsGlobal;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -3301,6 +3309,7 @@ export interface EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecurity
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -3397,6 +3406,7 @@ export interface EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRu
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -8424,6 +8434,7 @@ export interface NetworkConfigurationDiagnosticResult {
 export interface NetworkGroup extends ChildResource {
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -9208,6 +9219,7 @@ export interface NetworkManager extends Resource {
     networkManagerScopeAccesses?: ConfigurationType[];
     networkManagerScopes?: NetworkManagerPropertiesNetworkManagerScopes;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -12038,6 +12050,7 @@ export interface SecurityAdminConfiguration extends ChildResource {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
