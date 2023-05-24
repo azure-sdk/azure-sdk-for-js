@@ -1867,6 +1867,7 @@ export const ManagedHsmProperties: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "publicNetworkAccess",
         type: {
           name: "String"
@@ -2176,7 +2177,7 @@ export const ManagedHsmSku: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["Standard_B1", "Custom_B32"]
+          allowedValues: ["Standard_B1", "Custom_B32", "Custom_B6"]
         }
       }
     }
