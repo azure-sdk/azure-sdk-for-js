@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkspaceSqlAadAdminsGetOptionalParams,
   WorkspaceSqlAadAdminsGetResponse,
@@ -42,8 +42,8 @@ export interface WorkspaceSqlAadAdmins {
     aadAdminInfo: WorkspaceAadAdminInfo,
     options?: WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspaceSqlAadAdminsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspaceSqlAadAdminsCreateOrUpdateResponse>,
       WorkspaceSqlAadAdminsCreateOrUpdateResponse
     >
   >;
@@ -70,7 +70,7 @@ export interface WorkspaceSqlAadAdmins {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceSqlAadAdminsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
