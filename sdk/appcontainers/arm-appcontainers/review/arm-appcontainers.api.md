@@ -167,6 +167,7 @@ export interface AzureActiveDirectoryValidation {
 export interface AzureCredentials {
     clientId?: string;
     clientSecret?: string;
+    kind?: string;
     subscriptionId?: string;
     tenantId?: string;
 }
@@ -349,6 +350,7 @@ export interface Configuration {
     maxInactiveRevisions?: number;
     registries?: RegistryCredentials[];
     secrets?: Secret[];
+    service?: Service;
 }
 
 // @public
@@ -636,6 +638,9 @@ export interface ContainerAppCollection {
 }
 
 // @public
+export type ContainerAppContainerRunningState = string;
+
+// @public
 export interface ContainerAppJobExecutions {
     readonly nextLink?: string;
     value: JobExecution[];
@@ -679,11 +684,18 @@ export interface ContainerAppProbeTcpSocket {
 export type ContainerAppProvisioningState = string;
 
 // @public
+export type ContainerAppReplicaRunningState = string;
+
+// @public
 export interface ContainerApps {
     beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsCreateOrUpdateResponse>, ContainerAppsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
+    beginStart(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsStartResponse>, ContainerAppsStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams): Promise<ContainerAppsStartResponse>;
+    beginStop(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsStopResponse>, ContainerAppsStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams): Promise<ContainerAppsStopResponse>;
     beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<ContainerAppsUpdateResponse>;
     get(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
@@ -698,7 +710,7 @@ export interface ContainerApps {
 export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerAppsAPIClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, jobName: string, jobExecutionName: string, options?: ContainerAppsAPIClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -729,6 +741,11 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     containerAppsSourceControls: ContainerAppsSourceControls;
     // (undocumented)
     daprComponents: DaprComponents;
+    jobExecution(resourceGroupName: string, options?: JobExecutionOptionalParams): Promise<JobExecutionResponse>;
+    // (undocumented)
+    jobExecutionName: string;
+    // (undocumented)
+    jobName: string;
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
@@ -1051,6 +1068,36 @@ export interface ContainerAppsSourceControlsListByContainerAppOptionalParams ext
 
 // @public
 export type ContainerAppsSourceControlsListByContainerAppResponse = SourceControlCollection;
+
+// @public
+export interface ContainerAppsStartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsStartResponse = ContainerApp;
+
+// @public
+export interface ContainerAppsStopHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsStopOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsStopResponse = ContainerApp;
 
 // @public
 export interface ContainerAppsUpdateHeaders {
@@ -1453,6 +1500,7 @@ export interface GitHub {
 export interface GithubActionConfiguration {
     azureCredentials?: AzureCredentials;
     contextPath?: string;
+    githubPersonalAccessToken?: string;
     image?: string;
     os?: string;
     publishType?: string;
@@ -1563,6 +1611,7 @@ export interface Job extends TrackedResource {
 
 // @public
 export interface JobConfiguration {
+    eventTriggerConfig?: JobConfigurationEventTriggerConfig;
     manualTriggerConfig?: JobConfigurationManualTriggerConfig;
     registries?: RegistryCredentials[];
     replicaRetryLimit?: number;
@@ -1570,6 +1619,13 @@ export interface JobConfiguration {
     scheduleTriggerConfig?: JobConfigurationScheduleTriggerConfig;
     secrets?: Secret[];
     triggerType: TriggerType;
+}
+
+// @public
+export interface JobConfigurationEventTriggerConfig {
+    parallelism?: number;
+    replicaCompletionCount?: number;
+    scale?: JobScale;
 }
 
 // @public
@@ -1618,6 +1674,13 @@ export interface JobExecutionNamesCollection {
 }
 
 // @public
+export interface JobExecutionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobExecutionResponse = JobExecution;
+
+// @public
 export type JobExecutionRunningState = string;
 
 // @public
@@ -1650,22 +1713,38 @@ export type JobProvisioningState = string;
 
 // @public
 export interface Jobs {
-    beginCreateOrUpdate(resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsCreateOrUpdateResponse>, JobsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<JobsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, jobName: string, template: JobExecutionTemplate, options?: JobsStartOptionalParams): Promise<SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>>;
-    beginStartAndWait(resourceGroupName: string, jobName: string, template: JobExecutionTemplate, options?: JobsStartOptionalParams): Promise<JobsStartResponse>;
-    beginStopExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopExecutionAndWait(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<void>;
-    beginStopMultipleExecutions(resourceGroupName: string, jobName: string, jobExecutionName: JobExecutionNamesCollection, options?: JobsStopMultipleExecutionsOptionalParams): Promise<SimplePollerLike<OperationState<JobsStopMultipleExecutionsResponse>, JobsStopMultipleExecutionsResponse>>;
-    beginStopMultipleExecutionsAndWait(resourceGroupName: string, jobName: string, jobExecutionName: JobExecutionNamesCollection, options?: JobsStopMultipleExecutionsOptionalParams): Promise<JobsStopMultipleExecutionsResponse>;
-    beginUpdate(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<JobsUpdateResponse>;
-    get(resourceGroupName: string, jobName: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsCreateOrUpdateResponse>, JobsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<JobsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, options?: JobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, options?: JobsDeleteOptionalParams): Promise<void>;
+    beginStart(resourceGroupName: string, template: JobExecutionTemplate, options?: JobsStartOptionalParams): Promise<SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, template: JobExecutionTemplate, options?: JobsStartOptionalParams): Promise<JobsStartResponse>;
+    beginStopExecution(resourceGroupName: string, options?: JobsStopExecutionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStopExecutionAndWait(resourceGroupName: string, options?: JobsStopExecutionOptionalParams): Promise<void>;
+    beginStopMultipleExecutions(resourceGroupName: string, options?: JobsStopMultipleExecutionsOptionalParams): Promise<SimplePollerLike<OperationState<JobsStopMultipleExecutionsResponse>, JobsStopMultipleExecutionsResponse>>;
+    beginStopMultipleExecutionsAndWait(resourceGroupName: string, options?: JobsStopMultipleExecutionsOptionalParams): Promise<JobsStopMultipleExecutionsResponse>;
+    beginUpdate(resourceGroupName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<JobsUpdateResponse>;
+    get(resourceGroupName: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: JobsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Job>;
     listBySubscription(options?: JobsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Job>;
-    listSecrets(resourceGroupName: string, jobName: string, options?: JobsListSecretsOptionalParams): Promise<JobsListSecretsResponse>;
+    listSecrets(resourceGroupName: string, options?: JobsListSecretsOptionalParams): Promise<JobsListSecretsResponse>;
+}
+
+// @public
+export interface JobScale {
+    maxExecutions?: number;
+    minExecutions?: number;
+    pollingInterval?: number;
+    rules?: JobScaleRule[];
+}
+
+// @public
+export interface JobScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: Record<string, unknown>;
+    name?: string;
+    type?: string;
 }
 
 // @public
@@ -1702,7 +1781,7 @@ export interface JobSecretsCollection {
 
 // @public
 export interface JobsExecutions {
-    list(resourceGroupName: string, jobName: string, options?: JobsExecutionsListOptionalParams): PagedAsyncIterableIterator<JobExecution>;
+    list(resourceGroupName: string, options?: JobsExecutionsListOptionalParams): PagedAsyncIterableIterator<JobExecution>;
 }
 
 // @public
@@ -1907,12 +1986,26 @@ export enum KnownConnectedEnvironmentProvisioningState {
 }
 
 // @public
+export enum KnownContainerAppContainerRunningState {
+    Running = "Running",
+    Terminated = "Terminated",
+    Waiting = "Waiting"
+}
+
+// @public
 export enum KnownContainerAppProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownContainerAppReplicaRunningState {
+    NotRunning = "NotRunning",
+    Running = "Running",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -2014,6 +2107,16 @@ export enum KnownRevisionProvisioningState {
     Failed = "Failed",
     Provisioned = "Provisioned",
     Provisioning = "Provisioning"
+}
+
+// @public
+export enum KnownRevisionRunningState {
+    Degraded = "Degraded",
+    Failed = "Failed",
+    Processing = "Processing",
+    Running = "Running",
+    Stopped = "Stopped",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -2174,6 +2277,7 @@ export interface ManagedEnvironment extends TrackedResource {
     infrastructureResourceGroup?: string;
     kedaConfiguration?: KedaConfiguration;
     kind?: string;
+    peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
     readonly provisioningState?: EnvironmentProvisioningState;
     readonly staticIp?: string;
     vnetConfiguration?: VnetConfiguration;
@@ -2200,6 +2304,11 @@ export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams extend
 
 // @public
 export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsCollection;
+
+// @public
+export interface ManagedEnvironmentPropertiesPeerAuthentication {
+    mtls?: Mtls;
+}
 
 // @public
 export interface ManagedEnvironments {
@@ -2376,6 +2485,11 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface Mtls {
+    enabled?: boolean;
+}
+
+// @public
 export interface Namespaces {
     checkNameAvailability(resourceGroupName: string, environmentName: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
 }
@@ -2486,6 +2600,9 @@ export interface RegistryInfo {
 export interface Replica extends ProxyResource {
     containers?: ReplicaContainer[];
     readonly createdTime?: Date;
+    initContainers?: ReplicaContainer[];
+    readonly runningState?: ContainerAppReplicaRunningState;
+    readonly runningStateDetails?: string;
 }
 
 // @public
@@ -2501,6 +2618,8 @@ export interface ReplicaContainer {
     name?: string;
     ready?: boolean;
     restartCount?: number;
+    readonly runningState?: ContainerAppContainerRunningState;
+    readonly runningStateDetails?: string;
     started?: boolean;
 }
 
@@ -2522,6 +2641,7 @@ export interface Revision extends ProxyResource {
     readonly provisioningError?: string;
     readonly provisioningState?: RevisionProvisioningState;
     readonly replicas?: number;
+    readonly runningState?: RevisionRunningState;
     readonly template?: Template;
     readonly trafficWeight?: number;
 }
@@ -2537,6 +2657,9 @@ export type RevisionHealthState = string;
 
 // @public
 export type RevisionProvisioningState = string;
+
+// @public
+export type RevisionRunningState = string;
 
 // @public
 export interface Scale {
@@ -2583,6 +2706,17 @@ export interface SecretVolumeItem {
 }
 
 // @public
+export interface Service {
+    type: string;
+}
+
+// @public
+export interface ServiceBind {
+    name?: string;
+    serviceId?: string;
+}
+
+// @public
 export interface SourceControl extends ProxyResource {
     branch?: string;
     githubActionConfiguration?: GithubActionConfiguration;
@@ -2626,6 +2760,8 @@ export interface Template {
     initContainers?: InitContainer[];
     revisionSuffix?: string;
     scale?: Scale;
+    serviceBinds?: ServiceBind[];
+    terminationGracePeriodSeconds?: number;
     volumes?: Volume[];
 }
 
@@ -2683,6 +2819,7 @@ export interface VnetConfiguration {
 
 // @public
 export interface Volume {
+    mountOptions?: string;
     name?: string;
     secrets?: SecretVolumeItem[];
     storageName?: string;
@@ -2692,6 +2829,7 @@ export interface Volume {
 // @public
 export interface VolumeMount {
     mountPath?: string;
+    subPath?: string;
     volumeName?: string;
 }
 

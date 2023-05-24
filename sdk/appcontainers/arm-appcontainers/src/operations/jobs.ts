@@ -39,7 +39,6 @@ import {
   JobsStartOptionalParams,
   JobsStartResponse,
   JobsStopExecutionOptionalParams,
-  JobExecutionNamesCollection,
   JobsStopMultipleExecutionsOptionalParams,
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
@@ -215,16 +214,14 @@ export class JobsImpl implements Jobs {
   /**
    * Get the properties of a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    jobName: string,
     options?: JobsGetOptionalParams
   ): Promise<JobsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, options },
+      { resourceGroupName, options },
       getOperationSpec
     );
   }
@@ -232,13 +229,11 @@ export class JobsImpl implements Jobs {
   /**
    * Create or Update a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    jobName: string,
     jobEnvelope: Job,
     options?: JobsCreateOrUpdateOptionalParams
   ): Promise<
@@ -288,7 +283,7 @@ export class JobsImpl implements Jobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, jobName, jobEnvelope, options },
+      args: { resourceGroupName, jobEnvelope, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
@@ -306,19 +301,16 @@ export class JobsImpl implements Jobs {
   /**
    * Create or Update a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    jobName: string,
     jobEnvelope: Job,
     options?: JobsCreateOrUpdateOptionalParams
   ): Promise<JobsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      jobName,
       jobEnvelope,
       options
     );
@@ -328,12 +320,10 @@ export class JobsImpl implements Jobs {
   /**
    * Delete a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    jobName: string,
     options?: JobsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -377,7 +367,7 @@ export class JobsImpl implements Jobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, jobName, options },
+      args: { resourceGroupName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -392,28 +382,24 @@ export class JobsImpl implements Jobs {
   /**
    * Delete a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    jobName: string,
     options?: JobsDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, jobName, options);
+    const poller = await this.beginDelete(resourceGroupName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    jobName: string,
     jobEnvelope: JobPatchProperties,
     options?: JobsUpdateOptionalParams
   ): Promise<
@@ -460,7 +446,7 @@ export class JobsImpl implements Jobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, jobName, jobEnvelope, options },
+      args: { resourceGroupName, jobEnvelope, options },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
@@ -477,19 +463,16 @@ export class JobsImpl implements Jobs {
   /**
    * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    jobName: string,
     jobEnvelope: JobPatchProperties,
     options?: JobsUpdateOptionalParams
   ): Promise<JobsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      jobName,
       jobEnvelope,
       options
     );
@@ -499,13 +482,11 @@ export class JobsImpl implements Jobs {
   /**
    * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param template Properties used to start a job instance.
    * @param options The options parameters.
    */
   async beginStart(
     resourceGroupName: string,
-    jobName: string,
     template: JobExecutionTemplate,
     options?: JobsStartOptionalParams
   ): Promise<
@@ -552,7 +533,7 @@ export class JobsImpl implements Jobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, jobName, template, options },
+      args: { resourceGroupName, template, options },
       spec: startOperationSpec
     });
     const poller = await createHttpPoller<
@@ -570,36 +551,25 @@ export class JobsImpl implements Jobs {
   /**
    * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param template Properties used to start a job instance.
    * @param options The options parameters.
    */
   async beginStartAndWait(
     resourceGroupName: string,
-    jobName: string,
     template: JobExecutionTemplate,
     options?: JobsStartOptionalParams
   ): Promise<JobsStartResponse> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      jobName,
-      template,
-      options
-    );
+    const poller = await this.beginStart(resourceGroupName, template, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param jobExecutionName Job execution name.
    * @param options The options parameters.
    */
   async beginStopExecution(
     resourceGroupName: string,
-    jobName: string,
-    jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -643,7 +613,7 @@ export class JobsImpl implements Jobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, jobName, jobExecutionName, options },
+      args: { resourceGroupName, options },
       spec: stopExecutionOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -658,36 +628,23 @@ export class JobsImpl implements Jobs {
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param jobExecutionName Job execution name.
    * @param options The options parameters.
    */
   async beginStopExecutionAndWait(
     resourceGroupName: string,
-    jobName: string,
-    jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams
   ): Promise<void> {
-    const poller = await this.beginStopExecution(
-      resourceGroupName,
-      jobName,
-      jobExecutionName,
-      options
-    );
+    const poller = await this.beginStopExecution(resourceGroupName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param jobExecutionName List of all job executions that should be stopped.
    * @param options The options parameters.
    */
   async beginStopMultipleExecutions(
     resourceGroupName: string,
-    jobName: string,
-    jobExecutionName: JobExecutionNamesCollection,
     options?: JobsStopMultipleExecutionsOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -736,7 +693,7 @@ export class JobsImpl implements Jobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, jobName, jobExecutionName, options },
+      args: { resourceGroupName, options },
       spec: stopMultipleExecutionsOperationSpec
     });
     const poller = await createHttpPoller<
@@ -754,20 +711,14 @@ export class JobsImpl implements Jobs {
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param jobExecutionName List of all job executions that should be stopped.
    * @param options The options parameters.
    */
   async beginStopMultipleExecutionsAndWait(
     resourceGroupName: string,
-    jobName: string,
-    jobExecutionName: JobExecutionNamesCollection,
     options?: JobsStopMultipleExecutionsOptionalParams
   ): Promise<JobsStopMultipleExecutionsResponse> {
     const poller = await this.beginStopMultipleExecutions(
       resourceGroupName,
-      jobName,
-      jobExecutionName,
       options
     );
     return poller.pollUntilDone();
@@ -776,16 +727,14 @@ export class JobsImpl implements Jobs {
   /**
    * List secrets for a container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   listSecrets(
     resourceGroupName: string,
-    jobName: string,
     options?: JobsListSecretsOptionalParams
   ): Promise<JobsListSecretsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, options },
+      { resourceGroupName, options },
       listSecretsOperationSpec
     );
   }
@@ -911,7 +860,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.jobName1
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -935,7 +884,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.jobName1
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -967,7 +916,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.jobName1
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1051,7 +1000,6 @@ const stopMultipleExecutionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.jobExecutionName1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1059,8 +1007,7 @@ const stopMultipleExecutionsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {

@@ -37,15 +37,13 @@ export class JobsExecutionsImpl implements JobsExecutions {
   /**
    * Get a Container Apps Job's executions
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    jobName: string,
     options?: JobsExecutionsListOptionalParams
   ): PagedAsyncIterableIterator<JobExecution> {
-    const iter = this.listPagingAll(resourceGroupName, jobName, options);
+    const iter = this.listPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -57,26 +55,20 @@ export class JobsExecutionsImpl implements JobsExecutions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          jobName,
-          options,
-          settings
-        );
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    jobName: string,
     options?: JobsExecutionsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<JobExecution[]> {
     let result: JobsExecutionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, jobName, options);
+      result = await this._list(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -85,7 +77,6 @@ export class JobsExecutionsImpl implements JobsExecutions {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        jobName,
         continuationToken,
         options
       );
@@ -98,14 +89,9 @@ export class JobsExecutionsImpl implements JobsExecutions {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    jobName: string,
     options?: JobsExecutionsListOptionalParams
   ): AsyncIterableIterator<JobExecution> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      jobName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -113,16 +99,14 @@ export class JobsExecutionsImpl implements JobsExecutions {
   /**
    * Get a Container Apps Job's executions
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    jobName: string,
     options?: JobsExecutionsListOptionalParams
   ): Promise<JobsExecutionsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, options },
+      { resourceGroupName, options },
       listOperationSpec
     );
   }
@@ -130,18 +114,16 @@ export class JobsExecutionsImpl implements JobsExecutions {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    jobName: string,
     nextLink: string,
     options?: JobsExecutionsListNextOptionalParams
   ): Promise<JobsExecutionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, nextLink, options },
+      { resourceGroupName, nextLink, options },
       listNextOperationSpec
     );
   }
