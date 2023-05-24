@@ -2006,6 +2006,20 @@ export const ScheduledEventsProfile: coreClient.CompositeMapper = {
           name: "Composite",
           className: "OSImageNotificationProfile"
         }
+      },
+      redeployNotificationProfile: {
+        serializedName: "redeployNotificationProfile",
+        type: {
+          name: "Composite",
+          className: "RedeployNotificationProfile"
+        }
+      },
+      rebootNotificationProfile: {
+        serializedName: "rebootNotificationProfile",
+        type: {
+          name: "Composite",
+          className: "RebootNotificationProfile"
+        }
       }
     }
   }
@@ -2036,6 +2050,48 @@ export const OSImageNotificationProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OSImageNotificationProfile",
+    modelProperties: {
+      notBeforeTimeout: {
+        serializedName: "notBeforeTimeout",
+        type: {
+          name: "String"
+        }
+      },
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const RedeployNotificationProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RedeployNotificationProfile",
+    modelProperties: {
+      notBeforeTimeout: {
+        serializedName: "notBeforeTimeout",
+        type: {
+          name: "String"
+        }
+      },
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const RebootNotificationProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RebootNotificationProfile",
     modelProperties: {
       notBeforeTimeout: {
         serializedName: "notBeforeTimeout",
@@ -10404,33 +10460,6 @@ export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
   }
 };
 
-export const CommunityGalleryImageIdentifier: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunityGalleryImageIdentifier",
-    modelProperties: {
-      publisher: {
-        serializedName: "publisher",
-        type: {
-          name: "String"
-        }
-      },
-      offer: {
-        serializedName: "offer",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CommunityGalleryImageList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -16733,7 +16762,7 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
         serializedName: "properties.identifier",
         type: {
           name: "Composite",
-          className: "CommunityGalleryImageIdentifier"
+          className: "GalleryImageIdentifier"
         }
       },
       recommended: {

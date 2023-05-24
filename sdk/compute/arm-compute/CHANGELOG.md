@@ -1,5 +1,22 @@
 # Release History
     
+## 22.0.0 (2023-05-24)
+    
+**Features**
+
+  - Added Interface RebootNotificationProfile
+  - Added Interface RedeployNotificationProfile
+  - Interface ScheduledEventsProfile has a new optional parameter rebootNotificationProfile
+  - Interface ScheduledEventsProfile has a new optional parameter redeployNotificationProfile
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
+
+**Breaking Changes**
+
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from CommunityGalleryImageIdentifier to GalleryImageIdentifier
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Removed Enum KnownEdgeZoneStorageAccountType
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**
