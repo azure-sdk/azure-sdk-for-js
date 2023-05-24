@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AzureADOnlyAuthentication,
   AzureADOnlyAuthenticationsListOptionalParams,
@@ -60,8 +60,8 @@ export interface AzureADOnlyAuthentications {
     azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication,
     options?: AzureADOnlyAuthenticationsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AzureADOnlyAuthenticationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AzureADOnlyAuthenticationsCreateResponse>,
       AzureADOnlyAuthenticationsCreateResponse
     >
   >;
