@@ -254,6 +254,9 @@ export interface AdminRulesListOptionalParams extends coreClient.OperationOption
 export type AdminRulesListResponse = AdminRuleListResult;
 
 // @public
+export type AdminState = string;
+
+// @public
 export interface ApplicationGateway extends Resource {
     authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
     autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
@@ -2951,7 +2954,7 @@ export interface DdosProtectionPlan {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly publicIPAddresses?: SubResource[];
+    readonly publicIpAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: {
         [propertyName: string]: string;
@@ -5947,6 +5950,12 @@ export enum KnownAddressPrefixType {
 export enum KnownAdminRuleKind {
     Custom = "Custom",
     Default = "Default"
+}
+
+// @public
+export enum KnownAdminState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -13583,6 +13592,7 @@ export type VirtualNetworkEncryptionEnforcement = string;
 // @public
 export interface VirtualNetworkGateway extends Resource {
     active?: boolean;
+    adminState?: AdminState;
     allowRemoteVnetTraffic?: boolean;
     allowVirtualWanTraffic?: boolean;
     bgpSettings?: BgpSettings;

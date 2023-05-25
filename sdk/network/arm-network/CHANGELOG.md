@@ -1,15 +1,19 @@
 # Release History
+    
+## 32.0.0 (2023-05-25)
+    
+**Features**
 
-## 31.0.1 (Unreleased)
+  - Added Type Alias AdminState
+  - Interface DdosProtectionPlan has a new optional parameter publicIpAddresses
+  - Interface VirtualNetworkGateway has a new optional parameter adminState
+  - Added Enum KnownAdminState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface DdosProtectionPlan no longer has parameter publicIPAddresses
+    
+    
 ## 31.0.0 (2023-05-19)
     
 **Features**
