@@ -1,16 +1,6 @@
 # Release History
-
-## 4.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 4.1.0-beta.1 (2022-12-01)
+    
+## 4.1.0-beta.2 (2023-05-25)
     
 **Features**
 
@@ -41,7 +31,7 @@
   - Added Type Alias ObjectAnchorsAccountsRegenerateKeysResponse
   - Added Type Alias ObjectAnchorsAccountsUpdateResponse
   - Interface MetricDimension has a new optional parameter toBeExportedForShoebox
-  - Class MixedRealityClient has a new parameter objectAnchorsAccounts
+  - Added function getContinuationToken
     
 ## 4.0.1 (2022-01-20)
 

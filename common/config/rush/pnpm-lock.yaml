@@ -3825,7 +3825,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230523
+      typescript: 5.2.0-dev.20230524
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8368,14 +8368,20 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230523:
-    resolution: {integrity: sha512-LrDMumdesS4xcmqzEwLqbg33EtWQeSSXqrydFklXphBiv5+aETXiyUnUStkje8syf4+6j0MQTW0KzijiLS+rew==}
+  /typescript/5.2.0-dev.20230524:
+    resolution: {integrity: sha512-1XzSUJCt31jm7jIZ3vBKzK46ZxnmqX2VdVg/dur9AIaz9WmidrABs7F8H8d4onpIV8RYD/L6xW6MXR5EHjl+LA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12869,7 +12875,7 @@ packages:
     dev: false
 
   file:projects/arm-mixedreality.tgz:
-    resolution: {integrity: sha512-IC/CNQGA9EW8a6sAsrHXD7EYdxMigK//FpBVfRMQHa9nIi8fPy0JoPt3zlaz1ZIYgLpw1zY4HZAnUKgi0S1JoQ==, tarball: file:projects/arm-mixedreality.tgz}
+    resolution: {integrity: sha512-J0ndjtgve3SaCleObsRN1lEiBxsL0Fmxev+86ktU072Wx9sVZuPLfG7oty5lSPYevdlHNLjZ0gTczKM+0sDSsQ==, tarball: file:projects/arm-mixedreality.tgz}
     name: '@rush-temp/arm-mixedreality'
     version: 0.0.0
     dependencies:
@@ -12883,13 +12889,14 @@ packages:
       '@types/node': 14.18.47
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
       tslib: 2.5.2
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
