@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PutAliasRequest,
   AliasCreateOptionalParams,
@@ -33,7 +33,7 @@ export interface Alias {
     body: PutAliasRequest,
     options?: AliasCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<AliasCreateResponse>, AliasCreateResponse>
+    SimplePollerLike<OperationState<AliasCreateResponse>, AliasCreateResponse>
   >;
   /**
    * Create Alias Subscription.
