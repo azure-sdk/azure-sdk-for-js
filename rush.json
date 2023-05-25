@@ -2002,6 +2002,11 @@
       "packageName": "@azure/arm-baremetalinfrastructure",
       "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/contoso-widgetmanager-rest",
+      "projectFolder": "sdk/contosowidgetmanager/contosowidgetmanager-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
