@@ -1,16 +1,6 @@
 # Release History
-
-## 6.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.4 (2023-04-11)
+    
+## 6.0.0-beta.5 (2023-05-26)
     
 **Features**
 
@@ -21,11 +11,11 @@
   - Added operation group Applications
   - Added operation group GovernanceAssignments
   - Added operation group GovernanceRules
-  - Added operation group HealthReportOperations
   - Added operation group HealthReports
   - Added operation group SecurityConnectorApplication
   - Added operation group SecurityConnectorApplications
   - Added operation group SecurityOperators
+  - Added operation group SensitivitySettings
   - Added operation Alerts.beginSimulate
   - Added operation Alerts.beginSimulateAndWait
   - Added operation Alerts.updateResourceGroupLevelStateToInProgress
@@ -81,6 +71,7 @@
   - Added Interface AzureDevOpsScopeEnvironmentData
   - Added Interface AzureResourceDetails
   - Added Interface AzureResourceIdentifier
+  - Added Interface BuiltInInfoType
   - Added Interface CefExternalSecuritySolution
   - Added Interface CefSolutionProperties
   - Added Interface Compliance
@@ -163,6 +154,11 @@
   - Added Interface GcpOrganizationalDataOrganization
   - Added Interface GcpProjectDetails
   - Added Interface GcpProjectEnvironmentData
+  - Added Interface GetSensitivitySettingsListResponse
+  - Added Interface GetSensitivitySettingsOptionalParams
+  - Added Interface GetSensitivitySettingsResponse
+  - Added Interface GetSensitivitySettingsResponseProperties
+  - Added Interface GetSensitivitySettingsResponsePropertiesMipInformation
   - Added Interface GithubScopeEnvironmentData
   - Added Interface GitlabScopeEnvironmentData
   - Added Interface GovernanceAssignment
@@ -191,7 +187,7 @@
   - Added Interface GovernanceRulesOperationResultsOptionalParams
   - Added Interface HealthDataClassification
   - Added Interface HealthReport
-  - Added Interface HealthReportGetOptionalParams
+  - Added Interface HealthReportsGetOptionalParams
   - Added Interface HealthReportsList
   - Added Interface HealthReportsListNextOptionalParams
   - Added Interface HealthReportsListOptionalParams
@@ -201,6 +197,7 @@
   - Added Interface Identity
   - Added Interface InformationProtectionAwsOffering
   - Added Interface InformationProtectionPolicy
+  - Added Interface InfoType
   - Added Interface IngestionSetting
   - Added Interface IoTSecurityAggregatedAlert
   - Added Interface IoTSecurityAggregatedRecommendation
@@ -208,6 +205,7 @@
   - Added Interface IoTSecuritySolutionModel
   - Added Interface Issue
   - Added Interface JitNetworkAccessPolicy
+  - Added Interface Label
   - Added Interface ListCustomAlertRule
   - Added Interface LocalUserNotAllowed
   - Added Interface LogAnalyticsIdentifier
@@ -259,6 +257,7 @@
   - Added Interface SecuritySolutionsReferenceData
   - Added Interface SecuritySubAssessment
   - Added Interface SecurityTask
+  - Added Interface SensitivitySettingsListOptionalParams
   - Added Interface ServerVulnerabilityAssessment
   - Added Interface ServerVulnerabilityProperties
   - Added Interface Setting
@@ -272,6 +271,8 @@
   - Added Interface TwinUpdatesNotInAllowedRange
   - Added Interface UnauthorizedOperationsNotInAllowedRange
   - Added Interface UpdateIotSecuritySolutionData
+  - Added Interface UpdateSensitivitySettingsOptionalParams
+  - Added Interface UpdateSensitivitySettingsRequest
   - Added Interface WorkspaceSetting
   - Added Type Alias APICollectionGetResponse
   - Added Type Alias APICollectionListNextResponse
@@ -289,6 +290,7 @@
   - Added Type Alias EnvironmentDataUnion
   - Added Type Alias EnvironmentType
   - Added Type Alias GcpOrganizationalDataUnion
+  - Added Type Alias GetSensitivitySettingsOperationResponse
   - Added Type Alias GovernanceAssignmentsCreateOrUpdateResponse
   - Added Type Alias GovernanceAssignmentsGetResponse
   - Added Type Alias GovernanceAssignmentsListNextResponse
@@ -303,15 +305,15 @@
   - Added Type Alias GovernanceRulesOperationResultsResponse
   - Added Type Alias GovernanceRuleSourceResourceType
   - Added Type Alias GovernanceRuleType
-  - Added Type Alias HealthReportGetResponse
+  - Added Type Alias HealthReportsGetResponse
   - Added Type Alias HealthReportsListNextResponse
   - Added Type Alias HealthReportsListResponse
   - Added Type Alias IsEnabled
   - Added Type Alias MinimalSeverity
+  - Added Type Alias MipIntegrationStatus
   - Added Type Alias OperationResult
   - Added Type Alias Roles
   - Added Type Alias ScanningMode
-  - Added Type Alias ScopeName
   - Added Type Alias SecurityConnectorApplicationCreateOrUpdateResponse
   - Added Type Alias SecurityConnectorApplicationGetResponse
   - Added Type Alias SecurityConnectorApplicationsListNextResponse
@@ -319,9 +321,11 @@
   - Added Type Alias SecurityOperatorsCreateOrUpdateResponse
   - Added Type Alias SecurityOperatorsGetResponse
   - Added Type Alias SecurityOperatorsListResponse
+  - Added Type Alias SensitivitySettingsListResponse
   - Added Type Alias StatusName
   - Added Type Alias SubPlan
   - Added Type Alias Type
+  - Added Type Alias UpdateSensitivitySettingsResponse
   - Interface AlertsSimulateOptionalParams has a new optional parameter resumeFrom
   - Interface AlertsSimulateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface DefenderForServersAwsOfferingArcAutoProvisioning has a new optional parameter cloudRoleArn
@@ -338,10 +342,10 @@
   - Added Enum KnownGovernanceRuleType
   - Added Enum KnownIsEnabled
   - Added Enum KnownMinimalSeverity
+  - Added Enum KnownMipIntegrationStatus
   - Added Enum KnownOperationResult
   - Added Enum KnownRoles
   - Added Enum KnownScanningMode
-  - Added Enum KnownScopeName
   - Added Enum KnownStatusName
   - Added Enum KnownSubPlan
   - Added Enum KnownType
