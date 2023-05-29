@@ -70,8 +70,8 @@ const getRelationOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.relationName,
-    Parameters.entityId
+    Parameters.entityId,
+    Parameters.relationName
   ],
   headerParameters: [Parameters.accept],
   serializer
