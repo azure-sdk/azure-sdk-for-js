@@ -235,6 +235,205 @@ export type BillingMetersGetResponse = BillingMeterCollection;
 export type BindingType = string;
 
 // @public
+export interface BuildCollection {
+    nextLink?: string;
+    value: BuildResource[];
+}
+
+// @public
+export interface BuildConfiguration {
+    baseOs?: string;
+    environmentVariables?: EnvironmentVariable[];
+    platform?: string;
+    platformVersion?: string;
+    preBuildSteps?: PreBuildStep[];
+}
+
+// @public
+export interface BuilderCollection {
+    nextLink?: string;
+    value: BuilderResource[];
+}
+
+// @public
+export interface BuilderResource extends TrackedResource {
+    readonly buildComputeId?: string;
+    environmentId?: string;
+    identity?: ManagedServiceIdentity;
+    readonly patchComputeId?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface BuilderResourceUpdate {
+    environmentId?: string;
+    identity?: ManagedServiceIdentity;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface Builders {
+    beginCreateOrUpdate(resourceGroupName: string, builderName: string, builderEnvelope: BuilderResource, options?: BuildersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BuildersCreateOrUpdateResponse>, BuildersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, builderName: string, builderEnvelope: BuilderResource, options?: BuildersCreateOrUpdateOptionalParams): Promise<BuildersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, builderName: string, options?: BuildersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, builderName: string, options?: BuildersDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, builderName: string, builderEnvelope: BuilderResourceUpdate, options?: BuildersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BuildersUpdateResponse>, BuildersUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, builderName: string, builderEnvelope: BuilderResourceUpdate, options?: BuildersUpdateOptionalParams): Promise<BuildersUpdateResponse>;
+    get(resourceGroupName: string, builderName: string, options?: BuildersGetOptionalParams): Promise<BuildersGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: BuildersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BuilderResource>;
+    listBySubscription(options?: BuildersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<BuilderResource>;
+}
+
+// @public
+export interface BuildersCreateOrUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface BuildersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildersCreateOrUpdateResponse = BuilderResource;
+
+// @public
+export interface BuildersDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BuildersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersGetResponse = BuilderResource;
+
+// @public
+export interface BuildersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersListByResourceGroupNextResponse = BuilderCollection;
+
+// @public
+export interface BuildersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersListByResourceGroupResponse = BuilderCollection;
+
+// @public
+export interface BuildersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersListBySubscriptionNextResponse = BuilderCollection;
+
+// @public
+export interface BuildersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildersListBySubscriptionResponse = BuilderCollection;
+
+// @public
+export interface BuildersUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BuildersUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildersUpdateResponse = BuilderResource;
+
+// @public
+export interface BuildResource extends ProxyResource {
+    readonly buildStatus?: BuildStatus;
+    configuration?: BuildConfiguration;
+    destinationContainerRegistry?: ContainerRegistryWithCustomImage;
+    readonly provisioningState?: ProvisioningState;
+    readonly uploadEndpoint?: string;
+}
+
+// @public
+export interface Builds {
+    beginCreateOrUpdate(resourceGroupName: string, builderName: string, buildName: string, buildEnvelope: BuildResource, options?: BuildsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BuildsCreateOrUpdateResponse>, BuildsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, builderName: string, buildName: string, buildEnvelope: BuildResource, options?: BuildsCreateOrUpdateOptionalParams): Promise<BuildsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, builderName: string, buildName: string, options?: BuildsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, builderName: string, buildName: string, options?: BuildsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, builderName: string, buildName: string, options?: BuildsGetOptionalParams): Promise<BuildsGetResponse>;
+    listByBuilderResource(resourceGroupName: string, builderName: string, options?: BuildsListByBuilderResourceOptionalParams): PagedAsyncIterableIterator<BuildResource>;
+}
+
+// @public
+export interface BuildsCreateOrUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface BuildsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildsCreateOrUpdateResponse = BuildResource;
+
+// @public
+export interface BuildsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BuildsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildsGetResponse = BuildResource;
+
+// @public
+export interface BuildsListByBuilderResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildsListByBuilderResourceNextResponse = BuildCollection;
+
+// @public
+export interface BuildsListByBuilderResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildsListByBuilderResourceResponse = BuildCollection;
+
+// @public
+export type BuildStatus = string;
+
+// @public
 export interface Certificate extends TrackedResource {
     properties?: CertificateProperties;
 }
@@ -636,6 +835,9 @@ export interface ContainerAppCollection {
 }
 
 // @public
+export type ContainerAppContainerRunningState = string;
+
+// @public
 export interface ContainerAppJobExecutions {
     readonly nextLink?: string;
     value: JobExecution[];
@@ -679,6 +881,9 @@ export interface ContainerAppProbeTcpSocket {
 export type ContainerAppProvisioningState = string;
 
 // @public
+export type ContainerAppReplicaRunningState = string;
+
+// @public
 export interface ContainerApps {
     beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsCreateOrUpdateResponse>, ContainerAppsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
@@ -706,6 +911,10 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     billingMeters: BillingMeters;
     // (undocumented)
+    builders: Builders;
+    // (undocumented)
+    builds: Builds;
+    // (undocumented)
     certificates: Certificates;
     // (undocumented)
     connectedEnvironments: ConnectedEnvironments;
@@ -729,6 +938,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     containerAppsSourceControls: ContainerAppsSourceControls;
     // (undocumented)
     daprComponents: DaprComponents;
+    getVerificationId(options?: GetVerificationIdOptionalParams): Promise<GetVerificationIdResponse>;
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
@@ -1068,6 +1278,13 @@ export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationO
 export type ContainerAppsUpdateResponse = ContainerApp;
 
 // @public
+export interface ContainerRegistryWithCustomImage {
+    identity: string;
+    image?: string;
+    server: string;
+}
+
+// @public
 export interface ContainerResources {
     cpu?: number;
     readonly ephemeralStorage?: string;
@@ -1393,6 +1610,12 @@ export interface EnvironmentVar {
 }
 
 // @public
+export interface EnvironmentVariable {
+    name: string;
+    value: string;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -1443,6 +1666,15 @@ export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GetVerificationIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetVerificationIdResponse = {
+    body: string;
+};
+
+// @public
 export interface GitHub {
     enabled?: boolean;
     login?: LoginScopes;
@@ -1474,6 +1706,13 @@ export interface Google {
     login?: LoginScopes;
     registration?: ClientRegistration;
     validation?: AllowedAudiencesValidation;
+}
+
+// @public
+export interface HttpGet {
+    fileName?: string;
+    headers?: string[];
+    url: string;
 }
 
 // @public
@@ -1880,6 +2119,15 @@ export enum KnownBindingType {
 }
 
 // @public
+export enum KnownBuildStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownCertificateProvisioningState {
     Canceled = "Canceled",
     DeleteFailed = "DeleteFailed",
@@ -1907,12 +2155,26 @@ export enum KnownConnectedEnvironmentProvisioningState {
 }
 
 // @public
+export enum KnownContainerAppContainerRunningState {
+    Running = "Running",
+    Terminated = "Terminated",
+    Waiting = "Waiting"
+}
+
+// @public
 export enum KnownContainerAppProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownContainerAppReplicaRunningState {
+    NotRunning = "NotRunning",
+    Running = "Running",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1998,6 +2260,15 @@ export enum KnownManagedServiceIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -2457,6 +2728,16 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = AvailableOperations;
 
 // @public
+export interface PreBuildStep {
+    description?: string;
+    httpGet?: HttpGet;
+    scripts?: string[];
+}
+
+// @public
+export type ProvisioningState = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -2486,6 +2767,9 @@ export interface RegistryInfo {
 export interface Replica extends ProxyResource {
     containers?: ReplicaContainer[];
     readonly createdTime?: Date;
+    initContainers?: ReplicaContainer[];
+    readonly runningState?: ContainerAppReplicaRunningState;
+    readonly runningStateDetails?: string;
 }
 
 // @public
@@ -2501,6 +2785,8 @@ export interface ReplicaContainer {
     name?: string;
     ready?: boolean;
     restartCount?: number;
+    readonly runningState?: ContainerAppContainerRunningState;
+    readonly runningStateDetails?: string;
     started?: boolean;
 }
 
@@ -2626,6 +2912,7 @@ export interface Template {
     initContainers?: InitContainer[];
     revisionSuffix?: string;
     scale?: Scale;
+    terminationGracePeriodSeconds?: number;
     volumes?: Volume[];
 }
 
@@ -2683,6 +2970,7 @@ export interface VnetConfiguration {
 
 // @public
 export interface Volume {
+    mountOptions?: string;
     name?: string;
     secrets?: SecretVolumeItem[];
     storageName?: string;
@@ -2692,6 +2980,7 @@ export interface Volume {
 // @public
 export interface VolumeMount {
     mountPath?: string;
+    subPath?: string;
     volumeName?: string;
 }
 
