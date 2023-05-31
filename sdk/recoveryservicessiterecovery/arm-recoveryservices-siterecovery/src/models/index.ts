@@ -2872,6 +2872,34 @@ export interface A2AExtendedLocationDetails {
   recoveryExtendedLocation?: ExtendedLocation;
 }
 
+/** ExtendedLocation details data. */
+export interface A2AFabricSpecificLocationDetails {
+  /** The initial source zone info. */
+  initialPrimaryZone?: string;
+  /** The initial target zone info. */
+  initialRecoveryZone?: string;
+  /** The initial primary ExtendedLocation. */
+  initialPrimaryExtendedLocation?: ExtendedLocation;
+  /** The initial recovery ExtendedLocation. */
+  initialRecoveryExtendedLocation?: ExtendedLocation;
+  /** Initial primary fabric location info. */
+  initialPrimaryFabricLocation?: string;
+  /** The initial recovery fabric location info. */
+  initialRecoveryFabricLocation?: string;
+  /** Source zone info. */
+  primaryZone?: string;
+  /** The target zone info. */
+  recoveryZone?: string;
+  /** The primary ExtendedLocation. */
+  primaryExtendedLocation?: ExtendedLocation;
+  /** The recovery ExtendedLocation. */
+  recoveryExtendedLocation?: ExtendedLocation;
+  /** Primary fabric location info. */
+  primaryFabricLocation?: string;
+  /** The recovery fabric location info. */
+  recoveryFabricLocation?: string;
+}
+
 /** A2A protected disk details. */
 export interface A2AProtectedDiskDetails {
   /** The disk uri. */
@@ -3296,6 +3324,10 @@ export interface EventQueryParameter {
 export interface FabricQueryParameter {
   /** A value indicating whether the zone to zone mappings are to be returned. */
   zoneToZoneMappings?: string;
+  /** A value indicating whether the Extended Location mappings are to be returned. */
+  extendedLocationMappings?: string;
+  /** A value indicating whether the location details are to be returned. */
+  locationDetails?: string;
   /** A value indicating whether the agent details are to be fetched. */
   fetchAgentDetails?: string;
   /** The BIOS Id to be used for fetching agent details. */
@@ -5064,6 +5096,20 @@ export interface VMwareCbtDiskInput {
   diskEncryptionSetId?: string;
 }
 
+/** VMwareCbt security profile input. */
+export interface VMwareCbtSecurityProfileProperties {
+  /** The target VM security type. */
+  targetVmSecurityType?: SecurityType;
+  /** A value indicating whether secure boot to be enabled. */
+  isTargetVmSecureBootEnabled?: string;
+  /** A value indicating whether trusted platform module to be enabled. */
+  isTargetVmTpmEnabled?: string;
+  /** A value indicating whether integrity monitoring to be enabled. */
+  isTargetVmIntegrityMonitoringEnabled?: string;
+  /** A value indicating whether confidential compute encryption to be enabled. */
+  isTargetVmConfidentialEncryptionEnabled?: string;
+}
+
 /** VMwareCbt protected disk details. */
 export interface VMwareCbtProtectedDiskDetails {
   /**
@@ -5574,6 +5620,8 @@ export interface AzureFabricSpecificDetails extends FabricSpecificDetails {
   zones?: A2AZoneDetails[];
   /** The ExtendedLocations. */
   extendedLocations?: A2AExtendedLocationDetails[];
+  /** The location details. */
+  locationDetails?: A2AFabricSpecificLocationDetails[];
 }
 
 /** HyperVSite fabric specific details. */
@@ -5928,6 +5976,11 @@ export interface VMwareCbtMigrationDetails
    */
   readonly osType?: string;
   /**
+   * The name of the OS on the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osName?: string;
+  /**
    * The firmware type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -5973,6 +6026,10 @@ export interface VMwareCbtMigrationDetails
   targetAvailabilityZone?: string;
   /** The target proximity placement group Id. */
   targetProximityPlacementGroupId?: string;
+  /** The confidential VM key vault Id for ADE installation. */
+  confidentialVmKeyVaultId?: string;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
   /** The target boot diagnostics storage account ARM Id. */
   targetBootDiagnosticsStorageAccountId?: string;
   /** The target VM tags. */
@@ -6053,6 +6110,8 @@ export interface VMwareCbtMigrationDetails
   seedDiskTags?: { [propertyName: string]: string };
   /** The tags for the target disks. */
   targetDiskTags?: { [propertyName: string]: string };
+  /** List of supported inplace OS Upgrade versions. */
+  supportedOSVersions?: string[];
 }
 
 /** VMwareCbt specific enable migration input. */
@@ -6094,6 +6153,10 @@ export interface VMwareCbtEnableMigrationInput
   targetAvailabilityZone?: string;
   /** The target proximity placement group ARM Id. */
   targetProximityPlacementGroupId?: string;
+  /** The confidential VM key vault Id for ADE installation. */
+  confidentialVmKeyVaultId?: string;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
   /** The target boot diagnostics storage account ARM Id. */
   targetBootDiagnosticsStorageAccountId?: string;
   /** A value indicating whether auto resync is to be done. */
@@ -6155,6 +6218,8 @@ export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
   instanceType: "VMwareCbt";
   /** A value indicating whether VM is to be shutdown. */
   performShutdown: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** VMwareCbt specific resume replication input. */
@@ -6185,6 +6250,8 @@ export interface VMwareCbtTestMigrateInput
   networkId: string;
   /** The list of NIC details. */
   vmNics?: VMwareCbtNicInput[];
+  /** A value indicating the inplace OS Upgrade version. */
+  osUpgradeVersion?: string;
 }
 
 /** Single Host fabric provider specific VM settings. */
@@ -7924,6 +7991,8 @@ export interface VMwareCbtProtectionContainerMappingDetails
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly roleSizeToNicCountMap?: { [propertyName: string]: number };
+  /** The SKUs to be excluded. */
+  excludedSkus?: string[];
 }
 
 /** A2A container mapping input. */
@@ -10024,6 +10093,27 @@ export enum KnownRecoveryPlanPointType {
  * **LatestProcessed**
  */
 export type RecoveryPlanPointType = string;
+
+/** Known values of {@link SecurityType} that the service accepts. */
+export enum KnownSecurityType {
+  /** None */
+  None = "None",
+  /** TrustedLaunch */
+  TrustedLaunch = "TrustedLaunch",
+  /** ConfidentialVM */
+  ConfidentialVM = "ConfidentialVM"
+}
+
+/**
+ * Defines values for SecurityType. \
+ * {@link KnownSecurityType} can be used interchangeably with SecurityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **TrustedLaunch** \
+ * **ConfidentialVM**
+ */
+export type SecurityType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
