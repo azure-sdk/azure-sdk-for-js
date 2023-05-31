@@ -168,7 +168,7 @@ export type AzureVmWorkloadProtectableItemUnion =
   | AzureVmWorkloadSAPHanaDatabaseProtectableItem
   | AzureVmWorkloadSAPHanaSystemProtectableItem
   | AzureVmWorkloadSAPHanaDBInstance
-  | AzureVmWorkloadSAPHanaHSR
+  | AzureVmWorkloadSAPHanaHSRProtectableItem
   | AzureVmWorkloadSQLAvailabilityGroupProtectableItem
   | AzureVmWorkloadSQLDatabaseProtectableItem
   | AzureVmWorkloadSQLInstanceProtectableItem;
@@ -513,6 +513,8 @@ export interface PrivateEndpointConnection {
   provisioningState?: ProvisioningState;
   /** Gets or sets private endpoint associated with the private endpoint connection */
   privateEndpoint?: PrivateEndpoint;
+  /** Group Ids for the Private Endpoint */
+  groupIds?: VaultSubResourceType[];
   /** Gets or sets private link service connection state */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
 }
@@ -530,7 +532,7 @@ export interface PrivateLinkServiceConnectionState {
   /** Gets or sets description */
   description?: string;
   /** Gets or sets actions required */
-  actionRequired?: string;
+  actionsRequired?: string;
 }
 
 /** An error response from the Container Instance service. */
@@ -974,7 +976,7 @@ export interface WorkloadProtectableItem {
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
     | "SAPHanaDBInstance"
-    | "SAPHanaHSR"
+    | "HanaHSRContainer"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -1347,6 +1349,21 @@ export interface AzureVmWorkloadProtectedItemExtendedInfo {
   policyState?: string;
   /** Indicates consistency of policy object and policy applied to this backup item. */
   recoveryModel?: string;
+}
+
+/** This is used to represent the various nodes of the distributed container. */
+export interface DistributedNodesInfo {
+  /** Name of the node under a distributed container. */
+  nodeName?: string;
+  /**
+   * Status of this Node.
+   * Failed | Succeeded
+   */
+  status?: string;
+  /** Error Details if the Status is non-success. */
+  errorDetail?: ErrorDetail;
+  /** ARM resource id of the node */
+  sourceResourceId?: string;
 }
 
 /** Azure storage specific error information */
@@ -1912,19 +1929,6 @@ export interface InquiryValidation {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalDetail?: string;
-}
-
-/** This is used to represent the various nodes of the distributed container. */
-export interface DistributedNodesInfo {
-  /** Name of the node under a distributed container. */
-  nodeName?: string;
-  /**
-   * Status of this Node.
-   * Failed | Succeeded
-   */
-  status?: string;
-  /** Error Details if the Status is non-success. */
-  errorDetail?: ErrorDetail;
 }
 
 /** Pre-backup validation for Azure VM Workload provider. */
@@ -2508,6 +2512,8 @@ export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
   /** Health details of different KPIs */
   kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
+  /** List of the nodes in case of distributed container. */
+  nodesList?: DistributedNodesInfo[];
 }
 
 /** Additional information on Backup engine specific backup item. */
@@ -3280,7 +3286,7 @@ export interface AzureVmWorkloadProtectableItem
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
     | "SAPHanaDBInstance"
-    | "SAPHanaHSR"
+    | "HanaHSRContainer"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -3303,6 +3309,8 @@ export interface AzureVmWorkloadProtectableItem
   subprotectableitemcount?: number;
   /** Pre-backup validation for protectable objects */
   prebackupvalidation?: PreBackupValidation;
+  /** Indicates if item is protectable */
+  isProtectable?: boolean;
 }
 
 /** Azure IaaS VM workload-specific Health Details. */
@@ -3633,11 +3641,11 @@ export interface AzureVmWorkloadSAPHanaDBInstance
   protectableItemType: "SAPHanaDBInstance";
 }
 
-/** Azure VM workload-specific protectable item representing SAP HANA Dbinstance. */
-export interface AzureVmWorkloadSAPHanaHSR
+/** Azure VM workload-specific protectable item representing HANA HSR. */
+export interface AzureVmWorkloadSAPHanaHSRProtectableItem
   extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  protectableItemType: "SAPHanaHSR";
+  protectableItemType: "HanaHSRContainer";
 }
 
 /** Azure VM workload-specific protectable item representing SQL Availability Group. */
@@ -3645,6 +3653,8 @@ export interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem
   extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "SQLAvailabilityGroupContainer";
+  /** List of the nodes in case of distributed container. */
+  nodesList?: DistributedNodesInfo[];
 }
 
 /** Azure VM workload-specific protectable item representing SQL Database. */
@@ -4229,6 +4239,27 @@ export enum KnownProvisioningState {
  * **Pending**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link VaultSubResourceType} that the service accepts. */
+export enum KnownVaultSubResourceType {
+  /** AzureBackup */
+  AzureBackup = "AzureBackup",
+  /** AzureBackupSecondary */
+  AzureBackupSecondary = "AzureBackup_secondary",
+  /** AzureSiteRecovery */
+  AzureSiteRecovery = "AzureSiteRecovery"
+}
+
+/**
+ * Defines values for VaultSubResourceType. \
+ * {@link KnownVaultSubResourceType} can be used interchangeably with VaultSubResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureBackup** \
+ * **AzureBackup_secondary** \
+ * **AzureSiteRecovery**
+ */
+export type VaultSubResourceType = string;
 
 /** Known values of {@link PrivateEndpointConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointConnectionStatus {
