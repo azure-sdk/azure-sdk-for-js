@@ -125,7 +125,7 @@ export const communicationServiceName: OperationURLParameter = {
   parameterPath: "communicationServiceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]+$"),
+      Pattern: new RegExp("^[-\\w]+$"),
       MaxLength: 63,
       MinLength: 1
     },
