@@ -700,11 +700,11 @@ export interface ManagedHsmProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hsmUri?: string;
-  /** Property to specify whether the 'soft delete' functionality is enabled for this managed HSM pool. If it's not set to any value(true or false) when creating new managed HSM pool, it will be set to true by default. Once set to true, it cannot be reverted to false. */
+  /** Property to specify whether the 'soft delete' functionality is enabled for this managed HSM pool. Soft delete is enabled by default for all managed HSMs and is immutable. */
   enableSoftDelete?: boolean;
-  /** softDelete data retention days. It accepts >=7 and <=90. */
+  /** Soft deleted data retention days. When you delete an HSM or a key, it will remain recoverable for the configured retention period or for a default period of 90 days. It accepts values between 7 and 90. */
   softDeleteRetentionInDays?: number;
-  /** Property specifying whether protection against purge is enabled for this managed HSM pool. Setting this property to true activates protection against purge for this managed HSM pool and its content - only the Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible. */
+  /** Property specifying whether protection against purge is enabled for this managed HSM pool. Setting this property to true activates protection against purge for this managed HSM pool and its content - only the Managed HSM service may initiate a hard, irrecoverable deletion. Enabling this functionality is irreversible. */
   enablePurgeProtection?: boolean;
   /** The create mode to indicate whether the resource is being created or is being recovered from a deleted resource. */
   createMode?: CreateMode;
@@ -727,7 +727,7 @@ export interface ManagedHsmProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: MhsmPrivateEndpointConnectionItem[];
-  /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
+  /** Control permission to the managed HSM from public networks. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
    * The scheduled purge date in UTC.
@@ -1986,7 +1986,7 @@ export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
 /** Defines values for Reason. */
 export type Reason = "AccountNameInvalid" | "AlreadyExists";
 /** Defines values for ManagedHsmSkuName. */
-export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32";
+export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6";
 
 /** Optional parameters. */
 export interface KeysCreateIfNotExistOptionalParams
