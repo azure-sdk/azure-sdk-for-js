@@ -39,7 +39,6 @@ import {
   JobsStartOptionalParams,
   JobsStartResponse,
   JobsStopExecutionOptionalParams,
-  JobExecutionNamesCollection,
   JobsStopMultipleExecutionsOptionalParams,
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
@@ -215,7 +214,7 @@ export class JobsImpl implements Jobs {
   /**
    * Get the properties of a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   get(
@@ -232,7 +231,7 @@ export class JobsImpl implements Jobs {
   /**
    * Create or Update a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
@@ -306,7 +305,7 @@ export class JobsImpl implements Jobs {
   /**
    * Create or Update a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
@@ -328,7 +327,7 @@ export class JobsImpl implements Jobs {
   /**
    * Delete a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   async beginDelete(
@@ -392,7 +391,7 @@ export class JobsImpl implements Jobs {
   /**
    * Delete a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -407,7 +406,7 @@ export class JobsImpl implements Jobs {
   /**
    * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
@@ -477,7 +476,7 @@ export class JobsImpl implements Jobs {
   /**
    * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
@@ -499,7 +498,7 @@ export class JobsImpl implements Jobs {
   /**
    * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param template Properties used to start a job instance.
    * @param options The options parameters.
    */
@@ -570,7 +569,7 @@ export class JobsImpl implements Jobs {
   /**
    * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param template Properties used to start a job instance.
    * @param options The options parameters.
    */
@@ -592,7 +591,7 @@ export class JobsImpl implements Jobs {
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobExecutionName Job execution name.
    * @param options The options parameters.
    */
@@ -658,7 +657,7 @@ export class JobsImpl implements Jobs {
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobExecutionName Job execution name.
    * @param options The options parameters.
    */
@@ -680,14 +679,12 @@ export class JobsImpl implements Jobs {
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param jobExecutionName List of all job executions that should be stopped.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   async beginStopMultipleExecutions(
     resourceGroupName: string,
     jobName: string,
-    jobExecutionName: JobExecutionNamesCollection,
     options?: JobsStopMultipleExecutionsOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -736,7 +733,7 @@ export class JobsImpl implements Jobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, jobName, jobExecutionName, options },
+      args: { resourceGroupName, jobName, options },
       spec: stopMultipleExecutionsOperationSpec
     });
     const poller = await createHttpPoller<
@@ -754,20 +751,17 @@ export class JobsImpl implements Jobs {
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param jobExecutionName List of all job executions that should be stopped.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   async beginStopMultipleExecutionsAndWait(
     resourceGroupName: string,
     jobName: string,
-    jobExecutionName: JobExecutionNamesCollection,
     options?: JobsStopMultipleExecutionsOptionalParams
   ): Promise<JobsStopMultipleExecutionsResponse> {
     const poller = await this.beginStopMultipleExecutions(
       resourceGroupName,
       jobName,
-      jobExecutionName,
       options
     );
     return poller.pollUntilDone();
@@ -776,7 +770,7 @@ export class JobsImpl implements Jobs {
   /**
    * List secrets for a container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   listSecrets(
@@ -911,7 +905,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.jobName1
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -935,7 +929,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.jobName1
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -967,7 +961,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.jobName1
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1051,7 +1045,6 @@ const stopMultipleExecutionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.jobExecutionName1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1059,8 +1052,7 @@ const stopMultipleExecutionsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
