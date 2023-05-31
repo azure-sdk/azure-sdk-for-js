@@ -16,6 +16,8 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   ServicesImpl,
+  ApmsImpl,
+  EurekaServersImpl,
   ConfigServersImpl,
   ConfigurationServicesImpl,
   ServiceRegistriesImpl,
@@ -47,6 +49,8 @@ import {
 } from "./operations";
 import {
   Services,
+  Apms,
+  EurekaServers,
   ConfigServers,
   ConfigurationServices,
   ServiceRegistries,
@@ -164,8 +168,10 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-01-preview";
     this.services = new ServicesImpl(this);
+    this.apms = new ApmsImpl(this);
+    this.eurekaServers = new EurekaServersImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
     this.serviceRegistries = new ServiceRegistriesImpl(this);
@@ -226,6 +232,8 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   }
 
   services: Services;
+  apms: Apms;
+  eurekaServers: EurekaServers;
   configServers: ConfigServers;
   configurationServices: ConfigurationServices;
   serviceRegistries: ServiceRegistries;
