@@ -1221,15 +1221,15 @@ export interface DdosProtectionPlan {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicIPAddresses?: SubResource[];
-  /**
    * The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualNetworks?: SubResource[];
+  /**
+   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIpAddresses?: SubResource[];
 }
 
 /** A list of DDoS protection plans. */
@@ -2338,6 +2338,11 @@ export interface EffectiveConnectivityConfiguration {
   readonly provisioningState?: ProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Hub Item. */
@@ -2371,6 +2376,11 @@ export interface ConfigurationGroup {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Result of the request to list active security admin rules. It contains a list of active security admin rules and a skiptoken to get the next set of results. */
@@ -2614,9 +2624,9 @@ export interface VirtualApplianceNicProperties {
 
 /** Network Virtual Appliance Additional NIC properties. */
 export interface VirtualApplianceAdditionalNicProperties {
-  /** Customer Name for additional nic */
+  /** Name of additional nic */
   name?: string;
-  /** Customer Intent for Public Ip on additional nic */
+  /** Flag (truealse) for Intent for Public Ip on additional nic */
   hasPublicIp?: boolean;
 }
 
@@ -9424,6 +9434,11 @@ export interface ApplicationGateway extends Resource {
   loadDistributionPolicies?: ApplicationGatewayLoadDistributionPolicy[];
   /** Global Configuration. */
   globalConfiguration?: ApplicationGatewayGlobalConfiguration;
+  /**
+   * The default predefined SSL Policy applied on the application gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultPredefinedSslPolicy?: ApplicationGatewaySslPolicyName;
 }
 
 /** A web application firewall rule set. */
@@ -10067,6 +10082,11 @@ export interface NetworkManager extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network profile resource. */
@@ -11016,6 +11036,11 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11075,6 +11100,11 @@ export interface ActiveDefaultSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The Network Manager Connection resource */
@@ -11119,6 +11149,11 @@ export interface ConnectivityConfiguration extends ChildResource {
   readonly provisioningState?: ProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The network group resource */
@@ -11135,6 +11170,11 @@ export interface NetworkGroup extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** StaticMember Item. */
@@ -11194,6 +11234,11 @@ export interface SecurityAdminConfiguration extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Defines the admin rule collection. */
@@ -11212,6 +11257,11 @@ export interface AdminRuleCollection extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network base admin rule. */
@@ -11253,6 +11303,11 @@ export interface EffectiveSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11312,6 +11367,11 @@ export interface EffectiveDefaultSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The properties of a packet capture session. */
@@ -11443,6 +11503,11 @@ export interface AdminRule extends BaseAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11501,6 +11566,11 @@ export interface DefaultAdminRule extends BaseAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Defines headers for AzureFirewalls_packetCapture operation. */
