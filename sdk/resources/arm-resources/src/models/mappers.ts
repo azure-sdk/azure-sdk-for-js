@@ -2850,3 +2850,48 @@ export const DeploymentsWhatIfHeaders: coreClient.CompositeMapper = {
     }
   }
 };
+
+export const TagsCreateOrUpdateAtScopeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagsCreateOrUpdateAtScopeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TagsUpdateAtScopeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagsUpdateAtScopeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TagsDeleteAtScopeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagsDeleteAtScopeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
