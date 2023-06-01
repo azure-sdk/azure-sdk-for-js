@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { AzureMachineLearningWorkspaces } from "./azureMachineLearningWorkspaces";
+export { AzureMachineLearningServices } from "./azureMachineLearningServices";
 export * from "./operationsInterfaces";
