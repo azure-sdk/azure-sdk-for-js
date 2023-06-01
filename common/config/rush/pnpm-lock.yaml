@@ -3832,7 +3832,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230530
+      typescript: 5.2.0-dev.20230601
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8382,14 +8382,20 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230530:
-    resolution: {integrity: sha512-bIoMajCZWzLB+pWwncaba/hZc6dRnw7x8T/fenOnP9gYQB/gc4xdm48AXp5SH5I/PvvSeZ/dXkUMtc8s8BiDZw==}
+  /typescript/5.2.0-dev.20230601:
+    resolution: {integrity: sha512-ZAe/C0wi4nXNds7zaN35oe/ju3WhYdyI+lvRy+xfsG9348PLOZgtYKO3v2RX5fSxhT2uZH5Gb5fk/sjCLaI9uw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11607,7 +11613,7 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-+JUPYTYa1sK3TAoSSi4a8MTHI+ptAboCznISNDzfUxGz6LefeL69pEUj/iLdZ8BREhMeSp8In6UOgMzVoMJFyw==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-PD7nQst2auvrroIm7evk0sypncEXsXAgnoiw7VSLyWkC52FMb/ctIxbVIl2hdPAtKJIV34jVfTqJv+f/PtnVpg==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
@@ -11621,14 +11627,14 @@ packages:
       '@types/node': 14.18.48
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.1.0
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_6vxqa4pl2c5hli7lcaemfsm5je
       tslib: 2.5.2
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -18198,7 +18204,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-Mh6fHNCBSjPrqwprbqsP/ZpI86dsh5zViRYvXL7tNKAkdY0FDnvB74zlXpHUtn0CC5nIsK1BoKyeq0W89rUipQ==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-kUPHN6zS14EH/ErRIq3bqm8a4tnA9dN16oHOZ7n27rlA3+QINV7iGOcQwl1OsNPZOR3NN7dsVWLnTu/NbJ6+tw==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
