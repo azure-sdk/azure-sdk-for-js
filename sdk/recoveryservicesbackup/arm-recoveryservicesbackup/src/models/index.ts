@@ -168,7 +168,7 @@ export type AzureVmWorkloadProtectableItemUnion =
   | AzureVmWorkloadSAPHanaDatabaseProtectableItem
   | AzureVmWorkloadSAPHanaSystemProtectableItem
   | AzureVmWorkloadSAPHanaDBInstance
-  | AzureVmWorkloadSAPHanaHSR
+  | AzureVmWorkloadSAPHanaHSRProtectableItem
   | AzureVmWorkloadSQLAvailabilityGroupProtectableItem
   | AzureVmWorkloadSQLDatabaseProtectableItem
   | AzureVmWorkloadSQLInstanceProtectableItem;
@@ -490,6 +490,8 @@ export interface BackupResourceVaultConfig {
   enhancedSecurityState?: EnhancedSecurityState;
   /** Soft Delete feature state */
   softDeleteFeatureState?: SoftDeleteFeatureState;
+  /** Soft delete retention period in days */
+  softDeleteRetentionPeriod?: number;
   /** ResourceGuard Operation Requests */
   resourceGuardOperationRequests?: string[];
   /** Is soft delete feature state editable */
@@ -513,6 +515,8 @@ export interface PrivateEndpointConnection {
   provisioningState?: ProvisioningState;
   /** Gets or sets private endpoint associated with the private endpoint connection */
   privateEndpoint?: PrivateEndpoint;
+  /** Group Ids for the Private Endpoint */
+  groupIds?: VaultSubResourceType[];
   /** Gets or sets private link service connection state */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
 }
@@ -530,7 +534,7 @@ export interface PrivateLinkServiceConnectionState {
   /** Gets or sets description */
   description?: string;
   /** Gets or sets actions required */
-  actionRequired?: string;
+  actionsRequired?: string;
 }
 
 /** An error response from the Container Instance service. */
@@ -974,7 +978,7 @@ export interface WorkloadProtectableItem {
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
     | "SAPHanaDBInstance"
-    | "SAPHanaHSR"
+    | "HanaHSRContainer"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -3280,7 +3284,7 @@ export interface AzureVmWorkloadProtectableItem
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
     | "SAPHanaDBInstance"
-    | "SAPHanaHSR"
+    | "HanaHSRContainer"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -3633,11 +3637,11 @@ export interface AzureVmWorkloadSAPHanaDBInstance
   protectableItemType: "SAPHanaDBInstance";
 }
 
-/** Azure VM workload-specific protectable item representing SAP HANA Dbinstance. */
-export interface AzureVmWorkloadSAPHanaHSR
+/** Azure VM workload-specific protectable item representing HANA HSR. */
+export interface AzureVmWorkloadSAPHanaHSRProtectableItem
   extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  protectableItemType: "SAPHanaHSR";
+  protectableItemType: "HanaHSRContainer";
 }
 
 /** Azure VM workload-specific protectable item representing SQL Availability Group. */
@@ -4229,6 +4233,27 @@ export enum KnownProvisioningState {
  * **Pending**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link VaultSubResourceType} that the service accepts. */
+export enum KnownVaultSubResourceType {
+  /** AzureBackup */
+  AzureBackup = "AzureBackup",
+  /** AzureBackupSecondary */
+  AzureBackupSecondary = "AzureBackup_secondary",
+  /** AzureSiteRecovery */
+  AzureSiteRecovery = "AzureSiteRecovery"
+}
+
+/**
+ * Defines values for VaultSubResourceType. \
+ * {@link KnownVaultSubResourceType} can be used interchangeably with VaultSubResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureBackup** \
+ * **AzureBackup_secondary** \
+ * **AzureSiteRecovery**
+ */
+export type VaultSubResourceType = string;
 
 /** Known values of {@link PrivateEndpointConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointConnectionStatus {
