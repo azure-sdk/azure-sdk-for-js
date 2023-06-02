@@ -1,15 +1,18 @@
 # Release History
+    
+## 14.1.0 (2023-06-02)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface OneDeployRequest
+  - Added Type Alias TlsCipherSuites
+  - Interface SiteConfig has a new optional parameter minTlsCipherSuite
+  - Interface SiteConfigResource has a new optional parameter minTlsCipherSuite
+  - Interface WebAppsCreateOneDeployOperationOptionalParams has a new optional parameter request
+  - Added Enum KnownTlsCipherSuites
+  - Added Enum KnownWorkflowState
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**

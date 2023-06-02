@@ -3096,6 +3096,13 @@ export const SiteConfig: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      minTlsCipherSuite: {
+        serializedName: "minTlsCipherSuite",
+        xmlName: "minTlsCipherSuite",
+        type: {
+          name: "String"
+        }
+      },
       scmMinTlsVersion: {
         serializedName: "scmMinTlsVersion",
         xmlName: "scmMinTlsVersion",
@@ -13152,15 +13159,7 @@ export const WorkflowEnvelopeProperties: coreClient.CompositeMapper = {
         serializedName: "flowState",
         xmlName: "flowState",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       health: {
@@ -14863,15 +14862,7 @@ export const WorkflowFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       }
     }
@@ -14953,15 +14944,7 @@ export const WorkflowTriggerFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       }
     }
@@ -22545,6 +22528,13 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      minTlsCipherSuite: {
+        serializedName: "properties.minTlsCipherSuite",
+        xmlName: "properties.minTlsCipherSuite",
+        type: {
+          name: "String"
+        }
+      },
       scmMinTlsVersion: {
         serializedName: "properties.scmMinTlsVersion",
         xmlName: "properties.scmMinTlsVersion",
@@ -23653,6 +23643,73 @@ export const MSDeployLog: coreClient.CompositeMapper = {
               className: "MSDeployLogEntry"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const OneDeployRequest: coreClient.CompositeMapper = {
+  serializedName: "OneDeployRequest",
+  type: {
+    name: "Composite",
+    className: "OneDeployRequest",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      packageUri: {
+        serializedName: "packageUri",
+        xmlName: "packageUri",
+        type: {
+          name: "String"
+        }
+      },
+      async: {
+        serializedName: "async",
+        xmlName: "async",
+        type: {
+          name: "Boolean"
+        }
+      },
+      path: {
+        serializedName: "path",
+        xmlName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      restart: {
+        serializedName: "restart",
+        xmlName: "restart",
+        type: {
+          name: "Boolean"
+        }
+      },
+      clean: {
+        serializedName: "clean",
+        xmlName: "clean",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ignoreStack: {
+        serializedName: "ignoreStack",
+        xmlName: "ignoreStack",
+        type: {
+          name: "Boolean"
+        }
+      },
+      trackDeploymentProgress: {
+        serializedName: "trackDeploymentProgress",
+        xmlName: "trackDeploymentProgress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reset: {
+        serializedName: "reset",
+        xmlName: "reset",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -25683,15 +25740,7 @@ export const WorkflowTrigger: coreClient.CompositeMapper = {
         readOnly: true,
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       status: {
@@ -26216,15 +26265,7 @@ export const Workflow: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       version: {
@@ -26345,15 +26386,7 @@ export const WorkflowVersion: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       version: {

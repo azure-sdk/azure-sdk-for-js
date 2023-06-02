@@ -78,6 +78,7 @@ import {
   Deployment as DeploymentMapper,
   Identifier as IdentifierMapper,
   MSDeploy as MSDeployMapper,
+  OneDeployRequest as OneDeployRequestMapper,
   FunctionEnvelope as FunctionEnvelopeMapper,
   KeyInfo as KeyInfoMapper,
   HostNameBinding as HostNameBindingMapper,
@@ -140,7 +141,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1420,6 +1421,11 @@ export const domainOwnershipIdentifier1: OperationParameter = {
 export const mSDeploy: OperationParameter = {
   parameterPath: "mSDeploy",
   mapper: MSDeployMapper
+};
+
+export const request3: OperationParameter = {
+  parameterPath: ["options", "request"],
+  mapper: OneDeployRequestMapper
 };
 
 export const functionName: OperationURLParameter = {
