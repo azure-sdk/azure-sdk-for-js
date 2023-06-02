@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageAccount,
   StorageAccountsListOptionalParams,
@@ -96,8 +96,8 @@ export interface StorageAccounts {
     parameters: StorageAccountCreateParameters,
     options?: StorageAccountsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsCreateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateResponse>,
       StorageAccountsCreateResponse
     >
   >;
@@ -245,7 +245,7 @@ export interface StorageAccounts {
    * primary and secondary endpoints are available. The primary use case of a Planned Failover is
    * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
    * to 'Planned'. Learn more about the failover options here-
-   * https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidanceS
+   * https://learn.microsoft.com/en-us/azure/storage/common/storage-disaster-recovery-guidance
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -257,7 +257,7 @@ export interface StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: StorageAccountsFailoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A failover request can be triggered for a storage account in the event a primary endpoint becomes
    * unavailable for any reason. The failover occurs from the storage account's primary cluster to the
@@ -268,7 +268,7 @@ export interface StorageAccounts {
    * primary and secondary endpoints are available. The primary use case of a Planned Failover is
    * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
    * to 'Planned'. Learn more about the failover options here-
-   * https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
+   * https://learn.microsoft.com/en-us/azure/storage/common/storage-disaster-recovery-guidance
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -299,7 +299,7 @@ export interface StorageAccounts {
     accountName: string,
     requestType: string,
     options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Live Migration of storage account to enable Hns
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -332,7 +332,7 @@ export interface StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Abort live Migration of storage account to enable Hns
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -363,8 +363,8 @@ export interface StorageAccounts {
     parameters: BlobRestoreParameters,
     options?: StorageAccountsRestoreBlobRangesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsRestoreBlobRangesResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountsRestoreBlobRangesResponse>,
       StorageAccountsRestoreBlobRangesResponse
     >
   >;
