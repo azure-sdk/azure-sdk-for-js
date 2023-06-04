@@ -1216,6 +1216,13 @@ export const SavingsPlanOrderAliasModel: coreClient.CompositeMapper = {
           name: "Composite",
           className: "Commitment"
         }
+      },
+      renew: {
+        defaultValue: false,
+        serializedName: "properties.renew",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

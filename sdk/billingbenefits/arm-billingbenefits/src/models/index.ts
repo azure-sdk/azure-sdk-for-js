@@ -503,6 +503,8 @@ export interface SavingsPlanOrderAliasModel extends Resource {
   appliedScopeProperties?: AppliedScopeProperties;
   /** Commitment towards the benefit. */
   commitment?: Commitment;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
 }
 
 /** Savings plan order */
