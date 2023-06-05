@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OrganizationResource,
   OrganizationListBySubscriptionOptionalParams,
@@ -62,8 +62,8 @@ export interface Organization {
     organizationName: string,
     options?: OrganizationCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OrganizationCreateResponse>,
+    SimplePollerLike<
+      OperationState<OrganizationCreateResponse>,
       OrganizationCreateResponse
     >
   >;
@@ -99,7 +99,7 @@ export interface Organization {
     resourceGroupName: string,
     organizationName: string,
     options?: OrganizationDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Organization resource
    * @param resourceGroupName Resource group name

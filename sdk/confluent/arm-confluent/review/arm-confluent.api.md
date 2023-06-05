@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface ConfluentAgreementResource {
@@ -168,9 +168,9 @@ export interface OperationResult {
 
 // @public
 export interface Organization {
-    beginCreate(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<PollerLike<PollOperationState<OrganizationCreateResponse>, OrganizationCreateResponse>>;
+    beginCreate(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationCreateResponse>, OrganizationCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<OrganizationCreateResponse>;
-    beginDelete(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, organizationName: string, options?: OrganizationGetOptionalParams): Promise<OrganizationGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: OrganizationListByResourceGroupOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
