@@ -1,15 +1,16 @@
 # Release History
+    
+## 14.1.0 (2023-06-05)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface OneDeployRequest
+  - Interface CheckNameAvailabilityOptionalParams has a new optional parameter environmentId
+  - Interface ResourceNameAvailabilityRequest has a new optional parameter environmentId
+  - Interface WebAppsCreateOneDeployOperationOptionalParams has a new optional parameter request
+  - Added Enum KnownWorkflowState
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**
