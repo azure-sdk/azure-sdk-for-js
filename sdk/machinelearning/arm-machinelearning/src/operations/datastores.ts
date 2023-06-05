@@ -12,7 +12,7 @@ import { Datastores } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import {
   Datastore,
   DatastoresListNextOptionalParams,
@@ -31,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Datastores operations. */
 export class DatastoresImpl implements Datastores {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class Datastores class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -325,7 +325,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion, Parameters.skipValidation],
   urlParameters: [
     Parameters.$host,
@@ -372,16 +372,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count1,
-    Parameters.isDefault,
-    Parameters.names,
-    Parameters.searchText,
-    Parameters.orderBy1,
-    Parameters.orderByAsc
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
