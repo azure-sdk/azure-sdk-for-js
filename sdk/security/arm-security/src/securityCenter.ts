@@ -51,6 +51,7 @@ import {
   SecureScoreControlDefinitionsImpl,
   SecuritySolutionsImpl,
   ConnectorsImpl,
+  SensitivitySettingsImpl,
   AlertsImpl,
   SettingsImpl,
   IngestionSettingsImpl,
@@ -64,13 +65,12 @@ import {
   APICollectionImpl,
   APICollectionOnboardingImpl,
   APICollectionOffboardingImpl,
-  HealthReportsImpl,
-  HealthReportOperationsImpl,
   SqlVulnerabilityAssessmentScansImpl,
   SqlVulnerabilityAssessmentScanResultsImpl,
   SqlVulnerabilityAssessmentBaselineRulesImpl,
   SecurityConnectorsImpl,
-  SecurityOperatorsImpl
+  SecurityOperatorsImpl,
+  HealthReportsImpl
 } from "./operations";
 import {
   MdeOnboardings,
@@ -114,6 +114,7 @@ import {
   SecureScoreControlDefinitions,
   SecuritySolutions,
   Connectors,
+  SensitivitySettings,
   Alerts,
   Settings,
   IngestionSettings,
@@ -127,13 +128,12 @@ import {
   APICollection,
   APICollectionOnboarding,
   APICollectionOffboarding,
-  HealthReports,
-  HealthReportOperations,
   SqlVulnerabilityAssessmentScans,
   SqlVulnerabilityAssessmentScanResults,
   SqlVulnerabilityAssessmentBaselineRules,
   SecurityConnectors,
-  SecurityOperators
+  SecurityOperators,
+  HealthReports
 } from "./operationsInterfaces";
 import { SecurityCenterOptionalParams } from "./models";
 
@@ -290,6 +290,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     );
     this.securitySolutions = new SecuritySolutionsImpl(this);
     this.connectors = new ConnectorsImpl(this);
+    this.sensitivitySettings = new SensitivitySettingsImpl(this);
     this.alerts = new AlertsImpl(this);
     this.settings = new SettingsImpl(this);
     this.ingestionSettings = new IngestionSettingsImpl(this);
@@ -307,8 +308,6 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.aPICollection = new APICollectionImpl(this);
     this.aPICollectionOnboarding = new APICollectionOnboardingImpl(this);
     this.aPICollectionOffboarding = new APICollectionOffboardingImpl(this);
-    this.healthReports = new HealthReportsImpl(this);
-    this.healthReportOperations = new HealthReportOperationsImpl(this);
     this.sqlVulnerabilityAssessmentScans = new SqlVulnerabilityAssessmentScansImpl(
       this
     );
@@ -320,6 +319,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     );
     this.securityConnectors = new SecurityConnectorsImpl(this);
     this.securityOperators = new SecurityOperatorsImpl(this);
+    this.healthReports = new HealthReportsImpl(this);
   }
 
   mdeOnboardings: MdeOnboardings;
@@ -363,6 +363,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
   secureScoreControlDefinitions: SecureScoreControlDefinitions;
   securitySolutions: SecuritySolutions;
   connectors: Connectors;
+  sensitivitySettings: SensitivitySettings;
   alerts: Alerts;
   settings: Settings;
   ingestionSettings: IngestionSettings;
@@ -376,11 +377,10 @@ export class SecurityCenter extends coreClient.ServiceClient {
   aPICollection: APICollection;
   aPICollectionOnboarding: APICollectionOnboarding;
   aPICollectionOffboarding: APICollectionOffboarding;
-  healthReports: HealthReports;
-  healthReportOperations: HealthReportOperations;
   sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
   sqlVulnerabilityAssessmentScanResults: SqlVulnerabilityAssessmentScanResults;
   sqlVulnerabilityAssessmentBaselineRules: SqlVulnerabilityAssessmentBaselineRules;
   securityConnectors: SecurityConnectors;
   securityOperators: SecurityOperators;
+  healthReports: HealthReports;
 }
