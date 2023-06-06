@@ -1,15 +1,15 @@
 # Release History
+    
+## 3.0.0 (2023-06-06)
+    
+**Breaking Changes**
 
-## 2.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ManagementLocksListAtResourceGroupLevelNextOptionalParams no longer has parameter filter
+  - Interface ManagementLocksListAtResourceLevelNextOptionalParams no longer has parameter filter
+  - Interface ManagementLocksListAtSubscriptionLevelNextOptionalParams no longer has parameter filter
+  - Interface ManagementLocksListByScopeNextOptionalParams no longer has parameter filter
+    
+    
 ## 2.1.0 (2022-11-22)
     
 **Features**
