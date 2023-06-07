@@ -595,6 +595,8 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
   /** The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created */
   domainNameLabel: string;
+  /** The Domain name label scope.The concatenation of the hashed domain name label that generated according to the policy from domain name label scope and vm index will be the domain name labels of the PublicIPAddress resources that will be created */
+  domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 /** Contains the IP tag associated with the public IP address. */
@@ -1722,6 +1724,8 @@ export interface VirtualMachinePublicIPAddressConfiguration {
 export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
   /** The Domain name label prefix of the PublicIPAddress resources that will be created. The generated name label is the concatenation of the domain name label and vm network profile unique ID. */
   domainNameLabel: string;
+  /** The Domain name label scope of the PublicIPAddress resources that will be created. The generated name label is the concatenation of the hashed domain name label with policy according to the domain name label scope and vm network profile unique ID. */
+  domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 /** Contains the IP tag associated with the public IP address. */
@@ -3712,7 +3716,7 @@ export interface GalleryTargetExtendedLocation {
   /** The number of replicas of the Image Version to be created per extended location. This property is updatable. */
   extendedLocationReplicaCount?: number;
   /** Specifies the storage account type to be used to store the image. This property is not updatable. */
-  storageAccountType?: EdgeZoneStorageAccountType;
+  storageAccountType?: StorageAccountType;
   /** Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact. */
   encryption?: EncryptionImages;
 }
@@ -3980,16 +3984,6 @@ export interface PirCommunityGalleryResource {
   readonly type?: string;
   /** The unique id of this community gallery. */
   uniqueId?: string;
-}
-
-/** This is the community gallery image definition identifier. */
-export interface CommunityGalleryImageIdentifier {
-  /** The name of the gallery image definition publisher. */
-  publisher?: string;
-  /** The name of the gallery image definition offer. */
-  offer?: string;
-  /** The name of the gallery image definition SKU. */
-  sku?: string;
 }
 
 /** The List Community Gallery Images operation response. */
@@ -6523,8 +6517,8 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   osState?: OperatingSystemStateTypes;
   /** The end of life date of the gallery image definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** This is the community gallery image definition identifier. */
-  identifier?: CommunityGalleryImageIdentifier;
+  /** This is the gallery image definition identifier. */
+  identifier?: GalleryImageIdentifier;
   /** The properties describe the recommended machine configuration for this Image Definition. These properties are updatable. */
   recommended?: RecommendedMachineConfiguration;
   /** Describes the disallowed disk types. */
@@ -6897,6 +6891,30 @@ export enum KnownDiskDeleteOptionTypes {
  * **Detach**
  */
 export type DiskDeleteOptionTypes = string;
+
+/** Known values of {@link DomainNameLabelScopeTypes} that the service accepts. */
+export enum KnownDomainNameLabelScopeTypes {
+  /** TenantReuse */
+  TenantReuse = "TenantReuse",
+  /** SubscriptionReuse */
+  SubscriptionReuse = "SubscriptionReuse",
+  /** ResourceGroupReuse */
+  ResourceGroupReuse = "ResourceGroupReuse",
+  /** NoReuse */
+  NoReuse = "NoReuse"
+}
+
+/**
+ * Defines values for DomainNameLabelScopeTypes. \
+ * {@link KnownDomainNameLabelScopeTypes} can be used interchangeably with DomainNameLabelScopeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TenantReuse** \
+ * **SubscriptionReuse** \
+ * **ResourceGroupReuse** \
+ * **NoReuse**
+ */
+export type DomainNameLabelScopeTypes = string;
 
 /** Known values of {@link IPVersion} that the service accepts. */
 export enum KnownIPVersion {
@@ -8828,7 +8846,9 @@ export enum KnownStorageAccountType {
   /** StandardZRS */
   StandardZRS = "Standard_ZRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS"
 }
 
 /**
@@ -8838,7 +8858,8 @@ export enum KnownStorageAccountType {
  * ### Known values supported by the service
  * **Standard_LRS** \
  * **Standard_ZRS** \
- * **Premium_LRS**
+ * **Premium_LRS** \
+ * **StandardSSD_LRS**
  */
 export type StorageAccountType = string;
 
@@ -8898,30 +8919,6 @@ export enum KnownGalleryExtendedLocationType {
  * **Unknown**
  */
 export type GalleryExtendedLocationType = string;
-
-/** Known values of {@link EdgeZoneStorageAccountType} that the service accepts. */
-export enum KnownEdgeZoneStorageAccountType {
-  /** StandardLRS */
-  StandardLRS = "Standard_LRS",
-  /** StandardZRS */
-  StandardZRS = "Standard_ZRS",
-  /** StandardSSDLRS */
-  StandardSSDLRS = "StandardSSD_LRS",
-  /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
-}
-
-/**
- * Defines values for EdgeZoneStorageAccountType. \
- * {@link KnownEdgeZoneStorageAccountType} can be used interchangeably with EdgeZoneStorageAccountType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard_LRS** \
- * **Standard_ZRS** \
- * **StandardSSD_LRS** \
- * **Premium_LRS**
- */
-export type EdgeZoneStorageAccountType = string;
 
 /** Known values of {@link PolicyViolationCategory} that the service accepts. */
 export enum KnownPolicyViolationCategory {

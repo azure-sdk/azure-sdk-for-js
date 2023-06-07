@@ -941,19 +941,12 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     eula?: string;
     features?: GalleryImageFeature[];
     hyperVGeneration?: HyperVGeneration;
-    identifier?: CommunityGalleryImageIdentifier;
+    identifier?: GalleryImageIdentifier;
     osState?: OperatingSystemStateTypes;
     osType?: OperatingSystemTypes;
     privacyStatementUri?: string;
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
-}
-
-// @public
-export interface CommunityGalleryImageIdentifier {
-    offer?: string;
-    publisher?: string;
-    sku?: string;
 }
 
 // @public
@@ -2081,7 +2074,7 @@ export interface DiskUpdate {
 }
 
 // @public
-export type EdgeZoneStorageAccountType = string;
+export type DomainNameLabelScopeTypes = string;
 
 // @public
 export interface Encryption {
@@ -2758,7 +2751,7 @@ export interface GalleryTargetExtendedLocation {
     extendedLocation?: GalleryExtendedLocation;
     extendedLocationReplicaCount?: number;
     name?: string;
-    storageAccountType?: EdgeZoneStorageAccountType;
+    storageAccountType?: StorageAccountType;
 }
 
 // @public
@@ -3220,11 +3213,11 @@ export enum KnownDiskStorageAccountTypes {
 }
 
 // @public
-export enum KnownEdgeZoneStorageAccountType {
-    PremiumLRS = "Premium_LRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardZRS = "Standard_ZRS"
+export enum KnownDomainNameLabelScopeTypes {
+    NoReuse = "NoReuse",
+    ResourceGroupReuse = "ResourceGroupReuse",
+    SubscriptionReuse = "SubscriptionReuse",
+    TenantReuse = "TenantReuse"
 }
 
 // @public
@@ -3587,6 +3580,7 @@ export enum KnownSnapshotStorageAccountTypes {
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -6244,6 +6238,7 @@ export interface VirtualMachinePublicIPAddressConfiguration {
 // @public
 export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
     domainNameLabel: string;
+    domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 // @public
@@ -6746,6 +6741,7 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
 // @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
     domainNameLabel: string;
+    domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 // @public

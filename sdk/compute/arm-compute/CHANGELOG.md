@@ -1,15 +1,22 @@
 # Release History
+    
+## 22.0.0 (2023-06-07)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
+  - Added Type Alias DomainNameLabelScopeTypes
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings has a new optional parameter domainNameLabelScope
+  - Added Enum KnownDomainNameLabelScopeTypes
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from CommunityGalleryImageIdentifier to GalleryImageIdentifier
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Removed Enum KnownEdgeZoneStorageAccountType
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**
