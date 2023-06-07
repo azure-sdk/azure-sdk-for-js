@@ -263,6 +263,69 @@ export const IpRule: coreClient.CompositeMapper = {
   }
 };
 
+export const EncryptionWithCmk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionWithCmk",
+    modelProperties: {
+      enforcement: {
+        serializedName: "enforcement",
+        type: {
+          name: "Enum",
+          allowedValues: ["Disabled", "Enabled", "Unspecified"]
+        }
+      },
+      encryptionComplianceStatus: {
+        serializedName: "encryptionComplianceStatus",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Compliant", "NonCompliant"]
+        }
+      }
+    }
+  }
+};
+
+export const DataPlaneAuthOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataPlaneAuthOptions",
+    modelProperties: {
+      apiKeyOnly: {
+        serializedName: "apiKeyOnly",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      aadOrApiKey: {
+        serializedName: "aadOrApiKey",
+        type: {
+          name: "Composite",
+          className: "DataPlaneAadOrApiKeyAuthOption"
+        }
+      }
+    }
+  }
+};
+
+export const DataPlaneAadOrApiKeyAuthOption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataPlaneAadOrApiKeyAuthOption",
+    modelProperties: {
+      aadAuthFailureMode: {
+        serializedName: "aadAuthFailureMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["http403", "http401WithBearerChallenge"]
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpointConnectionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -281,6 +344,18 @@ export const PrivateEndpointConnectionProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className:
             "PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState"
+        }
+      },
+      groupId: {
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -462,8 +537,42 @@ export const Identity: coreClient.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["None", "SystemAssigned"]
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserAssignedManagedIdentity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedManagedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedManagedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -919,6 +1028,27 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
           className: "NetworkRuleSet"
         }
       },
+      encryptionWithCmk: {
+        serializedName: "properties.encryptionWithCmk",
+        type: {
+          name: "Composite",
+          className: "EncryptionWithCmk"
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      authOptions: {
+        serializedName: "properties.authOptions",
+        type: {
+          name: "Composite",
+          className: "DataPlaneAuthOptions"
+        }
+      },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
         readOnly: true,
@@ -1059,6 +1189,27 @@ export const SearchService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NetworkRuleSet"
+        }
+      },
+      encryptionWithCmk: {
+        serializedName: "properties.encryptionWithCmk",
+        type: {
+          name: "Composite",
+          className: "EncryptionWithCmk"
+        }
+      },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      authOptions: {
+        serializedName: "properties.authOptions",
+        type: {
+          name: "Composite",
+          className: "DataPlaneAuthOptions"
         }
       },
       privateEndpointConnections: {
