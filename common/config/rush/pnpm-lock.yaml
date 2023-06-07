@@ -3832,7 +3832,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230605
+      typescript: 5.2.0-dev.20230607
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8413,6 +8413,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
@@ -8425,8 +8431,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230605:
-    resolution: {integrity: sha512-xMeI7pFrOfxZTt1m4a2txN1E2Qh9IzLT9LNdc0DlEwJJKXjajj5j/nFLwWOUEnaFZBT6v35jlgLogG5HuSxUyA==}
+  /typescript/5.2.0-dev.20230607:
+    resolution: {integrity: sha512-7Lgk1sNuuYpMNvHuXIMczqhLbJ99RpX3VgokK+Ir4DgliycYNrNGM/daAO38fHkk8n3lg2rP/6U5I545xTJdKA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12975,7 +12981,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-W6U0tamQBLRdPse1DXsQD6bCXHFLCTLpAffEGjR356t9ipwGPHu3XbDB8zaIqZMMDufOowrxxPiF2fjc/xbPlQ==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-6AWHWYK1/QqvR8WRW8QrLUu600nQ9HlAL3udjH64nu2nFyoeB/wy+Zb+tWfIoRLFdMHBCzs/TWJvBzMXsKBiYQ==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -12999,7 +13005,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_6vxqa4pl2c5hli7lcaemfsm5je
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color

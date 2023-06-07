@@ -59,7 +59,7 @@ const getOnboardingStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResponseWithError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer
