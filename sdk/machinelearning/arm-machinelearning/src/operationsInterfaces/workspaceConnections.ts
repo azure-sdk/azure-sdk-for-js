@@ -10,11 +10,15 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   WorkspaceConnectionPropertiesV2BasicResource,
   WorkspaceConnectionsListOptionalParams,
-  WorkspaceConnectionsCreateOptionalParams,
-  WorkspaceConnectionsCreateResponse,
+  WorkspaceConnectionsDeleteOptionalParams,
   WorkspaceConnectionsGetOptionalParams,
   WorkspaceConnectionsGetResponse,
-  WorkspaceConnectionsDeleteOptionalParams
+  WorkspaceConnectionsUpdateOptionalParams,
+  WorkspaceConnectionsUpdateResponse,
+  WorkspaceConnectionsCreateOptionalParams,
+  WorkspaceConnectionsCreateResponse,
+  WorkspaceConnectionsListSecretsOptionalParams,
+  WorkspaceConnectionsListSecretsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +26,7 @@ import {
 export interface WorkspaceConnections {
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   list(
@@ -32,22 +36,20 @@ export interface WorkspaceConnections {
   ): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
-   * @param parameters The object for creating or updating a new workspace connection
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param connectionName
    * @param options The options parameters.
    */
-  create(
+  delete(
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    parameters: WorkspaceConnectionPropertiesV2BasicResource,
-    options?: WorkspaceConnectionsCreateOptionalParams
-  ): Promise<WorkspaceConnectionsCreateResponse>;
+    options?: WorkspaceConnectionsDeleteOptionalParams
+  ): Promise<void>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param connectionName
    * @param options The options parameters.
    */
   get(
@@ -58,14 +60,38 @@ export interface WorkspaceConnections {
   ): Promise<WorkspaceConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param connectionName
    * @param options The options parameters.
    */
-  delete(
+  update(
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    options?: WorkspaceConnectionsDeleteOptionalParams
-  ): Promise<void>;
+    options?: WorkspaceConnectionsUpdateOptionalParams
+  ): Promise<WorkspaceConnectionsUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param connectionName
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsCreateOptionalParams
+  ): Promise<WorkspaceConnectionsCreateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param connectionName
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsListSecretsOptionalParams
+  ): Promise<WorkspaceConnectionsListSecretsResponse>;
 }
