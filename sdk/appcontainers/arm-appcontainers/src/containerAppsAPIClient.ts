@@ -18,19 +18,21 @@ import {
   ContainerAppsAuthConfigsImpl,
   AvailableWorkloadProfilesImpl,
   BillingMetersImpl,
+  BuildersImpl,
+  BuildsImpl,
   ConnectedEnvironmentsImpl,
   ConnectedEnvironmentsCertificatesImpl,
   ConnectedEnvironmentsDaprComponentsImpl,
   ConnectedEnvironmentsStoragesImpl,
   ContainerAppsImpl,
-  JobsImpl,
-  JobsExecutionsImpl,
   ContainerAppsRevisionsImpl,
   ContainerAppsRevisionReplicasImpl,
   ContainerAppsDiagnosticsImpl,
   ManagedEnvironmentDiagnosticsImpl,
   ManagedEnvironmentsDiagnosticsImpl,
   OperationsImpl,
+  JobsImpl,
+  JobsExecutionsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
   ManagedCertificatesImpl,
@@ -43,19 +45,21 @@ import {
   ContainerAppsAuthConfigs,
   AvailableWorkloadProfiles,
   BillingMeters,
+  Builders,
+  Builds,
   ConnectedEnvironments,
   ConnectedEnvironmentsCertificates,
   ConnectedEnvironmentsDaprComponents,
   ConnectedEnvironmentsStorages,
   ContainerApps,
-  Jobs,
-  JobsExecutions,
   ContainerAppsRevisions,
   ContainerAppsRevisionReplicas,
   ContainerAppsDiagnostics,
   ManagedEnvironmentDiagnostics,
   ManagedEnvironmentsDiagnostics,
   Operations,
+  Jobs,
+  JobsExecutions,
   ManagedEnvironments,
   Certificates,
   ManagedCertificates,
@@ -98,7 +102,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/2.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-appcontainers/2.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -151,10 +155,12 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-02-preview";
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
     this.billingMeters = new BillingMetersImpl(this);
+    this.builders = new BuildersImpl(this);
+    this.builds = new BuildsImpl(this);
     this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
     this.connectedEnvironmentsCertificates = new ConnectedEnvironmentsCertificatesImpl(
       this
@@ -166,8 +172,6 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       this
     );
     this.containerApps = new ContainerAppsImpl(this);
-    this.jobs = new JobsImpl(this);
-    this.jobsExecutions = new JobsExecutionsImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
       this
@@ -180,6 +184,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
+    this.jobs = new JobsImpl(this);
+    this.jobsExecutions = new JobsExecutionsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.managedCertificates = new ManagedCertificatesImpl(this);
@@ -225,19 +231,21 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
   availableWorkloadProfiles: AvailableWorkloadProfiles;
   billingMeters: BillingMeters;
+  builders: Builders;
+  builds: Builds;
   connectedEnvironments: ConnectedEnvironments;
   connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
   connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
   connectedEnvironmentsStorages: ConnectedEnvironmentsStorages;
   containerApps: ContainerApps;
-  jobs: Jobs;
-  jobsExecutions: JobsExecutions;
   containerAppsRevisions: ContainerAppsRevisions;
   containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
   containerAppsDiagnostics: ContainerAppsDiagnostics;
   managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
   managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
   operations: Operations;
+  jobs: Jobs;
+  jobsExecutions: JobsExecutions;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
   managedCertificates: ManagedCertificates;

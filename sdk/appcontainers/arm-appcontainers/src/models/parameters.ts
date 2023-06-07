@@ -13,6 +13,9 @@ import {
 } from "@azure/core-client";
 import {
   AuthConfig as AuthConfigMapper,
+  BuilderResource as BuilderResourceMapper,
+  BuilderResourceUpdate as BuilderResourceUpdateMapper,
+  BuildResource as BuildResourceMapper,
   ConnectedEnvironment as ConnectedEnvironmentMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   Certificate as CertificateMapper,
@@ -98,7 +101,7 @@ export const containerAppName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01-preview",
+    defaultValue: "2023-05-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -159,6 +162,53 @@ export const location: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const builderName: OperationURLParameter = {
+  parameterPath: "builderName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 32,
+      MinLength: 2
+    },
+    serializedName: "builderName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const builderEnvelope: OperationParameter = {
+  parameterPath: "builderEnvelope",
+  mapper: BuilderResourceMapper
+};
+
+export const builderEnvelope1: OperationParameter = {
+  parameterPath: "builderEnvelope",
+  mapper: BuilderResourceUpdateMapper
+};
+
+export const buildName: OperationURLParameter = {
+  parameterPath: "buildName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 64,
+      MinLength: 2
+    },
+    serializedName: "buildName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildEnvelope: OperationParameter = {
+  parameterPath: "buildEnvelope",
+  mapper: BuildResourceMapper
 };
 
 export const connectedEnvironmentName: OperationURLParameter = {
@@ -250,6 +300,60 @@ export const customHostname: OperationQueryParameter = {
   }
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const revisionName: OperationURLParameter = {
+  parameterPath: "revisionName",
+  mapper: {
+    serializedName: "revisionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const replicaName: OperationURLParameter = {
+  parameterPath: "replicaName",
+  mapper: {
+    serializedName: "replicaName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const detectorName: OperationURLParameter = {
+  parameterPath: "detectorName",
+  mapper: {
+    serializedName: "detectorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const environmentName: OperationURLParameter = {
+  parameterPath: "environmentName",
+  mapper: {
+    serializedName: "environmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const jobName: OperationURLParameter = {
   parameterPath: "jobName",
   mapper: {
@@ -307,60 +411,6 @@ export const jobExecutionName: OperationURLParameter = {
 export const jobExecutionName1: OperationParameter = {
   parameterPath: "jobExecutionName",
   mapper: JobExecutionNamesCollectionMapper
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const revisionName: OperationURLParameter = {
-  parameterPath: "revisionName",
-  mapper: {
-    serializedName: "revisionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const replicaName: OperationURLParameter = {
-  parameterPath: "replicaName",
-  mapper: {
-    serializedName: "replicaName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const detectorName: OperationURLParameter = {
-  parameterPath: "detectorName",
-  mapper: {
-    serializedName: "detectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const environmentName: OperationURLParameter = {
-  parameterPath: "environmentName",
-  mapper: {
-    serializedName: "environmentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const environmentEnvelope1: OperationParameter = {

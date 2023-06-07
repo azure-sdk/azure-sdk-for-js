@@ -1,11 +1,13 @@
 # Release History
     
-## 2.0.0-beta.3 (2023-05-12)
+## 2.0.0-beta.4 (2023-06-07)
     
 **Features**
 
   - Added operation group AvailableWorkloadProfiles
   - Added operation group BillingMeters
+  - Added operation group Builders
+  - Added operation group Builds
   - Added operation group ConnectedEnvironments
   - Added operation group ConnectedEnvironmentsCertificates
   - Added operation group ConnectedEnvironmentsDaprComponents
@@ -29,6 +31,30 @@
   - Added Interface BillingMeterCollection
   - Added Interface BillingMeterProperties
   - Added Interface BillingMetersGetOptionalParams
+  - Added Interface BuildCollection
+  - Added Interface BuildConfiguration
+  - Added Interface BuilderCollection
+  - Added Interface BuilderResource
+  - Added Interface BuilderResourceUpdate
+  - Added Interface BuildersCreateOrUpdateHeaders
+  - Added Interface BuildersCreateOrUpdateOptionalParams
+  - Added Interface BuildersDeleteHeaders
+  - Added Interface BuildersDeleteOptionalParams
+  - Added Interface BuildersGetOptionalParams
+  - Added Interface BuildersListByResourceGroupNextOptionalParams
+  - Added Interface BuildersListByResourceGroupOptionalParams
+  - Added Interface BuildersListBySubscriptionNextOptionalParams
+  - Added Interface BuildersListBySubscriptionOptionalParams
+  - Added Interface BuildersUpdateHeaders
+  - Added Interface BuildersUpdateOptionalParams
+  - Added Interface BuildResource
+  - Added Interface BuildsCreateOrUpdateHeaders
+  - Added Interface BuildsCreateOrUpdateOptionalParams
+  - Added Interface BuildsDeleteHeaders
+  - Added Interface BuildsDeleteOptionalParams
+  - Added Interface BuildsGetOptionalParams
+  - Added Interface BuildsListByBuilderResourceNextOptionalParams
+  - Added Interface BuildsListByBuilderResourceOptionalParams
   - Added Interface ConnectedEnvironment
   - Added Interface ConnectedEnvironmentCollection
   - Added Interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
@@ -72,6 +98,7 @@
   - Added Interface ContainerAppsDiagnosticsListRevisionsOptionalParams
   - Added Interface ContainerAppsGetAuthTokenOptionalParams
   - Added Interface ContainerAppsUpdateHeaders
+  - Added Interface ContainerRegistryWithCustomImage
   - Added Interface CorsPolicy
   - Added Interface CustomDomainConfiguration
   - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
@@ -91,10 +118,13 @@
   - Added Interface DiagnosticsStatus
   - Added Interface DiagnosticSupportTopic
   - Added Interface EnvironmentAuthToken
+  - Added Interface EnvironmentVariable
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
   - Added Interface ExtendedLocation
+  - Added Interface HttpGet
+  - Added Interface IngressPortMapping
   - Added Interface IngressStickySessions
   - Added Interface InitContainer
   - Added Interface IpSecurityRestrictionRule
@@ -148,6 +178,7 @@
   - Added Interface ManagedEnvironmentsGetAuthTokenOptionalParams
   - Added Interface ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams
   - Added Interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
+  - Added Interface PreBuildStep
   - Added Interface SecretVolumeItem
   - Added Interface TcpScaleRule
   - Added Interface WorkloadProfile
@@ -160,6 +191,18 @@
   - Added Type Alias AvailableWorkloadProfilesGetNextResponse
   - Added Type Alias AvailableWorkloadProfilesGetResponse
   - Added Type Alias BillingMetersGetResponse
+  - Added Type Alias BuildersCreateOrUpdateResponse
+  - Added Type Alias BuildersGetResponse
+  - Added Type Alias BuildersListByResourceGroupNextResponse
+  - Added Type Alias BuildersListByResourceGroupResponse
+  - Added Type Alias BuildersListBySubscriptionNextResponse
+  - Added Type Alias BuildersListBySubscriptionResponse
+  - Added Type Alias BuildersUpdateResponse
+  - Added Type Alias BuildsCreateOrUpdateResponse
+  - Added Type Alias BuildsGetResponse
+  - Added Type Alias BuildsListByBuilderResourceNextResponse
+  - Added Type Alias BuildsListByBuilderResourceResponse
+  - Added Type Alias BuildStatus
   - Added Type Alias ConnectedEnvironmentProvisioningState
   - Added Type Alias ConnectedEnvironmentsCertificatesCreateOrUpdateResponse
   - Added Type Alias ConnectedEnvironmentsCertificatesGetResponse
@@ -182,6 +225,8 @@
   - Added Type Alias ConnectedEnvironmentsStoragesGetResponse
   - Added Type Alias ConnectedEnvironmentsStoragesListResponse
   - Added Type Alias ConnectedEnvironmentsUpdateResponse
+  - Added Type Alias ContainerAppContainerRunningState
+  - Added Type Alias ContainerAppReplicaRunningState
   - Added Type Alias ContainerAppsDiagnosticsGetDetectorResponse
   - Added Type Alias ContainerAppsDiagnosticsGetRevisionResponse
   - Added Type Alias ContainerAppsDiagnosticsGetRootResponse
@@ -221,6 +266,7 @@
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesNextResponse
   - Added Type Alias ManagedEnvironmentsListWorkloadProfileStatesResponse
   - Added Type Alias ManagedEnvironmentsUpdateResponse
+  - Added Type Alias ProvisioningState
   - Added Type Alias TriggerType
   - Interface CertificateProperties has a new optional parameter subjectAlternativeNames
   - Interface Configuration has a new optional parameter maxInactiveRevisions
@@ -238,6 +284,7 @@
   - Interface Dapr has a new optional parameter httpReadBufferSize
   - Interface Dapr has a new optional parameter logLevel
   - Interface DaprComponent has a new optional parameter secretStoreComponent
+  - Interface Ingress has a new optional parameter additionalPortMappings
   - Interface Ingress has a new optional parameter clientCertificateMode
   - Interface Ingress has a new optional parameter corsPolicy
   - Interface Ingress has a new optional parameter exposedPort
@@ -250,33 +297,45 @@
   - Interface ManagedEnvironment has a new optional parameter kedaConfiguration
   - Interface ManagedEnvironment has a new optional parameter kind
   - Interface ManagedEnvironment has a new optional parameter workloadProfiles
+  - Interface Replica has a new optional parameter initContainers
+  - Interface Replica has a new optional parameter runningState
+  - Interface Replica has a new optional parameter runningStateDetails
   - Interface ReplicaContainer has a new optional parameter execEndpoint
   - Interface ReplicaContainer has a new optional parameter logStreamEndpoint
+  - Interface ReplicaContainer has a new optional parameter runningState
+  - Interface ReplicaContainer has a new optional parameter runningStateDetails
   - Interface Revision has a new optional parameter lastActiveTime
   - Interface ScaleRule has a new optional parameter tcp
   - Interface Secret has a new optional parameter identity
   - Interface Secret has a new optional parameter keyVaultUrl
   - Interface Template has a new optional parameter initContainers
+  - Interface Template has a new optional parameter terminationGracePeriodSeconds
+  - Interface Volume has a new optional parameter mountOptions
   - Interface Volume has a new optional parameter secrets
+  - Interface VolumeMount has a new optional parameter subPath
   - Added Enum KnownAction
   - Added Enum KnownAffinity
   - Added Enum KnownApplicability
+  - Added Enum KnownBuildStatus
   - Added Enum KnownConnectedEnvironmentProvisioningState
+  - Added Enum KnownContainerAppContainerRunningState
+  - Added Enum KnownContainerAppReplicaRunningState
   - Added Enum KnownExtendedLocationTypes
   - Added Enum KnownIngressClientCertificateMode
   - Added Enum KnownJobExecutionRunningState
   - Added Enum KnownJobProvisioningState
   - Added Enum KnownLogLevel
   - Added Enum KnownManagedCertificateDomainControlValidation
+  - Added Enum KnownProvisioningState
   - Added Enum KnownTriggerType
   - Enum KnownContainerAppProvisioningState has a new value Deleting
   - Enum KnownIngressTransportMethod has a new value Tcp
   - Enum KnownStorageType has a new value Secret
   - Added function getContinuationToken
-  - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
 
 **Breaking Changes**
 
+  - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
   - Interface VnetConfiguration no longer has parameter runtimeSubnetId
   - Type of parameter customDomainVerificationFailureInfo of interface CustomHostnameAnalysisResult is changed from DefaultErrorResponse to CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
   - Type of parameter value of interface DaprSecretsCollection is changed from Secret[] to DaprSecret[]
