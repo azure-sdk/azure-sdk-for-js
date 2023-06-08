@@ -23,6 +23,8 @@ export interface Activity {
     dependsOn?: ActivityDependency[];
     description?: string;
     name: string;
+    onInactiveMarkAs?: ActivityOnInactiveMarkAs;
+    state?: ActivityState;
     type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob";
     userProperties?: UserProperty[];
 }
@@ -33,6 +35,9 @@ export interface ActivityDependency {
     activity: string;
     dependencyConditions: DependencyCondition[];
 }
+
+// @public
+export type ActivityOnInactiveMarkAs = string;
 
 // @public
 export interface ActivityPolicy {
@@ -80,6 +85,9 @@ export interface ActivityRunsQueryResponse {
     value: ActivityRun[];
 }
 
+// @public
+export type ActivityState = string;
+
 // @public (undocumented)
 export type ActivityUnion = Activity | ControlActivityUnion | ExecutionActivityUnion | ExecuteWranglingDataflowActivity;
 
@@ -97,7 +105,7 @@ export interface AdditionalColumns {
 // @public
 export interface AmazonMWSLinkedService extends LinkedService {
     accessKeyId: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     endpoint: any;
     marketplaceID: any;
     mwsAuthToken?: SecretBaseUnion;
@@ -124,7 +132,7 @@ export interface AmazonMWSSource extends TabularSource {
 // @public
 export interface AmazonRdsForOracleLinkedService extends LinkedService {
     connectionString: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "AmazonRdsForOracle";
 }
@@ -161,7 +169,7 @@ export interface AmazonRdsForOracleTableDataset extends Dataset {
 export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     connectionString: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "AmazonRdsForSqlServer";
     userName?: any;
@@ -169,6 +177,7 @@ export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
 
 // @public
 export interface AmazonRdsForSqlServerSource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     produceAdditionalTypes?: any;
@@ -188,7 +197,7 @@ export interface AmazonRdsForSqlServerTableDataset extends Dataset {
 // @public
 export interface AmazonRedshiftLinkedService extends LinkedService {
     database: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     port?: any;
     server: any;
@@ -214,7 +223,7 @@ export interface AmazonRedshiftTableDataset extends Dataset {
 // @public
 export interface AmazonS3CompatibleLinkedService extends LinkedService {
     accessKeyId?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     forcePathStyle?: any;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
@@ -231,7 +240,7 @@ export interface AmazonS3CompatibleLocation extends DatasetLocation {
 // @public
 export interface AmazonS3CompatibleReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -260,7 +269,7 @@ export interface AmazonS3Dataset extends Dataset {
 export interface AmazonS3LinkedService extends LinkedService {
     accessKeyId?: any;
     authenticationType?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
     sessionToken?: SecretBaseUnion;
@@ -277,7 +286,7 @@ export interface AmazonS3Location extends DatasetLocation {
 // @public
 export interface AmazonS3ReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -312,7 +321,7 @@ export interface ArmIdWrapper {
 // @public
 export interface AsanaLinkedService extends LinkedService {
     apiToken: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     type: "Asana";
 }
 
@@ -368,7 +377,7 @@ export interface AzureBatchLinkedService extends LinkedService {
     accountName: any;
     batchUri: any;
     credential?: CredentialReference;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     linkedServiceName: LinkedServiceReference;
     poolName: any;
     type: "AzureBatch";
@@ -400,7 +409,7 @@ export interface AzureBlobFSLinkedService extends LinkedService {
     accountKey?: any;
     azureCloudType?: any;
     credential?: CredentialReference;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     sasToken?: SecretBaseUnion;
     sasUri?: any;
     servicePrincipalCredential?: SecretBaseUnion;
@@ -421,7 +430,7 @@ export interface AzureBlobFSLocation extends DatasetLocation {
 // @public
 export interface AzureBlobFSReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -456,7 +465,7 @@ export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
 // @public
 export interface AzureBlobStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
-    accountKind?: string;
+    accountKind?: any;
     authenticationType?: AzureStorageAuthenticationType;
     azureCloudType?: any;
     connectionString?: any;
@@ -465,7 +474,7 @@ export interface AzureBlobStorageLinkedService extends LinkedService {
     encryptedCredential?: string;
     sasToken?: AzureKeyVaultSecretReference;
     sasUri?: any;
-    serviceEndpoint?: string;
+    serviceEndpoint?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
@@ -481,7 +490,7 @@ export interface AzureBlobStorageLocation extends DatasetLocation {
 // @public
 export interface AzureBlobStorageReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -526,7 +535,7 @@ export interface AzureDatabricksDeltaLakeLinkedService extends LinkedService {
     clusterId?: any;
     credential?: CredentialReference;
     domain: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     type: "AzureDatabricksDeltaLake";
     workspaceResourceId?: any;
 }
@@ -551,7 +560,7 @@ export interface AzureDatabricksLinkedService extends LinkedService {
     authentication?: any;
     credential?: CredentialReference;
     domain: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     existingClusterId?: any;
     instancePoolId?: any;
     newClusterCustomTags?: {
@@ -620,7 +629,7 @@ export interface AzureDataExplorerTableDataset extends Dataset {
 export interface AzureDataLakeAnalyticsLinkedService extends LinkedService {
     accountName: any;
     dataLakeAnalyticsUri?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     resourceGroupName?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
@@ -644,7 +653,7 @@ export interface AzureDataLakeStoreLinkedService extends LinkedService {
     azureCloudType?: any;
     credential?: CredentialReference;
     dataLakeStoreUri: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     resourceGroupName?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
@@ -661,7 +670,7 @@ export interface AzureDataLakeStoreLocation extends DatasetLocation {
 // @public
 export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     listAfter?: any;
     listBefore?: any;
@@ -697,7 +706,7 @@ export interface AzureDataLakeStoreWriteSettings extends StoreWriteSettings {
 export interface AzureFileStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     fileShare?: any;
     host?: any;
     password?: SecretBaseUnion;
@@ -716,7 +725,7 @@ export interface AzureFileStorageLocation extends DatasetLocation {
 // @public
 export interface AzureFileStorageReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -749,7 +758,7 @@ export type AzureFunctionActivityMethod = string;
 export interface AzureFunctionLinkedService extends LinkedService {
     authentication?: any;
     credential?: CredentialReference;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     functionAppUrl: any;
     functionKey?: SecretBaseUnion;
     resourceId?: any;
@@ -774,7 +783,7 @@ export interface AzureKeyVaultSecretReference extends SecretBase {
 // @public
 export interface AzureMariaDBLinkedService extends LinkedService {
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     pwd?: AzureKeyVaultSecretReference;
     type: "AzureMariaDB";
 }
@@ -822,7 +831,7 @@ export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
 export interface AzureMLLinkedService extends LinkedService {
     apiKey: SecretBaseUnion;
     authentication?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     mlEndpoint: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
@@ -833,7 +842,7 @@ export interface AzureMLLinkedService extends LinkedService {
 
 // @public
 export interface AzureMLServiceLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     mlWorkspaceName: any;
     resourceGroupName: any;
     servicePrincipalId?: any;
@@ -860,7 +869,7 @@ export interface AzureMLWebServiceFile {
 // @public
 export interface AzureMySqlLinkedService extends LinkedService {
     connectionString: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     type: "AzureMySql";
 }
@@ -887,7 +896,7 @@ export interface AzureMySqlTableDataset extends Dataset {
 // @public
 export interface AzurePostgreSqlLinkedService extends LinkedService {
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     type: "AzurePostgreSql";
 }
@@ -934,7 +943,7 @@ export type AzureSearchIndexWriteBehaviorType = string;
 
 // @public
 export interface AzureSearchLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     key?: SecretBaseUnion;
     type: "AzureSearch";
     url: any;
@@ -946,7 +955,7 @@ export interface AzureSqlDatabaseLinkedService extends LinkedService {
     azureCloudType?: any;
     connectionString: any;
     credential?: CredentialReference;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
@@ -959,7 +968,7 @@ export interface AzureSqlDWLinkedService extends LinkedService {
     azureCloudType?: any;
     connectionString: any;
     credential?: CredentialReference;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
@@ -981,7 +990,7 @@ export interface AzureSqlMILinkedService extends LinkedService {
     azureCloudType?: any;
     connectionString: any;
     credential?: CredentialReference;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
@@ -1013,6 +1022,7 @@ export interface AzureSqlSink extends CopySink {
 
 // @public
 export interface AzureSqlSource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     produceAdditionalTypes?: any;
@@ -1160,7 +1170,7 @@ export interface BlobTrigger extends MultiplePipelineTrigger {
 // @public
 export interface CassandraLinkedService extends LinkedService {
     authenticationType?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     port?: any;
@@ -1194,6 +1204,91 @@ export interface ChainingTrigger extends Trigger {
 }
 
 // @public
+export interface ChangeDataCapture {
+    createOrUpdate(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, changeDataCapture: ChangeDataCaptureResource, options?: ChangeDataCaptureCreateOrUpdateOptionalParams): Promise<ChangeDataCaptureCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureGetOptionalParams): Promise<ChangeDataCaptureGetResponse>;
+    listByFactory(resourceGroupName: string, factoryName: string, options?: ChangeDataCaptureListByFactoryOptionalParams): PagedAsyncIterableIterator<ChangeDataCaptureResource>;
+    start(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStartOptionalParams): Promise<void>;
+    status(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStatusOptionalParams): Promise<ChangeDataCaptureStatusResponse>;
+    stop(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStopOptionalParams): Promise<void>;
+}
+
+// @public
+export interface ChangeDataCaptureCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type ChangeDataCaptureCreateOrUpdateResponse = ChangeDataCaptureResource;
+
+// @public
+export interface ChangeDataCaptureDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureFolder {
+    name?: string;
+}
+
+// @public
+export interface ChangeDataCaptureGetOptionalParams extends coreClient.OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export type ChangeDataCaptureGetResponse = ChangeDataCaptureResource;
+
+// @public
+export interface ChangeDataCaptureListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChangeDataCaptureListByFactoryNextResponse = ChangeDataCaptureListResponse;
+
+// @public
+export interface ChangeDataCaptureListByFactoryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChangeDataCaptureListByFactoryResponse = ChangeDataCaptureListResponse;
+
+// @public
+export interface ChangeDataCaptureListResponse {
+    nextLink?: string;
+    value: ChangeDataCaptureResource[];
+}
+
+// @public
+export interface ChangeDataCaptureResource extends SubResource {
+    [property: string]: any;
+    allowVNetOverride?: boolean;
+    description?: string;
+    folder?: ChangeDataCaptureFolder;
+    policy: MapperPolicy;
+    sourceConnectionsInfo: MapperSourceConnectionsInfo[];
+    status?: string;
+    targetConnectionsInfo: MapperTargetConnectionsInfo[];
+}
+
+// @public
+export interface ChangeDataCaptureStartOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChangeDataCaptureStatusResponse = {
+    body: string;
+};
+
+// @public
+export interface ChangeDataCaptureStopOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface CloudError {
     code: string;
     details?: CloudError[];
@@ -1224,7 +1319,7 @@ export interface CommonDataServiceForAppsEntityDataset extends Dataset {
 export interface CommonDataServiceForAppsLinkedService extends LinkedService {
     authenticationType: any;
     deploymentType: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
     password?: SecretBaseUnion;
@@ -1275,7 +1370,7 @@ export type CompressionReadSettingsUnion = CompressionReadSettings | ZipDeflateR
 export interface ConcurLinkedService extends LinkedService {
     clientId: any;
     connectionProperties?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "Concur";
     useEncryptedEndpoints?: any;
@@ -1305,6 +1400,9 @@ export interface ConnectionStateProperties {
     readonly description?: string;
     readonly status?: string;
 }
+
+// @public
+export type ConnectionType = string;
 
 // @public
 export interface ControlActivity extends Activity {
@@ -1401,9 +1499,9 @@ export interface CosmosDbLinkedService extends LinkedService {
     connectionString?: any;
     credential?: CredentialReference;
     database?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: CosmosDbServicePrincipalCredentialType;
+    servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     tenant?: any;
     type: "CosmosDb";
@@ -1440,9 +1538,6 @@ export interface CosmosDbMongoDbApiSource extends CopySource {
 }
 
 // @public
-export type CosmosDbServicePrincipalCredentialType = string;
-
-// @public
 export interface CosmosDbSqlApiCollectionDataset extends Dataset {
     collectionName: any;
     type: "CosmosDbSqlApiCollection";
@@ -1468,7 +1563,7 @@ export interface CosmosDbSqlApiSource extends CopySource {
 export interface CouchbaseLinkedService extends LinkedService {
     connectionString?: any;
     credString?: AzureKeyVaultSecretReference;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     type: "Couchbase";
 }
 
@@ -1676,6 +1771,8 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     activityRuns: ActivityRuns;
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    changeDataCapture: ChangeDataCapture;
     // (undocumented)
     credentialOperations: CredentialOperations;
     // (undocumented)
@@ -1982,6 +2079,15 @@ export interface DataLakeAnalyticsUsqlActivity extends ExecutionActivity {
 }
 
 // @public
+export interface DataMapperMapping {
+    attributeMappingInfo?: MapperAttributeMappings;
+    sourceConnectionReference?: MapperConnectionReference;
+    sourceDenormalizeInfo?: any;
+    sourceEntityName?: string;
+    targetEntityName?: string;
+}
+
+// @public
 export interface Dataset {
     [property: string]: any;
     annotations?: any[];
@@ -2119,7 +2225,7 @@ export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDatase
 // @public
 export interface DataworldLinkedService extends LinkedService {
     apiToken: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     type: "Dataworld";
 }
 
@@ -2138,7 +2244,7 @@ export interface Db2LinkedService extends LinkedService {
     certificateCommonName?: any;
     connectionString?: any;
     database?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     packageCollection?: any;
     password?: SecretBaseUnion;
     server?: any;
@@ -2265,7 +2371,7 @@ export interface DocumentDbCollectionSource extends CopySource {
 // @public
 export interface DrillLinkedService extends LinkedService {
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     pwd?: AzureKeyVaultSecretReference;
     type: "Drill";
 }
@@ -2304,7 +2410,7 @@ export type DynamicsAuthenticationType = string;
 // @public
 export interface DynamicsAXLinkedService extends LinkedService {
     aadResourceId: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     servicePrincipalId: any;
     servicePrincipalKey: SecretBaseUnion;
     tenant: any;
@@ -2335,7 +2441,7 @@ export interface DynamicsCrmEntityDataset extends Dataset {
 export interface DynamicsCrmLinkedService extends LinkedService {
     authenticationType: any;
     deploymentType: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
     password?: SecretBaseUnion;
@@ -2377,7 +2483,7 @@ export interface DynamicsLinkedService extends LinkedService {
     authenticationType: any;
     credential?: CredentialReference;
     deploymentType: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
     password?: SecretBaseUnion;
@@ -2410,7 +2516,7 @@ export interface DynamicsSource extends CopySource {
 
 // @public
 export interface EloquaLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     endpoint: any;
     password?: SecretBaseUnion;
     type: "Eloqua";
@@ -2832,7 +2938,7 @@ export interface FailActivity extends ControlActivity {
 
 // @public
 export interface FileServerLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     type: "FileServer";
@@ -2847,7 +2953,7 @@ export interface FileServerLocation extends DatasetLocation {
 // @public
 export interface FileServerReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileFilter?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
@@ -2934,18 +3040,21 @@ export interface FormatWriteSettings {
 export type FormatWriteSettingsUnion = FormatWriteSettings | AvroWriteSettings | OrcWriteSettings | ParquetWriteSettings | DelimitedTextWriteSettings | JsonWriteSettings;
 
 // @public
+export type FrequencyType = string;
+
+// @public
 export type FtpAuthenticationType = string;
 
 // @public
 export interface FtpReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
     disableChunking?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     partitionRootPath?: any;
     recursive?: any;
     type: "FtpReadSettings";
-    useBinaryTransfer?: boolean;
+    useBinaryTransfer?: any;
     wildcardFileName?: any;
     wildcardFolderPath?: any;
 }
@@ -2955,7 +3064,7 @@ export interface FtpServerLinkedService extends LinkedService {
     authenticationType?: FtpAuthenticationType;
     enableServerCertificateValidation?: any;
     enableSsl?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     port?: any;
@@ -3084,7 +3193,7 @@ export interface GoogleAdWordsLinkedService extends LinkedService {
     connectionProperties?: any;
     developerToken?: SecretBaseUnion;
     email?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     keyFilePath?: any;
     refreshToken?: SecretBaseUnion;
     trustedCertPath?: any;
@@ -3114,7 +3223,7 @@ export interface GoogleBigQueryLinkedService extends LinkedService {
     clientId?: any;
     clientSecret?: SecretBaseUnion;
     email?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     keyFilePath?: any;
     project: any;
     refreshToken?: SecretBaseUnion;
@@ -3141,7 +3250,7 @@ export interface GoogleBigQuerySource extends TabularSource {
 // @public
 export interface GoogleCloudStorageLinkedService extends LinkedService {
     accessKeyId?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
     type: "GoogleCloudStorage";
@@ -3157,7 +3266,7 @@ export interface GoogleCloudStorageLocation extends DatasetLocation {
 // @public
 export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -3172,14 +3281,14 @@ export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
 // @public
 export interface GoogleSheetsLinkedService extends LinkedService {
     apiToken: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     type: "GoogleSheets";
 }
 
 // @public
 export interface GreenplumLinkedService extends LinkedService {
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     pwd?: AzureKeyVaultSecretReference;
     type: "Greenplum";
 }
@@ -3207,7 +3316,7 @@ export interface HBaseLinkedService extends LinkedService {
     allowSelfSignedServerCert?: any;
     authenticationType: HBaseAuthenticationType;
     enableSsl?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     httpPath?: any;
     password?: SecretBaseUnion;
@@ -3232,7 +3341,7 @@ export interface HBaseSource extends TabularSource {
 // @public
 export interface HdfsLinkedService extends LinkedService {
     authenticationType?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "Hdfs";
     url: any;
@@ -3248,7 +3357,7 @@ export interface HdfsLocation extends DatasetLocation {
 export interface HdfsReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
     distcpSettings?: DistcpSettings;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -3284,13 +3393,15 @@ export interface HDInsightHiveActivity extends ExecutionActivity {
     scriptPath?: any;
     storageLinkedServices?: LinkedServiceReference[];
     type: "HDInsightHive";
-    variables?: any[];
+    variables?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
 export interface HDInsightLinkedService extends LinkedService {
     clusterUri: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     fileSystem?: any;
     hcatalogLinkedServiceName?: LinkedServiceReference;
     isEspEnabled?: any;
@@ -3329,7 +3440,7 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
     coreConfiguration?: any;
     credential?: CredentialReference;
     dataNodeSize?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     hBaseConfiguration?: any;
     hcatalogLinkedServiceName?: LinkedServiceReference;
     hdfsConfiguration?: any;
@@ -3410,7 +3521,7 @@ export interface HiveLinkedService extends LinkedService {
     allowSelfSignedServerCert?: any;
     authenticationType: HiveAuthenticationType;
     enableSsl?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     httpPath?: any;
     password?: SecretBaseUnion;
@@ -3467,7 +3578,7 @@ export interface HttpLinkedService extends LinkedService {
     certThumbprint?: any;
     embeddedCertData?: any;
     enableServerCertificateValidation?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "HttpServer";
     url: any;
@@ -3476,9 +3587,8 @@ export interface HttpLinkedService extends LinkedService {
 
 // @public
 export interface HttpReadSettings extends StoreReadSettings {
+    additionalColumns?: any;
     additionalHeaders?: any;
-    enablePartitionDiscovery?: boolean;
-    partitionRootPath?: any;
     requestBody?: any;
     requestMethod?: any;
     requestTimeout?: any;
@@ -3502,7 +3612,7 @@ export interface HubspotLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
     clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     refreshToken?: SecretBaseUnion;
     type: "Hubspot";
     useEncryptedEndpoints?: any;
@@ -3539,7 +3649,7 @@ export interface ImpalaLinkedService extends LinkedService {
     allowSelfSignedServerCert?: any;
     authenticationType: ImpalaAuthenticationType;
     enableSsl?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     port?: any;
@@ -3577,7 +3687,7 @@ export interface InformixLinkedService extends LinkedService {
     authenticationType?: any;
     connectionString: any;
     credential?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "Informix";
     userName?: any;
@@ -3661,7 +3771,14 @@ export interface IntegrationRuntimeDataFlowProperties {
     cleanup?: boolean;
     computeType?: DataFlowComputeType;
     coreCount?: number;
+    customProperties?: IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem[];
     timeToLive?: number;
+}
+
+// @public (undocumented)
+export interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem {
+    name?: string;
+    value?: string;
 }
 
 // @public
@@ -4028,7 +4145,7 @@ export interface IntegrationRuntimeVNetProperties {
 
 // @public
 export interface JiraLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     port?: any;
@@ -4100,6 +4217,19 @@ export type JsonWriteFilePattern = string;
 export interface JsonWriteSettings extends FormatWriteSettings {
     filePattern?: any;
     type: "JsonWriteSettings";
+}
+
+// @public
+export enum KnownActivityOnInactiveMarkAs {
+    Failed = "Failed",
+    Skipped = "Skipped",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownActivityState {
+    Active = "Active",
+    Inactive = "Inactive"
 }
 
 // @public
@@ -4191,6 +4321,11 @@ export enum KnownConfigurationType {
 }
 
 // @public
+export enum KnownConnectionType {
+    Linkedservicetype = "linkedservicetype"
+}
+
+// @public
 export enum KnownCopyBehaviorType {
     FlattenHierarchy = "FlattenHierarchy",
     MergeFiles = "MergeFiles",
@@ -4201,12 +4336,6 @@ export enum KnownCopyBehaviorType {
 export enum KnownCosmosDbConnectionMode {
     Direct = "Direct",
     Gateway = "Gateway"
-}
-
-// @public
-export enum KnownCosmosDbServicePrincipalCredentialType {
-    ServicePrincipalCert = "ServicePrincipalCert",
-    ServicePrincipalKey = "ServicePrincipalKey"
 }
 
 // @public
@@ -4284,6 +4413,13 @@ export enum KnownFactoryIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownFrequencyType {
+    Hour = "Hour",
+    Minute = "Minute",
+    Second = "Second"
 }
 
 // @public
@@ -4467,6 +4603,13 @@ export enum KnownManagedIntegrationRuntimeNodeStatus {
 // @public
 export enum KnownManagedVirtualNetworkReferenceType {
     ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
+}
+
+// @public
+export enum KnownMappingType {
+    Aggregate = "Aggregate",
+    Derived = "Derived",
+    Direct = "Direct"
 }
 
 // @public
@@ -5060,7 +5203,7 @@ export interface LookupActivity extends ExecutionActivity {
 // @public
 export interface MagentoLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     type: "Magento";
     useEncryptedEndpoints?: any;
@@ -5270,6 +5413,88 @@ export interface ManagedVirtualNetworksListByFactoryOptionalParams extends coreC
 export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkListResponse;
 
 // @public
+export interface MapperAttributeMapping {
+    attributeReference?: MapperAttributeReference;
+    attributeReferences?: MapperAttributeReference[];
+    expression?: string;
+    functionName?: string;
+    name?: string;
+    type?: MappingType;
+}
+
+// @public
+export interface MapperAttributeMappings {
+    attributeMappings?: MapperAttributeMapping[];
+}
+
+// @public
+export interface MapperAttributeReference {
+    entity?: string;
+    entityConnectionReference?: MapperConnectionReference;
+    name?: string;
+}
+
+// @public
+export interface MapperConnection {
+    commonDslConnectorProperties?: MapperDslConnectorProperties[];
+    isInlineDataset?: boolean;
+    linkedService?: LinkedServiceReference;
+    linkedServiceType?: string;
+    type: ConnectionType;
+}
+
+// @public
+export interface MapperConnectionReference {
+    connectionName?: string;
+    type?: ConnectionType;
+}
+
+// @public
+export interface MapperDslConnectorProperties {
+    name?: string;
+    value?: any;
+}
+
+// @public
+export interface MapperPolicy {
+    mode?: string;
+    recurrence?: MapperPolicyRecurrence;
+}
+
+// @public
+export interface MapperPolicyRecurrence {
+    frequency?: FrequencyType;
+    interval?: number;
+}
+
+// @public
+export interface MapperSourceConnectionsInfo {
+    connection?: MapperConnection;
+    sourceEntities?: MapperTable[];
+}
+
+// @public
+export interface MapperTable {
+    dslConnectorProperties?: MapperDslConnectorProperties[];
+    name?: string;
+    schema?: MapperTableSchema[];
+}
+
+// @public
+export interface MapperTableSchema {
+    dataType?: string;
+    name?: string;
+}
+
+// @public
+export interface MapperTargetConnectionsInfo {
+    connection?: MapperConnection;
+    dataMapperMappings?: DataMapperMapping[];
+    relationships?: any[];
+    targetEntities?: MapperTable[];
+}
+
+// @public
 export interface MappingDataFlow extends DataFlow {
     script?: string;
     scriptLines?: string[];
@@ -5280,9 +5505,12 @@ export interface MappingDataFlow extends DataFlow {
 }
 
 // @public
+export type MappingType = string;
+
+// @public
 export interface MariaDBLinkedService extends LinkedService {
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     pwd?: AzureKeyVaultSecretReference;
     type: "MariaDB";
 }
@@ -5303,7 +5531,7 @@ export interface MariaDBTableDataset extends Dataset {
 export interface MarketoLinkedService extends LinkedService {
     clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     endpoint: any;
     type: "Marketo";
     useEncryptedEndpoints?: any;
@@ -5334,7 +5562,7 @@ export interface MicrosoftAccessLinkedService extends LinkedService {
     authenticationType?: any;
     connectionString: any;
     credential?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "MicrosoftAccess";
     userName?: any;
@@ -5369,6 +5597,7 @@ export interface MongoDbAtlasCollectionDataset extends Dataset {
 export interface MongoDbAtlasLinkedService extends LinkedService {
     connectionString: any;
     database: any;
+    mongoDbAtlasDriverVersion?: any;
     type: "MongoDbAtlas";
 }
 
@@ -5413,7 +5642,7 @@ export interface MongoDbLinkedService extends LinkedService {
     authSource?: any;
     databaseName: any;
     enableSsl?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     port?: any;
     server: any;
@@ -5469,7 +5698,7 @@ export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | ScheduleTri
 // @public
 export interface MySqlLinkedService extends LinkedService {
     connectionString: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     type: "MySql";
 }
@@ -5489,7 +5718,7 @@ export interface MySqlTableDataset extends Dataset {
 // @public
 export interface NetezzaLinkedService extends LinkedService {
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     pwd?: AzureKeyVaultSecretReference;
     type: "Netezza";
 }
@@ -5545,7 +5774,7 @@ export interface ODataLinkedService extends LinkedService {
     authenticationType?: ODataAuthenticationType;
     authHeaders?: any;
     azureCloudType?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     servicePrincipalEmbeddedCert?: SecretBaseUnion;
     servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
@@ -5576,7 +5805,7 @@ export interface OdbcLinkedService extends LinkedService {
     authenticationType?: any;
     connectionString: any;
     credential?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "Odbc";
     userName?: any;
@@ -5609,7 +5838,7 @@ export interface Office365Dataset extends Dataset {
 
 // @public
 export interface Office365LinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     office365TenantId: any;
     servicePrincipalId: any;
     servicePrincipalKey: SecretBaseUnion;
@@ -5712,7 +5941,7 @@ export type OperationsListResponse = OperationListResponse;
 // @public
 export interface OracleCloudStorageLinkedService extends LinkedService {
     accessKeyId?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
     type: "OracleCloudStorage";
@@ -5728,7 +5957,7 @@ export interface OracleCloudStorageLocation extends DatasetLocation {
 // @public
 export interface OracleCloudStorageReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -5743,7 +5972,7 @@ export interface OracleCloudStorageReadSettings extends StoreReadSettings {
 // @public
 export interface OracleLinkedService extends LinkedService {
     connectionString: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     type: "Oracle";
 }
@@ -5761,7 +5990,7 @@ export interface OraclePartitionSettings {
 
 // @public
 export interface OracleServiceCloudLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     password: SecretBaseUnion;
     type: "OracleServiceCloud";
@@ -5844,6 +6073,11 @@ export interface OrcWriteSettings extends FormatWriteSettings {
 }
 
 // @public
+export interface OutputColumn {
+    name?: string;
+}
+
+// @public
 export interface PackageStore {
     name: string;
     packageStoreLinkedService: EntityReference;
@@ -5895,7 +6129,7 @@ export interface ParquetWriteSettings extends FormatWriteSettings {
 export interface PaypalLinkedService extends LinkedService {
     clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     type: "Paypal";
     useEncryptedEndpoints?: any;
@@ -5924,7 +6158,7 @@ export interface PhoenixLinkedService extends LinkedService {
     allowSelfSignedServerCert?: any;
     authenticationType: PhoenixAuthenticationType;
     enableSsl?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     httpPath?: any;
     password?: SecretBaseUnion;
@@ -6138,7 +6372,7 @@ export type PolybaseSettingsRejectType = string;
 // @public
 export interface PostgreSqlLinkedService extends LinkedService {
     connectionString: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     type: "PostgreSql";
 }
@@ -6183,7 +6417,7 @@ export interface PrestoLinkedService extends LinkedService {
     authenticationType: PrestoAuthenticationType;
     catalog: any;
     enableSsl?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     port?: any;
@@ -6335,7 +6569,7 @@ export interface QueryDataFlowDebugSessionsResponse {
 
 // @public
 export interface QuickbaseLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     type: "Quickbase";
     url: any;
     userToken: SecretBaseUnion;
@@ -6349,7 +6583,7 @@ export interface QuickBooksLinkedService extends LinkedService {
     connectionProperties?: any;
     consumerKey?: any;
     consumerSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     endpoint?: any;
     type: "QuickBooks";
     useEncryptedEndpoints?: any;
@@ -6445,7 +6679,7 @@ export interface Resource {
 export interface ResponsysLinkedService extends LinkedService {
     clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     endpoint: any;
     type: "Responsys";
     useEncryptedEndpoints?: any;
@@ -6467,8 +6701,12 @@ export interface ResponsysSource extends TabularSource {
 
 // @public
 export interface RestResourceDataset extends Dataset {
-    additionalHeaders?: any;
-    paginationRules?: any;
+    additionalHeaders?: {
+        [propertyName: string]: any;
+    };
+    paginationRules?: {
+        [propertyName: string]: any;
+    };
     relativeUrl?: any;
     requestBody?: any;
     requestMethod?: any;
@@ -6488,7 +6726,7 @@ export interface RestServiceLinkedService extends LinkedService {
     clientSecret?: SecretBaseUnion;
     credential?: CredentialReference;
     enableServerCertificateValidation?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     resource?: any;
     scope?: any;
@@ -6566,7 +6804,7 @@ export type RunQueryOrderByField = string;
 // @public
 export interface SalesforceLinkedService extends LinkedService {
     apiVersion?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     environmentUrl?: any;
     password?: SecretBaseUnion;
     securityToken?: SecretBaseUnion;
@@ -6579,7 +6817,7 @@ export interface SalesforceMarketingCloudLinkedService extends LinkedService {
     clientId?: any;
     clientSecret?: SecretBaseUnion;
     connectionProperties?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     type: "SalesforceMarketingCloud";
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
@@ -6607,7 +6845,7 @@ export interface SalesforceObjectDataset extends Dataset {
 // @public
 export interface SalesforceServiceCloudLinkedService extends LinkedService {
     apiVersion?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     environmentUrl?: any;
     extendedProperties?: any;
     password?: SecretBaseUnion;
@@ -6667,7 +6905,7 @@ export interface SapBwCubeDataset extends Dataset {
 // @public
 export interface SapBWLinkedService extends LinkedService {
     clientId: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     server: any;
     systemNumber: any;
@@ -6683,7 +6921,7 @@ export interface SapBwSource extends TabularSource {
 
 // @public
 export interface SapCloudForCustomerLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "SapCloudForCustomer";
     url: any;
@@ -6718,8 +6956,8 @@ export interface SapEccLinkedService extends LinkedService {
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "SapEcc";
-    url: string;
-    username?: string;
+    url: any;
+    username?: any;
 }
 
 // @public
@@ -6742,7 +6980,7 @@ export type SapHanaAuthenticationType = string;
 export interface SapHanaLinkedService extends LinkedService {
     authenticationType?: SapHanaAuthenticationType;
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     server?: any;
     type: "SapHana";
@@ -6776,7 +7014,7 @@ export interface SapHanaTableDataset extends Dataset {
 // @public
 export interface SapOdpLinkedService extends LinkedService {
     clientId?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     language?: any;
     logonGroup?: any;
     messageServer?: any;
@@ -6815,7 +7053,7 @@ export interface SapOdpSource extends TabularSource {
 // @public
 export interface SapOpenHubLinkedService extends LinkedService {
     clientId?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     language?: any;
     logonGroup?: any;
     messageServer?: any;
@@ -6848,7 +7086,7 @@ export interface SapOpenHubTableDataset extends Dataset {
 // @public
 export interface SapTableLinkedService extends LinkedService {
     clientId?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     language?: any;
     logonGroup?: any;
     messageServer?: any;
@@ -6973,6 +7211,12 @@ export interface SecretBase {
 export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
 
 // @public
+export interface SecureInputOutputPolicy {
+    secureInput?: boolean;
+    secureOutput?: boolean;
+}
+
+// @public
 export interface SecureString extends SecretBase {
     type: "SecureString";
     value: string;
@@ -7050,7 +7294,7 @@ export interface ServiceNowLinkedService extends LinkedService {
     authenticationType: ServiceNowAuthenticationType;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     endpoint: any;
     password?: SecretBaseUnion;
     type: "ServiceNow";
@@ -7085,6 +7329,8 @@ export type ServicePrincipalCredentialType = string;
 
 // @public
 export interface SetVariableActivity extends ControlActivity {
+    policy?: SecureInputOutputPolicy;
+    setSystemVariable?: boolean;
     type: "SetVariable";
     value?: any;
     variableName?: string;
@@ -7102,7 +7348,7 @@ export interface SftpLocation extends DatasetLocation {
 export interface SftpReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
     disableChunking?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -7116,7 +7362,7 @@ export interface SftpReadSettings extends StoreReadSettings {
 // @public
 export interface SftpServerLinkedService extends LinkedService {
     authenticationType?: SftpAuthenticationType;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     hostKeyFingerprint?: any;
     passPhrase?: SecretBaseUnion;
@@ -7138,7 +7384,7 @@ export interface SftpWriteSettings extends StoreWriteSettings {
 
 // @public
 export interface SharePointOnlineListLinkedService extends LinkedService {
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     servicePrincipalId: any;
     servicePrincipalKey: SecretBaseUnion;
     siteUrl: any;
@@ -7162,7 +7408,7 @@ export interface SharePointOnlineListSource extends CopySource {
 // @public
 export interface ShopifyLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     type: "Shopify";
     useEncryptedEndpoints?: any;
@@ -7191,7 +7437,7 @@ export interface SkipErrorFile {
 // @public
 export interface SmartsheetLinkedService extends LinkedService {
     apiToken: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     type: "Smartsheet";
 }
 
@@ -7227,7 +7473,7 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
 // @public
 export interface SnowflakeLinkedService extends LinkedService {
     connectionString: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     type: "Snowflake";
 }
@@ -7267,7 +7513,7 @@ export interface SparkLinkedService extends LinkedService {
     allowSelfSignedServerCert?: any;
     authenticationType: SparkAuthenticationType;
     enableSsl?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host: any;
     httpPath?: any;
     password?: SecretBaseUnion;
@@ -7327,6 +7573,7 @@ export interface SqlDWSink extends CopySink {
 
 // @public
 export interface SqlDWSource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     sqlReaderQuery?: any;
@@ -7360,6 +7607,7 @@ export interface SqlMISink extends CopySink {
 
 // @public
 export interface SqlMISource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     produceAdditionalTypes?: any;
@@ -7383,7 +7631,7 @@ export interface SqlPartitionSettings {
 export interface SqlServerLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     connectionString: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "SqlServer";
     userName?: any;
@@ -7405,6 +7653,7 @@ export interface SqlServerSink extends CopySink {
 
 // @public
 export interface SqlServerSource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     produceAdditionalTypes?: any;
@@ -7469,7 +7718,7 @@ export interface SquareLinkedService extends LinkedService {
     clientId?: any;
     clientSecret?: SecretBaseUnion;
     connectionProperties?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host?: any;
     redirectUri?: any;
     type: "Square";
@@ -7718,7 +7967,7 @@ export type SybaseAuthenticationType = string;
 export interface SybaseLinkedService extends LinkedService {
     authenticationType?: SybaseAuthenticationType;
     database: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     schema?: any;
     server: any;
@@ -7741,14 +7990,19 @@ export interface SybaseTableDataset extends Dataset {
 // @public
 export interface SynapseNotebookActivity extends ExecutionActivity {
     conf?: any;
+    configurationType?: ConfigurationType;
     driverSize?: any;
     executorSize?: any;
     notebook: SynapseNotebookReference;
-    numExecutors?: number;
+    numExecutors?: any;
     parameters?: {
         [propertyName: string]: NotebookParameter;
     };
+    sparkConfig?: {
+        [propertyName: string]: any;
+    };
     sparkPool?: BigDataPoolParametrizationReference;
+    targetSparkConfiguration?: SparkConfigurationParametrizationReference;
     type: "SynapseNotebook";
 }
 
@@ -7828,7 +8082,7 @@ export type TeamDeskAuthenticationType = string;
 export interface TeamDeskLinkedService extends LinkedService {
     apiToken?: SecretBaseUnion;
     authenticationType: TeamDeskAuthenticationType;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "TeamDesk";
     url: any;
@@ -7842,7 +8096,7 @@ export type TeradataAuthenticationType = string;
 export interface TeradataLinkedService extends LinkedService {
     authenticationType?: TeradataAuthenticationType;
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     server?: any;
     type: "Teradata";
@@ -8217,7 +8471,7 @@ export type VariableType = string;
 // @public
 export interface VerticaLinkedService extends LinkedService {
     connectionString?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     pwd?: AzureKeyVaultSecretReference;
     type: "Vertica";
 }
@@ -8347,7 +8601,7 @@ export interface WranglingDataFlow extends DataFlow {
 export interface XeroLinkedService extends LinkedService {
     connectionProperties?: any;
     consumerKey?: SecretBaseUnion;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     host?: any;
     privateKey?: SecretBaseUnion;
     type: "Xero";
@@ -8402,7 +8656,7 @@ export type ZendeskAuthenticationType = string;
 export interface ZendeskLinkedService extends LinkedService {
     apiToken?: SecretBaseUnion;
     authenticationType: ZendeskAuthenticationType;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "Zendesk";
     url: any;
@@ -8419,7 +8673,7 @@ export interface ZipDeflateReadSettings extends CompressionReadSettings {
 export interface ZohoLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
     connectionProperties?: any;
-    encryptedCredential?: any;
+    encryptedCredential?: string;
     endpoint?: any;
     type: "Zoho";
     useEncryptedEndpoints?: any;
