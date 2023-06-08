@@ -553,6 +553,12 @@ export const AutomaticOSUpgradePolicy: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      osRollingUpgradeDeferral: {
+        serializedName: "osRollingUpgradeDeferral",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -10404,33 +10410,6 @@ export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
   }
 };
 
-export const CommunityGalleryImageIdentifier: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunityGalleryImageIdentifier",
-    modelProperties: {
-      publisher: {
-        serializedName: "publisher",
-        type: {
-          name: "String"
-        }
-      },
-      offer: {
-        serializedName: "offer",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CommunityGalleryImageList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -16733,7 +16712,7 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
         serializedName: "properties.identifier",
         type: {
           name: "Composite",
-          className: "CommunityGalleryImageIdentifier"
+          className: "GalleryImageIdentifier"
         }
       },
       recommended: {

@@ -39,6 +39,7 @@ import {
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
   VirtualMachineScaleSetsReimageOptionalParams,
   VirtualMachineScaleSetsReimageAllOptionalParams,
+  VirtualMachineScaleSetsInvokeUpgradeOptionalParams,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse,
   VMScaleSetConvertToSinglePlacementGroupInput,
@@ -477,6 +478,28 @@ export interface VirtualMachineScaleSets {
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsReimageAllOptionalParams
+  ): Promise<void>;
+  /**
+   * Invoke upgrade on deferred rolling upgrade for OS disks in the virtual machines in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  beginInvokeUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsInvokeUpgradeOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Invoke upgrade on deferred rolling upgrade for OS disks in the virtual machines in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  beginInvokeUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsInvokeUpgradeOptionalParams
   ): Promise<void>;
   /**
    * Manual platform update domain walk to update virtual machines in a service fabric virtual machine

@@ -26,6 +26,7 @@ import {
   VirtualMachineScaleSetVMsListResponse,
   VirtualMachineScaleSetVMsReimageOptionalParams,
   VirtualMachineScaleSetVMsReimageAllOptionalParams,
+  VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams,
   VirtualMachineScaleSetVMsDeallocateOptionalParams,
   VirtualMachineScaleSetVMsUpdateOptionalParams,
   VirtualMachineScaleSetVMsUpdateResponse,
@@ -314,6 +315,93 @@ export class VirtualMachineScaleSetVMsImpl
     options?: VirtualMachineScaleSetVMsReimageAllOptionalParams
   ): Promise<void> {
     const poller = await this.beginReimageAll(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Invoke upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginInvokeUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: invokeUpgradeOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Invoke upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginInvokeUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginInvokeUpgrade(
       resourceGroupName,
       vmScaleSetName,
       instanceId,
@@ -1298,6 +1386,30 @@ const reimageOperationSpec: coreClient.OperationSpec = {
 const reimageAllOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const invokeUpgradeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/invokeupgrade",
   httpMethod: "POST",
   responses: {
     200: {},

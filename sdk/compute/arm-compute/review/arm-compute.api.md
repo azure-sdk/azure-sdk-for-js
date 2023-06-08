@@ -83,6 +83,7 @@ export type ArchitectureTypes = string;
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
+    osRollingUpgradeDeferral?: boolean;
     useRollingUpgradePolicy?: boolean;
 }
 
@@ -941,19 +942,12 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     eula?: string;
     features?: GalleryImageFeature[];
     hyperVGeneration?: HyperVGeneration;
-    identifier?: CommunityGalleryImageIdentifier;
+    identifier?: GalleryImageIdentifier;
     osState?: OperatingSystemStateTypes;
     osType?: OperatingSystemTypes;
     privacyStatementUri?: string;
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
-}
-
-// @public
-export interface CommunityGalleryImageIdentifier {
-    offer?: string;
-    publisher?: string;
-    sku?: string;
 }
 
 // @public
@@ -2081,9 +2075,6 @@ export interface DiskUpdate {
 }
 
 // @public
-export type EdgeZoneStorageAccountType = string;
-
-// @public
 export interface Encryption {
     diskEncryptionSetId?: string;
     type?: EncryptionType;
@@ -2758,7 +2749,7 @@ export interface GalleryTargetExtendedLocation {
     extendedLocation?: GalleryExtendedLocation;
     extendedLocationReplicaCount?: number;
     name?: string;
-    storageAccountType?: EdgeZoneStorageAccountType;
+    storageAccountType?: StorageAccountType;
 }
 
 // @public
@@ -3220,14 +3211,6 @@ export enum KnownDiskStorageAccountTypes {
 }
 
 // @public
-export enum KnownEdgeZoneStorageAccountType {
-    PremiumLRS = "Premium_LRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardZRS = "Standard_ZRS"
-}
-
-// @public
 export enum KnownEncryptionType {
     EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
     EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
@@ -3587,6 +3570,7 @@ export enum KnownSnapshotStorageAccountTypes {
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -6799,6 +6783,8 @@ export interface VirtualMachineScaleSets {
     beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeleteOptionalParams): Promise<void>;
     beginDeleteInstances(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteInstancesAndWait(resourceGroupName: string, vmScaleSetName: string, vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs, options?: VirtualMachineScaleSetsDeleteInstancesOptionalParams): Promise<void>;
+    beginInvokeUpgrade(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsInvokeUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginInvokeUpgradeAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsInvokeUpgradeOptionalParams): Promise<void>;
     beginPerformMaintenance(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPerformMaintenanceAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams): Promise<void>;
     beginPowerOff(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -6907,6 +6893,13 @@ export type VirtualMachineScaleSetsGetOSUpgradeHistoryResponse = VirtualMachineS
 
 // @public
 export type VirtualMachineScaleSetsGetResponse = VirtualMachineScaleSet;
+
+// @public
+export interface VirtualMachineScaleSetsInvokeUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+    vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
 
 // @public
 export interface VirtualMachineScaleSetSku {
@@ -7441,6 +7434,8 @@ export interface VirtualMachineScaleSetVMs {
     beginDeallocateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<void>;
     beginDelete(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams): Promise<void>;
+    beginInvokeUpgrade(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginInvokeUpgradeAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams): Promise<void>;
     beginPerformMaintenance(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPerformMaintenanceAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams): Promise<void>;
     beginPowerOff(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -7493,6 +7488,12 @@ export interface VirtualMachineScaleSetVMsGetOptionalParams extends coreClient.O
 
 // @public
 export type VirtualMachineScaleSetVMsGetResponse = VirtualMachineScaleSetVM;
+
+// @public
+export interface VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface VirtualMachineScaleSetVMsListNextOptionalParams extends coreClient.OperationOptions {

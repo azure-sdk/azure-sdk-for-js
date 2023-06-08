@@ -1,15 +1,25 @@
 # Release History
+    
+## 22.0.0 (2023-06-08)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
+  - Added operation VirtualMachineScaleSets.beginInvokeUpgrade
+  - Added operation VirtualMachineScaleSets.beginInvokeUpgradeAndWait
+  - Added operation VirtualMachineScaleSetVMs.beginInvokeUpgrade
+  - Added operation VirtualMachineScaleSetVMs.beginInvokeUpgradeAndWait
+  - Added Interface VirtualMachineScaleSetsInvokeUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams
+  - Interface AutomaticOSUpgradePolicy has a new optional parameter osRollingUpgradeDeferral
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from CommunityGalleryImageIdentifier to GalleryImageIdentifier
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Removed Enum KnownEdgeZoneStorageAccountType
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**

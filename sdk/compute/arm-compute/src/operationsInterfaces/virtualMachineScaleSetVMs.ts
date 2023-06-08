@@ -13,6 +13,7 @@ import {
   VirtualMachineScaleSetVMsListOptionalParams,
   VirtualMachineScaleSetVMsReimageOptionalParams,
   VirtualMachineScaleSetVMsReimageAllOptionalParams,
+  VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams,
   VirtualMachineScaleSetVMsDeallocateOptionalParams,
   VirtualMachineScaleSetVMsUpdateOptionalParams,
   VirtualMachineScaleSetVMsUpdateResponse,
@@ -101,6 +102,32 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     options?: VirtualMachineScaleSetVMsReimageAllOptionalParams
+  ): Promise<void>;
+  /**
+   * Invoke upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginInvokeUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Invoke upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginInvokeUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsInvokeUpgradeOptionalParams
   ): Promise<void>;
   /**
    * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
