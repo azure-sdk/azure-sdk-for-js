@@ -3712,7 +3712,7 @@ export interface GalleryTargetExtendedLocation {
   /** The number of replicas of the Image Version to be created per extended location. This property is updatable. */
   extendedLocationReplicaCount?: number;
   /** Specifies the storage account type to be used to store the image. This property is not updatable. */
-  storageAccountType?: EdgeZoneStorageAccountType;
+  storageAccountType?: StorageAccountType;
   /** Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact. */
   encryption?: EncryptionImages;
 }
@@ -3959,6 +3959,20 @@ export interface SharedGalleryDiskImage {
   readonly diskSizeGB?: number;
   /** The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite' */
   hostCaching?: SharedGalleryHostCaching;
+}
+
+/** The metadata of community gallery. */
+export interface CommunityGalleryMetadata {
+  /** The publisher uri of this community gallery. */
+  publisherUri?: string;
+  /** The publisher contact of this community gallery. */
+  publisherContact?: string;
+  /** The eula of this community gallery. */
+  eula?: string;
+  /** A list of public names the gallery has. */
+  publicNames?: string[];
+  /** The privacyStatementUri of this community gallery. */
+  privacyStatementUri?: string;
 }
 
 /** Base information about the community gallery resource in pir. */
@@ -5749,7 +5763,7 @@ export interface GalleryImage extends Resource {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6361,7 +6375,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6513,7 +6527,14 @@ export interface SharedGalleryDataDiskImage extends SharedGalleryDiskImage {
 }
 
 /** Specifies information about the Community Gallery that you want to create or update. */
-export interface CommunityGallery extends PirCommunityGalleryResource {}
+export interface CommunityGallery extends PirCommunityGalleryResource {
+  /** The disclaimer for a community gallery resource. */
+  disclaimer?: string;
+  /** The artifact tags of a community gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
+  /** The metadata of community gallery. */
+  communityMetadata?: CommunityGalleryMetadata;
+}
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
@@ -6535,12 +6556,16 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement uri for the current community gallery image. */
   privacyStatementUri?: string;
   /** End-user license agreement for the current community gallery image. */
   eula?: string;
+  /** The disclaimer for a community gallery resource. */
+  disclaimer?: string;
+  /** The artifact tags of a community gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
 }
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -6554,6 +6579,10 @@ export interface CommunityGalleryImageVersion
   excludeFromLatest?: boolean;
   /** Describes the storage profile of the image version. */
   storageProfile?: SharedGalleryImageVersionStorageProfile;
+  /** The disclaimer for a community gallery resource. */
+  disclaimer?: string;
+  /** The artifact tags of a community gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
 }
 
 /** Describes a Virtual Machine Image. */
@@ -6584,7 +6613,13 @@ export interface VirtualMachineScaleSetReimageParameters
 }
 
 /** Specifies information about the Shared Gallery that you want to create or update. */
-export interface SharedGallery extends PirSharedGalleryResource {}
+export interface SharedGallery extends PirSharedGalleryResource {
+  /**
+   * The artifact tags of a shared gallery resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly artifactTags?: { [propertyName: string]: string };
+}
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface SharedGalleryImage extends PirSharedGalleryResource {
@@ -6606,12 +6641,14 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement uri for the current community gallery image. */
   privacyStatementUri?: string;
   /** End-user license agreement for the current community gallery image. */
   eula?: string;
+  /** The artifact tags of a shared gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
 }
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -6624,6 +6661,8 @@ export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
   excludeFromLatest?: boolean;
   /** Describes the storage profile of the image version. */
   storageProfile?: SharedGalleryImageVersionStorageProfile;
+  /** The artifact tags of a shared gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
 }
 
 /** Defines headers for VirtualMachineScaleSets_reapply operation. */
@@ -8828,7 +8867,9 @@ export enum KnownStorageAccountType {
   /** StandardZRS */
   StandardZRS = "Standard_ZRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS"
 }
 
 /**
@@ -8838,7 +8879,8 @@ export enum KnownStorageAccountType {
  * ### Known values supported by the service
  * **Standard_LRS** \
  * **Standard_ZRS** \
- * **Premium_LRS**
+ * **Premium_LRS** \
+ * **StandardSSD_LRS**
  */
 export type StorageAccountType = string;
 
@@ -8898,30 +8940,6 @@ export enum KnownGalleryExtendedLocationType {
  * **Unknown**
  */
 export type GalleryExtendedLocationType = string;
-
-/** Known values of {@link EdgeZoneStorageAccountType} that the service accepts. */
-export enum KnownEdgeZoneStorageAccountType {
-  /** StandardLRS */
-  StandardLRS = "Standard_LRS",
-  /** StandardZRS */
-  StandardZRS = "Standard_ZRS",
-  /** StandardSSDLRS */
-  StandardSSDLRS = "StandardSSD_LRS",
-  /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
-}
-
-/**
- * Defines values for EdgeZoneStorageAccountType. \
- * {@link KnownEdgeZoneStorageAccountType} can be used interchangeably with EdgeZoneStorageAccountType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard_LRS** \
- * **Standard_ZRS** \
- * **StandardSSD_LRS** \
- * **Premium_LRS**
- */
-export type EdgeZoneStorageAccountType = string;
 
 /** Known values of {@link PolicyViolationCategory} that the service accepts. */
 export enum KnownPolicyViolationCategory {

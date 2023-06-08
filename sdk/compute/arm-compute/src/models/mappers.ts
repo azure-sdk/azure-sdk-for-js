@@ -10368,6 +10368,50 @@ export const SharedGalleryDiskImage: coreClient.CompositeMapper = {
   }
 };
 
+export const CommunityGalleryMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryMetadata",
+    modelProperties: {
+      publisherUri: {
+        serializedName: "publisherUri",
+        type: {
+          name: "String"
+        }
+      },
+      publisherContact: {
+        serializedName: "publisherContact",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "eula",
+        type: {
+          name: "String"
+        }
+      },
+      publicNames: {
+        serializedName: "publicNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privacyStatementUri: {
+        serializedName: "privacyStatementUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -16698,7 +16742,27 @@ export const CommunityGallery: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunityGallery",
     modelProperties: {
-      ...PirCommunityGalleryResource.type.modelProperties
+      ...PirCommunityGalleryResource.type.modelProperties,
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      communityMetadata: {
+        serializedName: "properties.communityMetadata",
+        type: {
+          name: "Composite",
+          className: "CommunityGalleryMetadata"
+        }
+      }
     }
   }
 };
@@ -16792,6 +16856,19 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -16826,6 +16903,19 @@ export const CommunityGalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharedGalleryImageVersionStorageProfile"
+        }
+      },
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -16939,7 +17029,15 @@ export const SharedGallery: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SharedGallery",
     modelProperties: {
-      ...PirSharedGalleryResource.type.modelProperties
+      ...PirSharedGalleryResource.type.modelProperties,
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
     }
   }
 };
@@ -17033,6 +17131,13 @@ export const SharedGalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -17067,6 +17172,13 @@ export const SharedGalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharedGalleryImageVersionStorageProfile"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
