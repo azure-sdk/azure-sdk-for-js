@@ -10,13 +10,16 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   TemplateSpecVersion,
   TemplateSpecVersionsListOptionalParams,
+  TemplateSpecVersionsListBuiltInsOptionalParams,
   TemplateSpecVersionsCreateOrUpdateOptionalParams,
   TemplateSpecVersionsCreateOrUpdateResponse,
   TemplateSpecVersionsUpdateOptionalParams,
   TemplateSpecVersionsUpdateResponse,
   TemplateSpecVersionsGetOptionalParams,
   TemplateSpecVersionsGetResponse,
-  TemplateSpecVersionsDeleteOptionalParams
+  TemplateSpecVersionsDeleteOptionalParams,
+  TemplateSpecVersionsGetBuiltInOptionalParams,
+  TemplateSpecVersionsGetBuiltInResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,6 +35,15 @@ export interface TemplateSpecVersions {
     resourceGroupName: string,
     templateSpecName: string,
     options?: TemplateSpecVersionsListOptionalParams
+  ): PagedAsyncIterableIterator<TemplateSpecVersion>;
+  /**
+   * Lists all the Template Spec versions in the specified built-in Template Spec.
+   * @param templateSpecName Name of the Template Spec.
+   * @param options The options parameters.
+   */
+  listBuiltIns(
+    templateSpecName: string,
+    options?: TemplateSpecVersionsListBuiltInsOptionalParams
   ): PagedAsyncIterableIterator<TemplateSpecVersion>;
   /**
    * Creates or updates a Template Spec version.
@@ -88,4 +100,15 @@ export interface TemplateSpecVersions {
     templateSpecVersion: string,
     options?: TemplateSpecVersionsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Gets a Template Spec version from a specific built-in Template Spec.
+   * @param templateSpecName Name of the Template Spec.
+   * @param templateSpecVersion The version of the Template Spec.
+   * @param options The options parameters.
+   */
+  getBuiltIn(
+    templateSpecName: string,
+    templateSpecVersion: string,
+    options?: TemplateSpecVersionsGetBuiltInOptionalParams
+  ): Promise<TemplateSpecVersionsGetBuiltInResponse>;
 }
