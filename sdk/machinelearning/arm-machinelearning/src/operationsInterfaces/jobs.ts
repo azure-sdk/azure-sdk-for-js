@@ -7,13 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   JobBase,
   JobsListOptionalParams,
   JobsDeleteOptionalParams,
   JobsGetOptionalParams,
   JobsGetResponse,
+  PartialJobBasePartialResource,
+  JobsUpdateOptionalParams,
+  JobsUpdateResponse,
   JobsCreateOrUpdateOptionalParams,
   JobsCreateOrUpdateResponse,
   JobsCancelOptionalParams
@@ -45,7 +48,7 @@ export interface Jobs {
     workspaceName: string,
     id: string,
     options?: JobsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -73,6 +76,21 @@ export interface Jobs {
     options?: JobsGetOptionalParams
   ): Promise<JobsGetResponse>;
   /**
+   * Updates a Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the Job. This is case-sensitive.
+   * @param body Job definition to apply during the operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    body: PartialJobBasePartialResource,
+    options?: JobsUpdateOptionalParams
+  ): Promise<JobsUpdateResponse>;
+  /**
    * Creates and executes a Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -99,7 +117,7 @@ export interface Jobs {
     workspaceName: string,
     id: string,
     options?: JobsCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancels a Job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

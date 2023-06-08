@@ -3832,7 +3832,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230607
+      typescript: 5.2.0-dev.20230608
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8413,6 +8413,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
@@ -8425,8 +8431,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230607:
-    resolution: {integrity: sha512-7Lgk1sNuuYpMNvHuXIMczqhLbJ99RpX3VgokK+Ir4DgliycYNrNGM/daAO38fHkk8n3lg2rP/6U5I545xTJdKA==}
+  /typescript/5.2.0-dev.20230608:
+    resolution: {integrity: sha512-My8VOVNpHAZ693+NgsvD2JXgXg5eosPJcEDzPcme8tU1vs+C6G6liR15r3qd1qSSNjDghmCe014GjWspVBZ7ag==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12589,7 +12595,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-v6dFAC6Bj9p72hgugMs2+q61rI5weBvt8AdUULuedsjcpCA9lSrv5MxPHywlX4xUvMwywSBgBlbvSb74jPiwiQ==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-3Mvi4bnHo/aaCQwM+r2nLjRn0p9uzWO69V3PhC5hKQc+Mp4XRhTjKk/S6KOHr057tByLYzifGA3XyInaNDJCSw==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -12603,13 +12609,14 @@ packages:
       '@types/node': 14.18.48
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_6vxqa4pl2c5hli7lcaemfsm5je
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -19316,7 +19323,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Ta2DL1i32tq8YzBuBOpmsMPn5ZwaEkk4UK/PIovIBFkm19A6Pb/TcIsJWYe2IDV6bmz9S4jLLFdRex0krtigYw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-P71uQ6hYBUOp8sAtiKzvb3oy1eskU0cjAcXH5W5MdCh12E5VENENL6BLv5YCHvt9VelKTdzXOtNw274eP80iAg==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
