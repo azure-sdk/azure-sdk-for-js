@@ -1,15 +1,30 @@
 # Release History
+    
+## 2.2.0 (2023-06-08)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group PrivateLinkResources
+  - Added Interface AttestationServicePatchSpecificParams
+  - Added Interface LogSpecification
+  - Added Interface OperationProperties
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkResourcesListByProviderOptionalParams
+  - Added Interface ServiceSpecification
+  - Added Type Alias PrivateLinkResourcesListByProviderResponse
+  - Added Type Alias PublicNetworkAccessType
+  - Added Type Alias TpmAttestationAuthenticationType
+  - Interface AttestationProvider has a new optional parameter publicNetworkAccess
+  - Interface AttestationProvider has a new optional parameter tpmAttestationAuthentication
+  - Interface AttestationServiceCreationSpecificParams has a new optional parameter publicNetworkAccess
+  - Interface AttestationServiceCreationSpecificParams has a new optional parameter tpmAttestationAuthentication
+  - Interface AttestationServicePatchParams has a new optional parameter properties
+  - Interface OperationsDefinition has a new optional parameter properties
+  - Added Enum KnownPublicNetworkAccessType
+  - Added Enum KnownTpmAttestationAuthenticationType
+    
+    
 ## 2.1.0 (2022-11-16)
     
 **Features**
