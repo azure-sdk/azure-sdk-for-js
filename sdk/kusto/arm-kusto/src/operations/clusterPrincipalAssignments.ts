@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ClusterPrincipalAssignment,
   ClusterPrincipalAssignmentsListOptionalParams,
@@ -153,8 +157,8 @@ export class ClusterPrincipalAssignmentsImpl
     parameters: ClusterPrincipalAssignment,
     options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>,
       ClusterPrincipalAssignmentsCreateOrUpdateResponse
     >
   > {
@@ -164,7 +168,7 @@ export class ClusterPrincipalAssignmentsImpl
     ): Promise<ClusterPrincipalAssignmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -197,19 +201,22 @@ export class ClusterPrincipalAssignmentsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         principalAssignmentName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClusterPrincipalAssignmentsCreateOrUpdateResponse,
+      OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -253,14 +260,14 @@ export class ClusterPrincipalAssignmentsImpl
     clusterName: string,
     principalAssignmentName: string,
     options?: ClusterPrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -293,13 +300,18 @@ export class ClusterPrincipalAssignmentsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, principalAssignmentName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        principalAssignmentName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

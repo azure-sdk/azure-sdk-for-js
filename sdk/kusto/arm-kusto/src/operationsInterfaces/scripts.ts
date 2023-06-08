@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Script,
   ScriptsListByDatabaseOptionalParams,
@@ -71,8 +71,8 @@ export interface Scripts {
     parameters: Script,
     options?: ScriptsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ScriptsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ScriptsCreateOrUpdateResponse>,
       ScriptsCreateOrUpdateResponse
     >
   >;
@@ -110,7 +110,10 @@ export interface Scripts {
     parameters: Script,
     options?: ScriptsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>
+    SimplePollerLike<
+      OperationState<ScriptsUpdateResponse>,
+      ScriptsUpdateResponse
+    >
   >;
   /**
    * Updates a database script.
@@ -130,7 +133,7 @@ export interface Scripts {
     options?: ScriptsUpdateOptionalParams
   ): Promise<ScriptsUpdateResponse>;
   /**
-   * Deletes a Kusto principalAssignment.
+   * Deletes a Kusto database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
@@ -143,9 +146,9 @@ export interface Scripts {
     databaseName: string,
     scriptName: string,
     options?: ScriptsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a Kusto principalAssignment.
+   * Deletes a Kusto database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
