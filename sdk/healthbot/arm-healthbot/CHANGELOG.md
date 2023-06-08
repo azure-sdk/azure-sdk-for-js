@@ -1,15 +1,30 @@
 # Release History
+    
+## 3.0.0 (2023-06-08)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
+  - Added operation Bots.beginUpdate
+  - Added operation Bots.beginUpdateAndWait
+  - Added operation Bots.listSecrets
+  - Added operation Bots.regenerateApiJwtSecret
+  - Added Interface BotsListSecretsOptionalParams
+  - Added Interface BotsRegenerateApiJwtSecretOptionalParams
+  - Added Interface HealthBotKey
+  - Added Interface HealthBotKeysResponse
+  - Added Interface KeyVaultProperties
+  - Added Type Alias BotsListSecretsResponse
+  - Added Type Alias BotsRegenerateApiJwtSecretResponse
+  - Interface BotsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface BotsUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface HealthBotProperties has a new optional parameter keyVaultProperties
+  - Interface HealthBotUpdateParameters has a new optional parameter properties
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Bots.update
+    
+    
 ## 2.1.0 (2022-11-25)
     
 **Features**
