@@ -258,6 +258,99 @@ export interface RegenerateTestKeyRequestPayload {
   keyType: TestKeyType;
 }
 
+/** Supported APM types payload */
+export interface SupportedApmTypes {
+  /** Collection of the supported APM type */
+  value?: SupportedApmType[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Supported APM type */
+export interface SupportedApmType {
+  /** The name of the supported APM type */
+  name?: string;
+}
+
+/** Globally enabled APMs payload */
+export interface GloballyEnabledApms {
+  /** Collection of the globally enabled APMs */
+  value?: string[];
+}
+
+/** A reference to the APM */
+export interface ApmReference {
+  /** Resource Id of the APM */
+  resourceId: string;
+}
+
+/** Object that includes an array of APM resources and a possible link for next set */
+export interface ApmResourceCollection {
+  /** Collection of APM resources */
+  value?: ApmResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Properties of an APM */
+export interface ApmProperties {
+  /** APM Type */
+  type: string;
+  /**
+   * State of the APM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ApmProvisioningState;
+  /** Non-sensitive properties for the APM */
+  properties?: { [propertyName: string]: string };
+  /** Sensitive properties for the APM */
+  secrets?: { [propertyName: string]: string };
+}
+
+/** Keys of APM sensitive properties */
+export interface ApmSecretKeys {
+  /** Collection of the keys for the APM sensitive properties */
+  value?: string[];
+}
+
+/** Object that includes an array of Eureka server resources and a possible link for next set */
+export interface EurekaServerResourceCollection {
+  /** Collection of Eureka server resources */
+  value?: EurekaServerResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Eureka server properties payload */
+export interface EurekaServerProperties {
+  /**
+   * State of the eureka server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: EurekaServerState;
+  /** Enabled state of the eureka server. This is only used in Consumption tier. */
+  enabledState?: EurekaServerEnabledState;
+  /** Error when applying eureka server settings. */
+  error?: ErrorModel;
+}
+
+/** The error code compose of code and message. */
+export interface ErrorModel {
+  /** The code of error. */
+  code?: string;
+  /** The message of error. */
+  message?: string;
+}
+
 /** Config server git properties payload */
 export interface ConfigServerProperties {
   /**
@@ -267,16 +360,10 @@ export interface ConfigServerProperties {
   readonly provisioningState?: ConfigServerState;
   /** Error when apply config server settings. */
   error?: ErrorModel;
+  /** Enabled state of the config server. This is only used in Consumption tier. */
+  enabledState?: ConfigServerEnabledState;
   /** Settings of config server. */
   configServer?: ConfigServerSettings;
-}
-
-/** The error code compose of code and message. */
-export interface ErrorModel {
-  /** The code of error. */
-  code?: string;
-  /** The message of error. */
-  message?: string;
 }
 
 /** The settings of config server. */
@@ -360,6 +447,8 @@ export interface ConfigurationServiceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ConfigurationServiceProvisioningState;
+  /** The generation of the Application Configuration Service. */
+  generation?: ConfigurationServiceGeneration;
   /**
    * The requested resource quantity for required CPU and Memory.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -443,6 +532,10 @@ export interface ConfigurationServiceGitRepository {
   privateKey?: string;
   /** Strict host key checking or not. */
   strictHostKeyChecking?: boolean;
+  /** Git libraries used to support various repository providers */
+  gitImplementation?: GitImplementation;
+  /** Resource Id of CA certificate for https URL of Git repository. */
+  caCertResourceId?: string;
 }
 
 /** Object that includes an array of configuration service resources and a possible link for next set */
@@ -748,6 +841,14 @@ export interface ContainerRegistryCredentials {
   type: "BasicAuth";
 }
 
+/** Validation result for container registry properties */
+export interface ContainerRegistryValidateResult {
+  /** Indicate if the container registry properties are valid */
+  isValid?: boolean;
+  /** Detailed validation messages. */
+  message?: string;
+}
+
 /** Object that includes an array of Build service resources and a possible link for next set */
 export interface BuildServiceCollection {
   /** Collection of Build service resources */
@@ -817,6 +918,10 @@ export interface BuildProperties {
   readonly provisioningState?: BuildProvisioningState;
   /** The environment variables for this build */
   env?: { [propertyName: string]: string };
+  /** The APMs for this build */
+  apms?: ApmReference[];
+  /** The CA Certificates for this build */
+  certificates?: CertificateReference[];
   /**
    *  The build result triggered by this build
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -824,6 +929,12 @@ export interface BuildProperties {
   readonly triggeredBuildResult?: TriggeredBuildResult;
   /** The customized build resource for this build */
   resourceRequests?: BuildResourceRequests;
+}
+
+/** A reference to the certificate */
+export interface CertificateReference {
+  /** Resource Id of the certificate */
+  resourceId: string;
 }
 
 /** The build result triggered by a build */
@@ -1139,6 +1250,8 @@ export interface AppResourceProperties {
   ingressSettings?: IngressSettings;
   /** Collection of auth secrets */
   secrets?: Secret[];
+  /** The workload profile used for this app. Supported for Consumption + Dedicated plan. */
+  workloadProfileName?: string;
 }
 
 /** Temporary disk payload */
@@ -1495,6 +1608,8 @@ export interface DeploymentSettings {
   resourceRequests?: ResourceRequests;
   /** Collection of environment variables */
   environmentVariables?: { [propertyName: string]: string };
+  /** Collection of ApmReferences */
+  apms?: ApmReference[];
   /** Collection of addons */
   addonConfigs?: { [propertyName: string]: Record<string, unknown> };
   /** Periodic probe of App Instance liveness. App Instance will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
@@ -1960,6 +2075,8 @@ export interface GatewayProperties {
   environmentVariables?: GatewayPropertiesEnvironmentVariables;
   /** The requested resource quantity for required CPU and Memory. */
   resourceRequests?: GatewayResourceRequests;
+  /** Collection of addons for Spring Cloud Gateway */
+  addonConfigs?: { [propertyName: string]: Record<string, unknown> };
   /**
    * Collection of instances belong to Spring Cloud Gateway.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2002,6 +2119,8 @@ export interface GatewayApiMetadataProperties {
 export interface GatewayCorsProperties {
   /** Allowed origins to make cross-site requests. The special value `*` allows all domains. */
   allowedOrigins?: string[];
+  /** Allowed origin patterns to make cross-site requests. */
+  allowedOriginPatterns?: string[];
   /** Allowed HTTP methods on cross-site requests. The special value `*` allows all methods. If not set, `GET` and `HEAD` are allowed by default. */
   allowedMethods?: string[];
   /** Allowed headers in cross-site requests. The special value `*` allows actual requests to send any header. */
@@ -2589,6 +2708,18 @@ export interface ServiceResource extends TrackedResource {
   sku?: Sku;
 }
 
+/** APM Resource object */
+export interface ApmResource extends ProxyResource {
+  /** Properties of an APM */
+  properties?: ApmProperties;
+}
+
+/** Eureka server resource */
+export interface EurekaServerResource extends ProxyResource {
+  /** Properties of the eureka server resource */
+  properties?: EurekaServerProperties;
+}
+
 /** Config Server resource */
 export interface ConfigServerResource extends ProxyResource {
   /** Properties of the Config Server resource */
@@ -2813,6 +2944,41 @@ export interface NetCoreZipUploadedUserSourceInfo
   runtimeVersion?: string;
 }
 
+/** Defines headers for Services_enableApmGlobally operation. */
+export interface ServicesEnableApmGloballyHeaders {
+  location?: string;
+}
+
+/** Defines headers for Services_disableApmGlobally operation. */
+export interface ServicesDisableApmGloballyHeaders {
+  location?: string;
+}
+
+/** Defines headers for Apms_delete operation. */
+export interface ApmsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for EurekaServers_updatePut operation. */
+export interface EurekaServersUpdatePutHeaders {
+  location?: string;
+}
+
+/** Defines headers for EurekaServers_updatePatch operation. */
+export interface EurekaServersUpdatePatchHeaders {
+  location?: string;
+}
+
+/** Defines headers for ContainerRegistries_delete operation. */
+export interface ContainerRegistriesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for ContainerRegistries_validate operation. */
+export interface ContainerRegistriesValidateHeaders {
+  location?: string;
+}
+
 /** Defines headers for BuildService_deleteBuild operation. */
 export interface BuildServiceDeleteBuildHeaders {
   location?: string;
@@ -2975,6 +3141,78 @@ export enum KnownTestKeyType {
  */
 export type TestKeyType = string;
 
+/** Known values of {@link ApmProvisioningState} that the service accepts. */
+export enum KnownApmProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ApmProvisioningState. \
+ * {@link KnownApmProvisioningState} can be used interchangeably with ApmProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting** \
+ * **Canceled**
+ */
+export type ApmProvisioningState = string;
+
+/** Known values of {@link EurekaServerState} that the service accepts. */
+export enum KnownEurekaServerState {
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for EurekaServerState. \
+ * {@link KnownEurekaServerState} can be used interchangeably with EurekaServerState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Failed** \
+ * **Succeeded** \
+ * **Updating** \
+ * **Canceled**
+ */
+export type EurekaServerState = string;
+
+/** Known values of {@link EurekaServerEnabledState} that the service accepts. */
+export enum KnownEurekaServerEnabledState {
+  /** Enable the eureka server. */
+  Enabled = "Enabled",
+  /** Disable the eureka server. */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for EurekaServerEnabledState. \
+ * {@link KnownEurekaServerEnabledState} can be used interchangeably with EurekaServerEnabledState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enable the eureka server. \
+ * **Disabled**: Disable the eureka server.
+ */
+export type EurekaServerEnabledState = string;
+
 /** Known values of {@link ConfigServerState} that the service accepts. */
 export enum KnownConfigServerState {
   /** NotAvailable */
@@ -3002,6 +3240,24 @@ export enum KnownConfigServerState {
  */
 export type ConfigServerState = string;
 
+/** Known values of {@link ConfigServerEnabledState} that the service accepts. */
+export enum KnownConfigServerEnabledState {
+  /** Enable the config server. */
+  Enabled = "Enabled",
+  /** Disable the config server. */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ConfigServerEnabledState. \
+ * {@link KnownConfigServerEnabledState} can be used interchangeably with ConfigServerEnabledState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enable the config server. \
+ * **Disabled**: Disable the config server.
+ */
+export type ConfigServerEnabledState = string;
+
 /** Known values of {@link ConfigurationServiceProvisioningState} that the service accepts. */
 export enum KnownConfigurationServiceProvisioningState {
   /** Creating */
@@ -3028,6 +3284,42 @@ export enum KnownConfigurationServiceProvisioningState {
  * **Deleting**
  */
 export type ConfigurationServiceProvisioningState = string;
+
+/** Known values of {@link ConfigurationServiceGeneration} that the service accepts. */
+export enum KnownConfigurationServiceGeneration {
+  /** Gen1 */
+  Gen1 = "Gen1",
+  /** Gen2 */
+  Gen2 = "Gen2"
+}
+
+/**
+ * Defines values for ConfigurationServiceGeneration. \
+ * {@link KnownConfigurationServiceGeneration} can be used interchangeably with ConfigurationServiceGeneration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Gen1** \
+ * **Gen2**
+ */
+export type ConfigurationServiceGeneration = string;
+
+/** Known values of {@link GitImplementation} that the service accepts. */
+export enum KnownGitImplementation {
+  /** GoGit */
+  GoGit = "go-git",
+  /** Libgit2 */
+  Libgit2 = "libgit2"
+}
+
+/**
+ * Defines values for GitImplementation. \
+ * {@link KnownGitImplementation} can be used interchangeably with GitImplementation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **go-git** \
+ * **libgit2**
+ */
+export type GitImplementation = string;
 
 /** Known values of {@link ServiceRegistryProvisioningState} that the service accepts. */
 export enum KnownServiceRegistryProvisioningState {
@@ -3144,6 +3436,8 @@ export enum KnownContainerRegistryProvisioningState {
   Succeeded = "Succeeded",
   /** Failed */
   Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
   /** Canceled */
   Canceled = "Canceled"
 }
@@ -3157,6 +3451,7 @@ export enum KnownContainerRegistryProvisioningState {
  * **Updating** \
  * **Succeeded** \
  * **Failed** \
+ * **Deleting** \
  * **Canceled**
  */
 export type ContainerRegistryProvisioningState = string;
@@ -4058,6 +4353,38 @@ export interface ServicesStartOptionalParams
 }
 
 /** Optional parameters. */
+export interface ServicesListSupportedApmTypesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupportedApmTypes operation. */
+export type ServicesListSupportedApmTypesResponse = SupportedApmTypes;
+
+/** Optional parameters. */
+export interface ServicesListGloballyEnabledApmsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listGloballyEnabledApms operation. */
+export type ServicesListGloballyEnabledApmsResponse = GloballyEnabledApms;
+
+/** Optional parameters. */
+export interface ServicesEnableApmGloballyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServicesDisableApmGloballyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface ServicesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4079,6 +4406,13 @@ export interface ServicesListOptionalParams
 export type ServicesListResponse = ServiceResourceList;
 
 /** Optional parameters. */
+export interface ServicesListSupportedApmTypesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupportedApmTypesNext operation. */
+export type ServicesListSupportedApmTypesNextResponse = SupportedApmTypes;
+
+/** Optional parameters. */
 export interface ServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4091,6 +4425,90 @@ export interface ServicesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ServicesListNextResponse = ServiceResourceList;
+
+/** Optional parameters. */
+export interface ApmsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApmsListResponse = ApmResourceCollection;
+
+/** Optional parameters. */
+export interface ApmsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApmsGetResponse = ApmResource;
+
+/** Optional parameters. */
+export interface ApmsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApmsCreateOrUpdateResponse = ApmResource;
+
+/** Optional parameters. */
+export interface ApmsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApmsListSecretKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSecretKeys operation. */
+export type ApmsListSecretKeysResponse = ApmSecretKeys;
+
+/** Optional parameters. */
+export interface ApmsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApmsListNextResponse = ApmResourceCollection;
+
+/** Optional parameters. */
+export interface EurekaServersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type EurekaServersListResponse = EurekaServerResourceCollection;
+
+/** Optional parameters. */
+export interface EurekaServersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EurekaServersGetResponse = EurekaServerResource;
+
+/** Optional parameters. */
+export interface EurekaServersUpdatePutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updatePut operation. */
+export type EurekaServersUpdatePutResponse = EurekaServerResource;
+
+/** Optional parameters. */
+export interface EurekaServersUpdatePatchOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updatePatch operation. */
+export type EurekaServersUpdatePatchResponse = EurekaServerResource;
 
 /** Optional parameters. */
 export interface ConfigServersGetOptionalParams
@@ -4340,6 +4758,27 @@ export interface ContainerRegistriesCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type ContainerRegistriesCreateOrUpdateResponse = ContainerRegistryResource;
+
+/** Optional parameters. */
+export interface ContainerRegistriesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ContainerRegistriesValidateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validate operation. */
+export type ContainerRegistriesValidateResponse = ContainerRegistryValidateResult;
 
 /** Optional parameters. */
 export interface ContainerRegistriesListNextOptionalParams
