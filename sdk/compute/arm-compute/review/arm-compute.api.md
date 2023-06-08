@@ -941,19 +941,12 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     eula?: string;
     features?: GalleryImageFeature[];
     hyperVGeneration?: HyperVGeneration;
-    identifier?: CommunityGalleryImageIdentifier;
+    identifier?: GalleryImageIdentifier;
     osState?: OperatingSystemStateTypes;
     osType?: OperatingSystemTypes;
     privacyStatementUri?: string;
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
-}
-
-// @public
-export interface CommunityGalleryImageIdentifier {
-    offer?: string;
-    publisher?: string;
-    sku?: string;
 }
 
 // @public
@@ -2081,9 +2074,6 @@ export interface DiskUpdate {
 }
 
 // @public
-export type EdgeZoneStorageAccountType = string;
-
-// @public
 export interface Encryption {
     diskEncryptionSetId?: string;
     type?: EncryptionType;
@@ -2758,7 +2748,7 @@ export interface GalleryTargetExtendedLocation {
     extendedLocation?: GalleryExtendedLocation;
     extendedLocationReplicaCount?: number;
     name?: string;
-    storageAccountType?: EdgeZoneStorageAccountType;
+    storageAccountType?: StorageAccountType;
 }
 
 // @public
@@ -3220,14 +3210,6 @@ export enum KnownDiskStorageAccountTypes {
 }
 
 // @public
-export enum KnownEdgeZoneStorageAccountType {
-    PremiumLRS = "Premium_LRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardZRS = "Standard_ZRS"
-}
-
-// @public
 export enum KnownEncryptionType {
     EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
     EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
@@ -3528,6 +3510,7 @@ export enum KnownRestorePointExpandOptions {
 // @public
 export enum KnownSecurityEncryptionTypes {
     DiskWithVMGuestState = "DiskWithVMGuestState",
+    NonPersistedVMGuestState = "NonPersistedVMGuestState",
     VMGuestStateOnly = "VMGuestStateOnly"
 }
 
@@ -3587,6 +3570,7 @@ export enum KnownSnapshotStorageAccountTypes {
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
