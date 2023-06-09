@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExtendedServerBlobAuditingPolicy,
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams,
@@ -60,8 +60,8 @@ export interface WorkspaceManagedSqlServerExtendedBlobAuditingPolicies {
     parameters: ExtendedServerBlobAuditingPolicy,
     options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
       >,
       WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse

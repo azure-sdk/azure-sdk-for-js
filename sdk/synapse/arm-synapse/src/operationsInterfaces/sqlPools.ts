@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlPool,
   SqlPoolsListByWorkspaceOptionalParams,
@@ -70,8 +70,8 @@ export interface SqlPools {
     sqlPoolInfo: SqlPoolPatchInfo,
     options?: SqlPoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsUpdateResponse>,
       SqlPoolsUpdateResponse
     >
   >;
@@ -105,8 +105,8 @@ export interface SqlPools {
     sqlPoolInfo: SqlPool,
     options?: SqlPoolsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsCreateResponse>,
       SqlPoolsCreateResponse
     >
   >;
@@ -138,8 +138,8 @@ export interface SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsDeleteResponse>,
       SqlPoolsDeleteResponse
     >
   >;
@@ -169,7 +169,10 @@ export interface SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsPauseOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<SqlPoolsPauseResponse>, SqlPoolsPauseResponse>
+    SimplePollerLike<
+      OperationState<SqlPoolsPauseResponse>,
+      SqlPoolsPauseResponse
+    >
   >;
   /**
    * Pause a SQL pool
@@ -197,8 +200,8 @@ export interface SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsResumeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsResumeResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsResumeResponse>,
       SqlPoolsResumeResponse
     >
   >;

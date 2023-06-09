@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationRuntimeResource,
   IntegrationRuntimesListByWorkspaceOptionalParams,
@@ -86,8 +86,8 @@ export interface IntegrationRuntimes {
     integrationRuntime: IntegrationRuntimeResource,
     options?: IntegrationRuntimesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimesCreateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimesCreateResponse>,
       IntegrationRuntimesCreateResponse
     >
   >;
@@ -118,7 +118,7 @@ export interface IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     options?: IntegrationRuntimesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -158,8 +158,8 @@ export interface IntegrationRuntimes {
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStartOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimesStartResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimesStartResponse>,
       IntegrationRuntimesStartResponse
     >
   >;
@@ -188,7 +188,7 @@ export interface IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     options?: IntegrationRuntimesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop an integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -229,7 +229,7 @@ export interface IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enable interactive query in integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -255,7 +255,7 @@ export interface IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable interactive query in integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
