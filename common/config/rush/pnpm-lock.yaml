@@ -3832,7 +3832,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230607
+      typescript: 5.2.0-dev.20230611
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8413,6 +8413,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
@@ -8425,8 +8431,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230607:
-    resolution: {integrity: sha512-7Lgk1sNuuYpMNvHuXIMczqhLbJ99RpX3VgokK+Ir4DgliycYNrNGM/daAO38fHkk8n3lg2rP/6U5I545xTJdKA==}
+  /typescript/5.2.0-dev.20230611:
+    resolution: {integrity: sha512-qbg1yH3XnM3fKxBpXTESv++zWLL5TbS1QfPw6D+GNNemnHo4OXtuhby6pXoaFSCiPILY+/8EqRAJZb/ovVAJRg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14669,7 +14675,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-EpSU2v4ZtF6cBet3xtDZP6CVKFpIueokt1QWq2L94nDbejTY0apqrB5ld7Y1wMFd2eCjkWdyOemcoMU3aiEpng==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-/tBjWZJq4F0GRWtLPg1EJJSUnRXSFKH0iQwDiqg72Yf38il+hjeRtYIMXcR+/swv7tDy1fmNFXE8ougKu2mf7w==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -14690,7 +14696,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_6vxqa4pl2c5hli7lcaemfsm5je
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -19316,7 +19322,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Ta2DL1i32tq8YzBuBOpmsMPn5ZwaEkk4UK/PIovIBFkm19A6Pb/TcIsJWYe2IDV6bmz9S4jLLFdRex0krtigYw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-f0RGxZzt5s5rF+1pBkZleSk7bOLQawxz/qvsF4L105R3AjRInegaSSfWfSSf2qk4KLN4poZu3iGkiw7nbKPSnQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
