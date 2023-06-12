@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Tasks } from "../operationsInterfaces";
+import { Archives } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,30 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Task,
-  TasksListNextOptionalParams,
-  TasksListOptionalParams,
-  TasksListResponse,
-  TasksGetOptionalParams,
-  TasksGetResponse,
-  TasksCreateOptionalParams,
-  TasksCreateResponse,
-  TasksDeleteOptionalParams,
-  TaskUpdateParameters,
-  TasksUpdateOptionalParams,
-  TasksUpdateResponse,
-  TasksGetDetailsOptionalParams,
-  TasksGetDetailsResponse,
-  TasksListNextResponse
+  Archive,
+  ArchivesListNextOptionalParams,
+  ArchivesListOptionalParams,
+  ArchivesListResponse,
+  ArchivesGetOptionalParams,
+  ArchivesGetResponse,
+  ArchivesCreateOptionalParams,
+  ArchivesCreateResponse,
+  ArchivesDeleteOptionalParams,
+  ArchiveUpdateParameters,
+  ArchivesUpdateOptionalParams,
+  ArchivesUpdateResponse,
+  ArchivesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Tasks operations. */
-export class TasksImpl implements Tasks {
+/** Class containing Archives operations. */
+export class ArchivesImpl implements Archives {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class Tasks class.
+   * Initialize a new instance of the class Archives class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -51,17 +49,24 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all archives for the specified container registry and package type.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
+   * @param packageType The type of the package resource.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): PagedAsyncIterableIterator<Task> {
-    const iter = this.listPagingAll(resourceGroupName, registryName, options);
+    packageType: string,
+    options?: ArchivesListOptionalParams
+  ): PagedAsyncIterableIterator<Archive> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      registryName,
+      packageType,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -76,6 +81,7 @@ export class TasksImpl implements Tasks {
         return this.listPagingPage(
           resourceGroupName,
           registryName,
+          packageType,
           options,
           settings
         );
@@ -86,13 +92,19 @@ export class TasksImpl implements Tasks {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams,
+    packageType: string,
+    options?: ArchivesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Task[]> {
-    let result: TasksListResponse;
+  ): AsyncIterableIterator<Archive[]> {
+    let result: ArchivesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, registryName, options);
+      result = await this._list(
+        resourceGroupName,
+        registryName,
+        packageType,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -102,6 +114,7 @@ export class TasksImpl implements Tasks {
       result = await this._listNext(
         resourceGroupName,
         registryName,
+        packageType,
         continuationToken,
         options
       );
@@ -115,11 +128,13 @@ export class TasksImpl implements Tasks {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): AsyncIterableIterator<Task> {
+    packageType: string,
+    options?: ArchivesListOptionalParams
+  ): AsyncIterableIterator<Archive> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
+      packageType,
       options
     )) {
       yield* page;
@@ -127,62 +142,71 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all archives for the specified container registry and package type.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
+   * @param packageType The type of the package resource.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): Promise<TasksListResponse> {
+    packageType: string,
+    options?: ArchivesListOptionalParams
+  ): Promise<ArchivesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
+      { resourceGroupName, registryName, packageType, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get the properties of a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Gets the properties of the archive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksGetOptionalParams
-  ): Promise<TasksGetResponse> {
+    packageType: string,
+    archiveName: string,
+    options?: ArchivesGetOptionalParams
+  ): Promise<ArchivesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
+      { resourceGroupName, registryName, packageType, archiveName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates a archive for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
+   * @param archiveCreateParameters The parameters for creating a archive.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
+    packageType: string,
+    archiveName: string,
+    archiveCreateParameters: Archive,
+    options?: ArchivesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
+    SimplePollerLike<
+      OperationState<ArchivesCreateResponse>,
+      ArchivesCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<TasksCreateResponse> => {
+    ): Promise<ArchivesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -223,60 +247,67 @@ export class TasksImpl implements Tasks {
       args: {
         resourceGroupName,
         registryName,
-        taskName,
-        taskCreateParameters,
+        packageType,
+        archiveName,
+        archiveCreateParameters,
         options
       },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      TasksCreateResponse,
-      OperationState<TasksCreateResponse>
+      ArchivesCreateResponse,
+      OperationState<ArchivesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates a archive for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
+   * @param archiveCreateParameters The parameters for creating a archive.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
-  ): Promise<TasksCreateResponse> {
+    packageType: string,
+    archiveName: string,
+    archiveCreateParameters: Archive,
+    options?: ArchivesCreateOptionalParams
+  ): Promise<ArchivesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      taskName,
-      taskCreateParameters,
+      packageType,
+      archiveName,
+      archiveCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes a archive from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
+    packageType: string,
+    archiveName: string,
+    options?: ArchivesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -319,176 +350,96 @@ export class TasksImpl implements Tasks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, registryName, taskName, options },
+      args: {
+        resourceGroupName,
+        registryName,
+        packageType,
+        archiveName,
+        options
+      },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes a archive from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
+    packageType: string,
+    archiveName: string,
+    options?: ArchivesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      taskName,
+      packageType,
+      archiveName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Updates a archive for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
+   * @param archiveUpdateParameters The parameters for updating a archive.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  update(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<TasksUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    packageType: string,
+    archiveName: string,
+    archiveUpdateParameters: ArchiveUpdateParameters,
+    options?: ArchivesUpdateOptionalParams
+  ): Promise<ArchivesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
         resourceGroupName,
         registryName,
-        taskName,
-        taskUpdateParameters,
+        packageType,
+        archiveName,
+        archiveUpdateParameters,
         options
       },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      TasksUpdateResponse,
-      OperationState<TasksUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
-  ): Promise<TasksUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      registryName,
-      taskName,
-      taskUpdateParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Returns a task with extended information that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param options The options parameters.
-   */
-  getDetails(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    options?: TasksGetDetailsOptionalParams
-  ): Promise<TasksGetDetailsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
-      getDetailsOperationSpec
+      updateOperationSpec
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
+   * @param packageType The type of the package resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     registryName: string,
+    packageType: string,
     nextLink: string,
-    options?: TasksListNextOptionalParams
-  ): Promise<TasksListNextResponse> {
+    options?: ArchivesListNextOptionalParams
+  ): Promise<ArchivesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, nextLink, options },
+      { resourceGroupName, registryName, packageType, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -498,78 +449,81 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.ArchiveListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1
+    Parameters.packageType
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Archive
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.packageType,
+    Parameters.archiveName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Archive
     },
     201: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Archive
     },
     202: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Archive
     },
     204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Archive
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.taskCreateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.archiveCreateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.packageType,
+    Parameters.archiveName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -577,7 +531,7 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -588,72 +542,42 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.packageType,
+    Parameters.archiveName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
-    },
-    201: {
-      bodyMapper: Mappers.Task
-    },
-    202: {
-      bodyMapper: Mappers.Task
-    },
-    204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Archive
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.taskUpdateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.archiveUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.packageType,
+    Parameters.archiveName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const getDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}/listDetails",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Task
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -661,7 +585,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.ArchiveListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -670,9 +594,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.packageType,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
