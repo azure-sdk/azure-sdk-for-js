@@ -8409,6 +8409,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
@@ -10368,7 +10374,7 @@ packages:
     dev: false
 
   file:projects/arm-changes.tgz:
-    resolution: {integrity: sha512-GehZqDZ2RhV/MxQ0YnbyM0ZhK+d6t787jWET6S9zfVuYVsRyfC0AD8ISSRsXwBPb+RbObYx+1CTlE9KhJi7wbg==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-7DuFCbmqVSVPHWsrM1Gj686DW76ux/e9U+EA71mZ3exD7n4/E/8jdyOC9bjOVVdG4O0Xw20crjDF/UEvW7rcMQ==, tarball: file:projects/arm-changes.tgz}
     name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
@@ -10382,13 +10388,14 @@ packages:
       '@types/node': 14.18.50
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -11866,7 +11873,7 @@ packages:
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-wzYIQeNpQRjY0n/buj54ZFySiXwPOhGFSdDhYRfkTmv0tk+Ql+0JtSRnk6KpE5H2M88lndj8eL08K2Y7YASfDA==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-qgRkXbD2oh2IdBBadYoUnYm2OuZF/LdNM0w4HpF9QfJZddhceyjsa5Iml7mAqPUWY3rSqvGrHG1Uw/9n0K40UA==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
@@ -11880,13 +11887,14 @@ packages:
       '@types/node': 14.18.50
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -12447,7 +12455,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-SasnkMqF1QsK07NqeeYAlrYHhhGwkJlpG+YUd783pBa4pCs5dDTZ88EVvqbfAE5XwFeeowhNBnC55A1h1LR2hQ==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-R7tSmvpr/Op6Py27rczhOq9vc/fOz7jStmkmGHwNiuK2j8vloV0zsV25ZlNbRddiVooSfOHRlG3RQuKI4pTlew==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -12461,13 +12469,14 @@ packages:
       '@types/node': 14.18.50
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -12530,7 +12539,7 @@ packages:
     dev: false
 
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-MPanNrEY5x4seG4Xsx1IdCPnqlJtQfqVkEOLOj5gIocAsH0PSwdHNms3MrseEeqHt7EeeRM9/G7vyqIFX7xTsA==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-/pG+cqdMAuWQLXXSf8NkFpIywxNxK7ZgHCfg+OQTxOJWPpG0FZSNPbef7OknyAZfpkEAtKMKltttME1VZ7MGtg==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
@@ -12544,13 +12553,14 @@ packages:
       '@types/node': 14.18.50
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -12667,7 +12677,7 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-1Z2BnCUZjOKqEu31DKPmb+vBaSx2J9oUnvtzPleSm/FpUpa3oCgtWkNHwWG0BWI5A/j9RGbpkLAfFnLZwUQapQ==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-x/JdqsSIJ/W78NtH38h3bEVm2nnVRNMFUQ06jhNgO4C2GF8uMGwQLphTiA7gXIWfwT9m1rYhibragYPuNYMSkw==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
@@ -12681,13 +12691,14 @@ packages:
       '@types/node': 14.18.50
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -13541,7 +13552,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-bujYRtPnaCJrOaM96o1BN+dxqTmJGCCm/ZlHwohsY2oPVk0AqYiw68MefDKBYLD6mw7VZARX9AUqHoAHaFMz6w==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-a34IRmRGu+rFYSvulELtwW3FAKg8PpsXjE2wNz3YhIaOJiZG4zUJCHltlvHhA6yCBnaDeTR2WVRzj3kON/MwTw==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -13562,7 +13573,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -14179,7 +14190,7 @@ packages:
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-7kIyYfNjRk3j4Cpi7YS2zuToAspLBxEcyCjk3u7FT3GjjlvPr2Okdsa9KSaYmOIbJFkulyLUEg5GB8fuiAUITw==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-QO/iHVW77yNp3YckbdlUNIodNnm12FOZyKScSB0LHdMJ2vBW2aaMB3qS9V3sVnv62uqzr+bSSZKp9Y0hA4asLw==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
@@ -14200,14 +14211,14 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-Hui4Gr/1c3mwTD/+Me5Clhncbm6S3b84HUjrHKCVOOUJWdshuhbmOsCPQjVMsaubWUdK5eVA9FMGl0k99JtweA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-0y8WayrHdYUed906Fq63aGCIphsC4f1FZna1WSTO0OwJdAmraQWbb1IAHOYHt3vg1BxqZZAMvoSMMTNbj5aieA==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -14228,7 +14239,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -15079,7 +15090,7 @@ packages:
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-xwRUA9TZWw550T5v+ks6MZ8w+5us52zlm6dqG4wIzFzheRNLN0ngnscXj8jeVrPFGlFsADRnEwAf7Aq2d2NNTA==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-1enPjBj1dAGdJ1XHOouopfhZn4ZniLrzlCLmmUfEfE+TRVMpWWRJj8G59cd0OyzFV9ppxWG3NRhp8WKht7Lv1A==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
@@ -15093,13 +15104,14 @@ packages:
       '@types/node': 14.18.50
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
