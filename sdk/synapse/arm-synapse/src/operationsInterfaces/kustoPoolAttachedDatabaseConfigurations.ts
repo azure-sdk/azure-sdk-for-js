@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AttachedDatabaseConfiguration,
   KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams,
@@ -66,8 +66,8 @@ export interface KustoPoolAttachedDatabaseConfigurations {
     parameters: AttachedDatabaseConfiguration,
     options?: KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse
       >,
       KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse
@@ -104,7 +104,7 @@ export interface KustoPoolAttachedDatabaseConfigurations {
     attachedDatabaseConfigurationName: string,
     resourceGroupName: string,
     options?: KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the attached database configuration with the given name.
    * @param workspaceName The name of the workspace.
