@@ -1,15 +1,13 @@
 # Release History
+    
+## 2.0.0 (2023-06-13)
+    
+**Breaking Changes**
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ChangesListNextOptionalParams no longer has parameter skipToken
+  - Interface ChangesListNextOptionalParams no longer has parameter top
+    
+    
 ## 1.1.0 (2022-11-17)
     
 **Features**
