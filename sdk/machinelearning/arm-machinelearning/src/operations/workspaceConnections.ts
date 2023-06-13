@@ -12,34 +12,39 @@ import { WorkspaceConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import {
   WorkspaceConnectionPropertiesV2BasicResource,
   WorkspaceConnectionsListNextOptionalParams,
   WorkspaceConnectionsListOptionalParams,
   WorkspaceConnectionsListResponse,
-  WorkspaceConnectionsCreateOptionalParams,
-  WorkspaceConnectionsCreateResponse,
+  WorkspaceConnectionsDeleteOptionalParams,
   WorkspaceConnectionsGetOptionalParams,
   WorkspaceConnectionsGetResponse,
-  WorkspaceConnectionsDeleteOptionalParams,
+  WorkspaceConnectionsUpdateOptionalParams,
+  WorkspaceConnectionsUpdateResponse,
+  WorkspaceConnectionsCreateOptionalParams,
+  WorkspaceConnectionsCreateResponse,
+  WorkspaceConnectionsListSecretsOptionalParams,
+  WorkspaceConnectionsListSecretsResponse,
   WorkspaceConnectionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceConnections operations. */
 export class WorkspaceConnectionsImpl implements WorkspaceConnections {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class WorkspaceConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
   /**
+   * Lists all the available machine learning workspaces connections under the specified workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -115,44 +120,24 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
   }
 
   /**
+   * Lists all the available machine learning workspaces connections under the specified workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
-   * @param parameters The object for creating or updating a new workspace connection
    * @param options The options parameters.
    */
-  create(
+  private _list(
     resourceGroupName: string,
     workspaceName: string,
-    connectionName: string,
-    parameters: WorkspaceConnectionPropertiesV2BasicResource,
-    options?: WorkspaceConnectionsCreateOptionalParams
-  ): Promise<WorkspaceConnectionsCreateResponse> {
+    options?: WorkspaceConnectionsListOptionalParams
+  ): Promise<WorkspaceConnectionsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, connectionName, parameters, options },
-      createOperationSpec
+      { resourceGroupName, workspaceName, options },
+      listOperationSpec
     );
   }
 
   /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    connectionName: string,
-    options?: WorkspaceConnectionsGetOptionalParams
-  ): Promise<WorkspaceConnectionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, connectionName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
+   * Delete machine learning workspaces connections by name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param connectionName Friendly name of the workspace connection
@@ -171,18 +156,78 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
   }
 
   /**
+   * Lists machine learning workspaces connections by name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
    * @param options The options parameters.
    */
-  private _list(
+  get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceConnectionsListOptionalParams
-  ): Promise<WorkspaceConnectionsListResponse> {
+    connectionName: string,
+    options?: WorkspaceConnectionsGetOptionalParams
+  ): Promise<WorkspaceConnectionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      { resourceGroupName, workspaceName, connectionName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Update machine learning workspaces connections under the specified workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsUpdateOptionalParams
+  ): Promise<WorkspaceConnectionsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, connectionName, options },
+      updateOperationSpec
+    );
+  }
+
+  /**
+   * Create or update machine learning workspaces connections under the specified workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsCreateOptionalParams
+  ): Promise<WorkspaceConnectionsCreateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, connectionName, options },
+      createOperationSpec
+    );
+  }
+
+  /**
+   * List all the secrets of a machine learning workspaces connections.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsListSecretsOptionalParams
+  ): Promise<WorkspaceConnectionsListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, connectionName, options },
+      listSecretsOperationSpec
     );
   }
 
@@ -208,76 +253,6 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.connectionName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.connectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.connectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections",
@@ -305,6 +280,124 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.connectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.connectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body37,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.connectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body38,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.connectionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/listsecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.connectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -317,17 +410,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.target,
-    Parameters.category
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
