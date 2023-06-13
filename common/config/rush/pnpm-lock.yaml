@@ -767,6 +767,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cosmosdb/15.5.0:
+    resolution: {integrity: sha512-+0y13ire532Q4cOOKppMxPSqXMvkSNaFUtQhBvBRblSHVNdI6PO74agauQF+a/JHiJBg8zKzpAEVvJ5CwS6VBg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.3
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.11.0
+      tslib: 2.5.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-eventhub/5.1.0:
     resolution: {integrity: sha512-yKglRlr8zbnenZKV7ERnF7b7OXZkoqr0m0ciIeJkMaJJzXETiSuw8xB3O3dAMSf9pR1npQMFngTgFKhxb26ysg==}
     engines: {node: '>=14.0.0'}
@@ -8409,6 +8424,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
@@ -10395,10 +10416,11 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-Op4XH6fvPLU1mch3iN6qkSorU58ZcEkhf/bL0sqtEOyga4kRpdg80iOhXUdxfh2B95PT0O/GF9ySCFi71UTrWw==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-e5+ZTX1EBJa4UY76xUEDUvy59k4mAjpbAnXNo5IpVtGv0a/W5jOR5sH4sXJbK19vzNjMlEVBkQp6gDIf7HhjRg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cosmosdb': 15.5.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.35.2_@types+node@14.18.50
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -10896,7 +10918,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-GhMeA9zGlCN6kjlilaQeXtjhC8JA1lZdFu1sE2qkfdUyTjYbIxzp4+djfZJWdv1zv2fPuIVlsAAsJP29c0ZWrg==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-/cXAXd6ZDWA/sgZVwJSyEG2UdHr2R6yonrsI/ffxgZ5hE0yajoVkjKxvkKjcnoykCP107tSxF20gdoCtqJ6/zQ==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -10917,7 +10939,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
