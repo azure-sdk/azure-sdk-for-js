@@ -421,7 +421,7 @@ export type DnsNameLabelReusePolicy = string;
 export interface EncryptionProperties {
     identity?: string;
     keyName: string;
-    keyVersion: string;
+    keyVersion?: string;
     vaultBaseUrl: string;
 }
 

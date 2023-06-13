@@ -509,7 +509,7 @@ export interface EncryptionProperties {
   /** The encryption key name. */
   keyName: string;
   /** The encryption key version. */
-  keyVersion: string;
+  keyVersion?: string;
   /** The keyvault managed identity. */
   identity?: string;
 }

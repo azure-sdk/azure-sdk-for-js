@@ -1343,7 +1343,6 @@ export const EncryptionProperties: coreClient.CompositeMapper = {
       },
       keyVersion: {
         serializedName: "keyVersion",
-        required: true,
         type: {
           name: "String"
         }
