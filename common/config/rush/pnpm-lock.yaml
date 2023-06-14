@@ -213,6 +213,7 @@ specifiers:
   '@rush-temp/arm-support': file:./projects/arm-support.tgz
   '@rush-temp/arm-synapse': file:./projects/arm-synapse.tgz
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
+  '@rush-temp/arm-testbase': file:./projects/arm-testbase.tgz
   '@rush-temp/arm-timeseriesinsights': file:./projects/arm-timeseriesinsights.tgz
   '@rush-temp/arm-trafficmanager': file:./projects/arm-trafficmanager.tgz
   '@rush-temp/arm-visualstudio': file:./projects/arm-visualstudio.tgz
@@ -558,6 +559,7 @@ dependencies:
   '@rush-temp/arm-support': file:projects/arm-support.tgz
   '@rush-temp/arm-synapse': file:projects/arm-synapse.tgz
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
+  '@rush-temp/arm-testbase': file:projects/arm-testbase.tgz
   '@rush-temp/arm-timeseriesinsights': file:projects/arm-timeseriesinsights.tgz
   '@rush-temp/arm-trafficmanager': file:projects/arm-trafficmanager.tgz
   '@rush-temp/arm-visualstudio': file:projects/arm-visualstudio.tgz
@@ -3858,7 +3860,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230612
+      typescript: 5.2.0-dev.20230614
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8421,8 +8423,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230612:
-    resolution: {integrity: sha512-f7THkvy028PZE2G7zoA0hnJZJHjE0u/de8+Izzn4C1Oaz13Lm0ll9fSqcnfTw0JlmIc68YqrwC/z0s8IW0E3Cw==}
+  /typescript/5.2.0-dev.20230614:
+    resolution: {integrity: sha512-DKpizlDq/CJKtl6mL4vKuLiqsSNV4iXN1gvQusKnbOo382zJTDDOD21liVymFKCZvM1ffDt6Jk1LUvfSFtg1SA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15094,6 +15096,34 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
+      tslib: 2.5.3
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-testbase.tgz:
+    resolution: {integrity: sha512-EdAsGvzga3WSdohldXusWFbzjK//bS8umCPE54HtFcxN6MF1XazszdckuB96MKh7AtOOEWqfmLYwWzDco8u6tQ==, tarball: file:projects/arm-testbase.tgz}
+    name: '@rush-temp/arm-testbase'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.35.2_@types+node@14.18.50
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.50
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
