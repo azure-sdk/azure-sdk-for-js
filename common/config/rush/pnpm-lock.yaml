@@ -3858,7 +3858,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230612
+      typescript: 5.2.0-dev.20230613
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8409,6 +8409,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /typescript/5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
@@ -8421,8 +8427,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230612:
-    resolution: {integrity: sha512-f7THkvy028PZE2G7zoA0hnJZJHjE0u/de8+Izzn4C1Oaz13Lm0ll9fSqcnfTw0JlmIc68YqrwC/z0s8IW0E3Cw==}
+  /typescript/5.2.0-dev.20230613:
+    resolution: {integrity: sha512-76DHxBtq2NDOqhgigPmAEVdBx2IDUi/RGXUAZIx+H1tcoSb38tdN3pq8U1ZaohCqAGH2Jlv/cWRSvRT27D8cxg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9749,7 +9755,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-rADek+ay6GQMyTpU8o2VJVB6k3EByH7aojkhlxGHdSnHQNJ0xbDEslfN34BzidloCBX6BY3dOa6idvhEKzy/0w==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-uAOkD27upohdOThqbIl2os/xM2JDD25U06JwRsJUy3yyRkXQ1ST2ts8mUFZBlabjjAuzHXnXEn0KdAocezLytA==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -9770,7 +9776,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_lkarztv2sprei2fu6kfqx4wpny
       tslib: 2.5.3
-      typescript: 5.0.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
