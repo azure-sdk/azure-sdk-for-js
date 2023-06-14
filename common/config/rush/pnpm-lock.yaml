@@ -3858,7 +3858,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230612
+      typescript: 5.2.0-dev.20230613
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8421,8 +8421,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230612:
-    resolution: {integrity: sha512-f7THkvy028PZE2G7zoA0hnJZJHjE0u/de8+Izzn4C1Oaz13Lm0ll9fSqcnfTw0JlmIc68YqrwC/z0s8IW0E3Cw==}
+  /typescript/5.2.0-dev.20230613:
+    resolution: {integrity: sha512-76DHxBtq2NDOqhgigPmAEVdBx2IDUi/RGXUAZIx+H1tcoSb38tdN3pq8U1ZaohCqAGH2Jlv/cWRSvRT27D8cxg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9025,7 +9025,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-tTBMpzWakjsOAmgNwOSzP4OhMwLE9wvW06WDsHh1wnaUUAvesQGpjJNFz1Vyg84SbFqyXJqDFx/ik/mNrjGcIA==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-4nPCje7SVILj8j4UzlecTfSHq/eosG6nCdlkpePRV6rRKkeITYdIP2aJiP+/EbEigpcbh3SBYDEUyq8YFD8OoA==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -9050,7 +9050,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.4.2
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 15.1.0
