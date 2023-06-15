@@ -14,8 +14,12 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "./lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "./lroImpl";
 import {
   ApiImpl,
   ApiRevisionImpl,
@@ -23,6 +27,8 @@ import {
   ApiOperationImpl,
   ApiOperationPolicyImpl,
   TagImpl,
+  GraphQLApiResolverImpl,
+  GraphQLApiResolverPolicyImpl,
   ApiProductImpl,
   ApiPolicyImpl,
   ApiSchemaImpl,
@@ -32,8 +38,14 @@ import {
   ApiIssueAttachmentImpl,
   ApiTagDescriptionImpl,
   OperationOperationsImpl,
+  ApiWikiImpl,
+  ApiWikisImpl,
   ApiExportImpl,
   ApiVersionSetImpl,
+  AuthorizationProviderImpl,
+  AuthorizationImpl,
+  AuthorizationLoginLinksImpl,
+  AuthorizationAccessPolicyImpl,
   AuthorizationServerImpl,
   BackendImpl,
   CacheImpl,
@@ -45,6 +57,7 @@ import {
   ApiManagementServiceSkusImpl,
   ApiManagementServiceImpl,
   DiagnosticImpl,
+  DocumentationImpl,
   EmailTemplateImpl,
   GatewayImpl,
   GatewayHostnameConfigurationImpl,
@@ -64,6 +77,8 @@ import {
   OutboundNetworkDependenciesEndpointsImpl,
   PolicyImpl,
   PolicyDescriptionImpl,
+  PolicyFragmentImpl,
+  PortalConfigImpl,
   PortalRevisionImpl,
   PortalSettingsImpl,
   SignInSettingsImpl,
@@ -75,6 +90,10 @@ import {
   ProductGroupImpl,
   ProductSubscriptionsImpl,
   ProductPolicyImpl,
+  ProductWikiImpl,
+  ProductWikisImpl,
+  ProductApiLinkImpl,
+  ProductGroupLinkImpl,
   QuotaByCounterKeysImpl,
   QuotaByPeriodKeysImpl,
   RegionImpl,
@@ -84,6 +103,9 @@ import {
   ApiManagementSkusImpl,
   SubscriptionImpl,
   TagResourceImpl,
+  TagApiLinkImpl,
+  TagOperationLinkImpl,
+  TagProductLinkImpl,
   TenantAccessImpl,
   TenantAccessGitImpl,
   TenantConfigurationImpl,
@@ -91,7 +113,35 @@ import {
   UserGroupImpl,
   UserSubscriptionImpl,
   UserIdentitiesImpl,
-  UserConfirmationPasswordImpl
+  UserConfirmationPasswordImpl,
+  WorkspaceImpl,
+  WorkspacePolicyImpl,
+  WorkspaceNamedValueImpl,
+  WorkspaceGlobalSchemaImpl,
+  WorkspaceNotificationImpl,
+  WorkspaceNotificationRecipientUserImpl,
+  WorkspaceNotificationRecipientEmailImpl,
+  WorkspacePolicyFragmentImpl,
+  WorkspaceGroupImpl,
+  WorkspaceGroupUserImpl,
+  WorkspaceSubscriptionImpl,
+  WorkspaceApiVersionSetImpl,
+  WorkspaceApiImpl,
+  WorkspaceApiRevisionImpl,
+  WorkspaceApiReleaseImpl,
+  WorkspaceApiOperationImpl,
+  WorkspaceApiOperationPolicyImpl,
+  WorkspaceApiPolicyImpl,
+  WorkspaceApiSchemaImpl,
+  WorkspaceProductImpl,
+  WorkspaceProductApiLinkImpl,
+  WorkspaceProductGroupLinkImpl,
+  WorkspaceProductPolicyImpl,
+  WorkspaceTagImpl,
+  WorkspaceTagApiLinkImpl,
+  WorkspaceTagOperationLinkImpl,
+  WorkspaceTagProductLinkImpl,
+  WorkspaceApiExportImpl
 } from "./operations";
 import {
   Api,
@@ -100,6 +150,8 @@ import {
   ApiOperation,
   ApiOperationPolicy,
   Tag,
+  GraphQLApiResolver,
+  GraphQLApiResolverPolicy,
   ApiProduct,
   ApiPolicy,
   ApiSchema,
@@ -109,8 +161,14 @@ import {
   ApiIssueAttachment,
   ApiTagDescription,
   OperationOperations,
+  ApiWiki,
+  ApiWikis,
   ApiExport,
   ApiVersionSet,
+  AuthorizationProvider,
+  Authorization,
+  AuthorizationLoginLinks,
+  AuthorizationAccessPolicy,
   AuthorizationServer,
   Backend,
   Cache,
@@ -122,6 +180,7 @@ import {
   ApiManagementServiceSkus,
   ApiManagementService,
   Diagnostic,
+  Documentation,
   EmailTemplate,
   Gateway,
   GatewayHostnameConfiguration,
@@ -141,6 +200,8 @@ import {
   OutboundNetworkDependenciesEndpoints,
   Policy,
   PolicyDescription,
+  PolicyFragment,
+  PortalConfig,
   PortalRevision,
   PortalSettings,
   SignInSettings,
@@ -152,6 +213,10 @@ import {
   ProductGroup,
   ProductSubscriptions,
   ProductPolicy,
+  ProductWiki,
+  ProductWikis,
+  ProductApiLink,
+  ProductGroupLink,
   QuotaByCounterKeys,
   QuotaByPeriodKeys,
   Region,
@@ -161,6 +226,9 @@ import {
   ApiManagementSkus,
   Subscription,
   TagResource,
+  TagApiLink,
+  TagOperationLink,
+  TagProductLink,
   TenantAccess,
   TenantAccessGit,
   TenantConfiguration,
@@ -168,7 +236,35 @@ import {
   UserGroup,
   UserSubscription,
   UserIdentities,
-  UserConfirmationPassword
+  UserConfirmationPassword,
+  Workspace,
+  WorkspacePolicy,
+  WorkspaceNamedValue,
+  WorkspaceGlobalSchema,
+  WorkspaceNotification,
+  WorkspaceNotificationRecipientUser,
+  WorkspaceNotificationRecipientEmail,
+  WorkspacePolicyFragment,
+  WorkspaceGroup,
+  WorkspaceGroupUser,
+  WorkspaceSubscription,
+  WorkspaceApiVersionSet,
+  WorkspaceApi,
+  WorkspaceApiRevision,
+  WorkspaceApiRelease,
+  WorkspaceApiOperation,
+  WorkspaceApiOperationPolicy,
+  WorkspaceApiPolicy,
+  WorkspaceApiSchema,
+  WorkspaceProduct,
+  WorkspaceProductApiLink,
+  WorkspaceProductGroupLink,
+  WorkspaceProductPolicy,
+  WorkspaceTag,
+  WorkspaceTagApiLink,
+  WorkspaceTagOperationLink,
+  WorkspaceTagProductLink,
+  WorkspaceApiExport
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -182,25 +278,38 @@ import {
 export class ApiManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ApiManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ApiManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ApiManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ApiManagementClientOptionalParams | string,
+    options?: ApiManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -212,7 +321,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/9.0.1`;
+    const packageDetails = `azsdk-js-arm-apimanagement/10.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -265,13 +374,15 @@ export class ApiManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-01";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.api = new ApiImpl(this);
     this.apiRevision = new ApiRevisionImpl(this);
     this.apiRelease = new ApiReleaseImpl(this);
     this.apiOperation = new ApiOperationImpl(this);
     this.apiOperationPolicy = new ApiOperationPolicyImpl(this);
     this.tag = new TagImpl(this);
+    this.graphQLApiResolver = new GraphQLApiResolverImpl(this);
+    this.graphQLApiResolverPolicy = new GraphQLApiResolverPolicyImpl(this);
     this.apiProduct = new ApiProductImpl(this);
     this.apiPolicy = new ApiPolicyImpl(this);
     this.apiSchema = new ApiSchemaImpl(this);
@@ -281,8 +392,14 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiIssueAttachment = new ApiIssueAttachmentImpl(this);
     this.apiTagDescription = new ApiTagDescriptionImpl(this);
     this.operationOperations = new OperationOperationsImpl(this);
+    this.apiWiki = new ApiWikiImpl(this);
+    this.apiWikis = new ApiWikisImpl(this);
     this.apiExport = new ApiExportImpl(this);
     this.apiVersionSet = new ApiVersionSetImpl(this);
+    this.authorizationProvider = new AuthorizationProviderImpl(this);
+    this.authorization = new AuthorizationImpl(this);
+    this.authorizationLoginLinks = new AuthorizationLoginLinksImpl(this);
+    this.authorizationAccessPolicy = new AuthorizationAccessPolicyImpl(this);
     this.authorizationServer = new AuthorizationServerImpl(this);
     this.backend = new BackendImpl(this);
     this.cache = new CacheImpl(this);
@@ -294,6 +411,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiManagementServiceSkus = new ApiManagementServiceSkusImpl(this);
     this.apiManagementService = new ApiManagementServiceImpl(this);
     this.diagnostic = new DiagnosticImpl(this);
+    this.documentation = new DocumentationImpl(this);
     this.emailTemplate = new EmailTemplateImpl(this);
     this.gateway = new GatewayImpl(this);
     this.gatewayHostnameConfiguration = new GatewayHostnameConfigurationImpl(
@@ -319,6 +437,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     );
     this.policy = new PolicyImpl(this);
     this.policyDescription = new PolicyDescriptionImpl(this);
+    this.policyFragment = new PolicyFragmentImpl(this);
+    this.portalConfig = new PortalConfigImpl(this);
     this.portalRevision = new PortalRevisionImpl(this);
     this.portalSettings = new PortalSettingsImpl(this);
     this.signInSettings = new SignInSettingsImpl(this);
@@ -332,6 +452,10 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.productGroup = new ProductGroupImpl(this);
     this.productSubscriptions = new ProductSubscriptionsImpl(this);
     this.productPolicy = new ProductPolicyImpl(this);
+    this.productWiki = new ProductWikiImpl(this);
+    this.productWikis = new ProductWikisImpl(this);
+    this.productApiLink = new ProductApiLinkImpl(this);
+    this.productGroupLink = new ProductGroupLinkImpl(this);
     this.quotaByCounterKeys = new QuotaByCounterKeysImpl(this);
     this.quotaByPeriodKeys = new QuotaByPeriodKeysImpl(this);
     this.region = new RegionImpl(this);
@@ -341,6 +465,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiManagementSkus = new ApiManagementSkusImpl(this);
     this.subscription = new SubscriptionImpl(this);
     this.tagResource = new TagResourceImpl(this);
+    this.tagApiLink = new TagApiLinkImpl(this);
+    this.tagOperationLink = new TagOperationLinkImpl(this);
+    this.tagProductLink = new TagProductLinkImpl(this);
     this.tenantAccess = new TenantAccessImpl(this);
     this.tenantAccessGit = new TenantAccessGitImpl(this);
     this.tenantConfiguration = new TenantConfigurationImpl(this);
@@ -349,6 +476,40 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.userSubscription = new UserSubscriptionImpl(this);
     this.userIdentities = new UserIdentitiesImpl(this);
     this.userConfirmationPassword = new UserConfirmationPasswordImpl(this);
+    this.workspace = new WorkspaceImpl(this);
+    this.workspacePolicy = new WorkspacePolicyImpl(this);
+    this.workspaceNamedValue = new WorkspaceNamedValueImpl(this);
+    this.workspaceGlobalSchema = new WorkspaceGlobalSchemaImpl(this);
+    this.workspaceNotification = new WorkspaceNotificationImpl(this);
+    this.workspaceNotificationRecipientUser = new WorkspaceNotificationRecipientUserImpl(
+      this
+    );
+    this.workspaceNotificationRecipientEmail = new WorkspaceNotificationRecipientEmailImpl(
+      this
+    );
+    this.workspacePolicyFragment = new WorkspacePolicyFragmentImpl(this);
+    this.workspaceGroup = new WorkspaceGroupImpl(this);
+    this.workspaceGroupUser = new WorkspaceGroupUserImpl(this);
+    this.workspaceSubscription = new WorkspaceSubscriptionImpl(this);
+    this.workspaceApiVersionSet = new WorkspaceApiVersionSetImpl(this);
+    this.workspaceApi = new WorkspaceApiImpl(this);
+    this.workspaceApiRevision = new WorkspaceApiRevisionImpl(this);
+    this.workspaceApiRelease = new WorkspaceApiReleaseImpl(this);
+    this.workspaceApiOperation = new WorkspaceApiOperationImpl(this);
+    this.workspaceApiOperationPolicy = new WorkspaceApiOperationPolicyImpl(
+      this
+    );
+    this.workspaceApiPolicy = new WorkspaceApiPolicyImpl(this);
+    this.workspaceApiSchema = new WorkspaceApiSchemaImpl(this);
+    this.workspaceProduct = new WorkspaceProductImpl(this);
+    this.workspaceProductApiLink = new WorkspaceProductApiLinkImpl(this);
+    this.workspaceProductGroupLink = new WorkspaceProductGroupLinkImpl(this);
+    this.workspaceProductPolicy = new WorkspaceProductPolicyImpl(this);
+    this.workspaceTag = new WorkspaceTagImpl(this);
+    this.workspaceTagApiLink = new WorkspaceTagApiLinkImpl(this);
+    this.workspaceTagOperationLink = new WorkspaceTagOperationLinkImpl(this);
+    this.workspaceTagProductLink = new WorkspaceTagProductLinkImpl(this);
+    this.workspaceApiExport = new WorkspaceApiExportImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -383,7 +544,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   /**
    * Performs a connectivity check between the API Management service and a given destination, and
    * returns metrics for the connection, as well as errors encountered while trying to establish it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param connectivityCheckRequestParams Connectivity Check request parameters.
    * @param options The options parameters.
@@ -394,8 +555,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     connectivityCheckRequestParams: ConnectivityCheckRequest,
     options?: PerformConnectivityCheckAsyncOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PerformConnectivityCheckAsyncResponse>,
+    SimplePollerLike<
+      OperationState<PerformConnectivityCheckAsyncResponse>,
       PerformConnectivityCheckAsyncResponse
     >
   > {
@@ -405,7 +566,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     ): Promise<PerformConnectivityCheckAsyncResponse> => {
       return this.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -438,20 +599,23 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         connectivityCheckRequestParams,
         options
       },
-      performConnectivityCheckAsyncOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: performConnectivityCheckAsyncOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PerformConnectivityCheckAsyncResponse,
+      OperationState<PerformConnectivityCheckAsyncResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -460,7 +624,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   /**
    * Performs a connectivity check between the API Management service and a given destination, and
    * returns metrics for the connection, as well as errors encountered while trying to establish it.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param connectivityCheckRequestParams Connectivity Check request parameters.
    * @param options The options parameters.
@@ -486,6 +650,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiOperation: ApiOperation;
   apiOperationPolicy: ApiOperationPolicy;
   tag: Tag;
+  graphQLApiResolver: GraphQLApiResolver;
+  graphQLApiResolverPolicy: GraphQLApiResolverPolicy;
   apiProduct: ApiProduct;
   apiPolicy: ApiPolicy;
   apiSchema: ApiSchema;
@@ -495,8 +661,14 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiIssueAttachment: ApiIssueAttachment;
   apiTagDescription: ApiTagDescription;
   operationOperations: OperationOperations;
+  apiWiki: ApiWiki;
+  apiWikis: ApiWikis;
   apiExport: ApiExport;
   apiVersionSet: ApiVersionSet;
+  authorizationProvider: AuthorizationProvider;
+  authorization: Authorization;
+  authorizationLoginLinks: AuthorizationLoginLinks;
+  authorizationAccessPolicy: AuthorizationAccessPolicy;
   authorizationServer: AuthorizationServer;
   backend: Backend;
   cache: Cache;
@@ -508,6 +680,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiManagementServiceSkus: ApiManagementServiceSkus;
   apiManagementService: ApiManagementService;
   diagnostic: Diagnostic;
+  documentation: Documentation;
   emailTemplate: EmailTemplate;
   gateway: Gateway;
   gatewayHostnameConfiguration: GatewayHostnameConfiguration;
@@ -527,6 +700,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpoints;
   policy: Policy;
   policyDescription: PolicyDescription;
+  policyFragment: PolicyFragment;
+  portalConfig: PortalConfig;
   portalRevision: PortalRevision;
   portalSettings: PortalSettings;
   signInSettings: SignInSettings;
@@ -538,6 +713,10 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   productGroup: ProductGroup;
   productSubscriptions: ProductSubscriptions;
   productPolicy: ProductPolicy;
+  productWiki: ProductWiki;
+  productWikis: ProductWikis;
+  productApiLink: ProductApiLink;
+  productGroupLink: ProductGroupLink;
   quotaByCounterKeys: QuotaByCounterKeys;
   quotaByPeriodKeys: QuotaByPeriodKeys;
   region: Region;
@@ -547,6 +726,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiManagementSkus: ApiManagementSkus;
   subscription: Subscription;
   tagResource: TagResource;
+  tagApiLink: TagApiLink;
+  tagOperationLink: TagOperationLink;
+  tagProductLink: TagProductLink;
   tenantAccess: TenantAccess;
   tenantAccessGit: TenantAccessGit;
   tenantConfiguration: TenantConfiguration;
@@ -555,6 +737,34 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   userSubscription: UserSubscription;
   userIdentities: UserIdentities;
   userConfirmationPassword: UserConfirmationPassword;
+  workspace: Workspace;
+  workspacePolicy: WorkspacePolicy;
+  workspaceNamedValue: WorkspaceNamedValue;
+  workspaceGlobalSchema: WorkspaceGlobalSchema;
+  workspaceNotification: WorkspaceNotification;
+  workspaceNotificationRecipientUser: WorkspaceNotificationRecipientUser;
+  workspaceNotificationRecipientEmail: WorkspaceNotificationRecipientEmail;
+  workspacePolicyFragment: WorkspacePolicyFragment;
+  workspaceGroup: WorkspaceGroup;
+  workspaceGroupUser: WorkspaceGroupUser;
+  workspaceSubscription: WorkspaceSubscription;
+  workspaceApiVersionSet: WorkspaceApiVersionSet;
+  workspaceApi: WorkspaceApi;
+  workspaceApiRevision: WorkspaceApiRevision;
+  workspaceApiRelease: WorkspaceApiRelease;
+  workspaceApiOperation: WorkspaceApiOperation;
+  workspaceApiOperationPolicy: WorkspaceApiOperationPolicy;
+  workspaceApiPolicy: WorkspaceApiPolicy;
+  workspaceApiSchema: WorkspaceApiSchema;
+  workspaceProduct: WorkspaceProduct;
+  workspaceProductApiLink: WorkspaceProductApiLink;
+  workspaceProductGroupLink: WorkspaceProductGroupLink;
+  workspaceProductPolicy: WorkspaceProductPolicy;
+  workspaceTag: WorkspaceTag;
+  workspaceTagApiLink: WorkspaceTagApiLink;
+  workspaceTagOperationLink: WorkspaceTagOperationLink;
+  workspaceTagProductLink: WorkspaceTagProductLink;
+  workspaceApiExport: WorkspaceApiExport;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
