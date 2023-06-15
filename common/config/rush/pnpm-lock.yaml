@@ -3861,7 +3861,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230614
+      typescript: 5.2.0-dev.20230615
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8430,8 +8430,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230614:
-    resolution: {integrity: sha512-DKpizlDq/CJKtl6mL4vKuLiqsSNV4iXN1gvQusKnbOo382zJTDDOD21liVymFKCZvM1ffDt6Jk1LUvfSFtg1SA==}
+  /typescript/5.2.0-dev.20230615:
+    resolution: {integrity: sha512-SdfFJrVM+chzZhLGs4On2LYaG/1DD2vr5hMCA1OwYUOompO+U6ljnHMQT5DAu8Bx2Ku5ZBBv53QnKK7WBrH2lA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14355,7 +14355,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-Aud3W52dRSgpgYe3rZRXrbxW8Tvfwu8+Wm4Efi3qUS4W9kgsPaKMU9sEgRRcu6v2KfZ4wnx8b6Sr5XpZIVIS7A==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-+oQ9MXTUDjck4u2f1DPzAUl76/mLQhw6641bOdwOIW/JnQjCCkOdTXCa750GiKOfJGZRRKGNmjyiGrCm04yuPw==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -14369,8 +14369,8 @@ packages:
       '@types/node': 14.18.50
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -18034,7 +18034,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-eSEBVwjAgB+AI8F/6lXwOfc40roQ3T+xssNhj8mK6yyHW5p6/GAGUb31ygczQQ4+HFN5DOaCRmDjI7qLUr36Pw==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-hicyFzcmDeojGMYPShRu/1QutC3O/v4RvGG+8d4gwfe+fA/s+q39ikpdm6ALIDraAZGxlMio8Q16uTmlaK5wKw==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:

@@ -20,9 +20,11 @@ import {
   SourceControlsListResponse,
   SourceControlsGetOptionalParams,
   SourceControlsGetResponse,
-  SourceControlsDeleteOptionalParams,
   SourceControlsCreateOptionalParams,
   SourceControlsCreateResponse,
+  Paths1J3Lu7WSubscriptionsSubscriptionidResourcegroupsResourcegroupnameProvidersMicrosoftOperationalinsightsWorkspacesWorkspacenameProvidersMicrosoftSecurityinsightsSourcecontrolsSourcecontrolidDeletePostRequestbodyContentApplicationJsonSchema,
+  SourceControlsDeleteOptionalParams,
+  SourceControlsDeleteResponse,
   SourceControlsListNextResponse
 } from "../models";
 
@@ -152,25 +154,6 @@ export class SourceControlsImpl implements SourceControls {
   }
 
   /**
-   * Delete a source control.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sourceControlId Source control Id
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    sourceControlId: string,
-    options?: SourceControlsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, sourceControlId, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
    * Creates a source control.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -194,6 +177,33 @@ export class SourceControlsImpl implements SourceControls {
         options
       },
       createOperationSpec
+    );
+  }
+
+  /**
+   * Delete a source control.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param sourceControlId Source control Id
+   * @param repositoryAccess The repository access credentials.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    workspaceName: string,
+    sourceControlId: string,
+    repositoryAccess: Paths1J3Lu7WSubscriptionsSubscriptionidResourcegroupsResourcegroupnameProvidersMicrosoftOperationalinsightsWorkspacesWorkspacenameProvidersMicrosoftSecurityinsightsSourcecontrolsSourcecontrolidDeletePostRequestbodyContentApplicationJsonSchema,
+    options?: SourceControlsDeleteOptionalParams
+  ): Promise<SourceControlsDeleteResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sourceControlId,
+        repositoryAccess,
+        options
+      },
+      deleteOperationSpec
     );
   }
 
@@ -264,28 +274,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sourceControlId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const createOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}",
@@ -302,6 +290,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.sourceControl,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sourceControlId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}/delete",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Warning
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.repositoryAccess,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
