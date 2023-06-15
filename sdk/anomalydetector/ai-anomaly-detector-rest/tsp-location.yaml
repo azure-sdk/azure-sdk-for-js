@@ -1,0 +1,5 @@
+additionalDirectories: []
+directory: specification/cognitiveservices/AnomalyDetector
+commit: 11fd324c4d1e188d7e11488b8340a5cce1c7833f
+repo: Azure/azure-rest-api-specs
+
