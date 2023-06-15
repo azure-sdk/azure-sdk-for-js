@@ -8,32 +8,32 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { MaintenanceConfigurations } from "../operationsInterfaces";
+import { TrustedAccessRoleBindings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerServiceClient } from "../containerServiceClient";
 import {
-  MaintenanceConfiguration,
-  MaintenanceConfigurationsListByManagedClusterNextOptionalParams,
-  MaintenanceConfigurationsListByManagedClusterOptionalParams,
-  MaintenanceConfigurationsListByManagedClusterResponse,
-  MaintenanceConfigurationsGetOptionalParams,
-  MaintenanceConfigurationsGetResponse,
-  MaintenanceConfigurationsCreateOrUpdateOptionalParams,
-  MaintenanceConfigurationsCreateOrUpdateResponse,
-  MaintenanceConfigurationsDeleteOptionalParams,
-  MaintenanceConfigurationsListByManagedClusterNextResponse
+  TrustedAccessRoleBinding,
+  TrustedAccessRoleBindingsListNextOptionalParams,
+  TrustedAccessRoleBindingsListOptionalParams,
+  TrustedAccessRoleBindingsListResponse,
+  TrustedAccessRoleBindingsGetOptionalParams,
+  TrustedAccessRoleBindingsGetResponse,
+  TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
+  TrustedAccessRoleBindingsCreateOrUpdateResponse,
+  TrustedAccessRoleBindingsDeleteOptionalParams,
+  TrustedAccessRoleBindingsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing MaintenanceConfigurations operations. */
-export class MaintenanceConfigurationsImpl
-  implements MaintenanceConfigurations {
+/** Class containing TrustedAccessRoleBindings operations. */
+export class TrustedAccessRoleBindingsImpl
+  implements TrustedAccessRoleBindings {
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class MaintenanceConfigurations class.
+   * Initialize a new instance of the class TrustedAccessRoleBindings class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -41,21 +41,17 @@ export class MaintenanceConfigurationsImpl
   }
 
   /**
-   * Gets a list of maintenance configurations in the specified managed cluster.
+   * List trusted access role bindings.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
-  public listByManagedCluster(
+  public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
-  ): PagedAsyncIterableIterator<MaintenanceConfiguration> {
-    const iter = this.listByManagedClusterPagingAll(
-      resourceGroupName,
-      resourceName,
-      options
-    );
+    options?: TrustedAccessRoleBindingsListOptionalParams
+  ): PagedAsyncIterableIterator<TrustedAccessRoleBinding> {
+    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -67,7 +63,7 @@ export class MaintenanceConfigurationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByManagedClusterPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
           resourceName,
           options,
@@ -77,27 +73,23 @@ export class MaintenanceConfigurationsImpl
     };
   }
 
-  private async *listByManagedClusterPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
+    options?: TrustedAccessRoleBindingsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<MaintenanceConfiguration[]> {
-    let result: MaintenanceConfigurationsListByManagedClusterResponse;
+  ): AsyncIterableIterator<TrustedAccessRoleBinding[]> {
+    let result: TrustedAccessRoleBindingsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedCluster(
-        resourceGroupName,
-        resourceName,
-        options
-      );
+      result = await this._list(resourceGroupName, resourceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByManagedClusterNext(
+      result = await this._listNext(
         resourceGroupName,
         resourceName,
         continuationToken,
@@ -110,12 +102,12 @@ export class MaintenanceConfigurationsImpl
     }
   }
 
-  private async *listByManagedClusterPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
-  ): AsyncIterableIterator<MaintenanceConfiguration> {
-    for await (const page of this.listByManagedClusterPagingPage(
+    options?: TrustedAccessRoleBindingsListOptionalParams
+  ): AsyncIterableIterator<TrustedAccessRoleBinding> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
       options
@@ -125,110 +117,126 @@ export class MaintenanceConfigurationsImpl
   }
 
   /**
-   * Gets a list of maintenance configurations in the specified managed cluster.
+   * List trusted access role bindings.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
-  private _listByManagedCluster(
+  private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
-  ): Promise<MaintenanceConfigurationsListByManagedClusterResponse> {
+    options?: TrustedAccessRoleBindingsListOptionalParams
+  ): Promise<TrustedAccessRoleBindingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listByManagedClusterOperationSpec
+      listOperationSpec
     );
   }
 
   /**
-   * Gets the specified maintenance configuration of a managed cluster.
+   * Get a trusted access role binding.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
+   * @param trustedAccessRoleBindingName The name of trusted access role binding.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    configName: string,
-    options?: MaintenanceConfigurationsGetOptionalParams
-  ): Promise<MaintenanceConfigurationsGetResponse> {
+    trustedAccessRoleBindingName: string,
+    options?: TrustedAccessRoleBindingsGetOptionalParams
+  ): Promise<TrustedAccessRoleBindingsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, configName, options },
+      {
+        resourceGroupName,
+        resourceName,
+        trustedAccessRoleBindingName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a maintenance configuration in the specified managed cluster.
+   * Create or update a trusted access role binding
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
-   * @param parameters The maintenance configuration to create or update.
+   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param trustedAccessRoleBinding A trusted access role binding
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    configName: string,
-    parameters: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams
-  ): Promise<MaintenanceConfigurationsCreateOrUpdateResponse> {
+    trustedAccessRoleBindingName: string,
+    trustedAccessRoleBinding: TrustedAccessRoleBinding,
+    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, configName, parameters, options },
+      {
+        resourceGroupName,
+        resourceName,
+        trustedAccessRoleBindingName,
+        trustedAccessRoleBinding,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Deletes a maintenance configuration.
+   * Delete a trusted access role binding.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
+   * @param trustedAccessRoleBindingName The name of trusted access role binding.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     resourceName: string,
-    configName: string,
-    options?: MaintenanceConfigurationsDeleteOptionalParams
+    trustedAccessRoleBindingName: string,
+    options?: TrustedAccessRoleBindingsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, configName, options },
+      {
+        resourceGroupName,
+        resourceName,
+        trustedAccessRoleBindingName,
+        options
+      },
       deleteOperationSpec
     );
   }
 
   /**
-   * ListByManagedClusterNext
+   * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param nextLink The nextLink from the previous successful call to the ListByManagedCluster method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByManagedClusterNext(
+  private _listNext(
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: MaintenanceConfigurationsListByManagedClusterNextOptionalParams
-  ): Promise<MaintenanceConfigurationsListByManagedClusterNextResponse> {
+    options?: TrustedAccessRoleBindingsListNextOptionalParams
+  ): Promise<TrustedAccessRoleBindingsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listByManagedClusterNextOperationSpec
+      listNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfigurationListResult
+      bodyMapper: Mappers.TrustedAccessRoleBindingListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -246,11 +254,11 @@ const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.TrustedAccessRoleBinding
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -262,34 +270,34 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName
+    Parameters.trustedAccessRoleBindingName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.TrustedAccessRoleBinding
     },
     201: {
-      bodyMapper: Mappers.MaintenanceConfiguration
+      bodyMapper: Mappers.TrustedAccessRoleBinding
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.trustedAccessRoleBinding,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName
+    Parameters.trustedAccessRoleBindingName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -297,7 +305,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -312,17 +320,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName
+    Parameters.trustedAccessRoleBindingName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfigurationListResult
+      bodyMapper: Mappers.TrustedAccessRoleBindingListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
