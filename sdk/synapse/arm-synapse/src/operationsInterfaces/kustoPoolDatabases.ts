@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabaseUnion,
   KustoPoolDatabasesListByKustoPoolOptionalParams,
@@ -68,8 +68,8 @@ export interface KustoPoolDatabases {
     parameters: DatabaseUnion,
     options?: KustoPoolDatabasesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDatabasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasesCreateOrUpdateResponse>,
       KustoPoolDatabasesCreateOrUpdateResponse
     >
   >;
@@ -107,8 +107,8 @@ export interface KustoPoolDatabases {
     parameters: DatabaseUnion,
     options?: KustoPoolDatabasesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDatabasesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasesUpdateResponse>,
       KustoPoolDatabasesUpdateResponse
     >
   >;
@@ -143,7 +143,7 @@ export interface KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     options?: KustoPoolDatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the database with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
