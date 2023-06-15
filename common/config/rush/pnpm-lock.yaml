@@ -9675,7 +9675,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-rFBL4LJBuCjy5/jIdjV5HKIzNPXbhFJZ+EFeGLn6oPCMZeaHEuIB3LklKUDD7MA/zZ7haHgQLpH7R7vn7UNH1A==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-Pf3Rs6EIVOpJpDTW1xD/TJS3Df99ebj1/cyVM4+LUqKC96s6X7BxYFljj0EKA08toS1Ad5xHx2P+4syw25LqiQ==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -9689,8 +9689,8 @@ packages:
       '@types/node': 14.18.50
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
