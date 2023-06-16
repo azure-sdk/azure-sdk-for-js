@@ -17,13 +17,11 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   CommunicationsGatewaysImpl,
-  NameAvailabilityImpl,
   TestLinesImpl
 } from "./operations";
 import {
   Operations,
   CommunicationsGateways,
-  NameAvailability,
   TestLines
 } from "./operationsInterfaces";
 import { MicrosoftVoiceServicesOptionalParams } from "./models";
@@ -60,7 +58,7 @@ export class MicrosoftVoiceServices extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-voiceservices/1.0.0`;
+    const packageDetails = `azsdk-js-arm-voiceservices/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,10 +111,9 @@ export class MicrosoftVoiceServices extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-31";
+    this.apiVersion = options.apiVersion || "2023-04-03";
     this.operations = new OperationsImpl(this);
     this.communicationsGateways = new CommunicationsGatewaysImpl(this);
-    this.nameAvailability = new NameAvailabilityImpl(this);
     this.testLines = new TestLinesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -151,6 +148,5 @@ export class MicrosoftVoiceServices extends coreClient.ServiceClient {
 
   operations: Operations;
   communicationsGateways: CommunicationsGateways;
-  nameAvailability: NameAvailability;
   testLines: TestLines;
 }

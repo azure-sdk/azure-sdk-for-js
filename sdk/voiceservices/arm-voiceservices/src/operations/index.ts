@@ -8,5 +8,4 @@
 
 export * from "./operations";
 export * from "./communicationsGateways";
-export * from "./nameAvailability";
 export * from "./testLines";

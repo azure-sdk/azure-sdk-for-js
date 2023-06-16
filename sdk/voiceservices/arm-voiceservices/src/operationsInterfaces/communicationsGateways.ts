@@ -12,6 +12,9 @@ import {
   CommunicationsGateway,
   CommunicationsGatewaysListBySubscriptionOptionalParams,
   CommunicationsGatewaysListByResourceGroupOptionalParams,
+  CheckNameAvailabilityRequest,
+  CommunicationsGatewaysCheckLocalOptionalParams,
+  CommunicationsGatewaysCheckLocalResponse,
   CommunicationsGatewaysGetOptionalParams,
   CommunicationsGatewaysGetResponse,
   CommunicationsGatewaysCreateOrUpdateOptionalParams,
@@ -41,6 +44,17 @@ export interface CommunicationsGateways {
     resourceGroupName: string,
     options?: CommunicationsGatewaysListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<CommunicationsGateway>;
+  /**
+   * Implements global CheckNameAvailability operations
+   * @param location The location name.
+   * @param body The CheckAvailability request
+   * @param options The options parameters.
+   */
+  checkLocal(
+    location: string,
+    body: CheckNameAvailabilityRequest,
+    options?: CommunicationsGatewaysCheckLocalOptionalParams
+  ): Promise<CommunicationsGatewaysCheckLocalResponse>;
   /**
    * Get a CommunicationsGateway
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

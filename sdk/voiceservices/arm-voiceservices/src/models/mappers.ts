@@ -214,6 +214,54 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityRequest",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckNameAvailabilityResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityResponse",
+    modelProperties: {
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CommunicationsGatewayListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -321,6 +369,68 @@ export const PrimaryRegionProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -403,59 +513,18 @@ export const SystemData: coreClient.CompositeMapper = {
   }
 };
 
-export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CheckNameAvailabilityRequest",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CheckNameAvailabilityResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CheckNameAvailabilityResponse",
-    modelProperties: {
-      nameAvailable: {
-        serializedName: "nameAvailable",
-        type: {
-          name: "Boolean"
-        }
-      },
-      reason: {
-        serializedName: "reason",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CommunicationsGatewayUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationsGatewayUpdate",
     modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       tags: {
         serializedName: "tags",
         type: {
@@ -511,6 +580,22 @@ export const TestLineUpdate: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -541,6 +626,13 @@ export const CommunicationsGateway: coreClient.CompositeMapper = {
     className: "CommunicationsGateway",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -637,6 +729,13 @@ export const CommunicationsGateway: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      integratedMcpEnabled: {
+        defaultValue: false,
+        serializedName: "properties.integratedMcpEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       emergencyDialStrings: {
         defaultValue: ["911", "933"],
         serializedName: "properties.emergencyDialStrings",
@@ -682,6 +781,47 @@ export const TestLine: coreClient.CompositeMapper = {
   }
 };
 
+export const Contact: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Contact",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      contactName: {
+        serializedName: "properties.contactName",
+        type: {
+          name: "String"
+        }
+      },
+      phoneNumber: {
+        serializedName: "properties.phoneNumber",
+        type: {
+          name: "String"
+        }
+      },
+      email: {
+        serializedName: "properties.email",
+        type: {
+          name: "String"
+        }
+      },
+      role: {
+        serializedName: "properties.role",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CommunicationsGatewaysCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -706,6 +846,12 @@ export const CommunicationsGatewaysDeleteHeaders: coreClient.CompositeMapper = {
         serializedName: "retry-after",
         type: {
           name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }
@@ -736,6 +882,12 @@ export const TestLinesDeleteHeaders: coreClient.CompositeMapper = {
         serializedName: "retry-after",
         type: {
           name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

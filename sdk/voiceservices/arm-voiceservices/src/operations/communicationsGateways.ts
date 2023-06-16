@@ -27,6 +27,9 @@ import {
   CommunicationsGatewaysListByResourceGroupNextOptionalParams,
   CommunicationsGatewaysListByResourceGroupOptionalParams,
   CommunicationsGatewaysListByResourceGroupResponse,
+  CheckNameAvailabilityRequest,
+  CommunicationsGatewaysCheckLocalOptionalParams,
+  CommunicationsGatewaysCheckLocalResponse,
   CommunicationsGatewaysGetOptionalParams,
   CommunicationsGatewaysGetResponse,
   CommunicationsGatewaysCreateOrUpdateOptionalParams,
@@ -173,6 +176,23 @@ export class CommunicationsGatewaysImpl implements CommunicationsGateways {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Implements global CheckNameAvailability operations
+   * @param location The location name.
+   * @param body The CheckAvailability request
+   * @param options The options parameters.
+   */
+  checkLocal(
+    location: string,
+    body: CheckNameAvailabilityRequest,
+    options?: CommunicationsGatewaysCheckLocalOptionalParams
+  ): Promise<CommunicationsGatewaysCheckLocalResponse> {
+    return this.client.sendOperationRequest(
+      { location, body, options },
+      checkLocalOperationSpec
+    );
   }
 
   /**
@@ -374,7 +394,7 @@ export class CommunicationsGatewaysImpl implements CommunicationsGateways {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -453,6 +473,29 @@ export class CommunicationsGatewaysImpl implements CommunicationsGateways {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const checkLocalOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/locations/{location}/providers/Microsoft.VoiceServices/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.VoiceServices/communicationsGateways",

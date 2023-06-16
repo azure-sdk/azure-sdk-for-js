@@ -41,6 +41,8 @@ export interface CommunicationsGateway extends TrackedResource {
     connectivity?: Connectivity;
     e911Type?: E911Type;
     emergencyDialStrings?: string[];
+    identity?: ManagedServiceIdentity;
+    integratedMcpEnabled?: boolean;
     onPremMcpEnabled?: boolean;
     platforms?: CommunicationsPlatform[];
     readonly provisioningState?: ProvisioningState;
@@ -61,11 +63,19 @@ export interface CommunicationsGateways {
     beginCreateOrUpdateAndWait(resourceGroupName: string, communicationsGatewayName: string, resource: CommunicationsGateway, options?: CommunicationsGatewaysCreateOrUpdateOptionalParams): Promise<CommunicationsGatewaysCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, communicationsGatewayName: string, options?: CommunicationsGatewaysDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, communicationsGatewayName: string, options?: CommunicationsGatewaysDeleteOptionalParams): Promise<void>;
+    checkLocal(location: string, body: CheckNameAvailabilityRequest, options?: CommunicationsGatewaysCheckLocalOptionalParams): Promise<CommunicationsGatewaysCheckLocalResponse>;
     get(resourceGroupName: string, communicationsGatewayName: string, options?: CommunicationsGatewaysGetOptionalParams): Promise<CommunicationsGatewaysGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: CommunicationsGatewaysListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CommunicationsGateway>;
     listBySubscription(options?: CommunicationsGatewaysListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CommunicationsGateway>;
     update(resourceGroupName: string, communicationsGatewayName: string, properties: CommunicationsGatewayUpdate, options?: CommunicationsGatewaysUpdateOptionalParams): Promise<CommunicationsGatewaysUpdateResponse>;
 }
+
+// @public
+export interface CommunicationsGatewaysCheckLocalOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunicationsGatewaysCheckLocalResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface CommunicationsGatewaysCreateOrUpdateHeaders {
@@ -83,6 +93,7 @@ export type CommunicationsGatewaysCreateOrUpdateResponse = CommunicationsGateway
 
 // @public
 export interface CommunicationsGatewaysDeleteHeaders {
+    location?: string;
     retryAfter?: number;
 }
 
@@ -136,6 +147,7 @@ export type CommunicationsGatewaysUpdateResponse = CommunicationsGateway;
 
 // @public
 export interface CommunicationsGatewayUpdate {
+    identity?: ManagedServiceIdentity;
     tags?: {
         [propertyName: string]: string;
     };
@@ -146,6 +158,15 @@ export type CommunicationsPlatform = string;
 
 // @public
 export type Connectivity = string;
+
+// @public
+export interface Contact extends TrackedResource {
+    contactName?: string;
+    email?: string;
+    phoneNumber?: string;
+    readonly provisioningState?: ProvisioningState;
+    role?: string;
+}
 
 // @public
 export type CreatedByType = string;
@@ -221,6 +242,14 @@ export enum KnownE911Type {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -256,6 +285,27 @@ export enum KnownTestLinePurpose {
     Manual = "Manual"
 }
 
+// @public
+export enum KnownVersions {
+    V20221201Preview = "2022-12-01-preview",
+    V20230131 = "2023-01-31",
+    V20230301Preview = "2023-03-01-preview",
+    V20230403 = "2023-04-03"
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
 // @public (undocumented)
 export class MicrosoftVoiceServices extends coreClient.ServiceClient {
     // (undocumented)
@@ -265,8 +315,6 @@ export class MicrosoftVoiceServices extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     communicationsGateways: CommunicationsGateways;
-    // (undocumented)
-    nameAvailability: NameAvailability;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -281,18 +329,6 @@ export interface MicrosoftVoiceServicesOptionalParams extends coreClient.Service
     apiVersion?: string;
     endpoint?: string;
 }
-
-// @public
-export interface NameAvailability {
-    checkLocal(location: string, body: CheckNameAvailabilityRequest, options?: NameAvailabilityCheckLocalOptionalParams): Promise<NameAvailabilityCheckLocalResponse>;
-}
-
-// @public
-export interface NameAvailabilityCheckLocalOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NameAvailabilityCheckLocalResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface Operation {
@@ -356,6 +392,11 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceProperties {
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -423,6 +464,7 @@ export type TestLinesCreateOrUpdateResponse = TestLine;
 
 // @public
 export interface TestLinesDeleteHeaders {
+    location?: string;
     retryAfter?: number;
 }
 
@@ -474,6 +516,15 @@ export interface TrackedResource extends Resource {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 

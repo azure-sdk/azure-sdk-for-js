@@ -121,6 +121,24 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+}
+
+/** The check availability result. */
+export interface CheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: CheckNameAvailabilityReason;
+  /** Detailed reason why the given name is available. */
+  message?: string;
+}
+
 /** The response of a CommunicationsGateway list operation. */
 export interface CommunicationsGatewayListResult {
   /** The CommunicationsGateway items on this page */
@@ -147,6 +165,38 @@ export interface PrimaryRegionProperties {
   allowedSignalingSourceAddressPrefixes?: string[];
   /** The allowed source IP address or CIDR ranges for media */
   allowedMediaSourceAddressPrefixes?: string[];
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -189,26 +239,10 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** The check availability request body. */
-export interface CheckNameAvailabilityRequest {
-  /** The name of the resource for which availability needs to be checked. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-}
-
-/** The check availability result. */
-export interface CheckNameAvailabilityResponse {
-  /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
-  /** The reason why the given name is not available. */
-  reason?: CheckNameAvailabilityReason;
-  /** Detailed reason why the given name is not available. */
-  message?: string;
-}
-
 /** The type used for update operations of the CommunicationsGateway. */
 export interface CommunicationsGatewayUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
 }
@@ -227,6 +261,15 @@ export interface TestLineUpdate {
   tags?: { [propertyName: string]: string };
 }
 
+/** General resource properties. */
+export interface ResourceProperties {
+  /**
+   * Resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -237,6 +280,8 @@ export interface TrackedResource extends Resource {
 
 /** A CommunicationsGateway resource */
 export interface CommunicationsGateway extends TrackedResource {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
   /**
    * Resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -270,6 +315,8 @@ export interface CommunicationsGateway extends TrackedResource {
   teamsVoicemailPilotNumber?: string;
   /** Whether an on-premises Mobile Control Point is in use. */
   onPremMcpEnabled?: boolean;
+  /** Whether an integrated Mobile Control Point is in use. */
+  integratedMcpEnabled?: boolean;
   /** A list of dial strings used for emergency calling. */
   emergencyDialStrings?: string[];
 }
@@ -287,6 +334,23 @@ export interface TestLine extends TrackedResource {
   purpose?: TestLinePurpose;
 }
 
+/** A Contact resource */
+export interface Contact extends TrackedResource {
+  /**
+   * Resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Full name of contact */
+  contactName?: string;
+  /** Telephone number of contact */
+  phoneNumber?: string;
+  /** Email address of contact */
+  email?: string;
+  /** Job title of contact */
+  role?: string;
+}
+
 /** Defines headers for CommunicationsGateways_createOrUpdate operation. */
 export interface CommunicationsGatewaysCreateOrUpdateHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -297,6 +361,8 @@ export interface CommunicationsGatewaysCreateOrUpdateHeaders {
 export interface CommunicationsGatewaysDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for TestLines_createOrUpdate operation. */
@@ -309,6 +375,8 @@ export interface TestLinesCreateOrUpdateHeaders {
 export interface TestLinesDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -347,13 +415,31 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** AlreadyExists */
+  AlreadyExists = "AlreadyExists"
+}
+
+/**
+ * Defines values for CheckNameAvailabilityReason. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
+ */
+export type CheckNameAvailabilityReason = string;
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled"
 }
 
@@ -362,9 +448,9 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
  */
 export type ProvisioningState = string;
 
@@ -403,17 +489,17 @@ export type Connectivity = string;
 
 /** Known values of {@link TeamsCodecs} that the service accepts. */
 export enum KnownTeamsCodecs {
-  /** Pcma */
+  /** PCMA Codec */
   Pcma = "PCMA",
-  /** Pcmu */
+  /** PCMU Codec */
   Pcmu = "PCMU",
-  /** G722 */
+  /** G722 Codec */
   G722 = "G722",
-  /** G7222 */
+  /** G722.2 Codec */
   G7222 = "G722_2",
-  /** Silk8 */
+  /** SILK 8K Codec */
   Silk8 = "SILK_8",
-  /** Silk16 */
+  /** SILK 16K Codec */
   Silk16 = "SILK_16"
 }
 
@@ -422,12 +508,12 @@ export enum KnownTeamsCodecs {
  * {@link KnownTeamsCodecs} can be used interchangeably with TeamsCodecs,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PCMA** \
- * **PCMU** \
- * **G722** \
- * **G722_2** \
- * **SILK_8** \
- * **SILK_16**
+ * **PCMA**: PCMA Codec \
+ * **PCMU**: PCMU Codec \
+ * **G722**: G722 Codec \
+ * **G722_2**: G722.2 Codec \
+ * **SILK_8**: SILK 8K Codec \
+ * **SILK_16**: SILK 16K Codec
  */
 export type TeamsCodecs = string;
 
@@ -451,9 +537,9 @@ export type E911Type = string;
 
 /** Known values of {@link CommunicationsPlatform} that the service accepts. */
 export enum KnownCommunicationsPlatform {
-  /** OperatorConnect */
+  /** Operator Connect */
   OperatorConnect = "OperatorConnect",
-  /** TeamsPhoneMobile */
+  /** Teams Phone Mobile */
   TeamsPhoneMobile = "TeamsPhoneMobile"
 }
 
@@ -462,20 +548,20 @@ export enum KnownCommunicationsPlatform {
  * {@link KnownCommunicationsPlatform} can be used interchangeably with CommunicationsPlatform,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **OperatorConnect** \
- * **TeamsPhoneMobile**
+ * **OperatorConnect**: Operator Connect \
+ * **TeamsPhoneMobile**: Teams Phone Mobile
  */
 export type CommunicationsPlatform = string;
 
 /** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
 export enum KnownAutoGeneratedDomainNameLabelScope {
-  /** TenantReuse */
+  /** Re-use tenant */
   TenantReuse = "TenantReuse",
-  /** SubscriptionReuse */
+  /** Re-use subscription */
   SubscriptionReuse = "SubscriptionReuse",
-  /** ResourceGroupReuse */
+  /** Re-use resource group */
   ResourceGroupReuse = "ResourceGroupReuse",
-  /** NoReuse */
+  /** No re-use */
   NoReuse = "NoReuse"
 }
 
@@ -484,12 +570,36 @@ export enum KnownAutoGeneratedDomainNameLabelScope {
  * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TenantReuse** \
- * **SubscriptionReuse** \
- * **ResourceGroupReuse** \
- * **NoReuse**
+ * **TenantReuse**: Re-use tenant \
+ * **SubscriptionReuse**: Re-use subscription \
+ * **ResourceGroupReuse**: Re-use resource group \
+ * **NoReuse**: No re-use
  */
 export type AutoGeneratedDomainNameLabelScope = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -515,29 +625,11 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
-export enum KnownCheckNameAvailabilityReason {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
-}
-
-/**
- * Defines values for CheckNameAvailabilityReason. \
- * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **AlreadyExists**
- */
-export type CheckNameAvailabilityReason = string;
-
 /** Known values of {@link TestLinePurpose} that the service accepts. */
 export enum KnownTestLinePurpose {
-  /** Manual */
+  /** The test line is used for manual testing. */
   Manual = "Manual",
-  /** Automated */
+  /** The test line is used for automated testing. */
   Automated = "Automated"
 }
 
@@ -546,10 +638,34 @@ export enum KnownTestLinePurpose {
  * {@link KnownTestLinePurpose} can be used interchangeably with TestLinePurpose,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Manual** \
- * **Automated**
+ * **Manual**: The test line is used for manual testing. \
+ * **Automated**: The test line is used for automated testing.
  */
 export type TestLinePurpose = string;
+
+/** Known values of {@link Versions} that the service accepts. */
+export enum KnownVersions {
+  /** V20221201Preview */
+  V20221201Preview = "2022-12-01-preview",
+  /** V20230131 */
+  V20230131 = "2023-01-31",
+  /** V20230301Preview */
+  V20230301Preview = "2023-03-01-preview",
+  /** V20230403 */
+  V20230403 = "2023-04-03"
+}
+
+/**
+ * Defines values for Versions. \
+ * {@link KnownVersions} can be used interchangeably with Versions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2022-12-01-preview** \
+ * **2023-01-31** \
+ * **2023-03-01-preview** \
+ * **2023-04-03**
+ */
+export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -564,6 +680,13 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface CommunicationsGatewaysCheckLocalOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkLocal operation. */
+export type CommunicationsGatewaysCheckLocalResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface CommunicationsGatewaysListBySubscriptionOptionalParams
@@ -627,13 +750,6 @@ export interface CommunicationsGatewaysListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type CommunicationsGatewaysListByResourceGroupNextResponse = CommunicationsGatewayListResult;
-
-/** Optional parameters. */
-export interface NameAvailabilityCheckLocalOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkLocal operation. */
-export type NameAvailabilityCheckLocalResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface TestLinesListByCommunicationsGatewayOptionalParams

@@ -12,9 +12,9 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   CommunicationsGateway as CommunicationsGatewayMapper,
   CommunicationsGatewayUpdate as CommunicationsGatewayUpdateMapper,
-  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   TestLine as TestLineMapper,
   TestLineUpdate as TestLineUpdateMapper
 } from "../models/mappers";
@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-31",
+    defaultValue: "2023-04-03",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -67,6 +67,23 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: CheckNameAvailabilityRequestMapper
+};
+
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -74,6 +91,20 @@ export const subscriptionId: OperationURLParameter = {
       MinLength: 1
     },
     serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
     required: true,
     type: {
       name: "String"
@@ -110,18 +141,6 @@ export const communicationsGatewayName: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const resource: OperationParameter = {
   parameterPath: "resource",
   mapper: CommunicationsGatewayMapper
@@ -130,22 +149,6 @@ export const resource: OperationParameter = {
 export const properties: OperationParameter = {
   parameterPath: "properties",
   mapper: CommunicationsGatewayUpdateMapper
-};
-
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: CheckNameAvailabilityRequestMapper
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const testLineName: OperationURLParameter = {
