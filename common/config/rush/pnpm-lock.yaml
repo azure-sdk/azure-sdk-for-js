@@ -3972,7 +3972,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230615
+      typescript: 5.2.0-dev.20230616
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8540,8 +8540,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230615:
-    resolution: {integrity: sha512-SdfFJrVM+chzZhLGs4On2LYaG/1DD2vr5hMCA1OwYUOompO+U6ljnHMQT5DAu8Bx2Ku5ZBBv53QnKK7WBrH2lA==}
+  /typescript/5.2.0-dev.20230616:
+    resolution: {integrity: sha512-pprSaAXEPeobRjBGiyipvM7IXY4wSEHq5RiQS2BnDzYAXpfPi9jF5CRHg8QgWxm1KQlAy0JVLfsQI3rlHjDcEQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10542,7 +10542,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-ksox1tAbGPW1iipqh0nL53eF0Dx/lFuJj3U6s1D6sC8g0boGLprzf5GPLoArEnf0NbK17t7hM5W6GGAj1C3GIw==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-Zm/n1mDmjgbO82FgzW611tTEXJZ/FnZ1h9vR6SH6qvE0BzQzAg+dfxc64UR41VYwAVLkja+mmYY78la+QjrvFQ==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -10556,8 +10556,8 @@ packages:
       '@types/node': 14.18.47
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -16098,16 +16098,16 @@ packages:
     dependencies:
       '@azure/communication-common': 2.2.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.35.1_@types+node@14.18.48
+      '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
-      '@types/node': 14.18.48
+      '@types/node': 14.18.47
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 16.1.4
-      eslint: 8.42.0
+      dotenv: 16.0.3
+      eslint: 8.41.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.2
@@ -16125,7 +16125,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 9.2.4
-      tslib: 2.5.3
+      tslib: 2.5.2
       typescript: 5.0.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -19587,7 +19587,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-BMjmbuoK2hnEGDWu/6nyNJ7Te39cJkH0V+3Dl0aqMJoGg3eU5PnDxRfLyReKD6qGUF9rSrPEe2F7OJX0y3Jz2g==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-ax+3a9dUOOQQ5rDPec7HZ10/YxuUB2EAwf1i+9gZG+C9jsHyysWutCzgp1Bl8cXbm+7jpqshgoBCdmmeOTZNBg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
