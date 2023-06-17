@@ -1,15 +1,24 @@
 # Release History
+    
+## 19.1.0 (2023-06-17)
+    
+**Features**
 
-## 19.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AbsoluteMonthlySchedule
+  - Added Interface DailySchedule
+  - Added Interface DateSpan
+  - Added Interface DelegatedResource
+  - Added Interface MaintenanceWindow
+  - Added Interface RelativeMonthlySchedule
+  - Added Interface Schedule
+  - Added Interface WeeklySchedule
+  - Added Type Alias Type
+  - Interface AgentPoolUpgradeSettings has a new optional parameter drainTimeoutInMinutes
+  - Interface MaintenanceConfiguration has a new optional parameter maintenanceWindow
+  - Interface ManagedClusterIdentity has a new optional parameter delegatedResources
+  - Added Enum KnownType
+    
+    
 ## 19.0.0 (2023-05-19)
     
 **Features**
