@@ -18,19 +18,39 @@ import {
   ArcSettingsImpl,
   ClustersImpl,
   ExtensionsImpl,
-  OperationsImpl
+  OffersImpl,
+  OperationsImpl,
+  PublishersImpl,
+  SkusImpl,
+  UpdateRunsImpl,
+  UpdateSummariesOperationsImpl,
+  UpdatesImpl,
+  GetImpl,
+  CreateImpl,
+  UpdateOperationsImpl,
+  NodeConfigurationsImpl
 } from "./operations";
 import {
   ArcSettings,
   Clusters,
   Extensions,
-  Operations
+  Offers,
+  Operations,
+  Publishers,
+  Skus,
+  UpdateRuns,
+  UpdateSummariesOperations,
+  Updates,
+  Get,
+  Create,
+  UpdateOperations,
+  NodeConfigurations
 } from "./operationsInterfaces";
 import { AzureStackHCIClientOptionalParams } from "./models";
 
 export class AzureStackHCIClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -43,12 +63,26 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: AzureStackHCIClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AzureStackHCIClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: AzureStackHCIClientOptionalParams | string,
+    options?: AzureStackHCIClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -60,7 +94,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-azurestackhci/3.1.1`;
+    const packageDetails = `azsdk-js-arm-azurestackhci/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,11 +147,21 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2023-07-01-preview";
     this.arcSettings = new ArcSettingsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.extensions = new ExtensionsImpl(this);
+    this.offers = new OffersImpl(this);
     this.operations = new OperationsImpl(this);
+    this.publishers = new PublishersImpl(this);
+    this.skus = new SkusImpl(this);
+    this.updateRuns = new UpdateRunsImpl(this);
+    this.updateSummariesOperations = new UpdateSummariesOperationsImpl(this);
+    this.updates = new UpdatesImpl(this);
+    this.get = new GetImpl(this);
+    this.create = new CreateImpl(this);
+    this.updateOperations = new UpdateOperationsImpl(this);
+    this.nodeConfigurations = new NodeConfigurationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -152,5 +196,15 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   arcSettings: ArcSettings;
   clusters: Clusters;
   extensions: Extensions;
+  offers: Offers;
   operations: Operations;
+  publishers: Publishers;
+  skus: Skus;
+  updateRuns: UpdateRuns;
+  updateSummariesOperations: UpdateSummariesOperations;
+  updates: Updates;
+  get: Get;
+  create: Create;
+  updateOperations: UpdateOperations;
+  nodeConfigurations: NodeConfigurations;
 }
