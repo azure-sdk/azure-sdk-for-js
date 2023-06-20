@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IpFirewallRuleInfo,
   IpFirewallRulesListByWorkspaceNextOptionalParams,
@@ -161,8 +165,8 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     ipFirewallRuleInfo: IpFirewallRuleInfo,
     options?: IpFirewallRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesCreateOrUpdateResponse>,
       IpFirewallRulesCreateOrUpdateResponse
     >
   > {
@@ -172,7 +176,7 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     ): Promise<IpFirewallRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -205,21 +209,24 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         ruleName,
         ipFirewallRuleInfo,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IpFirewallRulesCreateOrUpdateResponse,
+      OperationState<IpFirewallRulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -263,8 +270,8 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     ruleName: string,
     options?: IpFirewallRulesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesDeleteResponse>,
       IpFirewallRulesDeleteResponse
     >
   > {
@@ -274,7 +281,7 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     ): Promise<IpFirewallRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -307,15 +314,18 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, ruleName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, ruleName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IpFirewallRulesDeleteResponse,
+      OperationState<IpFirewallRulesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -375,8 +385,8 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     request: ReplaceAllIpFirewallRulesRequest,
     options?: IpFirewallRulesReplaceAllOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesReplaceAllResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesReplaceAllResponse>,
       IpFirewallRulesReplaceAllResponse
     >
   > {
@@ -386,7 +396,7 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     ): Promise<IpFirewallRulesReplaceAllResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -419,15 +429,18 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, request, options },
-      replaceAllOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, request, options },
+      spec: replaceAllOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IpFirewallRulesReplaceAllResponse,
+      OperationState<IpFirewallRulesReplaceAllResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

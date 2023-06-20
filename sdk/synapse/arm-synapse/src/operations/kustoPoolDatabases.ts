@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DatabaseUnion,
   KustoPoolDatabasesListByKustoPoolOptionalParams,
@@ -177,8 +181,8 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     parameters: DatabaseUnion,
     options?: KustoPoolDatabasesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDatabasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasesCreateOrUpdateResponse>,
       KustoPoolDatabasesCreateOrUpdateResponse
     >
   > {
@@ -188,7 +192,7 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     ): Promise<KustoPoolDatabasesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,9 +225,9 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         kustoPoolName,
@@ -231,10 +235,13 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      KustoPoolDatabasesCreateOrUpdateResponse,
+      OperationState<KustoPoolDatabasesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -286,8 +293,8 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     parameters: DatabaseUnion,
     options?: KustoPoolDatabasesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDatabasesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasesUpdateResponse>,
       KustoPoolDatabasesUpdateResponse
     >
   > {
@@ -297,7 +304,7 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     ): Promise<KustoPoolDatabasesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -330,9 +337,9 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         kustoPoolName,
@@ -340,10 +347,13 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      KustoPoolDatabasesUpdateResponse,
+      OperationState<KustoPoolDatabasesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -392,14 +402,14 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     options?: KustoPoolDatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -432,19 +442,19 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         kustoPoolName,
         databaseName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -547,7 +557,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters26,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -582,7 +592,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters26,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,

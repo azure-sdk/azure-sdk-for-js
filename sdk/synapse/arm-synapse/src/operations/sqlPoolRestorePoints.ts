@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RestorePoint,
   SqlPoolRestorePointsListNextOptionalParams,
@@ -169,8 +173,8 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     parameters: CreateSqlPoolRestorePointDefinition,
     options?: SqlPoolRestorePointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolRestorePointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolRestorePointsCreateResponse>,
       SqlPoolRestorePointsCreateResponse
     >
   > {
@@ -180,7 +184,7 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     ): Promise<SqlPoolRestorePointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -213,15 +217,24 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        parameters,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlPoolRestorePointsCreateResponse,
+      OperationState<SqlPoolRestorePointsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -372,7 +385,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

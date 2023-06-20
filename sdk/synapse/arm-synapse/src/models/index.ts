@@ -476,12 +476,6 @@ export interface SqlPoolInfoListResult {
   value?: SqlPool[];
 }
 
-/** Contains the information necessary to perform a resource move (rename). */
-export interface ResourceMoveDefinition {
-  /** The target ID for the resource */
-  id: string;
-}
-
 /** The response to a list geo backup policies request. */
 export interface GeoBackupPolicyListResult {
   /** The list of geo backup policies. */
@@ -1219,8 +1213,11 @@ export interface LibraryInfo {
   path?: string;
   /** Storage blob container name. */
   containerName?: string;
-  /** The last update time of the library. */
-  uploadedTimestamp?: Date;
+  /**
+   * The last update time of the library.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uploadedTimestamp?: Date;
   /** Type of the library. */
   type?: string;
   /**
@@ -2643,6 +2640,10 @@ export interface SelfHostedIntegrationRuntimeStatus
   serviceRegion?: string;
   /** The newer versions on download center. */
   newerVersions?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly osType?: number;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly targetFramework?: number;
 }
 
 /** Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
@@ -4143,8 +4144,11 @@ export interface Workspace extends TrackedResource {
   sqlAdministratorLogin?: string;
   /** Virtual Network profile */
   virtualNetworkProfile?: VirtualNetworkProfile;
-  /** Connectivity endpoints */
-  connectivityEndpoints?: { [propertyName: string]: string };
+  /**
+   * Connectivity endpoints
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectivityEndpoints?: { [propertyName: string]: string };
   /** Setting this to 'default' will ensure that all compute for this workspace is in a virtual network managed on behalf of the user. */
   managedVirtualNetwork?: string;
   /** Private endpoint connections to the workspace */
@@ -4160,9 +4164,7 @@ export interface Workspace extends TrackedResource {
    * Workspace level configs and feature flags
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly extraProperties?: {
-    [propertyName: string]: Record<string, unknown>;
-  };
+  readonly extraProperties?: Record<string, unknown>;
   /** Managed Virtual Network Settings */
   managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
   /** Git integration settings */
@@ -4208,8 +4210,11 @@ export interface BigDataPoolResourceInfo extends TrackedResource {
   isAutotuneEnabled?: boolean;
   /** Whether session level packages enabled. */
   sessionLevelPackagesEnabled?: boolean;
-  /** The cache size */
-  cacheSize?: number;
+  /**
+   * The cache size
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cacheSize?: number;
   /** Dynamic Executor Allocation */
   dynamicExecutorAllocation?: DynamicExecutorAllocation;
   /** The Spark events folder */
@@ -4444,8 +4449,11 @@ export interface LibraryResource extends SubResource {
   path?: string;
   /** Storage blob container name. */
   containerName?: string;
-  /** The last update time of the library. */
-  uploadedTimestamp?: Date;
+  /**
+   * The last update time of the library.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uploadedTimestamp?: Date;
   /** Type of the library. */
   typePropertiesType?: string;
   /**
@@ -6483,10 +6491,6 @@ export interface SqlPoolsResumeOptionalParams
 
 /** Contains response data for the resume operation. */
 export type SqlPoolsResumeResponse = SqlPool;
-
-/** Optional parameters. */
-export interface SqlPoolsRenameOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SqlPoolsListByWorkspaceNextOptionalParams

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataConnectionUnion,
   KustoPoolDataConnectionsListByDatabaseOptionalParams,
@@ -78,10 +78,8 @@ export interface KustoPoolDataConnections {
     parameters: DataConnectionValidation,
     options?: KustoPoolDataConnectionsDataConnectionValidationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        KustoPoolDataConnectionsDataConnectionValidationResponse
-      >,
+    SimplePollerLike<
+      OperationState<KustoPoolDataConnectionsDataConnectionValidationResponse>,
       KustoPoolDataConnectionsDataConnectionValidationResponse
     >
   >;
@@ -138,8 +136,8 @@ export interface KustoPoolDataConnections {
     parameters: DataConnectionUnion,
     options?: KustoPoolDataConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDataConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDataConnectionsCreateOrUpdateResponse>,
       KustoPoolDataConnectionsCreateOrUpdateResponse
     >
   >;
@@ -181,8 +179,8 @@ export interface KustoPoolDataConnections {
     parameters: DataConnectionUnion,
     options?: KustoPoolDataConnectionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDataConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDataConnectionsUpdateResponse>,
       KustoPoolDataConnectionsUpdateResponse
     >
   >;
@@ -221,7 +219,7 @@ export interface KustoPoolDataConnections {
     databaseName: string,
     dataConnectionName: string,
     options?: KustoPoolDataConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the data connection with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -1,16 +1,6 @@
 # Release History
-
-## 9.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 9.0.0-beta.1 (2023-02-08)
+    
+## 9.0.0-beta.2 (2023-06-20)
     
 **Features**
 
@@ -144,7 +134,9 @@
 
   - Removed operation group PrivateLinkResources
   - Removed operation SqlPoolOperationResults.getLocationHeaderResult
+  - Removed operation SqlPools.rename
   - Removed operation SqlPools.update
+  - Class SynapseManagementClient has a new signature
   - Interface IntegrationRuntimeStatusResponse no longer has parameter properties
   - Interface SqlPoolSchemasListNextOptionalParams no longer has parameter filter
   - Interface SqlPoolSensitivityLabelsListCurrentNextOptionalParams no longer has parameter filter

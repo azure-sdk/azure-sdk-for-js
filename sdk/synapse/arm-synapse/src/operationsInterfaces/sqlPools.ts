@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlPool,
   SqlPoolsListByWorkspaceOptionalParams,
@@ -23,9 +23,7 @@ import {
   SqlPoolsPauseOptionalParams,
   SqlPoolsPauseResponse,
   SqlPoolsResumeOptionalParams,
-  SqlPoolsResumeResponse,
-  ResourceMoveDefinition,
-  SqlPoolsRenameOptionalParams
+  SqlPoolsResumeResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,8 +68,8 @@ export interface SqlPools {
     sqlPoolInfo: SqlPoolPatchInfo,
     options?: SqlPoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsUpdateResponse>,
       SqlPoolsUpdateResponse
     >
   >;
@@ -105,8 +103,8 @@ export interface SqlPools {
     sqlPoolInfo: SqlPool,
     options?: SqlPoolsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsCreateResponse>,
       SqlPoolsCreateResponse
     >
   >;
@@ -138,8 +136,8 @@ export interface SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsDeleteResponse>,
       SqlPoolsDeleteResponse
     >
   >;
@@ -169,7 +167,10 @@ export interface SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsPauseOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<SqlPoolsPauseResponse>, SqlPoolsPauseResponse>
+    SimplePollerLike<
+      OperationState<SqlPoolsPauseResponse>,
+      SqlPoolsPauseResponse
+    >
   >;
   /**
    * Pause a SQL pool
@@ -197,8 +198,8 @@ export interface SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsResumeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsResumeResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsResumeResponse>,
       SqlPoolsResumeResponse
     >
   >;
@@ -215,19 +216,4 @@ export interface SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsResumeOptionalParams
   ): Promise<SqlPoolsResumeResponse>;
-  /**
-   * Rename a SQL pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sqlPoolName SQL pool name
-   * @param parameters The resource move definition for renaming this Sql pool.
-   * @param options The options parameters.
-   */
-  rename(
-    resourceGroupName: string,
-    workspaceName: string,
-    sqlPoolName: string,
-    parameters: ResourceMoveDefinition,
-    options?: SqlPoolsRenameOptionalParams
-  ): Promise<void>;
 }

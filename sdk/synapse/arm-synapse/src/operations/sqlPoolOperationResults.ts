@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   SqlPoolOperationResultsGetLocationHeaderResultResponse
@@ -45,10 +49,8 @@ export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {
     operationId: string,
     options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        SqlPoolOperationResultsGetLocationHeaderResultResponse
-      >,
+    SimplePollerLike<
+      OperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>,
       SqlPoolOperationResultsGetLocationHeaderResultResponse
     >
   > {
@@ -58,7 +60,7 @@ export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {
     ): Promise<SqlPoolOperationResultsGetLocationHeaderResultResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -91,13 +93,22 @@ export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, operationId, options },
-      getLocationHeaderResultOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        operationId,
+        options
+      },
+      spec: getLocationHeaderResultOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlPoolOperationResultsGetLocationHeaderResultResponse,
+      OperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
