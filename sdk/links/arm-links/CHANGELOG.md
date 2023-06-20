@@ -1,15 +1,12 @@
 # Release History
+    
+## 3.0.0 (2023-06-20)
+    
+**Breaking Changes**
 
-## 2.0.2 (2022-11-22)
-
-**Features**
-
--  Exposes `getContinuationToken` helper function to extract continuation token
- 
-**Bugs Fixed**
- 
-- A series of small bug fixs relevant to authentication and apiVersion policy
-
+  - Class ManagementLinkClient has a new signature
+  - Interface ResourceLinksListAtSubscriptionNextOptionalParams no longer has parameter filter
+    
 ## 2.0.1 (2022-04-18)
 
 **features**
