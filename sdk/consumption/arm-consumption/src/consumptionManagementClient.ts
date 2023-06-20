@@ -57,7 +57,7 @@ import { ConsumptionManagementClientOptionalParams } from "./models";
 export class ConsumptionManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
@@ -69,12 +69,28 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ConsumptionManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ConsumptionManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | ConsumptionManagementClientOptionalParams
+      | string,
+    options?: ConsumptionManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -86,7 +102,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-consumption/9.2.1`;
+    const packageDetails = `azsdk-js-arm-consumption/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -139,7 +155,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2023-05-01";
     this.usageDetails = new UsageDetailsImpl(this);
     this.marketplaces = new MarketplacesImpl(this);
     this.budgets = new BudgetsImpl(this);
