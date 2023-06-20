@@ -1,15 +1,12 @@
 # Release History
+    
+## 3.0.0 (2023-06-20)
+    
+**Breaking Changes**
 
-## 2.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class ApplicationClient has a new signature
+    
+    
 ## 2.1.0 (2022-11-22)
     
 **Features**
