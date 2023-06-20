@@ -286,6 +286,9 @@ const listAvailableSkusByResourceGroupOperationSpec: coreClient.OperationSpec = 
     200: {
       bodyMapper: Mappers.AvailableSkusResult
     },
+    201: {
+      bodyMapper: Mappers.AvailableSkusResult
+    },
     default: {
       bodyMapper: Mappers.ApiError
     }
@@ -424,6 +427,9 @@ const listAvailableSkusByResourceGroupNextOperationSpec: coreClient.OperationSpe
   httpMethod: "GET",
   responses: {
     200: {
+      bodyMapper: Mappers.AvailableSkusResult
+    },
+    201: {
       bodyMapper: Mappers.AvailableSkusResult
     },
     default: {
