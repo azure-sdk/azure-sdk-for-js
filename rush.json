@@ -2017,6 +2017,11 @@
       "packageName": "@azure/arm-containerservicefleet",
       "projectFolder": "sdk/containerservice/arm-containerservicefleet",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managednetworkfabric",
+      "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
+      "versionPolicyName": "management"
     }
   ]
 }
