@@ -1,15 +1,32 @@
 # Release History
+    
+## 22.0.0 (2023-06-21)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
+  - Added operation GalleryImageVersions.getLatest
+  - Added Interface CommunityGalleryMetadata
+  - Added Interface GalleryImageVersionsGetLatestOptionalParams
+  - Added Interface LatestVersion
+  - Added Type Alias GalleryImageVersionsGetLatestResponse
+  - Interface CommunityGallery has a new optional parameter artifactTags
+  - Interface CommunityGallery has a new optional parameter communityMetadata
+  - Interface CommunityGallery has a new optional parameter disclaimer
+  - Interface CommunityGalleryImage has a new optional parameter artifactTags
+  - Interface CommunityGalleryImage has a new optional parameter disclaimer
+  - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
+  - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
+  - Interface SharedGallery has a new optional parameter artifactTags
+  - Interface SharedGalleryImage has a new optional parameter artifactTags
+  - Interface SharedGalleryImageVersion has a new optional parameter artifactTags
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Removed Enum KnownEdgeZoneStorageAccountType
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**

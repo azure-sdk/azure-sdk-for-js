@@ -18,7 +18,9 @@ import {
   GalleryImageVersionsUpdateResponse,
   GalleryImageVersionsGetOptionalParams,
   GalleryImageVersionsGetResponse,
-  GalleryImageVersionsDeleteOptionalParams
+  GalleryImageVersionsDeleteOptionalParams,
+  GalleryImageVersionsGetLatestOptionalParams,
+  GalleryImageVersionsGetLatestResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -175,4 +177,17 @@ export interface GalleryImageVersions {
     galleryImageVersionName: string,
     options?: GalleryImageVersionsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Retrieves information about the latest version of an image.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+   * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
+   * @param options The options parameters.
+   */
+  getLatest(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string,
+    options?: GalleryImageVersionsGetLatestOptionalParams
+  ): Promise<GalleryImageVersionsGetLatestResponse>;
 }

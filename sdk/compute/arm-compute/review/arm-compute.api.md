@@ -931,12 +931,21 @@ export type CommunityGalleriesGetResponse = CommunityGallery;
 
 // @public
 export interface CommunityGallery extends PirCommunityGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
+    communityMetadata?: CommunityGalleryMetadata;
+    disclaimer?: string;
 }
 
 // @public
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     architecture?: Architecture;
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     disallowed?: Disallowed;
+    disclaimer?: string;
     endOfLifeDate?: Date;
     eula?: string;
     features?: GalleryImageFeature[];
@@ -991,6 +1000,10 @@ export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
 
 // @public
 export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
+    disclaimer?: string;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
@@ -1036,6 +1049,15 @@ export interface CommunityGalleryInfo {
     eula?: string;
     publicNamePrefix?: string;
     readonly publicNames?: string[];
+    publisherContact?: string;
+    publisherUri?: string;
+}
+
+// @public
+export interface CommunityGalleryMetadata {
+    eula?: string;
+    privacyStatementUri?: string;
+    publicNames?: string[];
     publisherContact?: string;
     publisherUri?: string;
 }
@@ -2081,9 +2103,6 @@ export interface DiskUpdate {
 }
 
 // @public
-export type EdgeZoneStorageAccountType = string;
-
-// @public
 export interface Encryption {
     diskEncryptionSetId?: string;
     type?: EncryptionType;
@@ -2650,6 +2669,7 @@ export interface GalleryImageVersions {
     beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsUpdateResponse>, GalleryImageVersionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<GalleryImageVersionsUpdateResponse>;
     get(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsGetOptionalParams): Promise<GalleryImageVersionsGetResponse>;
+    getLatest(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImageVersionsGetLatestOptionalParams): Promise<GalleryImageVersionsGetLatestResponse>;
     listByGalleryImage(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImageVersionsListByGalleryImageOptionalParams): PagedAsyncIterableIterator<GalleryImageVersion>;
 }
 
@@ -2673,6 +2693,13 @@ export interface GalleryImageVersionsDeleteOptionalParams extends coreClient.Ope
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface GalleryImageVersionsGetLatestOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryImageVersionsGetLatestResponse = LatestVersion;
 
 // @public
 export interface GalleryImageVersionsGetOptionalParams extends coreClient.OperationOptions {
@@ -2758,7 +2785,7 @@ export interface GalleryTargetExtendedLocation {
     extendedLocation?: GalleryExtendedLocation;
     extendedLocationReplicaCount?: number;
     name?: string;
-    storageAccountType?: EdgeZoneStorageAccountType;
+    storageAccountType?: StorageAccountType;
 }
 
 // @public
@@ -3220,14 +3247,6 @@ export enum KnownDiskStorageAccountTypes {
 }
 
 // @public
-export enum KnownEdgeZoneStorageAccountType {
-    PremiumLRS = "Premium_LRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardZRS = "Standard_ZRS"
-}
-
-// @public
 export enum KnownEncryptionType {
     EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
     EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
@@ -3587,6 +3606,7 @@ export enum KnownSnapshotStorageAccountTypes {
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -3881,6 +3901,14 @@ export interface LastPatchInstallationSummary {
 export interface LatestGalleryImageVersion {
     latestVersionName?: string;
     location?: string;
+}
+
+// @public
+export interface LatestVersion {
+    readonly id?: string;
+    readonly name?: string;
+    readonly properties?: LatestGalleryImageVersion;
+    readonly type?: string;
 }
 
 // @public
@@ -5093,6 +5121,9 @@ export type SharedGalleriesListResponse = SharedGalleryList;
 
 // @public
 export interface SharedGallery extends PirSharedGalleryResource {
+    readonly artifactTags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -5112,6 +5143,9 @@ export type SharedGalleryHostCaching = string;
 // @public
 export interface SharedGalleryImage extends PirSharedGalleryResource {
     architecture?: Architecture;
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
     eula?: string;
@@ -5161,6 +5195,9 @@ export type SharedGalleryImagesListResponse = SharedGalleryImageList;
 
 // @public
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
