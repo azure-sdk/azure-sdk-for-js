@@ -752,6 +752,7 @@ export const Resource: coreClient.CompositeMapper = {
       },
       resourcegroup: {
         serializedName: "resourcegroup",
+        readOnly: true,
         type: {
           name: "String"
         }

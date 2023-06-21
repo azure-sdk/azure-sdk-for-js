@@ -358,8 +358,11 @@ export interface Resource {
   readonly type?: string;
   /** The resource location. */
   location: string;
-  /** The resource group of the resource. */
-  resourcegroup?: string;
+  /**
+   * The resource group of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourcegroup?: string;
   /** The subscription id of the resource. */
   subscriptionid?: string;
   /** The resource tags. */
