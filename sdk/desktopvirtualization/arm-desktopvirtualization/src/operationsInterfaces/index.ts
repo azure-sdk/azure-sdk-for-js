@@ -8,6 +8,8 @@
 
 export * from "./operations";
 export * from "./workspaces";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
 export * from "./scalingPlans";
 export * from "./scalingPlanPooledSchedules";
 export * from "./applicationGroups";
@@ -15,7 +17,16 @@ export * from "./startMenuItems";
 export * from "./applications";
 export * from "./desktops";
 export * from "./hostPools";
+export * from "./sessionHostManagements";
+export * from "./validateSessionHostUpdate";
+export * from "./initiateSessionHostUpdate";
+export * from "./controlSessionHostUpdate";
+export * from "./sessionHostManagementsOperationStatus";
+export * from "./sessionHostConfigurations";
+export * from "./sessionHostConfigurationsOperationStatus";
+export * from "./activeSessionHostConfigurations";
 export * from "./userSessions";
 export * from "./sessionHosts";
+export * from "./sessionHostOperations";
 export * from "./msixPackages";
 export * from "./msixImages";

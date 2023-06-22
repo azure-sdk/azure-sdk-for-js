@@ -14,6 +14,7 @@ import {
 import {
   Workspace as WorkspaceMapper,
   WorkspacePatch as WorkspacePatchMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ScalingPlan as ScalingPlanMapper,
   ScalingPlanPatch as ScalingPlanPatchMapper,
   ScalingPlanPooledSchedule as ScalingPlanPooledScheduleMapper,
@@ -25,6 +26,13 @@ import {
   DesktopPatch as DesktopPatchMapper,
   HostPool as HostPoolMapper,
   HostPoolPatch as HostPoolPatchMapper,
+  SessionHostManagement as SessionHostManagementMapper,
+  SessionHostManagementPatch as SessionHostManagementPatchMapper,
+  ValidateSessionHostUpdateRequestBody as ValidateSessionHostUpdateRequestBodyMapper,
+  UpdateSessionHostsRequestBody as UpdateSessionHostsRequestBodyMapper,
+  HostPoolControlParameter as HostPoolControlParameterMapper,
+  SessionHostConfiguration as SessionHostConfigurationMapper,
+  SessionHostConfigurationPatch as SessionHostConfigurationPatchMapper,
   SendMessage as SendMessageMapper,
   SessionHostPatch as SessionHostPatchMapper,
   MsixPackage as MsixPackageMapper,
@@ -59,7 +67,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-09",
+    defaultValue: "2023-04-06-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -176,6 +184,37 @@ export const initialSkip: OperationQueryParameter = {
   }
 };
 
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const connection: OperationParameter = {
+  parameterPath: "connection",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const hostPoolName: OperationURLParameter = {
+  parameterPath: "hostPoolName",
+  mapper: {
+    constraints: {
+      MaxLength: 64,
+      MinLength: 3
+    },
+    serializedName: "hostPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const scalingPlanName: OperationURLParameter = {
   parameterPath: "scalingPlanName",
   mapper: {
@@ -199,21 +238,6 @@ export const scalingPlan: OperationParameter = {
 export const scalingPlan1: OperationParameter = {
   parameterPath: ["options", "scalingPlan"],
   mapper: ScalingPlanPatchMapper
-};
-
-export const hostPoolName: OperationURLParameter = {
-  parameterPath: "hostPoolName",
-  mapper: {
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
-    },
-    serializedName: "hostPoolName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const scalingPlanScheduleName: OperationURLParameter = {
@@ -339,6 +363,116 @@ export const force: OperationQueryParameter = {
 export const hostPool1: OperationParameter = {
   parameterPath: ["options", "hostPool"],
   mapper: HostPoolPatchMapper
+};
+
+export const sessionHostManagement: OperationParameter = {
+  parameterPath: "sessionHostManagement",
+  mapper: SessionHostManagementMapper
+};
+
+export const sessionHostManagement1: OperationParameter = {
+  parameterPath: ["options", "sessionHostManagement"],
+  mapper: SessionHostManagementPatchMapper
+};
+
+export const validateSessionHostUpdateRequestBody: OperationParameter = {
+  parameterPath: ["options", "validateSessionHostUpdateRequestBody"],
+  mapper: ValidateSessionHostUpdateRequestBodyMapper
+};
+
+export const updateSessionHostsRequestBody: OperationParameter = {
+  parameterPath: ["options", "updateSessionHostsRequestBody"],
+  mapper: UpdateSessionHostsRequestBodyMapper
+};
+
+export const hostPoolControlParameter: OperationParameter = {
+  parameterPath: "hostPoolControlParameter",
+  mapper: HostPoolControlParameterMapper
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MaxLength: 36,
+      MinLength: 36
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const isLatest: OperationQueryParameter = {
+  parameterPath: ["options", "isLatest"],
+  mapper: {
+    serializedName: "isLatest",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const type: OperationQueryParameter = {
+  parameterPath: ["options", "type"],
+  mapper: {
+    serializedName: "type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const isNonTerminal: OperationQueryParameter = {
+  parameterPath: ["options", "isNonTerminal"],
+  mapper: {
+    serializedName: "isNonTerminal",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const correlationId: OperationQueryParameter = {
+  parameterPath: ["options", "correlationId"],
+  mapper: {
+    serializedName: "correlationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const action: OperationQueryParameter = {
+  parameterPath: ["options", "action"],
+  mapper: {
+    serializedName: "action",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const isInitiatingOperation: OperationQueryParameter = {
+  parameterPath: ["options", "isInitiatingOperation"],
+  mapper: {
+    serializedName: "isInitiatingOperation",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const sessionHostConfiguration: OperationParameter = {
+  parameterPath: "sessionHostConfiguration",
+  mapper: SessionHostConfigurationMapper
+};
+
+export const sessionHostConfiguration1: OperationParameter = {
+  parameterPath: ["options", "sessionHostConfiguration"],
+  mapper: SessionHostConfigurationPatchMapper
 };
 
 export const sessionHostName: OperationURLParameter = {

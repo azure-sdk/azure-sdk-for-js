@@ -17,6 +17,8 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   WorkspacesImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
   ScalingPlansImpl,
   ScalingPlanPooledSchedulesImpl,
   ApplicationGroupsImpl,
@@ -24,14 +26,25 @@ import {
   ApplicationsImpl,
   DesktopsImpl,
   HostPoolsImpl,
+  SessionHostManagementsImpl,
+  ValidateSessionHostUpdateImpl,
+  InitiateSessionHostUpdateImpl,
+  ControlSessionHostUpdateImpl,
+  SessionHostManagementsOperationStatusImpl,
+  SessionHostConfigurationsImpl,
+  SessionHostConfigurationsOperationStatusImpl,
+  ActiveSessionHostConfigurationsImpl,
   UserSessionsImpl,
   SessionHostsImpl,
+  SessionHostOperationsImpl,
   MsixPackagesImpl,
   MsixImagesImpl
 } from "./operations";
 import {
   Operations,
   Workspaces,
+  PrivateEndpointConnections,
+  PrivateLinkResources,
   ScalingPlans,
   ScalingPlanPooledSchedules,
   ApplicationGroups,
@@ -39,8 +52,17 @@ import {
   Applications,
   Desktops,
   HostPools,
+  SessionHostManagements,
+  ValidateSessionHostUpdate,
+  InitiateSessionHostUpdate,
+  ControlSessionHostUpdate,
+  SessionHostManagementsOperationStatus,
+  SessionHostConfigurations,
+  SessionHostConfigurationsOperationStatus,
+  ActiveSessionHostConfigurations,
   UserSessions,
   SessionHosts,
+  SessionHostOperations,
   MsixPackages,
   MsixImages
 } from "./operationsInterfaces";
@@ -78,7 +100,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.1`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,9 +153,11 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-09";
+    this.apiVersion = options.apiVersion || "2023-04-06-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.scalingPlans = new ScalingPlansImpl(this);
     this.scalingPlanPooledSchedules = new ScalingPlanPooledSchedulesImpl(this);
     this.applicationGroups = new ApplicationGroupsImpl(this);
@@ -141,8 +165,23 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     this.applications = new ApplicationsImpl(this);
     this.desktops = new DesktopsImpl(this);
     this.hostPools = new HostPoolsImpl(this);
+    this.sessionHostManagements = new SessionHostManagementsImpl(this);
+    this.validateSessionHostUpdate = new ValidateSessionHostUpdateImpl(this);
+    this.initiateSessionHostUpdate = new InitiateSessionHostUpdateImpl(this);
+    this.controlSessionHostUpdate = new ControlSessionHostUpdateImpl(this);
+    this.sessionHostManagementsOperationStatus = new SessionHostManagementsOperationStatusImpl(
+      this
+    );
+    this.sessionHostConfigurations = new SessionHostConfigurationsImpl(this);
+    this.sessionHostConfigurationsOperationStatus = new SessionHostConfigurationsOperationStatusImpl(
+      this
+    );
+    this.activeSessionHostConfigurations = new ActiveSessionHostConfigurationsImpl(
+      this
+    );
     this.userSessions = new UserSessionsImpl(this);
     this.sessionHosts = new SessionHostsImpl(this);
+    this.sessionHostOperations = new SessionHostOperationsImpl(this);
     this.msixPackages = new MsixPackagesImpl(this);
     this.msixImages = new MsixImagesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -178,6 +217,8 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
   operations: Operations;
   workspaces: Workspaces;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
   scalingPlans: ScalingPlans;
   scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
   applicationGroups: ApplicationGroups;
@@ -185,8 +226,17 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   applications: Applications;
   desktops: Desktops;
   hostPools: HostPools;
+  sessionHostManagements: SessionHostManagements;
+  validateSessionHostUpdate: ValidateSessionHostUpdate;
+  initiateSessionHostUpdate: InitiateSessionHostUpdate;
+  controlSessionHostUpdate: ControlSessionHostUpdate;
+  sessionHostManagementsOperationStatus: SessionHostManagementsOperationStatus;
+  sessionHostConfigurations: SessionHostConfigurations;
+  sessionHostConfigurationsOperationStatus: SessionHostConfigurationsOperationStatus;
+  activeSessionHostConfigurations: ActiveSessionHostConfigurations;
   userSessions: UserSessions;
   sessionHosts: SessionHosts;
+  sessionHostOperations: SessionHostOperations;
   msixPackages: MsixPackages;
   msixImages: MsixImages;
 }
