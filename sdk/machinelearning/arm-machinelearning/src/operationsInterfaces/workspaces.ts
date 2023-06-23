@@ -7,39 +7,46 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workspace,
-  WorkspacesListByResourceGroupOptionalParams,
   WorkspacesListBySubscriptionOptionalParams,
+  WorkspacesListByResourceGroupOptionalParams,
+  WorkspacesDeleteOptionalParams,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
-  WorkspacesCreateOrUpdateOptionalParams,
-  WorkspacesCreateOrUpdateResponse,
-  WorkspacesDeleteOptionalParams,
   WorkspaceUpdateParameters,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
+  WorkspacesCreateOrUpdateOptionalParams,
+  WorkspacesCreateOrUpdateResponse,
   WorkspacesDiagnoseOptionalParams,
   WorkspacesDiagnoseResponse,
   WorkspacesListKeysOptionalParams,
   WorkspacesListKeysResponse,
-  WorkspacesResyncKeysOptionalParams,
   WorkspacesListNotebookAccessTokenOptionalParams,
   WorkspacesListNotebookAccessTokenResponse,
-  WorkspacesPrepareNotebookOptionalParams,
-  WorkspacesPrepareNotebookResponse,
-  WorkspacesListStorageAccountKeysOptionalParams,
-  WorkspacesListStorageAccountKeysResponse,
   WorkspacesListNotebookKeysOptionalParams,
   WorkspacesListNotebookKeysResponse,
+  WorkspacesListStorageAccountKeysOptionalParams,
+  WorkspacesListStorageAccountKeysResponse,
   WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams,
-  WorkspacesListOutboundNetworkDependenciesEndpointsResponse
+  WorkspacesListOutboundNetworkDependenciesEndpointsResponse,
+  WorkspacesPrepareNotebookOptionalParams,
+  WorkspacesPrepareNotebookResponse,
+  WorkspacesResyncKeysOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workspaces. */
 export interface Workspaces {
+  /**
+   * Lists all the available machine learning workspaces under the specified subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Lists all the available machine learning workspaces under the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -50,55 +57,6 @@ export interface Workspaces {
     options?: WorkspacesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Workspace>;
   /**
-   * Lists all the available machine learning workspaces under the specified subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Workspace>;
-  /**
-   * Gets the properties of the specified machine learning workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesGetOptionalParams
-  ): Promise<WorkspacesGetResponse>;
-  /**
-   * Creates or updates a workspace with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for creating or updating a machine learning workspace.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
-      WorkspacesCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Creates or updates a workspace with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for creating or updating a machine learning workspace.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
-  ): Promise<WorkspacesCreateOrUpdateResponse>;
-  /**
    * Deletes a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -108,7 +66,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -121,20 +79,31 @@ export interface Workspaces {
     options?: WorkspacesDeleteOptionalParams
   ): Promise<void>;
   /**
+   * Gets the properties of the specified machine learning workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesGetOptionalParams
+  ): Promise<WorkspacesGetResponse>;
+  /**
    * Updates a machine learning workspace with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for updating a machine learning workspace.
+   * @param body The parameters for updating a machine learning workspace.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    parameters: WorkspaceUpdateParameters,
+    body: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesUpdateResponse>,
       WorkspacesUpdateResponse
     >
   >;
@@ -142,15 +111,46 @@ export interface Workspaces {
    * Updates a machine learning workspace with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for updating a machine learning workspace.
+   * @param body The parameters for updating a machine learning workspace.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    parameters: WorkspaceUpdateParameters,
+    body: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams
   ): Promise<WorkspacesUpdateResponse>;
+  /**
+   * Creates or updates a workspace with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param body The parameters for creating or updating a machine learning workspace.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    body: Workspace,
+    options?: WorkspacesCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
+      WorkspacesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates or updates a workspace with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param body The parameters for creating or updating a machine learning workspace.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    body: Workspace,
+    options?: WorkspacesCreateOrUpdateOptionalParams
+  ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
    * Diagnose workspace setup issue.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -162,8 +162,8 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesDiagnoseOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesDiagnoseResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesDiagnoseResponse>,
       WorkspacesDiagnoseResponse
     >
   >;
@@ -180,7 +180,7 @@ export interface Workspaces {
   ): Promise<WorkspacesDiagnoseResponse>;
   /**
    * Lists all the keys associated with this workspace. This includes keys for the storage account, app
-   * insights and password for container registry
+   * insights and password for container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -191,31 +191,7 @@ export interface Workspaces {
     options?: WorkspacesListKeysOptionalParams
   ): Promise<WorkspacesListKeysResponse>;
   /**
-   * Resync all the keys associated with this workspace. This includes keys for the storage account, app
-   * insights and password for container registry
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  beginResyncKeys(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesResyncKeysOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Resync all the keys associated with this workspace. This includes keys for the storage account, app
-   * insights and password for container registry
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  beginResyncKeysAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesResyncKeysOptionalParams
-  ): Promise<void>;
-  /**
-   * return notebook access token and refresh token
+   * Get Azure Machine Learning Workspace notebook access token
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -226,45 +202,7 @@ export interface Workspaces {
     options?: WorkspacesListNotebookAccessTokenOptionalParams
   ): Promise<WorkspacesListNotebookAccessTokenResponse>;
   /**
-   * Prepare a notebook.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  beginPrepareNotebook(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesPrepareNotebookOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesPrepareNotebookResponse>,
-      WorkspacesPrepareNotebookResponse
-    >
-  >;
-  /**
-   * Prepare a notebook.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  beginPrepareNotebookAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesPrepareNotebookOptionalParams
-  ): Promise<WorkspacesPrepareNotebookResponse>;
-  /**
-   * List storage account keys of a workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  listStorageAccountKeys(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesListStorageAccountKeysOptionalParams
-  ): Promise<WorkspacesListStorageAccountKeysResponse>;
-  /**
-   * List keys of a notebook.
+   * Lists keys of Azure Machine Learning Workspaces notebook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -274,6 +212,17 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesListNotebookKeysOptionalParams
   ): Promise<WorkspacesListNotebookKeysResponse>;
+  /**
+   * Lists keys of Azure Machine Learning Workspace's storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The options parameters.
+   */
+  listStorageAccountKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListStorageAccountKeysOptionalParams
+  ): Promise<WorkspacesListStorageAccountKeysResponse>;
   /**
    * Called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs)
    * programmatically.
@@ -286,4 +235,55 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams
   ): Promise<WorkspacesListOutboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * Prepare Azure Machine Learning Workspace's notebook resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The options parameters.
+   */
+  beginPrepareNotebook(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesPrepareNotebookOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesPrepareNotebookResponse>,
+      WorkspacesPrepareNotebookResponse
+    >
+  >;
+  /**
+   * Prepare Azure Machine Learning Workspace's notebook resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The options parameters.
+   */
+  beginPrepareNotebookAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesPrepareNotebookOptionalParams
+  ): Promise<WorkspacesPrepareNotebookResponse>;
+  /**
+   * Resync all the keys associated with this workspace.This includes keys for the storage account, app
+   * insights and password for container registry
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The options parameters.
+   */
+  beginResyncKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesResyncKeysOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Resync all the keys associated with this workspace.This includes keys for the storage account, app
+   * insights and password for container registry
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The options parameters.
+   */
+  beginResyncKeysAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesResyncKeysOptionalParams
+  ): Promise<void>;
 }

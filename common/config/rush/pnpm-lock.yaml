@@ -4695,7 +4695,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230622
+      typescript: 5.2.0-dev.20230623
     dev: false
 
   /duplexer3/0.1.5:
@@ -10149,8 +10149,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230622:
-    resolution: {integrity: sha512-rVTuiLuyezBKAEAvkvDRvO/tA+nk5DXwnWk3vpKXzDtuv7JJ22iBPkehusg9m5AQ6To+ZJ7+mFJ+mNE6yPr9zQ==}
+  /typescript/5.2.0-dev.20230623:
+    resolution: {integrity: sha512-IduDyLpZBJFdoFuHAXj0QfHwkT6GXtkki03deolpXnPG4R+wiVZGIyyzdS0lfVbFCVejcINPxxBs7ce6E5mp+A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14447,7 +14447,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-v6dFAC6Bj9p72hgugMs2+q61rI5weBvt8AdUULuedsjcpCA9lSrv5MxPHywlX4xUvMwywSBgBlbvSb74jPiwiQ==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-gA1X/i9l+U2j6VVlj8qKAHb0n2B67/VD7fKEqWWi4MsU7cynsRvU1dvefcgQpCbZEbzwWhSYgdKeeTVyNpez8w==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -14461,7 +14461,8 @@ packages:
       '@types/node': 14.18.47
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
