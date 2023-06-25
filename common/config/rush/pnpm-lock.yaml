@@ -833,6 +833,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-recoveryservices/5.3.0:
+    resolution: {integrity: sha512-6wZ/7T98bfvLzRl60hXBUi3Fd5dQgtwlN9RjOHncTJD8WYzaI/uIZ2OKOyRjT8KsU4E91I9h7gCjuCvJFzva1w==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.2
+      '@azure/core-lro': 2.5.3
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.10.3
+      tslib: 2.5.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-storage/17.2.1:
     resolution: {integrity: sha512-J2jmTPv8ZraSHDTz9l2Bx8gNL3ktfDDWo2mxWfzarn64O9Fjhb+l85YWyubGy2xUdeGuZPKzvQLltGv8bSu8eQ==}
     engines: {node: '>=12.0.0'}
@@ -4695,7 +4710,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230623
+      typescript: 5.2.0-dev.20230624
     dev: false
 
   /duplexer3/0.1.5:
@@ -10149,8 +10164,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230623:
-    resolution: {integrity: sha512-IduDyLpZBJFdoFuHAXj0QfHwkT6GXtkki03deolpXnPG4R+wiVZGIyyzdS0lfVbFCVejcINPxxBs7ce6E5mp+A==}
+  /typescript/5.2.0-dev.20230624:
+    resolution: {integrity: sha512-n/E1V9TddYiQdoaPXXt7yWU214+n0pGWk82auTMaAkOAj4HJy+TLtaeNt4QjDhMLiF2yFCjVma8qNgD24X6VxQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15762,10 +15777,11 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-QI8BpZ4AD0+9hQVbh8Alwjh1HJATPwkTLbXLbKC3N3zrCY1RVkB3+IFEuohes/LVjmHZBh5Iv3plTqu27Qppug==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-xeTNlM+u1+GVltcw9Yc+HPvtPY5Pox4uZGJAgi4hT0nePiE4BUHnKDIRcIG4P/9WtMWkuMvNOrPv95rsb5bNQQ==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
+      '@azure/arm-recoveryservices': 5.3.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -17923,7 +17939,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-PFGdQJmKd/QIjnd0o3Yn9afHedMAGR/QPrL0HYCL/SvYVppbLhNmfiuCh3jAD0Pa7hz1M+JzTERWStBWCzQ2gg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-cxXcoP19Ey/WDN+gBSbUX3c4qEjxEUb6xCNwYTPweJiPZyNoVpDzkkix60JgoGdj1A61jeMzvp5j7RhDXunoXg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -17959,11 +17975,7 @@ packages:
       tslib: 2.5.2
       typescript: 5.0.4
     transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/container-registry.tgz:
