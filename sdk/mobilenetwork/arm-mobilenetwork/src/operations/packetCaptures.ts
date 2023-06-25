@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AttachedDataNetworks } from "../operationsInterfaces";
+import { PacketCaptures } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,27 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  AttachedDataNetwork,
-  AttachedDataNetworksListByPacketCoreDataPlaneNextOptionalParams,
-  AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
-  AttachedDataNetworksListByPacketCoreDataPlaneResponse,
-  AttachedDataNetworksDeleteOptionalParams,
-  AttachedDataNetworksGetOptionalParams,
-  AttachedDataNetworksGetResponse,
-  AttachedDataNetworksCreateOrUpdateOptionalParams,
-  AttachedDataNetworksCreateOrUpdateResponse,
-  TagsObject,
-  AttachedDataNetworksUpdateTagsOptionalParams,
-  AttachedDataNetworksUpdateTagsResponse,
-  AttachedDataNetworksListByPacketCoreDataPlaneNextResponse
+  PacketCapture,
+  PacketCapturesListByPacketCoreControlPlaneNextOptionalParams,
+  PacketCapturesListByPacketCoreControlPlaneOptionalParams,
+  PacketCapturesListByPacketCoreControlPlaneResponse,
+  PacketCapturesCreateOrUpdateOptionalParams,
+  PacketCapturesCreateOrUpdateResponse,
+  PacketCapturesGetOptionalParams,
+  PacketCapturesGetResponse,
+  PacketCapturesDeleteOptionalParams,
+  PacketCapturesStopOptionalParams,
+  PacketCapturesStopResponse,
+  PacketCapturesListByPacketCoreControlPlaneNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AttachedDataNetworks operations. */
-export class AttachedDataNetworksImpl implements AttachedDataNetworks {
+/** Class containing PacketCaptures operations. */
+export class PacketCapturesImpl implements PacketCaptures {
   private readonly client: MobileNetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class AttachedDataNetworks class.
+   * Initialize a new instance of the class PacketCaptures class.
    * @param client Reference to the service client
    */
   constructor(client: MobileNetworkManagementClient) {
@@ -49,22 +48,19 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   }
 
   /**
-   * Gets all the attached data networks associated with a packet core data plane.
+   * Lists all the packet capture sessions under a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
    * @param options The options parameters.
    */
-  public listByPacketCoreDataPlane(
+  public listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
-  ): PagedAsyncIterableIterator<AttachedDataNetwork> {
-    const iter = this.listByPacketCoreDataPlanePagingAll(
+    options?: PacketCapturesListByPacketCoreControlPlaneOptionalParams
+  ): PagedAsyncIterableIterator<PacketCapture> {
+    const iter = this.listByPacketCoreControlPlanePagingAll(
       resourceGroupName,
       packetCoreControlPlaneName,
-      packetCoreDataPlaneName,
       options
     );
     return {
@@ -78,10 +74,9 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByPacketCoreDataPlanePagingPage(
+        return this.listByPacketCoreControlPlanePagingPage(
           resourceGroupName,
           packetCoreControlPlaneName,
-          packetCoreDataPlaneName,
           options,
           settings
         );
@@ -89,20 +84,18 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     };
   }
 
-  private async *listByPacketCoreDataPlanePagingPage(
+  private async *listByPacketCoreControlPlanePagingPage(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
+    options?: PacketCapturesListByPacketCoreControlPlaneOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<AttachedDataNetwork[]> {
-    let result: AttachedDataNetworksListByPacketCoreDataPlaneResponse;
+  ): AsyncIterableIterator<PacketCapture[]> {
+    let result: PacketCapturesListByPacketCoreControlPlaneResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPacketCoreDataPlane(
+      result = await this._listByPacketCoreControlPlane(
         resourceGroupName,
         packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
         options
       );
       let page = result.value || [];
@@ -111,10 +104,9 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByPacketCoreDataPlaneNext(
+      result = await this._listByPacketCoreControlPlaneNext(
         resourceGroupName,
         packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
         continuationToken,
         options
       );
@@ -125,16 +117,14 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     }
   }
 
-  private async *listByPacketCoreDataPlanePagingAll(
+  private async *listByPacketCoreControlPlanePagingAll(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
-  ): AsyncIterableIterator<AttachedDataNetwork> {
-    for await (const page of this.listByPacketCoreDataPlanePagingPage(
+    options?: PacketCapturesListByPacketCoreControlPlaneOptionalParams
+  ): AsyncIterableIterator<PacketCapture> {
+    for await (const page of this.listByPacketCoreControlPlanePagingPage(
       resourceGroupName,
       packetCoreControlPlaneName,
-      packetCoreDataPlaneName,
       options
     )) {
       yield* page;
@@ -142,19 +132,148 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   }
 
   /**
-   * Deletes the specified attached data network.
+   * Creates or updates a packet capture.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param attachedDataNetworkName The name of the attached data network.
+   * @param packetCaptureName The name of the packet capture session.
+   * @param parameters Parameters supplied to the create or update packet capture operation.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    packetCaptureName: string,
+    parameters: PacketCapture,
+    options?: PacketCapturesCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PacketCapturesCreateOrUpdateResponse>,
+      PacketCapturesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PacketCapturesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        packetCoreControlPlaneName,
+        packetCaptureName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PacketCapturesCreateOrUpdateResponse,
+      OperationState<PacketCapturesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a packet capture.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param packetCaptureName The name of the packet capture session.
+   * @param parameters Parameters supplied to the create or update packet capture operation.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    packetCaptureName: string,
+    parameters: PacketCapture,
+    options?: PacketCapturesCreateOrUpdateOptionalParams
+  ): Promise<PacketCapturesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      packetCaptureName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets information about the specified packet capture session.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param packetCaptureName The name of the packet capture session.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    packetCaptureName: string,
+    options?: PacketCapturesGetOptionalParams
+  ): Promise<PacketCapturesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        packetCoreControlPlaneName,
+        packetCaptureName,
+        options
+      },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Deletes the specified packet capture.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param packetCaptureName The name of the packet capture session.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    attachedDataNetworkName: string,
-    options?: AttachedDataNetworksDeleteOptionalParams
+    packetCaptureName: string,
+    options?: PacketCapturesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -200,8 +319,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
       args: {
         resourceGroupName,
         packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        attachedDataNetworkName,
+        packetCaptureName,
         options
       },
       spec: deleteOperationSpec
@@ -216,84 +334,49 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   }
 
   /**
-   * Deletes the specified attached data network.
+   * Deletes the specified packet capture.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param attachedDataNetworkName The name of the attached data network.
+   * @param packetCaptureName The name of the packet capture session.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    attachedDataNetworkName: string,
-    options?: AttachedDataNetworksDeleteOptionalParams
+    packetCaptureName: string,
+    options?: PacketCapturesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       packetCoreControlPlaneName,
-      packetCoreDataPlaneName,
-      attachedDataNetworkName,
+      packetCaptureName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets information about the specified attached data network.
+   * Stop a packet capture session.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param attachedDataNetworkName The name of the attached data network.
+   * @param packetCaptureName The name of the packet capture session.
    * @param options The options parameters.
    */
-  get(
+  async beginStop(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    attachedDataNetworkName: string,
-    options?: AttachedDataNetworksGetOptionalParams
-  ): Promise<AttachedDataNetworksGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        attachedDataNetworkName,
-        options
-      },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Creates or updates an attached data network. Must be created in the same location as its parent
-   * packet core data plane.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param attachedDataNetworkName The name of the attached data network.
-   * @param parameters Parameters supplied to the create or update attached data network operation.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    attachedDataNetworkName: string,
-    parameters: AttachedDataNetwork,
-    options?: AttachedDataNetworksCreateOrUpdateOptionalParams
+    packetCaptureName: string,
+    options?: PacketCapturesStopOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<AttachedDataNetworksCreateOrUpdateResponse>,
-      AttachedDataNetworksCreateOrUpdateResponse
+      OperationState<PacketCapturesStopResponse>,
+      PacketCapturesStopResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AttachedDataNetworksCreateOrUpdateResponse> => {
+    ): Promise<PacketCapturesStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -334,142 +417,145 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
       args: {
         resourceGroupName,
         packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        attachedDataNetworkName,
-        parameters,
+        packetCaptureName,
         options
       },
-      spec: createOrUpdateOperationSpec
+      spec: stopOperationSpec
     });
     const poller = await createHttpPoller<
-      AttachedDataNetworksCreateOrUpdateResponse,
-      OperationState<AttachedDataNetworksCreateOrUpdateResponse>
+      PacketCapturesStopResponse,
+      OperationState<PacketCapturesStopResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates an attached data network. Must be created in the same location as its parent
-   * packet core data plane.
+   * Stop a packet capture session.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param attachedDataNetworkName The name of the attached data network.
-   * @param parameters Parameters supplied to the create or update attached data network operation.
+   * @param packetCaptureName The name of the packet capture session.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginStopAndWait(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    attachedDataNetworkName: string,
-    parameters: AttachedDataNetwork,
-    options?: AttachedDataNetworksCreateOrUpdateOptionalParams
-  ): Promise<AttachedDataNetworksCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    packetCaptureName: string,
+    options?: PacketCapturesStopOptionalParams
+  ): Promise<PacketCapturesStopResponse> {
+    const poller = await this.beginStop(
       resourceGroupName,
       packetCoreControlPlaneName,
-      packetCoreDataPlaneName,
-      attachedDataNetworkName,
-      parameters,
+      packetCaptureName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates an attached data network tags.
+   * Lists all the packet capture sessions under a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param attachedDataNetworkName The name of the attached data network.
-   * @param parameters Parameters supplied to update attached data network tags.
    * @param options The options parameters.
    */
-  updateTags(
+  private _listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    attachedDataNetworkName: string,
-    parameters: TagsObject,
-    options?: AttachedDataNetworksUpdateTagsOptionalParams
-  ): Promise<AttachedDataNetworksUpdateTagsResponse> {
+    options?: PacketCapturesListByPacketCoreControlPlaneOptionalParams
+  ): Promise<PacketCapturesListByPacketCoreControlPlaneResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        attachedDataNetworkName,
-        parameters,
-        options
-      },
-      updateTagsOperationSpec
+      { resourceGroupName, packetCoreControlPlaneName, options },
+      listByPacketCoreControlPlaneOperationSpec
     );
   }
 
   /**
-   * Gets all the attached data networks associated with a packet core data plane.
+   * ListByPacketCoreControlPlaneNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param options The options parameters.
-   */
-  private _listByPacketCoreDataPlane(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
-  ): Promise<AttachedDataNetworksListByPacketCoreDataPlaneResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        options
-      },
-      listByPacketCoreDataPlaneOperationSpec
-    );
-  }
-
-  /**
-   * ListByPacketCoreDataPlaneNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param nextLink The nextLink from the previous successful call to the ListByPacketCoreDataPlane
+   * @param nextLink The nextLink from the previous successful call to the ListByPacketCoreControlPlane
    *                 method.
    * @param options The options parameters.
    */
-  private _listByPacketCoreDataPlaneNext(
+  private _listByPacketCoreControlPlaneNext(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
     nextLink: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneNextOptionalParams
-  ): Promise<AttachedDataNetworksListByPacketCoreDataPlaneNextResponse> {
+    options?: PacketCapturesListByPacketCoreControlPlaneNextOptionalParams
+  ): Promise<PacketCapturesListByPacketCoreControlPlaneNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        nextLink,
-        options
-      },
-      listByPacketCoreDataPlaneNextOperationSpec
+      { resourceGroupName, packetCoreControlPlaneName, nextLink, options },
+      listByPacketCoreControlPlaneNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCaptures/{packetCaptureName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PacketCapture
+    },
+    201: {
+      bodyMapper: Mappers.PacketCapture
+    },
+    202: {
+      bodyMapper: Mappers.PacketCapture
+    },
+    204: {
+      bodyMapper: Mappers.PacketCapture
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName,
+    Parameters.packetCaptureName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCaptures/{packetCaptureName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PacketCapture
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName,
+    Parameters.packetCaptureName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCaptures/{packetCaptureName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -486,104 +572,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName
+    Parameters.packetCaptureName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
+const stopOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
-  httpMethod: "GET",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCaptures/{packetCaptureName}/stop",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDataNetwork
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AsyncOperationStatus
     },
     201: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AsyncOperationStatus
     },
     202: {
-      bodyMapper: Mappers.AttachedDataNetwork
+      bodyMapper: Mappers.AsyncOperationStatus
     },
     204: {
-      bodyMapper: Mappers.AttachedDataNetwork
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AttachedDataNetwork
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listByPacketCoreDataPlaneOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AttachedDataNetworkListResult
+      bodyMapper: Mappers.AsyncOperationStatus
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -595,17 +604,39 @@ const listByPacketCoreDataPlaneOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
+    Parameters.packetCaptureName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByPacketCoreDataPlaneNextOperationSpec: coreClient.OperationSpec = {
+const listByPacketCoreControlPlaneOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCaptures",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PacketCaptureListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByPacketCoreControlPlaneNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDataNetworkListResult
+      bodyMapper: Mappers.PacketCaptureListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -616,7 +647,6 @@ const listByPacketCoreDataPlaneNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
