@@ -1,15 +1,12 @@
 # Release History
+    
+## 9.1.0 (2023-06-25)
+    
+**Features**
 
-## 9.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownProvisioningStateEnum has a new value Deleting
+    
+    
 ## 9.0.0 (2023-02-09)
     
 **Features**

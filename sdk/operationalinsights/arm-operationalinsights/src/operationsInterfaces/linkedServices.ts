@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LinkedService,
   LinkedServicesListByWorkspaceOptionalParams,
@@ -48,8 +48,8 @@ export interface LinkedServices {
     parameters: LinkedService,
     options?: LinkedServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServicesCreateOrUpdateResponse>,
       LinkedServicesCreateOrUpdateResponse
     >
   >;
@@ -81,8 +81,8 @@ export interface LinkedServices {
     linkedServiceName: string,
     options?: LinkedServicesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServicesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServicesDeleteResponse>,
       LinkedServicesDeleteResponse
     >
   >;
