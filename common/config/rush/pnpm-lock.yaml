@@ -92,6 +92,7 @@ specifiers:
   '@rush-temp/arm-dnsresolver': file:./projects/arm-dnsresolver.tgz
   '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
   '@rush-temp/arm-dynatrace': file:./projects/arm-dynatrace.tgz
+  '@rush-temp/arm-edgemarketplace': file:./projects/arm-edgemarketplace.tgz
   '@rush-temp/arm-education': file:./projects/arm-education.tgz
   '@rush-temp/arm-elastic': file:./projects/arm-elastic.tgz
   '@rush-temp/arm-elasticsan': file:./projects/arm-elasticsan.tgz
@@ -440,6 +441,7 @@ dependencies:
   '@rush-temp/arm-dnsresolver': file:projects/arm-dnsresolver.tgz
   '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
   '@rush-temp/arm-dynatrace': file:projects/arm-dynatrace.tgz
+  '@rush-temp/arm-edgemarketplace': file:projects/arm-edgemarketplace.tgz
   '@rush-temp/arm-education': file:projects/arm-education.tgz
   '@rush-temp/arm-elastic': file:projects/arm-elastic.tgz
   '@rush-temp/arm-elasticsan': file:projects/arm-elasticsan.tgz
@@ -4695,7 +4697,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230623
+      typescript: 5.2.0-dev.20230625
     dev: false
 
   /duplexer3/0.1.5:
@@ -10149,8 +10151,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230623:
-    resolution: {integrity: sha512-IduDyLpZBJFdoFuHAXj0QfHwkT6GXtkki03deolpXnPG4R+wiVZGIyyzdS0lfVbFCVejcINPxxBs7ce6E5mp+A==}
+  /typescript/5.2.0-dev.20230625:
+    resolution: {integrity: sha512-WMaChlTzClBshpE4Btm2fnl2W2Rr3LmC5ZrngUCWO78/ZVdJdbctSBWDcrqI8caZLHQmHwcW3GYedZX2OJoaUg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13518,6 +13520,34 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
+      tslib: 2.5.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-edgemarketplace.tgz:
+    resolution: {integrity: sha512-7mmtZMW1JkNrSSWm1eIZ9UDk0lB1v03rHBogFGrLcju6mfbXIELhxoRgrr07k1lN5dhD1SENBywL2bzJJIGdlQ==, tarball: file:projects/arm-edgemarketplace.tgz}
+    name: '@rush-temp/arm-edgemarketplace'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.47
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17923,7 +17953,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-PFGdQJmKd/QIjnd0o3Yn9afHedMAGR/QPrL0HYCL/SvYVppbLhNmfiuCh3jAD0Pa7hz1M+JzTERWStBWCzQ2gg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-cxXcoP19Ey/WDN+gBSbUX3c4qEjxEUb6xCNwYTPweJiPZyNoVpDzkkix60JgoGdj1A61jeMzvp5j7RhDXunoXg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -17959,11 +17989,7 @@ packages:
       tslib: 2.5.2
       typescript: 5.0.4
     transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/container-registry.tgz:
