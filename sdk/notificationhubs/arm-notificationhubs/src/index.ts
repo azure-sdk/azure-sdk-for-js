@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { NotificationHubsManagementClient } from "./notificationHubsManagementClient";
+export { NotificationHubsRPClient } from "./notificationHubsRPClient";
 export * from "./operationsInterfaces";

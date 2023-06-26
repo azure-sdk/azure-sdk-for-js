@@ -12,7 +12,7 @@ import { NotificationHubs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
+import { NotificationHubsRPClient } from "../notificationHubsRPClient";
 import {
   NotificationHubResource,
   NotificationHubsListNextOptionalParams,
@@ -25,17 +25,16 @@ import {
   CheckAvailabilityParameters,
   NotificationHubsCheckNotificationHubAvailabilityOptionalParams,
   NotificationHubsCheckNotificationHubAvailabilityResponse,
-  NotificationHubCreateOrUpdateParameters,
-  NotificationHubsCreateOrUpdateOptionalParams,
-  NotificationHubsCreateOrUpdateResponse,
-  NotificationHubsPatchOptionalParams,
-  NotificationHubsPatchResponse,
-  NotificationHubsDeleteOptionalParams,
   NotificationHubsGetOptionalParams,
   NotificationHubsGetResponse,
+  NotificationHubsCreateOrUpdateOptionalParams,
+  NotificationHubsCreateOrUpdateResponse,
+  NotificationHubPatchParameters,
+  NotificationHubsUpdateOptionalParams,
+  NotificationHubsUpdateResponse,
+  NotificationHubsDeleteOptionalParams,
   NotificationHubsDebugSendOptionalParams,
   NotificationHubsDebugSendResponse,
-  SharedAccessAuthorizationRuleCreateOrUpdateParameters,
   NotificationHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   NotificationHubsCreateOrUpdateAuthorizationRuleResponse,
   NotificationHubsDeleteAuthorizationRuleOptionalParams,
@@ -43,7 +42,7 @@ import {
   NotificationHubsGetAuthorizationRuleResponse,
   NotificationHubsListKeysOptionalParams,
   NotificationHubsListKeysResponse,
-  PolicykeyResource,
+  PolicyKeyResource,
   NotificationHubsRegenerateKeysOptionalParams,
   NotificationHubsRegenerateKeysResponse,
   NotificationHubsGetPnsCredentialsOptionalParams,
@@ -55,20 +54,20 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NotificationHubs operations. */
 export class NotificationHubsImpl implements NotificationHubs {
-  private readonly client: NotificationHubsManagementClient;
+  private readonly client: NotificationHubsRPClient;
 
   /**
    * Initialize a new instance of the class NotificationHubs class.
    * @param client Reference to the service client
    */
-  constructor(client: NotificationHubsManagementClient) {
+  constructor(client: NotificationHubsRPClient) {
     this.client = client;
   }
 
   /**
    * Lists the notification hubs associated with a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
   public list(
@@ -143,9 +142,9 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Gets the authorization rules for a NotificationHub.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
-   * @param notificationHubName The notification hub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   public listAuthorizationRules(
@@ -236,9 +235,9 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Checks the availability of the given notificationHub in a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param parameters The notificationHub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   checkNotificationHubAvailability(
@@ -254,18 +253,37 @@ export class NotificationHubsImpl implements NotificationHubs {
   }
 
   /**
+   * Gets the notification hub.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: NotificationHubsGetOptionalParams
+  ): Promise<NotificationHubsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, notificationHubName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
    * Creates/Update a NotificationHub in a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param parameters Parameters supplied to the create/update a NotificationHub Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     namespaceName: string,
     notificationHubName: string,
-    parameters: NotificationHubCreateOrUpdateParameters,
+    parameters: NotificationHubResource,
     options?: NotificationHubsCreateOrUpdateOptionalParams
   ): Promise<NotificationHubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -282,28 +300,36 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Patch a NotificationHub in a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
-  patch(
+  update(
     resourceGroupName: string,
     namespaceName: string,
     notificationHubName: string,
-    options?: NotificationHubsPatchOptionalParams
-  ): Promise<NotificationHubsPatchResponse> {
+    parameters: NotificationHubPatchParameters,
+    options?: NotificationHubsUpdateOptionalParams
+  ): Promise<NotificationHubsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, notificationHubName, options },
-      patchOperationSpec
+      {
+        resourceGroupName,
+        namespaceName,
+        notificationHubName,
+        parameters,
+        options
+      },
+      updateOperationSpec
     );
   }
 
   /**
    * Deletes a notification hub associated with a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   delete(
@@ -320,28 +346,26 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Lists the notification hubs associated with a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
-  get(
+  private _list(
     resourceGroupName: string,
     namespaceName: string,
-    notificationHubName: string,
-    options?: NotificationHubsGetOptionalParams
-  ): Promise<NotificationHubsGetResponse> {
+    options?: NotificationHubsListOptionalParams
+  ): Promise<NotificationHubsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, notificationHubName, options },
-      getOperationSpec
+      { resourceGroupName, namespaceName, options },
+      listOperationSpec
     );
   }
 
   /**
-   * test send a push notification
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
+   * Test send a push notification.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   debugSend(
@@ -358,11 +382,11 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Creates/Updates an authorization rule for a NotificationHub
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName Authorization Rule Name.
-   * @param parameters The shared access authorization rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   createOrUpdateAuthorizationRule(
@@ -370,7 +394,7 @@ export class NotificationHubsImpl implements NotificationHubs {
     namespaceName: string,
     notificationHubName: string,
     authorizationRuleName: string,
-    parameters: SharedAccessAuthorizationRuleCreateOrUpdateParameters,
+    parameters: SharedAccessAuthorizationRuleResource,
     options?: NotificationHubsCreateOrUpdateAuthorizationRuleOptionalParams
   ): Promise<NotificationHubsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
@@ -388,10 +412,10 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Deletes a notificationHub authorization rule
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName Authorization Rule Name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   deleteAuthorizationRule(
@@ -415,10 +439,10 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Gets an authorization rule for a NotificationHub by name.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName authorization rule name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   getAuthorizationRule(
@@ -441,27 +465,10 @@ export class NotificationHubsImpl implements NotificationHubs {
   }
 
   /**
-   * Lists the notification hubs associated with a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NotificationHubsListOptionalParams
-  ): Promise<NotificationHubsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
    * Gets the authorization rules for a NotificationHub.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
-   * @param notificationHubName The notification hub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   private _listAuthorizationRules(
@@ -478,11 +485,10 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Gets the Primary and Secondary ConnectionStrings to the NotificationHub
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName The connection string of the NotificationHub for the specified
-   *                              authorizationRule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   listKeys(
@@ -506,12 +512,11 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * Regenerates the Primary/Secondary Keys to the NotificationHub Authorization Rule
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName The connection string of the NotificationHub for the specified
-   *                              authorizationRule.
-   * @param parameters Parameters supplied to regenerate the NotificationHub Authorization Rule Key.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   regenerateKeys(
@@ -519,7 +524,7 @@ export class NotificationHubsImpl implements NotificationHubs {
     namespaceName: string,
     notificationHubName: string,
     authorizationRuleName: string,
-    parameters: PolicykeyResource,
+    parameters: PolicyKeyResource,
     options?: NotificationHubsRegenerateKeysOptionalParams
   ): Promise<NotificationHubsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
@@ -536,10 +541,10 @@ export class NotificationHubsImpl implements NotificationHubs {
   }
 
   /**
-   * Lists the PNS Credentials associated with a notification hub .
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
+   * Lists the PNS Credentials associated with a notification hub.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   getPnsCredentials(
@@ -556,8 +561,8 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -575,9 +580,9 @@ export class NotificationHubsImpl implements NotificationHubs {
 
   /**
    * ListAuthorizationRulesNext
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
-   * @param notificationHubName The notification hub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
    * @param options The options parameters.
    */
@@ -610,6 +615,9 @@ const checkNotificationHubAvailabilityOperationSpec: coreClient.OperationSpec = 
   responses: {
     200: {
       bodyMapper: Mappers.CheckAvailabilityResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -620,8 +628,31 @@ const checkNotificationHubAvailabilityOperationSpec: coreClient.OperationSpec = 
     Parameters.resourceGroupName,
     Parameters.namespaceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NotificationHubResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.notificationHubName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
@@ -634,9 +665,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.NotificationHubResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -645,20 +679,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.namespaceName,
     Parameters.notificationHubName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const patchOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.NotificationHubResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -667,7 +704,7 @@ const patchOperationSpec: coreClient.OperationSpec = {
     Parameters.namespaceName,
     Parameters.notificationHubName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -675,24 +712,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
   httpMethod: "DELETE",
-  responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.notificationHubName
-  ],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
-  httpMethod: "GET",
   responses: {
-    200: {
-      bodyMapper: Mappers.NotificationHubResource
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -701,88 +725,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.notificationHubName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const debugSendOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/debugsend",
-  httpMethod: "POST",
-  responses: {
-    201: {
-      bodyMapper: Mappers.DebugSendResponse
-    }
-  },
-  requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.notificationHubName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource
-    }
-  },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.notificationHubName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
-  httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.notificationHubName
-  ],
-  serializer
-};
-const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
     Parameters.notificationHubName
   ],
   headerParameters: [Parameters.accept],
@@ -795,9 +737,16 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.NotificationHubListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skipToken,
+    Parameters.top
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -807,13 +756,115 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const debugSendOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/debugsend",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DebugSendResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.notificationHubName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource
+    },
+    201: {
+      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.notificationHubName,
+    Parameters.authorizationRuleName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.notificationHubName,
+    Parameters.authorizationRuleName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.notificationHubName,
+    Parameters.authorizationRuleName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -829,11 +880,14 @@ const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}/listKeys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules/{authorizationRuleName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.ResourceListKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -842,19 +896,22 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.notificationHubName
+    Parameters.notificationHubName,
+    Parameters.authorizationRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.ResourceListKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters4,
@@ -864,10 +921,10 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.notificationHubName
+    Parameters.notificationHubName,
+    Parameters.authorizationRuleName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -878,6 +935,9 @@ const getPnsCredentialsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PnsCredentialsResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -897,15 +957,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.NotificationHubListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -916,16 +978,18 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.notificationHubName
+    Parameters.notificationHubName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
