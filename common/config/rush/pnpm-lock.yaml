@@ -4695,7 +4695,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230623
+      typescript: 5.2.0-dev.20230626
     dev: false
 
   /duplexer3/0.1.5:
@@ -10149,8 +10149,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230623:
-    resolution: {integrity: sha512-IduDyLpZBJFdoFuHAXj0QfHwkT6GXtkki03deolpXnPG4R+wiVZGIyyzdS0lfVbFCVejcINPxxBs7ce6E5mp+A==}
+  /typescript/5.2.0-dev.20230626:
+    resolution: {integrity: sha512-MmurzQnoX0UktODKysxRRp8b5ebqqq5ZFZWclebZOZ3yMj1PQG5Ulb3q6m2kG1fyGoc8yuMpMitasVoAUWW2Ug==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12009,7 +12009,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-2fxbZvesjWy2JPLb6VHPHvCwsZ75ahGZ4aAwTBIWrgTzUUuzHuAit+FCkuYC8ohoyoMgspiLhJqygMy12pDQ9A==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-MQRzbCbv4hc8isw9GqLL4lS40K7UPozFRyR/UcIb0mAa/bgOkBpbPGk1ydZKDqxAyi3qKdkn2II7XKpk0ltPdg==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -12024,7 +12024,8 @@ packages:
       '@types/node': 14.18.47
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -16236,7 +16237,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-p8aapHDpKa8OpG/SM/+3ZVTZOk2UqRru20IRlBe++/8BVqP3PaOqyaX1FBM9L9v0AaetNazNSd819VRM4QehjA==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-f0AIGO0GgwNboKYBiepCh25t5r/vRcqUBUMo2K+BUOhjDazwikTwkFjfX6A7NXrvPnZHTyfsqxevVzw6/4peAw==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
@@ -17923,7 +17924,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-PFGdQJmKd/QIjnd0o3Yn9afHedMAGR/QPrL0HYCL/SvYVppbLhNmfiuCh3jAD0Pa7hz1M+JzTERWStBWCzQ2gg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-cxXcoP19Ey/WDN+gBSbUX3c4qEjxEUb6xCNwYTPweJiPZyNoVpDzkkix60JgoGdj1A61jeMzvp5j7RhDXunoXg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -17959,11 +17960,7 @@ packages:
       tslib: 2.5.2
       typescript: 5.0.4
     transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/container-registry.tgz:

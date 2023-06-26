@@ -1376,6 +1376,7 @@ export const ImageReference: coreClient.CompositeMapper = {
         }
       },
       version: {
+        defaultValue: "latest",
         serializedName: "version",
         type: {
           name: "String"
@@ -1449,9 +1450,8 @@ export const ContainerConfiguration: coreClient.CompositeMapper = {
     className: "ContainerConfiguration",
     modelProperties: {
       type: {
-        defaultValue: "DockerCompatible",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -1592,6 +1592,12 @@ export const VMExtension: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      enableAutomaticUpgrade: {
+        serializedName: "enableAutomaticUpgrade",
+        type: {
+          name: "Boolean"
+        }
+      },
       settings: {
         serializedName: "settings",
         type: {
@@ -1683,6 +1689,7 @@ export const FixedScaleSettings: coreClient.CompositeMapper = {
     className: "FixedScaleSettings",
     modelProperties: {
       resizeTimeout: {
+        defaultValue: "PT15M",
         serializedName: "resizeTimeout",
         type: {
           name: "TimeSpan"
@@ -1832,6 +1839,12 @@ export const NetworkConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PublicIPAddressConfiguration"
+        }
+      },
+      enableAcceleratedNetworking: {
+        serializedName: "enableAcceleratedNetworking",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2156,12 +2169,14 @@ export const StartTask: coreClient.CompositeMapper = {
         }
       },
       maxTaskRetryCount: {
+        defaultValue: 0,
         serializedName: "maxTaskRetryCount",
         type: {
           name: "Number"
         }
       },
       waitForSuccess: {
+        defaultValue: true,
         serializedName: "waitForSuccess",
         type: {
           name: "Boolean"
@@ -3262,6 +3277,7 @@ export const Pool: coreClient.CompositeMapper = {
         }
       },
       taskSlotsPerNode: {
+        defaultValue: 1,
         serializedName: "properties.taskSlotsPerNode",
         type: {
           name: "Number"
