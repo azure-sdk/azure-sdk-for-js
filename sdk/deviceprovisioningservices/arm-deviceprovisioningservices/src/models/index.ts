@@ -188,7 +188,7 @@ export interface IotDpsPropertiesDescription {
    */
   readonly idScope?: string;
   /** List of authorization keys for a provisioning service. */
-  authorizationPolicies?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
+  authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
   /**
    * Optional.
    * Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery.
@@ -281,7 +281,7 @@ export interface IotHubDefinitionDescription {
 }
 
 /** Description of the shared access key. */
-export interface SharedAccessSignatureAuthorizationRuleAccessRightsDescription {
+export interface SharedAccessSignatureAuthorizationRule {
   /** Name of the key. */
   keyName: string;
   /** Primary SAS key value. */
@@ -358,10 +358,16 @@ export interface Resource {
   readonly type?: string;
   /** The resource location. */
   location: string;
-  /** The resource group of the resource. */
-  resourcegroup?: string;
-  /** The subscription id of the resource. */
-  subscriptionid?: string;
+  /**
+   * The resource group of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourcegroup?: string;
+  /**
+   * The subscription id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionid?: string;
   /** The resource tags. */
   tags?: { [propertyName: string]: string };
 }
@@ -493,7 +499,7 @@ export interface NameAvailabilityInfo {
 /** List of shared access keys. */
 export interface SharedAccessSignatureAuthorizationRuleListResult {
   /** The list of shared access policies. */
-  value?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
+  value?: SharedAccessSignatureAuthorizationRule[];
   /**
    * The next link.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1014,7 +1020,7 @@ export interface IotDpsResourceListKeysForKeyNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeysForKeyName operation. */
-export type IotDpsResourceListKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRuleAccessRightsDescription;
+export type IotDpsResourceListKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRule;
 
 /** Optional parameters. */
 export interface IotDpsResourceListPrivateLinkResourcesOptionalParams

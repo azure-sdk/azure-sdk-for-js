@@ -1,20 +1,11 @@
 # Release History
-
-## 6.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.1 (2023-06-07)
+    
+## 6.0.0-beta.2 (2023-06-26)
     
 **Features**
 
   - Added Interface ManagedServiceIdentity
+  - Added Interface SharedAccessSignatureAuthorizationRule
   - Added Interface UserAssignedIdentity
   - Added Type Alias ManagedServiceIdentityType
   - Interface IotDpsPropertiesDescription has a new optional parameter portalOperationsHostName
@@ -26,6 +17,8 @@
 **Breaking Changes**
 
   - Type of parameter code of interface ErrorDetails is changed from string to number
+  - Type of parameter authorizationPolicies of interface IotDpsPropertiesDescription is changed from SharedAccessSignatureAuthorizationRuleAccessRightsDescription[] to SharedAccessSignatureAuthorizationRule[]
+  - Type of parameter value of interface SharedAccessSignatureAuthorizationRuleListResult is changed from SharedAccessSignatureAuthorizationRuleAccessRightsDescription[] to SharedAccessSignatureAuthorizationRule[]
     
     
 ## 5.1.0 (2023-01-05)
