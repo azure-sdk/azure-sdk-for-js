@@ -1,15 +1,312 @@
 # Release History
+    
+## 3.0.0 (2023-06-28)
+    
+**Features**
 
-## 2.1.2 (Unreleased)
+  - Added operation group Registries
+  - Added operation group RegistryCodeContainers
+  - Added operation group RegistryCodeVersions
+  - Added operation group RegistryComponentContainers
+  - Added operation group RegistryComponentVersions
+  - Added operation group RegistryDataContainers
+  - Added operation group RegistryDataVersions
+  - Added operation group RegistryEnvironmentContainers
+  - Added operation group RegistryEnvironmentVersions
+  - Added operation group RegistryModelContainers
+  - Added operation group RegistryModelVersions
+  - Added operation CodeVersions.createOrGetStartPendingUpload
+  - Added Interface AcrDetails
+  - Added Interface AllNodes
+  - Added Interface ArmResourceId
+  - Added Interface AzureMachineLearningServicesOptionalParams
+  - Added Interface BindOptions
+  - Added Interface BlobReferenceForConsumptionDto
+  - Added Interface CodeVersionsCreateOrGetStartPendingUploadOptionalParams
+  - Added Interface Cron
+  - Added Interface CustomService
+  - Added Interface Docker
+  - Added Interface Endpoint
+  - Added Interface EnvironmentVariable
+  - Added Interface IdleShutdownSetting
+  - Added Interface Image_2
+  - Added Interface ImageMetadata
+  - Added Interface Nodes
+  - Added Interface PartialRegistryPartialTrackedResource
+  - Added Interface PendingUploadCredentialDto
+  - Added Interface PendingUploadRequestDto
+  - Added Interface PendingUploadResponseDto
+  - Added Interface PrivateEndpointResource
+  - Added Interface Recurrence
+  - Added Interface RegistriesCreateOrUpdateOptionalParams
+  - Added Interface RegistriesDeleteHeaders
+  - Added Interface RegistriesDeleteOptionalParams
+  - Added Interface RegistriesGetOptionalParams
+  - Added Interface RegistriesListBySubscriptionNextOptionalParams
+  - Added Interface RegistriesListBySubscriptionOptionalParams
+  - Added Interface RegistriesListNextOptionalParams
+  - Added Interface RegistriesListOptionalParams
+  - Added Interface RegistriesRemoveRegionsHeaders
+  - Added Interface RegistriesRemoveRegionsOptionalParams
+  - Added Interface RegistriesUpdateOptionalParams
+  - Added Interface Registry
+  - Added Interface RegistryCodeContainersCreateOrUpdateHeaders
+  - Added Interface RegistryCodeContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryCodeContainersDeleteHeaders
+  - Added Interface RegistryCodeContainersDeleteOptionalParams
+  - Added Interface RegistryCodeContainersGetOptionalParams
+  - Added Interface RegistryCodeContainersListNextOptionalParams
+  - Added Interface RegistryCodeContainersListOptionalParams
+  - Added Interface RegistryCodeVersionsCreateOrGetStartPendingUploadOptionalParams
+  - Added Interface RegistryCodeVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryCodeVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryCodeVersionsDeleteHeaders
+  - Added Interface RegistryCodeVersionsDeleteOptionalParams
+  - Added Interface RegistryCodeVersionsGetOptionalParams
+  - Added Interface RegistryCodeVersionsListNextOptionalParams
+  - Added Interface RegistryCodeVersionsListOptionalParams
+  - Added Interface RegistryComponentContainersCreateOrUpdateHeaders
+  - Added Interface RegistryComponentContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryComponentContainersDeleteHeaders
+  - Added Interface RegistryComponentContainersDeleteOptionalParams
+  - Added Interface RegistryComponentContainersGetOptionalParams
+  - Added Interface RegistryComponentContainersListNextOptionalParams
+  - Added Interface RegistryComponentContainersListOptionalParams
+  - Added Interface RegistryComponentVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryComponentVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryComponentVersionsDeleteHeaders
+  - Added Interface RegistryComponentVersionsDeleteOptionalParams
+  - Added Interface RegistryComponentVersionsGetOptionalParams
+  - Added Interface RegistryComponentVersionsListNextOptionalParams
+  - Added Interface RegistryComponentVersionsListOptionalParams
+  - Added Interface RegistryDataContainersCreateOrUpdateHeaders
+  - Added Interface RegistryDataContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryDataContainersDeleteHeaders
+  - Added Interface RegistryDataContainersDeleteOptionalParams
+  - Added Interface RegistryDataContainersGetOptionalParams
+  - Added Interface RegistryDataContainersListNextOptionalParams
+  - Added Interface RegistryDataContainersListOptionalParams
+  - Added Interface RegistryDataVersionsCreateOrGetStartPendingUploadOptionalParams
+  - Added Interface RegistryDataVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryDataVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryDataVersionsDeleteHeaders
+  - Added Interface RegistryDataVersionsDeleteOptionalParams
+  - Added Interface RegistryDataVersionsGetOptionalParams
+  - Added Interface RegistryDataVersionsListNextOptionalParams
+  - Added Interface RegistryDataVersionsListOptionalParams
+  - Added Interface RegistryEnvironmentContainersCreateOrUpdateHeaders
+  - Added Interface RegistryEnvironmentContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryEnvironmentContainersDeleteHeaders
+  - Added Interface RegistryEnvironmentContainersDeleteOptionalParams
+  - Added Interface RegistryEnvironmentContainersGetOptionalParams
+  - Added Interface RegistryEnvironmentContainersListNextOptionalParams
+  - Added Interface RegistryEnvironmentContainersListOptionalParams
+  - Added Interface RegistryEnvironmentVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryEnvironmentVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryEnvironmentVersionsDeleteHeaders
+  - Added Interface RegistryEnvironmentVersionsDeleteOptionalParams
+  - Added Interface RegistryEnvironmentVersionsGetOptionalParams
+  - Added Interface RegistryEnvironmentVersionsListNextOptionalParams
+  - Added Interface RegistryEnvironmentVersionsListOptionalParams
+  - Added Interface RegistryModelContainersCreateOrUpdateHeaders
+  - Added Interface RegistryModelContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryModelContainersDeleteHeaders
+  - Added Interface RegistryModelContainersDeleteOptionalParams
+  - Added Interface RegistryModelContainersGetOptionalParams
+  - Added Interface RegistryModelContainersListNextOptionalParams
+  - Added Interface RegistryModelContainersListOptionalParams
+  - Added Interface RegistryModelVersionsCreateOrGetStartPendingUploadOptionalParams
+  - Added Interface RegistryModelVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryModelVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryModelVersionsDeleteHeaders
+  - Added Interface RegistryModelVersionsDeleteOptionalParams
+  - Added Interface RegistryModelVersionsGetOptionalParams
+  - Added Interface RegistryModelVersionsListNextOptionalParams
+  - Added Interface RegistryModelVersionsListOptionalParams
+  - Added Interface RegistryPartialManagedServiceIdentity
+  - Added Interface RegistryPrivateEndpointConnection
+  - Added Interface RegistryPrivateLinkServiceConnectionState
+  - Added Interface RegistryRegionArmDetails
+  - Added Interface RegistryTrackedResourceArmPaginatedResult
+  - Added Interface SASCredentialDto
+  - Added Interface StorageAccountDetails
+  - Added Interface SystemCreatedAcrAccount
+  - Added Interface SystemCreatedStorageAccount
+  - Added Interface TmpfsOptions
+  - Added Interface UserCreatedAcrAccount
+  - Added Interface UserCreatedStorageAccount
+  - Added Interface VolumeDefinition
+  - Added Interface VolumeOptions
+  - Added Class AzureMachineLearningServices
+  - Added Type Alias AssetProvisioningState
+  - Added Type Alias CodeVersionsCreateOrGetStartPendingUploadResponse
+  - Added Type Alias EndpointServiceConnectionStatus
+  - Added Type Alias EnvironmentVariableType
+  - Added Type Alias ImageType
+  - Added Type Alias NodesUnion
+  - Added Type Alias NodesValueType
+  - Added Type Alias PendingUploadCredentialDtoUnion
+  - Added Type Alias PendingUploadCredentialType
+  - Added Type Alias PendingUploadType
+  - Added Type Alias Protocol
+  - Added Type Alias RegistriesCreateOrUpdateResponse
+  - Added Type Alias RegistriesGetResponse
+  - Added Type Alias RegistriesListBySubscriptionNextResponse
+  - Added Type Alias RegistriesListBySubscriptionResponse
+  - Added Type Alias RegistriesListNextResponse
+  - Added Type Alias RegistriesListResponse
+  - Added Type Alias RegistriesRemoveRegionsResponse
+  - Added Type Alias RegistriesUpdateResponse
+  - Added Type Alias RegistryCodeContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryCodeContainersGetResponse
+  - Added Type Alias RegistryCodeContainersListNextResponse
+  - Added Type Alias RegistryCodeContainersListResponse
+  - Added Type Alias RegistryCodeVersionsCreateOrGetStartPendingUploadResponse
+  - Added Type Alias RegistryCodeVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryCodeVersionsGetResponse
+  - Added Type Alias RegistryCodeVersionsListNextResponse
+  - Added Type Alias RegistryCodeVersionsListResponse
+  - Added Type Alias RegistryComponentContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryComponentContainersGetResponse
+  - Added Type Alias RegistryComponentContainersListNextResponse
+  - Added Type Alias RegistryComponentContainersListResponse
+  - Added Type Alias RegistryComponentVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryComponentVersionsGetResponse
+  - Added Type Alias RegistryComponentVersionsListNextResponse
+  - Added Type Alias RegistryComponentVersionsListResponse
+  - Added Type Alias RegistryDataContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryDataContainersGetResponse
+  - Added Type Alias RegistryDataContainersListNextResponse
+  - Added Type Alias RegistryDataContainersListResponse
+  - Added Type Alias RegistryDataVersionsCreateOrGetStartPendingUploadResponse
+  - Added Type Alias RegistryDataVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryDataVersionsGetResponse
+  - Added Type Alias RegistryDataVersionsListNextResponse
+  - Added Type Alias RegistryDataVersionsListResponse
+  - Added Type Alias RegistryEnvironmentContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryEnvironmentContainersGetResponse
+  - Added Type Alias RegistryEnvironmentContainersListNextResponse
+  - Added Type Alias RegistryEnvironmentContainersListResponse
+  - Added Type Alias RegistryEnvironmentVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryEnvironmentVersionsGetResponse
+  - Added Type Alias RegistryEnvironmentVersionsListNextResponse
+  - Added Type Alias RegistryEnvironmentVersionsListResponse
+  - Added Type Alias RegistryModelContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryModelContainersGetResponse
+  - Added Type Alias RegistryModelContainersListNextResponse
+  - Added Type Alias RegistryModelContainersListResponse
+  - Added Type Alias RegistryModelVersionsCreateOrGetStartPendingUploadResponse
+  - Added Type Alias RegistryModelVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryModelVersionsGetResponse
+  - Added Type Alias RegistryModelVersionsListNextResponse
+  - Added Type Alias RegistryModelVersionsListResponse
+  - Added Type Alias VolumeDefinitionType
+  - Interface CodeContainerProperties has a new optional parameter provisioningState
+  - Interface CodeVersionProperties has a new optional parameter provisioningState
+  - Interface CodeVersionsListOptionalParams has a new optional parameter hash
+  - Interface CodeVersionsListOptionalParams has a new optional parameter hashVersion
+  - Interface ComponentContainerProperties has a new optional parameter provisioningState
+  - Interface ComponentVersionProperties has a new optional parameter provisioningState
+  - Interface ComputeInstanceProperties has a new optional parameter customServices
+  - Interface ComputeInstanceProperties has a new optional parameter osImageMetadata
+  - Interface EnvironmentContainerProperties has a new optional parameter provisioningState
+  - Interface EnvironmentVersionProperties has a new optional parameter provisioningState
+  - Interface EnvironmentVersionProperties has a new optional parameter stage
+  - Interface JobService has a new optional parameter nodes
+  - Interface ModelContainerProperties has a new optional parameter provisioningState
+  - Interface ModelVersionProperties has a new optional parameter provisioningState
+  - Interface ModelVersionProperties has a new optional parameter stage
+  - Interface OnlineEndpointProperties has a new optional parameter mirrorTraffic
+  - Type of parameter triggerType of interface TriggerBase is changed from "Recurrence" | "Cron" to "Cron" | "Recurrence"
+  - Added Enum KnownAssetProvisioningState
+  - Added Enum KnownEndpointServiceConnectionStatus
+  - Added Enum KnownEnvironmentVariableType
+  - Added Enum KnownImageType
+  - Added Enum KnownNodesValueType
+  - Added Enum KnownPendingUploadCredentialType
+  - Added Enum KnownPendingUploadType
+  - Added Enum KnownProtocol
+  - Added Enum KnownVolumeDefinitionType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Deleted Class AzureMachineLearningWorkspaces
+  - Interface BatchDeploymentsListNextOptionalParams no longer has parameter orderBy
+  - Interface BatchDeploymentsListNextOptionalParams no longer has parameter skip
+  - Interface BatchDeploymentsListNextOptionalParams no longer has parameter top
+  - Interface BatchEndpointsListNextOptionalParams no longer has parameter count
+  - Interface BatchEndpointsListNextOptionalParams no longer has parameter skip
+  - Interface CodeContainersListNextOptionalParams no longer has parameter skip
+  - Interface CodeVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface CodeVersionsListNextOptionalParams no longer has parameter skip
+  - Interface CodeVersionsListNextOptionalParams no longer has parameter top
+  - Interface ComponentContainersListNextOptionalParams no longer has parameter listViewType
+  - Interface ComponentContainersListNextOptionalParams no longer has parameter skip
+  - Interface ComponentVersionsListNextOptionalParams no longer has parameter listViewType
+  - Interface ComponentVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface ComponentVersionsListNextOptionalParams no longer has parameter skip
+  - Interface ComponentVersionsListNextOptionalParams no longer has parameter top
+  - Interface ComputeListNextOptionalParams no longer has parameter skip
+  - Interface DataContainersListNextOptionalParams no longer has parameter listViewType
+  - Interface DataContainersListNextOptionalParams no longer has parameter skip
+  - Interface DatastoresListNextOptionalParams no longer has parameter count
+  - Interface DatastoresListNextOptionalParams no longer has parameter isDefault
+  - Interface DatastoresListNextOptionalParams no longer has parameter names
+  - Interface DatastoresListNextOptionalParams no longer has parameter orderBy
+  - Interface DatastoresListNextOptionalParams no longer has parameter orderByAsc
+  - Interface DatastoresListNextOptionalParams no longer has parameter searchText
+  - Interface DatastoresListNextOptionalParams no longer has parameter skip
+  - Interface DataVersionsListNextOptionalParams no longer has parameter listViewType
+  - Interface DataVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface DataVersionsListNextOptionalParams no longer has parameter skip
+  - Interface DataVersionsListNextOptionalParams no longer has parameter tags
+  - Interface DataVersionsListNextOptionalParams no longer has parameter top
+  - Interface EnvironmentContainersListNextOptionalParams no longer has parameter listViewType
+  - Interface EnvironmentContainersListNextOptionalParams no longer has parameter skip
+  - Interface EnvironmentVersionsListNextOptionalParams no longer has parameter listViewType
+  - Interface EnvironmentVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface EnvironmentVersionsListNextOptionalParams no longer has parameter skip
+  - Interface EnvironmentVersionsListNextOptionalParams no longer has parameter top
+  - Interface JobsListNextOptionalParams no longer has parameter jobType
+  - Interface JobsListNextOptionalParams no longer has parameter listViewType
+  - Interface JobsListNextOptionalParams no longer has parameter skip
+  - Interface JobsListNextOptionalParams no longer has parameter tag
+  - Interface ModelContainersListNextOptionalParams no longer has parameter count
+  - Interface ModelContainersListNextOptionalParams no longer has parameter listViewType
+  - Interface ModelContainersListNextOptionalParams no longer has parameter skip
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter description
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter feed
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter listViewType
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter offset
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter properties
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter skip
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter tags
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter top
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter version
+  - Interface OnlineDeploymentsListNextOptionalParams no longer has parameter orderBy
+  - Interface OnlineDeploymentsListNextOptionalParams no longer has parameter skip
+  - Interface OnlineDeploymentsListNextOptionalParams no longer has parameter top
+  - Interface OnlineDeploymentsListSkusNextOptionalParams no longer has parameter count
+  - Interface OnlineDeploymentsListSkusNextOptionalParams no longer has parameter skip
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter computeType
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter count
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter name
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter orderBy
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter properties
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter skip
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter tags
+  - Interface PrivateEndpoint no longer has parameter subnetArmId
+  - Interface SchedulesListNextOptionalParams no longer has parameter listViewType
+  - Interface SchedulesListNextOptionalParams no longer has parameter skip
+  - Interface WorkspaceConnectionsListNextOptionalParams no longer has parameter category
+  - Interface WorkspaceConnectionsListNextOptionalParams no longer has parameter target
+  - Interface WorkspacesListByResourceGroupNextOptionalParams no longer has parameter skip
+  - Interface WorkspacesListBySubscriptionNextOptionalParams no longer has parameter skip
+  - Type of parameter cron of interface ComputeStartStopSchedule is changed from CronTrigger to Cron
+  - Type of parameter recurrence of interface ComputeStartStopSchedule is changed from RecurrenceTrigger to Recurrence
+    
+    
 ## 2.1.1 (2022-11-28)
 
 **Features**
