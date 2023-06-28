@@ -305,6 +305,7 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HybridContainerServiceClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: HybridContainerServiceClientOptionalParams);
     // (undocumented)
     agentPoolOperations: AgentPoolOperations;
     // (undocumented)
@@ -320,7 +321,7 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     storageSpacesOperations: StorageSpacesOperations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     virtualNetworksOperations: VirtualNetworksOperations;
 }
@@ -431,6 +432,8 @@ export enum KnownDeploymentState {
     Pending = "pending",
     Provisioned = "provisioned",
     Provisioning = "provisioning",
+    ProvisioningHelmChartInstalled = "provisioning {HelmChartInstalled}",
+    ProvisioningMSICertificateDownloaded = "provisioning {MSICertificateDownloaded}",
     Upgrading = "upgrading"
 }
 

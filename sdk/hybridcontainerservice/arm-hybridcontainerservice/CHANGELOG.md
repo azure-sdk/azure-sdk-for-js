@@ -1,15 +1,17 @@
 # Release History
+    
+## 1.0.0-beta.3 (2023-06-28)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
+  - Enum KnownDeploymentState has a new value ProvisioningHelmChartInstalled
+  - Enum KnownDeploymentState has a new value ProvisioningMSICertificateDownloaded
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class HybridContainerServiceClient has a new signature
+    
+    
 ## 1.0.0-beta.2 (2023-03-03)
     
 **Features**

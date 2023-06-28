@@ -1175,6 +1175,10 @@ export enum KnownDeploymentState {
   Pending = "pending",
   /** Provisioning */
   Provisioning = "provisioning",
+  /** ProvisioningHelmChartInstalled */
+  ProvisioningHelmChartInstalled = "provisioning {HelmChartInstalled}",
+  /** ProvisioningMSICertificateDownloaded */
+  ProvisioningMSICertificateDownloaded = "provisioning {MSICertificateDownloaded}",
   /** Provisioned */
   Provisioned = "provisioned",
   /** Deleting */
@@ -1192,6 +1196,8 @@ export enum KnownDeploymentState {
  * ### Known values supported by the service
  * **pending** \
  * **provisioning** \
+ * **provisioning {HelmChartInstalled}** \
+ * **provisioning {MSICertificateDownloaded}** \
  * **provisioned** \
  * **deleting** \
  * **failed** \
