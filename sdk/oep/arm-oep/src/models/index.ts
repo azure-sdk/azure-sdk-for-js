@@ -83,6 +83,7 @@ export interface EnergyServiceList {
   value?: EnergyService[];
 }
 
+/** The properties of an Energy service resource. */
 export interface EnergyServiceProperties {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly dnsName?: string;
@@ -90,11 +91,60 @@ export interface EnergyServiceProperties {
   readonly provisioningState?: ProvisioningState;
   authAppId?: string;
   dataPartitionNames?: DataPartitionNames[];
+  /** Properties to configure Encryption */
+  encryption?: Encryption;
+  /** Whether or not public network access is allowed for the OAK resource. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** List of private endpoint connections associated with the OAK resource. */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /** List of cors rules */
+  corsRules?: CorsRulesList[];
+  /** The resource model definition representing SKU */
+  sku?: Sku;
 }
 
 /** The list of Energy services resource's Data Partition Names. */
 export interface DataPartitionNames {
   name?: string;
+}
+
+/** Properties to configure Encryption */
+export interface Encryption {
+  /** Properties of KeyVault */
+  keyVaultProperties?: KeyVaultProperties;
+  /** The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Keyvault */
+  keySource?: KeySource;
+}
+
+/** Properties of KeyVault */
+export interface KeyVaultProperties {
+  /** The name of the key vault key. */
+  keyName: string;
+  /** The version of the key vault key. */
+  keyVersion?: string;
+  /** The Uri of the key vault. */
+  keyVaultUri: string;
+  /** The user assigned identity (ARM resource id) that has access to the key. */
+  userIdentity?: string;
+}
+
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -137,10 +187,218 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** List of cors rules */
+export interface CorsRulesList {
+  /** List of allowed headers */
+  allowedHeaders?: string[];
+  /** List of allowed HTTP methods */
+  allowedMethods?: AllowedMethods[];
+  /** List of allowed origin endpoints */
+  allowedOrigins?: string[];
+  /** List of exposed headers */
+  exposedHeaders?: string[];
+  /** Max amount of time that a browser than cache the preflight OPTIONS request */
+  maxAgeInSeconds?: number;
+}
+
+/** The resource model definition representing SKU */
+export interface Sku {
+  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
+  name: string;
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
+  tier?: SkuTier;
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
+  capacity?: number;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** The resource model definition used for updating a tracked ARM resource. */
 export interface EnergyResourceUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+}
+
+/** Defines the partition add/ delete action properties. */
+export interface DataPartitionAddOrRemoveRequest {
+  /** The list of Energy services resource's Data Partition Names. */
+  name?: DataPartitionNames;
+}
+
+/** List of data partitions. */
+export interface DataPartitionsListResult {
+  /** List of data partitions along with their properties in a given OEP resource. */
+  dataPartitionInfo?: DataPartitionProperties[];
+}
+
+/** Defines the properties of an individual data partition. */
+export interface DataPartitionProperties {
+  /** Name of the data partition */
+  name?: string;
+  /** Name of the data partition */
+  provisioningState?: string;
+}
+
+/** List of private endpoint connection associated with the specified storage account */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+}
+
+/** The available private link resources for an Account */
+export interface PrivateLinkResourceListResult {
+  /** The list of available private link resources for an Account */
+  value?: GroupInformation[];
+  /** The URI that can be used to request the next list of private link resources. */
+  nextLink?: string;
+}
+
+/** Properties of a private link resource. */
+export interface PrivateLinkResourceProperties {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+/** The available private endpoint connection proxies for an Account (not to be used by anyone, here because of ARM requirements) */
+export interface PrivateEndpointConnectionProxyListResult {
+  /** The list of available private endpoint connection proxies for an Account */
+  value?: PrivateEndpointConnectionProxy[];
+  /** The URI that can be used to request the next list of private endpoint connection proxies. */
+  nextLink?: string;
+}
+
+/** Private endpoint connection proxy object properties. */
+export interface PrivateEndpointConnectionProxyProperties {
+  /** ETag from NRP. */
+  eTag?: string;
+  /** Remote private endpoint details. */
+  remotePrivateEndpoint?: RemotePrivateEndpoint;
+  /** Operation status. */
+  status?: string;
+}
+
+/** Remote private endpoint details. */
+export interface RemotePrivateEndpoint {
+  /** Remote endpoint resource ID. */
+  id?: string;
+  /** ARM location of the remote private endpoint. */
+  location?: string;
+  /** Original subscription ID needed by Microsoft.Network. */
+  immutableSubscriptionId?: string;
+  /** Original resource ID needed by Microsoft.Network. */
+  immutableResourceId?: string;
+  /** Virtual network traffic tag. */
+  vnetTrafficTag?: string;
+  /** List of private link service connections that need manual approval. */
+  manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
+  /** List of automatically approved private link service connections. */
+  privateLinkServiceConnections?: PrivateLinkServiceConnection[];
+  /** List of private link service proxies. */
+  privateLinkServiceProxies?: PrivateLinkServiceProxy[];
+  /** List of connection details. */
+  connectionDetails?: ConnectionDetails[];
+}
+
+/** Private link service connection details. */
+export interface PrivateLinkServiceConnection {
+  /** Private link service connection name. */
+  name?: string;
+  /** List of group IDs. */
+  groupIds?: string[];
+  /** Request message. */
+  requestMessage?: string;
+}
+
+/** Private link service proxy details. */
+export interface PrivateLinkServiceProxy {
+  /** NRP resource ID. */
+  id?: string;
+  /** Remote private link service connection state */
+  remotePrivateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** Remote private endpoint connection details. */
+  remotePrivateEndpointConnection?: PrivateLinkServiceProxyRemotePrivateEndpointConnection;
+  /** Group connectivity information. */
+  groupConnectivityInformation?: GroupConnectivityInformation[];
+}
+
+/** Remote private endpoint connection details. */
+export interface RemotePrivateEndpointConnection {
+  /** Remote private endpoint connection ID. */
+  id?: string;
+}
+
+/** Group connectivity details. */
+export interface GroupConnectivityInformation {
+  /** Group ID. */
+  groupId?: string;
+  /** Member name. */
+  memberName?: string;
+  /** List of customer visible FQDNs. */
+  customerVisibleFqdns?: string[];
+  /** Internal FQDN. */
+  internalFqdn?: string;
+  /** Redirect map ID. */
+  redirectMapId?: string;
+  /** PrivateLinkService ARM region. */
+  privateLinkServiceArmRegion?: string;
+}
+
+/** Private endpoint connection proxy object properties. */
+export interface ConnectionDetails {
+  /** Connection details ID. */
+  id?: string;
+  /** Private IP address. */
+  privateIpAddress?: string;
+  /** Link ID. */
+  linkIdentifier?: string;
+  /** Group ID. */
+  groupId?: string;
+  /** Member name. */
+  memberName?: string;
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -207,12 +465,80 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** List of data partitions */
+export interface DataPartitionsList {
+  dataPartitionNames?: DataPartitionNames[];
+}
+
+/** The Private Endpoint Connection resource. */
+export interface PrivateEndpointConnection extends Resource {
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/** An Energy service resource. */
 export interface EnergyService extends Resource {
+  /** The properties of an Energy service resource. */
   properties?: EnergyServiceProperties;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** Geo-location where the resource lives. */
   location: string;
+  /** The type of identity used for the resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The properties for a group information object */
+export interface GroupInformationProperties
+  extends PrivateLinkResourceProperties {
+  /**
+   * The provisioning state of private link group ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GroupIdProvisioningState;
+}
+
+/** Private endpoint connection proxy details. */
+export interface PrivateEndpointConnectionProxy
+  extends ProxyResource,
+    PrivateEndpointConnectionProxyProperties {
+  /** The provisioning state of the private endpoint connection proxy resource. */
+  provisioningState?: PrivateEndpointConnectionProxyProvisioningState;
+}
+
+/** Remote private endpoint connection details. */
+export interface PrivateLinkServiceProxyRemotePrivateEndpointConnection
+  extends RemotePrivateEndpointConnection {}
+
+/** The group information for creating a private endpoint on an Account */
+export interface GroupInformation extends ProxyResource {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+  /**
+   * The provisioning state of private link group ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GroupIdProvisioningState;
 }
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
@@ -266,6 +592,84 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link KeySource} that the service accepts. */
+export enum KnownKeySource {
+  /** MicrosoftKeyvault */
+  MicrosoftKeyvault = "Microsoft.Keyvault"
+}
+
+/**
+ * Defines values for KeySource. \
+ * {@link KnownKeySource} can be used interchangeably with KeySource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.Keyvault**
+ */
+export type KeySource = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -289,6 +693,111 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link AllowedMethods} that the service accepts. */
+export enum KnownAllowedMethods {
+  /** Delete */
+  Delete = "DELETE",
+  /** GET */
+  GET = "GET",
+  /** Head */
+  Head = "HEAD",
+  /** Merge */
+  Merge = "MERGE",
+  /** Post */
+  Post = "POST",
+  /** Options */
+  Options = "OPTIONS",
+  /** PUT */
+  PUT = "PUT",
+  /** Patch */
+  Patch = "PATCH"
+}
+
+/**
+ * Defines values for AllowedMethods. \
+ * {@link KnownAllowedMethods} can be used interchangeably with AllowedMethods,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DELETE** \
+ * **GET** \
+ * **HEAD** \
+ * **MERGE** \
+ * **POST** \
+ * **OPTIONS** \
+ * **PUT** \
+ * **PATCH**
+ */
+export type AllowedMethods = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link GroupIdProvisioningState} that the service accepts. */
+export enum KnownGroupIdProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for GroupIdProvisioningState. \
+ * {@link KnownGroupIdProvisioningState} can be used interchangeably with GroupIdProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type GroupIdProvisioningState = string;
+
+/** Known values of {@link PrivateEndpointConnectionProxyProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProxyProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProxyProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProxyProvisioningState} can be used interchangeably with PrivateEndpointConnectionProxyProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProxyProvisioningState = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -325,6 +834,8 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+/** Defines values for SkuTier. */
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 /** Optional parameters. */
 export interface LocationsCheckNameAvailabilityOptionalParams
@@ -371,7 +882,7 @@ export type EnergyServicesCreateResponse = EnergyService;
 /** Optional parameters. */
 export interface EnergyServicesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The resource model definition used for updating a tracked ARM resource. */
+  /** Energy Resource Update definition */
   body?: EnergyResourceUpdate;
 }
 
@@ -388,6 +899,41 @@ export interface EnergyServicesDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface EnergyServicesAddPartitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** add partition action payload */
+  body?: DataPartitionAddOrRemoveRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the addPartition operation. */
+export type EnergyServicesAddPartitionResponse = DataPartitionAddOrRemoveRequest;
+
+/** Optional parameters. */
+export interface EnergyServicesRemovePartitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** remove partition action payload */
+  body?: DataPartitionAddOrRemoveRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the removePartition operation. */
+export type EnergyServicesRemovePartitionResponse = DataPartitionAddOrRemoveRequest;
+
+/** Optional parameters. */
+export interface EnergyServicesListPartitionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPartitions operation. */
+export type EnergyServicesListPartitionsResponse = DataPartitionsListResult;
+
+/** Optional parameters. */
 export interface EnergyServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -400,6 +946,94 @@ export interface EnergyServicesListBySubscriptionNextOptionalParams
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type EnergyServicesListBySubscriptionNextResponse = EnergyServiceList;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByOAKInstanceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByOAKInstance operation. */
+export type PrivateEndpointConnectionsListByOAKInstanceResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByOAKInstanceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByOAKInstance operation. */
+export type PrivateLinkResourcesListByOAKInstanceResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = GroupInformation;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesListByOAKInstanceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByOAKInstance operation. */
+export type PrivateEndpointConnectionProxiesListByOAKInstanceResponse = PrivateEndpointConnectionProxyListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesValidateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionProxiesGetResponse = PrivateEndpointConnectionProxy;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionProxiesCreateOrUpdateResponse = PrivateEndpointConnectionProxy;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

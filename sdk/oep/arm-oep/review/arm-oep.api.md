@@ -6,12 +6,15 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
+
+// @public
+export type AllowedMethods = string;
 
 // @public
 export type CheckNameAvailabilityReason = string;
@@ -30,12 +33,58 @@ export interface CheckNameAvailabilityResponse {
 }
 
 // @public
+export interface ConnectionDetails {
+    groupId?: string;
+    id?: string;
+    linkIdentifier?: string;
+    memberName?: string;
+    privateIpAddress?: string;
+}
+
+// @public
+export interface CorsRulesList {
+    allowedHeaders?: string[];
+    allowedMethods?: AllowedMethods[];
+    allowedOrigins?: string[];
+    exposedHeaders?: string[];
+    maxAgeInSeconds?: number;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface DataPartitionAddOrRemoveRequest {
+    name?: DataPartitionNames;
+}
 
 // @public
 export interface DataPartitionNames {
     // (undocumented)
     name?: string;
+}
+
+// @public
+export interface DataPartitionProperties {
+    name?: string;
+    provisioningState?: string;
+}
+
+// @public
+export interface DataPartitionsList {
+    // (undocumented)
+    dataPartitionNames?: DataPartitionNames[];
+}
+
+// @public
+export interface DataPartitionsListResult {
+    dataPartitionInfo?: DataPartitionProperties[];
+}
+
+// @public
+export interface Encryption {
+    keySource?: KeySource;
+    keyVaultProperties?: KeyVaultProperties;
 }
 
 // @public
@@ -45,10 +94,10 @@ export interface EnergyResourceUpdate {
     };
 }
 
-// @public (undocumented)
+// @public
 export interface EnergyService extends Resource {
+    identity?: ManagedServiceIdentity;
     location: string;
-    // (undocumented)
     properties?: EnergyServiceProperties;
     tags?: {
         [propertyName: string]: string;
@@ -61,28 +110,47 @@ export interface EnergyServiceList {
     value?: EnergyService[];
 }
 
-// @public (undocumented)
+// @public
 export interface EnergyServiceProperties {
     // (undocumented)
     authAppId?: string;
+    corsRules?: CorsRulesList[];
     // (undocumented)
     dataPartitionNames?: DataPartitionNames[];
     readonly dnsName?: string;
+    encryption?: Encryption;
+    privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku?: Sku;
 }
 
 // @public
 export interface EnergyServices {
-    beginCreate(resourceGroupName: string, resourceName: string, options?: EnergyServicesCreateOptionalParams): Promise<PollerLike<PollOperationState<EnergyServicesCreateResponse>, EnergyServicesCreateResponse>>;
+    beginAddPartition(resourceGroupName: string, resourceName: string, options?: EnergyServicesAddPartitionOptionalParams): Promise<SimplePollerLike<OperationState<EnergyServicesAddPartitionResponse>, EnergyServicesAddPartitionResponse>>;
+    beginAddPartitionAndWait(resourceGroupName: string, resourceName: string, options?: EnergyServicesAddPartitionOptionalParams): Promise<EnergyServicesAddPartitionResponse>;
+    beginCreate(resourceGroupName: string, resourceName: string, options?: EnergyServicesCreateOptionalParams): Promise<SimplePollerLike<OperationState<EnergyServicesCreateResponse>, EnergyServicesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, resourceName: string, options?: EnergyServicesCreateOptionalParams): Promise<EnergyServicesCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: EnergyServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: EnergyServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: EnergyServicesDeleteOptionalParams): Promise<void>;
+    beginRemovePartition(resourceGroupName: string, resourceName: string, options?: EnergyServicesRemovePartitionOptionalParams): Promise<SimplePollerLike<OperationState<EnergyServicesRemovePartitionResponse>, EnergyServicesRemovePartitionResponse>>;
+    beginRemovePartitionAndWait(resourceGroupName: string, resourceName: string, options?: EnergyServicesRemovePartitionOptionalParams): Promise<EnergyServicesRemovePartitionResponse>;
     get(resourceGroupName: string, resourceName: string, options?: EnergyServicesGetOptionalParams): Promise<EnergyServicesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: EnergyServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<EnergyService>;
     listBySubscription(options?: EnergyServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<EnergyService>;
-    // (undocumented)
+    listPartitions(resourceGroupName: string, resourceName: string, options?: EnergyServicesListPartitionsOptionalParams): Promise<EnergyServicesListPartitionsResponse>;
     update(resourceGroupName: string, resourceName: string, options?: EnergyServicesUpdateOptionalParams): Promise<EnergyServicesUpdateResponse>;
 }
+
+// @public
+export interface EnergyServicesAddPartitionOptionalParams extends coreClient.OperationOptions {
+    body?: DataPartitionAddOrRemoveRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EnergyServicesAddPartitionResponse = DataPartitionAddOrRemoveRequest;
 
 // @public
 export interface EnergyServicesCreateOptionalParams extends coreClient.OperationOptions {
@@ -136,6 +204,23 @@ export interface EnergyServicesListBySubscriptionOptionalParams extends coreClie
 export type EnergyServicesListBySubscriptionResponse = EnergyServiceList;
 
 // @public
+export interface EnergyServicesListPartitionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EnergyServicesListPartitionsResponse = DataPartitionsListResult;
+
+// @public
+export interface EnergyServicesRemovePartitionOptionalParams extends coreClient.OperationOptions {
+    body?: DataPartitionAddOrRemoveRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EnergyServicesRemovePartitionResponse = DataPartitionAddOrRemoveRequest;
+
+// @public
 export interface EnergyServicesUpdateOptionalParams extends coreClient.OperationOptions {
     body?: EnergyResourceUpdate;
 }
@@ -167,8 +252,57 @@ export interface ErrorResponse {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GroupConnectivityInformation {
+    customerVisibleFqdns?: string[];
+    groupId?: string;
+    internalFqdn?: string;
+    memberName?: string;
+    privateLinkServiceArmRegion?: string;
+    redirectMapId?: string;
+}
+
+// @public
+export type GroupIdProvisioningState = string;
+
+// @public
+export interface GroupInformation extends ProxyResource {
+    readonly groupId?: string;
+    readonly provisioningState?: GroupIdProvisioningState;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface GroupInformationProperties extends PrivateLinkResourceProperties {
+    readonly provisioningState?: GroupIdProvisioningState;
+}
+
+// @public
+export type KeySource = string;
+
+// @public
+export interface KeyVaultProperties {
+    keyName: string;
+    keyVaultUri: string;
+    keyVersion?: string;
+    userIdentity?: string;
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAllowedMethods {
+    Delete = "DELETE",
+    GET = "GET",
+    Head = "HEAD",
+    Merge = "MERGE",
+    Options = "OPTIONS",
+    Patch = "PATCH",
+    Post = "POST",
+    PUT = "PUT"
 }
 
 // @public
@@ -186,10 +320,53 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownGroupIdProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownKeySource {
+    MicrosoftKeyvault = "Microsoft.Keyvault"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProxyProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
 }
 
 // @public
@@ -204,6 +381,12 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export interface Locations {
     checkNameAvailability(body: CheckNameAvailabilityRequest, options?: LocationsCheckNameAvailabilityOptionalParams): Promise<LocationsCheckNameAvailabilityResponse>;
 }
@@ -214,6 +397,19 @@ export interface LocationsCheckNameAvailabilityOptionalParams extends coreClient
 
 // @public
 export type LocationsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public (undocumented)
 export class OpenEnergyPlatformManagementServiceAPIs extends coreClient.ServiceClient {
@@ -228,6 +424,12 @@ export class OpenEnergyPlatformManagementServiceAPIs extends coreClient.ServiceC
     locations: Locations;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    privateEndpointConnectionProxies: PrivateEndpointConnectionProxies;
+    // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinkResources: PrivateLinkResources;
     // (undocumented)
     subscriptionId: string;
 }
@@ -278,7 +480,218 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnectionProxies {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionProxyId: string, privateEndpointConnectionProxy: PrivateEndpointConnectionProxy, options?: PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionProxiesCreateOrUpdateResponse>, PrivateEndpointConnectionProxiesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionProxyId: string, privateEndpointConnectionProxy: PrivateEndpointConnectionProxy, options?: PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionProxiesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionProxyId: string, options?: PrivateEndpointConnectionProxiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionProxyId: string, options?: PrivateEndpointConnectionProxiesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, privateEndpointConnectionProxyId: string, options?: PrivateEndpointConnectionProxiesGetOptionalParams): Promise<PrivateEndpointConnectionProxiesGetResponse>;
+    listByOAKInstance(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionProxiesListByOAKInstanceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionProxy>;
+    validate(resourceGroupName: string, resourceName: string, privateEndpointConnectionProxyId: string, privateEndpointConnectionProxy: PrivateEndpointConnectionProxy, options?: PrivateEndpointConnectionProxiesValidateOptionalParams): Promise<void>;
+}
+
+// @public
+export interface PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesCreateOrUpdateResponse = PrivateEndpointConnectionProxy;
+
+// @public
+export interface PrivateEndpointConnectionProxiesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionProxiesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesGetResponse = PrivateEndpointConnectionProxy;
+
+// @public
+export interface PrivateEndpointConnectionProxiesListByOAKInstanceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesListByOAKInstanceResponse = PrivateEndpointConnectionProxyListResult;
+
+// @public
+export interface PrivateEndpointConnectionProxiesValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionProxy extends ProxyResource, PrivateEndpointConnectionProxyProperties {
+    provisioningState?: PrivateEndpointConnectionProxyProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionProxyListResult {
+    nextLink?: string;
+    value?: PrivateEndpointConnectionProxy[];
+}
+
+// @public
+export interface PrivateEndpointConnectionProxyProperties {
+    eTag?: string;
+    remotePrivateEndpoint?: RemotePrivateEndpoint;
+    status?: string;
+}
+
+// @public
+export type PrivateEndpointConnectionProxyProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnections {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    listByOAKInstance(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListByOAKInstanceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsListByOAKInstanceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByOAKInstanceResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResourceListResult {
+    nextLink?: string;
+    value?: GroupInformation[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResources {
+    get(resourceGroupName: string, resourceName: string, groupId: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+    listByOAKInstance(resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesListByOAKInstanceOptionalParams): PagedAsyncIterableIterator<GroupInformation>;
+}
+
+// @public
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesGetResponse = GroupInformation;
+
+// @public
+export interface PrivateLinkResourcesListByOAKInstanceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByOAKInstanceResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkServiceConnection {
+    groupIds?: string[];
+    name?: string;
+    requestMessage?: string;
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export interface PrivateLinkServiceProxy {
+    groupConnectivityInformation?: GroupConnectivityInformation[];
+    id?: string;
+    remotePrivateEndpointConnection?: PrivateLinkServiceProxyRemotePrivateEndpointConnection;
+    remotePrivateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+// @public
+export interface PrivateLinkServiceProxyRemotePrivateEndpointConnection extends RemotePrivateEndpointConnection {
+}
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type PublicNetworkAccess = string;
+
+// @public
+export interface RemotePrivateEndpoint {
+    connectionDetails?: ConnectionDetails[];
+    id?: string;
+    immutableResourceId?: string;
+    immutableSubscriptionId?: string;
+    location?: string;
+    manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
+    privateLinkServiceConnections?: PrivateLinkServiceConnection[];
+    privateLinkServiceProxies?: PrivateLinkServiceProxy[];
+    vnetTrafficTag?: string;
+}
+
+// @public
+export interface RemotePrivateEndpointConnection {
+    id?: string;
+}
 
 // @public
 export interface Resource {
@@ -289,6 +702,18 @@ export interface Resource {
 }
 
 // @public
+export interface Sku {
+    capacity?: number;
+    family?: string;
+    name: string;
+    size?: string;
+    tier?: SkuTier;
+}
+
+// @public
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -296,6 +721,12 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

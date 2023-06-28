@@ -8,4 +8,7 @@
 
 export * from "./locations";
 export * from "./energyServices";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
+export * from "./privateEndpointConnectionProxies";
 export * from "./operations";

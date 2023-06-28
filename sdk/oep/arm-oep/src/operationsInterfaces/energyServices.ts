@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EnergyService,
   EnergyServicesListByResourceGroupOptionalParams,
@@ -18,7 +18,13 @@ import {
   EnergyServicesCreateResponse,
   EnergyServicesUpdateOptionalParams,
   EnergyServicesUpdateResponse,
-  EnergyServicesDeleteOptionalParams
+  EnergyServicesDeleteOptionalParams,
+  EnergyServicesAddPartitionOptionalParams,
+  EnergyServicesAddPartitionResponse,
+  EnergyServicesRemovePartitionOptionalParams,
+  EnergyServicesRemovePartitionResponse,
+  EnergyServicesListPartitionsOptionalParams,
+  EnergyServicesListPartitionsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,8 +68,8 @@ export interface EnergyServices {
     resourceName: string,
     options?: EnergyServicesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<EnergyServicesCreateResponse>,
+    SimplePollerLike<
+      OperationState<EnergyServicesCreateResponse>,
       EnergyServicesCreateResponse
     >
   >;
@@ -79,6 +85,7 @@ export interface EnergyServices {
     options?: EnergyServicesCreateOptionalParams
   ): Promise<EnergyServicesCreateResponse>;
   /**
+   * Updates the oep resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The resource name.
    * @param options The options parameters.
@@ -98,7 +105,7 @@ export interface EnergyServices {
     resourceGroupName: string,
     resourceName: string,
     options?: EnergyServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes oep resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -110,4 +117,69 @@ export interface EnergyServices {
     resourceName: string,
     options?: EnergyServicesDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Method that gets called if new partition is to be added in a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  beginAddPartition(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesAddPartitionOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<EnergyServicesAddPartitionResponse>,
+      EnergyServicesAddPartitionResponse
+    >
+  >;
+  /**
+   * Method that gets called if new partition is to be added in a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  beginAddPartitionAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesAddPartitionOptionalParams
+  ): Promise<EnergyServicesAddPartitionResponse>;
+  /**
+   * Method that gets called if new partition is to be removed from a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  beginRemovePartition(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesRemovePartitionOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<EnergyServicesRemovePartitionResponse>,
+      EnergyServicesRemovePartitionResponse
+    >
+  >;
+  /**
+   * Method that gets called if new partition is to be removed from a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  beginRemovePartitionAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesRemovePartitionOptionalParams
+  ): Promise<EnergyServicesRemovePartitionResponse>;
+  /**
+   * Method that gets called when list of partitions is requested.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  listPartitions(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesListPartitionsOptionalParams
+  ): Promise<EnergyServicesListPartitionsResponse>;
 }

@@ -17,9 +17,19 @@ import * as coreAuth from "@azure/core-auth";
 import {
   LocationsImpl,
   EnergyServicesImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
+  PrivateEndpointConnectionProxiesImpl,
   OperationsImpl
 } from "./operations";
-import { Locations, EnergyServices, Operations } from "./operationsInterfaces";
+import {
+  Locations,
+  EnergyServices,
+  PrivateEndpointConnections,
+  PrivateLinkResources,
+  PrivateEndpointConnectionProxies,
+  Operations
+} from "./operationsInterfaces";
 import { OpenEnergyPlatformManagementServiceAPIsOptionalParams } from "./models";
 
 export class OpenEnergyPlatformManagementServiceAPIs extends coreClient.ServiceClient {
@@ -54,7 +64,7 @@ export class OpenEnergyPlatformManagementServiceAPIs extends coreClient.ServiceC
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-oep/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-oep/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -107,9 +117,14 @@ export class OpenEnergyPlatformManagementServiceAPIs extends coreClient.ServiceC
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01-preview";
+    this.apiVersion = options.apiVersion || "2023-06-12";
     this.locations = new LocationsImpl(this);
     this.energyServices = new EnergyServicesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.privateEndpointConnectionProxies = new PrivateEndpointConnectionProxiesImpl(
+      this
+    );
     this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -144,5 +159,8 @@ export class OpenEnergyPlatformManagementServiceAPIs extends coreClient.ServiceC
 
   locations: Locations;
   energyServices: EnergyServices;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
+  privateEndpointConnectionProxies: PrivateEndpointConnectionProxies;
   operations: Operations;
 }

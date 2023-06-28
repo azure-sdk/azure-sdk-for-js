@@ -14,7 +14,10 @@ import {
 import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   EnergyService as EnergyServiceMapper,
-  EnergyResourceUpdate as EnergyResourceUpdateMapper
+  EnergyResourceUpdate as EnergyResourceUpdateMapper,
+  DataPartitionAddOrRemoveRequest as DataPartitionAddOrRemoveRequestMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  PrivateEndpointConnectionProxy as PrivateEndpointConnectionProxyMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -90,7 +93,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01-preview",
+    defaultValue: "2023-06-12",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -120,6 +123,11 @@ export const body2: OperationParameter = {
   mapper: EnergyResourceUpdateMapper
 };
 
+export const body3: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: DataPartitionAddOrRemoveRequestMapper
+};
+
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -130,4 +138,47 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const privateEndpointConnection: OperationParameter = {
+  parameterPath: "privateEndpointConnection",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const groupId: OperationURLParameter = {
+  parameterPath: "groupId",
+  mapper: {
+    serializedName: "groupId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const privateEndpointConnectionProxy: OperationParameter = {
+  parameterPath: "privateEndpointConnectionProxy",
+  mapper: PrivateEndpointConnectionProxyMapper
+};
+
+export const privateEndpointConnectionProxyId: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionProxyId",
+  mapper: {
+    serializedName: "privateEndpointConnectionProxyId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
