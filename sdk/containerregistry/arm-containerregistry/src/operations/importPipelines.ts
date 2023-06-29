@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import { ImportPipelines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListNextOptionalParams,
-  PrivateEndpointConnectionsListOptionalParams,
-  PrivateEndpointConnectionsListResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListNextResponse
+  ImportPipeline,
+  ImportPipelinesListNextOptionalParams,
+  ImportPipelinesListOptionalParams,
+  ImportPipelinesListResponse,
+  ImportPipelinesGetOptionalParams,
+  ImportPipelinesGetResponse,
+  ImportPipelinesCreateOptionalParams,
+  ImportPipelinesCreateResponse,
+  ImportPipelinesDeleteOptionalParams,
+  ImportPipelinesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections {
+/** Class containing ImportPipelines operations. */
+export class ImportPipelinesImpl implements ImportPipelines {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnections class.
+   * Initialize a new instance of the class ImportPipelines class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -47,7 +46,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * List all private endpoint connections in a container registry.
+   * Lists all import pipelines for the specified container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
@@ -55,8 +54,8 @@ export class PrivateEndpointConnectionsImpl
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: ImportPipelinesListOptionalParams
+  ): PagedAsyncIterableIterator<ImportPipeline> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
@@ -82,10 +81,10 @@ export class PrivateEndpointConnectionsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams,
+    options?: ImportPipelinesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionsListResponse;
+  ): AsyncIterableIterator<ImportPipeline[]> {
+    let result: ImportPipelinesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, registryName, options);
@@ -111,8 +110,8 @@ export class PrivateEndpointConnectionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: ImportPipelinesListOptionalParams
+  ): AsyncIterableIterator<ImportPipeline> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
@@ -123,7 +122,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * List all private endpoint connections in a container registry.
+   * Lists all import pipelines for the specified container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
@@ -131,8 +130,8 @@ export class PrivateEndpointConnectionsImpl
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
-  ): Promise<PrivateEndpointConnectionsListResponse> {
+    options?: ImportPipelinesListOptionalParams
+  ): Promise<ImportPipelinesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
       listOperationSpec
@@ -140,53 +139,48 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get the specified private endpoint connection associated with the container registry.
+   * Gets the properties of the import pipeline.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
+    importPipelineName: string,
+    options?: ImportPipelinesGetOptionalParams
+  ): Promise<ImportPipelinesGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        registryName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, registryName, importPipelineName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update the state of specified private endpoint connection associated with the container registry.
+   * Creates an import pipeline for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param privateEndpointConnection The parameters for creating a private endpoint connection.
+   * @param importPipelineName The name of the import pipeline.
+   * @param importPipelineCreateParameters The parameters for creating an import pipeline.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    importPipelineName: string,
+    importPipelineCreateParameters: ImportPipeline,
+    options?: ImportPipelinesCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-      PrivateEndpointConnectionsCreateOrUpdateResponse
+      OperationState<ImportPipelinesCreateResponse>,
+      ImportPipelinesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
+    ): Promise<ImportPipelinesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -227,15 +221,15 @@ export class PrivateEndpointConnectionsImpl
       args: {
         resourceGroupName,
         registryName,
-        privateEndpointConnectionName,
-        privateEndpointConnection,
+        importPipelineName,
+        importPipelineCreateParameters,
         options
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      PrivateEndpointConnectionsCreateOrUpdateResponse,
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>
+      ImportPipelinesCreateResponse,
+      OperationState<ImportPipelinesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -246,42 +240,42 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Update the state of specified private endpoint connection associated with the container registry.
+   * Creates an import pipeline for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param privateEndpointConnection The parameters for creating a private endpoint connection.
+   * @param importPipelineName The name of the import pipeline.
+   * @param importPipelineCreateParameters The parameters for creating an import pipeline.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    importPipelineName: string,
+    importPipelineCreateParameters: ImportPipeline,
+    options?: ImportPipelinesCreateOptionalParams
+  ): Promise<ImportPipelinesCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      privateEndpointConnectionName,
-      privateEndpointConnection,
+      importPipelineName,
+      importPipelineCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the container registry.
+   * Deletes an import pipeline from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    importPipelineName: string,
+    options?: ImportPipelinesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -324,12 +318,7 @@ export class PrivateEndpointConnectionsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        registryName,
-        privateEndpointConnectionName,
-        options
-      },
+      args: { resourceGroupName, registryName, importPipelineName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -342,22 +331,22 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the container registry.
+   * Deletes an import pipeline from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    importPipelineName: string,
+    options?: ImportPipelinesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      privateEndpointConnectionName,
+      importPipelineName,
       options
     );
     return poller.pollUntilDone();
@@ -374,8 +363,8 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListNextOptionalParams
-  ): Promise<PrivateEndpointConnectionsListNextResponse> {
+    options?: ImportPipelinesListNextOptionalParams
+  ): Promise<ImportPipelinesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
       listNextOperationSpec
@@ -387,11 +376,14 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.ImportPipelineListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -406,11 +398,14 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.ImportPipeline
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -419,37 +414,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.privateEndpointConnectionName
+    Parameters.importPipelineName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.ImportPipeline
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.ImportPipeline
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.ImportPipeline
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.ImportPipeline
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.privateEndpointConnection,
+  requestBody: Parameters.importPipelineCreateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.privateEndpointConnectionName
+    Parameters.importPipelineName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -457,17 +455,26 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.privateEndpointConnectionName
+    Parameters.importPipelineName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -475,7 +482,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.ImportPipelineListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
