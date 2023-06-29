@@ -73,7 +73,7 @@ import { DevTestLabsClientOptionalParams } from "./models";
 export class DevTestLabsClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the DevTestLabsClient class.
@@ -85,12 +85,26 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: DevTestLabsClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: DevTestLabsClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: DevTestLabsClientOptionalParams | string,
+    options?: DevTestLabsClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -102,7 +116,7 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-devtestlabs/4.1.1`;
+    const packageDetails = `azsdk-js-arm-devtestlabs/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
