@@ -23,7 +23,9 @@ import {
   GrantAccessData,
   DisksGrantAccessOptionalParams,
   DisksGrantAccessResponse,
-  DisksRevokeAccessOptionalParams
+  DisksRevokeAccessOptionalParams,
+  DisksGrantAccessOnVmssvmInstanceOptionalParams,
+  DisksGrantAccessOnVmssvmInstanceResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -210,4 +212,24 @@ export interface Disks {
     diskName: string,
     options?: DisksRevokeAccessOptionalParams
   ): Promise<void>;
+  /**
+   * Grants access to a VMSS VM Instance OS disk for DiskInspection scenario.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmssName The name of the VirtualmachineScaleSet managing the managed disk. The name can't be
+   *                 changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
+   *                 maximum name length is 80 characters.
+   * @param diskName The name of the managed disk that is being created. The name can't be changed after
+   *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
+   *                 length is 80 characters.
+   * @param grantAccessData Access data object supplied in the body of the get disk access operation. The
+   *                        supported accessLevel for this action is 'ReadForDiskInspection' only.
+   * @param options The options parameters.
+   */
+  grantAccessOnVmssvmInstance(
+    resourceGroupName: string,
+    vmssName: string,
+    diskName: string,
+    grantAccessData: GrantAccessData,
+    options?: DisksGrantAccessOnVmssvmInstanceOptionalParams
+  ): Promise<DisksGrantAccessOnVmssvmInstanceResponse>;
 }

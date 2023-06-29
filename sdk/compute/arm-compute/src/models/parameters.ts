@@ -966,7 +966,7 @@ export const diskName: OperationURLParameter = {
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-02",
+    defaultValue: "2023-01-02",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -983,6 +983,17 @@ export const disk1: OperationParameter = {
 export const grantAccessData: OperationParameter = {
   parameterPath: "grantAccessData",
   mapper: GrantAccessDataMapper
+};
+
+export const vmssName: OperationURLParameter = {
+  parameterPath: "vmssName",
+  mapper: {
+    serializedName: "vmssName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const diskAccess: OperationParameter = {

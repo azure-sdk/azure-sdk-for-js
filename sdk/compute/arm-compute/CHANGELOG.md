@@ -1,15 +1,18 @@
 # Release History
+    
+## 21.1.0 (2023-06-29)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Disks.grantAccessOnVmssvmInstance
+  - Added Interface DisksGrantAccessOnVmssvmInstanceOptionalParams
+  - Added Type Alias DisksGrantAccessOnVmssvmInstanceResponse
+  - Added Type Alias FileFormat
+  - Interface GrantAccessData has a new optional parameter fileFormat
+  - Added Enum KnownFileFormat
+  - Enum KnownAccessLevel has a new value ReadForDiskInspection
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**

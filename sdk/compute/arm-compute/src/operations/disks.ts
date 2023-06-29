@@ -39,6 +39,8 @@ import {
   DisksGrantAccessOptionalParams,
   DisksGrantAccessResponse,
   DisksRevokeAccessOptionalParams,
+  DisksGrantAccessOnVmssvmInstanceOptionalParams,
+  DisksGrantAccessOnVmssvmInstanceResponse,
   DisksListByResourceGroupNextResponse,
   DisksListNextResponse
 } from "../models";
@@ -686,6 +688,32 @@ export class DisksImpl implements Disks {
   }
 
   /**
+   * Grants access to a VMSS VM Instance OS disk for DiskInspection scenario.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmssName The name of the VirtualmachineScaleSet managing the managed disk. The name can't be
+   *                 changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
+   *                 maximum name length is 80 characters.
+   * @param diskName The name of the managed disk that is being created. The name can't be changed after
+   *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
+   *                 length is 80 characters.
+   * @param grantAccessData Access data object supplied in the body of the get disk access operation. The
+   *                        supported accessLevel for this action is 'ReadForDiskInspection' only.
+   * @param options The options parameters.
+   */
+  grantAccessOnVmssvmInstance(
+    resourceGroupName: string,
+    vmssName: string,
+    diskName: string,
+    grantAccessData: GrantAccessData,
+    options?: DisksGrantAccessOnVmssvmInstanceOptionalParams
+  ): Promise<DisksGrantAccessOnVmssvmInstanceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmssName, diskName, grantAccessData, options },
+      grantAccessOnVmssvmInstanceOperationSpec
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -886,6 +914,28 @@ const revokeAccessOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.diskName
   ],
+  serializer
+};
+const grantAccessOnVmssvmInstanceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/disks/{diskName}/beginGetAccess",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessUri
+    }
+  },
+  requestBody: Parameters.grantAccessData,
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskName,
+    Parameters.vmssName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {

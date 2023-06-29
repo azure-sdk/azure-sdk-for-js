@@ -1953,6 +1953,7 @@ export interface Disks {
     beginUpdate(resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DisksUpdateResponse>, DisksUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, diskName: string, disk: DiskUpdate, options?: DisksUpdateOptionalParams): Promise<DisksUpdateResponse>;
     get(resourceGroupName: string, diskName: string, options?: DisksGetOptionalParams): Promise<DisksGetResponse>;
+    grantAccessOnVmssvmInstance(resourceGroupName: string, vmssName: string, diskName: string, grantAccessData: GrantAccessData, options?: DisksGrantAccessOnVmssvmInstanceOptionalParams): Promise<DisksGrantAccessOnVmssvmInstanceResponse>;
     list(options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
     listByResourceGroup(resourceGroupName: string, options?: DisksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Disk>;
 }
@@ -1987,6 +1988,13 @@ export interface DisksGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type DisksGetResponse = Disk;
+
+// @public
+export interface DisksGrantAccessOnVmssvmInstanceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DisksGrantAccessOnVmssvmInstanceResponse = AccessUri;
 
 // @public
 export interface DisksGrantAccessOptionalParams extends coreClient.OperationOptions {
@@ -2153,6 +2161,9 @@ export interface Extension {
     name?: string;
     properties?: CloudServiceExtensionProperties;
 }
+
+// @public
+export type FileFormat = string;
 
 // @public
 export interface Galleries {
@@ -2779,6 +2790,7 @@ export interface GrantAccessData {
     // (undocumented)
     access: AccessLevel;
     durationInSeconds: number;
+    fileFormat?: FileFormat;
     getSecureVMGuestStateSAS?: boolean;
 }
 
@@ -3034,6 +3046,7 @@ export interface KeyVaultSecretReference {
 export enum KnownAccessLevel {
     None = "None",
     Read = "Read",
+    ReadForDiskInspection = "ReadForDiskInspection",
     Write = "Write"
 }
 
@@ -3274,6 +3287,12 @@ export enum KnownExtendedLocationType {
 // @public
 export enum KnownExtendedLocationTypes {
     EdgeZone = "EdgeZone"
+}
+
+// @public
+export enum KnownFileFormat {
+    VHD = "VHD",
+    Vhdx = "VHDX"
 }
 
 // @public
