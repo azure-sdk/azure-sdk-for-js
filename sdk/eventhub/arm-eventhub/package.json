@@ -3,12 +3,12 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for EventHubManagementClient.",
-  "version": "5.2.0-beta.2",
+  "version": "6.0.0-beta.1",
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@azure/core-lro": "^2.5.0",
+    "@azure/core-lro": "^2.5.3",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
     "@azure/core-client": "^1.7.0",
@@ -47,8 +47,6 @@
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "@azure/arm-network": "^26.0.0",
-    "@azure/arm-storage": "^17.0.0",
     "@types/node": "^14.0.0",
     "@azure/dev-tool": "^1.0.0"
   },
@@ -113,13 +111,5 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/arm-eventhub",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-eventhub?view=azure-node-preview"
-  }
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/arm-eventhub"
 }
