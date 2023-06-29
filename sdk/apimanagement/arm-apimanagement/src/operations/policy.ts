@@ -6,12 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Policy } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
 import {
+  PolicyContract,
+  PolicyListByServiceNextOptionalParams,
   PolicyListByServiceOptionalParams,
   PolicyListByServiceResponse,
   PolicyIdName,
@@ -19,12 +23,13 @@ import {
   PolicyGetEntityTagResponse,
   PolicyGetOptionalParams,
   PolicyGetResponse,
-  PolicyContract,
   PolicyCreateOrUpdateOptionalParams,
   PolicyCreateOrUpdateResponse,
-  PolicyDeleteOptionalParams
+  PolicyDeleteOptionalParams,
+  PolicyListByServiceNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing Policy operations. */
 export class PolicyImpl implements Policy {
   private readonly client: ApiManagementClient;
@@ -39,11 +44,95 @@ export class PolicyImpl implements Policy {
 
   /**
    * Lists all the Global Policy definitions of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
-  listByService(
+  public listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams
+  ): PagedAsyncIterableIterator<PolicyContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<PolicyContract[]> {
+    let result: PolicyListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams
+  ): AsyncIterableIterator<PolicyContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all the Global Policy definitions of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listByService(
     resourceGroupName: string,
     serviceName: string,
     options?: PolicyListByServiceOptionalParams
@@ -56,7 +145,7 @@ export class PolicyImpl implements Policy {
 
   /**
    * Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param options The options parameters.
@@ -75,7 +164,7 @@ export class PolicyImpl implements Policy {
 
   /**
    * Get the Global policy definition of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param options The options parameters.
@@ -94,7 +183,7 @@ export class PolicyImpl implements Policy {
 
   /**
    * Creates or updates the global policy configuration of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param parameters The policy contents to apply.
@@ -115,7 +204,7 @@ export class PolicyImpl implements Policy {
 
   /**
    * Deletes the global policy configuration of the Api Management Service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -132,6 +221,25 @@ export class PolicyImpl implements Policy {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, policyId, ifMatch, options },
       deleteOperationSpec
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: PolicyListByServiceNextOptionalParams
+  ): Promise<PolicyListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByServiceNextOperationSpec
     );
   }
 }
@@ -261,5 +369,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.policyId
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer
+};
+const listByServiceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
