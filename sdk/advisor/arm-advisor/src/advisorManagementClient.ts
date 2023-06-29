@@ -19,21 +19,30 @@ import {
   ConfigurationsImpl,
   RecommendationsImpl,
   OperationsImpl,
-  SuppressionsImpl
+  SuppressionsImpl,
+  AdvisorScoresImpl
 } from "./operations";
 import {
   RecommendationMetadata,
   Configurations,
   Recommendations,
   Operations,
-  Suppressions
+  Suppressions,
+  AdvisorScores
 } from "./operationsInterfaces";
-import { AdvisorManagementClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  AdvisorManagementClientOptionalParams,
+  PredictionRequest,
+  PredictOptionalParams,
+  PredictResponse
+} from "./models";
 
 export class AdvisorManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the AdvisorManagementClient class.
@@ -45,12 +54,26 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: AdvisorManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AdvisorManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: AdvisorManagementClientOptionalParams | string,
+    options?: AdvisorManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -62,7 +85,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-advisor/3.1.1`;
+    const packageDetails = `azsdk-js-arm-advisor/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,12 +138,13 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-01-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.recommendationMetadata = new RecommendationMetadataImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.recommendations = new RecommendationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.suppressions = new SuppressionsImpl(this);
+    this.advisorScores = new AdvisorScoresImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -152,9 +176,46 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Predicts a recommendation.
+   * @param predictionRequest Parameters for predict recommendation.
+   * @param options The options parameters.
+   */
+  predict(
+    predictionRequest: PredictionRequest,
+    options?: PredictOptionalParams
+  ): Promise<PredictResponse> {
+    return this.sendOperationRequest(
+      { predictionRequest, options },
+      predictOperationSpec
+    );
+  }
+
   recommendationMetadata: RecommendationMetadata;
   configurations: Configurations;
   recommendations: Recommendations;
   operations: Operations;
   suppressions: Suppressions;
+  advisorScores: AdvisorScores;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const predictOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/predict",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PredictionResponse
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  requestBody: Parameters.predictionRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
