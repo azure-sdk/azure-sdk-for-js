@@ -91,6 +91,82 @@ export type AzureBareMetalInstancesUpdateResponse = AzureBareMetalInstance;
 // @public
 export type AzureBareMetalProvisioningStatesEnum = string;
 
+// @public
+export interface AzureBareMetalStorageInstance extends TrackedResource {
+    azureBareMetalStorageInstanceUniqueIdentifier?: string;
+    storageProperties?: StorageProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AzureBareMetalStorageInstances {
+    create(resourceGroupName: string, azureBareMetalStorageInstanceName: string, requestBodyParameters: AzureBareMetalStorageInstance, options?: AzureBareMetalStorageInstancesCreateOptionalParams): Promise<AzureBareMetalStorageInstancesCreateResponse>;
+    delete(resourceGroupName: string, azureBareMetalStorageInstanceName: string, options?: AzureBareMetalStorageInstancesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, azureBareMetalStorageInstanceName: string, options?: AzureBareMetalStorageInstancesGetOptionalParams): Promise<AzureBareMetalStorageInstancesGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AzureBareMetalStorageInstance>;
+    listBySubscription(options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AzureBareMetalStorageInstance>;
+    update(resourceGroupName: string, azureBareMetalStorageInstanceName: string, tagsParameter: Tags, options?: AzureBareMetalStorageInstancesUpdateOptionalParams): Promise<AzureBareMetalStorageInstancesUpdateResponse>;
+}
+
+// @public
+export interface AzureBareMetalStorageInstancesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureBareMetalStorageInstancesCreateResponse = AzureBareMetalStorageInstance;
+
+// @public
+export interface AzureBareMetalStorageInstancesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AzureBareMetalStorageInstancesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureBareMetalStorageInstancesGetResponse = AzureBareMetalStorageInstance;
+
+// @public
+export interface AzureBareMetalStorageInstancesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureBareMetalStorageInstancesListByResourceGroupNextResponse = AzureBareMetalStorageInstancesListResult;
+
+// @public
+export interface AzureBareMetalStorageInstancesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureBareMetalStorageInstancesListByResourceGroupResponse = AzureBareMetalStorageInstancesListResult;
+
+// @public
+export interface AzureBareMetalStorageInstancesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureBareMetalStorageInstancesListBySubscriptionNextResponse = AzureBareMetalStorageInstancesListResult;
+
+// @public
+export interface AzureBareMetalStorageInstancesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureBareMetalStorageInstancesListBySubscriptionResponse = AzureBareMetalStorageInstancesListResult;
+
+// @public
+export interface AzureBareMetalStorageInstancesListResult {
+    nextLink?: string;
+    value?: AzureBareMetalStorageInstance[];
+}
+
+// @public
+export interface AzureBareMetalStorageInstancesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureBareMetalStorageInstancesUpdateResponse = AzureBareMetalStorageInstance;
+
 // @public (undocumented)
 export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -100,6 +176,8 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     azureBareMetalInstances: AzureBareMetalInstances;
+    // (undocumented)
+    azureBareMetalStorageInstances: AzureBareMetalStorageInstances;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -132,15 +210,23 @@ export interface Display {
 }
 
 // @public
-export interface ErrorDefinition {
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
-    readonly details?: ErrorDefinition[];
+    readonly details?: ErrorDetail[];
     readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDefinition;
+    error?: ErrorDetail;
 }
 
 // @public
@@ -240,6 +326,18 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Migrating = "Migrating",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export interface NetworkProfile {
     readonly circuitId?: string;
     networkInterfaces?: IpAddress[];
@@ -278,6 +376,9 @@ export interface OSProfile {
 }
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -290,9 +391,26 @@ export interface Result {
 }
 
 // @public
+export interface StorageBillingProperties {
+    azureBareMetalStorageInstanceSize?: string;
+    billingMode?: string;
+}
+
+// @public
 export interface StorageProfile {
     readonly nfsIpAddress?: string;
     osDisks?: Disk[];
+}
+
+// @public
+export interface StorageProperties {
+    generation?: string;
+    hardwareType?: string;
+    offeringType?: string;
+    provisioningState?: ProvisioningState;
+    storageBillingProperties?: StorageBillingProperties;
+    storageType?: string;
+    workloadType?: string;
 }
 
 // @public

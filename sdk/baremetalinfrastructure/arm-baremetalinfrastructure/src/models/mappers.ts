@@ -276,17 +276,17 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDefinition"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const ErrorDefinition: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorDefinition",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -302,6 +302,13 @@ export const ErrorDefinition: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       details: {
         serializedName: "details",
         readOnly: true,
@@ -310,9 +317,46 @@ export const ErrorDefinition: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDefinition"
+              className: "ErrorDetail"
             }
           }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -417,6 +461,106 @@ export const Tags: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AzureBareMetalStorageInstancesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBareMetalStorageInstancesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureBareMetalStorageInstance"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      offeringType: {
+        serializedName: "offeringType",
+        type: {
+          name: "String"
+        }
+      },
+      storageType: {
+        serializedName: "storageType",
+        type: {
+          name: "String"
+        }
+      },
+      generation: {
+        serializedName: "generation",
+        type: {
+          name: "String"
+        }
+      },
+      hardwareType: {
+        serializedName: "hardwareType",
+        type: {
+          name: "String"
+        }
+      },
+      workloadType: {
+        serializedName: "workloadType",
+        type: {
+          name: "String"
+        }
+      },
+      storageBillingProperties: {
+        serializedName: "storageBillingProperties",
+        type: {
+          name: "Composite",
+          className: "StorageBillingProperties"
+        }
+      }
+    }
+  }
+};
+
+export const StorageBillingProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageBillingProperties",
+    modelProperties: {
+      billingMode: {
+        serializedName: "billingMode",
+        type: {
+          name: "String"
+        }
+      },
+      azureBareMetalStorageInstanceSize: {
+        serializedName: "azureBareMetalStorageInstanceSize",
+        type: {
+          name: "String"
         }
       }
     }
@@ -542,6 +686,37 @@ export const AzureBareMetalInstance: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureBareMetalStorageInstance: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBareMetalStorageInstance",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      azureBareMetalStorageInstanceUniqueIdentifier: {
+        serializedName:
+          "properties.azureBareMetalStorageInstanceUniqueIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      storageProperties: {
+        serializedName: "properties.storageProperties",
+        type: {
+          name: "Composite",
+          className: "StorageProperties"
         }
       }
     }

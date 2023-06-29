@@ -124,29 +124,53 @@ export interface Resource {
   readonly type?: string;
 }
 
-/** Error response. */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
-  /** The error details. */
-  error?: ErrorDefinition;
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** Error definition. */
-export interface ErrorDefinition {
+/** The error detail. */
+export interface ErrorDetail {
   /**
-   * Service specific error code which serves as the substatus for the HTTP error code.
+   * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
-   * Description of the error.
+   * The error message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
-   * Internal error details.
+   * The error target.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorDefinition[];
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** List of AzureBareMetal operations */
@@ -195,10 +219,44 @@ export interface Display {
   readonly description?: string;
 }
 
-/** Tags field of the AzureBareMetal instance. */
+/** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
 export interface Tags {
-  /** Tags field of the AzureBareMetal instance. */
+  /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
   tags?: { [propertyName: string]: string };
+}
+
+/** The response from the Get AzureBareMetalStorageInstances operation. */
+export interface AzureBareMetalStorageInstancesListResult {
+  /** The list of AzureBareMetalStorage instances. */
+  value?: AzureBareMetalStorageInstance[];
+  /** The URL to get the next set of AzureBareMetalStorage instances. */
+  nextLink?: string;
+}
+
+/** described the storage properties of the azure baremetalstorage instance */
+export interface StorageProperties {
+  /** State of provisioning of the AzureBareMetalStorageInstance */
+  provisioningState?: ProvisioningState;
+  /** the offering type for which the resource is getting provisioned */
+  offeringType?: string;
+  /** the storage protocol for which the resource is getting provisioned */
+  storageType?: string;
+  /** the kind of storage instance */
+  generation?: string;
+  /** the hardware type of the storage instance */
+  hardwareType?: string;
+  /** the workload for which the resource is getting provisioned */
+  workloadType?: string;
+  /** the billing related information for the resource */
+  storageBillingProperties?: StorageBillingProperties;
+}
+
+/** Describes the billing related details of the AzureBareMetalStorageInstance. */
+export interface StorageBillingProperties {
+  /** the billing mode for the storage instance */
+  billingMode?: string;
+  /** the SKU type that is provisioned */
+  azureBareMetalStorageInstanceSize?: string;
 }
 
 /** Sample result definition */
@@ -257,6 +315,19 @@ export interface AzureBareMetalInstance extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: AzureBareMetalProvisioningStatesEnum;
+}
+
+/** AzureBareMetalStorageInstance info on Azure (ARM properties and AzureBareMetalStorage properties) */
+export interface AzureBareMetalStorageInstance extends TrackedResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Specifies the AzureBareMetaStorageInstance unique ID. */
+  azureBareMetalStorageInstanceUniqueIdentifier?: string;
+  /** Specifies the storage properties for the AzureBareMetalStorage instance. */
+  storageProperties?: StorageProperties;
 }
 
 /** Known values of {@link AzureBareMetalHardwareTypeNamesEnum} that the service accepts. */
@@ -505,6 +576,42 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Migrating */
+  Migrating = "Migrating"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Creating** \
+ * **Updating** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Canceled** \
+ * **Migrating**
+ */
+export type ProvisioningState = string;
+
 /** Optional parameters. */
 export interface AzureBareMetalInstancesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
@@ -553,6 +660,59 @@ export interface OperationsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationList;
+
+/** Optional parameters. */
+export interface AzureBareMetalStorageInstancesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type AzureBareMetalStorageInstancesListBySubscriptionResponse = AzureBareMetalStorageInstancesListResult;
+
+/** Optional parameters. */
+export interface AzureBareMetalStorageInstancesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AzureBareMetalStorageInstancesListByResourceGroupResponse = AzureBareMetalStorageInstancesListResult;
+
+/** Optional parameters. */
+export interface AzureBareMetalStorageInstancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AzureBareMetalStorageInstancesGetResponse = AzureBareMetalStorageInstance;
+
+/** Optional parameters. */
+export interface AzureBareMetalStorageInstancesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type AzureBareMetalStorageInstancesCreateResponse = AzureBareMetalStorageInstance;
+
+/** Optional parameters. */
+export interface AzureBareMetalStorageInstancesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type AzureBareMetalStorageInstancesUpdateResponse = AzureBareMetalStorageInstance;
+
+/** Optional parameters. */
+export interface AzureBareMetalStorageInstancesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AzureBareMetalStorageInstancesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AzureBareMetalStorageInstancesListBySubscriptionNextResponse = AzureBareMetalStorageInstancesListResult;
+
+/** Optional parameters. */
+export interface AzureBareMetalStorageInstancesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AzureBareMetalStorageInstancesListByResourceGroupNextResponse = AzureBareMetalStorageInstancesListResult;
 
 /** Optional parameters. */
 export interface BareMetalInfrastructureClientOptionalParams
