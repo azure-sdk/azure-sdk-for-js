@@ -7,6 +7,8 @@
  */
 
 export * from "./services";
+export * from "./apms";
+export * from "./eurekaServers";
 export * from "./configServers";
 export * from "./configurationServices";
 export * from "./serviceRegistries";
