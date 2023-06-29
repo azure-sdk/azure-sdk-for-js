@@ -1,15 +1,40 @@
 # Release History
+    
+## 22.0.0 (2023-06-29)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
+  - Added Interface CommunityGalleryMetadata
+  - Added Interface GalleryImageVersionUefiSettings
+  - Added Interface ImageVersionSecurityProfile
+  - Added Interface UefiKey
+  - Added Interface UefiKeySignatures
+  - Added Type Alias UefiKeyType
+  - Added Type Alias UefiSignatureTemplateName
+  - Interface CommunityGallery has a new optional parameter artifactTags
+  - Interface CommunityGallery has a new optional parameter communityMetadata
+  - Interface CommunityGallery has a new optional parameter disclaimer
+  - Interface CommunityGalleryImage has a new optional parameter artifactTags
+  - Interface CommunityGalleryImage has a new optional parameter disclaimer
+  - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
+  - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
+  - Interface GalleryImageVersion has a new optional parameter securityProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter securityProfile
+  - Interface SharedGallery has a new optional parameter artifactTags
+  - Interface SharedGalleryImage has a new optional parameter artifactTags
+  - Interface SharedGalleryImageVersion has a new optional parameter artifactTags
+  - Added Enum KnownUefiKeyType
+  - Added Enum KnownUefiSignatureTemplateName
+  - Enum KnownConfidentialVMEncryptionType has a new value NonPersistedVMGuestState
+  - Enum KnownReplicationStatusTypes has a new value UefiSettings
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Removed Enum KnownEdgeZoneStorageAccountType
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**

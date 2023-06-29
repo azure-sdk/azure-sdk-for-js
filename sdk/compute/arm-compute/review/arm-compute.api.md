@@ -931,12 +931,21 @@ export type CommunityGalleriesGetResponse = CommunityGallery;
 
 // @public
 export interface CommunityGallery extends PirCommunityGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
+    communityMetadata?: CommunityGalleryMetadata;
+    disclaimer?: string;
 }
 
 // @public
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     architecture?: Architecture;
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     disallowed?: Disallowed;
+    disclaimer?: string;
     endOfLifeDate?: Date;
     eula?: string;
     features?: GalleryImageFeature[];
@@ -991,6 +1000,10 @@ export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
 
 // @public
 export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
+    disclaimer?: string;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
@@ -1036,6 +1049,15 @@ export interface CommunityGalleryInfo {
     eula?: string;
     publicNamePrefix?: string;
     readonly publicNames?: string[];
+    publisherContact?: string;
+    publisherUri?: string;
+}
+
+// @public
+export interface CommunityGalleryMetadata {
+    eula?: string;
+    privacyStatementUri?: string;
+    publicNames?: string[];
     publisherContact?: string;
     publisherUri?: string;
 }
@@ -2081,9 +2103,6 @@ export interface DiskUpdate {
 }
 
 // @public
-export type EdgeZoneStorageAccountType = string;
-
-// @public
 export interface Encryption {
     diskEncryptionSetId?: string;
     type?: EncryptionType;
@@ -2628,6 +2647,7 @@ export interface GalleryImageVersion extends Resource {
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2712,12 +2732,19 @@ export interface GalleryImageVersionsUpdateOptionalParams extends coreClient.Ope
 // @public
 export type GalleryImageVersionsUpdateResponse = GalleryImageVersion;
 
+// @public (undocumented)
+export interface GalleryImageVersionUefiSettings {
+    additionalSignatures?: UefiKeySignatures;
+    signatureTemplateNames?: UefiSignatureTemplateName[];
+}
+
 // @public
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2758,7 +2785,7 @@ export interface GalleryTargetExtendedLocation {
     extendedLocation?: GalleryExtendedLocation;
     extendedLocationReplicaCount?: number;
     name?: string;
-    storageAccountType?: EdgeZoneStorageAccountType;
+    storageAccountType?: StorageAccountType;
 }
 
 // @public
@@ -2963,6 +2990,12 @@ export interface ImageUpdate extends UpdateResource {
 }
 
 // @public
+export interface ImageVersionSecurityProfile {
+    // (undocumented)
+    uefiSettings?: GalleryImageVersionUefiSettings;
+}
+
+// @public
 export interface InnerError {
     errordetail?: string;
     exceptiontype?: string;
@@ -3097,7 +3130,8 @@ export enum KnownCloudServiceUpgradeMode {
 export enum KnownConfidentialVMEncryptionType {
     EncryptedVMGuestStateOnlyWithPmk = "EncryptedVMGuestStateOnlyWithPmk",
     EncryptedWithCmk = "EncryptedWithCmk",
-    EncryptedWithPmk = "EncryptedWithPmk"
+    EncryptedWithPmk = "EncryptedWithPmk",
+    NonPersistedVMGuestState = "NonPersistedVMGuestState"
 }
 
 // @public
@@ -3217,14 +3251,6 @@ export enum KnownDiskStorageAccountTypes {
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
-}
-
-// @public
-export enum KnownEdgeZoneStorageAccountType {
-    PremiumLRS = "Premium_LRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardZRS = "Standard_ZRS"
 }
 
 // @public
@@ -3505,7 +3531,8 @@ export enum KnownReplicationState {
 
 // @public
 export enum KnownReplicationStatusTypes {
-    ReplicationStatus = "ReplicationStatus"
+    ReplicationStatus = "ReplicationStatus",
+    UefiSettings = "UefiSettings"
 }
 
 // @public
@@ -3587,6 +3614,7 @@ export enum KnownSnapshotStorageAccountTypes {
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -3599,6 +3627,19 @@ export enum KnownStorageAccountTypes {
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownUefiKeyType {
+    Sha256 = "sha256",
+    X509 = "x509"
+}
+
+// @public
+export enum KnownUefiSignatureTemplateName {
+    MicrosoftUefiCertificateAuthorityTemplate = "MicrosoftUefiCertificateAuthorityTemplate",
+    MicrosoftWindowsTemplate = "MicrosoftWindowsTemplate",
+    NoSignatureTemplate = "NoSignatureTemplate"
 }
 
 // @public
@@ -5093,6 +5134,9 @@ export type SharedGalleriesListResponse = SharedGalleryList;
 
 // @public
 export interface SharedGallery extends PirSharedGalleryResource {
+    readonly artifactTags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -5112,6 +5156,9 @@ export type SharedGalleryHostCaching = string;
 // @public
 export interface SharedGalleryImage extends PirSharedGalleryResource {
     architecture?: Architecture;
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
     eula?: string;
@@ -5161,6 +5208,9 @@ export type SharedGalleryImagesListResponse = SharedGalleryImageList;
 
 // @public
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
@@ -5612,10 +5662,30 @@ export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
 }
 
 // @public
+export interface UefiKey {
+    type?: UefiKeyType;
+    value?: string[];
+}
+
+// @public
+export interface UefiKeySignatures {
+    db?: UefiKey[];
+    dbx?: UefiKey[];
+    kek?: UefiKey[];
+    pk?: UefiKey;
+}
+
+// @public
+export type UefiKeyType = string;
+
+// @public
 export interface UefiSettings {
     secureBootEnabled?: boolean;
     vTpmEnabled?: boolean;
 }
+
+// @public
+export type UefiSignatureTemplateName = string;
 
 // @public
 export interface UpdateDomain {
