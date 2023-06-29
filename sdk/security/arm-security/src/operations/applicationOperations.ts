@@ -6,20 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ApplicationOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
+  Application,
+  ApplicationListNextOptionalParams,
+  ApplicationListOptionalParams,
+  ApplicationListResponse,
+  ApplicationListByRuleIdNextOptionalParams,
+  ApplicationListByRuleIdOptionalParams,
+  ApplicationListByRuleIdResponse,
   ApplicationGetOptionalParams,
   ApplicationGetResponse,
-  Application,
-  ApplicationCreateOrUpdateOptionalParams,
-  ApplicationCreateOrUpdateResponse,
-  ApplicationDeleteOptionalParams
+  ApplicationUpdateOptionalParams,
+  ApplicationUpdateResponse,
+  ApplicationListNextResponse,
+  ApplicationListByRuleIdNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationOperations operations. */
 export class ApplicationOperationsImpl implements ApplicationOperations {
   private readonly client: SecurityCenter;
@@ -33,49 +43,263 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
   }
 
   /**
-   * Get a specific application for the requested scope by applicationId
-   * @param applicationId The security Application key - unique key for the standard application
+   * Get a list of all relevant applications over a scope
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param options The options parameters.
+   */
+  public list(
+    scope: string,
+    options?: ApplicationListOptionalParams
+  ): PagedAsyncIterableIterator<Application> {
+    const iter = this.listPagingAll(scope, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(scope, options, settings);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    scope: string,
+    options?: ApplicationListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Application[]> {
+    let result: ApplicationListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(scope, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(scope, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    scope: string,
+    options?: ApplicationListOptionalParams
+  ): AsyncIterableIterator<Application> {
+    for await (const page of this.listPagingPage(scope, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get a list of all relevant applications over a rule Id.
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param ruleId The rule Key - unique key for the rule (GUID)
+   * @param options The options parameters.
+   */
+  public listByRuleId(
+    scope: string,
+    ruleId: string,
+    options?: ApplicationListByRuleIdOptionalParams
+  ): PagedAsyncIterableIterator<Application> {
+    const iter = this.listByRuleIdPagingAll(scope, ruleId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByRuleIdPagingPage(scope, ruleId, options, settings);
+      }
+    };
+  }
+
+  private async *listByRuleIdPagingPage(
+    scope: string,
+    ruleId: string,
+    options?: ApplicationListByRuleIdOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Application[]> {
+    let result: ApplicationListByRuleIdResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByRuleId(scope, ruleId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByRuleIdNext(
+        scope,
+        ruleId,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByRuleIdPagingAll(
+    scope: string,
+    ruleId: string,
+    options?: ApplicationListByRuleIdOptionalParams
+  ): AsyncIterableIterator<Application> {
+    for await (const page of this.listByRuleIdPagingPage(
+      scope,
+      ruleId,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves details of a specific application
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param ruleId The rule Key - unique key for the rule (GUID)
+   * @param applicationId The rule Key - unique key for the application (GUID)
    * @param options The options parameters.
    */
   get(
+    scope: string,
+    ruleId: string,
     applicationId: string,
     options?: ApplicationGetOptionalParams
   ): Promise<ApplicationGetResponse> {
     return this.client.sendOperationRequest(
-      { applicationId, options },
+      { scope, ruleId, applicationId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or update a security application on the given subscription.
-   * @param applicationId The security Application key - unique key for the standard application
-   * @param application Application over a subscription scope
+   * Updates a single application
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param ruleId The rule Key - unique key for the rule (GUID)
+   * @param applicationId The rule Key - unique key for the application (GUID)
+   * @param application The application resource
    * @param options The options parameters.
    */
-  createOrUpdate(
+  update(
+    scope: string,
+    ruleId: string,
     applicationId: string,
     application: Application,
-    options?: ApplicationCreateOrUpdateOptionalParams
-  ): Promise<ApplicationCreateOrUpdateResponse> {
+    options?: ApplicationUpdateOptionalParams
+  ): Promise<ApplicationUpdateResponse> {
     return this.client.sendOperationRequest(
-      { applicationId, application, options },
-      createOrUpdateOperationSpec
+      { scope, ruleId, applicationId, application, options },
+      updateOperationSpec
     );
   }
 
   /**
-   * Delete an Application over a given scope
-   * @param applicationId The security Application key - unique key for the standard application
+   * Get a list of all relevant applications over a scope
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
    * @param options The options parameters.
    */
-  delete(
-    applicationId: string,
-    options?: ApplicationDeleteOptionalParams
-  ): Promise<void> {
+  private _list(
+    scope: string,
+    options?: ApplicationListOptionalParams
+  ): Promise<ApplicationListResponse> {
     return this.client.sendOperationRequest(
-      { applicationId, options },
-      deleteOperationSpec
+      { scope, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Get a list of all relevant applications over a rule Id.
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param ruleId The rule Key - unique key for the rule (GUID)
+   * @param options The options parameters.
+   */
+  private _listByRuleId(
+    scope: string,
+    ruleId: string,
+    options?: ApplicationListByRuleIdOptionalParams
+  ): Promise<ApplicationListByRuleIdResponse> {
+    return this.client.sendOperationRequest(
+      { scope, ruleId, options },
+      listByRuleIdOperationSpec
+    );
+  }
+
+  /**
+   * ListNext
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    scope: string,
+    nextLink: string,
+    options?: ApplicationListNextOptionalParams
+  ): Promise<ApplicationListNextResponse> {
+    return this.client.sendOperationRequest(
+      { scope, nextLink, options },
+      listNextOperationSpec
+    );
+  }
+
+  /**
+   * ListByRuleIdNext
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param ruleId The rule Key - unique key for the rule (GUID)
+   * @param nextLink The nextLink from the previous successful call to the ListByRuleId method.
+   * @param options The options parameters.
+   */
+  private _listByRuleIdNext(
+    scope: string,
+    ruleId: string,
+    nextLink: string,
+    options?: ApplicationListByRuleIdNextOptionalParams
+  ): Promise<ApplicationListByRuleIdNextResponse> {
+    return this.client.sendOperationRequest(
+      { scope, ruleId, nextLink, options },
+      listByRuleIdNextOperationSpec
     );
   }
 }
@@ -84,28 +308,29 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
+    "/{scope}/providers/Microsoft.Security/applicationMappingRule/{ruleId}/applications/{applicationId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.Application
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
+    Parameters.scope,
+    Parameters.ruleId,
     Parameters.applicationId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
+    "/{scope}/providers/Microsoft.Security/applicationMappingRule/{ruleId}/applications/{applicationId}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -115,30 +340,86 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Application
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.application,
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
+    Parameters.scope,
+    Parameters.ruleId,
     Parameters.applicationId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Security/applications",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.scope],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByRuleIdOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
-  httpMethod: "DELETE",
-  responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion17],
+    "/{scope}/providers/Microsoft.Security/applicationMappingRule/{ruleId}/applications",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.ruleId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByRuleIdNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.applicationId
+    Parameters.scope,
+    Parameters.ruleId,
+    Parameters.nextLink
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };

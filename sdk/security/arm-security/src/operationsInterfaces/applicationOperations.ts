@@ -6,44 +6,78 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  Application,
+  ApplicationListOptionalParams,
+  ApplicationListByRuleIdOptionalParams,
   ApplicationGetOptionalParams,
   ApplicationGetResponse,
-  Application,
-  ApplicationCreateOrUpdateOptionalParams,
-  ApplicationCreateOrUpdateResponse,
-  ApplicationDeleteOptionalParams
+  ApplicationUpdateOptionalParams,
+  ApplicationUpdateResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationOperations. */
 export interface ApplicationOperations {
   /**
-   * Get a specific application for the requested scope by applicationId
-   * @param applicationId The security Application key - unique key for the standard application
+   * Get a list of all relevant applications over a scope
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param options The options parameters.
+   */
+  list(
+    scope: string,
+    options?: ApplicationListOptionalParams
+  ): PagedAsyncIterableIterator<Application>;
+  /**
+   * Get a list of all relevant applications over a rule Id.
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param ruleId The rule Key - unique key for the rule (GUID)
+   * @param options The options parameters.
+   */
+  listByRuleId(
+    scope: string,
+    ruleId: string,
+    options?: ApplicationListByRuleIdOptionalParams
+  ): PagedAsyncIterableIterator<Application>;
+  /**
+   * Retrieves details of a specific application
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param ruleId The rule Key - unique key for the rule (GUID)
+   * @param applicationId The rule Key - unique key for the application (GUID)
    * @param options The options parameters.
    */
   get(
+    scope: string,
+    ruleId: string,
     applicationId: string,
     options?: ApplicationGetOptionalParams
   ): Promise<ApplicationGetResponse>;
   /**
-   * Creates or update a security application on the given subscription.
-   * @param applicationId The security Application key - unique key for the standard application
-   * @param application Application over a subscription scope
+   * Updates a single application
+   * @param scope The scope of the application. Valid scopes are: management group (format:
+   *              'providers/Microsoft.Management/managementGroups/{resourceName}'), subscription (format:
+   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Security/securityConnectors/{resourceName})'
+   * @param ruleId The rule Key - unique key for the rule (GUID)
+   * @param applicationId The rule Key - unique key for the application (GUID)
+   * @param application The application resource
    * @param options The options parameters.
    */
-  createOrUpdate(
+  update(
+    scope: string,
+    ruleId: string,
     applicationId: string,
     application: Application,
-    options?: ApplicationCreateOrUpdateOptionalParams
-  ): Promise<ApplicationCreateOrUpdateResponse>;
-  /**
-   * Delete an Application over a given scope
-   * @param applicationId The security Application key - unique key for the standard application
-   * @param options The options parameters.
-   */
-  delete(
-    applicationId: string,
-    options?: ApplicationDeleteOptionalParams
-  ): Promise<void>;
+    options?: ApplicationUpdateOptionalParams
+  ): Promise<ApplicationUpdateResponse>;
 }
