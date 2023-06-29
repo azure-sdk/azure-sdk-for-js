@@ -367,11 +367,6 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.search,
-    Parameters.filter
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -392,11 +387,6 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.search,
-    Parameters.filter
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
