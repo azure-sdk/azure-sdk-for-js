@@ -15,6 +15,10 @@ import {
   CheckNameAvailabilityRequest,
   OperationsCheckNameAvailabilityOptionalParams,
   OperationsCheckNameAvailabilityResponse,
+  OperationsGetSubscriptionQuotaAndUsageOptionalParams,
+  OperationsGetSubscriptionQuotaAndUsageResponse,
+  OperationsGetWorkspaceQuotaAndUsageOptionalParams,
+  OperationsGetWorkspaceQuotaAndUsageResponse,
   OperationsListOptionalParams,
   OperationsListResponse,
   OperationsGetLocationHeaderResultOptionalParams,
@@ -46,6 +50,38 @@ export class OperationsImpl implements Operations {
     return this.client.sendOperationRequest(
       { request, options },
       checkNameAvailabilityOperationSpec
+    );
+  }
+
+  /**
+   * Gets the current resource usage and quota of a subscription/region
+   * @param location The location on which resource usage is queried.
+   * @param options The options parameters.
+   */
+  getSubscriptionQuotaAndUsage(
+    location: string,
+    options?: OperationsGetSubscriptionQuotaAndUsageOptionalParams
+  ): Promise<OperationsGetSubscriptionQuotaAndUsageResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      getSubscriptionQuotaAndUsageOperationSpec
+    );
+  }
+
+  /**
+   * Gets the current usage and quota of a workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  getWorkspaceQuotaAndUsage(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: OperationsGetWorkspaceQuotaAndUsageOptionalParams
+  ): Promise<OperationsGetWorkspaceQuotaAndUsageResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      getWorkspaceQuotaAndUsageOperationSpec
     );
   }
 
@@ -117,6 +153,49 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getSubscriptionQuotaAndUsageOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Synapse/locations/{location}/usages",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListUsagesResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getWorkspaceQuotaAndUsageOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/usages",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListUsagesResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {

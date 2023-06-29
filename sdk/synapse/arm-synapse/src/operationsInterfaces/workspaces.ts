@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workspace,
   WorkspacesListByResourceGroupOptionalParams,
@@ -66,8 +66,8 @@ export interface Workspaces {
     workspacePatchInfo: WorkspacePatchInfo,
     options?: WorkspacesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesUpdateResponse>,
       WorkspacesUpdateResponse
     >
   >;
@@ -97,8 +97,8 @@ export interface Workspaces {
     workspaceInfo: Workspace,
     options?: WorkspacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
       WorkspacesCreateOrUpdateResponse
     >
   >;
@@ -126,8 +126,8 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesDeleteResponse>,
       WorkspacesDeleteResponse
     >
   >;

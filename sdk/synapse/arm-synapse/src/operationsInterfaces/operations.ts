@@ -10,6 +10,10 @@ import {
   CheckNameAvailabilityRequest,
   OperationsCheckNameAvailabilityOptionalParams,
   OperationsCheckNameAvailabilityResponse,
+  OperationsGetSubscriptionQuotaAndUsageOptionalParams,
+  OperationsGetSubscriptionQuotaAndUsageResponse,
+  OperationsGetWorkspaceQuotaAndUsageOptionalParams,
+  OperationsGetWorkspaceQuotaAndUsageResponse,
   OperationsListOptionalParams,
   OperationsListResponse,
   OperationsGetLocationHeaderResultOptionalParams,
@@ -28,6 +32,26 @@ export interface Operations {
     request: CheckNameAvailabilityRequest,
     options?: OperationsCheckNameAvailabilityOptionalParams
   ): Promise<OperationsCheckNameAvailabilityResponse>;
+  /**
+   * Gets the current resource usage and quota of a subscription/region
+   * @param location The location on which resource usage is queried.
+   * @param options The options parameters.
+   */
+  getSubscriptionQuotaAndUsage(
+    location: string,
+    options?: OperationsGetSubscriptionQuotaAndUsageOptionalParams
+  ): Promise<OperationsGetSubscriptionQuotaAndUsageResponse>;
+  /**
+   * Gets the current usage and quota of a workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  getWorkspaceQuotaAndUsage(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: OperationsGetWorkspaceQuotaAndUsageOptionalParams
+  ): Promise<OperationsGetWorkspaceQuotaAndUsageResponse>;
   /**
    * Get all available operations
    * @param options The options parameters.
