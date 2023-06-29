@@ -31,7 +31,7 @@ import {
   IotDpsResourceListValidSkusNextOptionalParams,
   IotDpsResourceListValidSkusOptionalParams,
   IotDpsResourceListValidSkusResponse,
-  SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
+  SharedAccessSignatureAuthorizationRule,
   IotDpsResourceListKeysNextOptionalParams,
   IotDpsResourceListKeysOptionalParams,
   IotDpsResourceListKeysResponse,
@@ -299,9 +299,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
     provisioningServiceName: string,
     resourceGroupName: string,
     options?: IotDpsResourceListKeysOptionalParams
-  ): PagedAsyncIterableIterator<
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription
-  > {
+  ): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRule> {
     const iter = this.listKeysPagingAll(
       provisioningServiceName,
       resourceGroupName,
@@ -333,9 +331,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
     resourceGroupName: string,
     options?: IotDpsResourceListKeysOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription[]
-  > {
+  ): AsyncIterableIterator<SharedAccessSignatureAuthorizationRule[]> {
     let result: IotDpsResourceListKeysResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -367,9 +363,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
     provisioningServiceName: string,
     resourceGroupName: string,
     options?: IotDpsResourceListKeysOptionalParams
-  ): AsyncIterableIterator<
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription
-  > {
+  ): AsyncIterableIterator<SharedAccessSignatureAuthorizationRule> {
     for await (const page of this.listKeysPagingPage(
       provisioningServiceName,
       resourceGroupName,
@@ -381,17 +375,17 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Get the metadata of the provisioning service without SAS keys.
-   * @param resourceGroupName Resource group name.
    * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param resourceGroupName Resource group name.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
     provisioningServiceName: string,
+    resourceGroupName: string,
     options?: IotDpsResourceGetOptionalParams
   ): Promise<IotDpsResourceGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, provisioningServiceName, options },
+      { provisioningServiceName, resourceGroupName, options },
       getOperationSpec
     );
   }
@@ -604,13 +598,13 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Deletes the Provisioning Service.
-   * @param resourceGroupName Resource group identifier.
    * @param provisioningServiceName Name of provisioning service to delete.
+   * @param resourceGroupName Resource group identifier.
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceGroupName: string,
     provisioningServiceName: string,
+    resourceGroupName: string,
     options?: IotDpsResourceDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -654,7 +648,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, provisioningServiceName, options },
+      args: { provisioningServiceName, resourceGroupName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -667,18 +661,18 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Deletes the Provisioning Service.
-   * @param resourceGroupName Resource group identifier.
    * @param provisioningServiceName Name of provisioning service to delete.
+   * @param resourceGroupName Resource group identifier.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceGroupName: string,
     provisioningServiceName: string,
+    resourceGroupName: string,
     options?: IotDpsResourceDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
-      resourceGroupName,
       provisioningServiceName,
+      resourceGroupName,
       options
     );
     return poller.pollUntilDone();
@@ -1410,8 +1404,7 @@ const listKeysForKeyNameOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper:
-        Mappers.SharedAccessSignatureAuthorizationRuleAccessRightsDescription
+      bodyMapper: Mappers.SharedAccessSignatureAuthorizationRule
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
