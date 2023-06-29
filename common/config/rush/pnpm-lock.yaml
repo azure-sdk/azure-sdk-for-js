@@ -243,6 +243,7 @@ specifiers:
   '@rush-temp/communication-toll-free-verification': file:./projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest': file:./projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp': file:./projects/core-amqp.tgz
   '@rush-temp/core-auth': file:./projects/core-auth.tgz
   '@rush-temp/core-client': file:./projects/core-client.tgz
@@ -592,6 +593,7 @@ dependencies:
   '@rush-temp/communication-toll-free-verification': file:projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest': file:projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
   '@rush-temp/core-auth': file:projects/core-auth.tgz
   '@rush-temp/core-client': file:projects/core-client.tgz
@@ -4593,7 +4595,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230628
+      typescript: 5.2.0-dev.20230629
     dev: false
 
   /duplexer3/0.1.5:
@@ -9865,7 +9867,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_m72xuhxrv7ih4n5gqhkie72f4y:
+  /ts-node/10.9.1_px3ahiygkmubixvexbbu2qfoza:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -9891,7 +9893,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 5.1.5
+      typescript: 5.1.6
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
@@ -10043,14 +10045,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.5:
-    resolution: {integrity: sha512-FOH+WN/DQjUvN6WgW+c4Ml3yi0PH+a/8q+kNIfRehv1wLhWONedw85iu+vQ39Wp49IzTJEsZ2lyLXpBF7mkF1g==}
+  /typescript/5.1.6:
+    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230628:
-    resolution: {integrity: sha512-dWItHqHLu37lksKsUBRDXlnWdI8WVhKQoVRxlv8w2XfbL/jAA6vFeJLtmb6C3pQKm1X0Sl9BFHJgYWdyiN3u9g==}
+  /typescript/5.2.0-dev.20230629:
+    resolution: {integrity: sha512-/8eGjHX3BI9Cpb2ghyC3qeWD4PTXx7npbvZuKsphLdvFJkbOrKbvmnYGW+3QKs5rREjTq5/0A4IIlp9yCIit0g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17916,6 +17918,47 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/contoso-widgetmanager-rest.tgz:
+    resolution: {integrity: sha512-OAF9JIsOGMB57jwhROWLeKSYJUMN4dPTk536k2oaNJ3OtnHNvXn/Nj13FIyggifNULuTj2qZR9UseUBNtte9dA==, tarball: file:projects/contoso-widgetmanager-rest.tgz}
+    name: '@rush-temp/contoso-widgetmanager-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
+      '@types/chai': 4.3.5
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.51
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.43.0
+      karma: 6.4.2
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.3
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/core-amqp.tgz:
     resolution: {integrity: sha512-1ouZrCFj4zfd8bS8G/XOkyGNHmEiMda0qhVyQGjXupWVtywcNe+8bBiAqgsXQj3RvnxxXsUsIkhiiGcuwePOmg==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
@@ -18503,7 +18546,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.1.5
+      '@_ts/max': /typescript/5.1.6
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -18547,7 +18590,7 @@ packages:
       semver: 7.5.3
       strip-json-comments: 3.1.1
       ts-morph: 18.0.0
-      ts-node: 10.9.1_m72xuhxrv7ih4n5gqhkie72f4y
+      ts-node: 10.9.1_px3ahiygkmubixvexbbu2qfoza
       tslib: 2.5.3
       typescript: 5.0.4
       yaml: 2.3.1
@@ -19801,7 +19844,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-U6oNE8zhwGOaMkbgb5KFzgBUIz7VSXpPqIhJ49AJ3Z3KyurQFQR/NrAjq+qvQcuwaEE0Tyu4HP7V4OC8VcwBvQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-Il/WauhL+cvhnrtsGg6Y0S99Y38nuVYQQYUoGgYheosAtrxQxgdGkuylHru0Cm81h3PovRW6yg/nBBFLuV4t3A==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
