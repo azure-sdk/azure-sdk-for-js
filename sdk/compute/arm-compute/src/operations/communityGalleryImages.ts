@@ -182,13 +182,13 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
-    Parameters.galleryImageName,
-    Parameters.publicGalleryName
+    Parameters.location,
+    Parameters.publicGalleryName,
+    Parameters.galleryImageName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -205,11 +205,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publicGalleryName
   ],
   headerParameters: [Parameters.accept],
@@ -229,9 +229,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.location1,
-    Parameters.publicGalleryName
+    Parameters.location,
+    Parameters.publicGalleryName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

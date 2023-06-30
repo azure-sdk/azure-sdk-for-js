@@ -572,14 +572,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.galleryImageVersion,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
     Parameters.galleryImageName,
-    Parameters.galleryImageVersionName
+    Parameters.galleryImageVersionName,
+    Parameters.resourceGroupName,
+    Parameters.galleryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -607,14 +607,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.galleryImageVersion1,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
     Parameters.galleryImageName,
-    Parameters.galleryImageVersionName
+    Parameters.galleryImageVersionName,
+    Parameters.resourceGroupName,
+    Parameters.galleryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -632,14 +632,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.expand11],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
     Parameters.galleryImageName,
-    Parameters.galleryImageVersionName
+    Parameters.galleryImageVersionName,
+    Parameters.resourceGroupName,
+    Parameters.galleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -657,14 +657,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
     Parameters.galleryImageName,
-    Parameters.galleryImageVersionName
+    Parameters.galleryImageVersionName,
+    Parameters.resourceGroupName,
+    Parameters.galleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -681,13 +681,13 @@ const listByGalleryImageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.galleryImageName,
     Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.galleryImageName
+    Parameters.galleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -706,10 +706,10 @@ const listByGalleryImageNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.galleryImageName,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.galleryImageName
+    Parameters.galleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
