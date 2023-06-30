@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SubscriptionCancelOptionalParams,
   SubscriptionCancelResponse,
@@ -64,8 +64,8 @@ export interface SubscriptionOperations {
     body: AcceptOwnershipRequest,
     options?: SubscriptionAcceptOwnershipOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionAcceptOwnershipResponse>,
+    SimplePollerLike<
+      OperationState<SubscriptionAcceptOwnershipResponse>,
       SubscriptionAcceptOwnershipResponse
     >
   >;

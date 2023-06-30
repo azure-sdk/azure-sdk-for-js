@@ -1,15 +1,16 @@
 # Release History
+    
+## 5.2.0 (2023-06-30)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group SubscriptionOperation
+  - Added Interface SubscriptionCreationResult
+  - Added Interface SubscriptionOperationGetHeaders
+  - Added Interface SubscriptionOperationGetOptionalParams
+  - Added Type Alias SubscriptionOperationGetResponse
+    
+    
 ## 5.1.0 (2022-11-11)
     
 **Features**

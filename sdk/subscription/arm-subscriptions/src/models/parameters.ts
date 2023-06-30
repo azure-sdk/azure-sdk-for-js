@@ -111,6 +111,17 @@ export const body1: OperationParameter = {
   mapper: AcceptOwnershipRequestMapper
 };
 
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const body2: OperationParameter = {
   parameterPath: "body",
   mapper: PutAliasRequestMapper

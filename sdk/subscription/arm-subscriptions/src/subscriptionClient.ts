@@ -13,6 +13,7 @@ import {
   SubscriptionsImpl,
   TenantsImpl,
   SubscriptionOperationsImpl,
+  SubscriptionOperationImpl,
   OperationsImpl,
   AliasImpl,
   SubscriptionPolicyImpl,
@@ -22,6 +23,7 @@ import {
   Subscriptions,
   Tenants,
   SubscriptionOperations,
+  SubscriptionOperation,
   Operations,
   Alias,
   SubscriptionPolicy,
@@ -54,7 +56,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-subscriptions/5.1.1`;
+    const packageDetails = `azsdk-js-arm-subscriptions/5.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -108,6 +110,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     this.subscriptions = new SubscriptionsImpl(this);
     this.tenants = new TenantsImpl(this);
     this.subscriptionOperations = new SubscriptionOperationsImpl(this);
+    this.subscriptionOperation = new SubscriptionOperationImpl(this);
     this.operations = new OperationsImpl(this);
     this.alias = new AliasImpl(this);
     this.subscriptionPolicy = new SubscriptionPolicyImpl(this);
@@ -117,6 +120,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
   subscriptions: Subscriptions;
   tenants: Tenants;
   subscriptionOperations: SubscriptionOperations;
+  subscriptionOperation: SubscriptionOperation;
   operations: Operations;
   alias: Alias;
   subscriptionPolicy: SubscriptionPolicy;

@@ -415,6 +415,21 @@ export const EnabledSubscriptionId: coreClient.CompositeMapper = {
   }
 };
 
+export const SubscriptionCreationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionCreationResult",
+    modelProperties: {
+      subscriptionLink: {
+        serializedName: "subscriptionLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1143,6 +1158,27 @@ export const SubscriptionAcceptOwnershipHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubscriptionAcceptOwnershipHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionOperationGetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionOperationGetHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

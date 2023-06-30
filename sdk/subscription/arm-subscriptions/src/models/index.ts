@@ -218,6 +218,12 @@ export interface EnabledSubscriptionId {
   readonly subscriptionId?: string;
 }
 
+/** The created subscription object. */
+export interface SubscriptionCreationResult {
+  /** The link to the new subscription. Use this link to check the status of subscription creation operation. */
+  subscriptionLink?: string;
+}
+
 /** Result of the request to list operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of operations. */
@@ -546,6 +552,14 @@ export interface SubscriptionAcceptOwnershipHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for SubscriptionOperation_get operation. */
+export interface SubscriptionOperationGetHeaders {
+  /** The URL where the status of the asynchronous operation can be checked. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: number;
+}
+
 /** Known values of {@link Workload} that the service accepts. */
 export enum KnownWorkload {
   /** Production */
@@ -741,6 +755,13 @@ export interface SubscriptionAcceptOwnershipStatusOptionalParams
 
 /** Contains response data for the acceptOwnershipStatus operation. */
 export type SubscriptionAcceptOwnershipStatusResponse = AcceptOwnershipStatusResponse;
+
+/** Optional parameters. */
+export interface SubscriptionOperationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SubscriptionOperationGetResponse = SubscriptionCreationResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
