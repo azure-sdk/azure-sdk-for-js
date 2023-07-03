@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageAccount,
   StorageAccountsListByDataBoxEdgeDeviceOptionalParams,
@@ -60,8 +60,8 @@ export interface StorageAccounts {
     storageAccount: StorageAccount,
     options?: StorageAccountsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateOrUpdateResponse>,
       StorageAccountsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface StorageAccounts {
     storageAccountName: string,
     resourceGroupName: string,
     options?: StorageAccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the StorageAccount on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.

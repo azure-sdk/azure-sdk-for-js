@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AddonUnion,
   AddonsListByRoleOptionalParams,
@@ -66,8 +66,8 @@ export interface Addons {
     addon: AddonUnion,
     options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AddonsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AddonsCreateOrUpdateResponse>,
       AddonsCreateOrUpdateResponse
     >
   >;
@@ -102,7 +102,7 @@ export interface Addons {
     addonName: string,
     resourceGroupName: string,
     options?: AddonsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the addon on the device.
    * @param deviceName The device name.

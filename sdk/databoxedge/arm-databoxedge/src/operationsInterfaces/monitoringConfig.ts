@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MonitoringMetricConfiguration,
   MonitoringConfigListOptionalParams,
@@ -62,8 +62,8 @@ export interface MonitoringConfig {
     monitoringMetricConfiguration: MonitoringMetricConfiguration,
     options?: MonitoringConfigCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitoringConfigCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MonitoringConfigCreateOrUpdateResponse>,
       MonitoringConfigCreateOrUpdateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface MonitoringConfig {
     roleName: string,
     resourceGroupName: string,
     options?: MonitoringConfigDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * deletes a new metric configuration for a role.
    * @param deviceName The device name.

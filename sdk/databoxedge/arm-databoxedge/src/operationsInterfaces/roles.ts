@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RoleUnion,
   RolesListByDataBoxEdgeDeviceOptionalParams,
@@ -60,8 +60,8 @@ export interface Roles {
     role: RoleUnion,
     options?: RolesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RolesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RolesCreateOrUpdateResponse>,
       RolesCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface Roles {
     name: string,
     resourceGroupName: string,
     options?: RolesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the role on the device.
    * @param deviceName The device name.

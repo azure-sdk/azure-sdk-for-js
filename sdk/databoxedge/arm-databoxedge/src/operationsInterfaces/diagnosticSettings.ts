@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse,
@@ -48,8 +48,8 @@ export interface DiagnosticSettings {
     proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
     options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
       >,
       DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
@@ -94,8 +94,8 @@ export interface DiagnosticSettings {
     diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
     options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
       >,
       DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Order,
   OrdersListByDataBoxEdgeDeviceOptionalParams,
@@ -58,8 +58,8 @@ export interface Orders {
     order: Order,
     options?: OrdersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OrdersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OrdersCreateOrUpdateResponse>,
       OrdersCreateOrUpdateResponse
     >
   >;
@@ -86,7 +86,7 @@ export interface Orders {
     deviceName: string,
     resourceGroupName: string,
     options?: OrdersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the order related to the device.
    * @param deviceName The device name.

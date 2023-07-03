@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TriggerSupportPackageRequest,
   SupportPackagesTriggerSupportPackageOptionalParams
@@ -26,7 +26,7 @@ export interface SupportPackages {
     resourceGroupName: string,
     triggerSupportPackageRequest: TriggerSupportPackageRequest,
     options?: SupportPackagesTriggerSupportPackageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Triggers support package on the device
    * @param deviceName The device name.
