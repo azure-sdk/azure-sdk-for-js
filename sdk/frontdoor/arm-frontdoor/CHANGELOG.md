@@ -1,15 +1,12 @@
 # Release History
+    
+## 6.0.0 (2023-07-03)
+    
+**Breaking Changes**
 
-## 5.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class FrontDoorManagementClient has a new signature
+    
+    
 ## 5.2.0 (2023-05-09)
     
 **Features**
