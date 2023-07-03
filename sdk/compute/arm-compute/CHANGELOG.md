@@ -1,15 +1,18 @@
 # Release History
+    
+## 21.1.0 (2023-07-03)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation GalleryImageVersions.getLatest
+  - Added Interface GalleryImageVersionsGetLatestOptionalParams
+  - Added Interface LatestVersion
+  - Added Type Alias FileFormat
+  - Added Type Alias GalleryImageVersionsGetLatestResponse
+  - Interface GrantAccessData has a new optional parameter fileFormat
+  - Added Enum KnownFileFormat
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**

@@ -32,6 +32,8 @@ import {
   GalleryImageVersionsGetOptionalParams,
   GalleryImageVersionsGetResponse,
   GalleryImageVersionsDeleteOptionalParams,
+  GalleryImageVersionsGetLatestOptionalParams,
+  GalleryImageVersionsGetLatestResponse,
   GalleryImageVersionsListByGalleryImageNextResponse
 } from "../models";
 
@@ -506,6 +508,25 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   }
 
   /**
+   * Retrieves information about the latest version of an image.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+   * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
+   * @param options The options parameters.
+   */
+  getLatest(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string,
+    options?: GalleryImageVersionsGetLatestOptionalParams
+  ): Promise<GalleryImageVersionsGetLatestResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, galleryImageName, options },
+      getLatestOperationSpec
+    );
+  }
+
+  /**
    * List gallery image versions in a gallery image definition.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
@@ -665,6 +686,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.galleryName,
     Parameters.galleryImageName,
     Parameters.galleryImageVersionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getLatestOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versionNames/latest",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LatestVersion
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName1,
+    Parameters.galleryImageName1
   ],
   headerParameters: [Parameters.accept],
   serializer

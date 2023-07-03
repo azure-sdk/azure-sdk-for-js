@@ -966,7 +966,7 @@ export const diskName: OperationURLParameter = {
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-02",
+    defaultValue: "2023-01-02",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1127,7 +1127,7 @@ export const galleryName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-03",
+    defaultValue: "2022-08-03",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1207,6 +1207,34 @@ export const expand11: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const galleryName1: OperationURLParameter = {
+  parameterPath: "galleryName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
+    serializedName: "galleryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const galleryImageName1: OperationURLParameter = {
+  parameterPath: "galleryImageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
+    serializedName: "galleryImageName",
+    required: true,
     type: {
       name: "String"
     }

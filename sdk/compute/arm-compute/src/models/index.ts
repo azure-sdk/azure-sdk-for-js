@@ -3010,6 +3010,8 @@ export interface GrantAccessData {
   durationInSeconds: number;
   /** Set this flag to true to get additional SAS for VM guest state */
   getSecureVMGuestStateSAS?: boolean;
+  /** Used to specify the file format when making request for SAS on a VHDX file format snapshot */
+  fileFormat?: FileFormat;
 }
 
 /** A disk access SAS uri. */
@@ -3503,7 +3505,7 @@ export interface GalleryIdentifier {
 
 /** Profile for gallery sharing to subscription or tenant */
 export interface SharingProfile {
-  /** This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community** */
+  /** This property allows you to specify the permission of sharing gallery. Possible values are: **Private,** **Groups,** **Community.** */
   permissions?: GallerySharingPermissionTypes;
   /**
    * A list of sharing profile groups.
@@ -3516,7 +3518,7 @@ export interface SharingProfile {
 
 /** Group of the gallery sharing profile */
 export interface SharingProfileGroup {
-  /** This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** */
+  /** This property allows you to specify the type of sharing group. Possible values are: **Subscriptions,** **AADTenants.** */
   type?: SharingProfileGroupTypes;
   /** A list of subscription/tenant ids the gallery is aimed to be shared to. */
   ids?: string[];
@@ -3805,6 +3807,38 @@ export interface RegionalReplicationStatus {
   readonly progress?: number;
 }
 
+/** latestVersion is an ARM resource. It follows the schema of ARM resource, which has id, name, type and properties. The name of the latest version in the region is in the properties. */
+export interface LatestVersion {
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The property latestVersion. It contains two value, the latest version name and the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: LatestGalleryImageVersion;
+}
+
+/** The property latestVersion. It contains two value, the latest version name and the region. */
+export interface LatestGalleryImageVersion {
+  /** The name of the latest version in the region. */
+  latestVersionName?: string;
+  /** region of the Gallery Image Version. */
+  location?: string;
+}
+
 /** A custom action that can be performed with a Gallery Application Version. */
 export interface GalleryApplicationCustomAction {
   /** The name of the custom action.  Must be unique within the Gallery Application Version. */
@@ -3898,7 +3932,7 @@ export interface GalleryApplicationVersionList {
 
 /** Specifies information about the gallery sharing profile update. */
 export interface SharingUpdate {
-  /** This property allows you to specify the operation type of gallery sharing update. <br><br> Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset** */
+  /** This property allows you to specify the operation type of gallery sharing update. Possible values are: **Add,** **Remove,** **Reset.** */
   operationType: SharingUpdateOperationTypes;
   /** A list of sharing profile groups. */
   groups?: SharingProfileGroup[];
@@ -4649,14 +4683,6 @@ export interface GalleryArtifactSource {
 export interface ManagedArtifact {
   /** The managed artifact id. */
   id: string;
-}
-
-/** The gallery image version with latest version in a particular region. */
-export interface LatestGalleryImageVersion {
-  /** The name of the latest version in the region. */
-  latestVersionName?: string;
-  /** region of the Gallery Image Version. */
-  location?: string;
 }
 
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
@@ -5726,7 +5752,7 @@ export interface GalleryImage extends Resource {
   privacyStatementUri?: string;
   /** The release note uri. */
   releaseNoteUri?: string;
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -5785,7 +5811,7 @@ export interface GalleryApplication extends Resource {
   releaseNoteUri?: string;
   /** The end of life date of the gallery Application Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** This property allows you to specify the supported type of the OS that application is built for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
   supportedOSType?: OperatingSystemTypes;
   /** A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application. */
   customActions?: GalleryApplicationCustomAction[];
@@ -6338,7 +6364,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   privacyStatementUri?: string;
   /** The release note uri. */
   releaseNoteUri?: string;
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -6397,7 +6423,7 @@ export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
   releaseNoteUri?: string;
   /** The end of life date of the gallery Application Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** This property allows you to specify the supported type of the OS that application is built for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
   supportedOSType?: OperatingSystemTypes;
   /** A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application. */
   customActions?: GalleryApplicationCustomAction[];
@@ -6517,7 +6543,7 @@ export interface CommunityGallery extends PirCommunityGalleryResource {}
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -6588,7 +6614,7 @@ export interface SharedGallery extends PirSharedGalleryResource {}
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface SharedGalleryImage extends PirSharedGalleryResource {
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -8556,6 +8582,24 @@ export enum KnownAccessLevel {
  * **Write**
  */
 export type AccessLevel = string;
+
+/** Known values of {@link FileFormat} that the service accepts. */
+export enum KnownFileFormat {
+  /** A VHD file is a disk image file in the Virtual Hard Disk file format. */
+  VHD = "VHD",
+  /** A VHDX file is a disk image file in the Virtual Hard Disk v2 file format. */
+  Vhdx = "VHDX"
+}
+
+/**
+ * Defines values for FileFormat. \
+ * {@link KnownFileFormat} can be used interchangeably with FileFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **VHD**: A VHD file is a disk image file in the Virtual Hard Disk file format. \
+ * **VHDX**: A VHDX file is a disk image file in the Virtual Hard Disk v2 file format.
+ */
+export type FileFormat = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
@@ -11591,6 +11635,13 @@ export interface GalleryImageVersionsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface GalleryImageVersionsGetLatestOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLatest operation. */
+export type GalleryImageVersionsGetLatestResponse = LatestVersion;
 
 /** Optional parameters. */
 export interface GalleryImageVersionsListByGalleryImageOptionalParams
