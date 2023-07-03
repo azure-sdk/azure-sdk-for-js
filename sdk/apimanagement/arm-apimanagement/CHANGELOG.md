@@ -1,15 +1,790 @@
 # Release History
+    
+## 10.0.0-beta.1 (2023-07-03)
+    
+**Features**
 
-## 9.0.1 (Unreleased)
+  - Added operation group ApiWiki
+  - Added operation group ApiWikis
+  - Added operation group Authorization
+  - Added operation group AuthorizationAccessPolicy
+  - Added operation group AuthorizationLoginLinks
+  - Added operation group AuthorizationProvider
+  - Added operation group Documentation
+  - Added operation group GraphQLApiResolver
+  - Added operation group GraphQLApiResolverPolicy
+  - Added operation group PolicyFragment
+  - Added operation group PortalConfig
+  - Added operation group ProductApiLink
+  - Added operation group ProductGroupLink
+  - Added operation group ProductWiki
+  - Added operation group ProductWikis
+  - Added operation group TagApiLink
+  - Added operation group TagOperationLink
+  - Added operation group TagProductLink
+  - Added operation group Workspace
+  - Added operation group WorkspaceApi
+  - Added operation group WorkspaceApiExport
+  - Added operation group WorkspaceApiOperation
+  - Added operation group WorkspaceApiOperationPolicy
+  - Added operation group WorkspaceApiPolicy
+  - Added operation group WorkspaceApiRelease
+  - Added operation group WorkspaceApiRevision
+  - Added operation group WorkspaceApiSchema
+  - Added operation group WorkspaceApiVersionSet
+  - Added operation group WorkspaceGlobalSchema
+  - Added operation group WorkspaceGroup
+  - Added operation group WorkspaceGroupUser
+  - Added operation group WorkspaceNamedValue
+  - Added operation group WorkspaceNotification
+  - Added operation group WorkspaceNotificationRecipientEmail
+  - Added operation group WorkspaceNotificationRecipientUser
+  - Added operation group WorkspacePolicy
+  - Added operation group WorkspacePolicyFragment
+  - Added operation group WorkspaceProduct
+  - Added operation group WorkspaceProductApiLink
+  - Added operation group WorkspaceProductGroupLink
+  - Added operation group WorkspaceProductPolicy
+  - Added operation group WorkspaceSubscription
+  - Added operation group WorkspaceTag
+  - Added operation group WorkspaceTagApiLink
+  - Added operation group WorkspaceTagOperationLink
+  - Added operation group WorkspaceTagProductLink
+  - Added operation ApiManagementService.beginMigrateToStv2
+  - Added operation ApiManagementService.beginMigrateToStv2AndWait
+  - Added operation Gateway.invalidateDebugCredentials
+  - Added operation Gateway.listDebugCredentials
+  - Added operation Gateway.listTrace
+  - Added Interface ApiManagementClientPerformConnectivityCheckAsyncHeaders
+  - Added Interface ApiManagementServiceApplyNetworkConfigurationUpdatesHeaders
+  - Added Interface ApiManagementServiceBackupHeaders
+  - Added Interface ApiManagementServiceDeleteHeaders
+  - Added Interface ApiManagementServiceMigrateToStv2Headers
+  - Added Interface ApiManagementServiceMigrateToStv2OptionalParams
+  - Added Interface ApiManagementServiceRestoreHeaders
+  - Added Interface ApiManagementServiceUpdateHeaders
+  - Added Interface ApiWikiCreateOrUpdateHeaders
+  - Added Interface ApiWikiCreateOrUpdateOptionalParams
+  - Added Interface ApiWikiDeleteOptionalParams
+  - Added Interface ApiWikiGetEntityTagHeaders
+  - Added Interface ApiWikiGetEntityTagOptionalParams
+  - Added Interface ApiWikiGetHeaders
+  - Added Interface ApiWikiGetOptionalParams
+  - Added Interface ApiWikisListNextOptionalParams
+  - Added Interface ApiWikisListOptionalParams
+  - Added Interface ApiWikiUpdateHeaders
+  - Added Interface ApiWikiUpdateOptionalParams
+  - Added Interface AuthorizationAccessPolicyCollection
+  - Added Interface AuthorizationAccessPolicyContract
+  - Added Interface AuthorizationAccessPolicyCreateOrUpdateHeaders
+  - Added Interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationAccessPolicyDeleteOptionalParams
+  - Added Interface AuthorizationAccessPolicyGetHeaders
+  - Added Interface AuthorizationAccessPolicyGetOptionalParams
+  - Added Interface AuthorizationAccessPolicyListByAuthorizationNextOptionalParams
+  - Added Interface AuthorizationAccessPolicyListByAuthorizationOptionalParams
+  - Added Interface AuthorizationCollection
+  - Added Interface AuthorizationConfirmConsentCodeHeaders
+  - Added Interface AuthorizationConfirmConsentCodeOptionalParams
+  - Added Interface AuthorizationConfirmConsentCodeRequestContract
+  - Added Interface AuthorizationContract
+  - Added Interface AuthorizationCreateOrUpdateHeaders
+  - Added Interface AuthorizationCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationDeleteOptionalParams
+  - Added Interface AuthorizationError
+  - Added Interface AuthorizationGetHeaders
+  - Added Interface AuthorizationGetOptionalParams
+  - Added Interface AuthorizationListByAuthorizationProviderNextOptionalParams
+  - Added Interface AuthorizationListByAuthorizationProviderOptionalParams
+  - Added Interface AuthorizationLoginLinksPostHeaders
+  - Added Interface AuthorizationLoginLinksPostOptionalParams
+  - Added Interface AuthorizationLoginRequestContract
+  - Added Interface AuthorizationLoginResponseContract
+  - Added Interface AuthorizationProviderCollection
+  - Added Interface AuthorizationProviderContract
+  - Added Interface AuthorizationProviderCreateOrUpdateHeaders
+  - Added Interface AuthorizationProviderCreateOrUpdateOptionalParams
+  - Added Interface AuthorizationProviderDeleteOptionalParams
+  - Added Interface AuthorizationProviderGetHeaders
+  - Added Interface AuthorizationProviderGetOptionalParams
+  - Added Interface AuthorizationProviderListByServiceNextOptionalParams
+  - Added Interface AuthorizationProviderListByServiceOptionalParams
+  - Added Interface AuthorizationProviderOAuth2GrantTypes
+  - Added Interface AuthorizationProviderOAuth2Settings
+  - Added Interface BackendCircuitBreaker
+  - Added Interface CircuitBreakerFailureCondition
+  - Added Interface CircuitBreakerRule
+  - Added Interface ConfigurationApi
+  - Added Interface DeletedServicesPurgeHeaders
+  - Added Interface DocumentationCollection
+  - Added Interface DocumentationContract
+  - Added Interface DocumentationCreateOrUpdateHeaders
+  - Added Interface DocumentationCreateOrUpdateOptionalParams
+  - Added Interface DocumentationDeleteOptionalParams
+  - Added Interface DocumentationGetEntityTagHeaders
+  - Added Interface DocumentationGetEntityTagOptionalParams
+  - Added Interface DocumentationGetHeaders
+  - Added Interface DocumentationGetOptionalParams
+  - Added Interface DocumentationListByServiceNextOptionalParams
+  - Added Interface DocumentationListByServiceOptionalParams
+  - Added Interface DocumentationUpdateContract
+  - Added Interface DocumentationUpdateHeaders
+  - Added Interface DocumentationUpdateOptionalParams
+  - Added Interface FailureStatusCodeRange
+  - Added Interface GatewayDebugCredentialsContract
+  - Added Interface GatewayInvalidateDebugCredentialsOptionalParams
+  - Added Interface GatewayListDebugCredentialsContract
+  - Added Interface GatewayListDebugCredentialsOptionalParams
+  - Added Interface GatewayListTraceContract
+  - Added Interface GatewayListTraceOptionalParams
+  - Added Interface GraphQLApiResolverCreateOrUpdateHeaders
+  - Added Interface GraphQLApiResolverCreateOrUpdateOptionalParams
+  - Added Interface GraphQLApiResolverDeleteOptionalParams
+  - Added Interface GraphQLApiResolverGetEntityTagHeaders
+  - Added Interface GraphQLApiResolverGetEntityTagOptionalParams
+  - Added Interface GraphQLApiResolverGetHeaders
+  - Added Interface GraphQLApiResolverGetOptionalParams
+  - Added Interface GraphQLApiResolverListByApiNextOptionalParams
+  - Added Interface GraphQLApiResolverListByApiOptionalParams
+  - Added Interface GraphQLApiResolverPolicyCreateOrUpdateHeaders
+  - Added Interface GraphQLApiResolverPolicyCreateOrUpdateOptionalParams
+  - Added Interface GraphQLApiResolverPolicyDeleteOptionalParams
+  - Added Interface GraphQLApiResolverPolicyGetEntityTagHeaders
+  - Added Interface GraphQLApiResolverPolicyGetEntityTagOptionalParams
+  - Added Interface GraphQLApiResolverPolicyGetHeaders
+  - Added Interface GraphQLApiResolverPolicyGetOptionalParams
+  - Added Interface GraphQLApiResolverPolicyListByResolverNextOptionalParams
+  - Added Interface GraphQLApiResolverPolicyListByResolverOptionalParams
+  - Added Interface GraphQLApiResolverUpdateHeaders
+  - Added Interface GraphQLApiResolverUpdateOptionalParams
+  - Added Interface MigrateToStv2Contract
+  - Added Interface PolicyFragmentCollection
+  - Added Interface PolicyFragmentContract
+  - Added Interface PolicyFragmentCreateOrUpdateHeaders
+  - Added Interface PolicyFragmentCreateOrUpdateOptionalParams
+  - Added Interface PolicyFragmentDeleteOptionalParams
+  - Added Interface PolicyFragmentGetEntityTagHeaders
+  - Added Interface PolicyFragmentGetEntityTagOptionalParams
+  - Added Interface PolicyFragmentGetHeaders
+  - Added Interface PolicyFragmentGetOptionalParams
+  - Added Interface PolicyFragmentListByServiceNextOptionalParams
+  - Added Interface PolicyFragmentListByServiceOptionalParams
+  - Added Interface PolicyFragmentListReferencesOptionalParams
+  - Added Interface PolicyListByServiceNextOptionalParams
+  - Added Interface PortalConfigCollection
+  - Added Interface PortalConfigContract
+  - Added Interface PortalConfigCorsProperties
+  - Added Interface PortalConfigCreateOrUpdateOptionalParams
+  - Added Interface PortalConfigCspProperties
+  - Added Interface PortalConfigDelegationProperties
+  - Added Interface PortalConfigGetEntityTagHeaders
+  - Added Interface PortalConfigGetEntityTagOptionalParams
+  - Added Interface PortalConfigGetHeaders
+  - Added Interface PortalConfigGetOptionalParams
+  - Added Interface PortalConfigListByServiceNextOptionalParams
+  - Added Interface PortalConfigListByServiceOptionalParams
+  - Added Interface PortalConfigPropertiesSignin
+  - Added Interface PortalConfigPropertiesSignup
+  - Added Interface PortalConfigTermsOfServiceProperties
+  - Added Interface PortalConfigUpdateOptionalParams
+  - Added Interface PrivateEndpointConnectionCreateOrUpdateHeaders
+  - Added Interface PrivateEndpointConnectionDeleteHeaders
+  - Added Interface ProductApiLinkCollection
+  - Added Interface ProductApiLinkContract
+  - Added Interface ProductApiLinkCreateOrUpdateOptionalParams
+  - Added Interface ProductApiLinkDeleteOptionalParams
+  - Added Interface ProductApiLinkGetHeaders
+  - Added Interface ProductApiLinkGetOptionalParams
+  - Added Interface ProductApiLinkListByProductNextOptionalParams
+  - Added Interface ProductApiLinkListByProductOptionalParams
+  - Added Interface ProductGroupLinkCollection
+  - Added Interface ProductGroupLinkContract
+  - Added Interface ProductGroupLinkCreateOrUpdateOptionalParams
+  - Added Interface ProductGroupLinkDeleteOptionalParams
+  - Added Interface ProductGroupLinkGetHeaders
+  - Added Interface ProductGroupLinkGetOptionalParams
+  - Added Interface ProductGroupLinkListByProductNextOptionalParams
+  - Added Interface ProductGroupLinkListByProductOptionalParams
+  - Added Interface ProductPolicyListByProductNextOptionalParams
+  - Added Interface ProductWikiCreateOrUpdateHeaders
+  - Added Interface ProductWikiCreateOrUpdateOptionalParams
+  - Added Interface ProductWikiDeleteOptionalParams
+  - Added Interface ProductWikiGetEntityTagHeaders
+  - Added Interface ProductWikiGetEntityTagOptionalParams
+  - Added Interface ProductWikiGetHeaders
+  - Added Interface ProductWikiGetOptionalParams
+  - Added Interface ProductWikisListHeaders
+  - Added Interface ProductWikisListNextHeaders
+  - Added Interface ProductWikisListNextOptionalParams
+  - Added Interface ProductWikisListOptionalParams
+  - Added Interface ProductWikiUpdateHeaders
+  - Added Interface ProductWikiUpdateOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ResolverCollection
+  - Added Interface ResolverContract
+  - Added Interface ResolverResultContract
+  - Added Interface ResolverResultLogItemContract
+  - Added Interface ResolverUpdateContract
+  - Added Interface ResourceCollection
+  - Added Interface ResourceCollectionValueItem
+  - Added Interface TagApiLinkCollection
+  - Added Interface TagApiLinkContract
+  - Added Interface TagApiLinkCreateOrUpdateOptionalParams
+  - Added Interface TagApiLinkDeleteOptionalParams
+  - Added Interface TagApiLinkGetHeaders
+  - Added Interface TagApiLinkGetOptionalParams
+  - Added Interface TagApiLinkListByProductNextOptionalParams
+  - Added Interface TagApiLinkListByProductOptionalParams
+  - Added Interface TagOperationLinkCollection
+  - Added Interface TagOperationLinkContract
+  - Added Interface TagOperationLinkCreateOrUpdateOptionalParams
+  - Added Interface TagOperationLinkDeleteOptionalParams
+  - Added Interface TagOperationLinkGetHeaders
+  - Added Interface TagOperationLinkGetOptionalParams
+  - Added Interface TagOperationLinkListByProductNextOptionalParams
+  - Added Interface TagOperationLinkListByProductOptionalParams
+  - Added Interface TagProductLinkCollection
+  - Added Interface TagProductLinkContract
+  - Added Interface TagProductLinkCreateOrUpdateOptionalParams
+  - Added Interface TagProductLinkDeleteOptionalParams
+  - Added Interface TagProductLinkGetHeaders
+  - Added Interface TagProductLinkGetOptionalParams
+  - Added Interface TagProductLinkListByProductNextOptionalParams
+  - Added Interface TagProductLinkListByProductOptionalParams
+  - Added Interface TenantConfigurationDeployHeaders
+  - Added Interface TenantConfigurationSaveHeaders
+  - Added Interface TenantConfigurationValidateHeaders
+  - Added Interface WikiCollection
+  - Added Interface WikiContract
+  - Added Interface WikiDocumentationContract
+  - Added Interface WikiUpdateContract
+  - Added Interface WorkspaceApiCreateOrUpdateHeaders
+  - Added Interface WorkspaceApiCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceApiDeleteOptionalParams
+  - Added Interface WorkspaceApiExportGetOptionalParams
+  - Added Interface WorkspaceApiGetEntityTagHeaders
+  - Added Interface WorkspaceApiGetEntityTagOptionalParams
+  - Added Interface WorkspaceApiGetHeaders
+  - Added Interface WorkspaceApiGetOptionalParams
+  - Added Interface WorkspaceApiListByServiceNextOptionalParams
+  - Added Interface WorkspaceApiListByServiceOptionalParams
+  - Added Interface WorkspaceApiOperationCreateOrUpdateHeaders
+  - Added Interface WorkspaceApiOperationCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceApiOperationDeleteOptionalParams
+  - Added Interface WorkspaceApiOperationGetEntityTagHeaders
+  - Added Interface WorkspaceApiOperationGetEntityTagOptionalParams
+  - Added Interface WorkspaceApiOperationGetHeaders
+  - Added Interface WorkspaceApiOperationGetOptionalParams
+  - Added Interface WorkspaceApiOperationListByApiNextOptionalParams
+  - Added Interface WorkspaceApiOperationListByApiOptionalParams
+  - Added Interface WorkspaceApiOperationPolicyCreateOrUpdateHeaders
+  - Added Interface WorkspaceApiOperationPolicyCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceApiOperationPolicyDeleteOptionalParams
+  - Added Interface WorkspaceApiOperationPolicyGetEntityTagHeaders
+  - Added Interface WorkspaceApiOperationPolicyGetEntityTagOptionalParams
+  - Added Interface WorkspaceApiOperationPolicyGetHeaders
+  - Added Interface WorkspaceApiOperationPolicyGetOptionalParams
+  - Added Interface WorkspaceApiOperationPolicyListByOperationNextOptionalParams
+  - Added Interface WorkspaceApiOperationPolicyListByOperationOptionalParams
+  - Added Interface WorkspaceApiOperationUpdateHeaders
+  - Added Interface WorkspaceApiOperationUpdateOptionalParams
+  - Added Interface WorkspaceApiPolicyCreateOrUpdateHeaders
+  - Added Interface WorkspaceApiPolicyCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceApiPolicyDeleteOptionalParams
+  - Added Interface WorkspaceApiPolicyGetEntityTagHeaders
+  - Added Interface WorkspaceApiPolicyGetEntityTagOptionalParams
+  - Added Interface WorkspaceApiPolicyGetHeaders
+  - Added Interface WorkspaceApiPolicyGetOptionalParams
+  - Added Interface WorkspaceApiPolicyListByApiNextOptionalParams
+  - Added Interface WorkspaceApiPolicyListByApiOptionalParams
+  - Added Interface WorkspaceApiReleaseCreateOrUpdateHeaders
+  - Added Interface WorkspaceApiReleaseCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceApiReleaseDeleteOptionalParams
+  - Added Interface WorkspaceApiReleaseGetEntityTagHeaders
+  - Added Interface WorkspaceApiReleaseGetEntityTagOptionalParams
+  - Added Interface WorkspaceApiReleaseGetHeaders
+  - Added Interface WorkspaceApiReleaseGetOptionalParams
+  - Added Interface WorkspaceApiReleaseListByServiceNextOptionalParams
+  - Added Interface WorkspaceApiReleaseListByServiceOptionalParams
+  - Added Interface WorkspaceApiReleaseUpdateHeaders
+  - Added Interface WorkspaceApiReleaseUpdateOptionalParams
+  - Added Interface WorkspaceApiRevisionListByServiceNextOptionalParams
+  - Added Interface WorkspaceApiRevisionListByServiceOptionalParams
+  - Added Interface WorkspaceApiSchemaCreateOrUpdateHeaders
+  - Added Interface WorkspaceApiSchemaCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceApiSchemaDeleteOptionalParams
+  - Added Interface WorkspaceApiSchemaGetEntityTagHeaders
+  - Added Interface WorkspaceApiSchemaGetEntityTagOptionalParams
+  - Added Interface WorkspaceApiSchemaGetHeaders
+  - Added Interface WorkspaceApiSchemaGetOptionalParams
+  - Added Interface WorkspaceApiSchemaListByApiNextOptionalParams
+  - Added Interface WorkspaceApiSchemaListByApiOptionalParams
+  - Added Interface WorkspaceApiUpdateHeaders
+  - Added Interface WorkspaceApiUpdateOptionalParams
+  - Added Interface WorkspaceApiVersionSetCreateOrUpdateHeaders
+  - Added Interface WorkspaceApiVersionSetCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceApiVersionSetDeleteOptionalParams
+  - Added Interface WorkspaceApiVersionSetGetEntityTagHeaders
+  - Added Interface WorkspaceApiVersionSetGetEntityTagOptionalParams
+  - Added Interface WorkspaceApiVersionSetGetHeaders
+  - Added Interface WorkspaceApiVersionSetGetOptionalParams
+  - Added Interface WorkspaceApiVersionSetListByServiceNextOptionalParams
+  - Added Interface WorkspaceApiVersionSetListByServiceOptionalParams
+  - Added Interface WorkspaceApiVersionSetUpdateHeaders
+  - Added Interface WorkspaceApiVersionSetUpdateOptionalParams
+  - Added Interface WorkspaceCollection
+  - Added Interface WorkspaceContract
+  - Added Interface WorkspaceCreateOrUpdateHeaders
+  - Added Interface WorkspaceCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceDeleteOptionalParams
+  - Added Interface WorkspaceGetEntityTagHeaders
+  - Added Interface WorkspaceGetEntityTagOptionalParams
+  - Added Interface WorkspaceGetHeaders
+  - Added Interface WorkspaceGetOptionalParams
+  - Added Interface WorkspaceGlobalSchemaCreateOrUpdateHeaders
+  - Added Interface WorkspaceGlobalSchemaCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceGlobalSchemaDeleteOptionalParams
+  - Added Interface WorkspaceGlobalSchemaGetEntityTagHeaders
+  - Added Interface WorkspaceGlobalSchemaGetEntityTagOptionalParams
+  - Added Interface WorkspaceGlobalSchemaGetHeaders
+  - Added Interface WorkspaceGlobalSchemaGetOptionalParams
+  - Added Interface WorkspaceGlobalSchemaListByServiceNextOptionalParams
+  - Added Interface WorkspaceGlobalSchemaListByServiceOptionalParams
+  - Added Interface WorkspaceGroupCreateOrUpdateHeaders
+  - Added Interface WorkspaceGroupCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceGroupDeleteOptionalParams
+  - Added Interface WorkspaceGroupGetEntityTagHeaders
+  - Added Interface WorkspaceGroupGetEntityTagOptionalParams
+  - Added Interface WorkspaceGroupGetHeaders
+  - Added Interface WorkspaceGroupGetOptionalParams
+  - Added Interface WorkspaceGroupListByServiceNextOptionalParams
+  - Added Interface WorkspaceGroupListByServiceOptionalParams
+  - Added Interface WorkspaceGroupUpdateHeaders
+  - Added Interface WorkspaceGroupUpdateOptionalParams
+  - Added Interface WorkspaceGroupUserCheckEntityExistsOptionalParams
+  - Added Interface WorkspaceGroupUserCreateOptionalParams
+  - Added Interface WorkspaceGroupUserDeleteOptionalParams
+  - Added Interface WorkspaceGroupUserListNextOptionalParams
+  - Added Interface WorkspaceGroupUserListOptionalParams
+  - Added Interface WorkspaceListByServiceNextOptionalParams
+  - Added Interface WorkspaceListByServiceOptionalParams
+  - Added Interface WorkspaceNamedValueCreateOrUpdateHeaders
+  - Added Interface WorkspaceNamedValueCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceNamedValueDeleteOptionalParams
+  - Added Interface WorkspaceNamedValueGetEntityTagHeaders
+  - Added Interface WorkspaceNamedValueGetEntityTagOptionalParams
+  - Added Interface WorkspaceNamedValueGetHeaders
+  - Added Interface WorkspaceNamedValueGetOptionalParams
+  - Added Interface WorkspaceNamedValueListByServiceNextOptionalParams
+  - Added Interface WorkspaceNamedValueListByServiceOptionalParams
+  - Added Interface WorkspaceNamedValueListValueHeaders
+  - Added Interface WorkspaceNamedValueListValueOptionalParams
+  - Added Interface WorkspaceNamedValueRefreshSecretHeaders
+  - Added Interface WorkspaceNamedValueRefreshSecretOptionalParams
+  - Added Interface WorkspaceNamedValueUpdateHeaders
+  - Added Interface WorkspaceNamedValueUpdateOptionalParams
+  - Added Interface WorkspaceNotificationCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceNotificationGetOptionalParams
+  - Added Interface WorkspaceNotificationListByServiceNextOptionalParams
+  - Added Interface WorkspaceNotificationListByServiceOptionalParams
+  - Added Interface WorkspaceNotificationRecipientEmailCheckEntityExistsOptionalParams
+  - Added Interface WorkspaceNotificationRecipientEmailCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceNotificationRecipientEmailDeleteOptionalParams
+  - Added Interface WorkspaceNotificationRecipientEmailListByNotificationOptionalParams
+  - Added Interface WorkspaceNotificationRecipientUserCheckEntityExistsOptionalParams
+  - Added Interface WorkspaceNotificationRecipientUserCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceNotificationRecipientUserDeleteOptionalParams
+  - Added Interface WorkspaceNotificationRecipientUserListByNotificationOptionalParams
+  - Added Interface WorkspacePolicyCreateOrUpdateHeaders
+  - Added Interface WorkspacePolicyCreateOrUpdateOptionalParams
+  - Added Interface WorkspacePolicyDeleteOptionalParams
+  - Added Interface WorkspacePolicyFragmentCreateOrUpdateHeaders
+  - Added Interface WorkspacePolicyFragmentCreateOrUpdateOptionalParams
+  - Added Interface WorkspacePolicyFragmentDeleteOptionalParams
+  - Added Interface WorkspacePolicyFragmentGetEntityTagHeaders
+  - Added Interface WorkspacePolicyFragmentGetEntityTagOptionalParams
+  - Added Interface WorkspacePolicyFragmentGetHeaders
+  - Added Interface WorkspacePolicyFragmentGetOptionalParams
+  - Added Interface WorkspacePolicyFragmentListByServiceNextOptionalParams
+  - Added Interface WorkspacePolicyFragmentListByServiceOptionalParams
+  - Added Interface WorkspacePolicyFragmentListReferencesOptionalParams
+  - Added Interface WorkspacePolicyGetEntityTagHeaders
+  - Added Interface WorkspacePolicyGetEntityTagOptionalParams
+  - Added Interface WorkspacePolicyGetHeaders
+  - Added Interface WorkspacePolicyGetOptionalParams
+  - Added Interface WorkspacePolicyListByApiNextOptionalParams
+  - Added Interface WorkspacePolicyListByApiOptionalParams
+  - Added Interface WorkspaceProductApiLinkCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceProductApiLinkDeleteOptionalParams
+  - Added Interface WorkspaceProductApiLinkGetHeaders
+  - Added Interface WorkspaceProductApiLinkGetOptionalParams
+  - Added Interface WorkspaceProductApiLinkListByProductNextOptionalParams
+  - Added Interface WorkspaceProductApiLinkListByProductOptionalParams
+  - Added Interface WorkspaceProductCreateOrUpdateHeaders
+  - Added Interface WorkspaceProductCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceProductDeleteOptionalParams
+  - Added Interface WorkspaceProductGetEntityTagHeaders
+  - Added Interface WorkspaceProductGetEntityTagOptionalParams
+  - Added Interface WorkspaceProductGetHeaders
+  - Added Interface WorkspaceProductGetOptionalParams
+  - Added Interface WorkspaceProductGroupLinkCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceProductGroupLinkDeleteOptionalParams
+  - Added Interface WorkspaceProductGroupLinkGetHeaders
+  - Added Interface WorkspaceProductGroupLinkGetOptionalParams
+  - Added Interface WorkspaceProductGroupLinkListByProductNextOptionalParams
+  - Added Interface WorkspaceProductGroupLinkListByProductOptionalParams
+  - Added Interface WorkspaceProductListByServiceNextOptionalParams
+  - Added Interface WorkspaceProductListByServiceOptionalParams
+  - Added Interface WorkspaceProductPolicyCreateOrUpdateHeaders
+  - Added Interface WorkspaceProductPolicyCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceProductPolicyDeleteOptionalParams
+  - Added Interface WorkspaceProductPolicyGetEntityTagHeaders
+  - Added Interface WorkspaceProductPolicyGetEntityTagOptionalParams
+  - Added Interface WorkspaceProductPolicyGetHeaders
+  - Added Interface WorkspaceProductPolicyGetOptionalParams
+  - Added Interface WorkspaceProductPolicyListByProductOptionalParams
+  - Added Interface WorkspaceProductUpdateHeaders
+  - Added Interface WorkspaceProductUpdateOptionalParams
+  - Added Interface WorkspaceSubscriptionCreateOrUpdateHeaders
+  - Added Interface WorkspaceSubscriptionCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceSubscriptionDeleteOptionalParams
+  - Added Interface WorkspaceSubscriptionGetEntityTagHeaders
+  - Added Interface WorkspaceSubscriptionGetEntityTagOptionalParams
+  - Added Interface WorkspaceSubscriptionGetHeaders
+  - Added Interface WorkspaceSubscriptionGetOptionalParams
+  - Added Interface WorkspaceSubscriptionListNextOptionalParams
+  - Added Interface WorkspaceSubscriptionListOptionalParams
+  - Added Interface WorkspaceSubscriptionListSecretsHeaders
+  - Added Interface WorkspaceSubscriptionListSecretsOptionalParams
+  - Added Interface WorkspaceSubscriptionRegeneratePrimaryKeyOptionalParams
+  - Added Interface WorkspaceSubscriptionRegenerateSecondaryKeyOptionalParams
+  - Added Interface WorkspaceSubscriptionUpdateHeaders
+  - Added Interface WorkspaceSubscriptionUpdateOptionalParams
+  - Added Interface WorkspaceTagApiLinkCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceTagApiLinkDeleteOptionalParams
+  - Added Interface WorkspaceTagApiLinkGetHeaders
+  - Added Interface WorkspaceTagApiLinkGetOptionalParams
+  - Added Interface WorkspaceTagApiLinkListByProductNextOptionalParams
+  - Added Interface WorkspaceTagApiLinkListByProductOptionalParams
+  - Added Interface WorkspaceTagCreateOrUpdateHeaders
+  - Added Interface WorkspaceTagCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceTagDeleteOptionalParams
+  - Added Interface WorkspaceTagGetEntityStateHeaders
+  - Added Interface WorkspaceTagGetEntityStateOptionalParams
+  - Added Interface WorkspaceTagGetHeaders
+  - Added Interface WorkspaceTagGetOptionalParams
+  - Added Interface WorkspaceTagListByServiceNextOptionalParams
+  - Added Interface WorkspaceTagListByServiceOptionalParams
+  - Added Interface WorkspaceTagOperationLinkCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceTagOperationLinkDeleteOptionalParams
+  - Added Interface WorkspaceTagOperationLinkGetHeaders
+  - Added Interface WorkspaceTagOperationLinkGetOptionalParams
+  - Added Interface WorkspaceTagOperationLinkListByProductNextOptionalParams
+  - Added Interface WorkspaceTagOperationLinkListByProductOptionalParams
+  - Added Interface WorkspaceTagProductLinkCreateOrUpdateOptionalParams
+  - Added Interface WorkspaceTagProductLinkDeleteOptionalParams
+  - Added Interface WorkspaceTagProductLinkGetHeaders
+  - Added Interface WorkspaceTagProductLinkGetOptionalParams
+  - Added Interface WorkspaceTagProductLinkListByProductNextOptionalParams
+  - Added Interface WorkspaceTagProductLinkListByProductOptionalParams
+  - Added Interface WorkspaceTagUpdateHeaders
+  - Added Interface WorkspaceTagUpdateOptionalParams
+  - Added Interface WorkspaceUpdateHeaders
+  - Added Interface WorkspaceUpdateOptionalParams
+  - Added Type Alias ApiManagementServiceMigrateToStv2Response
+  - Added Type Alias ApiWikiCreateOrUpdateResponse
+  - Added Type Alias ApiWikiGetEntityTagResponse
+  - Added Type Alias ApiWikiGetResponse
+  - Added Type Alias ApiWikisListNextResponse
+  - Added Type Alias ApiWikisListResponse
+  - Added Type Alias ApiWikiUpdateResponse
+  - Added Type Alias AsyncResolverStatus
+  - Added Type Alias AuthorizationAccessPolicyCreateOrUpdateResponse
+  - Added Type Alias AuthorizationAccessPolicyGetResponse
+  - Added Type Alias AuthorizationAccessPolicyListByAuthorizationNextResponse
+  - Added Type Alias AuthorizationAccessPolicyListByAuthorizationResponse
+  - Added Type Alias AuthorizationConfirmConsentCodeResponse
+  - Added Type Alias AuthorizationCreateOrUpdateResponse
+  - Added Type Alias AuthorizationGetResponse
+  - Added Type Alias AuthorizationListByAuthorizationProviderNextResponse
+  - Added Type Alias AuthorizationListByAuthorizationProviderResponse
+  - Added Type Alias AuthorizationLoginLinksPostResponse
+  - Added Type Alias AuthorizationProviderCreateOrUpdateResponse
+  - Added Type Alias AuthorizationProviderGetResponse
+  - Added Type Alias AuthorizationProviderListByServiceNextResponse
+  - Added Type Alias AuthorizationProviderListByServiceResponse
+  - Added Type Alias AuthorizationType
+  - Added Type Alias DeveloperPortalStatus
+  - Added Type Alias DocumentationCreateOrUpdateResponse
+  - Added Type Alias DocumentationGetEntityTagResponse
+  - Added Type Alias DocumentationGetResponse
+  - Added Type Alias DocumentationListByServiceNextResponse
+  - Added Type Alias DocumentationListByServiceResponse
+  - Added Type Alias DocumentationUpdateResponse
+  - Added Type Alias GatewayListDebugCredentialsContractPurpose
+  - Added Type Alias GatewayListDebugCredentialsResponse
+  - Added Type Alias GatewayListTraceResponse
+  - Added Type Alias GraphQLApiResolverCreateOrUpdateResponse
+  - Added Type Alias GraphQLApiResolverGetEntityTagResponse
+  - Added Type Alias GraphQLApiResolverGetResponse
+  - Added Type Alias GraphQLApiResolverListByApiNextResponse
+  - Added Type Alias GraphQLApiResolverListByApiResponse
+  - Added Type Alias GraphQLApiResolverPolicyCreateOrUpdateResponse
+  - Added Type Alias GraphQLApiResolverPolicyGetEntityTagResponse
+  - Added Type Alias GraphQLApiResolverPolicyGetResponse
+  - Added Type Alias GraphQLApiResolverPolicyListByResolverNextResponse
+  - Added Type Alias GraphQLApiResolverPolicyListByResolverResponse
+  - Added Type Alias GraphQLApiResolverUpdateResponse
+  - Added Type Alias KeyVaultRefreshState
+  - Added Type Alias LegacyApiState
+  - Added Type Alias LegacyPortalStatus
+  - Added Type Alias MigrateToStv2Mode
+  - Added Type Alias NatGatewayState
+  - Added Type Alias OAuth2GrantType
+  - Added Type Alias PolicyFragmentContentFormat
+  - Added Type Alias PolicyFragmentCreateOrUpdateResponse
+  - Added Type Alias PolicyFragmentGetEntityTagResponse
+  - Added Type Alias PolicyFragmentGetResponse
+  - Added Type Alias PolicyFragmentListByServiceNextResponse
+  - Added Type Alias PolicyFragmentListByServiceResponse
+  - Added Type Alias PolicyFragmentListReferencesResponse
+  - Added Type Alias PolicyListByServiceNextResponse
+  - Added Type Alias PortalConfigCreateOrUpdateResponse
+  - Added Type Alias PortalConfigGetEntityTagResponse
+  - Added Type Alias PortalConfigGetResponse
+  - Added Type Alias PortalConfigListByServiceNextResponse
+  - Added Type Alias PortalConfigListByServiceResponse
+  - Added Type Alias PortalConfigUpdateResponse
+  - Added Type Alias PortalSettingsCspMode
+  - Added Type Alias ProductApiLinkCreateOrUpdateResponse
+  - Added Type Alias ProductApiLinkGetResponse
+  - Added Type Alias ProductApiLinkListByProductNextResponse
+  - Added Type Alias ProductApiLinkListByProductResponse
+  - Added Type Alias ProductGroupLinkCreateOrUpdateResponse
+  - Added Type Alias ProductGroupLinkGetResponse
+  - Added Type Alias ProductGroupLinkListByProductNextResponse
+  - Added Type Alias ProductGroupLinkListByProductResponse
+  - Added Type Alias ProductPolicyListByProductNextResponse
+  - Added Type Alias ProductWikiCreateOrUpdateResponse
+  - Added Type Alias ProductWikiGetEntityTagResponse
+  - Added Type Alias ProductWikiGetResponse
+  - Added Type Alias ProductWikisListNextResponse
+  - Added Type Alias ProductWikisListResponse
+  - Added Type Alias ProductWikiUpdateResponse
+  - Added Type Alias TagApiLinkCreateOrUpdateResponse
+  - Added Type Alias TagApiLinkGetResponse
+  - Added Type Alias TagApiLinkListByProductNextResponse
+  - Added Type Alias TagApiLinkListByProductResponse
+  - Added Type Alias TagOperationLinkCreateOrUpdateResponse
+  - Added Type Alias TagOperationLinkGetResponse
+  - Added Type Alias TagOperationLinkListByProductNextResponse
+  - Added Type Alias TagOperationLinkListByProductResponse
+  - Added Type Alias TagProductLinkCreateOrUpdateResponse
+  - Added Type Alias TagProductLinkGetResponse
+  - Added Type Alias TagProductLinkListByProductNextResponse
+  - Added Type Alias TagProductLinkListByProductResponse
+  - Added Type Alias TranslateRequiredQueryParametersConduct
+  - Added Type Alias WorkspaceApiCreateOrUpdateResponse
+  - Added Type Alias WorkspaceApiExportGetResponse
+  - Added Type Alias WorkspaceApiGetEntityTagResponse
+  - Added Type Alias WorkspaceApiGetResponse
+  - Added Type Alias WorkspaceApiListByServiceNextResponse
+  - Added Type Alias WorkspaceApiListByServiceResponse
+  - Added Type Alias WorkspaceApiOperationCreateOrUpdateResponse
+  - Added Type Alias WorkspaceApiOperationGetEntityTagResponse
+  - Added Type Alias WorkspaceApiOperationGetResponse
+  - Added Type Alias WorkspaceApiOperationListByApiNextResponse
+  - Added Type Alias WorkspaceApiOperationListByApiResponse
+  - Added Type Alias WorkspaceApiOperationPolicyCreateOrUpdateResponse
+  - Added Type Alias WorkspaceApiOperationPolicyGetEntityTagResponse
+  - Added Type Alias WorkspaceApiOperationPolicyGetResponse
+  - Added Type Alias WorkspaceApiOperationPolicyListByOperationNextResponse
+  - Added Type Alias WorkspaceApiOperationPolicyListByOperationResponse
+  - Added Type Alias WorkspaceApiOperationUpdateResponse
+  - Added Type Alias WorkspaceApiPolicyCreateOrUpdateResponse
+  - Added Type Alias WorkspaceApiPolicyGetEntityTagResponse
+  - Added Type Alias WorkspaceApiPolicyGetResponse
+  - Added Type Alias WorkspaceApiPolicyListByApiNextResponse
+  - Added Type Alias WorkspaceApiPolicyListByApiResponse
+  - Added Type Alias WorkspaceApiReleaseCreateOrUpdateResponse
+  - Added Type Alias WorkspaceApiReleaseGetEntityTagResponse
+  - Added Type Alias WorkspaceApiReleaseGetResponse
+  - Added Type Alias WorkspaceApiReleaseListByServiceNextResponse
+  - Added Type Alias WorkspaceApiReleaseListByServiceResponse
+  - Added Type Alias WorkspaceApiReleaseUpdateResponse
+  - Added Type Alias WorkspaceApiRevisionListByServiceNextResponse
+  - Added Type Alias WorkspaceApiRevisionListByServiceResponse
+  - Added Type Alias WorkspaceApiSchemaCreateOrUpdateResponse
+  - Added Type Alias WorkspaceApiSchemaGetEntityTagResponse
+  - Added Type Alias WorkspaceApiSchemaGetResponse
+  - Added Type Alias WorkspaceApiSchemaListByApiNextResponse
+  - Added Type Alias WorkspaceApiSchemaListByApiResponse
+  - Added Type Alias WorkspaceApiUpdateResponse
+  - Added Type Alias WorkspaceApiVersionSetCreateOrUpdateResponse
+  - Added Type Alias WorkspaceApiVersionSetGetEntityTagResponse
+  - Added Type Alias WorkspaceApiVersionSetGetResponse
+  - Added Type Alias WorkspaceApiVersionSetListByServiceNextResponse
+  - Added Type Alias WorkspaceApiVersionSetListByServiceResponse
+  - Added Type Alias WorkspaceApiVersionSetUpdateResponse
+  - Added Type Alias WorkspaceCreateOrUpdateResponse
+  - Added Type Alias WorkspaceGetEntityTagResponse
+  - Added Type Alias WorkspaceGetResponse
+  - Added Type Alias WorkspaceGlobalSchemaCreateOrUpdateResponse
+  - Added Type Alias WorkspaceGlobalSchemaGetEntityTagResponse
+  - Added Type Alias WorkspaceGlobalSchemaGetResponse
+  - Added Type Alias WorkspaceGlobalSchemaListByServiceNextResponse
+  - Added Type Alias WorkspaceGlobalSchemaListByServiceResponse
+  - Added Type Alias WorkspaceGroupCreateOrUpdateResponse
+  - Added Type Alias WorkspaceGroupGetEntityTagResponse
+  - Added Type Alias WorkspaceGroupGetResponse
+  - Added Type Alias WorkspaceGroupListByServiceNextResponse
+  - Added Type Alias WorkspaceGroupListByServiceResponse
+  - Added Type Alias WorkspaceGroupUpdateResponse
+  - Added Type Alias WorkspaceGroupUserCheckEntityExistsResponse
+  - Added Type Alias WorkspaceGroupUserCreateResponse
+  - Added Type Alias WorkspaceGroupUserListNextResponse
+  - Added Type Alias WorkspaceGroupUserListResponse
+  - Added Type Alias WorkspaceListByServiceNextResponse
+  - Added Type Alias WorkspaceListByServiceResponse
+  - Added Type Alias WorkspaceNamedValueCreateOrUpdateResponse
+  - Added Type Alias WorkspaceNamedValueGetEntityTagResponse
+  - Added Type Alias WorkspaceNamedValueGetResponse
+  - Added Type Alias WorkspaceNamedValueListByServiceNextResponse
+  - Added Type Alias WorkspaceNamedValueListByServiceResponse
+  - Added Type Alias WorkspaceNamedValueListValueResponse
+  - Added Type Alias WorkspaceNamedValueRefreshSecretResponse
+  - Added Type Alias WorkspaceNamedValueUpdateResponse
+  - Added Type Alias WorkspaceNotificationCreateOrUpdateResponse
+  - Added Type Alias WorkspaceNotificationGetResponse
+  - Added Type Alias WorkspaceNotificationListByServiceNextResponse
+  - Added Type Alias WorkspaceNotificationListByServiceResponse
+  - Added Type Alias WorkspaceNotificationRecipientEmailCheckEntityExistsResponse
+  - Added Type Alias WorkspaceNotificationRecipientEmailCreateOrUpdateResponse
+  - Added Type Alias WorkspaceNotificationRecipientEmailListByNotificationResponse
+  - Added Type Alias WorkspaceNotificationRecipientUserCheckEntityExistsResponse
+  - Added Type Alias WorkspaceNotificationRecipientUserCreateOrUpdateResponse
+  - Added Type Alias WorkspaceNotificationRecipientUserListByNotificationResponse
+  - Added Type Alias WorkspacePolicyCreateOrUpdateResponse
+  - Added Type Alias WorkspacePolicyFragmentCreateOrUpdateResponse
+  - Added Type Alias WorkspacePolicyFragmentGetEntityTagResponse
+  - Added Type Alias WorkspacePolicyFragmentGetResponse
+  - Added Type Alias WorkspacePolicyFragmentListByServiceNextResponse
+  - Added Type Alias WorkspacePolicyFragmentListByServiceResponse
+  - Added Type Alias WorkspacePolicyFragmentListReferencesResponse
+  - Added Type Alias WorkspacePolicyGetEntityTagResponse
+  - Added Type Alias WorkspacePolicyGetResponse
+  - Added Type Alias WorkspacePolicyListByApiNextResponse
+  - Added Type Alias WorkspacePolicyListByApiResponse
+  - Added Type Alias WorkspaceProductApiLinkCreateOrUpdateResponse
+  - Added Type Alias WorkspaceProductApiLinkGetResponse
+  - Added Type Alias WorkspaceProductApiLinkListByProductNextResponse
+  - Added Type Alias WorkspaceProductApiLinkListByProductResponse
+  - Added Type Alias WorkspaceProductCreateOrUpdateResponse
+  - Added Type Alias WorkspaceProductGetEntityTagResponse
+  - Added Type Alias WorkspaceProductGetResponse
+  - Added Type Alias WorkspaceProductGroupLinkCreateOrUpdateResponse
+  - Added Type Alias WorkspaceProductGroupLinkGetResponse
+  - Added Type Alias WorkspaceProductGroupLinkListByProductNextResponse
+  - Added Type Alias WorkspaceProductGroupLinkListByProductResponse
+  - Added Type Alias WorkspaceProductListByServiceNextResponse
+  - Added Type Alias WorkspaceProductListByServiceResponse
+  - Added Type Alias WorkspaceProductPolicyCreateOrUpdateResponse
+  - Added Type Alias WorkspaceProductPolicyGetEntityTagResponse
+  - Added Type Alias WorkspaceProductPolicyGetResponse
+  - Added Type Alias WorkspaceProductPolicyListByProductResponse
+  - Added Type Alias WorkspaceProductUpdateResponse
+  - Added Type Alias WorkspaceSubscriptionCreateOrUpdateResponse
+  - Added Type Alias WorkspaceSubscriptionGetEntityTagResponse
+  - Added Type Alias WorkspaceSubscriptionGetResponse
+  - Added Type Alias WorkspaceSubscriptionListNextResponse
+  - Added Type Alias WorkspaceSubscriptionListResponse
+  - Added Type Alias WorkspaceSubscriptionListSecretsResponse
+  - Added Type Alias WorkspaceSubscriptionUpdateResponse
+  - Added Type Alias WorkspaceTagApiLinkCreateOrUpdateResponse
+  - Added Type Alias WorkspaceTagApiLinkGetResponse
+  - Added Type Alias WorkspaceTagApiLinkListByProductNextResponse
+  - Added Type Alias WorkspaceTagApiLinkListByProductResponse
+  - Added Type Alias WorkspaceTagCreateOrUpdateResponse
+  - Added Type Alias WorkspaceTagGetEntityStateResponse
+  - Added Type Alias WorkspaceTagGetResponse
+  - Added Type Alias WorkspaceTagListByServiceNextResponse
+  - Added Type Alias WorkspaceTagListByServiceResponse
+  - Added Type Alias WorkspaceTagOperationLinkCreateOrUpdateResponse
+  - Added Type Alias WorkspaceTagOperationLinkGetResponse
+  - Added Type Alias WorkspaceTagOperationLinkListByProductNextResponse
+  - Added Type Alias WorkspaceTagOperationLinkListByProductResponse
+  - Added Type Alias WorkspaceTagProductLinkCreateOrUpdateResponse
+  - Added Type Alias WorkspaceTagProductLinkGetResponse
+  - Added Type Alias WorkspaceTagProductLinkListByProductNextResponse
+  - Added Type Alias WorkspaceTagProductLinkListByProductResponse
+  - Added Type Alias WorkspaceTagUpdateResponse
+  - Added Type Alias WorkspaceUpdateResponse
+  - Interface AdditionalLocation has a new optional parameter natGatewayState
+  - Interface AdditionalLocation has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiCreateOrUpdateParameter has a new optional parameter translateRequiredQueryParametersConduct
+  - Interface ApiCreateOrUpdateProperties has a new optional parameter translateRequiredQueryParametersConduct
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter configurationApi
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter developerPortalStatus
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter legacyPortalStatus
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiManagementServiceResource has a new optional parameter configurationApi
+  - Interface ApiManagementServiceResource has a new optional parameter developerPortalStatus
+  - Interface ApiManagementServiceResource has a new optional parameter legacyPortalStatus
+  - Interface ApiManagementServiceResource has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceResource has a new optional parameter outboundPublicIPAddresses
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter configurationApi
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter developerPortalStatus
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter legacyPortalStatus
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter natGatewayState
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter outboundPublicIPAddresses
+  - Interface AuthenticationSettingsContract has a new optional parameter oAuth2AuthenticationSettings
+  - Interface AuthenticationSettingsContract has a new optional parameter openidAuthenticationSettings
+  - Interface AuthorizationServerContract has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerContract has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerContractProperties has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerContractProperties has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerUpdateContract has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerUpdateContract has a new optional parameter useInTestConsole
+  - Interface AuthorizationServerUpdateContractProperties has a new optional parameter useInApiDocumentation
+  - Interface AuthorizationServerUpdateContractProperties has a new optional parameter useInTestConsole
+  - Interface BackendBaseParameters has a new optional parameter circuitBreaker
+  - Interface BackendContract has a new optional parameter circuitBreaker
+  - Interface BackendUpdateParameters has a new optional parameter circuitBreaker
+  - Interface IdentityProviderBaseParameters has a new optional parameter clientLibrary
+  - Interface IdentityProviderContract has a new optional parameter clientLibrary
+  - Interface IdentityProviderCreateContract has a new optional parameter clientLibrary
+  - Interface IdentityProviderUpdateParameters has a new optional parameter clientLibrary
+  - Interface OpenidConnectProviderContract has a new optional parameter useInApiDocumentation
+  - Interface OpenidConnectProviderContract has a new optional parameter useInTestConsole
+  - Interface OpenidConnectProviderUpdateContract has a new optional parameter useInApiDocumentation
+  - Interface OpenidConnectProviderUpdateContract has a new optional parameter useInTestConsole
+  - Added Enum KnownAuthorizationType
+  - Added Enum KnownDeveloperPortalStatus
+  - Added Enum KnownGatewayListDebugCredentialsContractPurpose
+  - Added Enum KnownKeyVaultRefreshState
+  - Added Enum KnownLegacyApiState
+  - Added Enum KnownLegacyPortalStatus
+  - Added Enum KnownMigrateToStv2Mode
+  - Added Enum KnownNatGatewayState
+  - Added Enum KnownOAuth2GrantType
+  - Added Enum KnownPolicyFragmentContentFormat
+  - Added Enum KnownPortalSettingsCspMode
+  - Added Enum KnownTranslateRequiredQueryParametersConduct
+  - Enum KnownApiType has a new value Odata
+  - Enum KnownContentFormat has a new value Odata
+  - Enum KnownContentFormat has a new value OdataLink
+  - Enum KnownHostnameType has a new value ConfigurationApi
+  - Enum KnownPlatformVersion has a new value Stv21
+  - Enum KnownSoapApiType has a new value OData
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class ApiManagementClient has a new signature
+  - Type of parameter versioningScheme of interface ApiVersionSetContractDetails is changed from ApiVersionSetContractDetailsVersioningScheme to VersioningScheme
+  - Removed Enum KnownApiVersionSetContractDetailsVersioningScheme
+    
+    
 ## 9.0.0 (2023-02-01)
     
 **Features**
