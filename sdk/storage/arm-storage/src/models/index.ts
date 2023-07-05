@@ -217,6 +217,8 @@ export interface StorageAccountCreateParameters {
   largeFileSharesState?: LargeFileSharesState;
   /** Maintains information about the network routing choice opted by the user for data transfer */
   routingPreference?: RoutingPreference;
+  /** Maintains information about the Internet protocol opted by the user. */
+  dualStackEndpointPreference?: DualStackEndpointPreference;
   /** Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is true for this property. */
   allowBlobPublicAccess?: boolean;
   /** Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. */
@@ -388,8 +390,10 @@ export interface NetworkRuleSet {
   resourceAccessRules?: ResourceAccessRule[];
   /** Sets the virtual network rules */
   virtualNetworkRules?: VirtualNetworkRule[];
-  /** Sets the IP ACL rules */
+  /** Sets the IPv4 ACL rules. */
   ipRules?: IPRule[];
+  /** Sets the IPv6 ACL rules. */
+  ipv6Rules?: IPRule[];
   /** Specifies the default action of allow or deny when no other rules match. */
   defaultAction: DefaultAction;
 }
@@ -414,7 +418,7 @@ export interface VirtualNetworkRule {
 
 /** IP rule with specific IP or IP range in CIDR format. */
 export interface IPRule {
-  /** Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed. */
+  /** Specifies the IP or IP range in CIDR format. Only IPv4 or IPv6 address is allowed. */
   iPAddressOrRange: string;
   /** The action of IP ACL rule. */
   action?: "Allow";
@@ -458,6 +462,16 @@ export interface RoutingPreference {
   publishMicrosoftEndpoints?: boolean;
   /** A boolean flag which indicates whether internet routing storage endpoints are to be published */
   publishInternetEndpoints?: boolean;
+}
+
+/** Dual-stack endpoint preference defines the type of network, either dualstack/ipv4/ipv6 endpoints are going to be published. */
+export interface DualStackEndpointPreference {
+  /** A boolean flag which indicates whether dual-stack storage endpoints are to be published. */
+  defaultDualStackEndpoints?: boolean;
+  /** A boolean flag which indicates whether IPv4 storage endpoints are to be published. */
+  publishIpv4Endpoint?: boolean;
+  /** A boolean flag which indicates whether IPv6 storage endpoints are to be published. */
+  publishIpv6Endpoint?: boolean;
 }
 
 /** This property enables and defines account-level immutability. Enabling the feature auto-enables Blob Versioning. */
@@ -514,6 +528,10 @@ export interface Endpoints {
   microsoftEndpoints?: StorageAccountMicrosoftEndpoints;
   /** Gets the internet routing storage endpoints */
   internetEndpoints?: StorageAccountInternetEndpoints;
+  /** Gets the ipv4 storage endpoints. */
+  ipv4Endpoints?: StorageAccountIpv4Endpoints;
+  /** Gets the ipv6 storage endpoints. */
+  ipv6Endpoints?: StorageAccountIpv6Endpoints;
 }
 
 /** The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via a microsoft routing endpoint. */
@@ -572,6 +590,82 @@ export interface StorageAccountInternetEndpoints {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dfs?: string;
+}
+
+/** The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via an IPv4 endpoint. */
+export interface StorageAccountIpv4Endpoints {
+  /**
+   * Gets the blob endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly blob?: string;
+  /**
+   * Gets the queue endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queue?: string;
+  /**
+   * Gets the table endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly table?: string;
+  /**
+   * Gets the file endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly file?: string;
+  /**
+   * Gets the web endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly web?: string;
+  /**
+   * Gets the dfs endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dfs?: string;
+  /** Gets the microsoft routing storage endpoints. */
+  microsoftEndpoints?: StorageAccountMicrosoftEndpoints;
+  /** Gets the internet routing storage endpoints */
+  internetEndpoints?: StorageAccountInternetEndpoints;
+}
+
+/** The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via an IPv6 endpoint. */
+export interface StorageAccountIpv6Endpoints {
+  /**
+   * Gets the blob endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly blob?: string;
+  /**
+   * Gets the queue endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queue?: string;
+  /**
+   * Gets the table endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly table?: string;
+  /**
+   * Gets the file endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly file?: string;
+  /**
+   * Gets the web endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly web?: string;
+  /**
+   * Gets the dfs endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dfs?: string;
+  /** Gets the microsoft routing storage endpoints. */
+  microsoftEndpoints?: StorageAccountMicrosoftEndpoints;
+  /** Gets the internet routing storage endpoints */
+  internetEndpoints?: StorageAccountInternetEndpoints;
 }
 
 /** Storage account keys creation time. */
@@ -732,6 +826,8 @@ export interface StorageAccountUpdateParameters {
   largeFileSharesState?: LargeFileSharesState;
   /** Maintains information about the network routing choice opted by the user for data transfer */
   routingPreference?: RoutingPreference;
+  /** Maintains information about the Internet protocol opted by the user. */
+  dualStackEndpointPreference?: DualStackEndpointPreference;
   /** Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is true for this property. */
   allowBlobPublicAccess?: boolean;
   /** Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. */
@@ -2047,6 +2143,8 @@ export interface StorageAccount extends TrackedResource {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Maintains information about the network routing choice opted by the user for data transfer */
   routingPreference?: RoutingPreference;
+  /** Maintains information about the Internet protocol opted by the user. */
+  dualStackEndpointPreference?: DualStackEndpointPreference;
   /**
    * Blob restore status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3979,14 +4077,7 @@ export type EncryptionScopesListResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
-  maxpagesize?: number;
-  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
-  include?: ListEncryptionScopesInclude;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
@@ -4137,14 +4228,7 @@ export interface BlobContainersObjectLevelWormOptionalParams
 
 /** Optional parameters. */
 export interface BlobContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional. When specified, only container names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional. Specified maximum number of containers that can be included in the list. */
-  maxpagesize?: string;
-  /** Optional, used to include the properties for soft deleted blob containers. */
-  include?: ListContainersInclude;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BlobContainersListNextResponse = ListContainerItems;
@@ -4241,14 +4325,7 @@ export type FileSharesLeaseResponse = FileSharesLeaseHeaders &
 
 /** Optional parameters. */
 export interface FileSharesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional. When specified, only share names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional. Specified maximum number of shares that can be included in the list. */
-  maxpagesize?: string;
-  /** Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ',' */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FileSharesListNextResponse = FileShareItems;
@@ -4311,12 +4388,7 @@ export type QueueListResponse = ListQueueResource;
 
 /** Optional parameters. */
 export interface QueueListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, When specified, only the queues with a name starting with the given filter will be listed. */
-  filter?: string;
-  /** Optional, a maximum number of queues that should be included in a list queue response */
-  maxpagesize?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QueueListNextResponse = ListQueueResource;

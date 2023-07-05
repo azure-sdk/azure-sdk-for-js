@@ -562,6 +562,13 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
           className: "RoutingPreference"
         }
       },
+      dualStackEndpointPreference: {
+        serializedName: "properties.dualStackEndpointPreference",
+        type: {
+          name: "Composite",
+          className: "DualStackEndpointPreference"
+        }
+      },
       allowBlobPublicAccess: {
         serializedName: "properties.allowBlobPublicAccess",
         type: {
@@ -1009,6 +1016,18 @@ export const NetworkRuleSet: coreClient.CompositeMapper = {
           }
         }
       },
+      ipv6Rules: {
+        serializedName: "ipv6Rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPRule"
+            }
+          }
+        }
+      },
       defaultAction: {
         defaultValue: "Allow",
         serializedName: "defaultAction",
@@ -1212,6 +1231,33 @@ export const RoutingPreference: coreClient.CompositeMapper = {
   }
 };
 
+export const DualStackEndpointPreference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DualStackEndpointPreference",
+    modelProperties: {
+      defaultDualStackEndpoints: {
+        serializedName: "defaultDualStackEndpoints",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publishIpv4Endpoint: {
+        serializedName: "publishIpv4Endpoint",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publishIpv6Endpoint: {
+        serializedName: "publishIpv6Endpoint",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ImmutableStorageAccount: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1325,6 +1371,20 @@ export const Endpoints: coreClient.CompositeMapper = {
           name: "Composite",
           className: "StorageAccountInternetEndpoints"
         }
+      },
+      ipv4Endpoints: {
+        serializedName: "ipv4Endpoints",
+        type: {
+          name: "Composite",
+          className: "StorageAccountIpv4Endpoints"
+        }
+      },
+      ipv6Endpoints: {
+        serializedName: "ipv6Endpoints",
+        type: {
+          name: "Composite",
+          className: "StorageAccountIpv6Endpoints"
+        }
       }
     }
   }
@@ -1412,6 +1472,136 @@ export const StorageAccountInternetEndpoints: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageAccountIpv4Endpoints: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAccountIpv4Endpoints",
+    modelProperties: {
+      blob: {
+        serializedName: "blob",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      queue: {
+        serializedName: "queue",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      table: {
+        serializedName: "table",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      file: {
+        serializedName: "file",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      web: {
+        serializedName: "web",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      dfs: {
+        serializedName: "dfs",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      microsoftEndpoints: {
+        serializedName: "microsoftEndpoints",
+        type: {
+          name: "Composite",
+          className: "StorageAccountMicrosoftEndpoints"
+        }
+      },
+      internetEndpoints: {
+        serializedName: "internetEndpoints",
+        type: {
+          name: "Composite",
+          className: "StorageAccountInternetEndpoints"
+        }
+      }
+    }
+  }
+};
+
+export const StorageAccountIpv6Endpoints: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAccountIpv6Endpoints",
+    modelProperties: {
+      blob: {
+        serializedName: "blob",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      queue: {
+        serializedName: "queue",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      table: {
+        serializedName: "table",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      file: {
+        serializedName: "file",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      web: {
+        serializedName: "web",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      dfs: {
+        serializedName: "dfs",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      microsoftEndpoints: {
+        serializedName: "microsoftEndpoints",
+        type: {
+          name: "Composite",
+          className: "StorageAccountMicrosoftEndpoints"
+        }
+      },
+      internetEndpoints: {
+        serializedName: "internetEndpoints",
+        type: {
+          name: "Composite",
+          className: "StorageAccountInternetEndpoints"
         }
       }
     }
@@ -1777,6 +1967,13 @@ export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RoutingPreference"
+        }
+      },
+      dualStackEndpointPreference: {
+        serializedName: "properties.dualStackEndpointPreference",
+        type: {
+          name: "Composite",
+          className: "DualStackEndpointPreference"
         }
       },
       allowBlobPublicAccess: {
@@ -5142,6 +5339,13 @@ export const StorageAccount: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RoutingPreference"
+        }
+      },
+      dualStackEndpointPreference: {
+        serializedName: "properties.dualStackEndpointPreference",
+        type: {
+          name: "Composite",
+          className: "DualStackEndpointPreference"
         }
       },
       blobRestoreStatus: {

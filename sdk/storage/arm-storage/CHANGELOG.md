@@ -1,15 +1,34 @@
 # Release History
+    
+## 19.0.0 (2023-07-05)
+    
+**Features**
 
-## 18.1.1 (Unreleased)
+  - Added Interface DualStackEndpointPreference
+  - Added Interface StorageAccountIpv4Endpoints
+  - Added Interface StorageAccountIpv6Endpoints
+  - Interface Endpoints has a new optional parameter ipv4Endpoints
+  - Interface Endpoints has a new optional parameter ipv6Endpoints
+  - Interface NetworkRuleSet has a new optional parameter ipv6Rules
+  - Interface StorageAccount has a new optional parameter dualStackEndpointPreference
+  - Interface StorageAccountCreateParameters has a new optional parameter dualStackEndpointPreference
+  - Interface StorageAccountUpdateParameters has a new optional parameter dualStackEndpointPreference
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface BlobContainersListNextOptionalParams no longer has parameter filter
+  - Interface BlobContainersListNextOptionalParams no longer has parameter include
+  - Interface BlobContainersListNextOptionalParams no longer has parameter maxpagesize
+  - Interface EncryptionScopesListNextOptionalParams no longer has parameter filter
+  - Interface EncryptionScopesListNextOptionalParams no longer has parameter include
+  - Interface EncryptionScopesListNextOptionalParams no longer has parameter maxpagesize
+  - Interface FileSharesListNextOptionalParams no longer has parameter expand
+  - Interface FileSharesListNextOptionalParams no longer has parameter filter
+  - Interface FileSharesListNextOptionalParams no longer has parameter maxpagesize
+  - Interface QueueListNextOptionalParams no longer has parameter filter
+  - Interface QueueListNextOptionalParams no longer has parameter maxpagesize
+    
+    
 ## 18.1.0 (2022-11-24)
     
 **Features**
