@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { NetworkDevices } from "../operationsInterfaces";
+import { NetworkTapRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,43 +20,40 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  NetworkDevice,
-  NetworkDevicesListByResourceGroupNextOptionalParams,
-  NetworkDevicesListByResourceGroupOptionalParams,
-  NetworkDevicesListByResourceGroupResponse,
-  NetworkDevicesListBySubscriptionNextOptionalParams,
-  NetworkDevicesListBySubscriptionOptionalParams,
-  NetworkDevicesListBySubscriptionResponse,
-  NetworkDevicesCreateOptionalParams,
-  NetworkDevicesCreateResponse,
-  NetworkDevicesGetOptionalParams,
-  NetworkDevicesGetResponse,
-  NetworkDevicePatchParameters,
-  NetworkDevicesUpdateOptionalParams,
-  NetworkDevicesUpdateResponse,
-  NetworkDevicesDeleteOptionalParams,
-  RebootProperties,
-  NetworkDevicesRebootOptionalParams,
-  NetworkDevicesRebootResponse,
-  NetworkDevicesRefreshConfigurationOptionalParams,
-  NetworkDevicesRefreshConfigurationResponse,
-  UpdateDeviceAdministrativeState,
-  NetworkDevicesUpdateAdministrativeStateOptionalParams,
-  NetworkDevicesUpdateAdministrativeStateResponse,
-  UpdateVersion,
-  NetworkDevicesUpgradeOptionalParams,
-  NetworkDevicesUpgradeResponse,
-  NetworkDevicesListByResourceGroupNextResponse,
-  NetworkDevicesListBySubscriptionNextResponse
+  NetworkTapRule,
+  NetworkTapRulesListByResourceGroupNextOptionalParams,
+  NetworkTapRulesListByResourceGroupOptionalParams,
+  NetworkTapRulesListByResourceGroupResponse,
+  NetworkTapRulesListBySubscriptionNextOptionalParams,
+  NetworkTapRulesListBySubscriptionOptionalParams,
+  NetworkTapRulesListBySubscriptionResponse,
+  NetworkTapRulesCreateOptionalParams,
+  NetworkTapRulesCreateResponse,
+  NetworkTapRulesGetOptionalParams,
+  NetworkTapRulesGetResponse,
+  NetworkTapRulePatch,
+  NetworkTapRulesUpdateOptionalParams,
+  NetworkTapRulesUpdateResponse,
+  NetworkTapRulesDeleteOptionalParams,
+  NetworkTapRulesDeleteResponse,
+  UpdateAdministrativeState,
+  NetworkTapRulesUpdateAdministrativeStateOptionalParams,
+  NetworkTapRulesUpdateAdministrativeStateResponse,
+  NetworkTapRulesResyncOptionalParams,
+  NetworkTapRulesResyncResponse,
+  NetworkTapRulesValidateConfigurationOptionalParams,
+  NetworkTapRulesValidateConfigurationResponse,
+  NetworkTapRulesListByResourceGroupNextResponse,
+  NetworkTapRulesListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing NetworkDevices operations. */
-export class NetworkDevicesImpl implements NetworkDevices {
+/** Class containing NetworkTapRules operations. */
+export class NetworkTapRulesImpl implements NetworkTapRules {
   private readonly client: AzureNetworkFabricManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class NetworkDevices class.
+   * Initialize a new instance of the class NetworkTapRules class.
    * @param client Reference to the service client
    */
   constructor(client: AzureNetworkFabricManagementServiceAPI) {
@@ -64,14 +61,14 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * List all the Network Device resources in a given resource group.
+   * List all the Network Tap Rule resources in the given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkDevicesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<NetworkDevice> {
+    options?: NetworkTapRulesListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<NetworkTapRule> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -95,10 +92,10 @@ export class NetworkDevicesImpl implements NetworkDevices {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: NetworkDevicesListByResourceGroupOptionalParams,
+    options?: NetworkTapRulesListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<NetworkDevice[]> {
-    let result: NetworkDevicesListByResourceGroupResponse;
+  ): AsyncIterableIterator<NetworkTapRule[]> {
+    let result: NetworkTapRulesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -122,8 +119,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkDevicesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<NetworkDevice> {
+    options?: NetworkTapRulesListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<NetworkTapRule> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -133,12 +130,12 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * List all the Network Device resources in a given subscription.
+   * List all the Network Tap Rule resources in the given subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkDevicesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<NetworkDevice> {
+    options?: NetworkTapRulesListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<NetworkTapRule> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -157,10 +154,10 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: NetworkDevicesListBySubscriptionOptionalParams,
+    options?: NetworkTapRulesListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<NetworkDevice[]> {
-    let result: NetworkDevicesListBySubscriptionResponse;
+  ): AsyncIterableIterator<NetworkTapRule[]> {
+    let result: NetworkTapRulesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -179,35 +176,35 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkDevicesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<NetworkDevice> {
+    options?: NetworkTapRulesListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<NetworkTapRule> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Create a Network Device resource
+   * Create Network Tap Rule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
-    networkDeviceName: string,
-    body: NetworkDevice,
-    options?: NetworkDevicesCreateOptionalParams
+    networkTapRuleName: string,
+    body: NetworkTapRule,
+    options?: NetworkTapRulesCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkDevicesCreateResponse>,
-      NetworkDevicesCreateResponse
+      OperationState<NetworkTapRulesCreateResponse>,
+      NetworkTapRulesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NetworkDevicesCreateResponse> => {
+    ): Promise<NetworkTapRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -245,12 +242,12 @@ export class NetworkDevicesImpl implements NetworkDevices {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkDeviceName, body, options },
+      args: { resourceGroupName, networkTapRuleName, body, options },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      NetworkDevicesCreateResponse,
-      OperationState<NetworkDevicesCreateResponse>
+      NetworkTapRulesCreateResponse,
+      OperationState<NetworkTapRulesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -261,21 +258,21 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Create a Network Device resource
+   * Create Network Tap Rule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
-    networkDeviceName: string,
-    body: NetworkDevice,
-    options?: NetworkDevicesCreateOptionalParams
-  ): Promise<NetworkDevicesCreateResponse> {
+    networkTapRuleName: string,
+    body: NetworkTapRule,
+    options?: NetworkTapRulesCreateOptionalParams
+  ): Promise<NetworkTapRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
-      networkDeviceName,
+      networkTapRuleName,
       body,
       options
     );
@@ -283,44 +280,44 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Gets the Network Device resource details.
+   * Get Network Tap Rule resource details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGetOptionalParams
-  ): Promise<NetworkDevicesGetResponse> {
+    networkTapRuleName: string,
+    options?: NetworkTapRulesGetOptionalParams
+  ): Promise<NetworkTapRulesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkDeviceName, options },
+      { resourceGroupName, networkTapRuleName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update certain properties of the Network Device resource.
+   * Update certain properties of the Network Tap Rule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
-   * @param body Network Device properties to update.
+   * @param networkTapRuleName Name of the Network Tap Rule.
+   * @param body Network Tap Rule properties to update.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    networkDeviceName: string,
-    body: NetworkDevicePatchParameters,
-    options?: NetworkDevicesUpdateOptionalParams
+    networkTapRuleName: string,
+    body: NetworkTapRulePatch,
+    options?: NetworkTapRulesUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkDevicesUpdateResponse>,
-      NetworkDevicesUpdateResponse
+      OperationState<NetworkTapRulesUpdateResponse>,
+      NetworkTapRulesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NetworkDevicesUpdateResponse> => {
+    ): Promise<NetworkTapRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -358,12 +355,12 @@ export class NetworkDevicesImpl implements NetworkDevices {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkDeviceName, body, options },
+      args: { resourceGroupName, networkTapRuleName, body, options },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      NetworkDevicesUpdateResponse,
-      OperationState<NetworkDevicesUpdateResponse>
+      NetworkTapRulesUpdateResponse,
+      OperationState<NetworkTapRulesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -374,21 +371,21 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Update certain properties of the Network Device resource.
+   * Update certain properties of the Network Tap Rule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
-   * @param body Network Device properties to update.
+   * @param networkTapRuleName Name of the Network Tap Rule.
+   * @param body Network Tap Rule properties to update.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    networkDeviceName: string,
-    body: NetworkDevicePatchParameters,
-    options?: NetworkDevicesUpdateOptionalParams
-  ): Promise<NetworkDevicesUpdateResponse> {
+    networkTapRuleName: string,
+    body: NetworkTapRulePatch,
+    options?: NetworkTapRulesUpdateOptionalParams
+  ): Promise<NetworkTapRulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      networkDeviceName,
+      networkTapRuleName,
       body,
       options
     );
@@ -396,20 +393,25 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Delete the Network Device resource.
+   * Delete Network Tap Rule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    networkTapRuleName: string,
+    options?: NetworkTapRulesDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkTapRulesDeleteResponse>,
+      NetworkTapRulesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<NetworkTapRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -447,10 +449,13 @@ export class NetworkDevicesImpl implements NetworkDevices {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkDeviceName, options },
+      args: { resourceGroupName, networkTapRuleName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      NetworkTapRulesDeleteResponse,
+      OperationState<NetworkTapRulesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -460,33 +465,33 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Delete the Network Device resource.
+   * Delete Network Tap Rule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesDeleteOptionalParams
-  ): Promise<void> {
+    networkTapRuleName: string,
+    options?: NetworkTapRulesDeleteOptionalParams
+  ): Promise<NetworkTapRulesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      networkDeviceName,
+      networkTapRuleName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List all the Network Device resources in a given resource group.
+   * List all the Network Tap Rule resources in the given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkDevicesListByResourceGroupOptionalParams
-  ): Promise<NetworkDevicesListByResourceGroupResponse> {
+    options?: NetworkTapRulesListByResourceGroupOptionalParams
+  ): Promise<NetworkTapRulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -494,12 +499,12 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * List all the Network Device resources in a given subscription.
+   * List all the Network Tap Rule resources in the given subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkDevicesListBySubscriptionOptionalParams
-  ): Promise<NetworkDevicesListBySubscriptionResponse> {
+    options?: NetworkTapRulesListBySubscriptionOptionalParams
+  ): Promise<NetworkTapRulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -507,214 +512,27 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Reboot the Network Device.
+   * Implements the operation to the underlying resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginReboot(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    body: RebootProperties,
-    options?: NetworkDevicesRebootOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkDevicesRebootResponse>,
-      NetworkDevicesRebootResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkDevicesRebootResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, networkDeviceName, body, options },
-      spec: rebootOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkDevicesRebootResponse,
-      OperationState<NetworkDevicesRebootResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Reboot the Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginRebootAndWait(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    body: RebootProperties,
-    options?: NetworkDevicesRebootOptionalParams
-  ): Promise<NetworkDevicesRebootResponse> {
-    const poller = await this.beginReboot(
-      resourceGroupName,
-      networkDeviceName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Refreshes the configuration the Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
-   * @param options The options parameters.
-   */
-  async beginRefreshConfiguration(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesRefreshConfigurationOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkDevicesRefreshConfigurationResponse>,
-      NetworkDevicesRefreshConfigurationResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkDevicesRefreshConfigurationResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, networkDeviceName, options },
-      spec: refreshConfigurationOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkDevicesRefreshConfigurationResponse,
-      OperationState<NetworkDevicesRefreshConfigurationResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Refreshes the configuration the Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
-   * @param options The options parameters.
-   */
-  async beginRefreshConfigurationAndWait(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesRefreshConfigurationOptionalParams
-  ): Promise<NetworkDevicesRefreshConfigurationResponse> {
-    const poller = await this.beginRefreshConfiguration(
-      resourceGroupName,
-      networkDeviceName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Updates the Administrative state of the Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginUpdateAdministrativeState(
     resourceGroupName: string,
-    networkDeviceName: string,
-    body: UpdateDeviceAdministrativeState,
-    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams
+    networkTapRuleName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkDevicesUpdateAdministrativeStateResponse>,
-      NetworkDevicesUpdateAdministrativeStateResponse
+      OperationState<NetworkTapRulesUpdateAdministrativeStateResponse>,
+      NetworkTapRulesUpdateAdministrativeStateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NetworkDevicesUpdateAdministrativeStateResponse> => {
+    ): Promise<NetworkTapRulesUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -752,12 +570,12 @@ export class NetworkDevicesImpl implements NetworkDevices {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkDeviceName, body, options },
+      args: { resourceGroupName, networkTapRuleName, body, options },
       spec: updateAdministrativeStateOperationSpec
     });
     const poller = await createHttpPoller<
-      NetworkDevicesUpdateAdministrativeStateResponse,
-      OperationState<NetworkDevicesUpdateAdministrativeStateResponse>
+      NetworkTapRulesUpdateAdministrativeStateResponse,
+      OperationState<NetworkTapRulesUpdateAdministrativeStateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -768,21 +586,21 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Updates the Administrative state of the Network Device.
+   * Implements the operation to the underlying resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginUpdateAdministrativeStateAndWait(
     resourceGroupName: string,
-    networkDeviceName: string,
-    body: UpdateDeviceAdministrativeState,
-    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams
-  ): Promise<NetworkDevicesUpdateAdministrativeStateResponse> {
+    networkTapRuleName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams
+  ): Promise<NetworkTapRulesUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
-      networkDeviceName,
+      networkTapRuleName,
       body,
       options
     );
@@ -790,27 +608,25 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Upgrades the version of the Network Device.
+   * Implements the operation to the underlying resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
-   * @param body Request payload.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param options The options parameters.
    */
-  async beginUpgrade(
+  async beginResync(
     resourceGroupName: string,
-    networkDeviceName: string,
-    body: UpdateVersion,
-    options?: NetworkDevicesUpgradeOptionalParams
+    networkTapRuleName: string,
+    options?: NetworkTapRulesResyncOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkDevicesUpgradeResponse>,
-      NetworkDevicesUpgradeResponse
+      OperationState<NetworkTapRulesResyncResponse>,
+      NetworkTapRulesResyncResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NetworkDevicesUpgradeResponse> => {
+    ): Promise<NetworkTapRulesResyncResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -848,12 +664,12 @@ export class NetworkDevicesImpl implements NetworkDevices {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkDeviceName, body, options },
-      spec: upgradeOperationSpec
+      args: { resourceGroupName, networkTapRuleName, options },
+      spec: resyncOperationSpec
     });
     const poller = await createHttpPoller<
-      NetworkDevicesUpgradeResponse,
-      OperationState<NetworkDevicesUpgradeResponse>
+      NetworkTapRulesResyncResponse,
+      OperationState<NetworkTapRulesResyncResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -864,22 +680,110 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   /**
-   * Upgrades the version of the Network Device.
+   * Implements the operation to the underlying resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device.
-   * @param body Request payload.
+   * @param networkTapRuleName Name of the Network Tap Rule.
    * @param options The options parameters.
    */
-  async beginUpgradeAndWait(
+  async beginResyncAndWait(
     resourceGroupName: string,
-    networkDeviceName: string,
-    body: UpdateVersion,
-    options?: NetworkDevicesUpgradeOptionalParams
-  ): Promise<NetworkDevicesUpgradeResponse> {
-    const poller = await this.beginUpgrade(
+    networkTapRuleName: string,
+    options?: NetworkTapRulesResyncOptionalParams
+  ): Promise<NetworkTapRulesResyncResponse> {
+    const poller = await this.beginResync(
       resourceGroupName,
-      networkDeviceName,
-      body,
+      networkTapRuleName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkTapRuleName Name of the Network Tap Rule.
+   * @param options The options parameters.
+   */
+  async beginValidateConfiguration(
+    resourceGroupName: string,
+    networkTapRuleName: string,
+    options?: NetworkTapRulesValidateConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkTapRulesValidateConfigurationResponse>,
+      NetworkTapRulesValidateConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkTapRulesValidateConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkTapRuleName, options },
+      spec: validateConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkTapRulesValidateConfigurationResponse,
+      OperationState<NetworkTapRulesValidateConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkTapRuleName Name of the Network Tap Rule.
+   * @param options The options parameters.
+   */
+  async beginValidateConfigurationAndWait(
+    resourceGroupName: string,
+    networkTapRuleName: string,
+    options?: NetworkTapRulesValidateConfigurationOptionalParams
+  ): Promise<NetworkTapRulesValidateConfigurationResponse> {
+    const poller = await this.beginValidateConfiguration(
+      resourceGroupName,
+      networkTapRuleName,
       options
     );
     return poller.pollUntilDone();
@@ -894,8 +798,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkDevicesListByResourceGroupNextOptionalParams
-  ): Promise<NetworkDevicesListByResourceGroupNextResponse> {
+    options?: NetworkTapRulesListByResourceGroupNextOptionalParams
+  ): Promise<NetworkTapRulesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -909,8 +813,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkDevicesListBySubscriptionNextOptionalParams
-  ): Promise<NetworkDevicesListBySubscriptionNextResponse> {
+    options?: NetworkTapRulesListBySubscriptionNextOptionalParams
+  ): Promise<NetworkTapRulesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -922,32 +826,32 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     201: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     202: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     204: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body23,
+  requestBody: Parameters.body41,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkTapRuleName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -955,11 +859,11 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -970,39 +874,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkTapRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     201: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     202: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     204: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkTapRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body24,
+  requestBody: Parameters.body42,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkTapRuleName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -1010,13 +914,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.NetworkTapRulesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.NetworkTapRulesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.NetworkTapRulesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.NetworkTapRulesDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1026,18 +938,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkTapRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevicesListResult
+      bodyMapper: Mappers.NetworkTapRulesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1054,11 +966,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkDevices",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTapRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevicesListResult
+      bodyMapper: Mappers.NetworkTapRulesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1069,9 +981,9 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const rebootOperationSpec: coreClient.OperationSpec = {
+const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/reboot",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
@@ -1090,21 +1002,21 @@ const rebootOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body25,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkTapRuleName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const refreshConfigurationOperationSpec: coreClient.OperationSpec = {
+const resyncOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/refreshConfiguration",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/resync",
   httpMethod: "POST",
   responses: {
     200: {
@@ -1128,75 +1040,40 @@ const refreshConfigurationOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkTapRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+const validateConfigurationOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/updateAdministrativeState",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/validateConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkTapRuleName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const upgradeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/upgrade",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body27,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkDeviceName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
@@ -1204,7 +1081,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevicesListResult
+      bodyMapper: Mappers.NetworkTapRulesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1224,7 +1101,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevicesListResult
+      bodyMapper: Mappers.NetworkTapRulesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

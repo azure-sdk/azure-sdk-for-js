@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { IpExtendedCommunities } from "../operationsInterfaces";
+import { InternetGateways } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,33 +20,32 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  IpExtendedCommunity,
-  IpExtendedCommunitiesListByResourceGroupNextOptionalParams,
-  IpExtendedCommunitiesListByResourceGroupOptionalParams,
-  IpExtendedCommunitiesListByResourceGroupResponse,
-  IpExtendedCommunitiesListBySubscriptionNextOptionalParams,
-  IpExtendedCommunitiesListBySubscriptionOptionalParams,
-  IpExtendedCommunitiesListBySubscriptionResponse,
-  IpExtendedCommunitiesCreateOptionalParams,
-  IpExtendedCommunitiesCreateResponse,
-  IpExtendedCommunitiesGetOptionalParams,
-  IpExtendedCommunitiesGetResponse,
-  IpExtendedCommunityPatch,
-  IpExtendedCommunitiesUpdateOptionalParams,
-  IpExtendedCommunitiesUpdateResponse,
-  IpExtendedCommunitiesDeleteOptionalParams,
-  IpExtendedCommunitiesDeleteResponse,
-  IpExtendedCommunitiesListByResourceGroupNextResponse,
-  IpExtendedCommunitiesListBySubscriptionNextResponse
+  InternetGateway,
+  InternetGatewaysListByResourceGroupNextOptionalParams,
+  InternetGatewaysListByResourceGroupOptionalParams,
+  InternetGatewaysListByResourceGroupResponse,
+  InternetGatewaysListBySubscriptionNextOptionalParams,
+  InternetGatewaysListBySubscriptionOptionalParams,
+  InternetGatewaysListBySubscriptionResponse,
+  InternetGatewaysCreateOptionalParams,
+  InternetGatewaysCreateResponse,
+  InternetGatewaysGetOptionalParams,
+  InternetGatewaysGetResponse,
+  InternetGatewayPatch,
+  InternetGatewaysUpdateOptionalParams,
+  InternetGatewaysUpdateResponse,
+  InternetGatewaysDeleteOptionalParams,
+  InternetGatewaysListByResourceGroupNextResponse,
+  InternetGatewaysListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing IpExtendedCommunities operations. */
-export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
+/** Class containing InternetGateways operations. */
+export class InternetGatewaysImpl implements InternetGateways {
   private readonly client: AzureNetworkFabricManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class IpExtendedCommunities class.
+   * Initialize a new instance of the class InternetGateways class.
    * @param client Reference to the service client
    */
   constructor(client: AzureNetworkFabricManagementServiceAPI) {
@@ -54,14 +53,14 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by resource group GET method.
+   * Displays Internet Gateways list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<IpExtendedCommunity> {
+    options?: InternetGatewaysListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<InternetGateway> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -85,10 +84,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
+    options?: InternetGatewaysListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<IpExtendedCommunity[]> {
-    let result: IpExtendedCommunitiesListByResourceGroupResponse;
+  ): AsyncIterableIterator<InternetGateway[]> {
+    let result: InternetGatewaysListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -112,8 +111,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<IpExtendedCommunity> {
+    options?: InternetGatewaysListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<InternetGateway> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -123,12 +122,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by subscription GET method.
+   * Displays Internet Gateways list by subscription GET method.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<IpExtendedCommunity> {
+    options?: InternetGatewaysListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<InternetGateway> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -147,10 +146,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams,
+    options?: InternetGatewaysListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<IpExtendedCommunity[]> {
-    let result: IpExtendedCommunitiesListBySubscriptionResponse;
+  ): AsyncIterableIterator<InternetGateway[]> {
+    let result: InternetGatewaysListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -169,35 +168,35 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<IpExtendedCommunity> {
+    options?: InternetGatewaysListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<InternetGateway> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Implements IP Extended Community PUT method.
+   * Creates a Network Fabric Service Internet Gateway resource instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param internetGatewayName Name of the Internet Gateway.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
+    internetGatewayName: string,
+    body: InternetGateway,
+    options?: InternetGatewaysCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<IpExtendedCommunitiesCreateResponse>,
-      IpExtendedCommunitiesCreateResponse
+      OperationState<InternetGatewaysCreateResponse>,
+      InternetGatewaysCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesCreateResponse> => {
+    ): Promise<InternetGatewaysCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -235,12 +234,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, body, options },
+      args: { resourceGroupName, internetGatewayName, body, options },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      IpExtendedCommunitiesCreateResponse,
-      OperationState<IpExtendedCommunitiesCreateResponse>
+      InternetGatewaysCreateResponse,
+      OperationState<InternetGatewaysCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -251,21 +250,21 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community PUT method.
+   * Creates a Network Fabric Service Internet Gateway resource instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param internetGatewayName Name of the Internet Gateway.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
-  ): Promise<IpExtendedCommunitiesCreateResponse> {
+    internetGatewayName: string,
+    body: InternetGateway,
+    options?: InternetGatewaysCreateOptionalParams
+  ): Promise<InternetGatewaysCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
-      ipExtendedCommunityName,
+      internetGatewayName,
       body,
       options
     );
@@ -273,44 +272,44 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community GET method.
+   * Implements Gateway GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param internetGatewayName Name of the Internet Gateway.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesGetOptionalParams
-  ): Promise<IpExtendedCommunitiesGetResponse> {
+    internetGatewayName: string,
+    options?: InternetGatewaysGetOptionalParams
+  ): Promise<InternetGatewaysGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ipExtendedCommunityName, options },
+      { resourceGroupName, internetGatewayName, options },
       getOperationSpec
     );
   }
 
   /**
-   * API to update certain properties of the IP Extended Community resource.
+   * Execute patch on Network Fabric Service Internet Gateway.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
-   * @param body IP Extended Community properties to update.
+   * @param internetGatewayName Name of the Internet Gateway.
+   * @param body API to update certain properties of the L2 Isolation Domain resource..
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
+    internetGatewayName: string,
+    body: InternetGatewayPatch,
+    options?: InternetGatewaysUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<IpExtendedCommunitiesUpdateResponse>,
-      IpExtendedCommunitiesUpdateResponse
+      OperationState<InternetGatewaysUpdateResponse>,
+      InternetGatewaysUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesUpdateResponse> => {
+    ): Promise<InternetGatewaysUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -348,12 +347,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, body, options },
+      args: { resourceGroupName, internetGatewayName, body, options },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      IpExtendedCommunitiesUpdateResponse,
-      OperationState<IpExtendedCommunitiesUpdateResponse>
+      InternetGatewaysUpdateResponse,
+      OperationState<InternetGatewaysUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -364,21 +363,21 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * API to update certain properties of the IP Extended Community resource.
+   * Execute patch on Network Fabric Service Internet Gateway.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
-   * @param body IP Extended Community properties to update.
+   * @param internetGatewayName Name of the Internet Gateway.
+   * @param body API to update certain properties of the L2 Isolation Domain resource..
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
-  ): Promise<IpExtendedCommunitiesUpdateResponse> {
+    internetGatewayName: string,
+    body: InternetGatewayPatch,
+    options?: InternetGatewaysUpdateOptionalParams
+  ): Promise<InternetGatewaysUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      ipExtendedCommunityName,
+      internetGatewayName,
       body,
       options
     );
@@ -386,25 +385,20 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community DELETE method.
+   * Execute a delete on Network Fabric Service Internet Gateway.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param internetGatewayName Name of the Internet Gateway.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<IpExtendedCommunitiesDeleteResponse>,
-      IpExtendedCommunitiesDeleteResponse
-    >
-  > {
+    internetGatewayName: string,
+    options?: InternetGatewaysDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -442,13 +436,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, options },
+      args: { resourceGroupName, internetGatewayName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      IpExtendedCommunitiesDeleteResponse,
-      OperationState<IpExtendedCommunitiesDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -458,33 +449,33 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community DELETE method.
+   * Execute a delete on Network Fabric Service Internet Gateway.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param internetGatewayName Name of the Internet Gateway.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<IpExtendedCommunitiesDeleteResponse> {
+    internetGatewayName: string,
+    options?: InternetGatewaysDeleteOptionalParams
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      ipExtendedCommunityName,
+      internetGatewayName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Implements IpExtendedCommunities list by resource group GET method.
+   * Displays Internet Gateways list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): Promise<IpExtendedCommunitiesListByResourceGroupResponse> {
+    options?: InternetGatewaysListByResourceGroupOptionalParams
+  ): Promise<InternetGatewaysListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -492,12 +483,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by subscription GET method.
+   * Displays Internet Gateways list by subscription GET method.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): Promise<IpExtendedCommunitiesListBySubscriptionResponse> {
+    options?: InternetGatewaysListBySubscriptionOptionalParams
+  ): Promise<InternetGatewaysListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -513,8 +504,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IpExtendedCommunitiesListByResourceGroupNextOptionalParams
-  ): Promise<IpExtendedCommunitiesListByResourceGroupNextResponse> {
+    options?: InternetGatewaysListByResourceGroupNextOptionalParams
+  ): Promise<InternetGatewaysListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -528,8 +519,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: IpExtendedCommunitiesListBySubscriptionNextOptionalParams
-  ): Promise<IpExtendedCommunitiesListBySubscriptionNextResponse> {
+    options?: InternetGatewaysListBySubscriptionNextOptionalParams
+  ): Promise<InternetGatewaysListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -541,32 +532,32 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGateways/{internetGatewayName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     201: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     202: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     204: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.internetGatewayName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -574,11 +565,11 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGateways/{internetGatewayName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -589,39 +580,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.internetGatewayName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGateways/{internetGatewayName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     201: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     202: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     204: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.InternetGateway
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.internetGatewayName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -629,21 +620,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGateways/{internetGatewayName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -653,18 +636,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.internetGatewayName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGateways",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.InternetGatewaysListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -681,11 +664,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/internetGateways",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.InternetGatewaysListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -701,7 +684,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.InternetGatewaysListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -721,7 +704,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.InternetGatewaysListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

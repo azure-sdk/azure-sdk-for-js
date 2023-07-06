@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { IpExtendedCommunities } from "../operationsInterfaces";
+import { NetworkPacketBrokers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,33 +20,32 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  IpExtendedCommunity,
-  IpExtendedCommunitiesListByResourceGroupNextOptionalParams,
-  IpExtendedCommunitiesListByResourceGroupOptionalParams,
-  IpExtendedCommunitiesListByResourceGroupResponse,
-  IpExtendedCommunitiesListBySubscriptionNextOptionalParams,
-  IpExtendedCommunitiesListBySubscriptionOptionalParams,
-  IpExtendedCommunitiesListBySubscriptionResponse,
-  IpExtendedCommunitiesCreateOptionalParams,
-  IpExtendedCommunitiesCreateResponse,
-  IpExtendedCommunitiesGetOptionalParams,
-  IpExtendedCommunitiesGetResponse,
-  IpExtendedCommunityPatch,
-  IpExtendedCommunitiesUpdateOptionalParams,
-  IpExtendedCommunitiesUpdateResponse,
-  IpExtendedCommunitiesDeleteOptionalParams,
-  IpExtendedCommunitiesDeleteResponse,
-  IpExtendedCommunitiesListByResourceGroupNextResponse,
-  IpExtendedCommunitiesListBySubscriptionNextResponse
+  NetworkPacketBroker,
+  NetworkPacketBrokersListByResourceGroupNextOptionalParams,
+  NetworkPacketBrokersListByResourceGroupOptionalParams,
+  NetworkPacketBrokersListByResourceGroupResponse,
+  NetworkPacketBrokersListBySubscriptionNextOptionalParams,
+  NetworkPacketBrokersListBySubscriptionOptionalParams,
+  NetworkPacketBrokersListBySubscriptionResponse,
+  NetworkPacketBrokersCreateOptionalParams,
+  NetworkPacketBrokersCreateResponse,
+  NetworkPacketBrokersGetOptionalParams,
+  NetworkPacketBrokersGetResponse,
+  NetworkPacketBrokerPatch,
+  NetworkPacketBrokersUpdateOptionalParams,
+  NetworkPacketBrokersUpdateResponse,
+  NetworkPacketBrokersDeleteOptionalParams,
+  NetworkPacketBrokersListByResourceGroupNextResponse,
+  NetworkPacketBrokersListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing IpExtendedCommunities operations. */
-export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
+/** Class containing NetworkPacketBrokers operations. */
+export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
   private readonly client: AzureNetworkFabricManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class IpExtendedCommunities class.
+   * Initialize a new instance of the class NetworkPacketBrokers class.
    * @param client Reference to the service client
    */
   constructor(client: AzureNetworkFabricManagementServiceAPI) {
@@ -54,14 +53,14 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by resource group GET method.
+   * Displays NetworkPacketBrokers list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<IpExtendedCommunity> {
+    options?: NetworkPacketBrokersListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<NetworkPacketBroker> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -85,10 +84,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
+    options?: NetworkPacketBrokersListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<IpExtendedCommunity[]> {
-    let result: IpExtendedCommunitiesListByResourceGroupResponse;
+  ): AsyncIterableIterator<NetworkPacketBroker[]> {
+    let result: NetworkPacketBrokersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -112,8 +111,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<IpExtendedCommunity> {
+    options?: NetworkPacketBrokersListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<NetworkPacketBroker> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -123,12 +122,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by subscription GET method.
+   * Displays Network Packet Brokers list by subscription GET method.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<IpExtendedCommunity> {
+    options?: NetworkPacketBrokersListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<NetworkPacketBroker> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -147,10 +146,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams,
+    options?: NetworkPacketBrokersListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<IpExtendedCommunity[]> {
-    let result: IpExtendedCommunitiesListBySubscriptionResponse;
+  ): AsyncIterableIterator<NetworkPacketBroker[]> {
+    let result: NetworkPacketBrokersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -169,35 +168,35 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<IpExtendedCommunity> {
+    options?: NetworkPacketBrokersListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<NetworkPacketBroker> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Implements IP Extended Community PUT method.
+   * Creates a Network Packet Broker.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkPacketBrokerName Name of the Network Packet Broker.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
+    networkPacketBrokerName: string,
+    body: NetworkPacketBroker,
+    options?: NetworkPacketBrokersCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<IpExtendedCommunitiesCreateResponse>,
-      IpExtendedCommunitiesCreateResponse
+      OperationState<NetworkPacketBrokersCreateResponse>,
+      NetworkPacketBrokersCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesCreateResponse> => {
+    ): Promise<NetworkPacketBrokersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -235,12 +234,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, body, options },
+      args: { resourceGroupName, networkPacketBrokerName, body, options },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      IpExtendedCommunitiesCreateResponse,
-      OperationState<IpExtendedCommunitiesCreateResponse>
+      NetworkPacketBrokersCreateResponse,
+      OperationState<NetworkPacketBrokersCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -251,21 +250,21 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community PUT method.
+   * Creates a Network Packet Broker.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkPacketBrokerName Name of the Network Packet Broker.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
-  ): Promise<IpExtendedCommunitiesCreateResponse> {
+    networkPacketBrokerName: string,
+    body: NetworkPacketBroker,
+    options?: NetworkPacketBrokersCreateOptionalParams
+  ): Promise<NetworkPacketBrokersCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
-      ipExtendedCommunityName,
+      networkPacketBrokerName,
       body,
       options
     );
@@ -273,44 +272,44 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community GET method.
+   * Retrieves details of this Network Packet Broker.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkPacketBrokerName Name of the Network Packet Broker.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesGetOptionalParams
-  ): Promise<IpExtendedCommunitiesGetResponse> {
+    networkPacketBrokerName: string,
+    options?: NetworkPacketBrokersGetOptionalParams
+  ): Promise<NetworkPacketBrokersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ipExtendedCommunityName, options },
+      { resourceGroupName, networkPacketBrokerName, options },
       getOperationSpec
     );
   }
 
   /**
-   * API to update certain properties of the IP Extended Community resource.
+   * API to update certain properties of the Network Packet Broker resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
-   * @param body IP Extended Community properties to update.
+   * @param networkPacketBrokerName Name of the Network Packet Broker.
+   * @param body Network Packet Broker properties to update.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
+    networkPacketBrokerName: string,
+    body: NetworkPacketBrokerPatch,
+    options?: NetworkPacketBrokersUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<IpExtendedCommunitiesUpdateResponse>,
-      IpExtendedCommunitiesUpdateResponse
+      OperationState<NetworkPacketBrokersUpdateResponse>,
+      NetworkPacketBrokersUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesUpdateResponse> => {
+    ): Promise<NetworkPacketBrokersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -348,12 +347,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, body, options },
+      args: { resourceGroupName, networkPacketBrokerName, body, options },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      IpExtendedCommunitiesUpdateResponse,
-      OperationState<IpExtendedCommunitiesUpdateResponse>
+      NetworkPacketBrokersUpdateResponse,
+      OperationState<NetworkPacketBrokersUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -364,21 +363,21 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * API to update certain properties of the IP Extended Community resource.
+   * API to update certain properties of the Network Packet Broker resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
-   * @param body IP Extended Community properties to update.
+   * @param networkPacketBrokerName Name of the Network Packet Broker.
+   * @param body Network Packet Broker properties to update.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
-  ): Promise<IpExtendedCommunitiesUpdateResponse> {
+    networkPacketBrokerName: string,
+    body: NetworkPacketBrokerPatch,
+    options?: NetworkPacketBrokersUpdateOptionalParams
+  ): Promise<NetworkPacketBrokersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      ipExtendedCommunityName,
+      networkPacketBrokerName,
       body,
       options
     );
@@ -386,25 +385,20 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community DELETE method.
+   * Deletes Network Packet Broker.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkPacketBrokerName Name of the Network Packet Broker.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<IpExtendedCommunitiesDeleteResponse>,
-      IpExtendedCommunitiesDeleteResponse
-    >
-  > {
+    networkPacketBrokerName: string,
+    options?: NetworkPacketBrokersDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -442,13 +436,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, options },
+      args: { resourceGroupName, networkPacketBrokerName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      IpExtendedCommunitiesDeleteResponse,
-      OperationState<IpExtendedCommunitiesDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -458,33 +449,33 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community DELETE method.
+   * Deletes Network Packet Broker.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkPacketBrokerName Name of the Network Packet Broker.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<IpExtendedCommunitiesDeleteResponse> {
+    networkPacketBrokerName: string,
+    options?: NetworkPacketBrokersDeleteOptionalParams
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      ipExtendedCommunityName,
+      networkPacketBrokerName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Implements IpExtendedCommunities list by resource group GET method.
+   * Displays NetworkPacketBrokers list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): Promise<IpExtendedCommunitiesListByResourceGroupResponse> {
+    options?: NetworkPacketBrokersListByResourceGroupOptionalParams
+  ): Promise<NetworkPacketBrokersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -492,12 +483,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by subscription GET method.
+   * Displays Network Packet Brokers list by subscription GET method.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): Promise<IpExtendedCommunitiesListBySubscriptionResponse> {
+    options?: NetworkPacketBrokersListBySubscriptionOptionalParams
+  ): Promise<NetworkPacketBrokersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -513,8 +504,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IpExtendedCommunitiesListByResourceGroupNextOptionalParams
-  ): Promise<IpExtendedCommunitiesListByResourceGroupNextResponse> {
+    options?: NetworkPacketBrokersListByResourceGroupNextOptionalParams
+  ): Promise<NetworkPacketBrokersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -528,8 +519,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: IpExtendedCommunitiesListBySubscriptionNextOptionalParams
-  ): Promise<IpExtendedCommunitiesListBySubscriptionNextResponse> {
+    options?: NetworkPacketBrokersListBySubscriptionNextOptionalParams
+  ): Promise<NetworkPacketBrokersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -541,32 +532,32 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     201: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     202: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     204: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body37,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.networkPacketBrokerName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -574,11 +565,11 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -589,39 +580,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.networkPacketBrokerName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     201: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     202: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     204: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkPacketBroker
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body38,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.networkPacketBrokerName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -629,21 +620,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -653,18 +636,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.networkPacketBrokerName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.NetworkPacketBrokersListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -681,11 +664,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.NetworkPacketBrokersListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -701,7 +684,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.NetworkPacketBrokersListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -721,7 +704,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.NetworkPacketBrokersListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

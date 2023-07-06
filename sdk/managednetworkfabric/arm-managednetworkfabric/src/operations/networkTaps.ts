@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { IpExtendedCommunities } from "../operationsInterfaces";
+import { NetworkTaps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,33 +20,37 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  IpExtendedCommunity,
-  IpExtendedCommunitiesListByResourceGroupNextOptionalParams,
-  IpExtendedCommunitiesListByResourceGroupOptionalParams,
-  IpExtendedCommunitiesListByResourceGroupResponse,
-  IpExtendedCommunitiesListBySubscriptionNextOptionalParams,
-  IpExtendedCommunitiesListBySubscriptionOptionalParams,
-  IpExtendedCommunitiesListBySubscriptionResponse,
-  IpExtendedCommunitiesCreateOptionalParams,
-  IpExtendedCommunitiesCreateResponse,
-  IpExtendedCommunitiesGetOptionalParams,
-  IpExtendedCommunitiesGetResponse,
-  IpExtendedCommunityPatch,
-  IpExtendedCommunitiesUpdateOptionalParams,
-  IpExtendedCommunitiesUpdateResponse,
-  IpExtendedCommunitiesDeleteOptionalParams,
-  IpExtendedCommunitiesDeleteResponse,
-  IpExtendedCommunitiesListByResourceGroupNextResponse,
-  IpExtendedCommunitiesListBySubscriptionNextResponse
+  NetworkTap,
+  NetworkTapsListByResourceGroupNextOptionalParams,
+  NetworkTapsListByResourceGroupOptionalParams,
+  NetworkTapsListByResourceGroupResponse,
+  NetworkTapsListBySubscriptionNextOptionalParams,
+  NetworkTapsListBySubscriptionOptionalParams,
+  NetworkTapsListBySubscriptionResponse,
+  NetworkTapsCreateOptionalParams,
+  NetworkTapsCreateResponse,
+  NetworkTapsGetOptionalParams,
+  NetworkTapsGetResponse,
+  NetworkTapPatch,
+  NetworkTapsUpdateOptionalParams,
+  NetworkTapsUpdateResponse,
+  NetworkTapsDeleteOptionalParams,
+  UpdateAdministrativeState,
+  NetworkTapsUpdateAdministrativeStateOptionalParams,
+  NetworkTapsUpdateAdministrativeStateResponse,
+  NetworkTapsResyncOptionalParams,
+  NetworkTapsResyncResponse,
+  NetworkTapsListByResourceGroupNextResponse,
+  NetworkTapsListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing IpExtendedCommunities operations. */
-export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
+/** Class containing NetworkTaps operations. */
+export class NetworkTapsImpl implements NetworkTaps {
   private readonly client: AzureNetworkFabricManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class IpExtendedCommunities class.
+   * Initialize a new instance of the class NetworkTaps class.
    * @param client Reference to the service client
    */
   constructor(client: AzureNetworkFabricManagementServiceAPI) {
@@ -54,14 +58,14 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by resource group GET method.
+   * Displays Network Taps list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<IpExtendedCommunity> {
+    options?: NetworkTapsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<NetworkTap> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -85,10 +89,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
+    options?: NetworkTapsListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<IpExtendedCommunity[]> {
-    let result: IpExtendedCommunitiesListByResourceGroupResponse;
+  ): AsyncIterableIterator<NetworkTap[]> {
+    let result: NetworkTapsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -112,8 +116,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<IpExtendedCommunity> {
+    options?: NetworkTapsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<NetworkTap> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -123,12 +127,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by subscription GET method.
+   * Displays Network Taps list by subscription GET method.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<IpExtendedCommunity> {
+    options?: NetworkTapsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<NetworkTap> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -147,10 +151,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams,
+    options?: NetworkTapsListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<IpExtendedCommunity[]> {
-    let result: IpExtendedCommunitiesListBySubscriptionResponse;
+  ): AsyncIterableIterator<NetworkTap[]> {
+    let result: NetworkTapsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -169,35 +173,35 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<IpExtendedCommunity> {
+    options?: NetworkTapsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<NetworkTap> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Implements IP Extended Community PUT method.
+   * Creates a Network Tap.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkTapName Name of the Network Tap.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
+    networkTapName: string,
+    body: NetworkTap,
+    options?: NetworkTapsCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<IpExtendedCommunitiesCreateResponse>,
-      IpExtendedCommunitiesCreateResponse
+      OperationState<NetworkTapsCreateResponse>,
+      NetworkTapsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesCreateResponse> => {
+    ): Promise<NetworkTapsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -235,12 +239,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, body, options },
+      args: { resourceGroupName, networkTapName, body, options },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      IpExtendedCommunitiesCreateResponse,
-      OperationState<IpExtendedCommunitiesCreateResponse>
+      NetworkTapsCreateResponse,
+      OperationState<NetworkTapsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -251,21 +255,21 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community PUT method.
+   * Creates a Network Tap.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkTapName Name of the Network Tap.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
-  ): Promise<IpExtendedCommunitiesCreateResponse> {
+    networkTapName: string,
+    body: NetworkTap,
+    options?: NetworkTapsCreateOptionalParams
+  ): Promise<NetworkTapsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
-      ipExtendedCommunityName,
+      networkTapName,
       body,
       options
     );
@@ -273,44 +277,44 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community GET method.
+   * Retrieves details of this Network Tap.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkTapName Name of the Network Tap.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesGetOptionalParams
-  ): Promise<IpExtendedCommunitiesGetResponse> {
+    networkTapName: string,
+    options?: NetworkTapsGetOptionalParams
+  ): Promise<NetworkTapsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, ipExtendedCommunityName, options },
+      { resourceGroupName, networkTapName, options },
       getOperationSpec
     );
   }
 
   /**
-   * API to update certain properties of the IP Extended Community resource.
+   * API to update certain properties of the Network Tap resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
-   * @param body IP Extended Community properties to update.
+   * @param networkTapName Name of the Network Tap.
+   * @param body Network Tap properties to update.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
+    networkTapName: string,
+    body: NetworkTapPatch,
+    options?: NetworkTapsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<IpExtendedCommunitiesUpdateResponse>,
-      IpExtendedCommunitiesUpdateResponse
+      OperationState<NetworkTapsUpdateResponse>,
+      NetworkTapsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesUpdateResponse> => {
+    ): Promise<NetworkTapsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -348,12 +352,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, body, options },
+      args: { resourceGroupName, networkTapName, body, options },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      IpExtendedCommunitiesUpdateResponse,
-      OperationState<IpExtendedCommunitiesUpdateResponse>
+      NetworkTapsUpdateResponse,
+      OperationState<NetworkTapsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -364,21 +368,21 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * API to update certain properties of the IP Extended Community resource.
+   * API to update certain properties of the Network Tap resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
-   * @param body IP Extended Community properties to update.
+   * @param networkTapName Name of the Network Tap.
+   * @param body Network Tap properties to update.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
-  ): Promise<IpExtendedCommunitiesUpdateResponse> {
+    networkTapName: string,
+    body: NetworkTapPatch,
+    options?: NetworkTapsUpdateOptionalParams
+  ): Promise<NetworkTapsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      ipExtendedCommunityName,
+      networkTapName,
       body,
       options
     );
@@ -386,25 +390,20 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community DELETE method.
+   * Deletes Network Tap.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkTapName Name of the Network Tap.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<IpExtendedCommunitiesDeleteResponse>,
-      IpExtendedCommunitiesDeleteResponse
-    >
-  > {
+    networkTapName: string,
+    options?: NetworkTapsDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<IpExtendedCommunitiesDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -442,13 +441,10 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, ipExtendedCommunityName, options },
+      args: { resourceGroupName, networkTapName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      IpExtendedCommunitiesDeleteResponse,
-      OperationState<IpExtendedCommunitiesDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -458,33 +454,33 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IP Extended Community DELETE method.
+   * Deletes Network Tap.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community.
+   * @param networkTapName Name of the Network Tap.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<IpExtendedCommunitiesDeleteResponse> {
+    networkTapName: string,
+    options?: NetworkTapsDeleteOptionalParams
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      ipExtendedCommunityName,
+      networkTapName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Implements IpExtendedCommunities list by resource group GET method.
+   * Displays Network Taps list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
-  ): Promise<IpExtendedCommunitiesListByResourceGroupResponse> {
+    options?: NetworkTapsListByResourceGroupOptionalParams
+  ): Promise<NetworkTapsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -492,16 +488,203 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   /**
-   * Implements IpExtendedCommunities list by subscription GET method.
+   * Displays Network Taps list by subscription GET method.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
-  ): Promise<IpExtendedCommunitiesListBySubscriptionResponse> {
+    options?: NetworkTapsListBySubscriptionOptionalParams
+  ): Promise<NetworkTapsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
     );
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkTapName Name of the Network Tap.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeState(
+    resourceGroupName: string,
+    networkTapName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkTapsUpdateAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkTapsUpdateAdministrativeStateResponse>,
+      NetworkTapsUpdateAdministrativeStateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkTapsUpdateAdministrativeStateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkTapName, body, options },
+      spec: updateAdministrativeStateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkTapsUpdateAdministrativeStateResponse,
+      OperationState<NetworkTapsUpdateAdministrativeStateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkTapName Name of the Network Tap.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAdministrativeStateAndWait(
+    resourceGroupName: string,
+    networkTapName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkTapsUpdateAdministrativeStateOptionalParams
+  ): Promise<NetworkTapsUpdateAdministrativeStateResponse> {
+    const poller = await this.beginUpdateAdministrativeState(
+      resourceGroupName,
+      networkTapName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkTapName Name of the Network Tap.
+   * @param options The options parameters.
+   */
+  async beginResync(
+    resourceGroupName: string,
+    networkTapName: string,
+    options?: NetworkTapsResyncOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkTapsResyncResponse>,
+      NetworkTapsResyncResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<NetworkTapsResyncResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkTapName, options },
+      spec: resyncOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkTapsResyncResponse,
+      OperationState<NetworkTapsResyncResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkTapName Name of the Network Tap.
+   * @param options The options parameters.
+   */
+  async beginResyncAndWait(
+    resourceGroupName: string,
+    networkTapName: string,
+    options?: NetworkTapsResyncOptionalParams
+  ): Promise<NetworkTapsResyncResponse> {
+    const poller = await this.beginResync(
+      resourceGroupName,
+      networkTapName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -513,8 +696,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IpExtendedCommunitiesListByResourceGroupNextOptionalParams
-  ): Promise<IpExtendedCommunitiesListByResourceGroupNextResponse> {
+    options?: NetworkTapsListByResourceGroupNextOptionalParams
+  ): Promise<NetworkTapsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -528,8 +711,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: IpExtendedCommunitiesListBySubscriptionNextOptionalParams
-  ): Promise<IpExtendedCommunitiesListBySubscriptionNextResponse> {
+    options?: NetworkTapsListBySubscriptionNextOptionalParams
+  ): Promise<NetworkTapsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -541,32 +724,32 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     201: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     202: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     204: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body43,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.networkTapName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -574,11 +757,11 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -589,39 +772,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.networkTapName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     201: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     202: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     204: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.NetworkTap
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body44,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.networkTapName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -629,21 +812,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -653,18 +828,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.networkTapName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.NetworkTapsListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -681,11 +856,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTaps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.NetworkTapsListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -696,12 +871,76 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}/updateAdministrativeState",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkTapName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const resyncOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}/resync",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkTapName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.NetworkTapsListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -721,7 +960,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.NetworkTapsListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
