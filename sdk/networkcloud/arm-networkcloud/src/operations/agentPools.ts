@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Consoles } from "../operationsInterfaces";
+import { AgentPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,27 +20,27 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Console,
-  ConsolesListByVirtualMachineNextOptionalParams,
-  ConsolesListByVirtualMachineOptionalParams,
-  ConsolesListByVirtualMachineResponse,
-  ConsolesGetOptionalParams,
-  ConsolesGetResponse,
-  ConsolesCreateOrUpdateOptionalParams,
-  ConsolesCreateOrUpdateResponse,
-  ConsolesDeleteOptionalParams,
-  ConsolesUpdateOptionalParams,
-  ConsolesUpdateResponse,
-  ConsolesListByVirtualMachineNextResponse
+  AgentPool,
+  AgentPoolsListByKubernetesClusterNextOptionalParams,
+  AgentPoolsListByKubernetesClusterOptionalParams,
+  AgentPoolsListByKubernetesClusterResponse,
+  AgentPoolsGetOptionalParams,
+  AgentPoolsGetResponse,
+  AgentPoolsCreateOrUpdateOptionalParams,
+  AgentPoolsCreateOrUpdateResponse,
+  AgentPoolsDeleteOptionalParams,
+  AgentPoolsUpdateOptionalParams,
+  AgentPoolsUpdateResponse,
+  AgentPoolsListByKubernetesClusterNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Consoles operations. */
-export class ConsolesImpl implements Consoles {
+/** Class containing AgentPools operations. */
+export class AgentPoolsImpl implements AgentPools {
   private readonly client: NetworkCloud;
 
   /**
-   * Initialize a new instance of the class Consoles class.
+   * Initialize a new instance of the class AgentPools class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkCloud) {
@@ -48,19 +48,19 @@ export class ConsolesImpl implements Consoles {
   }
 
   /**
-   * Get a list of consoles for the provided virtual machine.
+   * Get a list of agent pools for the provided Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
-  public listByVirtualMachine(
+  public listByKubernetesCluster(
     resourceGroupName: string,
-    virtualMachineName: string,
-    options?: ConsolesListByVirtualMachineOptionalParams
-  ): PagedAsyncIterableIterator<Console> {
-    const iter = this.listByVirtualMachinePagingAll(
+    kubernetesClusterName: string,
+    options?: AgentPoolsListByKubernetesClusterOptionalParams
+  ): PagedAsyncIterableIterator<AgentPool> {
+    const iter = this.listByKubernetesClusterPagingAll(
       resourceGroupName,
-      virtualMachineName,
+      kubernetesClusterName,
       options
     );
     return {
@@ -74,9 +74,9 @@ export class ConsolesImpl implements Consoles {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByVirtualMachinePagingPage(
+        return this.listByKubernetesClusterPagingPage(
           resourceGroupName,
-          virtualMachineName,
+          kubernetesClusterName,
           options,
           settings
         );
@@ -84,18 +84,18 @@ export class ConsolesImpl implements Consoles {
     };
   }
 
-  private async *listByVirtualMachinePagingPage(
+  private async *listByKubernetesClusterPagingPage(
     resourceGroupName: string,
-    virtualMachineName: string,
-    options?: ConsolesListByVirtualMachineOptionalParams,
+    kubernetesClusterName: string,
+    options?: AgentPoolsListByKubernetesClusterOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Console[]> {
-    let result: ConsolesListByVirtualMachineResponse;
+  ): AsyncIterableIterator<AgentPool[]> {
+    let result: AgentPoolsListByKubernetesClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByVirtualMachine(
+      result = await this._listByKubernetesCluster(
         resourceGroupName,
-        virtualMachineName,
+        kubernetesClusterName,
         options
       );
       let page = result.value || [];
@@ -104,9 +104,9 @@ export class ConsolesImpl implements Consoles {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByVirtualMachineNext(
+      result = await this._listByKubernetesClusterNext(
         resourceGroupName,
-        virtualMachineName,
+        kubernetesClusterName,
         continuationToken,
         options
       );
@@ -117,14 +117,14 @@ export class ConsolesImpl implements Consoles {
     }
   }
 
-  private async *listByVirtualMachinePagingAll(
+  private async *listByKubernetesClusterPagingAll(
     resourceGroupName: string,
-    virtualMachineName: string,
-    options?: ConsolesListByVirtualMachineOptionalParams
-  ): AsyncIterableIterator<Console> {
-    for await (const page of this.listByVirtualMachinePagingPage(
+    kubernetesClusterName: string,
+    options?: AgentPoolsListByKubernetesClusterOptionalParams
+  ): AsyncIterableIterator<AgentPool> {
+    for await (const page of this.listByKubernetesClusterPagingPage(
       resourceGroupName,
-      virtualMachineName,
+      kubernetesClusterName,
       options
     )) {
       yield* page;
@@ -132,66 +132,65 @@ export class ConsolesImpl implements Consoles {
   }
 
   /**
-   * Get a list of consoles for the provided virtual machine.
+   * Get a list of agent pools for the provided Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
-  private _listByVirtualMachine(
+  private _listByKubernetesCluster(
     resourceGroupName: string,
-    virtualMachineName: string,
-    options?: ConsolesListByVirtualMachineOptionalParams
-  ): Promise<ConsolesListByVirtualMachineResponse> {
+    kubernetesClusterName: string,
+    options?: AgentPoolsListByKubernetesClusterOptionalParams
+  ): Promise<AgentPoolsListByKubernetesClusterResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, virtualMachineName, options },
-      listByVirtualMachineOperationSpec
+      { resourceGroupName, kubernetesClusterName, options },
+      listByKubernetesClusterOperationSpec
     );
   }
 
   /**
-   * Get properties of the provided virtual machine console.
+   * Get properties of the provided Kubernetes cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param consoleName The name of the virtual machine console.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param agentPoolName The name of the Kubernetes cluster agent pool.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    virtualMachineName: string,
-    consoleName: string,
-    options?: ConsolesGetOptionalParams
-  ): Promise<ConsolesGetResponse> {
+    kubernetesClusterName: string,
+    agentPoolName: string,
+    options?: AgentPoolsGetOptionalParams
+  ): Promise<AgentPoolsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, virtualMachineName, consoleName, options },
+      { resourceGroupName, kubernetesClusterName, agentPoolName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a new virtual machine console or update the properties of the existing virtual machine
-   * console.
+   * Create a new Kubernetes cluster agent pool or update the properties of the existing one.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param consoleName The name of the virtual machine console.
-   * @param consoleParameters The request body.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param agentPoolName The name of the Kubernetes cluster agent pool.
+   * @param agentPoolParameters The request body.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    virtualMachineName: string,
-    consoleName: string,
-    consoleParameters: Console,
-    options?: ConsolesCreateOrUpdateOptionalParams
+    kubernetesClusterName: string,
+    agentPoolName: string,
+    agentPoolParameters: AgentPool,
+    options?: AgentPoolsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ConsolesCreateOrUpdateResponse>,
-      ConsolesCreateOrUpdateResponse
+      OperationState<AgentPoolsCreateOrUpdateResponse>,
+      AgentPoolsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ConsolesCreateOrUpdateResponse> => {
+    ): Promise<AgentPoolsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -231,16 +230,16 @@ export class ConsolesImpl implements Consoles {
       sendOperationFn,
       args: {
         resourceGroupName,
-        virtualMachineName,
-        consoleName,
-        consoleParameters,
+        kubernetesClusterName,
+        agentPoolName,
+        agentPoolParameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ConsolesCreateOrUpdateResponse,
-      OperationState<ConsolesCreateOrUpdateResponse>
+      AgentPoolsCreateOrUpdateResponse,
+      OperationState<AgentPoolsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -251,43 +250,42 @@ export class ConsolesImpl implements Consoles {
   }
 
   /**
-   * Create a new virtual machine console or update the properties of the existing virtual machine
-   * console.
+   * Create a new Kubernetes cluster agent pool or update the properties of the existing one.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param consoleName The name of the virtual machine console.
-   * @param consoleParameters The request body.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param agentPoolName The name of the Kubernetes cluster agent pool.
+   * @param agentPoolParameters The request body.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    virtualMachineName: string,
-    consoleName: string,
-    consoleParameters: Console,
-    options?: ConsolesCreateOrUpdateOptionalParams
-  ): Promise<ConsolesCreateOrUpdateResponse> {
+    kubernetesClusterName: string,
+    agentPoolName: string,
+    agentPoolParameters: AgentPool,
+    options?: AgentPoolsCreateOrUpdateOptionalParams
+  ): Promise<AgentPoolsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      virtualMachineName,
-      consoleName,
-      consoleParameters,
+      kubernetesClusterName,
+      agentPoolName,
+      agentPoolParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete the provided virtual machine console.
+   * Delete the provided Kubernetes cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param consoleName The name of the virtual machine console.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param agentPoolName The name of the Kubernetes cluster agent pool.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    virtualMachineName: string,
-    consoleName: string,
-    options?: ConsolesDeleteOptionalParams
+    kubernetesClusterName: string,
+    agentPoolName: string,
+    options?: AgentPoolsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -330,7 +328,12 @@ export class ConsolesImpl implements Consoles {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, virtualMachineName, consoleName, options },
+      args: {
+        resourceGroupName,
+        kubernetesClusterName,
+        agentPoolName,
+        options
+      },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -343,50 +346,50 @@ export class ConsolesImpl implements Consoles {
   }
 
   /**
-   * Delete the provided virtual machine console.
+   * Delete the provided Kubernetes cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param consoleName The name of the virtual machine console.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param agentPoolName The name of the Kubernetes cluster agent pool.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    virtualMachineName: string,
-    consoleName: string,
-    options?: ConsolesDeleteOptionalParams
+    kubernetesClusterName: string,
+    agentPoolName: string,
+    options?: AgentPoolsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      virtualMachineName,
-      consoleName,
+      kubernetesClusterName,
+      agentPoolName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Patch the properties of the provided virtual machine console, or update the tags associated with the
-   * virtual machine console. Properties and tag updates can be done independently.
+   * Patch the properties of the provided Kubernetes cluster agent pool, or update the tags associated
+   * with the Kubernetes cluster agent pool. Properties and tag updates can be done independently.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param consoleName The name of the virtual machine console.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param agentPoolName The name of the Kubernetes cluster agent pool.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    virtualMachineName: string,
-    consoleName: string,
-    options?: ConsolesUpdateOptionalParams
+    kubernetesClusterName: string,
+    agentPoolName: string,
+    options?: AgentPoolsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ConsolesUpdateResponse>,
-      ConsolesUpdateResponse
+      OperationState<AgentPoolsUpdateResponse>,
+      AgentPoolsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ConsolesUpdateResponse> => {
+    ): Promise<AgentPoolsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -424,12 +427,17 @@ export class ConsolesImpl implements Consoles {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, virtualMachineName, consoleName, options },
+      args: {
+        resourceGroupName,
+        kubernetesClusterName,
+        agentPoolName,
+        options
+      },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      ConsolesUpdateResponse,
-      OperationState<ConsolesUpdateResponse>
+      AgentPoolsUpdateResponse,
+      OperationState<AgentPoolsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -440,57 +448,58 @@ export class ConsolesImpl implements Consoles {
   }
 
   /**
-   * Patch the properties of the provided virtual machine console, or update the tags associated with the
-   * virtual machine console. Properties and tag updates can be done independently.
+   * Patch the properties of the provided Kubernetes cluster agent pool, or update the tags associated
+   * with the Kubernetes cluster agent pool. Properties and tag updates can be done independently.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param consoleName The name of the virtual machine console.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param agentPoolName The name of the Kubernetes cluster agent pool.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    virtualMachineName: string,
-    consoleName: string,
-    options?: ConsolesUpdateOptionalParams
-  ): Promise<ConsolesUpdateResponse> {
+    kubernetesClusterName: string,
+    agentPoolName: string,
+    options?: AgentPoolsUpdateOptionalParams
+  ): Promise<AgentPoolsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      virtualMachineName,
-      consoleName,
+      kubernetesClusterName,
+      agentPoolName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByVirtualMachineNext
+   * ListByKubernetesClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param nextLink The nextLink from the previous successful call to the ListByVirtualMachine method.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param nextLink The nextLink from the previous successful call to the ListByKubernetesCluster
+   *                 method.
    * @param options The options parameters.
    */
-  private _listByVirtualMachineNext(
+  private _listByKubernetesClusterNext(
     resourceGroupName: string,
-    virtualMachineName: string,
+    kubernetesClusterName: string,
     nextLink: string,
-    options?: ConsolesListByVirtualMachineNextOptionalParams
-  ): Promise<ConsolesListByVirtualMachineNextResponse> {
+    options?: AgentPoolsListByKubernetesClusterNextOptionalParams
+  ): Promise<AgentPoolsListByKubernetesClusterNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, virtualMachineName, nextLink, options },
-      listByVirtualMachineNextOperationSpec
+      { resourceGroupName, kubernetesClusterName, nextLink, options },
+      listByKubernetesClusterNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByVirtualMachineOperationSpec: coreClient.OperationSpec = {
+const listByKubernetesClusterOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/virtualMachines/{virtualMachineName}/consoles",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConsoleList
+      bodyMapper: Mappers.AgentPoolList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -501,18 +510,18 @@ const listByVirtualMachineOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineName
+    Parameters.kubernetesClusterName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/virtualMachines/{virtualMachineName}/consoles/{consoleName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -523,41 +532,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineName,
-    Parameters.consoleName
+    Parameters.kubernetesClusterName,
+    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/virtualMachines/{virtualMachineName}/consoles/{consoleName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     201: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     202: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     204: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.consoleParameters,
+  requestBody: Parameters.agentPoolParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineName,
-    Parameters.consoleName
+    Parameters.kubernetesClusterName,
+    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -565,7 +574,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/virtualMachines/{virtualMachineName}/consoles/{consoleName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -581,52 +590,52 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineName,
-    Parameters.consoleName
+    Parameters.kubernetesClusterName,
+    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/virtualMachines/{virtualMachineName}/consoles/{consoleName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     201: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     202: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     204: {
-      bodyMapper: Mappers.Console
+      bodyMapper: Mappers.AgentPool
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.consoleUpdateParameters,
+  requestBody: Parameters.agentPoolUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineName,
-    Parameters.consoleName
+    Parameters.kubernetesClusterName,
+    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listByVirtualMachineNextOperationSpec: coreClient.OperationSpec = {
+const listByKubernetesClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConsoleList
+      bodyMapper: Mappers.AgentPoolList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -637,7 +646,7 @@ const listByVirtualMachineNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineName
+    Parameters.kubernetesClusterName
   ],
   headerParameters: [Parameters.accept],
   serializer
