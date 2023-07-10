@@ -185,7 +185,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-15-preview";
+    this.apiVersion = options.apiVersion || "2023-08-15-preview";
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
