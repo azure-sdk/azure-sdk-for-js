@@ -80,6 +80,30 @@ export type Architecture = string;
 export type ArchitectureTypes = string;
 
 // @public
+export interface AttachDataDisk {
+    diskId: string;
+    lun?: number;
+}
+
+// @public
+export interface AttachDetachDataDisksRequest {
+    attachDataDisks?: AttachDataDisk[];
+    detachDataDisks?: DetachDataDisk[];
+}
+
+// @public
+export interface AttachDetachDataDisksResponse {
+    attachedDataDisks?: AttachedDataDisk[];
+    detachedDataDisks?: DetachedDataDisk[];
+}
+
+// @public
+export interface AttachedDataDisk {
+    readonly diskId?: string;
+    readonly lun?: number;
+}
+
+// @public
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
@@ -941,19 +965,12 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     eula?: string;
     features?: GalleryImageFeature[];
     hyperVGeneration?: HyperVGeneration;
-    identifier?: CommunityGalleryImageIdentifier;
+    identifier?: GalleryImageIdentifier;
     osState?: OperatingSystemStateTypes;
     osType?: OperatingSystemTypes;
     privacyStatementUri?: string;
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
-}
-
-// @public
-export interface CommunityGalleryImageIdentifier {
-    offer?: string;
-    publisher?: string;
-    sku?: string;
 }
 
 // @public
@@ -1470,6 +1487,17 @@ export interface DedicatedHostUpdate extends UpdateResource {
 
 // @public
 export type DeleteOptions = string;
+
+// @public
+export interface DetachDataDisk {
+    detachOption?: DiskDetachOptionTypes;
+    diskId: string;
+}
+
+// @public
+export interface DetachedDataDisk {
+    readonly diskId?: string;
+}
 
 // @public
 export interface DiagnosticsProfile {
@@ -2079,9 +2107,6 @@ export interface DiskUpdate {
     };
     tier?: string;
 }
-
-// @public
-export type EdgeZoneStorageAccountType = string;
 
 // @public
 export interface Encryption {
@@ -2758,7 +2783,7 @@ export interface GalleryTargetExtendedLocation {
     extendedLocation?: GalleryExtendedLocation;
     extendedLocationReplicaCount?: number;
     name?: string;
-    storageAccountType?: EdgeZoneStorageAccountType;
+    storageAccountType?: StorageAccountType;
 }
 
 // @public
@@ -3220,14 +3245,6 @@ export enum KnownDiskStorageAccountTypes {
 }
 
 // @public
-export enum KnownEdgeZoneStorageAccountType {
-    PremiumLRS = "Premium_LRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardZRS = "Standard_ZRS"
-}
-
-// @public
 export enum KnownEncryptionType {
     EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
     EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
@@ -3587,6 +3604,7 @@ export enum KnownSnapshotStorageAccountTypes {
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -6401,6 +6419,8 @@ export interface VirtualMachineRunCommandUpdate extends UpdateResource {
 export interface VirtualMachines {
     beginAssessPatches(resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAssessPatchesResponse>, VirtualMachinesAssessPatchesResponse>>;
     beginAssessPatchesAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): Promise<VirtualMachinesAssessPatchesResponse>;
+    beginAttachDetachDataDisks(resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAttachDetachDataDisksResponse>, VirtualMachinesAttachDetachDataDisksResponse>>;
+    beginAttachDetachDataDisksAndWait(resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): Promise<VirtualMachinesAttachDetachDataDisksResponse>;
     beginCapture(resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCaptureResponse>, VirtualMachinesCaptureResponse>>;
     beginCaptureAndWait(resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): Promise<VirtualMachinesCaptureResponse>;
     beginConvertToManagedDisks(resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -6450,6 +6470,15 @@ export interface VirtualMachinesAssessPatchesOptionalParams extends coreClient.O
 
 // @public
 export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesResult;
+
+// @public
+export interface VirtualMachinesAttachDetachDataDisksOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachinesAttachDetachDataDisksResponse = AttachDetachDataDisksResponse;
 
 // @public
 export interface VirtualMachineScaleSet extends Resource {
@@ -7437,6 +7466,8 @@ export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineRu
 
 // @public
 export interface VirtualMachineScaleSetVMs {
+    beginAttachDetachDataDisks(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>, VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>>;
+    beginAttachDetachDataDisksAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>;
     beginDeallocate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeallocateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<void>;
     beginDelete(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -7465,6 +7496,15 @@ export interface VirtualMachineScaleSetVMs {
     retrieveBootDiagnosticsData(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
     simulateEviction(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams): Promise<void>;
 }
+
+// @public
+export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineScaleSetVMsAttachDetachDataDisksResponse = AttachDetachDataDisksResponse;
 
 // @public
 export interface VirtualMachineScaleSetVMsDeallocateOptionalParams extends coreClient.OperationOptions {

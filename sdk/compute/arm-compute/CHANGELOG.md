@@ -1,15 +1,32 @@
 # Release History
+    
+## 22.0.0 (2023-07-11)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
+  - Added operation VirtualMachines.beginAttachDetachDataDisks
+  - Added operation VirtualMachines.beginAttachDetachDataDisksAndWait
+  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisks
+  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait
+  - Added Interface AttachDataDisk
+  - Added Interface AttachDetachDataDisksRequest
+  - Added Interface AttachDetachDataDisksResponse
+  - Added Interface AttachedDataDisk
+  - Added Interface DetachDataDisk
+  - Added Interface DetachedDataDisk
+  - Added Interface VirtualMachinesAttachDetachDataDisksOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  - Added Type Alias VirtualMachinesAttachDetachDataDisksResponse
+  - Added Type Alias VirtualMachineScaleSetVMsAttachDetachDataDisksResponse
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from CommunityGalleryImageIdentifier to GalleryImageIdentifier
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Removed Enum KnownEdgeZoneStorageAccountType
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**

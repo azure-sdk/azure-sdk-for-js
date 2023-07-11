@@ -1788,6 +1788,61 @@ export interface RetrieveBootDiagnosticsDataResult {
   readonly serialConsoleLogBlobUri?: string;
 }
 
+/** Specifies the input for attaching and detaching a list of managed data disks. */
+export interface AttachDetachDataDisksRequest {
+  /** The list of managed data disks to be attached. */
+  attachDataDisks?: AttachDataDisk[];
+  /** The list of managed data disks to be detached. */
+  detachDataDisks?: DetachDataDisk[];
+}
+
+/** Describes the data disk to be attached. */
+export interface AttachDataDisk {
+  /** ID of the managed data disk. */
+  diskId: string;
+  /** The logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. If not specified, lun would be auto assigned. */
+  lun?: number;
+}
+
+/** Describes the data disk to be detached. */
+export interface DetachDataDisk {
+  /** ID of the managed data disk. */
+  diskId: string;
+  /** Supported options available for Detach of a disk from a VM. Refer to DetachOption object reference for more details. */
+  detachOption?: DiskDetachOptionTypes;
+}
+
+/** Response for attach and detach data disks request. */
+export interface AttachDetachDataDisksResponse {
+  /** The list of managed data disks that were attached. */
+  attachedDataDisks?: AttachedDataDisk[];
+  /** The list of managed data disks that were detached. */
+  detachedDataDisks?: DetachedDataDisk[];
+}
+
+/** Describes the data disks that were requested to be attached. */
+export interface AttachedDataDisk {
+  /**
+   * ID of the managed data disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskId?: string;
+  /**
+   * Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lun?: number;
+}
+
+/** Describes the data disks that were requested to be detached. */
+export interface DetachedDataDisk {
+  /**
+   * ID of the managed data disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskId?: string;
+}
+
 /** The List Extension operation response */
 export interface VirtualMachineExtensionsListResult {
   /** The list of extensions */
@@ -3712,7 +3767,7 @@ export interface GalleryTargetExtendedLocation {
   /** The number of replicas of the Image Version to be created per extended location. This property is updatable. */
   extendedLocationReplicaCount?: number;
   /** Specifies the storage account type to be used to store the image. This property is not updatable. */
-  storageAccountType?: EdgeZoneStorageAccountType;
+  storageAccountType?: StorageAccountType;
   /** Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact. */
   encryption?: EncryptionImages;
 }
@@ -3980,16 +4035,6 @@ export interface PirCommunityGalleryResource {
   readonly type?: string;
   /** The unique id of this community gallery. */
   uniqueId?: string;
-}
-
-/** This is the community gallery image definition identifier. */
-export interface CommunityGalleryImageIdentifier {
-  /** The name of the gallery image definition publisher. */
-  publisher?: string;
-  /** The name of the gallery image definition offer. */
-  offer?: string;
-  /** The name of the gallery image definition SKU. */
-  sku?: string;
 }
 
 /** The List Community Gallery Images operation response. */
@@ -6523,8 +6568,8 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   osState?: OperatingSystemStateTypes;
   /** The end of life date of the gallery image definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** This is the community gallery image definition identifier. */
-  identifier?: CommunityGalleryImageIdentifier;
+  /** This is the gallery image definition identifier. */
+  identifier?: GalleryImageIdentifier;
   /** The properties describe the recommended machine configuration for this Image Definition. These properties are updatable. */
   recommended?: RecommendedMachineConfiguration;
   /** Describes the disallowed disk types. */
@@ -8828,7 +8873,9 @@ export enum KnownStorageAccountType {
   /** StandardZRS */
   StandardZRS = "Standard_ZRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS"
 }
 
 /**
@@ -8838,7 +8885,8 @@ export enum KnownStorageAccountType {
  * ### Known values supported by the service
  * **Standard_LRS** \
  * **Standard_ZRS** \
- * **Premium_LRS**
+ * **Premium_LRS** \
+ * **StandardSSD_LRS**
  */
 export type StorageAccountType = string;
 
@@ -8898,30 +8946,6 @@ export enum KnownGalleryExtendedLocationType {
  * **Unknown**
  */
 export type GalleryExtendedLocationType = string;
-
-/** Known values of {@link EdgeZoneStorageAccountType} that the service accepts. */
-export enum KnownEdgeZoneStorageAccountType {
-  /** StandardLRS */
-  StandardLRS = "Standard_LRS",
-  /** StandardZRS */
-  StandardZRS = "Standard_ZRS",
-  /** StandardSSDLRS */
-  StandardSSDLRS = "StandardSSD_LRS",
-  /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
-}
-
-/**
- * Defines values for EdgeZoneStorageAccountType. \
- * {@link KnownEdgeZoneStorageAccountType} can be used interchangeably with EdgeZoneStorageAccountType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard_LRS** \
- * **Standard_ZRS** \
- * **StandardSSD_LRS** \
- * **Premium_LRS**
- */
-export type EdgeZoneStorageAccountType = string;
 
 /** Known values of {@link PolicyViolationCategory} that the service accepts. */
 export enum KnownPolicyViolationCategory {
@@ -9783,6 +9807,18 @@ export interface VirtualMachineScaleSetVMsSimulateEvictionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the attachDetachDataDisks operation. */
+export type VirtualMachineScaleSetVMsAttachDetachDataDisksResponse = AttachDetachDataDisksResponse;
+
+/** Optional parameters. */
 export interface VirtualMachineScaleSetVMsRunCommandOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -10086,6 +10122,18 @@ export interface VirtualMachinesInstallPatchesOptionalParams
 
 /** Contains response data for the installPatches operation. */
 export type VirtualMachinesInstallPatchesResponse = VirtualMachineInstallPatchesResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesAttachDetachDataDisksOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the attachDetachDataDisks operation. */
+export type VirtualMachinesAttachDetachDataDisksResponse = AttachDetachDataDisksResponse;
 
 /** Optional parameters. */
 export interface VirtualMachinesRunCommandOptionalParams

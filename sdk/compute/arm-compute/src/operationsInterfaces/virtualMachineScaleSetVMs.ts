@@ -29,6 +29,9 @@ import {
   VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse,
   VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
   VirtualMachineScaleSetVMsSimulateEvictionOptionalParams,
+  AttachDetachDataDisksRequest,
+  VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams,
+  VirtualMachineScaleSetVMsAttachDetachDataDisksResponse,
   RunCommandInput,
   VirtualMachineScaleSetVMsRunCommandOptionalParams,
   VirtualMachineScaleSetVMsRunCommandResponse
@@ -381,6 +384,43 @@ export interface VirtualMachineScaleSetVMs {
     instanceId: string,
     options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams
   ): Promise<void>;
+  /**
+   * Attach and detach data disks to/from a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param parameters Parameters supplied to the attach and detach data disks operation on a Virtual
+   *                   Machine Scale Sets VM.
+   * @param options The options parameters.
+   */
+  beginAttachDetachDataDisks(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    parameters: AttachDetachDataDisksRequest,
+    options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>,
+      VirtualMachineScaleSetVMsAttachDetachDataDisksResponse
+    >
+  >;
+  /**
+   * Attach and detach data disks to/from a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param parameters Parameters supplied to the attach and detach data disks operation on a Virtual
+   *                   Machine Scale Sets VM.
+   * @param options The options parameters.
+   */
+  beginAttachDetachDataDisksAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    parameters: AttachDetachDataDisksRequest,
+    options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  ): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>;
   /**
    * Run command on a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.

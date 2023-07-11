@@ -4970,6 +4970,161 @@ export const RetrieveBootDiagnosticsDataResult: coreClient.CompositeMapper = {
   }
 };
 
+export const AttachDetachDataDisksRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachDetachDataDisksRequest",
+    modelProperties: {
+      attachDataDisks: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "attachDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AttachDataDisk"
+            }
+          }
+        }
+      },
+      detachDataDisks: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "detachDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetachDataDisk"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AttachDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachDataDisk",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lun: {
+        serializedName: "lun",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DetachDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetachDataDisk",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      detachOption: {
+        serializedName: "detachOption",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AttachDetachDataDisksResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachDetachDataDisksResponse",
+    modelProperties: {
+      attachedDataDisks: {
+        serializedName: "attachedDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AttachedDataDisk"
+            }
+          }
+        }
+      },
+      detachedDataDisks: {
+        serializedName: "detachedDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetachedDataDisk"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AttachedDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachedDataDisk",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      lun: {
+        serializedName: "lun",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DetachedDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetachedDataDisk",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineExtensionsListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -10396,33 +10551,6 @@ export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
       },
       uniqueId: {
         serializedName: "identifier.uniqueId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CommunityGalleryImageIdentifier: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunityGalleryImageIdentifier",
-    modelProperties: {
-      publisher: {
-        serializedName: "publisher",
-        type: {
-          name: "String"
-        }
-      },
-      offer: {
-        serializedName: "offer",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
         type: {
           name: "String"
         }
@@ -16733,7 +16861,7 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
         serializedName: "properties.identifier",
         type: {
           name: "Composite",
-          className: "CommunityGalleryImageIdentifier"
+          className: "GalleryImageIdentifier"
         }
       },
       recommended: {
