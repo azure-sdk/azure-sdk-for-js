@@ -66,7 +66,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-redisenterprisecache/2.3.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-redisenterprisecache/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -119,7 +119,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.apiVersion = options.apiVersion || "2023-07-01-preview";
     this.operations = new OperationsImpl(this);
     this.operationsStatus = new OperationsStatusImpl(this);
     this.redisEnterprise = new RedisEnterpriseImpl(this);
