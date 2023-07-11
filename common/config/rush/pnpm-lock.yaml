@@ -4711,7 +4711,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230705
+      typescript: 5.2.0-dev.20230711
     dev: false
 
   /duplexer3/0.1.5:
@@ -10175,8 +10175,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230705:
-    resolution: {integrity: sha512-eMgfQ/e5CgYYSaduGhDc2UiY2EzzgrBMfHyagjUP70jj4VDCmLlIp1EftT5AMiLvNc7PYNCeziRFY5fBZhD9uA==}
+  /typescript/5.2.0-dev.20230711:
+    resolution: {integrity: sha512-Pu1roPsNZOmZvIeoPHiwFqO31X+LQYLXjQgADk/wXu4qZ0/ovCuMVA3+3CYnrvsBecjLU9UN0pC4JFUyvfN6lA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15373,7 +15373,7 @@ packages:
     dev: false
 
   file:projects/arm-paloaltonetworksngfw.tgz:
-    resolution: {integrity: sha512-i49B+CU6GyiWieC4y4L8WjJIIXmjbYXN0oNk4EYPO+ucfMArHJeF+RjOotrmjPf1XN5p6LI8wkS5YS8lb7toFw==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
+    resolution: {integrity: sha512-5bvO6r7LJRaOY6Lx6QbjjRL+wDh3vZQqWQxLi1t4Rj9JYqeeJgACRApyc7Dc0E29447E9Dcw6ztB52nNpjaFaA==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
     name: '@rush-temp/arm-paloaltonetworksngfw'
     version: 0.0.0
     dependencies:
@@ -16261,7 +16261,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-Aud3W52dRSgpgYe3rZRXrbxW8Tvfwu8+Wm4Efi3qUS4W9kgsPaKMU9sEgRRcu6v2KfZ4wnx8b6Sr5XpZIVIS7A==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-+oQ9MXTUDjck4u2f1DPzAUl76/mLQhw6641bOdwOIW/JnQjCCkOdTXCa750GiKOfJGZRRKGNmjyiGrCm04yuPw==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -16275,8 +16275,8 @@ packages:
       '@types/node': 14.18.51
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -20074,7 +20074,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-s3LNI5j0yoVJmnTlFqRuGpcLtvO1URMaTuT4ou+R735ZlIY86hm7hwxOzEjdpeCSoZfVTGa6kAaFEXnvKxUJ/Q==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-P2Kt7ieMv/lI2IQF2IYFl/xUaX++zno8QLczqULMhbQpAQ+0i19LZ+pAZR9tnL3BpMS/dyuz3QxIMekW2cyOUA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
