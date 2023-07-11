@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Locations } from "../operationsInterfaces";
+import { CheckNameAvailability } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
 import {
   CheckNameAvailabilityRequest,
-  LocationsCheckNameAvailabilityOptionalParams,
-  LocationsCheckNameAvailabilityResponse
+  CheckNameAvailabilityCheckNameAvailabilityOptionalParams,
+  CheckNameAvailabilityCheckNameAvailabilityResponse
 } from "../models";
 
-/** Class containing Locations operations. */
-export class LocationsImpl implements Locations {
+/** Class containing CheckNameAvailability operations. */
+export class CheckNameAvailabilityImpl implements CheckNameAvailability {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class Locations class.
+   * Initialize a new instance of the class CheckNameAvailability class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -31,15 +31,15 @@ export class LocationsImpl implements Locations {
 
   /**
    * Checks the name availability of the resource with requested resource name.
-   * @param body NameAvailabilityRequest object.
+   * @param nameAvailabilityRequest NameAvailabilityRequest object.
    * @param options The options parameters.
    */
   checkNameAvailability(
-    body: CheckNameAvailabilityRequest,
-    options?: LocationsCheckNameAvailabilityOptionalParams
-  ): Promise<LocationsCheckNameAvailabilityResponse> {
+    nameAvailabilityRequest: CheckNameAvailabilityRequest,
+    options?: CheckNameAvailabilityCheckNameAvailabilityOptionalParams
+  ): Promise<CheckNameAvailabilityCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { body, options },
+      { nameAvailabilityRequest, options },
       checkNameAvailabilityOperationSpec
     );
   }
@@ -59,10 +59,10 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.nameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
