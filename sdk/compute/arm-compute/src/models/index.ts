@@ -1134,6 +1134,31 @@ export interface VirtualMachineScaleSetExtensionListResult {
   nextLink?: string;
 }
 
+/** The List Extension operation response */
+export interface VirtualMachineApplicationsProxyResourceListResult {
+  /** The list of extensions */
+  value?: VMApplicationProxyResource[];
+}
+
+/** The resource model definition for an Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource {
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
 /** The List Virtual Machine operation response. */
 export interface VirtualMachineScaleSetListWithLinkResult {
   /** The list of virtual machine scale sets. */
@@ -1786,6 +1811,39 @@ export interface RetrieveBootDiagnosticsDataResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serialConsoleLogBlobUri?: string;
+}
+
+export interface VMGalleryApplicationInstanceView {
+  /**
+   * The application name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The application version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * The current status of the application
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly result?: string;
+  /** actions performed on the application */
+  actionsPerformed?: VMGalleryApplicationInstanceViewAction[];
+}
+
+export interface VMGalleryApplicationInstanceViewAction {
+  /**
+   * The action performed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The result of the operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly result?: string;
 }
 
 /** The List Extension operation response */
@@ -2582,25 +2640,6 @@ export interface DiskRestorePointReplicationStatus {
   status?: InstanceViewStatus;
   /** Replication completion percentage. */
   completionPercent?: number;
-}
-
-/** The resource model definition for an Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
 }
 
 /** The List restore point collection operation response. */
@@ -4910,6 +4949,16 @@ export interface DiskRestorePointAttributes extends SubResourceReadOnly {
   sourceDiskRestorePoint?: ApiEntityReference;
 }
 
+/** The entity representing a Gallery Application Version assigned with a VM or VMSS with instance view */
+export interface VMGalleryApplicationWithInstanceView
+  extends VMGalleryApplication {
+  /**
+   * The instance view of Gallery Application Version assigned to the VM or VMSS
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: VMGalleryApplicationInstanceView;
+}
+
 /** Describes a Virtual Machine Extension. */
 export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
@@ -6165,6 +6214,46 @@ export interface VirtualMachineRunCommandUpdate extends UpdateResource {
   treatFailureAsDeploymentFailure?: boolean;
 }
 
+/** The entity representing a Gallery Application Version assigned with a VM or VMSS */
+export interface VMApplicationProxyResource extends ProxyResource {
+  /** The properties of a Gallery Application Version */
+  properties?: VMGalleryApplication;
+}
+
+/** The entity representing a Gallery Application Version assigned with a VM or VMSS */
+export interface VMApplicationProxyResourceWithInstanceView
+  extends ProxyResource {
+  /**
+   * The properties of a Gallery Application Version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: VMGalleryApplicationWithInstanceView;
+}
+
+/** Restore Point details. */
+export interface RestorePoint extends ProxyResource {
+  /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
+  excludeDisks?: ApiEntityReference[];
+  /** Gets the details of the VM captured at the time of the restore point creation. */
+  sourceMetadata?: RestorePointSourceMetadata;
+  /**
+   * Gets the provisioning state of the restore point.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details. */
+  consistencyMode?: ConsistencyModeTypes;
+  /** Gets the creation time of the restore point. */
+  timeCreated?: Date;
+  /** Resource Id of the source restore point from which a copy needs to be created. */
+  sourceRestorePoint?: ApiEntityReference;
+  /**
+   * The restore point instance view.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: RestorePointInstanceView;
+}
+
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
 export interface VirtualMachineScaleSetVMReimageParameters
   extends VirtualMachineReimageParameters {}
@@ -6191,30 +6280,6 @@ export interface ImageOSDisk extends ImageDisk {
 export interface ImageDataDisk extends ImageDisk {
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
   lun: number;
-}
-
-/** Restore Point details. */
-export interface RestorePoint extends ProxyResource {
-  /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
-  excludeDisks?: ApiEntityReference[];
-  /** Gets the details of the VM captured at the time of the restore point creation. */
-  sourceMetadata?: RestorePointSourceMetadata;
-  /**
-   * Gets the provisioning state of the restore point.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details. */
-  consistencyMode?: ConsistencyModeTypes;
-  /** Gets the creation time of the restore point. */
-  timeCreated?: Date;
-  /** Resource Id of the source restore point from which a copy needs to be created. */
-  sourceRestorePoint?: ApiEntityReference;
-  /**
-   * The restore point instance view.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceView?: RestorePointInstanceView;
 }
 
 /** The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group. */
@@ -9552,6 +9617,41 @@ export interface VirtualMachineScaleSetExtensionsListNextOptionalParams
 export type VirtualMachineScaleSetExtensionsListNextResponse = VirtualMachineScaleSetExtensionListResult;
 
 /** Optional parameters. */
+export interface VirtualMachineScaleSetApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineScaleSetApplicationsListResponse = VirtualMachineApplicationsProxyResourceListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetApplicationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineScaleSetApplicationsGetResponse = VMApplicationProxyResource;
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetApplicationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetApplicationsPutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the put operation. */
+export type VirtualMachineScaleSetApplicationsPutResponse = VMApplicationProxyResource;
+
+/** Optional parameters. */
 export interface VirtualMachineScaleSetRollingUpgradesCancelOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -9800,6 +9900,20 @@ export interface VirtualMachineScaleSetVMsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVMListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetVirtualMachineApplicationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineScaleSetVirtualMachineApplicationsGetResponse = VMApplicationProxyResourceWithInstanceView;
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetVirtualMachineApplicationsGetInstanceViewOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getInstanceView operation. */
+export type VirtualMachineScaleSetVirtualMachineApplicationsGetInstanceViewResponse = VMApplicationProxyResourceWithInstanceView;
 
 /** Optional parameters. */
 export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams
@@ -10119,6 +10233,48 @@ export interface VirtualMachinesListAllNextOptionalParams
 
 /** Contains response data for the listAllNext operation. */
 export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineApplicationsListResponse = VirtualMachineApplicationsProxyResourceListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineApplicationsGetResponse = VMApplicationProxyResourceWithInstanceView;
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsPutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the put operation. */
+export type VirtualMachineApplicationsPutResponse = VMApplicationProxyResourceWithInstanceView;
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsGetInstanceViewOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getInstanceView operation. */
+export type VirtualMachineApplicationsGetInstanceViewResponse = VMApplicationProxyResourceWithInstanceView;
 
 /** Optional parameters. */
 export interface VirtualMachineImagesGetOptionalParams

@@ -1120,6 +1120,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     usageOperations: UsageOperations;
     // (undocumented)
+    virtualMachineApplications: VirtualMachineApplications;
+    // (undocumented)
     virtualMachineExtensionImages: VirtualMachineExtensionImages;
     // (undocumented)
     virtualMachineExtensions: VirtualMachineExtensions;
@@ -1132,11 +1134,15 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     virtualMachines: VirtualMachines;
     // (undocumented)
+    virtualMachineScaleSetApplications: VirtualMachineScaleSetApplications;
+    // (undocumented)
     virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
     // (undocumented)
     virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrades;
     // (undocumented)
     virtualMachineScaleSets: VirtualMachineScaleSets;
+    // (undocumented)
+    virtualMachineScaleSetVirtualMachineApplications: VirtualMachineScaleSetVirtualMachineApplications;
     // (undocumented)
     virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;
     // (undocumented)
@@ -5804,6 +5810,58 @@ export interface VirtualMachineAgentInstanceView {
 }
 
 // @public
+export interface VirtualMachineApplications {
+    beginDelete(resourceGroupName: string, vmName: string, applicationName: string, options?: VirtualMachineApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, vmName: string, applicationName: string, options?: VirtualMachineApplicationsDeleteOptionalParams): Promise<void>;
+    beginPut(resourceGroupName: string, vmName: string, applicationName: string, application: VMApplicationProxyResourceWithInstanceView, options?: VirtualMachineApplicationsPutOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineApplicationsPutResponse>, VirtualMachineApplicationsPutResponse>>;
+    beginPutAndWait(resourceGroupName: string, vmName: string, applicationName: string, application: VMApplicationProxyResourceWithInstanceView, options?: VirtualMachineApplicationsPutOptionalParams): Promise<VirtualMachineApplicationsPutResponse>;
+    get(resourceGroupName: string, vmName: string, applicationName: string, options?: VirtualMachineApplicationsGetOptionalParams): Promise<VirtualMachineApplicationsGetResponse>;
+    getInstanceView(resourceGroupName: string, vmName: string, applicationName: string, options?: VirtualMachineApplicationsGetInstanceViewOptionalParams): Promise<VirtualMachineApplicationsGetInstanceViewResponse>;
+    list(resourceGroupName: string, vmName: string, options?: VirtualMachineApplicationsListOptionalParams): Promise<VirtualMachineApplicationsListResponse>;
+}
+
+// @public
+export interface VirtualMachineApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineApplicationsGetInstanceViewOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineApplicationsGetInstanceViewResponse = VMApplicationProxyResourceWithInstanceView;
+
+// @public
+export interface VirtualMachineApplicationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineApplicationsGetResponse = VMApplicationProxyResourceWithInstanceView;
+
+// @public
+export interface VirtualMachineApplicationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineApplicationsListResponse = VirtualMachineApplicationsProxyResourceListResult;
+
+// @public
+export interface VirtualMachineApplicationsProxyResourceListResult {
+    value?: VMApplicationProxyResource[];
+}
+
+// @public
+export interface VirtualMachineApplicationsPutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineApplicationsPutResponse = VMApplicationProxyResourceWithInstanceView;
+
+// @public
 export interface VirtualMachineAssessPatchesResult {
     readonly assessmentActivityId?: string;
     readonly availablePatches?: VirtualMachineSoftwarePatchProperties[];
@@ -6478,6 +6536,45 @@ export interface VirtualMachineScaleSet extends Resource {
     zoneBalance?: boolean;
     zones?: string[];
 }
+
+// @public
+export interface VirtualMachineScaleSetApplications {
+    beginDelete(resourceGroupName: string, vmScaleSetName: string, applicationName: string, options?: VirtualMachineScaleSetApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, applicationName: string, options?: VirtualMachineScaleSetApplicationsDeleteOptionalParams): Promise<void>;
+    beginPut(resourceGroupName: string, vmScaleSetName: string, applicationName: string, application: VMApplicationProxyResource, options?: VirtualMachineScaleSetApplicationsPutOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetApplicationsPutResponse>, VirtualMachineScaleSetApplicationsPutResponse>>;
+    beginPutAndWait(resourceGroupName: string, vmScaleSetName: string, applicationName: string, application: VMApplicationProxyResource, options?: VirtualMachineScaleSetApplicationsPutOptionalParams): Promise<VirtualMachineScaleSetApplicationsPutResponse>;
+    get(resourceGroupName: string, vmScaleSetName: string, applicationName: string, options?: VirtualMachineScaleSetApplicationsGetOptionalParams): Promise<VirtualMachineScaleSetApplicationsGetResponse>;
+    list(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetApplicationsListOptionalParams): Promise<VirtualMachineScaleSetApplicationsListResponse>;
+}
+
+// @public
+export interface VirtualMachineScaleSetApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetApplicationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineScaleSetApplicationsGetResponse = VMApplicationProxyResource;
+
+// @public
+export interface VirtualMachineScaleSetApplicationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineScaleSetApplicationsListResponse = VirtualMachineApplicationsProxyResourceListResult;
+
+// @public
+export interface VirtualMachineScaleSetApplicationsPutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineScaleSetApplicationsPutResponse = VMApplicationProxyResource;
 
 // @public
 export interface VirtualMachineScaleSetDataDisk {
@@ -7179,6 +7276,26 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
 }
 
 // @public
+export interface VirtualMachineScaleSetVirtualMachineApplications {
+    get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, applicationName: string, options?: VirtualMachineScaleSetVirtualMachineApplicationsGetOptionalParams): Promise<VirtualMachineScaleSetVirtualMachineApplicationsGetResponse>;
+    getInstanceView(resourceGroupName: string, vmScaleSetName: string, instanceId: string, applicationName: string, options?: VirtualMachineScaleSetVirtualMachineApplicationsGetInstanceViewOptionalParams): Promise<VirtualMachineScaleSetVirtualMachineApplicationsGetInstanceViewResponse>;
+}
+
+// @public
+export interface VirtualMachineScaleSetVirtualMachineApplicationsGetInstanceViewOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineScaleSetVirtualMachineApplicationsGetInstanceViewResponse = VMApplicationProxyResourceWithInstanceView;
+
+// @public
+export interface VirtualMachineScaleSetVirtualMachineApplicationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineScaleSetVirtualMachineApplicationsGetResponse = VMApplicationProxyResourceWithInstanceView;
+
+// @public
 export interface VirtualMachineScaleSetVM extends Resource {
     additionalCapabilities?: AdditionalCapabilities;
     availabilitySet?: SubResource;
@@ -7863,6 +7980,16 @@ export interface VirtualMachineUpdate extends UpdateResource {
 }
 
 // @public
+export interface VMApplicationProxyResource extends ProxyResource {
+    properties?: VMGalleryApplication;
+}
+
+// @public
+export interface VMApplicationProxyResourceWithInstanceView extends ProxyResource {
+    readonly properties?: VMGalleryApplicationWithInstanceView;
+}
+
+// @public
 export interface VMDiskSecurityProfile {
     diskEncryptionSet?: DiskEncryptionSetParameters;
     securityEncryptionType?: SecurityEncryptionTypes;
@@ -7879,6 +8006,25 @@ export interface VMGalleryApplication {
     packageReferenceId: string;
     tags?: string;
     treatFailureAsDeploymentFailure?: boolean;
+}
+
+// @public (undocumented)
+export interface VMGalleryApplicationInstanceView {
+    actionsPerformed?: VMGalleryApplicationInstanceViewAction[];
+    readonly name?: string;
+    readonly result?: string;
+    readonly version?: string;
+}
+
+// @public (undocumented)
+export interface VMGalleryApplicationInstanceViewAction {
+    readonly operation?: string;
+    readonly result?: string;
+}
+
+// @public
+export interface VMGalleryApplicationWithInstanceView extends VMGalleryApplication {
+    readonly instanceView?: VMGalleryApplicationInstanceView;
 }
 
 // @public

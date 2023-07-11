@@ -15,11 +15,14 @@ import {
   VirtualMachineSizesImpl,
   VirtualMachineScaleSetsImpl,
   VirtualMachineScaleSetExtensionsImpl,
+  VirtualMachineScaleSetApplicationsImpl,
   VirtualMachineScaleSetRollingUpgradesImpl,
   VirtualMachineScaleSetVMExtensionsImpl,
   VirtualMachineScaleSetVMsImpl,
+  VirtualMachineScaleSetVirtualMachineApplicationsImpl,
   VirtualMachineExtensionsImpl,
   VirtualMachinesImpl,
+  VirtualMachineApplicationsImpl,
   VirtualMachineImagesImpl,
   VirtualMachineImagesEdgeZoneImpl,
   VirtualMachineExtensionImagesImpl,
@@ -66,11 +69,14 @@ import {
   VirtualMachineSizes,
   VirtualMachineScaleSets,
   VirtualMachineScaleSetExtensions,
+  VirtualMachineScaleSetApplications,
   VirtualMachineScaleSetRollingUpgrades,
   VirtualMachineScaleSetVMExtensions,
   VirtualMachineScaleSetVMs,
+  VirtualMachineScaleSetVirtualMachineApplications,
   VirtualMachineExtensions,
   VirtualMachines,
+  VirtualMachineApplications,
   VirtualMachineImages,
   VirtualMachineImagesEdgeZone,
   VirtualMachineExtensionImages,
@@ -145,7 +151,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-compute/21.0.1`;
+    const packageDetails = `azsdk-js-arm-compute/21.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -205,6 +211,9 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsImpl(
       this
     );
+    this.virtualMachineScaleSetApplications = new VirtualMachineScaleSetApplicationsImpl(
+      this
+    );
     this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesImpl(
       this
     );
@@ -212,8 +221,12 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       this
     );
     this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsImpl(this);
+    this.virtualMachineScaleSetVirtualMachineApplications = new VirtualMachineScaleSetVirtualMachineApplicationsImpl(
+      this
+    );
     this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
+    this.virtualMachineApplications = new VirtualMachineApplicationsImpl(this);
     this.virtualMachineImages = new VirtualMachineImagesImpl(this);
     this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(
       this
@@ -270,11 +283,14 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   virtualMachineSizes: VirtualMachineSizes;
   virtualMachineScaleSets: VirtualMachineScaleSets;
   virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
+  virtualMachineScaleSetApplications: VirtualMachineScaleSetApplications;
   virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrades;
   virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;
   virtualMachineScaleSetVMs: VirtualMachineScaleSetVMs;
+  virtualMachineScaleSetVirtualMachineApplications: VirtualMachineScaleSetVirtualMachineApplications;
   virtualMachineExtensions: VirtualMachineExtensions;
   virtualMachines: VirtualMachines;
+  virtualMachineApplications: VirtualMachineApplications;
   virtualMachineImages: VirtualMachineImages;
   virtualMachineImagesEdgeZone: VirtualMachineImagesEdgeZone;
   virtualMachineExtensionImages: VirtualMachineExtensionImages;

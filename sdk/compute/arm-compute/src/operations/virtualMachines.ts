@@ -2177,7 +2177,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.expand3
+    Parameters.expand4
   ],
   urlParameters: [
     Parameters.$host,
@@ -2203,7 +2203,7 @@ const listAllOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.statusOnly,
-    Parameters.expand4
+    Parameters.expand5
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],

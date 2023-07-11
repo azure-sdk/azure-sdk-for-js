@@ -3283,6 +3283,57 @@ export const VirtualMachineScaleSetExtensionListResult: coreClient.CompositeMapp
   }
 };
 
+export const VirtualMachineApplicationsProxyResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineApplicationsProxyResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMApplicationProxyResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineScaleSetListWithLinkResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4961,6 +5012,71 @@ export const RetrieveBootDiagnosticsDataResult: coreClient.CompositeMapper = {
       },
       serialConsoleLogBlobUri: {
         serializedName: "serialConsoleLogBlobUri",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMGalleryApplicationInstanceView: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMGalleryApplicationInstanceView",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      result: {
+        serializedName: "result",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionsPerformed: {
+        serializedName: "actionsPerformed",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMGalleryApplicationInstanceViewAction"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VMGalleryApplicationInstanceViewAction: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMGalleryApplicationInstanceViewAction",
+    modelProperties: {
+      operation: {
+        serializedName: "operation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      result: {
+        serializedName: "result",
         readOnly: true,
         type: {
           name: "String"
@@ -6791,36 +6907,6 @@ export const DiskRestorePointReplicationStatus: coreClient.CompositeMapper = {
         serializedName: "completionPercent",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ProxyResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProxyResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -12588,6 +12674,23 @@ export const DiskRestorePointAttributes: coreClient.CompositeMapper = {
   }
 };
 
+export const VMGalleryApplicationWithInstanceView: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMGalleryApplicationWithInstanceView",
+    modelProperties: {
+      ...VMGalleryApplication.type.modelProperties,
+      instanceView: {
+        serializedName: "instanceView",
+        type: {
+          name: "Composite",
+          className: "VMGalleryApplicationInstanceView"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineExtension: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15804,6 +15907,102 @@ export const VirtualMachineRunCommandUpdate: coreClient.CompositeMapper = {
   }
 };
 
+export const VMApplicationProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMApplicationProxyResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "VMGalleryApplication"
+        }
+      }
+    }
+  }
+};
+
+export const VMApplicationProxyResourceWithInstanceView: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMApplicationProxyResourceWithInstanceView",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "VMGalleryApplicationWithInstanceView"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestorePoint",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      excludeDisks: {
+        serializedName: "properties.excludeDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApiEntityReference"
+            }
+          }
+        }
+      },
+      sourceMetadata: {
+        serializedName: "properties.sourceMetadata",
+        type: {
+          name: "Composite",
+          className: "RestorePointSourceMetadata"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      consistencyMode: {
+        serializedName: "properties.consistencyMode",
+        type: {
+          name: "String"
+        }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        type: {
+          name: "DateTime"
+        }
+      },
+      sourceRestorePoint: {
+        serializedName: "properties.sourceRestorePoint",
+        type: {
+          name: "Composite",
+          className: "ApiEntityReference"
+        }
+      },
+      instanceView: {
+        serializedName: "properties.instanceView",
+        type: {
+          name: "Composite",
+          className: "RestorePointInstanceView"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineScaleSetVMReimageParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15868,68 +16067,6 @@ export const ImageDataDisk: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const RestorePoint: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RestorePoint",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      excludeDisks: {
-        serializedName: "properties.excludeDisks",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApiEntityReference"
-            }
-          }
-        }
-      },
-      sourceMetadata: {
-        serializedName: "properties.sourceMetadata",
-        type: {
-          name: "Composite",
-          className: "RestorePointSourceMetadata"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      consistencyMode: {
-        serializedName: "properties.consistencyMode",
-        type: {
-          name: "String"
-        }
-      },
-      timeCreated: {
-        serializedName: "properties.timeCreated",
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceRestorePoint: {
-        serializedName: "properties.sourceRestorePoint",
-        type: {
-          name: "Composite",
-          className: "ApiEntityReference"
-        }
-      },
-      instanceView: {
-        serializedName: "properties.instanceView",
-        type: {
-          name: "Composite",
-          className: "RestorePointInstanceView"
         }
       }
     }

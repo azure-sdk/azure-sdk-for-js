@@ -1,15 +1,40 @@
 # Release History
+    
+## 21.1.0 (2023-07-11)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group VirtualMachineApplications
+  - Added operation group VirtualMachineScaleSetApplications
+  - Added operation group VirtualMachineScaleSetVirtualMachineApplications
+  - Added Interface VirtualMachineApplicationsDeleteOptionalParams
+  - Added Interface VirtualMachineApplicationsGetInstanceViewOptionalParams
+  - Added Interface VirtualMachineApplicationsGetOptionalParams
+  - Added Interface VirtualMachineApplicationsListOptionalParams
+  - Added Interface VirtualMachineApplicationsProxyResourceListResult
+  - Added Interface VirtualMachineApplicationsPutOptionalParams
+  - Added Interface VirtualMachineScaleSetApplicationsDeleteOptionalParams
+  - Added Interface VirtualMachineScaleSetApplicationsGetOptionalParams
+  - Added Interface VirtualMachineScaleSetApplicationsListOptionalParams
+  - Added Interface VirtualMachineScaleSetApplicationsPutOptionalParams
+  - Added Interface VirtualMachineScaleSetVirtualMachineApplicationsGetInstanceViewOptionalParams
+  - Added Interface VirtualMachineScaleSetVirtualMachineApplicationsGetOptionalParams
+  - Added Interface VMApplicationProxyResource
+  - Added Interface VMApplicationProxyResourceWithInstanceView
+  - Added Interface VMGalleryApplicationInstanceView
+  - Added Interface VMGalleryApplicationInstanceViewAction
+  - Added Interface VMGalleryApplicationWithInstanceView
+  - Added Type Alias VirtualMachineApplicationsGetInstanceViewResponse
+  - Added Type Alias VirtualMachineApplicationsGetResponse
+  - Added Type Alias VirtualMachineApplicationsListResponse
+  - Added Type Alias VirtualMachineApplicationsPutResponse
+  - Added Type Alias VirtualMachineScaleSetApplicationsGetResponse
+  - Added Type Alias VirtualMachineScaleSetApplicationsListResponse
+  - Added Type Alias VirtualMachineScaleSetApplicationsPutResponse
+  - Added Type Alias VirtualMachineScaleSetVirtualMachineApplicationsGetInstanceViewResponse
+  - Added Type Alias VirtualMachineScaleSetVirtualMachineApplicationsGetResponse
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**
