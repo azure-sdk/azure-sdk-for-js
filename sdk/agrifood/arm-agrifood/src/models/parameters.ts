@@ -12,11 +12,30 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  ExtensionInstallationRequest as ExtensionInstallationRequestMapper,
   FarmBeats as FarmBeatsMapper,
   FarmBeatsUpdateRequestModel as FarmBeatsUpdateRequestModelMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  SolutionInstallationRequest as SolutionInstallationRequestMapper
 } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const requestBody: OperationParameter = {
+  parameterPath: ["options", "requestBody"],
+  mapper: ExtensionInstallationRequestMapper
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -45,13 +64,10 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -236,18 +252,6 @@ export const farmBeatsExtensionId: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const body: OperationParameter = {
   parameterPath: "body",
   mapper: FarmBeatsMapper
@@ -256,6 +260,17 @@ export const body: OperationParameter = {
 export const body1: OperationParameter = {
   parameterPath: "body",
   mapper: FarmBeatsUpdateRequestModelMapper
+};
+
+export const locations: OperationURLParameter = {
+  parameterPath: "locations",
+  mapper: {
+    serializedName: "locations",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const operationResultsId: OperationURLParameter = {
@@ -297,6 +312,191 @@ export const subResourceName: OperationURLParameter = {
   parameterPath: "subResourceName",
   mapper: {
     serializedName: "subResourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body4: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: SolutionInstallationRequestMapper
+};
+
+export const solutionId: OperationURLParameter = {
+  parameterPath: "solutionId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z]{3,50}[.][a-zA-Z]{3,100}$")
+    },
+    serializedName: "solutionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const solutionIds: OperationQueryParameter = {
+  parameterPath: ["options", "solutionIds"],
+  mapper: {
+    serializedName: "solutionIds",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "Multi"
+};
+
+export const ids: OperationQueryParameter = {
+  parameterPath: ["options", "ids"],
+  mapper: {
+    serializedName: "ids",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "Multi"
+};
+
+export const names: OperationQueryParameter = {
+  parameterPath: ["options", "names"],
+  mapper: {
+    serializedName: "names",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "Multi"
+};
+
+export const propertyFilters: OperationQueryParameter = {
+  parameterPath: ["options", "propertyFilters"],
+  mapper: {
+    serializedName: "propertyFilters",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "Multi"
+};
+
+export const statuses: OperationQueryParameter = {
+  parameterPath: ["options", "statuses"],
+  mapper: {
+    serializedName: "statuses",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "Multi"
+};
+
+export const minCreatedDateTime: OperationQueryParameter = {
+  parameterPath: ["options", "minCreatedDateTime"],
+  mapper: {
+    serializedName: "minCreatedDateTime",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const maxCreatedDateTime: OperationQueryParameter = {
+  parameterPath: ["options", "maxCreatedDateTime"],
+  mapper: {
+    serializedName: "maxCreatedDateTime",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const minLastModifiedDateTime: OperationQueryParameter = {
+  parameterPath: ["options", "minLastModifiedDateTime"],
+  mapper: {
+    serializedName: "minLastModifiedDateTime",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const maxLastModifiedDateTime: OperationQueryParameter = {
+  parameterPath: ["options", "maxLastModifiedDateTime"],
+  mapper: {
+    serializedName: "maxLastModifiedDateTime",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const farmBeatsSolutionIds: OperationQueryParameter = {
+  parameterPath: ["options", "farmBeatsSolutionIds"],
+  mapper: {
+    serializedName: "farmBeatsSolutionIds",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "Multi"
+};
+
+export const farmBeatsSolutionNames: OperationQueryParameter = {
+  parameterPath: ["options", "farmBeatsSolutionNames"],
+  mapper: {
+    serializedName: "farmBeatsSolutionNames",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "Multi"
+};
+
+export const farmBeatsSolutionId: OperationURLParameter = {
+  parameterPath: "farmBeatsSolutionId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z]{3,50}[.][a-zA-Z]{3,100}$")
+    },
+    serializedName: "farmBeatsSolutionId",
     required: true,
     type: {
       name: "String"
