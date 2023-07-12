@@ -12546,7 +12546,7 @@ packages:
     dev: false
 
   file:projects/arm-confluent.tgz:
-    resolution: {integrity: sha512-JoeOSS9meC988WP6kgOjtLtbpiowkSXT+atmbaYK9f3C6UKIAdlImJHrgjwOLVTBuZhFvOkG/bWXXC/6q2Sh8Q==, tarball: file:projects/arm-confluent.tgz}
+    resolution: {integrity: sha512-b9wFc8G6St3CURF+FOfD5L7qGxWhA8AssEwy1Abx6Va4S7XjcreYXeWJ4t+CarSBlIwtiCX49LPVWiSXjWy1LA==, tarball: file:projects/arm-confluent.tgz}
     name: '@rush-temp/arm-confluent'
     version: 0.0.0
     dependencies:
@@ -12560,7 +12560,8 @@ packages:
       '@types/node': 14.18.51
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
