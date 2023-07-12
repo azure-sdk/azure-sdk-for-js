@@ -35,6 +35,15 @@ import {
   TagsObject,
   FirewallPoliciesUpdateTagsOptionalParams,
   FirewallPoliciesUpdateTagsResponse,
+  FirewallPolicyDraft,
+  FirewallPoliciesCreateOrUpdateDraftOptionalParams,
+  FirewallPoliciesCreateOrUpdateDraftResponse,
+  FirewallPoliciesGetDraftOptionalParams,
+  FirewallPoliciesGetDraftResponse,
+  FirewallPoliciesDeployDraftOptionalParams,
+  FirewallPoliciesDeployDraftResponse,
+  FirewallPoliciesDeleteDraftOptionalParams,
+  FirewallPoliciesDeleteDraftResponse,
   FirewallPoliciesListNextResponse,
   FirewallPoliciesListAllNextResponse
 } from "../models";
@@ -409,6 +418,153 @@ export class FirewallPoliciesImpl implements FirewallPolicies {
   }
 
   /**
+   * Creates or updates the draft version of the specified Firewall Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param parameters Parameters supplied to the create or update Firewall Policy operation.
+   * @param options The options parameters.
+   */
+  createOrUpdateDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    parameters: FirewallPolicyDraft,
+    options?: FirewallPoliciesCreateOrUpdateDraftOptionalParams
+  ): Promise<FirewallPoliciesCreateOrUpdateDraftResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, firewallPolicyName, parameters, options },
+      createOrUpdateDraftOperationSpec
+    );
+  }
+
+  /**
+   * Gets the current draft version of the specified Firewall Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  getDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesGetDraftOptionalParams
+  ): Promise<FirewallPoliciesGetDraftResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, firewallPolicyName, options },
+      getDraftOperationSpec
+    );
+  }
+
+  /**
+   * Sets the current live Firewall Policy body to the body of the current state of the draft Firewall
+   * Policy
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  async beginDeployDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDeployDraftOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FirewallPoliciesDeployDraftResponse>,
+      FirewallPoliciesDeployDraftResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<FirewallPoliciesDeployDraftResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, firewallPolicyName, options },
+      spec: deployDraftOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FirewallPoliciesDeployDraftResponse,
+      OperationState<FirewallPoliciesDeployDraftResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Sets the current live Firewall Policy body to the body of the current state of the draft Firewall
+   * Policy
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  async beginDeployDraftAndWait(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDeployDraftOptionalParams
+  ): Promise<FirewallPoliciesDeployDraftResponse> {
+    const poller = await this.beginDeployDraft(
+      resourceGroupName,
+      firewallPolicyName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Sets the current live Firewall Policy body to the body of the current state of the draft Firewall
+   * Policy
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  deleteDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDeleteDraftOptionalParams
+  ): Promise<FirewallPoliciesDeleteDraftResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, firewallPolicyName, options },
+      deleteDraftOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -580,6 +736,105 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateDraftOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/putDraft",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FirewallPolicyDraft
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters20,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.firewallPolicyName1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getDraftOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/getDraft",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FirewallPolicyDraft
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.firewallPolicyName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deployDraftOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/deployDraft",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FirewallPolicyDraft
+    },
+    201: {
+      bodyMapper: Mappers.FirewallPolicyDraft
+    },
+    202: {
+      bodyMapper: Mappers.FirewallPolicyDraft
+    },
+    204: {
+      bodyMapper: Mappers.FirewallPolicyDraft
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.firewallPolicyName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteDraftOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/deleteDraft",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: { type: { name: "any" } }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.firewallPolicyName1
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
