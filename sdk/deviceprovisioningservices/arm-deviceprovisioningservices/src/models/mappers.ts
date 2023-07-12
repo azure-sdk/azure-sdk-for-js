@@ -372,8 +372,7 @@ export const IotDpsPropertiesDescription: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className:
-                "SharedAccessSignatureAuthorizationRuleAccessRightsDescription"
+              className: "SharedAccessSignatureAuthorizationRule"
             }
           }
         }
@@ -589,10 +588,10 @@ export const IotHubDefinitionDescription: coreClient.CompositeMapper = {
   }
 };
 
-export const SharedAccessSignatureAuthorizationRuleAccessRightsDescription: coreClient.CompositeMapper = {
+export const SharedAccessSignatureAuthorizationRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SharedAccessSignatureAuthorizationRuleAccessRightsDescription",
+    className: "SharedAccessSignatureAuthorizationRule",
     modelProperties: {
       keyName: {
         serializedName: "keyName",
@@ -752,12 +751,14 @@ export const Resource: coreClient.CompositeMapper = {
       },
       resourcegroup: {
         serializedName: "resourcegroup",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       subscriptionid: {
         serializedName: "subscriptionid",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -1101,8 +1102,7 @@ export const SharedAccessSignatureAuthorizationRuleListResult: coreClient.Compos
           element: {
             type: {
               name: "Composite",
-              className:
-                "SharedAccessSignatureAuthorizationRuleAccessRightsDescription"
+              className: "SharedAccessSignatureAuthorizationRule"
             }
           }
         }
