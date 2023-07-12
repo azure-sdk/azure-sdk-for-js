@@ -14,7 +14,11 @@ import {
   ContainerRegistriesGetOptionalParams,
   ContainerRegistriesGetResponse,
   ContainerRegistriesCreateOrUpdateOptionalParams,
-  ContainerRegistriesCreateOrUpdateResponse
+  ContainerRegistriesCreateOrUpdateResponse,
+  ContainerRegistriesDeleteOptionalParams,
+  ContainerRegistryProperties,
+  ContainerRegistriesValidateOptionalParams,
+  ContainerRegistriesValidateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -83,4 +87,69 @@ export interface ContainerRegistries {
     containerRegistryResource: ContainerRegistryResource,
     options?: ContainerRegistriesCreateOrUpdateOptionalParams
   ): Promise<ContainerRegistriesCreateOrUpdateResponse>;
+  /**
+   * Delete a container registry resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param containerRegistryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    serviceName: string,
+    containerRegistryName: string,
+    options?: ContainerRegistriesDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a container registry resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param containerRegistryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    containerRegistryName: string,
+    options?: ContainerRegistriesDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Check if the container registry properties are valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param containerRegistryName The name of the container registry.
+   * @param containerRegistryProperties Parameters for the validate operation
+   * @param options The options parameters.
+   */
+  beginValidate(
+    resourceGroupName: string,
+    serviceName: string,
+    containerRegistryName: string,
+    containerRegistryProperties: ContainerRegistryProperties,
+    options?: ContainerRegistriesValidateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerRegistriesValidateResponse>,
+      ContainerRegistriesValidateResponse
+    >
+  >;
+  /**
+   * Check if the container registry properties are valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param containerRegistryName The name of the container registry.
+   * @param containerRegistryProperties Parameters for the validate operation
+   * @param options The options parameters.
+   */
+  beginValidateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    containerRegistryName: string,
+    containerRegistryProperties: ContainerRegistryProperties,
+    options?: ContainerRegistriesValidateOptionalParams
+  ): Promise<ContainerRegistriesValidateResponse>;
 }
