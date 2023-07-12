@@ -12061,7 +12061,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-2fxbZvesjWy2JPLb6VHPHvCwsZ75ahGZ4aAwTBIWrgTzUUuzHuAit+FCkuYC8ohoyoMgspiLhJqygMy12pDQ9A==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-MQRzbCbv4hc8isw9GqLL4lS40K7UPozFRyR/UcIb0mAa/bgOkBpbPGk1ydZKDqxAyi3qKdkn2II7XKpk0ltPdg==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -12076,7 +12076,8 @@ packages:
       '@types/node': 14.18.51
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
