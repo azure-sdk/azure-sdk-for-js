@@ -13389,7 +13389,7 @@ packages:
     dev: false
 
   file:projects/arm-devtestlabs.tgz:
-    resolution: {integrity: sha512-JDp0nT7wDU6IWic7UyDTcP3/bc7UA/oAo2g/oEbawP7fZL1nvtOh98qHcu8Cxh+W7Us2nTtgErbyClJT5LocUg==, tarball: file:projects/arm-devtestlabs.tgz}
+    resolution: {integrity: sha512-J8/w0dyhu9szbG+pSpQvcnSjsJgT9EwsnIPuHPuOrOFaU8p3BbNvBYWit9u206lCBXZoeXvlGAUE/DMzaQpv3A==, tarball: file:projects/arm-devtestlabs.tgz}
     name: '@rush-temp/arm-devtestlabs'
     version: 0.0.0
     dependencies:
@@ -13403,7 +13403,8 @@ packages:
       '@types/node': 14.18.51
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
