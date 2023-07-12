@@ -12116,7 +12116,7 @@ packages:
     dev: false
 
   file:projects/arm-billingbenefits.tgz:
-    resolution: {integrity: sha512-IPeb+G6yO0xZvbnT2m9elbrTj/6YhRmCZHu8SVyaQy+csnjrNLxzVrQ9Y65PiyZKqH+R9/e8uUPvFovPbKdIsw==, tarball: file:projects/arm-billingbenefits.tgz}
+    resolution: {integrity: sha512-KMBu/ct7h/HZhZJIjB4p74LkyUv12DCw3RVxb2y0ZwHjx6hWb9MHQ7m1R68EePWN2aFf8GJed6AwRuRnlIGH2A==, tarball: file:projects/arm-billingbenefits.tgz}
     name: '@rush-temp/arm-billingbenefits'
     version: 0.0.0
     dependencies:
@@ -12130,7 +12130,8 @@ packages:
       '@types/node': 14.18.51
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

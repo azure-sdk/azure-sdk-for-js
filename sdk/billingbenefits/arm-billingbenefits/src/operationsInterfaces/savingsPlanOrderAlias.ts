@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SavingsPlanOrderAliasModel,
   SavingsPlanOrderAliasCreateOptionalParams,
@@ -29,8 +29,8 @@ export interface SavingsPlanOrderAlias {
     body: SavingsPlanOrderAliasModel,
     options?: SavingsPlanOrderAliasCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SavingsPlanOrderAliasCreateResponse>,
+    SimplePollerLike<
+      OperationState<SavingsPlanOrderAliasCreateResponse>,
       SavingsPlanOrderAliasCreateResponse
     >
   >;
