@@ -8,34 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Result of the request to list Microsoft.Resources operations. It contains a list of operations and a URL link to get the next set of results. */
-export interface OperationListResult {
-  /** List of Microsoft.Resources operations. */
-  value?: Operation[];
-  /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
-}
-
-/** Microsoft.Resources operation */
-export interface Operation {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** The object that represents the operation. */
-  display?: OperationDisplay;
-}
-
-/** The object that represents the operation. */
-export interface OperationDisplay {
-  /** Service provider: Microsoft.Resources */
-  provider?: string;
-  /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  resource?: string;
-  /** Operation type: Read, write, delete, etc. */
-  operation?: string;
-  /** Description of the operation. */
-  description?: string;
-}
-
 /** An error response for a resource management request. */
 export interface CloudError {
   /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
@@ -102,7 +74,7 @@ export interface DeploymentProperties {
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
   templateLink?: TemplateLink;
   /** Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
-  parameters?: Record<string, unknown>;
+  parameters?: { [propertyName: string]: DeploymentParameter };
   /** The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
   parametersLink?: ParametersLink;
   /** The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources. */
@@ -127,6 +99,30 @@ export interface TemplateLink {
   contentVersion?: string;
   /** The query string (for example, a SAS token) to be used with the templateLink URI. */
   queryString?: string;
+}
+
+/** Deployment parameter for the template. */
+export interface DeploymentParameter {
+  /** Input value to the parameter . */
+  value?: any;
+  /** Azure Key Vault parameter reference. */
+  reference?: KeyVaultParameterReference;
+}
+
+/** Azure Key Vault parameter reference. */
+export interface KeyVaultParameterReference {
+  /** Azure Key Vault reference. */
+  keyVault: KeyVaultReference;
+  /** Azure Key Vault secret name. */
+  secretName: string;
+  /** Azure Key Vault secret version. */
+  secretVersion?: string;
+}
+
+/** Azure Key Vault reference. */
+export interface KeyVaultReference {
+  /** Azure Key Vault resource id. */
+  id: string;
 }
 
 /** Entity representing the reference to the deployment parameters. */
@@ -213,7 +209,7 @@ export interface DeploymentPropertiesExtended {
    * The list of resource providers needed for the deployment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly providers?: Provider[];
+  readonly providers?: DeploymentsProvider[];
   /**
    * The list of deployment dependencies.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -272,146 +268,22 @@ export interface DeploymentPropertiesExtended {
 }
 
 /** Resource provider information. */
-export interface Provider {
-  /**
-   * The provider ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
+export interface DeploymentsProvider {
   /** The namespace of the resource provider. */
   namespace?: string;
-  /**
-   * The registration state of the resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registrationState?: string;
-  /**
-   * The registration policy of the resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registrationPolicy?: string;
   /**
    * The collection of provider resource types.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceTypes?: ProviderResourceType[];
-  /** The provider authorization consent state. */
-  providerAuthorizationConsentState?: ProviderAuthorizationConsentState;
+  readonly resourceTypes?: DeploymentsResourceType[];
 }
 
 /** Resource type managed by the resource provider. */
-export interface ProviderResourceType {
+export interface DeploymentsResourceType {
   /** The resource type. */
   resourceType?: string;
   /** The collection of locations where this resource type can be created. */
   locations?: string[];
-  /** The location mappings that are supported by this resource type. */
-  locationMappings?: ProviderExtendedLocation[];
-  /** The aliases that are supported by this resource type. */
-  aliases?: Alias[];
-  /** The API version. */
-  apiVersions?: string[];
-  /**
-   * The default API version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultApiVersion?: string;
-  zoneMappings?: ZoneMapping[];
-  /**
-   * The API profiles for the resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiProfiles?: ApiProfile[];
-  /** The additional capabilities offered by this resource type. */
-  capabilities?: string;
-  /** The properties. */
-  properties?: { [propertyName: string]: string };
-}
-
-/** The provider extended location. */
-export interface ProviderExtendedLocation {
-  /** The azure location. */
-  location?: string;
-  /** The extended location type. */
-  type?: string;
-  /** The extended locations for the azure location. */
-  extendedLocations?: string[];
-}
-
-/** The alias type. */
-export interface Alias {
-  /** The alias name. */
-  name?: string;
-  /** The paths for an alias. */
-  paths?: AliasPath[];
-  /** The type of the alias. */
-  type?: AliasType;
-  /** The default path for an alias. */
-  defaultPath?: string;
-  /** The default pattern for an alias. */
-  defaultPattern?: AliasPattern;
-  /**
-   * The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultMetadata?: AliasPathMetadata;
-}
-
-/** The type of the paths for alias. */
-export interface AliasPath {
-  /** The path of an alias. */
-  path?: string;
-  /** The API versions. */
-  apiVersions?: string[];
-  /** The pattern for an alias path. */
-  pattern?: AliasPattern;
-  /**
-   * The metadata of the alias path. If missing, fall back to the default metadata of the alias.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metadata?: AliasPathMetadata;
-}
-
-/** The type of the pattern for an alias path. */
-export interface AliasPattern {
-  /** The alias pattern phrase. */
-  phrase?: string;
-  /** The alias pattern variable. */
-  variable?: string;
-  /** The type of alias pattern */
-  type?: AliasPatternType;
-}
-
-export interface AliasPathMetadata {
-  /**
-   * The type of the token that the alias path is referring to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: AliasPathTokenType;
-  /**
-   * The attributes of the token that the alias path is referring to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly attributes?: AliasPathAttributes;
-}
-
-export interface ZoneMapping {
-  /** The location of the zone mapping. */
-  location?: string;
-  zones?: string[];
-}
-
-export interface ApiProfile {
-  /**
-   * The profile version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly profileVersion?: string;
-  /**
-   * The API version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiVersion?: string;
 }
 
 /** Deployment dependency information. */
@@ -556,6 +428,306 @@ export interface DeploymentWhatIf {
   location?: string;
   /** The deployment properties. */
   properties: DeploymentWhatIfProperties;
+}
+
+/** Export resource group template request parameters. */
+export interface ExportTemplateRequest {
+  /** The IDs of the resources to filter the export by. To export all resources, supply an array with single entry '*'. */
+  resources?: string[];
+  /** The export template options. A CSV-formatted list containing zero or more of the following: 'IncludeParameterDefaultValue', 'IncludeComments', 'SkipResourceNameParameterization', 'SkipAllParameterization' */
+  options?: string;
+}
+
+/** Resource group export result. */
+export interface ResourceGroupExportResult {
+  /** The template content. */
+  template?: Record<string, unknown>;
+  /** The template export error. */
+  error?: ErrorResponse;
+}
+
+/** Deployment operation information. */
+export interface DeploymentOperation {
+  /**
+   * Full deployment operation ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Deployment operation ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationId?: string;
+  /** Deployment properties. */
+  properties?: DeploymentOperationProperties;
+}
+
+/** Deployment operation properties. */
+export interface DeploymentOperationProperties {
+  /**
+   * The name of the current provisioning operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningOperation?: ProvisioningOperation;
+  /**
+   * The state of the provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The date and time of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestamp?: Date;
+  /**
+   * The duration of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly duration?: string;
+  /**
+   * Deployment operation service request id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceRequestId?: string;
+  /**
+   * Operation status code from the resource provider. This property may not be set if a response has not yet been received.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusCode?: string;
+  /**
+   * Operation status message from the resource provider. This property is optional.  It will only be provided if an error was received from the resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: StatusMessage;
+  /**
+   * The target resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetResource?: TargetResource;
+  /**
+   * The HTTP request message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly request?: HttpMessage;
+  /**
+   * The HTTP response message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly response?: HttpMessage;
+}
+
+/** Operation status message object. */
+export interface StatusMessage {
+  /** Status of the deployment operation. */
+  status?: string;
+  /** The error reported by the operation. */
+  error?: ErrorResponse;
+}
+
+/** Target resource. */
+export interface TargetResource {
+  /** The ID of the resource. */
+  id?: string;
+  /** The name of the resource. */
+  resourceName?: string;
+  /** The type of the resource. */
+  resourceType?: string;
+}
+
+/** HTTP message. */
+export interface HttpMessage {
+  /** HTTP message content. */
+  content?: Record<string, unknown>;
+}
+
+/** List of deployment operations. */
+export interface DeploymentOperationsListResult {
+  /** An array of deployment operations. */
+  value?: DeploymentOperation[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Result of the request to calculate template hash. It contains a string of minified template and its hash. */
+export interface TemplateHashResult {
+  /** The minified template string. */
+  minifiedTemplate?: string;
+  /** The template hash. */
+  templateHash?: string;
+}
+
+/** Result of the request to list Microsoft.Resources operations. It contains a list of operations and a URL link to get the next set of results. */
+export interface OperationListResult {
+  /** List of Microsoft.Resources operations. */
+  value?: Operation[];
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+}
+
+/** Microsoft.Resources operation */
+export interface Operation {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /** The object that represents the operation. */
+  display?: OperationDisplay;
+}
+
+/** The object that represents the operation. */
+export interface OperationDisplay {
+  /** Service provider: Microsoft.Resources */
+  provider?: string;
+  /** Resource on which the operation is performed: Profile, endpoint, etc. */
+  resource?: string;
+  /** Operation type: Read, write, delete, etc. */
+  operation?: string;
+  /** Description of the operation. */
+  description?: string;
+}
+
+/** Resource provider information. */
+export interface Provider {
+  /**
+   * The provider ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The namespace of the resource provider. */
+  namespace?: string;
+  /**
+   * The registration state of the resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registrationState?: string;
+  /**
+   * The registration policy of the resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registrationPolicy?: string;
+  /**
+   * The collection of provider resource types.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceTypes?: ProviderResourceType[];
+  /** The provider authorization consent state. */
+  providerAuthorizationConsentState?: ProviderAuthorizationConsentState;
+}
+
+/** Resource type managed by the resource provider. */
+export interface ProviderResourceType {
+  /** The resource type. */
+  resourceType?: string;
+  /** The collection of locations where this resource type can be created. */
+  locations?: string[];
+  /** The location mappings that are supported by this resource type. */
+  locationMappings?: ProviderExtendedLocation[];
+  /** The aliases that are supported by this resource type. */
+  aliases?: Alias[];
+  /** The API version. */
+  apiVersions?: string[];
+  /**
+   * The default API version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultApiVersion?: string;
+  zoneMappings?: ZoneMapping[];
+  /**
+   * The API profiles for the resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly apiProfiles?: ApiProfile[];
+  /** The additional capabilities offered by this resource type. */
+  capabilities?: string;
+  /** The properties. */
+  properties?: { [propertyName: string]: string };
+}
+
+/** The provider extended location. */
+export interface ProviderExtendedLocation {
+  /** The azure location. */
+  location?: string;
+  /** The extended location type. */
+  type?: string;
+  /** The extended locations for the azure location. */
+  extendedLocations?: string[];
+}
+
+/** The alias type. */
+export interface Alias {
+  /** The alias name. */
+  name?: string;
+  /** The paths for an alias. */
+  paths?: AliasPath[];
+  /** The type of the alias. */
+  type?: AliasType;
+  /** The default path for an alias. */
+  defaultPath?: string;
+  /** The default pattern for an alias. */
+  defaultPattern?: AliasPattern;
+  /**
+   * The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultMetadata?: AliasPathMetadata;
+}
+
+/** The type of the paths for alias. */
+export interface AliasPath {
+  /** The path of an alias. */
+  path?: string;
+  /** The API versions. */
+  apiVersions?: string[];
+  /** The pattern for an alias path. */
+  pattern?: AliasPattern;
+  /**
+   * The metadata of the alias path. If missing, fall back to the default metadata of the alias.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: AliasPathMetadata;
+}
+
+/** The type of the pattern for an alias path. */
+export interface AliasPattern {
+  /** The alias pattern phrase. */
+  phrase?: string;
+  /** The alias pattern variable. */
+  variable?: string;
+  /** The type of alias pattern */
+  type?: AliasPatternType;
+}
+
+export interface AliasPathMetadata {
+  /**
+   * The type of the token that the alias path is referring to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: AliasPathTokenType;
+  /**
+   * The attributes of the token that the alias path is referring to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly attributes?: AliasPathAttributes;
+}
+
+export interface ZoneMapping {
+  /** The location of the zone mapping. */
+  location?: string;
+  zones?: string[];
+}
+
+export interface ApiProfile {
+  /**
+   * The profile version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly profileVersion?: string;
+  /**
+   * The API version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly apiVersion?: string;
 }
 
 /** List of provider permissions. */
@@ -796,22 +968,6 @@ export interface ResourceGroupPatchable {
   tags?: { [propertyName: string]: string };
 }
 
-/** Export resource group template request parameters. */
-export interface ExportTemplateRequest {
-  /** The IDs of the resources to filter the export by. To export all resources, supply an array with single entry '*'. */
-  resources?: string[];
-  /** The export template options. A CSV-formatted list containing zero or more of the following: 'IncludeParameterDefaultValue', 'IncludeComments', 'SkipResourceNameParameterization', 'SkipAllParameterization' */
-  options?: string;
-}
-
-/** Resource group export result. */
-export interface ResourceGroupExportResult {
-  /** The template content. */
-  template?: Record<string, unknown>;
-  /** The template export error. */
-  error?: ErrorResponse;
-}
-
 /** List of resource groups. */
 export interface ResourceGroupListResult {
   /** An array of resource groups. */
@@ -876,119 +1032,6 @@ export interface TagsListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Deployment operation information. */
-export interface DeploymentOperation {
-  /**
-   * Full deployment operation ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Deployment operation ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationId?: string;
-  /** Deployment properties. */
-  properties?: DeploymentOperationProperties;
-}
-
-/** Deployment operation properties. */
-export interface DeploymentOperationProperties {
-  /**
-   * The name of the current provisioning operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningOperation?: ProvisioningOperation;
-  /**
-   * The state of the provisioning.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The date and time of the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timestamp?: Date;
-  /**
-   * The duration of the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly duration?: string;
-  /**
-   * Deployment operation service request id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceRequestId?: string;
-  /**
-   * Operation status code from the resource provider. This property may not be set if a response has not yet been received.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusCode?: string;
-  /**
-   * Operation status message from the resource provider. This property is optional.  It will only be provided if an error was received from the resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusMessage?: StatusMessage;
-  /**
-   * The target resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetResource?: TargetResource;
-  /**
-   * The HTTP request message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly request?: HttpMessage;
-  /**
-   * The HTTP response message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly response?: HttpMessage;
-}
-
-/** Operation status message object. */
-export interface StatusMessage {
-  /** Status of the deployment operation. */
-  status?: string;
-  /** The error reported by the operation. */
-  error?: ErrorResponse;
-}
-
-/** Target resource. */
-export interface TargetResource {
-  /** The ID of the resource. */
-  id?: string;
-  /** The name of the resource. */
-  resourceName?: string;
-  /** The type of the resource. */
-  resourceType?: string;
-}
-
-/** HTTP message. */
-export interface HttpMessage {
-  /** HTTP message content. */
-  content?: Record<string, unknown>;
-}
-
-/** List of deployment operations. */
-export interface DeploymentOperationsListResult {
-  /** An array of deployment operations. */
-  value?: DeploymentOperation[];
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Result of the request to calculate template hash. It contains a string of minified template and its hash. */
-export interface TemplateHashResult {
-  /** The minified template string. */
-  minifiedTemplate?: string;
-  /** The template hash. */
-  templateHash?: string;
 }
 
 /** Wrapper resource for tags API requests and responses. */
@@ -1141,6 +1184,24 @@ export interface DeploymentsWhatIfHeaders {
   location?: string;
   /** Number of seconds to wait before polling for status. */
   retryAfter?: string;
+}
+
+/** Defines headers for Tags_createOrUpdateAtScope operation. */
+export interface TagsCreateOrUpdateAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for Tags_updateAtScope operation. */
+export interface TagsUpdateAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for Tags_deleteAtScope operation. */
+export interface TagsDeleteAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
 }
 
 /** Known values of {@link ExpressionEvaluationOptionsScopeType} that the service accepts. */
@@ -1329,10 +1390,6 @@ export type TagsPatchOperation = string;
 export type DeploymentMode = "Incremental" | "Complete";
 /** Defines values for OnErrorDeploymentType. */
 export type OnErrorDeploymentType = "LastSuccessful" | "SpecificDeployment";
-/** Defines values for AliasPatternType. */
-export type AliasPatternType = "NotSpecified" | "Extract";
-/** Defines values for AliasType. */
-export type AliasType = "NotSpecified" | "PlainText" | "Mask";
 /** Defines values for WhatIfResultFormat. */
 export type WhatIfResultFormat = "ResourceIdOnly" | "FullResourcePayloads";
 /** Defines values for ChangeType. */
@@ -1351,12 +1408,6 @@ export type PropertyChangeType =
   | "Modify"
   | "Array"
   | "NoEffect";
-/** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
 /** Defines values for ProvisioningOperation. */
 export type ProvisioningOperation =
   | "NotSpecified"
@@ -1369,20 +1420,16 @@ export type ProvisioningOperation =
   | "Read"
   | "EvaluateDeploymentOutput"
   | "DeploymentCleanup";
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
+/** Defines values for AliasPatternType. */
+export type AliasPatternType = "NotSpecified" | "Extract";
+/** Defines values for AliasType. */
+export type AliasType = "NotSpecified" | "PlainText" | "Mask";
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /** Optional parameters. */
 export interface DeploymentsDeleteAtScopeOptionalParams
@@ -1781,18 +1828,6 @@ export interface DeploymentsExportTemplateOptionalParams
 export type DeploymentsExportTemplateResponse = DeploymentExportResult;
 
 /** Optional parameters. */
-export interface DeploymentsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'. */
-  filter?: string;
-  /** The number of results to get. If null is passed, returns all deployments. */
-  top?: number;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type DeploymentsListByResourceGroupResponse = DeploymentListResult;
-
-/** Optional parameters. */
 export interface DeploymentsCalculateTemplateHashOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1828,11 +1863,210 @@ export interface DeploymentsListAtSubscriptionScopeNextOptionalParams
 export type DeploymentsListAtSubscriptionScopeNextResponse = DeploymentListResult;
 
 /** Optional parameters. */
-export interface DeploymentsListByResourceGroupNextOptionalParams
+export interface ResourceGroupsExportTemplateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportTemplate operation. */
+export type ResourceGroupsExportTemplateResponse = ResourceGroupExportResult;
+
+/** Optional parameters. */
+export interface ResourceGroupsCheckExistenceOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByResourceGroupNext operation. */
-export type DeploymentsListByResourceGroupNextResponse = DeploymentListResult;
+/** Contains response data for the checkExistence operation. */
+export type ResourceGroupsCheckExistenceResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface ResourceGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ResourceGroupsCreateOrUpdateResponse = ResourceGroup;
+
+/** Optional parameters. */
+export interface ResourceGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** The resource types you want to force delete. Currently, only the following is supported: forceDeletionTypes=Microsoft.Compute/virtualMachines,Microsoft.Compute/virtualMachineScaleSets */
+  forceDeletionTypes?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ResourceGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ResourceGroupsGetResponse = ResourceGroup;
+
+/** Optional parameters. */
+export interface ResourceGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ResourceGroupsUpdateResponse = ResourceGroup;
+
+/** Optional parameters. */
+export interface ResourceGroupsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation.<br><br>You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1' */
+  filter?: string;
+  /** The number of results to return. If null is passed, returns all resource groups. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ResourceGroupsListResponse = ResourceGroupListResult;
+
+/** Optional parameters. */
+export interface ResourceGroupsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ResourceGroupsListNextResponse = ResourceGroupListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsGetAtScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtScope operation. */
+export type DeploymentOperationsGetAtScopeResponse = DeploymentOperation;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListAtScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of results to return. */
+  top?: number;
+}
+
+/** Contains response data for the listAtScope operation. */
+export type DeploymentOperationsListAtScopeResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsGetAtTenantScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtTenantScope operation. */
+export type DeploymentOperationsGetAtTenantScopeResponse = DeploymentOperation;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListAtTenantScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of results to return. */
+  top?: number;
+}
+
+/** Contains response data for the listAtTenantScope operation. */
+export type DeploymentOperationsListAtTenantScopeResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsGetAtManagementGroupScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroupScope operation. */
+export type DeploymentOperationsGetAtManagementGroupScopeResponse = DeploymentOperation;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of results to return. */
+  top?: number;
+}
+
+/** Contains response data for the listAtManagementGroupScope operation. */
+export type DeploymentOperationsListAtManagementGroupScopeResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsGetAtSubscriptionScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtSubscriptionScope operation. */
+export type DeploymentOperationsGetAtSubscriptionScopeResponse = DeploymentOperation;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of results to return. */
+  top?: number;
+}
+
+/** Contains response data for the listAtSubscriptionScope operation. */
+export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeploymentOperationsGetResponse = DeploymentOperation;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of results to return. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type DeploymentOperationsListResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListAtScopeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAtScopeNext operation. */
+export type DeploymentOperationsListAtScopeNextResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListAtTenantScopeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAtTenantScopeNext operation. */
+export type DeploymentOperationsListAtTenantScopeNextResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAtManagementGroupScopeNext operation. */
+export type DeploymentOperationsListAtManagementGroupScopeNextResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListAtSubscriptionScopeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAtSubscriptionScopeNext operation. */
+export type DeploymentOperationsListAtSubscriptionScopeNextResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface DeploymentOperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DeploymentOperationsListNextResponse = DeploymentOperationsListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface ProvidersUnregisterOptionalParams
@@ -1963,7 +2197,7 @@ export interface ResourcesListOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply on the operation.<br><br>Filter comparison operators include `eq` (equals) and `ne` (not equals) and may be used with the following properties: `location`, `resourceType`, `name`, `resourceGroup`, `identity`, `identity/principalId`, `plan`, `plan/publisher`, `plan/product`, `plan/name`, `plan/version`, and `plan/promotionCode`.<br><br>For example, to filter by a resource type, use `$filter=resourceType eq 'Microsoft.Network/virtualNetworks'`<br><br><br>`substringof(value, property)` can  be used to filter for substrings of the following currently-supported properties: `name` and `resourceGroup`<br><br>For example, to get all resources with 'demo' anywhere in the resource name, use `$filter=substringof('demo', name)`<br><br>Multiple substring operations can also be combined using `and`/`or` operators.<br><br>Note that any truncated number of results queried via `$top` may also not be compatible when using a filter.<br><br><br>Resources can be filtered by tag names and values. For example, to filter for a tag name and value, use `$filter=tagName eq 'tag1' and tagValue eq 'Value1'`. Note that when resources are filtered by tag name and value, <b>the original tags for each resource will not be returned in the results.</b> Any list of additional properties queried via `$expand` may also not be compatible when filtering by tag names/values. <br><br>For tag names only, resources can be filtered by prefix using the following syntax: `$filter=startswith(tagName, 'depart')`. This query will return all resources with a tag name prefixed by the phrase `depart` (i.e.`department`, `departureDate`, `departureTime`, etc.)<br><br><br>Note that some properties can be combined when filtering resources, which include the following: `substringof() and/or resourceType`, `plan and plan/publisher and plan/name`, and `identity and identity/principalId`. */
   filter?: string;
-  /** The number of results to return. If null is passed, returns all resources. */
+  /** The number of recommendations per page if a paged version of this API is being used. */
   top?: number;
   /** Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. For example, `$expand=createdTime,changedTime`. */
   expand?: string;
@@ -2085,78 +2319,6 @@ export interface ResourcesListNextOptionalParams
 export type ResourcesListNextResponse = ResourceListResult;
 
 /** Optional parameters. */
-export interface ResourceGroupsCheckExistenceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkExistence operation. */
-export type ResourceGroupsCheckExistenceResponse = {
-  body: boolean;
-};
-
-/** Optional parameters. */
-export interface ResourceGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ResourceGroupsCreateOrUpdateResponse = ResourceGroup;
-
-/** Optional parameters. */
-export interface ResourceGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** The resource types you want to force delete. Currently, only the following is supported: forceDeletionTypes=Microsoft.Compute/virtualMachines,Microsoft.Compute/virtualMachineScaleSets */
-  forceDeletionTypes?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ResourceGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ResourceGroupsGetResponse = ResourceGroup;
-
-/** Optional parameters. */
-export interface ResourceGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ResourceGroupsUpdateResponse = ResourceGroup;
-
-/** Optional parameters. */
-export interface ResourceGroupsExportTemplateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the exportTemplate operation. */
-export type ResourceGroupsExportTemplateResponse = ResourceGroupExportResult;
-
-/** Optional parameters. */
-export interface ResourceGroupsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation.<br><br>You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1' */
-  filter?: string;
-  /** The number of results to return. If null is passed, returns all resource groups. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type ResourceGroupsListResponse = ResourceGroupListResult;
-
-/** Optional parameters. */
-export interface ResourceGroupsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ResourceGroupsListNextResponse = ResourceGroupListResult;
-
-/** Optional parameters. */
 export interface TagsDeleteValueOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2185,14 +2347,24 @@ export type TagsListResponse = TagsListResult;
 
 /** Optional parameters. */
 export interface TagsCreateOrUpdateAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdateAtScope operation. */
 export type TagsCreateOrUpdateAtScopeResponse = TagsResource;
 
 /** Optional parameters. */
 export interface TagsUpdateAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the updateAtScope operation. */
 export type TagsUpdateAtScopeResponse = TagsResource;
@@ -2206,7 +2378,12 @@ export type TagsGetAtScopeResponse = TagsResource;
 
 /** Optional parameters. */
 export interface TagsDeleteAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface TagsListNextOptionalParams
@@ -2214,126 +2391,6 @@ export interface TagsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type TagsListNextResponse = TagsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsGetAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAtScope operation. */
-export type DeploymentOperationsGetAtScopeResponse = DeploymentOperation;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListAtScopeOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of results to return. */
-  top?: number;
-}
-
-/** Contains response data for the listAtScope operation. */
-export type DeploymentOperationsListAtScopeResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsGetAtTenantScopeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAtTenantScope operation. */
-export type DeploymentOperationsGetAtTenantScopeResponse = DeploymentOperation;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListAtTenantScopeOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of results to return. */
-  top?: number;
-}
-
-/** Contains response data for the listAtTenantScope operation. */
-export type DeploymentOperationsListAtTenantScopeResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsGetAtManagementGroupScopeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAtManagementGroupScope operation. */
-export type DeploymentOperationsGetAtManagementGroupScopeResponse = DeploymentOperation;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of results to return. */
-  top?: number;
-}
-
-/** Contains response data for the listAtManagementGroupScope operation. */
-export type DeploymentOperationsListAtManagementGroupScopeResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsGetAtSubscriptionScopeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAtSubscriptionScope operation. */
-export type DeploymentOperationsGetAtSubscriptionScopeResponse = DeploymentOperation;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of results to return. */
-  top?: number;
-}
-
-/** Contains response data for the listAtSubscriptionScope operation. */
-export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DeploymentOperationsGetResponse = DeploymentOperation;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of results to return. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type DeploymentOperationsListResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListAtScopeNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtScopeNext operation. */
-export type DeploymentOperationsListAtScopeNextResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListAtTenantScopeNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtTenantScopeNext operation. */
-export type DeploymentOperationsListAtTenantScopeNextResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtManagementGroupScopeNext operation. */
-export type DeploymentOperationsListAtManagementGroupScopeNextResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListAtSubscriptionScopeNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtSubscriptionScopeNext operation. */
-export type DeploymentOperationsListAtSubscriptionScopeNextResponse = DeploymentOperationsListResult;
-
-/** Optional parameters. */
-export interface DeploymentOperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DeploymentOperationsListNextResponse = DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface ResourceManagementClientOptionalParams

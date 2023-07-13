@@ -16,12 +16,12 @@ import {
   ScopedDeployment as ScopedDeploymentMapper,
   ScopedDeploymentWhatIf as ScopedDeploymentWhatIfMapper,
   DeploymentWhatIf as DeploymentWhatIfMapper,
+  ExportTemplateRequest as ExportTemplateRequestMapper,
+  ResourceGroup as ResourceGroupMapper,
+  ResourceGroupPatchable as ResourceGroupPatchableMapper,
   ProviderRegistrationRequest as ProviderRegistrationRequestMapper,
   ResourcesMoveInfo as ResourcesMoveInfoMapper,
   GenericResource as GenericResourceMapper,
-  ResourceGroup as ResourceGroupMapper,
-  ResourceGroupPatchable as ResourceGroupPatchableMapper,
-  ExportTemplateRequest as ExportTemplateRequestMapper,
   TagsResource as TagsResourceMapper,
   TagsPatchResource as TagsPatchResourceMapper
 } from "../models/mappers";
@@ -42,30 +42,6 @@ export const $host: OperationURLParameter = {
   parameterPath: "$host",
   mapper: {
     serializedName: "$host",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-04-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
     required: true,
     type: {
       name: "String"
@@ -96,6 +72,18 @@ export const deploymentName: OperationURLParameter = {
     },
     serializedName: "deploymentName",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-09-01",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -208,6 +196,69 @@ export const template: OperationParameter = {
   }
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ExportTemplateRequestMapper
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceGroupMapper
+};
+
+export const forceDeletionTypes: OperationQueryParameter = {
+  parameterPath: ["options", "forceDeletionTypes"],
+  mapper: {
+    serializedName: "forceDeletionTypes",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceGroupPatchableMapper
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const resourceProviderNamespace: OperationURLParameter = {
   parameterPath: "resourceProviderNamespace",
   mapper: {
@@ -234,7 +285,7 @@ export const expand: OperationQueryParameter = {
   }
 };
 
-export const parameters4: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: ResourcesMoveInfoMapper
 };
@@ -301,7 +352,7 @@ export const apiVersion1: OperationQueryParameter = {
   }
 };
 
-export const parameters5: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: GenericResourceMapper
 };
@@ -316,46 +367,6 @@ export const resourceId: OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ResourceGroupMapper
-};
-
-export const forceDeletionTypes: OperationQueryParameter = {
-  parameterPath: ["options", "forceDeletionTypes"],
-  mapper: {
-    serializedName: "forceDeletionTypes",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ResourceGroupPatchableMapper
-};
-
-export const parameters8: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ExportTemplateRequestMapper
-};
-
-export const resourceGroupName1: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const tagName: OperationURLParameter = {
@@ -388,15 +399,4 @@ export const parameters9: OperationParameter = {
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: TagsPatchResourceMapper
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

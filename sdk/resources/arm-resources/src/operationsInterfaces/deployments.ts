@@ -14,7 +14,6 @@ import {
   DeploymentsListAtTenantScopeOptionalParams,
   DeploymentsListAtManagementGroupScopeOptionalParams,
   DeploymentsListAtSubscriptionScopeOptionalParams,
-  DeploymentsListByResourceGroupOptionalParams,
   DeploymentsDeleteAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeResponse,
@@ -125,16 +124,6 @@ export interface Deployments {
    */
   listAtSubscriptionScope(
     options?: DeploymentsListAtSubscriptionScopeOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended>;
-  /**
-   * Get all the deployments for a resource group.
-   * @param resourceGroupName The name of the resource group with the deployments to get. The name is
-   *                          case insensitive.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<DeploymentExtended>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment

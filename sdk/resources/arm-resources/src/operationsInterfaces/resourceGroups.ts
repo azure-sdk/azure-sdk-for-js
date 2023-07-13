@@ -11,6 +11,9 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ResourceGroup,
   ResourceGroupsListOptionalParams,
+  ExportTemplateRequest,
+  ResourceGroupsExportTemplateOptionalParams,
+  ResourceGroupsExportTemplateResponse,
   ResourceGroupsCheckExistenceOptionalParams,
   ResourceGroupsCheckExistenceResponse,
   ResourceGroupsCreateOrUpdateOptionalParams,
@@ -20,10 +23,7 @@ import {
   ResourceGroupsGetResponse,
   ResourceGroupPatchable,
   ResourceGroupsUpdateOptionalParams,
-  ResourceGroupsUpdateResponse,
-  ExportTemplateRequest,
-  ResourceGroupsExportTemplateOptionalParams,
-  ResourceGroupsExportTemplateResponse
+  ResourceGroupsUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,6 +36,33 @@ export interface ResourceGroups {
   list(
     options?: ResourceGroupsListOptionalParams
   ): PagedAsyncIterableIterator<ResourceGroup>;
+  /**
+   * Captures the specified resource group as a template.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parameters Parameters for exporting the template.
+   * @param options The options parameters.
+   */
+  beginExportTemplate(
+    resourceGroupName: string,
+    parameters: ExportTemplateRequest,
+    options?: ResourceGroupsExportTemplateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ResourceGroupsExportTemplateResponse>,
+      ResourceGroupsExportTemplateResponse
+    >
+  >;
+  /**
+   * Captures the specified resource group as a template.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parameters Parameters for exporting the template.
+   * @param options The options parameters.
+   */
+  beginExportTemplateAndWait(
+    resourceGroupName: string,
+    parameters: ExportTemplateRequest,
+    options?: ResourceGroupsExportTemplateOptionalParams
+  ): Promise<ResourceGroupsExportTemplateResponse>;
   /**
    * Checks whether a resource group exists.
    * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
@@ -100,31 +127,4 @@ export interface ResourceGroups {
     parameters: ResourceGroupPatchable,
     options?: ResourceGroupsUpdateOptionalParams
   ): Promise<ResourceGroupsUpdateResponse>;
-  /**
-   * Captures the specified resource group as a template.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param parameters Parameters for exporting the template.
-   * @param options The options parameters.
-   */
-  beginExportTemplate(
-    resourceGroupName: string,
-    parameters: ExportTemplateRequest,
-    options?: ResourceGroupsExportTemplateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ResourceGroupsExportTemplateResponse>,
-      ResourceGroupsExportTemplateResponse
-    >
-  >;
-  /**
-   * Captures the specified resource group as a template.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param parameters Parameters for exporting the template.
-   * @param options The options parameters.
-   */
-  beginExportTemplateAndWait(
-    resourceGroupName: string,
-    parameters: ExportTemplateRequest,
-    options?: ResourceGroupsExportTemplateOptionalParams
-  ): Promise<ResourceGroupsExportTemplateResponse>;
 }

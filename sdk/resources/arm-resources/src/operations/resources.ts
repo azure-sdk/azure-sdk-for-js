@@ -831,7 +831,9 @@ export class ResourcesImpl implements Resources {
   }
 
   /**
-   * Checks by ID whether a resource exists.
+   * Checks by ID whether a resource exists. This API currently works only for a limited set of Resource
+   * providers. In the event that a Resource provider does not implement this API, ARM will respond with
+   * a 405. The alternative then is to use the GET API to check for the existence of the resource.
    * @param resourceId The fully qualified ID of the resource, including the resource name and resource
    *                   type. Use the format,
    *                   /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
@@ -1222,7 +1224,7 @@ const moveResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1246,7 +1248,7 @@ const validateMoveResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1349,7 +1351,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -1385,7 +1387,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -1477,7 +1479,7 @@ const createOrUpdateByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1504,7 +1506,7 @@ const updateByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1540,9 +1542,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1560,8 +1562,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

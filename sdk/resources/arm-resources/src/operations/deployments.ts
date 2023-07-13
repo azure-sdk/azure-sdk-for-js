@@ -33,9 +33,6 @@ import {
   DeploymentsListAtSubscriptionScopeNextOptionalParams,
   DeploymentsListAtSubscriptionScopeOptionalParams,
   DeploymentsListAtSubscriptionScopeResponse,
-  DeploymentsListByResourceGroupNextOptionalParams,
-  DeploymentsListByResourceGroupOptionalParams,
-  DeploymentsListByResourceGroupResponse,
   DeploymentsDeleteAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeResponse,
@@ -113,8 +110,7 @@ import {
   DeploymentsListAtScopeNextResponse,
   DeploymentsListAtTenantScopeNextResponse,
   DeploymentsListAtManagementGroupScopeNextResponse,
-  DeploymentsListAtSubscriptionScopeNextResponse,
-  DeploymentsListByResourceGroupNextResponse
+  DeploymentsListAtSubscriptionScopeNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -364,76 +360,6 @@ export class DeploymentsImpl implements Deployments {
     options?: DeploymentsListAtSubscriptionScopeOptionalParams
   ): AsyncIterableIterator<DeploymentExtended> {
     for await (const page of this.listAtSubscriptionScopePagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Get all the deployments for a resource group.
-   * @param resourceGroupName The name of the resource group with the deployments to get. The name is
-   *                          case insensitive.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<DeploymentExtended[]> {
-    let result: DeploymentsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
       yield* page;
     }
   }
@@ -2613,22 +2539,6 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Get all the deployments for a resource group.
-   * @param resourceGroupName The name of the resource group with the deployments to get. The name is
-   *                          case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams
-  ): Promise<DeploymentsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
    * Calculate the hash of the given template.
    * @param template The template provided to calculate hash.
    * @param options The options parameters.
@@ -2706,24 +2616,6 @@ export class DeploymentsImpl implements Deployments {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listAtSubscriptionScopeNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group with the deployments to get. The name is
-   *                          case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DeploymentsListByResourceGroupNextOptionalParams
-  ): Promise<DeploymentsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
     );
   }
 }
@@ -3724,27 +3616,6 @@ const exportTemplateOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const calculateTemplateHashOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Resources/calculateTemplateHash",
   httpMethod: "POST",
@@ -3774,7 +3645,7 @@ const listAtScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -3804,7 +3675,7 @@ const listAtManagementGroupScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.groupId],
+  urlParameters: [Parameters.$host, Parameters.groupId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -3821,28 +3692,8 @@ const listAtSubscriptionScopeNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

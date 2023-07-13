@@ -24,6 +24,9 @@ import {
   ResourceGroupsListNextOptionalParams,
   ResourceGroupsListOptionalParams,
   ResourceGroupsListResponse,
+  ExportTemplateRequest,
+  ResourceGroupsExportTemplateOptionalParams,
+  ResourceGroupsExportTemplateResponse,
   ResourceGroupsCheckExistenceOptionalParams,
   ResourceGroupsCheckExistenceResponse,
   ResourceGroupsCreateOrUpdateOptionalParams,
@@ -34,9 +37,6 @@ import {
   ResourceGroupPatchable,
   ResourceGroupsUpdateOptionalParams,
   ResourceGroupsUpdateResponse,
-  ExportTemplateRequest,
-  ResourceGroupsExportTemplateOptionalParams,
-  ResourceGroupsExportTemplateResponse,
   ResourceGroupsListNextResponse
 } from "../models";
 
@@ -105,6 +105,97 @@ export class ResourceGroupsImpl implements ResourceGroups {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Captures the specified resource group as a template.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parameters Parameters for exporting the template.
+   * @param options The options parameters.
+   */
+  async beginExportTemplate(
+    resourceGroupName: string,
+    parameters: ExportTemplateRequest,
+    options?: ResourceGroupsExportTemplateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ResourceGroupsExportTemplateResponse>,
+      ResourceGroupsExportTemplateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ResourceGroupsExportTemplateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, parameters, options },
+      spec: exportTemplateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ResourceGroupsExportTemplateResponse,
+      OperationState<ResourceGroupsExportTemplateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Captures the specified resource group as a template.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parameters Parameters for exporting the template.
+   * @param options The options parameters.
+   */
+  async beginExportTemplateAndWait(
+    resourceGroupName: string,
+    parameters: ExportTemplateRequest,
+    options?: ResourceGroupsExportTemplateOptionalParams
+  ): Promise<ResourceGroupsExportTemplateResponse> {
+    const poller = await this.beginExportTemplate(
+      resourceGroupName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -252,97 +343,6 @@ export class ResourceGroupsImpl implements ResourceGroups {
   }
 
   /**
-   * Captures the specified resource group as a template.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param parameters Parameters for exporting the template.
-   * @param options The options parameters.
-   */
-  async beginExportTemplate(
-    resourceGroupName: string,
-    parameters: ExportTemplateRequest,
-    options?: ResourceGroupsExportTemplateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ResourceGroupsExportTemplateResponse>,
-      ResourceGroupsExportTemplateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ResourceGroupsExportTemplateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, parameters, options },
-      spec: exportTemplateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ResourceGroupsExportTemplateResponse,
-      OperationState<ResourceGroupsExportTemplateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Captures the specified resource group as a template.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param parameters Parameters for exporting the template.
-   * @param options The options parameters.
-   */
-  async beginExportTemplateAndWait(
-    resourceGroupName: string,
-    parameters: ExportTemplateRequest,
-    options?: ResourceGroupsExportTemplateOptionalParams
-  ): Promise<ResourceGroupsExportTemplateResponse> {
-    const poller = await this.beginExportTemplate(
-      resourceGroupName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Gets all the resource groups for a subscription.
    * @param options The options parameters.
    */
@@ -370,6 +370,38 @@ export class ResourceGroupsImpl implements ResourceGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const exportTemplateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceGroupExportResult
+    },
+    201: {
+      bodyMapper: Mappers.ResourceGroupExportResult
+    },
+    202: {
+      bodyMapper: Mappers.ResourceGroupExportResult
+    },
+    204: {
+      bodyMapper: Mappers.ResourceGroupExportResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const checkExistenceOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   httpMethod: "HEAD",
@@ -403,7 +435,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -466,44 +498,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const exportTemplateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceGroupExportResult
-    },
-    201: {
-      bodyMapper: Mappers.ResourceGroupExportResult
-    },
-    202: {
-      bodyMapper: Mappers.ResourceGroupExportResult
-    },
-    204: {
-      bodyMapper: Mappers.ResourceGroupExportResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -538,8 +538,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
