@@ -12,6 +12,7 @@ import {
   GenericResourceExpanded,
   ResourcesListByResourceGroupOptionalParams,
   ResourcesListOptionalParams,
+  ResourcesListByParentOptionalParams,
   ResourcesMoveInfo,
   ResourcesMoveResourcesOptionalParams,
   ResourcesValidateMoveResourcesOptionalParams,
@@ -54,6 +55,24 @@ export interface Resources {
    */
   list(
     options?: ResourcesListOptionalParams
+  ): PagedAsyncIterableIterator<GenericResourceExpanded>;
+  /**
+   * Lists child resources of a given parent resource.
+   * @param resourceGroupName The name of the resource group containing the resource to get. The name is
+   *                          case insensitive.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param apiVersion The API version to use for the operation.
+   * @param options The options parameters.
+   */
+  listByParent(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    apiVersion: string,
+    options?: ResourcesListByParentOptionalParams
   ): PagedAsyncIterableIterator<GenericResourceExpanded>;
   /**
    * The resources to be moved must be in the same source resource group in the source subscription being
@@ -298,7 +317,9 @@ export interface Resources {
     options?: ResourcesGetOptionalParams
   ): Promise<ResourcesGetResponse>;
   /**
-   * Checks by ID whether a resource exists.
+   * Checks by ID whether a resource exists. This API currently works only for a limited set of Resource
+   * providers. In the event that a Resource provider does not implement this API, ARM will respond with
+   * a 405. The alternative then is to use the GET API to check for the existence of the resource.
    * @param resourceId The fully qualified ID of the resource, including the resource name and resource
    *                   type. Use the format,
    *                   /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}

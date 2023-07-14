@@ -27,6 +27,9 @@ import {
   ResourcesListNextOptionalParams,
   ResourcesListOptionalParams,
   ResourcesListResponse,
+  ResourcesListByParentNextOptionalParams,
+  ResourcesListByParentOptionalParams,
+  ResourcesListByParentResponse,
   ResourcesMoveInfo,
   ResourcesMoveResourcesOptionalParams,
   ResourcesValidateMoveResourcesOptionalParams,
@@ -50,7 +53,8 @@ import {
   ResourcesGetByIdOptionalParams,
   ResourcesGetByIdResponse,
   ResourcesListByResourceGroupNextResponse,
-  ResourcesListNextResponse
+  ResourcesListNextResponse,
+  ResourcesListByParentNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -185,6 +189,117 @@ export class ResourcesImpl implements Resources {
     options?: ResourcesListOptionalParams
   ): AsyncIterableIterator<GenericResourceExpanded> {
     for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists child resources of a given parent resource.
+   * @param resourceGroupName The name of the resource group containing the resource to get. The name is
+   *                          case insensitive.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param apiVersion The API version to use for the operation.
+   * @param options The options parameters.
+   */
+  public listByParent(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    apiVersion: string,
+    options?: ResourcesListByParentOptionalParams
+  ): PagedAsyncIterableIterator<GenericResourceExpanded> {
+    const iter = this.listByParentPagingAll(
+      resourceGroupName,
+      resourceProviderNamespace,
+      parentResourcePath,
+      resourceType,
+      apiVersion,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByParentPagingPage(
+          resourceGroupName,
+          resourceProviderNamespace,
+          parentResourcePath,
+          resourceType,
+          apiVersion,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByParentPagingPage(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    apiVersion: string,
+    options?: ResourcesListByParentOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<GenericResourceExpanded[]> {
+    let result: ResourcesListByParentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByParent(
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        apiVersion,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByParentNext(
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByParentPagingAll(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    apiVersion: string,
+    options?: ResourcesListByParentOptionalParams
+  ): AsyncIterableIterator<GenericResourceExpanded> {
+    for await (const page of this.listByParentPagingPage(
+      resourceGroupName,
+      resourceProviderNamespace,
+      parentResourcePath,
+      resourceType,
+      apiVersion,
+      options
+    )) {
       yield* page;
     }
   }
@@ -831,7 +946,40 @@ export class ResourcesImpl implements Resources {
   }
 
   /**
-   * Checks by ID whether a resource exists.
+   * Lists child resources of a given parent resource.
+   * @param resourceGroupName The name of the resource group containing the resource to get. The name is
+   *                          case insensitive.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param apiVersion The API version to use for the operation.
+   * @param options The options parameters.
+   */
+  private _listByParent(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    apiVersion: string,
+    options?: ResourcesListByParentOptionalParams
+  ): Promise<ResourcesListByParentResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        apiVersion,
+        options
+      },
+      listByParentOperationSpec
+    );
+  }
+
+  /**
+   * Checks by ID whether a resource exists. This API currently works only for a limited set of Resource
+   * providers. In the event that a Resource provider does not implement this API, ARM will respond with
+   * a 405. The alternative then is to use the GET API to check for the existence of the resource.
    * @param resourceId The fully qualified ID of the resource, including the resource name and resource
    *                   type. Use the format,
    *                   /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
@@ -1179,6 +1327,37 @@ export class ResourcesImpl implements Resources {
       listNextOperationSpec
     );
   }
+
+  /**
+   * ListByParentNext
+   * @param resourceGroupName The name of the resource group containing the resource to get. The name is
+   *                          case insensitive.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param nextLink The nextLink from the previous successful call to the ListByParent method.
+   * @param options The options parameters.
+   */
+  private _listByParentNext(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    nextLink: string,
+    options?: ResourcesListByParentNextOptionalParams
+  ): Promise<ResourcesListByParentNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        nextLink,
+        options
+      },
+      listByParentNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -1425,6 +1604,30 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listByParentOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceProviderNamespace,
+    Parameters.parentResourcePath,
+    Parameters.resourceType
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const checkExistenceByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceId}",
   httpMethod: "HEAD",
@@ -1562,6 +1765,29 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByParentNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceProviderNamespace,
+    Parameters.parentResourcePath,
+    Parameters.resourceType
   ],
   headerParameters: [Parameters.accept],
   serializer

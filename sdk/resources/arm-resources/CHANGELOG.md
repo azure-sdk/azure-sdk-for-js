@@ -1,15 +1,44 @@
 # Release History
+    
+## 6.0.0 (2023-07-14)
+    
+**Features**
 
-## 5.2.1 (Unreleased)
+  - Added operation Resources.listByParent
+  - Added operation TagsOperations.beginCreateOrUpdateAtScope
+  - Added operation TagsOperations.beginCreateOrUpdateAtScopeAndWait
+  - Added operation TagsOperations.beginDeleteAtScope
+  - Added operation TagsOperations.beginDeleteAtScopeAndWait
+  - Added operation TagsOperations.beginUpdateAtScope
+  - Added operation TagsOperations.beginUpdateAtScopeAndWait
+  - Added Interface DeploymentParameter
+  - Added Interface KeyVaultParameterReference
+  - Added Interface KeyVaultReference
+  - Added Interface ResourcesListByParentNextOptionalParams
+  - Added Interface ResourcesListByParentOptionalParams
+  - Added Interface TagsCreateOrUpdateAtScopeHeaders
+  - Added Interface TagsDeleteAtScopeHeaders
+  - Added Interface TagsUpdateAtScopeHeaders
+  - Added Type Alias ResourcesListByParentNextResponse
+  - Added Type Alias ResourcesListByParentResponse
+  - Interface TagsCreateOrUpdateAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsCreateOrUpdateAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface TagsDeleteAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsDeleteAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface TagsUpdateAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsUpdateAtScopeOptionalParams has a new optional parameter updateIntervalInMs
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation TagsOperations.createOrUpdateAtScope
+  - Removed operation TagsOperations.deleteAtScope
+  - Removed operation TagsOperations.updateAtScope
+  - Class ResourceManagementClient has a new signature
+  - Type of parameter parameters of interface DeploymentProperties is changed from Record<string, unknown> to {
+        [propertyName: string]: DeploymentParameter;
+    }
+    
+    
 ## 5.2.0 (2023-03-13)
     
 **Features**
