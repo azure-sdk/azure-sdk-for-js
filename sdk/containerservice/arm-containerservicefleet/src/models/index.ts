@@ -576,11 +576,11 @@ export type ActionType = string;
 
 /** Known values of {@link FleetProvisioningState} that the service accepts. */
 export enum KnownFleetProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
   /** Creating */
   Creating = "Creating",
@@ -595,9 +595,9 @@ export enum KnownFleetProvisioningState {
  * {@link KnownFleetProvisioningState} can be used interchangeably with FleetProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
  * **Creating** \
  * **Updating** \
  * **Deleting**
@@ -630,11 +630,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
 export enum KnownFleetMemberProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
   /** Joining */
   Joining = "Joining",
@@ -649,9 +649,9 @@ export enum KnownFleetMemberProvisioningState {
  * {@link KnownFleetMemberProvisioningState} can be used interchangeably with FleetMemberProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
  * **Joining** \
  * **Leaving** \
  * **Updating**
@@ -660,11 +660,11 @@ export type FleetMemberProvisioningState = string;
 
 /** Known values of {@link UpdateRunProvisioningState} that the service accepts. */
 export enum KnownUpdateRunProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled"
 }
 
@@ -673,9 +673,9 @@ export enum KnownUpdateRunProvisioningState {
  * {@link KnownUpdateRunProvisioningState} can be used interchangeably with UpdateRunProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
  */
 export type UpdateRunProvisioningState = string;
 
