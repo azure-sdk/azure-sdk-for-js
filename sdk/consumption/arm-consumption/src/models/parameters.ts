@@ -96,7 +96,7 @@ export const top: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01",
+    defaultValue: "2023-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -240,6 +240,18 @@ export const reservationId: OperationURLParameter = {
   }
 };
 
+export const resourceScope: OperationURLParameter = {
+  parameterPath: "resourceScope",
+  mapper: {
+    serializedName: "resourceScope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const reservationId1: OperationQueryParameter = {
   parameterPath: ["options", "reservationId"],
   mapper: {
@@ -264,6 +276,17 @@ export const filter1: OperationQueryParameter = {
   parameterPath: "filter",
   mapper: {
     serializedName: "$filter",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const scope1: OperationQueryParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
     required: true,
     type: {
       name: "String"
@@ -315,6 +338,26 @@ export const product: OperationQueryParameter = {
   }
 };
 
+export const useMarkupIfPartner: OperationQueryParameter = {
+  parameterPath: ["options", "useMarkupIfPartner"],
+  mapper: {
+    serializedName: "useMarkupIfPartner",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const previewMarkupPercentage: OperationQueryParameter = {
+  parameterPath: ["options", "previewMarkupPercentage"],
+  mapper: {
+    serializedName: "previewMarkupPercentage",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const billingProfileId: OperationURLParameter = {
   parameterPath: "billingProfileId",
   mapper: {
@@ -330,6 +373,20 @@ export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const billingPeriodName1: OperationURLParameter = {
+  parameterPath: "billingPeriodName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9]*$")
+    },
+    serializedName: "billingPeriodName",
     required: true,
     type: {
       name: "String"
@@ -363,6 +420,17 @@ export const endDate1: OperationQueryParameter = {
   parameterPath: "endDate",
   mapper: {
     serializedName: "endDate",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const customerId: OperationURLParameter = {
+  parameterPath: "customerId",
+  mapper: {
+    serializedName: "customerId",
     required: true,
     type: {
       name: "String"
