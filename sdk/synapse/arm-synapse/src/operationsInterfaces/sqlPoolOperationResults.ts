@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   SqlPoolOperationResultsGetLocationHeaderResultResponse
@@ -29,10 +29,8 @@ export interface SqlPoolOperationResults {
     operationId: string,
     options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        SqlPoolOperationResultsGetLocationHeaderResultResponse
-      >,
+    SimplePollerLike<
+      OperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>,
       SqlPoolOperationResultsGetLocationHeaderResultResponse
     >
   >;

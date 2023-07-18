@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BigDataPoolResourceInfo,
   BigDataPoolsListByWorkspaceNextOptionalParams,
@@ -190,8 +194,8 @@ export class BigDataPoolsImpl implements BigDataPools {
     bigDataPoolInfo: BigDataPoolResourceInfo,
     options?: BigDataPoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BigDataPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BigDataPoolsCreateOrUpdateResponse>,
       BigDataPoolsCreateOrUpdateResponse
     >
   > {
@@ -201,7 +205,7 @@ export class BigDataPoolsImpl implements BigDataPools {
     ): Promise<BigDataPoolsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -234,21 +238,24 @@ export class BigDataPoolsImpl implements BigDataPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         bigDataPoolName,
         bigDataPoolInfo,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BigDataPoolsCreateOrUpdateResponse,
+      OperationState<BigDataPoolsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -292,8 +299,8 @@ export class BigDataPoolsImpl implements BigDataPools {
     bigDataPoolName: string,
     options?: BigDataPoolsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BigDataPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<BigDataPoolsDeleteResponse>,
       BigDataPoolsDeleteResponse
     >
   > {
@@ -303,7 +310,7 @@ export class BigDataPoolsImpl implements BigDataPools {
     ): Promise<BigDataPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -336,15 +343,18 @@ export class BigDataPoolsImpl implements BigDataPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, bigDataPoolName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, bigDataPoolName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BigDataPoolsDeleteResponse,
+      OperationState<BigDataPoolsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
