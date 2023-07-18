@@ -15,8 +15,7 @@ import {
   RolesGetResponse,
   RolesCreateOptionalParams,
   RolesCreateResponse,
-  RolesDeleteOptionalParams,
-  RolesDeleteResponse
+  RolesDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -90,9 +89,7 @@ export interface Roles {
     clusterName: string,
     roleName: string,
     options?: RolesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<RolesDeleteResponse>, RolesDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a cluster role.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -105,5 +102,5 @@ export interface Roles {
     clusterName: string,
     roleName: string,
     options?: RolesDeleteOptionalParams
-  ): Promise<RolesDeleteResponse>;
+  ): Promise<void>;
 }

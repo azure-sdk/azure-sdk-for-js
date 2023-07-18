@@ -26,8 +26,7 @@ import {
   RolesGetResponse,
   RolesCreateOptionalParams,
   RolesCreateResponse,
-  RolesDeleteOptionalParams,
-  RolesDeleteResponse
+  RolesDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -234,13 +233,11 @@ export class RolesImpl implements Roles {
     clusterName: string,
     roleName: string,
     options?: RolesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<RolesDeleteResponse>, RolesDeleteResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<RolesDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -281,10 +278,7 @@ export class RolesImpl implements Roles {
       args: { resourceGroupName, clusterName, roleName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      RolesDeleteResponse,
-      OperationState<RolesDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -305,7 +299,7 @@ export class RolesImpl implements Roles {
     clusterName: string,
     roleName: string,
     options?: RolesDeleteOptionalParams
-  ): Promise<RolesDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
@@ -397,18 +391,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles/{roleName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.RolesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.RolesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.RolesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.RolesDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

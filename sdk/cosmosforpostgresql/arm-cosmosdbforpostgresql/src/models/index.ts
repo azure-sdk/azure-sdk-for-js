@@ -160,7 +160,7 @@ export interface ClusterForUpdate {
   postgresqlVersion?: string;
   /** The Citus extension version on all cluster servers. */
   citusVersion?: string;
-  /** If shards on coordinator is enabled or not for the cluster. */
+  /** If distributed tables are placed on coordinator or not. Should be set to 'true' on single node clusters. Requires shard rebalancing after value is changed. */
   enableShardsOnCoordinator?: boolean;
   /** If high availability (HA) is enabled or not for the cluster. */
   enableHa?: boolean;
@@ -637,7 +637,7 @@ export interface Cluster extends TrackedResource {
   maintenanceWindow?: MaintenanceWindow;
   /** Preferred primary availability zone (AZ) for all cluster servers. */
   preferredPrimaryZone?: string;
-  /** If shards on coordinator is enabled or not for the cluster. */
+  /** If distributed tables are placed on coordinator or not. Should be set to 'true' on single node clusters. Requires shard rebalancing after value is changed. */
   enableShardsOnCoordinator?: boolean;
   /** If high availability (HA) is enabled or not for the cluster. */
   enableHa?: boolean;
@@ -1157,9 +1157,6 @@ export interface FirewallRulesDeleteOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the delete operation. */
-export type FirewallRulesDeleteResponse = FirewallRulesDeleteHeaders;
-
 /** Optional parameters. */
 export interface FirewallRulesGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -1198,9 +1195,6 @@ export interface RolesDeleteOptionalParams extends coreClient.OperationOptions {
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Contains response data for the delete operation. */
-export type RolesDeleteResponse = RolesDeleteHeaders;
 
 /** Optional parameters. */
 export interface RolesListByClusterOptionalParams

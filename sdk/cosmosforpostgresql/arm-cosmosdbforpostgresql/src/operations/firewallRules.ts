@@ -25,7 +25,6 @@ import {
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesCreateOrUpdateResponse,
   FirewallRulesDeleteOptionalParams,
-  FirewallRulesDeleteResponse,
   FirewallRulesGetOptionalParams,
   FirewallRulesGetResponse
 } from "../models";
@@ -224,16 +223,11 @@ export class FirewallRulesImpl implements FirewallRules {
     clusterName: string,
     firewallRuleName: string,
     options?: FirewallRulesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<FirewallRulesDeleteResponse>,
-      FirewallRulesDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<FirewallRulesDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -274,10 +268,7 @@ export class FirewallRulesImpl implements FirewallRules {
       args: { resourceGroupName, clusterName, firewallRuleName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      FirewallRulesDeleteResponse,
-      OperationState<FirewallRulesDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -298,7 +289,7 @@ export class FirewallRulesImpl implements FirewallRules {
     clusterName: string,
     firewallRuleName: string,
     options?: FirewallRulesDeleteOptionalParams
-  ): Promise<FirewallRulesDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
@@ -386,18 +377,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules/{firewallRuleName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.FirewallRulesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.FirewallRulesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.FirewallRulesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.FirewallRulesDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

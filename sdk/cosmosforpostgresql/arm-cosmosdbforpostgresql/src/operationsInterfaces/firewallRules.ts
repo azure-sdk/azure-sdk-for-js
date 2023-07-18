@@ -14,7 +14,6 @@ import {
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesCreateOrUpdateResponse,
   FirewallRulesDeleteOptionalParams,
-  FirewallRulesDeleteResponse,
   FirewallRulesGetOptionalParams,
   FirewallRulesGetResponse
 } from "../models";
@@ -80,12 +79,7 @@ export interface FirewallRules {
     clusterName: string,
     firewallRuleName: string,
     options?: FirewallRulesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<FirewallRulesDeleteResponse>,
-      FirewallRulesDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a cluster firewall rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -98,7 +92,7 @@ export interface FirewallRules {
     clusterName: string,
     firewallRuleName: string,
     options?: FirewallRulesDeleteOptionalParams
-  ): Promise<FirewallRulesDeleteResponse>;
+  ): Promise<void>;
   /**
    * Gets information about a cluster firewall rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

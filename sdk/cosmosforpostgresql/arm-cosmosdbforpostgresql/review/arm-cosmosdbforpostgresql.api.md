@@ -465,8 +465,8 @@ export interface FirewallRuleListResult {
 export interface FirewallRules {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FirewallRulesCreateOrUpdateResponse>, FirewallRulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams): Promise<FirewallRulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FirewallRulesDeleteResponse>, FirewallRulesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<FirewallRulesDeleteResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams): Promise<FirewallRulesGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: FirewallRulesListByClusterOptionalParams): PagedAsyncIterableIterator<FirewallRule>;
 }
@@ -501,9 +501,6 @@ export interface FirewallRulesDeleteOptionalParams extends coreClient.OperationO
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type FirewallRulesDeleteResponse = FirewallRulesDeleteHeaders;
 
 // @public
 export interface FirewallRulesGetOptionalParams extends coreClient.OperationOptions {
@@ -792,8 +789,8 @@ export interface RoleListResult {
 export interface Roles {
     beginCreate(resourceGroupName: string, clusterName: string, roleName: string, parameters: Role, options?: RolesCreateOptionalParams): Promise<SimplePollerLike<OperationState<RolesCreateResponse>, RolesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, clusterName: string, roleName: string, parameters: Role, options?: RolesCreateOptionalParams): Promise<RolesCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, roleName: string, options?: RolesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<RolesDeleteResponse>, RolesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, roleName: string, options?: RolesDeleteOptionalParams): Promise<RolesDeleteResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, roleName: string, options?: RolesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, roleName: string, options?: RolesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, roleName: string, options?: RolesGetOptionalParams): Promise<RolesGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: RolesListByClusterOptionalParams): PagedAsyncIterableIterator<Role>;
 }
@@ -828,9 +825,6 @@ export interface RolesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type RolesDeleteResponse = RolesDeleteHeaders;
 
 // @public
 export interface RolesGetOptionalParams extends coreClient.OperationOptions {
