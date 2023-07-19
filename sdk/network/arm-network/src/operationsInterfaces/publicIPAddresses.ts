@@ -16,6 +16,8 @@ import {
   PublicIPAddressesListOptionalParams,
   PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
+  PublicIPAddressesListCloudServicePublicIPAddressOptionalParams,
+  PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressOptionalParams,
   PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams,
   PublicIPAddressesGetCloudServicePublicIPAddressResponse,
   PublicIPAddressesDeleteOptionalParams,
@@ -29,7 +31,9 @@ import {
   PublicIPAddressesDdosProtectionStatusOptionalParams,
   PublicIPAddressesDdosProtectionStatusResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
-  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse,
+  PublicIPAddressesGetCloudServiceRoleInstancePublicIPAddressOptionalParams,
+  PublicIPAddressesGetCloudServiceRoleInstancePublicIPAddressResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -108,6 +112,35 @@ export interface PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
+  ): PagedAsyncIterableIterator<PublicIPAddress>;
+  /**
+   * Gets information about all public IP addresses on a cloud service level.
+   * @param resourceGroupName The name of the resource group.
+   * @param cloudServiceName The name of the cloud service.
+   * @param options The options parameters.
+   */
+  listCloudServicePublicIPAddress(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: PublicIPAddressesListCloudServicePublicIPAddressOptionalParams
+  ): PagedAsyncIterableIterator<PublicIPAddress>;
+  /**
+   * Gets information about all public IP addresses in a role instance IP configuration in a cloud
+   * service.
+   * @param resourceGroupName The name of the resource group.
+   * @param cloudServiceName The name of the cloud service.
+   * @param roleInstanceName The name of role instance.
+   * @param networkInterfaceName The network interface name.
+   * @param ipConfigurationName The IP configuration name.
+   * @param options The options parameters.
+   */
+  listCloudServiceRoleInstancePublicIPAddress(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressOptionalParams
   ): PagedAsyncIterableIterator<PublicIPAddress>;
   /**
    * Get the specified public IP address in a cloud service.
@@ -251,4 +284,25 @@ export interface PublicIPAddresses {
     publicIpAddressName: string,
     options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams
   ): Promise<PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse>;
+  /**
+   * Get the specified public IP address in a cloud service.
+   * @param resourceGroupName The name of the resource group.
+   * @param cloudServiceName The name of the cloud service.
+   * @param roleInstanceName The role instance name.
+   * @param networkInterfaceName The name of the network interface.
+   * @param ipConfigurationName The name of the IP configuration.
+   * @param publicIpAddressName The name of the public IP Address.
+   * @param options The options parameters.
+   */
+  getCloudServiceRoleInstancePublicIPAddress(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    roleInstanceName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    publicIpAddressName: string,
+    options?: PublicIPAddressesGetCloudServiceRoleInstancePublicIPAddressOptionalParams
+  ): Promise<
+    PublicIPAddressesGetCloudServiceRoleInstancePublicIPAddressResponse
+  >;
 }

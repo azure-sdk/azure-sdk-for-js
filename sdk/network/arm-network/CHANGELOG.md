@@ -1,15 +1,70 @@
 # Release History
+    
+## 32.0.0 (2023-07-19)
+    
+**Features**
 
-## 31.0.1 (Unreleased)
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added operation NetworkInterfaces.getCloudServiceRoleInstanceNetworkInterface
+  - Added operation NetworkInterfaces.listCloudServiceNetworkInterface
+  - Added operation NetworkInterfaces.listCloudServiceRoleInstanceNetworkInterface
+  - Added operation PublicIPAddresses.getCloudServiceRoleInstancePublicIPAddress
+  - Added operation PublicIPAddresses.listCloudServicePublicIPAddress
+  - Added operation PublicIPAddresses.listCloudServiceRoleInstancePublicIPAddress
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
+  - Added Interface NetworkInterfacesGetCloudServiceRoleInstanceNetworkInterfaceOptionalParams
+  - Added Interface NetworkInterfacesListCloudServiceNetworkInterfaceNextOptionalParams
+  - Added Interface NetworkInterfacesListCloudServiceNetworkInterfaceOptionalParams
+  - Added Interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaceNextOptionalParams
+  - Added Interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaceOptionalParams
+  - Added Interface PublicIPAddressesGetCloudServiceRoleInstancePublicIPAddressOptionalParams
+  - Added Interface PublicIPAddressesListCloudServicePublicIPAddressNextOptionalParams
+  - Added Interface PublicIPAddressesListCloudServicePublicIPAddressOptionalParams
+  - Added Interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressNextOptionalParams
+  - Added Interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressOptionalParams
+  - Added Type Alias AdminState
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias NetworkInterfacesGetCloudServiceRoleInstanceNetworkInterfaceResponse
+  - Added Type Alias NetworkInterfacesListCloudServiceNetworkInterfaceNextResponse
+  - Added Type Alias NetworkInterfacesListCloudServiceNetworkInterfaceResponse
+  - Added Type Alias NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaceNextResponse
+  - Added Type Alias NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaceResponse
+  - Added Type Alias PublicIPAddressesGetCloudServiceRoleInstancePublicIPAddressResponse
+  - Added Type Alias PublicIPAddressesListCloudServicePublicIPAddressNextResponse
+  - Added Type Alias PublicIPAddressesListCloudServicePublicIPAddressResponse
+  - Added Type Alias PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressNextResponse
+  - Added Type Alias PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressResponse
+  - Added Type Alias SyncMode
+  - Interface ActiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface ActiveSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface AdminRule has a new optional parameter resourceGuid
+  - Interface AdminRuleCollection has a new optional parameter resourceGuid
+  - Interface ApplicationGateway has a new optional parameter defaultPredefinedSslPolicy
+  - Interface ApplicationGatewayFrontendIPConfiguration has a new optional parameter httpListeners
+  - Interface BackendAddressPool has a new optional parameter syncMode
+  - Interface ConfigurationGroup has a new optional parameter resourceGuid
+  - Interface ConnectivityConfiguration has a new optional parameter resourceGuid
+  - Interface DefaultAdminRule has a new optional parameter resourceGuid
+  - Interface EffectiveConnectivityConfiguration has a new optional parameter resourceGuid
+  - Interface EffectiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface EffectiveSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface NetworkGroup has a new optional parameter resourceGuid
+  - Interface NetworkManager has a new optional parameter resourceGuid
+  - Interface SecurityAdminConfiguration has a new optional parameter resourceGuid
+  - Interface VirtualNetworkGateway has a new optional parameter adminState
+  - Added Enum KnownAdminState
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class NetworkManagementClient has a new signature
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus499
+    
+    
 ## 31.0.0 (2023-05-19)
     
 **Features**
