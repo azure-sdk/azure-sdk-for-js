@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse,
@@ -70,8 +74,8 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
     options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
       >,
       DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
@@ -83,7 +87,7 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     ): Promise<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -116,18 +120,23 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         deviceName,
         resourceGroupName,
         proactiveLogCollectionSettings,
         options
       },
-      updateDiagnosticProactiveLogCollectionSettingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateDiagnosticProactiveLogCollectionSettingsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse,
+      OperationState<
+        DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -188,8 +197,8 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
     options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
       >,
       DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
@@ -201,7 +210,7 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     ): Promise<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -234,18 +243,23 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         deviceName,
         resourceGroupName,
         diagnosticRemoteSupportSettings,
         options
       },
-      updateDiagnosticRemoteSupportSettingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateDiagnosticRemoteSupportSettingsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse,
+      OperationState<
+        DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

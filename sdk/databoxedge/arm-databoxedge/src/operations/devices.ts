@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DataBoxEdgeDevice,
   DevicesListBySubscriptionNextOptionalParams,
@@ -42,6 +46,7 @@ import {
   DevicesScanForUpdatesOptionalParams,
   SecuritySettings,
   DevicesCreateOrUpdateSecuritySettingsOptionalParams,
+  DevicesCreateOrUpdateSecuritySettingsResponse,
   DataBoxEdgeDeviceExtendedInfoPatch,
   DevicesUpdateExtendedInformationOptionalParams,
   DevicesUpdateExtendedInformationResponse,
@@ -264,14 +269,14 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -304,13 +309,13 @@ export class DevicesImpl implements Devices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -365,14 +370,14 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesDownloadUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -405,13 +410,13 @@ export class DevicesImpl implements Devices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      downloadUpdatesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: downloadUpdatesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -481,14 +486,14 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesInstallUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -521,13 +526,13 @@ export class DevicesImpl implements Devices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      installUpdatesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: installUpdatesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -580,14 +585,14 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesScanForUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -620,13 +625,13 @@ export class DevicesImpl implements Devices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      scanForUpdatesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: scanForUpdatesOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -664,14 +669,19 @@ export class DevicesImpl implements Devices {
     resourceGroupName: string,
     securitySettings: SecuritySettings,
     options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DevicesCreateOrUpdateSecuritySettingsResponse>,
+      DevicesCreateOrUpdateSecuritySettingsResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<DevicesCreateOrUpdateSecuritySettingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -704,13 +714,16 @@ export class DevicesImpl implements Devices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, securitySettings, options },
-      createOrUpdateSecuritySettingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, securitySettings, options },
+      spec: createOrUpdateSecuritySettingsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DevicesCreateOrUpdateSecuritySettingsResponse,
+      OperationState<DevicesCreateOrUpdateSecuritySettingsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -729,7 +742,7 @@ export class DevicesImpl implements Devices {
     resourceGroupName: string,
     securitySettings: SecuritySettings,
     options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
-  ): Promise<void> {
+  ): Promise<DevicesCreateOrUpdateSecuritySettingsResponse> {
     const poller = await this.beginCreateOrUpdateSecuritySettings(
       deviceName,
       resourceGroupName,
@@ -1101,10 +1114,18 @@ const createOrUpdateSecuritySettingsOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/securitySettings/default/update",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DevicesCreateOrUpdateSecuritySettingsHeaders
+    },
+    201: {
+      headersMapper: Mappers.DevicesCreateOrUpdateSecuritySettingsHeaders
+    },
+    202: {
+      headersMapper: Mappers.DevicesCreateOrUpdateSecuritySettingsHeaders
+    },
+    204: {
+      headersMapper: Mappers.DevicesCreateOrUpdateSecuritySettingsHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1202,7 +1223,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1222,7 +1242,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

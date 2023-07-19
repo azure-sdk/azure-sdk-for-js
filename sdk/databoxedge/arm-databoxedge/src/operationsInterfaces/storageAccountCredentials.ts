@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageAccountCredential,
   StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams,
@@ -60,8 +60,8 @@ export interface StorageAccountCredentials {
     storageAccountCredential: StorageAccountCredential,
     options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountCredentialsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountCredentialsCreateOrUpdateResponse>,
       StorageAccountCredentialsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface StorageAccountCredentials {
     name: string,
     resourceGroupName: string,
     options?: StorageAccountCredentialsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the storage account credential.
    * @param deviceName The device name.

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataBoxEdgeDevice,
   DevicesListBySubscriptionOptionalParams,
@@ -31,6 +31,7 @@ import {
   DevicesScanForUpdatesOptionalParams,
   SecuritySettings,
   DevicesCreateOrUpdateSecuritySettingsOptionalParams,
+  DevicesCreateOrUpdateSecuritySettingsResponse,
   DataBoxEdgeDeviceExtendedInfoPatch,
   DevicesUpdateExtendedInformationOptionalParams,
   DevicesUpdateExtendedInformationResponse,
@@ -94,7 +95,7 @@ export interface Devices {
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -129,7 +130,7 @@ export interface Devices {
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesDownloadUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Downloads the updates on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -173,7 +174,7 @@ export interface Devices {
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesInstallUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Installs the updates on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -206,7 +207,7 @@ export interface Devices {
     deviceName: string,
     resourceGroupName: string,
     options?: DevicesScanForUpdatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Scans for updates on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -230,7 +231,12 @@ export interface Devices {
     resourceGroupName: string,
     securitySettings: SecuritySettings,
     options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DevicesCreateOrUpdateSecuritySettingsResponse>,
+      DevicesCreateOrUpdateSecuritySettingsResponse
+    >
+  >;
   /**
    * Updates the security settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -243,7 +249,7 @@ export interface Devices {
     resourceGroupName: string,
     securitySettings: SecuritySettings,
     options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams
-  ): Promise<void>;
+  ): Promise<DevicesCreateOrUpdateSecuritySettingsResponse>;
   /**
    * Gets additional information for the specified Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   StorageAccount,
   StorageAccountsListByDataBoxEdgeDeviceNextOptionalParams,
@@ -25,6 +29,7 @@ import {
   StorageAccountsCreateOrUpdateOptionalParams,
   StorageAccountsCreateOrUpdateResponse,
   StorageAccountsDeleteOptionalParams,
+  StorageAccountsDeleteResponse,
   StorageAccountsListByDataBoxEdgeDeviceNextResponse
 } from "../models";
 
@@ -176,8 +181,8 @@ export class StorageAccountsImpl implements StorageAccounts {
     storageAccount: StorageAccount,
     options?: StorageAccountsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateOrUpdateResponse>,
       StorageAccountsCreateOrUpdateResponse
     >
   > {
@@ -187,7 +192,7 @@ export class StorageAccountsImpl implements StorageAccounts {
     ): Promise<StorageAccountsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -220,19 +225,22 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         deviceName,
         storageAccountName,
         resourceGroupName,
         storageAccount,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageAccountsCreateOrUpdateResponse,
+      OperationState<StorageAccountsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -276,14 +284,19 @@ export class StorageAccountsImpl implements StorageAccounts {
     storageAccountName: string,
     resourceGroupName: string,
     options?: StorageAccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageAccountsDeleteResponse>,
+      StorageAccountsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<StorageAccountsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -316,13 +329,16 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, storageAccountName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, storageAccountName, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageAccountsDeleteResponse,
+      OperationState<StorageAccountsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -341,7 +357,7 @@ export class StorageAccountsImpl implements StorageAccounts {
     storageAccountName: string,
     resourceGroupName: string,
     options?: StorageAccountsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<StorageAccountsDeleteResponse> {
     const poller = await this.beginDelete(
       deviceName,
       storageAccountName,
@@ -458,10 +474,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.StorageAccountsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.StorageAccountsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.StorageAccountsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.StorageAccountsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -488,7 +512,6 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
