@@ -201,6 +201,7 @@ specifiers:
   '@rush-temp/arm-servicemap': file:./projects/arm-servicemap.tgz
   '@rush-temp/arm-servicenetworking': file:./projects/arm-servicenetworking.tgz
   '@rush-temp/arm-signalr': file:./projects/arm-signalr.tgz
+  '@rush-temp/arm-springappdiscovery': file:./projects/arm-springappdiscovery.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
@@ -551,6 +552,7 @@ dependencies:
   '@rush-temp/arm-servicemap': file:projects/arm-servicemap.tgz
   '@rush-temp/arm-servicenetworking': file:projects/arm-servicenetworking.tgz
   '@rush-temp/arm-signalr': file:projects/arm-signalr.tgz
+  '@rush-temp/arm-springappdiscovery': file:projects/arm-springappdiscovery.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
@@ -4885,7 +4887,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230718
+      typescript: 5.2.0-dev.20230720
     dev: false
 
   /duplexer3/0.1.5:
@@ -10397,8 +10399,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230718:
-    resolution: {integrity: sha512-ED1Vm+2UzdbtKui+0lVswEuAX94fQXeoghXyy/+aTNers8X/WB81r5sFg6nA4e43nVQ2MP/Qsa7/XJRFuHR+Cg==}
+  /typescript/5.2.0-dev.20230720:
+    resolution: {integrity: sha512-uZPSzgA2ZfMYqCafPbJ67YLwiVXeo93rT2iackGNerTEFs7wRBr2ENVRBIP33g5xCV0fFqN+e0l4oLvQjCZUKw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16800,6 +16802,34 @@ packages:
   file:projects/arm-signalr.tgz:
     resolution: {integrity: sha512-1NkCyVbi6iaM9hn+1DX6XI012m7zF5dOVAzQd7Y707GZCdmb+d4kTAabf9+sxp3KlLuN9CAX8vNIG8UTTFw1Pg==, tarball: file:projects/arm-signalr.tgz}
     name: '@rush-temp/arm-signalr'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.2_@types+node@14.18.53
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.53
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_sq65t46yqtx5h7g66skj5bmgcy
+      tslib: 2.6.0
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-springappdiscovery.tgz:
+    resolution: {integrity: sha512-ILWHNTxOpQQOxZVMK3an19pktGRa6/mzwHkKWxp4wIo8fMGt0h3p/efrYxQ3hVj2Ob/aLiKNuRZrNtMLY+JrKg==, tarball: file:projects/arm-springappdiscovery.tgz}
+    name: '@rush-temp/arm-springappdiscovery'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
