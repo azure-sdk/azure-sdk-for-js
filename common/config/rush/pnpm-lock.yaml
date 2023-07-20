@@ -4885,7 +4885,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230718
+      typescript: 5.2.0-dev.20230720
     dev: false
 
   /duplexer3/0.1.5:
@@ -10397,8 +10397,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230718:
-    resolution: {integrity: sha512-ED1Vm+2UzdbtKui+0lVswEuAX94fQXeoghXyy/+aTNers8X/WB81r5sFg6nA4e43nVQ2MP/Qsa7/XJRFuHR+Cg==}
+  /typescript/5.2.0-dev.20230720:
+    resolution: {integrity: sha512-uZPSzgA2ZfMYqCafPbJ67YLwiVXeo93rT2iackGNerTEFs7wRBr2ENVRBIP33g5xCV0fFqN+e0l4oLvQjCZUKw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12472,7 +12472,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-ksox1tAbGPW1iipqh0nL53eF0Dx/lFuJj3U6s1D6sC8g0boGLprzf5GPLoArEnf0NbK17t7hM5W6GGAj1C3GIw==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-Zm/n1mDmjgbO82FgzW611tTEXJZ/FnZ1h9vR6SH6qvE0BzQzAg+dfxc64UR41VYwAVLkja+mmYY78la+QjrvFQ==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -12486,8 +12486,8 @@ packages:
       '@types/node': 14.18.53
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
