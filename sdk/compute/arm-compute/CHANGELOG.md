@@ -1,15 +1,19 @@
 # Release History
+    
+## 21.1.0 (2023-07-20)
+    
+**Features**
 
-## 21.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ExecutedValidation
+  - Added Interface ValidationsProfile
+  - Added Type Alias FileFormat
+  - Interface GalleryImageVersion has a new optional parameter validationsProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter validationsProfile
+  - Interface GrantAccessData has a new optional parameter fileFormat
+  - Added Enum KnownFileFormat
+  - Enum KnownReplicationStatusTypes has a new value ValidationProfile
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**

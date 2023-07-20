@@ -8008,6 +8008,12 @@ export const GrantAccessData: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      fileFormat: {
+        serializedName: "fileFormat",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -9883,6 +9889,73 @@ export const RegionalReplicationStatus: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ValidationsProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidationsProfile",
+    modelProperties: {
+      validationEtag: {
+        serializedName: "validationEtag",
+        type: {
+          name: "String"
+        }
+      },
+      executedValidations: {
+        serializedName: "executedValidations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExecutedValidation"
+            }
+          }
+        }
+      },
+      platformAttributes: {
+        serializedName: "platformAttributes",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ExecutedValidation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExecutedValidation",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      executionTime: {
+        serializedName: "executionTime",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -14765,6 +14838,13 @@ export const GalleryImageVersion: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ReplicationStatus"
         }
+      },
+      validationsProfile: {
+        serializedName: "properties.validationsProfile",
+        type: {
+          name: "Composite",
+          className: "ValidationsProfile"
+        }
       }
     }
   }
@@ -16342,6 +16422,13 @@ export const GalleryImageVersionUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReplicationStatus"
+        }
+      },
+      validationsProfile: {
+        serializedName: "properties.validationsProfile",
+        type: {
+          name: "Composite",
+          className: "ValidationsProfile"
         }
       }
     }

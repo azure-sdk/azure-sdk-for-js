@@ -2122,6 +2122,14 @@ export interface EncryptionSettingsElement {
 export type EncryptionType = string;
 
 // @public
+export interface ExecutedValidation {
+    executionTime?: Date;
+    status?: string;
+    type?: string;
+    version?: string;
+}
+
+// @public
 export type ExecutionState = string;
 
 // @public
@@ -2153,6 +2161,9 @@ export interface Extension {
     name?: string;
     properties?: CloudServiceExtensionProperties;
 }
+
+// @public
+export type FileFormat = string;
 
 // @public
 export interface Galleries {
@@ -2629,6 +2640,7 @@ export interface GalleryImageVersion extends Resource {
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
+    readonly validationsProfile?: ValidationsProfile;
 }
 
 // @public
@@ -2719,6 +2731,7 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
+    readonly validationsProfile?: ValidationsProfile;
 }
 
 // @public
@@ -2779,6 +2792,7 @@ export interface GrantAccessData {
     // (undocumented)
     access: AccessLevel;
     durationInSeconds: number;
+    fileFormat?: FileFormat;
     getSecureVMGuestStateSAS?: boolean;
 }
 
@@ -3277,6 +3291,12 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
+export enum KnownFileFormat {
+    VHD = "VHD",
+    Vhdx = "VHDX"
+}
+
+// @public
 export enum KnownGalleryExpandParams {
     SharingProfileGroups = "SharingProfile/Groups"
 }
@@ -3505,7 +3525,8 @@ export enum KnownReplicationState {
 
 // @public
 export enum KnownReplicationStatusTypes {
-    ReplicationStatus = "ReplicationStatus"
+    ReplicationStatus = "ReplicationStatus",
+    ValidationProfile = "ValidationProfile"
 }
 
 // @public
@@ -5742,6 +5763,15 @@ export interface UserArtifactSource {
 export interface UserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface ValidationsProfile {
+    executedValidations?: ExecutedValidation[];
+    platformAttributes?: {
+        [propertyName: string]: string;
+    };
+    validationEtag?: string;
 }
 
 // @public
