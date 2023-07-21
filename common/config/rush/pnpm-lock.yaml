@@ -4887,7 +4887,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230718
+      typescript: 5.2.0-dev.20230720
     dev: false
 
   /duplexer3/0.1.5:
@@ -10399,8 +10399,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230718:
-    resolution: {integrity: sha512-ED1Vm+2UzdbtKui+0lVswEuAX94fQXeoghXyy/+aTNers8X/WB81r5sFg6nA4e43nVQ2MP/Qsa7/XJRFuHR+Cg==}
+  /typescript/5.2.0-dev.20230720:
+    resolution: {integrity: sha512-uZPSzgA2ZfMYqCafPbJ67YLwiVXeo93rT2iackGNerTEFs7wRBr2ENVRBIP33g5xCV0fFqN+e0l4oLvQjCZUKw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12199,7 +12199,7 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-BhMbAnwu55g4xXHK6fUaEmC90ZINsFVrbQSkQ+esavB7pKYipt05PK2SJmiBzKR2mTXeRm+LlmKz/jaEMLFDOg==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-Ri3MccAlbhBJXFYxOlyYNdDcQdyvQClc9N2peHqyjcZSnBmJLZoU77Ut6N8CWZZg7UVgcno8czYJA00yNhZ26Q==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -12213,7 +12213,8 @@ packages:
       '@types/node': 14.18.53
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -21545,7 +21546,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-RpThRihEhcpL4GBB9uvgjdYuHrsgy5h+I3kAfC3w5PKwJrFdwRHD/T6jj9lFU4XJMY7qWpXB9VTHZwYzBk5iDg==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-RBBA/3/edoGRXf3UXRKbIhEPsydPcNuzE4iAJwoCL+EmFayR37M44zG7/Fcj9k8JLUI9Os+GcPVGn9zuLNr9Yw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
