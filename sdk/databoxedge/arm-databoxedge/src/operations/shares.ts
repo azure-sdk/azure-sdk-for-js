@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Share,
   SharesListByDataBoxEdgeDeviceNextOptionalParams,
@@ -177,8 +181,8 @@ export class SharesImpl implements Shares {
     share: Share,
     options?: SharesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SharesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SharesCreateOrUpdateResponse>,
       SharesCreateOrUpdateResponse
     >
   > {
@@ -188,7 +192,7 @@ export class SharesImpl implements Shares {
     ): Promise<SharesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,13 +225,16 @@ export class SharesImpl implements Shares {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, share, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, share, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SharesCreateOrUpdateResponse,
+      OperationState<SharesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -271,14 +278,14 @@ export class SharesImpl implements Shares {
     name: string,
     resourceGroupName: string,
     options?: SharesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -311,13 +318,13 @@ export class SharesImpl implements Shares {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -358,14 +365,14 @@ export class SharesImpl implements Shares {
     name: string,
     resourceGroupName: string,
     options?: SharesRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -398,13 +405,13 @@ export class SharesImpl implements Shares {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, options },
-      refreshOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: refreshOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -594,7 +601,6 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
