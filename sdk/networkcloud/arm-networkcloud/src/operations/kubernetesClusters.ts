@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Clusters } from "../operationsInterfaces";
+import { KubernetesClusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,36 +20,34 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Cluster,
-  ClustersListBySubscriptionNextOptionalParams,
-  ClustersListBySubscriptionOptionalParams,
-  ClustersListBySubscriptionResponse,
-  ClustersListByResourceGroupNextOptionalParams,
-  ClustersListByResourceGroupOptionalParams,
-  ClustersListByResourceGroupResponse,
-  ClustersGetOptionalParams,
-  ClustersGetResponse,
-  ClustersCreateOrUpdateOptionalParams,
-  ClustersCreateOrUpdateResponse,
-  ClustersDeleteOptionalParams,
-  ClustersUpdateOptionalParams,
-  ClustersUpdateResponse,
-  ClustersDeployOptionalParams,
-  ClustersDeployResponse,
-  ClusterUpdateVersionParameters,
-  ClustersUpdateVersionOptionalParams,
-  ClustersUpdateVersionResponse,
-  ClustersListBySubscriptionNextResponse,
-  ClustersListByResourceGroupNextResponse
+  KubernetesCluster,
+  KubernetesClustersListBySubscriptionNextOptionalParams,
+  KubernetesClustersListBySubscriptionOptionalParams,
+  KubernetesClustersListBySubscriptionResponse,
+  KubernetesClustersListByResourceGroupNextOptionalParams,
+  KubernetesClustersListByResourceGroupOptionalParams,
+  KubernetesClustersListByResourceGroupResponse,
+  KubernetesClustersGetOptionalParams,
+  KubernetesClustersGetResponse,
+  KubernetesClustersCreateOrUpdateOptionalParams,
+  KubernetesClustersCreateOrUpdateResponse,
+  KubernetesClustersDeleteOptionalParams,
+  KubernetesClustersUpdateOptionalParams,
+  KubernetesClustersUpdateResponse,
+  KubernetesClusterRestartNodeParameters,
+  KubernetesClustersRestartNodeOptionalParams,
+  KubernetesClustersRestartNodeResponse,
+  KubernetesClustersListBySubscriptionNextResponse,
+  KubernetesClustersListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Clusters operations. */
-export class ClustersImpl implements Clusters {
+/** Class containing KubernetesClusters operations. */
+export class KubernetesClustersImpl implements KubernetesClusters {
   private readonly client: NetworkCloud;
 
   /**
-   * Initialize a new instance of the class Clusters class.
+   * Initialize a new instance of the class KubernetesClusters class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkCloud) {
@@ -57,12 +55,12 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Get a list of clusters in the provided subscription.
+   * Get a list of Kubernetes clusters in the provided subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ClustersListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Cluster> {
+    options?: KubernetesClustersListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<KubernetesCluster> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -81,10 +79,10 @@ export class ClustersImpl implements Clusters {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ClustersListBySubscriptionOptionalParams,
+    options?: KubernetesClustersListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Cluster[]> {
-    let result: ClustersListBySubscriptionResponse;
+  ): AsyncIterableIterator<KubernetesCluster[]> {
+    let result: KubernetesClustersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -103,22 +101,22 @@ export class ClustersImpl implements Clusters {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ClustersListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Cluster> {
+    options?: KubernetesClustersListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<KubernetesCluster> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Get a list of clusters in the provided resource group.
+   * Get a list of Kubernetes clusters in the provided resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Cluster> {
+    options?: KubernetesClustersListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<KubernetesCluster> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -142,10 +140,10 @@ export class ClustersImpl implements Clusters {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams,
+    options?: KubernetesClustersListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Cluster[]> {
-    let result: ClustersListByResourceGroupResponse;
+  ): AsyncIterableIterator<KubernetesCluster[]> {
+    let result: KubernetesClustersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -169,8 +167,8 @@ export class ClustersImpl implements Clusters {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Cluster> {
+    options?: KubernetesClustersListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<KubernetesCluster> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -180,12 +178,12 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Get a list of clusters in the provided subscription.
+   * Get a list of Kubernetes clusters in the provided subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ClustersListBySubscriptionOptionalParams
-  ): Promise<ClustersListBySubscriptionResponse> {
+    options?: KubernetesClustersListBySubscriptionOptionalParams
+  ): Promise<KubernetesClustersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -193,14 +191,14 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Get a list of clusters in the provided resource group.
+   * Get a list of Kubernetes clusters in the provided resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
-  ): Promise<ClustersListByResourceGroupResponse> {
+    options?: KubernetesClustersListByResourceGroupOptionalParams
+  ): Promise<KubernetesClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -208,44 +206,44 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Get properties of the provided cluster.
+   * Get properties of the provided the Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    clusterName: string,
-    options?: ClustersGetOptionalParams
-  ): Promise<ClustersGetResponse> {
+    kubernetesClusterName: string,
+    options?: KubernetesClustersGetOptionalParams
+  ): Promise<KubernetesClustersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, options },
+      { resourceGroupName, kubernetesClusterName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a new cluster or update the properties of the cluster if it exists.
+   * Create a new Kubernetes cluster or update the properties of the existing one.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param clusterParameters The request body.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param kubernetesClusterParameters The request body.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    clusterName: string,
-    clusterParameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    kubernetesClusterName: string,
+    kubernetesClusterParameters: KubernetesCluster,
+    options?: KubernetesClustersCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ClustersCreateOrUpdateResponse>,
-      ClustersCreateOrUpdateResponse
+      OperationState<KubernetesClustersCreateOrUpdateResponse>,
+      KubernetesClustersCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ClustersCreateOrUpdateResponse> => {
+    ): Promise<KubernetesClustersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -283,12 +281,17 @@ export class ClustersImpl implements Clusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, clusterName, clusterParameters, options },
+      args: {
+        resourceGroupName,
+        kubernetesClusterName,
+        kubernetesClusterParameters,
+        options
+      },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ClustersCreateOrUpdateResponse,
-      OperationState<ClustersCreateOrUpdateResponse>
+      KubernetesClustersCreateOrUpdateResponse,
+      OperationState<KubernetesClustersCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -299,37 +302,37 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Create a new cluster or update the properties of the cluster if it exists.
+   * Create a new Kubernetes cluster or update the properties of the existing one.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param clusterParameters The request body.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param kubernetesClusterParameters The request body.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    clusterName: string,
-    clusterParameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
-  ): Promise<ClustersCreateOrUpdateResponse> {
+    kubernetesClusterName: string,
+    kubernetesClusterParameters: KubernetesCluster,
+    options?: KubernetesClustersCreateOrUpdateOptionalParams
+  ): Promise<KubernetesClustersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      clusterName,
-      clusterParameters,
+      kubernetesClusterName,
+      kubernetesClusterParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete the provided cluster.
+   * Delete the provided Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    kubernetesClusterName: string,
+    options?: KubernetesClustersDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -372,7 +375,7 @@ export class ClustersImpl implements Clusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, clusterName, options },
+      args: { resourceGroupName, kubernetesClusterName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -385,45 +388,45 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Delete the provided cluster.
+   * Delete the provided Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    kubernetesClusterName: string,
+    options?: KubernetesClustersDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      clusterName,
+      kubernetesClusterName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Patch the properties of the provided cluster, or update the tags associated with the cluster.
-   * Properties and tag updates can be done independently.
+   * Patch the properties of the provided Kubernetes cluster, or update the tags associated with the
+   * Kubernetes cluster. Properties and tag updates can be done independently.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    clusterName: string,
-    options?: ClustersUpdateOptionalParams
+    kubernetesClusterName: string,
+    options?: KubernetesClustersUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ClustersUpdateResponse>,
-      ClustersUpdateResponse
+      OperationState<KubernetesClustersUpdateResponse>,
+      KubernetesClustersUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ClustersUpdateResponse> => {
+    ): Promise<KubernetesClustersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -461,12 +464,12 @@ export class ClustersImpl implements Clusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, clusterName, options },
+      args: { resourceGroupName, kubernetesClusterName, options },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      ClustersUpdateResponse,
-      OperationState<ClustersUpdateResponse>
+      KubernetesClustersUpdateResponse,
+      OperationState<KubernetesClustersUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -477,138 +480,47 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Patch the properties of the provided cluster, or update the tags associated with the cluster.
-   * Properties and tag updates can be done independently.
+   * Patch the properties of the provided Kubernetes cluster, or update the tags associated with the
+   * Kubernetes cluster. Properties and tag updates can be done independently.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    clusterName: string,
-    options?: ClustersUpdateOptionalParams
-  ): Promise<ClustersUpdateResponse> {
+    kubernetesClusterName: string,
+    options?: KubernetesClustersUpdateOptionalParams
+  ): Promise<KubernetesClustersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      clusterName,
+      kubernetesClusterName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deploy the cluster to the provided rack.
+   * Restart a targeted node of a Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param kubernetesClusterRestartNodeParameters The request body.
    * @param options The options parameters.
    */
-  async beginDeploy(
+  async beginRestartNode(
     resourceGroupName: string,
-    clusterName: string,
-    options?: ClustersDeployOptionalParams
+    kubernetesClusterName: string,
+    kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters,
+    options?: KubernetesClustersRestartNodeOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ClustersDeployResponse>,
-      ClustersDeployResponse
+      OperationState<KubernetesClustersRestartNodeResponse>,
+      KubernetesClustersRestartNodeResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ClustersDeployResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, clusterName, options },
-      spec: deployOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ClustersDeployResponse,
-      OperationState<ClustersDeployResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deploy the cluster to the provided rack.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param options The options parameters.
-   */
-  async beginDeployAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: ClustersDeployOptionalParams
-  ): Promise<ClustersDeployResponse> {
-    const poller = await this.beginDeploy(
-      resourceGroupName,
-      clusterName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Update the version of the provided cluster to one of the available supported versions.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param clusterUpdateVersionParameters The request body.
-   * @param options The options parameters.
-   */
-  async beginUpdateVersion(
-    resourceGroupName: string,
-    clusterName: string,
-    clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
-    options?: ClustersUpdateVersionOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersUpdateVersionResponse>,
-      ClustersUpdateVersionResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ClustersUpdateVersionResponse> => {
+    ): Promise<KubernetesClustersRestartNodeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -648,15 +560,15 @@ export class ClustersImpl implements Clusters {
       sendOperationFn,
       args: {
         resourceGroupName,
-        clusterName,
-        clusterUpdateVersionParameters,
+        kubernetesClusterName,
+        kubernetesClusterRestartNodeParameters,
         options
       },
-      spec: updateVersionOperationSpec
+      spec: restartNodeOperationSpec
     });
     const poller = await createHttpPoller<
-      ClustersUpdateVersionResponse,
-      OperationState<ClustersUpdateVersionResponse>
+      KubernetesClustersRestartNodeResponse,
+      OperationState<KubernetesClustersRestartNodeResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -667,22 +579,22 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Update the version of the provided cluster to one of the available supported versions.
+   * Restart a targeted node of a Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param clusterUpdateVersionParameters The request body.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param kubernetesClusterRestartNodeParameters The request body.
    * @param options The options parameters.
    */
-  async beginUpdateVersionAndWait(
+  async beginRestartNodeAndWait(
     resourceGroupName: string,
-    clusterName: string,
-    clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
-    options?: ClustersUpdateVersionOptionalParams
-  ): Promise<ClustersUpdateVersionResponse> {
-    const poller = await this.beginUpdateVersion(
+    kubernetesClusterName: string,
+    kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters,
+    options?: KubernetesClustersRestartNodeOptionalParams
+  ): Promise<KubernetesClustersRestartNodeResponse> {
+    const poller = await this.beginRestartNode(
       resourceGroupName,
-      clusterName,
-      clusterUpdateVersionParameters,
+      kubernetesClusterName,
+      kubernetesClusterRestartNodeParameters,
       options
     );
     return poller.pollUntilDone();
@@ -695,8 +607,8 @@ export class ClustersImpl implements Clusters {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ClustersListBySubscriptionNextOptionalParams
-  ): Promise<ClustersListBySubscriptionNextResponse> {
+    options?: KubernetesClustersListBySubscriptionNextOptionalParams
+  ): Promise<KubernetesClustersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -712,8 +624,8 @@ export class ClustersImpl implements Clusters {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ClustersListByResourceGroupNextOptionalParams
-  ): Promise<ClustersListByResourceGroupNextResponse> {
+    options?: KubernetesClustersListByResourceGroupNextOptionalParams
+  ): Promise<KubernetesClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -725,11 +637,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/clusters",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/kubernetesClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList
+      bodyMapper: Mappers.KubernetesClusterList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -742,11 +654,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList
+      bodyMapper: Mappers.KubernetesClusterList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -763,11 +675,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -778,39 +690,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.kubernetesClusterName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     201: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     202: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     204: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.clusterParameters,
+  requestBody: Parameters.kubernetesClusterParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.kubernetesClusterName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -818,7 +730,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -834,105 +746,72 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.kubernetesClusterName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     201: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     202: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     204: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.KubernetesCluster
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.clusterUpdateParameters,
+  requestBody: Parameters.kubernetesClusterUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.kubernetesClusterName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const deployOperationSpec: coreClient.OperationSpec = {
+const restartNodeOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/deploy",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/restartNode",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.ClustersDeployHeaders
+      headersMapper: Mappers.KubernetesClustersRestartNodeHeaders
     },
     201: {
-      headersMapper: Mappers.ClustersDeployHeaders
+      headersMapper: Mappers.KubernetesClustersRestartNodeHeaders
     },
     202: {
-      headersMapper: Mappers.ClustersDeployHeaders
+      headersMapper: Mappers.KubernetesClustersRestartNodeHeaders
     },
     204: {
-      headersMapper: Mappers.ClustersDeployHeaders
+      headersMapper: Mappers.KubernetesClustersRestartNodeHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.clusterDeployParameters,
+  requestBody: Parameters.kubernetesClusterRestartNodeParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateVersionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/updateVersion",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.ClustersUpdateVersionHeaders
-    },
-    201: {
-      headersMapper: Mappers.ClustersUpdateVersionHeaders
-    },
-    202: {
-      headersMapper: Mappers.ClustersUpdateVersionHeaders
-    },
-    204: {
-      headersMapper: Mappers.ClustersUpdateVersionHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.clusterUpdateVersionParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.kubernetesClusterName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -943,7 +822,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList
+      bodyMapper: Mappers.KubernetesClusterList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -962,7 +841,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList
+      bodyMapper: Mappers.KubernetesClusterList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
