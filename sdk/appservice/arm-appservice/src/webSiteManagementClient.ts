@@ -143,7 +143,7 @@ import {
 /// <reference lib="esnext.asynciterable" />
 export class WebSiteManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -157,12 +157,26 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: WebSiteManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: WebSiteManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: WebSiteManagementClientOptionalParams | string,
+    options?: WebSiteManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -174,7 +188,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/14.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -227,7 +241,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -1142,7 +1156,8 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     parameterPath: {
       name: ["name"],
       typeParam: ["typeParam"],
-      isFqdn: ["options", "isFqdn"]
+      isFqdn: ["options", "isFqdn"],
+      environmentId: ["options", "environmentId"]
     },
     mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true }
   },
