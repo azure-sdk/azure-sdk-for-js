@@ -7578,6 +7578,12 @@ export const CreationData: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      elasticSanResourceId: {
+        serializedName: "elasticSanResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -8007,6 +8013,12 @@ export const GrantAccessData: coreClient.CompositeMapper = {
         serializedName: "getSecureVMGuestStateSAS",
         type: {
           name: "Boolean"
+        }
+      },
+      fileFormat: {
+        serializedName: "fileFormat",
+        type: {
+          name: "String"
         }
       }
     }

@@ -1186,6 +1186,7 @@ export type CopyCompletionErrorReason = string;
 // @public
 export interface CreationData {
     createOption: DiskCreateOption;
+    elasticSanResourceId?: string;
     galleryImageReference?: ImageDiskReference;
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
@@ -2155,6 +2156,9 @@ export interface Extension {
 }
 
 // @public
+export type FileFormat = string;
+
+// @public
 export interface Galleries {
     beginCreateOrUpdate(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
@@ -2779,6 +2783,7 @@ export interface GrantAccessData {
     // (undocumented)
     access: AccessLevel;
     durationInSeconds: number;
+    fileFormat?: FileFormat;
     getSecureVMGuestStateSAS?: boolean;
 }
 
@@ -3145,6 +3150,7 @@ export enum KnownDiskControllerTypes {
 export enum KnownDiskCreateOption {
     Attach = "Attach",
     Copy = "Copy",
+    CopyFromSanSnapshot = "CopyFromSanSnapshot",
     CopyStart = "CopyStart",
     Empty = "Empty",
     FromImage = "FromImage",
@@ -3274,6 +3280,12 @@ export enum KnownExtendedLocationType {
 // @public
 export enum KnownExtendedLocationTypes {
     EdgeZone = "EdgeZone"
+}
+
+// @public
+export enum KnownFileFormat {
+    VHD = "VHD",
+    Vhdx = "VHDX"
 }
 
 // @public
