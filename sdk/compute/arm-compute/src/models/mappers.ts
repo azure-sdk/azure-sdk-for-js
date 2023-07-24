@@ -7578,6 +7578,12 @@ export const CreationData: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      elasticSanResourceId: {
+        serializedName: "elasticSanResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }

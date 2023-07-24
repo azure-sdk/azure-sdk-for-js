@@ -2860,6 +2860,8 @@ export interface CreationData {
   securityDataUri?: string;
   /** Set this flag to true to get a boost on the performance target of the disk deployed, see here on the respective performance target. This flag can only be set on disk creation time and cannot be disabled after enabled. */
   performancePlus?: boolean;
+  /** Required if createOption is CopyFromSanSnapshot. this is the ARM id of the source elastic san volume snapshot. */
+  elasticSanResourceId?: string;
 }
 
 /** The source image used for creating the disk. */
@@ -8377,7 +8379,9 @@ export enum KnownDiskCreateOption {
   /** Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId */
   ImportSecure = "ImportSecure",
   /** Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state */
-  UploadPreparedSecure = "UploadPreparedSecure"
+  UploadPreparedSecure = "UploadPreparedSecure",
+  /** Create a new disk by exporting from elastic san volume snapshot */
+  CopyFromSanSnapshot = "CopyFromSanSnapshot"
 }
 
 /**
@@ -8394,7 +8398,8 @@ export enum KnownDiskCreateOption {
  * **Upload**: Create a new disk by obtaining a write token and using it to directly upload the contents of the disk. \
  * **CopyStart**: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source. \
  * **ImportSecure**: Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId \
- * **UploadPreparedSecure**: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state
+ * **UploadPreparedSecure**: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state \
+ * **CopyFromSanSnapshot**: Create a new disk by exporting from elastic san volume snapshot
  */
 export type DiskCreateOption = string;
 
