@@ -187,6 +187,7 @@ specifiers:
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid': file:./projects/arm-resources-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-scom': file:./projects/arm-scom.tgz
   '@rush-temp/arm-scvmm': file:./projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
@@ -538,6 +539,7 @@ dependencies:
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid': file:projects/arm-resources-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-scom': file:projects/arm-scom.tgz
   '@rush-temp/arm-scvmm': file:projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
@@ -4887,7 +4889,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230718
+      typescript: 5.2.0-dev.20230724
     dev: false
 
   /duplexer3/0.1.5:
@@ -10399,8 +10401,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230718:
-    resolution: {integrity: sha512-ED1Vm+2UzdbtKui+0lVswEuAX94fQXeoghXyy/+aTNers8X/WB81r5sFg6nA4e43nVQ2MP/Qsa7/XJRFuHR+Cg==}
+  /typescript/5.2.0-dev.20230724:
+    resolution: {integrity: sha512-imp5MKTFe3BmE+opYLWqglHjPJ3HQtmwcFX0zYKhky/m/ncUpMqnVnjZSoncvTkKGI8s4Ng88LqOEgvLa4brFg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16425,6 +16427,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-scom.tgz:
+    resolution: {integrity: sha512-hKncP2camQZL4+3y8dg9iOexWhlECIQoTvn0Qd47FiosxcsAm4V5rOTS3VnDum+hRmuJpDwJXbdQh/SfiwhJnw==, tarball: file:projects/arm-scom.tgz}
+    name: '@rush-temp/arm-scom'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.2_@types+node@14.18.53
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.53
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_sq65t46yqtx5h7g66skj5bmgcy
+      tslib: 2.6.0
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-scvmm.tgz:
     resolution: {integrity: sha512-1mMM+51GplOxlcOs9DiFMQ5GxKeQ8K1cKi447BkcWzfb6GVYCQFTVvxFAbxeE+7rOEeZsht/VBWpNkTklepWDg==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
@@ -19657,7 +19687,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-WSic9Y9eP/zlGJD8V6BrEIfi7uGDFOnaLeDlmMVU3vjONQdCwbSO+yFsNzKkO6bc+Im+XYwhaOSlDXLJuoknQQ==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-Tq9MBQ2oG6WBa4vesnoNLItYCWDfFUzeq1LtMg+0RbImo55Z0SO+6anZRHn61Q9wZ4LaIj8ZdmWN2rCZmTrl0g==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -21545,7 +21575,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-RpThRihEhcpL4GBB9uvgjdYuHrsgy5h+I3kAfC3w5PKwJrFdwRHD/T6jj9lFU4XJMY7qWpXB9VTHZwYzBk5iDg==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-RBBA/3/edoGRXf3UXRKbIhEPsydPcNuzE4iAJwoCL+EmFayR37M44zG7/Fcj9k8JLUI9Os+GcPVGn9zuLNr9Yw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
