@@ -2667,7 +2667,7 @@ export const Table: coreClient.CompositeMapper = {
       },
       totalRetentionInDays: {
         constraints: {
-          InclusiveMaximum: 2555,
+          InclusiveMaximum: 2556,
           InclusiveMinimum: 4
         },
         serializedName: "properties.totalRetentionInDays",
