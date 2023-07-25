@@ -4887,7 +4887,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230724
+      typescript: 5.2.0-dev.20230725
     dev: false
 
   /duplexer3/0.1.5:
@@ -10395,8 +10395,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230724:
-    resolution: {integrity: sha512-imp5MKTFe3BmE+opYLWqglHjPJ3HQtmwcFX0zYKhky/m/ncUpMqnVnjZSoncvTkKGI8s4Ng88LqOEgvLa4brFg==}
+  /typescript/5.2.0-dev.20230725:
+    resolution: {integrity: sha512-ckVbPpSTdPA/Fxnrq1/mzO+LgzA64VPjm6YvV/axwZKgxviVHiUy0VvKS5EGBOpgFBwCNuN+ir24KIBGYWQCgQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12084,7 +12084,7 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-GNOJMBLXUo7nDHLxmV2N6Euv4FTfbiMsNa9qf/2qhS+PoIstjd1e7dT5revoE7uZAUcAVEOSYprvf567IaOsSw==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-om0RkfUYXKhz5Gd741OEqTKV6kdaNO/axW7LDzHPwAKtMw/X4tZ4cAMfqHK13a+agEmk4GIPu0FO0A6chs67fQ==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
@@ -12098,8 +12098,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12607,7 +12607,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-v0Hc/fkKwCJdEgFmrk8hnUIrcB3NldZ31tJCdvchFLv+ZJfPB58ZnMGD23wIsz52q/Ig+Jq8yJ8DKfPNB0/sZQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-dc0DkgBjMbn7PO2CVdcMlVVyf+PDXmwO/IGFfPpqiLM4ibQHraBxwpLxF8JXL90AU2sdi8ghPvp8iT0HJJBbFw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -17018,7 +17018,7 @@ packages:
     dev: false
 
   file:projects/arm-storagemover.tgz:
-    resolution: {integrity: sha512-Tpvs68MbRsntTcGX2BpHinkU0fytQNSV0Z5ymY9Uivkq22zA3PqWA951GkbawevLOif3JZMc0ZcrPEXK0uYT+A==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-eFWSOyZKUPTadGsbtTdaFJoRCuNAdS8QN5tMBdxD19e2mr1v3CcjCw4LEgIs6menTuahUbqIEmxKpLFQ4bs6Sw==, tarball: file:projects/arm-storagemover.tgz}
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
@@ -17431,7 +17431,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-X1oqTO6x40oZQYhbHM7ZBvZpBcCXPdoQRfqwaFS6lB3EyStiuxvqeu5wyGDkFMBKMZWXtnWNQYVo+0g8f8Z3Dw==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-CN0txyH6QqBAIPB8IY5o2WT51sONyNFaFMEoh8nRbmZmm6mTtvvrxxhuC1L526M8JYGzRRSc9Zw3zOtK+QI7aA==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
