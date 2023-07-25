@@ -11630,7 +11630,7 @@ packages:
     dev: false
 
   file:projects/arm-advisor.tgz:
-    resolution: {integrity: sha512-C7LnG4D7XO5YXbxqi1M599sJJux6wMU/2cT1S8VwZSWZph3uOq8zbrKW9LeolWVnKmPwW5nf21VWpA7xLEt/Cg==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-N3O8esSG/Q1ESnuXt2giSqxcjDRSFvc+bdvZYhWO3XuA5oJOkBFLZjQUZLRp0N2rfqUvM6t5gafnhBqmfjoKaQ==, tarball: file:projects/arm-advisor.tgz}
     name: '@rush-temp/arm-advisor'
     version: 0.0.0
     dependencies:
@@ -11644,7 +11644,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -12608,7 +12609,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-v0Hc/fkKwCJdEgFmrk8hnUIrcB3NldZ31tJCdvchFLv+ZJfPB58ZnMGD23wIsz52q/Ig+Jq8yJ8DKfPNB0/sZQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-dc0DkgBjMbn7PO2CVdcMlVVyf+PDXmwO/IGFfPpqiLM4ibQHraBxwpLxF8JXL90AU2sdi8ghPvp8iT0HJJBbFw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -17019,7 +17020,7 @@ packages:
     dev: false
 
   file:projects/arm-storagemover.tgz:
-    resolution: {integrity: sha512-Tpvs68MbRsntTcGX2BpHinkU0fytQNSV0Z5ymY9Uivkq22zA3PqWA951GkbawevLOif3JZMc0ZcrPEXK0uYT+A==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-eFWSOyZKUPTadGsbtTdaFJoRCuNAdS8QN5tMBdxD19e2mr1v3CcjCw4LEgIs6menTuahUbqIEmxKpLFQ4bs6Sw==, tarball: file:projects/arm-storagemover.tgz}
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
