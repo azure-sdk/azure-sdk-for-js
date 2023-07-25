@@ -12,7 +12,7 @@ import { CodeVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import {
   CodeVersion,
   CodeVersionsListNextOptionalParams,
@@ -23,19 +23,22 @@ import {
   CodeVersionsGetResponse,
   CodeVersionsCreateOrUpdateOptionalParams,
   CodeVersionsCreateOrUpdateResponse,
+  PendingUploadRequestDto,
+  CodeVersionsCreateOrGetStartPendingUploadOptionalParams,
+  CodeVersionsCreateOrGetStartPendingUploadResponse,
   CodeVersionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CodeVersions operations. */
 export class CodeVersionsImpl implements CodeVersions {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class CodeVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -217,6 +220,29 @@ export class CodeVersionsImpl implements CodeVersions {
   }
 
   /**
+   * Generate a storage location and credential for the client to upload a code asset to.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param version Version identifier. This is case-sensitive.
+   * @param body Pending upload request object
+   * @param options The options parameters.
+   */
+  createOrGetStartPendingUpload(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: PendingUploadRequestDto,
+    options?: CodeVersionsCreateOrGetStartPendingUploadOptionalParams
+  ): Promise<CodeVersionsCreateOrGetStartPendingUploadResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, name, version, body, options },
+      createOrGetStartPendingUploadOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -256,7 +282,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.orderBy,
-    Parameters.top
+    Parameters.top,
+    Parameters.hash,
+    Parameters.hashVersion
   ],
   urlParameters: [
     Parameters.$host,
@@ -285,8 +313,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name,
-    Parameters.version
+    Parameters.version,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -309,8 +337,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name,
-    Parameters.version
+    Parameters.version,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -330,15 +358,41 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name1,
-    Parameters.version
+    Parameters.version,
+    Parameters.name1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const createOrGetStartPendingUploadOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions/{version}/startPendingUpload",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PendingUploadResponseDto
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.version,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -355,12 +409,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
