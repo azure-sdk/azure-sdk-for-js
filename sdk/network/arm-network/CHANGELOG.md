@@ -1,15 +1,22 @@
 # Release History
     
-## 32.0.0 (2023-07-06)
+## 32.0.0 (2023-07-25)
     
 **Features**
 
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
   - Added Type Alias AdminState
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias SyncMode
   - Interface ActiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
   - Interface ActiveSecurityAdminRule has a new optional parameter resourceGuid
   - Interface AdminRule has a new optional parameter resourceGuid
   - Interface AdminRuleCollection has a new optional parameter resourceGuid
   - Interface ApplicationGateway has a new optional parameter defaultPredefinedSslPolicy
+  - Interface BackendAddressPool has a new optional parameter syncMode
   - Interface ConfigurationGroup has a new optional parameter resourceGuid
   - Interface ConnectivityConfiguration has a new optional parameter resourceGuid
   - Interface DefaultAdminRule has a new optional parameter resourceGuid
@@ -21,10 +28,13 @@
   - Interface SecurityAdminConfiguration has a new optional parameter resourceGuid
   - Interface VirtualNetworkGateway has a new optional parameter adminState
   - Added Enum KnownAdminState
-  - Class NetworkManagementClient has a new signature
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
 
 **Breaking Changes**
 
+  - Class NetworkManagementClient has a new signature
   - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus499
     
     
