@@ -1,15 +1,12 @@
 # Release History
+    
+## 4.0.0 (2023-07-26)
+    
+**Breaking Changes**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class FeatureClient has a new signature
+    
+    
 ## 3.1.0 (2022-11-22)
     
 **Features**
