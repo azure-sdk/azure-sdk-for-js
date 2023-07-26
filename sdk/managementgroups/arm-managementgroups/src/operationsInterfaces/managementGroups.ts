@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagementGroupInfo,
   ManagementGroupsListOptionalParams,
@@ -70,8 +70,8 @@ export interface ManagementGroups {
     createManagementGroupRequest: CreateManagementGroupRequest,
     options?: ManagementGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsCreateOrUpdateResponse>,
       ManagementGroupsCreateOrUpdateResponse
     >
   >;
@@ -112,8 +112,8 @@ export interface ManagementGroups {
     groupId: string,
     options?: ManagementGroupsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsDeleteResponse>,
       ManagementGroupsDeleteResponse
     >
   >;
