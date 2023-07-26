@@ -17,7 +17,10 @@ import {
   PolicyExemptionsCreateOrUpdateOptionalParams,
   PolicyExemptionsCreateOrUpdateResponse,
   PolicyExemptionsGetOptionalParams,
-  PolicyExemptionsGetResponse
+  PolicyExemptionsGetResponse,
+  PolicyExemptionUpdate,
+  PolicyExemptionsUpdateOptionalParams,
+  PolicyExemptionsUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -148,4 +151,21 @@ export interface PolicyExemptions {
     policyExemptionName: string,
     options?: PolicyExemptionsGetOptionalParams
   ): Promise<PolicyExemptionsGetResponse>;
+  /**
+   *  This operation updates a policy exemption with the given scope and name.
+   * @param scope The scope of the policy exemption. Valid scopes are: management group (format:
+   *              '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyExemptionName The name of the policy exemption to delete.
+   * @param parameters Parameters for policy exemption patch request.
+   * @param options The options parameters.
+   */
+  update(
+    scope: string,
+    policyExemptionName: string,
+    parameters: PolicyExemptionUpdate,
+    options?: PolicyExemptionsUpdateOptionalParams
+  ): Promise<PolicyExemptionsUpdateResponse>;
 }
