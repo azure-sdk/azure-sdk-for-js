@@ -18,6 +18,9 @@ import {
   TemplateSpecVersionsListNextOptionalParams,
   TemplateSpecVersionsListOptionalParams,
   TemplateSpecVersionsListResponse,
+  TemplateSpecVersionsListBuiltInsNextOptionalParams,
+  TemplateSpecVersionsListBuiltInsOptionalParams,
+  TemplateSpecVersionsListBuiltInsResponse,
   TemplateSpecVersionsCreateOrUpdateOptionalParams,
   TemplateSpecVersionsCreateOrUpdateResponse,
   TemplateSpecVersionsUpdateOptionalParams,
@@ -25,7 +28,10 @@ import {
   TemplateSpecVersionsGetOptionalParams,
   TemplateSpecVersionsGetResponse,
   TemplateSpecVersionsDeleteOptionalParams,
-  TemplateSpecVersionsListNextResponse
+  TemplateSpecVersionsGetBuiltInOptionalParams,
+  TemplateSpecVersionsGetBuiltInResponse,
+  TemplateSpecVersionsListNextResponse,
+  TemplateSpecVersionsListBuiltInsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -114,6 +120,71 @@ export class TemplateSpecVersionsImpl implements TemplateSpecVersions {
   ): AsyncIterableIterator<TemplateSpecVersion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
+      templateSpecName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all the Template Spec versions in the specified built-in Template Spec.
+   * @param templateSpecName Name of the Template Spec.
+   * @param options The options parameters.
+   */
+  public listBuiltIns(
+    templateSpecName: string,
+    options?: TemplateSpecVersionsListBuiltInsOptionalParams
+  ): PagedAsyncIterableIterator<TemplateSpecVersion> {
+    const iter = this.listBuiltInsPagingAll(templateSpecName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBuiltInsPagingPage(templateSpecName, options, settings);
+      }
+    };
+  }
+
+  private async *listBuiltInsPagingPage(
+    templateSpecName: string,
+    options?: TemplateSpecVersionsListBuiltInsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<TemplateSpecVersion[]> {
+    let result: TemplateSpecVersionsListBuiltInsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBuiltIns(templateSpecName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBuiltInsNext(
+        templateSpecName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBuiltInsPagingAll(
+    templateSpecName: string,
+    options?: TemplateSpecVersionsListBuiltInsOptionalParams
+  ): AsyncIterableIterator<TemplateSpecVersion> {
+    for await (const page of this.listBuiltInsPagingPage(
       templateSpecName,
       options
     )) {
@@ -224,6 +295,38 @@ export class TemplateSpecVersionsImpl implements TemplateSpecVersions {
   }
 
   /**
+   * Lists all the Template Spec versions in the specified built-in Template Spec.
+   * @param templateSpecName Name of the Template Spec.
+   * @param options The options parameters.
+   */
+  private _listBuiltIns(
+    templateSpecName: string,
+    options?: TemplateSpecVersionsListBuiltInsOptionalParams
+  ): Promise<TemplateSpecVersionsListBuiltInsResponse> {
+    return this.client.sendOperationRequest(
+      { templateSpecName, options },
+      listBuiltInsOperationSpec
+    );
+  }
+
+  /**
+   * Gets a Template Spec version from a specific built-in Template Spec.
+   * @param templateSpecName Name of the Template Spec.
+   * @param templateSpecVersion The version of the Template Spec.
+   * @param options The options parameters.
+   */
+  getBuiltIn(
+    templateSpecName: string,
+    templateSpecVersion: string,
+    options?: TemplateSpecVersionsGetBuiltInOptionalParams
+  ): Promise<TemplateSpecVersionsGetBuiltInResponse> {
+    return this.client.sendOperationRequest(
+      { templateSpecName, templateSpecVersion, options },
+      getBuiltInOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param templateSpecName Name of the Template Spec.
@@ -239,6 +342,23 @@ export class TemplateSpecVersionsImpl implements TemplateSpecVersions {
     return this.client.sendOperationRequest(
       { resourceGroupName, templateSpecName, nextLink, options },
       listNextOperationSpec
+    );
+  }
+
+  /**
+   * ListBuiltInsNext
+   * @param templateSpecName Name of the Template Spec.
+   * @param nextLink The nextLink from the previous successful call to the ListBuiltIns method.
+   * @param options The options parameters.
+   */
+  private _listBuiltInsNext(
+    templateSpecName: string,
+    nextLink: string,
+    options?: TemplateSpecVersionsListBuiltInsNextOptionalParams
+  ): Promise<TemplateSpecVersionsListBuiltInsNextResponse> {
+    return this.client.sendOperationRequest(
+      { templateSpecName, nextLink, options },
+      listBuiltInsNextOperationSpec
     );
   }
 }
@@ -365,6 +485,44 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listBuiltInsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Resources/builtInTemplateSpecs/{templateSpecName}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TemplateSpecVersionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.TemplateSpecsError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.templateSpecName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getBuiltInOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Resources/builtInTemplateSpecs/{templateSpecName}/versions/{templateSpecVersion}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TemplateSpecVersion
+    },
+    default: {
+      bodyMapper: Mappers.TemplateSpecsError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.templateSpecName,
+    Parameters.templateSpecVersion
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -376,11 +534,29 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TemplateSpecsError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.templateSpecName,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBuiltInsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TemplateSpecVersionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.TemplateSpecsError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
     Parameters.templateSpecName,
     Parameters.nextLink
   ],
