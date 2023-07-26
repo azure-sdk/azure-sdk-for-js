@@ -1,12 +1,16 @@
 # Release History
     
-## 21.1.0 (2023-07-07)
+## 22.0.0 (2023-07-26)
     
 **Features**
 
-  - Added Type Alias FileFormat
-  - Interface GrantAccessData has a new optional parameter fileFormat
-  - Added Enum KnownFileFormat
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
+
+**Breaking Changes**
+
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from CommunityGalleryImageIdentifier to GalleryImageIdentifier
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Removed Enum KnownEdgeZoneStorageAccountType
     
     
 ## 21.0.0 (2023-05-17)

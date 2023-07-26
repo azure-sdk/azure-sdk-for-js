@@ -8008,12 +8008,6 @@ export const GrantAccessData: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
-      },
-      fileFormat: {
-        serializedName: "fileFormat",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -10402,33 +10396,6 @@ export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
       },
       uniqueId: {
         serializedName: "identifier.uniqueId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CommunityGalleryImageIdentifier: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunityGalleryImageIdentifier",
-    modelProperties: {
-      publisher: {
-        serializedName: "publisher",
-        type: {
-          name: "String"
-        }
-      },
-      offer: {
-        serializedName: "offer",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
         type: {
           name: "String"
         }
@@ -16739,7 +16706,7 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
         serializedName: "properties.identifier",
         type: {
           name: "Composite",
-          className: "CommunityGalleryImageIdentifier"
+          className: "GalleryImageIdentifier"
         }
       },
       recommended: {
