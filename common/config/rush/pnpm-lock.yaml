@@ -13165,7 +13165,7 @@ packages:
     dev: false
 
   file:projects/arm-databoxedge.tgz:
-    resolution: {integrity: sha512-IB0n30m/Tq6XZ9EvwSR3qYsK4kwj8veM2LOOyzbwvgE9uD3GunBhSOQGrap2k4ivMmBm42fC/SdXmh9VKl23bA==, tarball: file:projects/arm-databoxedge.tgz}
+    resolution: {integrity: sha512-RUlQyL0XMLeJPQOC3uD2PrhNVbVymY1e6K+gbmCf9U/3UUjAWk76ekrpMeuwwlB9ISZ5Yxo0Iq+ffJaT7CR83A==, tarball: file:projects/arm-databoxedge.tgz}
     name: '@rush-temp/arm-databoxedge'
     version: 0.0.0
     dependencies:
@@ -13179,7 +13179,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
