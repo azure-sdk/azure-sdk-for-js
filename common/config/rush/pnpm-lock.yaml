@@ -15533,7 +15533,7 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-HD3OCLwP4aovozs15FQORTf4fnOVHMLj94ZTLYeDMZTYR4GM1nmjTHqt6re8uibtuManYcf/dFsgUUIatd4Vqw==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-Rvm2U/jgdNrNalbJt0T3fEztZtrHeFErNYg+gYhOexlHleGGL/wKJxphzb6YcmbKresvX8BZw86wLAl4+D8Ctw==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
@@ -15547,8 +15547,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
