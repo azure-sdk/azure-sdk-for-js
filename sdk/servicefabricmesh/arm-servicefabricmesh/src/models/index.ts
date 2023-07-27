@@ -57,6 +57,8 @@ export interface OperationResult {
   origin?: string;
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
+  /** Properties of the operation */
+  properties?: AvailableOperationDescriptionProperties;
 }
 
 /** An operation available at the listed Azure resource provider. */
@@ -69,6 +71,65 @@ export interface AvailableOperationDisplay {
   operation?: string;
   /** Description of the available operation. */
   description?: string;
+}
+
+/** Properties available for a Microsoft.Web resource provider operation. */
+export interface AvailableOperationDescriptionProperties {
+  /** Resource metrics service provided by Microsoft.Insights resource provider. */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Resource metrics service provided by Microsoft.Insights resource provider. */
+export interface ServiceSpecification {
+  metricSpecifications?: MetricSpecification[];
+  logSpecifications?: LogSpecification[];
+}
+
+/** Definition of a single resource metric. */
+export interface MetricSpecification {
+  name?: string;
+  displayName?: string;
+  displayDescription?: string;
+  unit?: string;
+  aggregationType?: string;
+  lockAggregationType?: string;
+  supportsInstanceLevelAggregation?: boolean;
+  enableRegionalMdmAccount?: boolean;
+  sourceMdmAccount?: string;
+  sourceMdmNamespace?: string;
+  metricFilterPattern?: string;
+  fillGapWithZero?: boolean;
+  isInternal?: boolean;
+  dimensions?: Dimension[];
+  category?: string;
+  availabilities?: MetricAvailability[];
+  supportedTimeGrainTypes?: string[];
+  supportedAggregationTypes?: string[];
+}
+
+/**
+ * Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app,
+ * where instance name is dimension of the metric HTTP request
+ */
+export interface Dimension {
+  name?: string;
+  displayName?: string;
+  internalName?: string;
+  toBeExportedForShoebox?: boolean;
+}
+
+/** Retention policy of a resource metric. */
+export interface MetricAvailability {
+  timeGrain?: string;
+  blobDuration?: string;
+}
+
+/** Log Definition of a single resource metric. */
+export interface LogSpecification {
+  name?: string;
+  displayName?: string;
+  blobDuration?: string;
+  logFilterPattern?: string;
 }
 
 /** The error details. */
@@ -844,7 +905,7 @@ export interface AutoScalingResourceMetric extends AutoScalingMetric {
 /** Describes the properties of a secret resource. */
 export interface SecretResourceProperties extends SecretResourcePropertiesBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SecretResourceProperties" | "inlinedValue";
+  kind: "SecretResourceProperties" | "InlinedValue";
   /** User readable description of the secret. */
   description?: string;
   /**
@@ -1008,7 +1069,7 @@ export interface ApplicationResourceDescription extends TrackedResource {
 export interface InlinedValueSecretResourceProperties
   extends SecretResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "inlinedValue";
+  kind: "InlinedValue";
 }
 
 /** Information about a Service Fabric container network local to a single Service Fabric cluster. */
@@ -1053,7 +1114,7 @@ export type ResourceStatus = string;
 /** Known values of {@link SecretKind} that the service accepts. */
 export enum KnownSecretKind {
   /** A simple secret resource whose plaintext value is provided by the user. */
-  InlinedValue = "inlinedValue"
+  InlinedValue = "InlinedValue"
 }
 
 /**
@@ -1061,7 +1122,7 @@ export enum KnownSecretKind {
  * {@link KnownSecretKind} can be used interchangeably with SecretKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **inlinedValue**: A simple secret resource whose plaintext value is provided by the user.
+ * **InlinedValue**: A simple secret resource whose plaintext value is provided by the user.
  */
 export type SecretKind = string;
 
@@ -1098,7 +1159,7 @@ export type NetworkKind = string;
 /** Known values of {@link PathMatchType} that the service accepts. */
 export enum KnownPathMatchType {
   /** Prefix */
-  Prefix = "prefix"
+  Prefix = "Prefix"
 }
 
 /**
@@ -1106,14 +1167,14 @@ export enum KnownPathMatchType {
  * {@link KnownPathMatchType} can be used interchangeably with PathMatchType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **prefix**
+ * **Prefix**
  */
 export type PathMatchType = string;
 
 /** Known values of {@link HeaderMatchType} that the service accepts. */
 export enum KnownHeaderMatchType {
   /** Exact */
-  Exact = "exact"
+  Exact = "Exact"
 }
 
 /**
@@ -1121,7 +1182,7 @@ export enum KnownHeaderMatchType {
  * {@link KnownHeaderMatchType} can be used interchangeably with HeaderMatchType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **exact**
+ * **Exact**
  */
 export type HeaderMatchType = string;
 

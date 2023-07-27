@@ -4887,7 +4887,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230725
+      typescript: 5.2.0-dev.20230727
     dev: false
 
   /duplexer3/0.1.5:
@@ -10400,8 +10400,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230725:
-    resolution: {integrity: sha512-ckVbPpSTdPA/Fxnrq1/mzO+LgzA64VPjm6YvV/axwZKgxviVHiUy0VvKS5EGBOpgFBwCNuN+ir24KIBGYWQCgQ==}
+  /typescript/5.2.0-dev.20230727:
+    resolution: {integrity: sha512-HTNqxwU5roYnvWrrdTxKLREZ+fygKOpf7q2DAhfZntqgyQNxZzZdDypigMS8tNmeQN2X/ohbNzX9PnhHoCCmfw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15374,7 +15374,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-cHWm3T/AtDMfqqcJ5pGQE1VwgTNhMekMLzxL4oRhrLwqfAMUHeUKShOxKjnK3ijV29GLU2NzOxWLnHnKKHijZA==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-Rho447UvDnX2mK63B1gR1WUlVjeyDNzq534BZwwvf03aZ+tQHWIvg/eAvzAwB54dxliI3OBfn7eQbc0e171z9g==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
@@ -16717,7 +16717,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabricmesh.tgz:
-    resolution: {integrity: sha512-FQdIA7shcksm4CR12neuZEjbpxfgYJlLqPxOogGvIthmpHz5g/rpqHfFO1dyzjfL6Kum1YT9y6AJiEo2WIge0Q==, tarball: file:projects/arm-servicefabricmesh.tgz}
+    resolution: {integrity: sha512-w+R3j17muSQqwqsoBhnF4WLzwBb2ONEdQD4Da9Uq9ZfulHQmZWX/pYVFYeJswLe+ejCqJ6QlN9ADFlqjysGNsQ==, tarball: file:projects/arm-servicefabricmesh.tgz}
     name: '@rush-temp/arm-servicefabricmesh'
     version: 0.0.0
     dependencies:
@@ -16731,8 +16731,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
