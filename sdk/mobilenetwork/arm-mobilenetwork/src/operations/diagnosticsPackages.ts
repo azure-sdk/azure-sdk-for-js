@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PacketCoreDataPlanes } from "../operationsInterfaces";
+import { DiagnosticsPackages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PacketCoreDataPlane,
-  PacketCoreDataPlanesListByPacketCoreControlPlaneNextOptionalParams,
-  PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
-  PacketCoreDataPlanesListByPacketCoreControlPlaneResponse,
-  PacketCoreDataPlanesDeleteOptionalParams,
-  PacketCoreDataPlanesGetOptionalParams,
-  PacketCoreDataPlanesGetResponse,
-  PacketCoreDataPlanesCreateOrUpdateOptionalParams,
-  PacketCoreDataPlanesCreateOrUpdateResponse,
-  TagsObject,
-  PacketCoreDataPlanesUpdateTagsOptionalParams,
-  PacketCoreDataPlanesUpdateTagsResponse,
-  PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse
+  DiagnosticsPackage,
+  DiagnosticsPackagesListByPacketCoreControlPlaneNextOptionalParams,
+  DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams,
+  DiagnosticsPackagesListByPacketCoreControlPlaneResponse,
+  DiagnosticsPackagesCreateOrUpdateOptionalParams,
+  DiagnosticsPackagesCreateOrUpdateResponse,
+  DiagnosticsPackagesGetOptionalParams,
+  DiagnosticsPackagesGetResponse,
+  DiagnosticsPackagesDeleteOptionalParams,
+  DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PacketCoreDataPlanes operations. */
-export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
+/** Class containing DiagnosticsPackages operations. */
+export class DiagnosticsPackagesImpl implements DiagnosticsPackages {
   private readonly client: MobileNetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class PacketCoreDataPlanes class.
+   * Initialize a new instance of the class DiagnosticsPackages class.
    * @param client Reference to the service client
    */
   constructor(client: MobileNetworkManagementClient) {
@@ -49,7 +46,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   }
 
   /**
-   * Lists all the packet core data planes associated with a packet core control plane.
+   * Lists all the diagnostics packages under a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param options The options parameters.
@@ -57,8 +54,8 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   public listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
-  ): PagedAsyncIterableIterator<PacketCoreDataPlane> {
+    options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams
+  ): PagedAsyncIterableIterator<DiagnosticsPackage> {
     const iter = this.listByPacketCoreControlPlanePagingAll(
       resourceGroupName,
       packetCoreControlPlaneName,
@@ -88,10 +85,10 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   private async *listByPacketCoreControlPlanePagingPage(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
+    options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<PacketCoreDataPlane[]> {
-    let result: PacketCoreDataPlanesListByPacketCoreControlPlaneResponse;
+  ): AsyncIterableIterator<DiagnosticsPackage[]> {
+    let result: DiagnosticsPackagesListByPacketCoreControlPlaneResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByPacketCoreControlPlane(
@@ -121,8 +118,8 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   private async *listByPacketCoreControlPlanePagingAll(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
-  ): AsyncIterableIterator<PacketCoreDataPlane> {
+    options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams
+  ): AsyncIterableIterator<DiagnosticsPackage> {
     for await (const page of this.listByPacketCoreControlPlanePagingPage(
       resourceGroupName,
       packetCoreControlPlaneName,
@@ -133,17 +130,142 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   }
 
   /**
-   * Deletes the specified packet core data plane.
+   * Creates or updates a diagnostics package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
+   * @param diagnosticsPackageName The name of the diagnostics package.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    diagnosticsPackageName: string,
+    options?: DiagnosticsPackagesCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DiagnosticsPackagesCreateOrUpdateResponse>,
+      DiagnosticsPackagesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DiagnosticsPackagesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        packetCoreControlPlaneName,
+        diagnosticsPackageName,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DiagnosticsPackagesCreateOrUpdateResponse,
+      OperationState<DiagnosticsPackagesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a diagnostics package.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param diagnosticsPackageName The name of the diagnostics package.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    diagnosticsPackageName: string,
+    options?: DiagnosticsPackagesCreateOrUpdateOptionalParams
+  ): Promise<DiagnosticsPackagesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      diagnosticsPackageName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets information about the specified diagnostics package.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param diagnosticsPackageName The name of the diagnostics package.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    diagnosticsPackageName: string,
+    options?: DiagnosticsPackagesGetOptionalParams
+  ): Promise<DiagnosticsPackagesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        packetCoreControlPlaneName,
+        diagnosticsPackageName,
+        options
+      },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Deletes the specified diagnostics package.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param diagnosticsPackageName The name of the diagnostics package.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesDeleteOptionalParams
+    diagnosticsPackageName: string,
+    options?: DiagnosticsPackagesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -189,7 +311,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
       args: {
         resourceGroupName,
         packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
+        diagnosticsPackageName,
         options
       },
       spec: deleteOperationSpec
@@ -204,189 +326,29 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   }
 
   /**
-   * Deletes the specified packet core data plane.
+   * Deletes the specified diagnostics package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
+   * @param diagnosticsPackageName The name of the diagnostics package.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesDeleteOptionalParams
+    diagnosticsPackageName: string,
+    options?: DiagnosticsPackagesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       packetCoreControlPlaneName,
-      packetCoreDataPlaneName,
+      diagnosticsPackageName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets information about the specified packet core data plane.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesGetOptionalParams
-  ): Promise<PacketCoreDataPlanesGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        options
-      },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Creates or updates a packet core data plane. Must be created in the same location as its parent
-   * packet core control plane.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param parameters Parameters supplied to the create or update packet core data plane operation.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    parameters: PacketCoreDataPlane,
-    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>,
-      PacketCoreDataPlanesCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<PacketCoreDataPlanesCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        parameters,
-        options
-      },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      PacketCoreDataPlanesCreateOrUpdateResponse,
-      OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates a packet core data plane. Must be created in the same location as its parent
-   * packet core control plane.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param parameters Parameters supplied to the create or update packet core data plane operation.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    parameters: PacketCoreDataPlane,
-    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
-  ): Promise<PacketCoreDataPlanesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      packetCoreControlPlaneName,
-      packetCoreDataPlaneName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Updates packet core data planes tags.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param parameters Parameters supplied to update packet core data plane tags.
-   * @param options The options parameters.
-   */
-  updateTags(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    parameters: TagsObject,
-    options?: PacketCoreDataPlanesUpdateTagsOptionalParams
-  ): Promise<PacketCoreDataPlanesUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        packetCoreControlPlaneName,
-        packetCoreDataPlaneName,
-        parameters,
-        options
-      },
-      updateTagsOperationSpec
-    );
-  }
-
-  /**
-   * Lists all the packet core data planes associated with a packet core control plane.
+   * Lists all the diagnostics packages under a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param options The options parameters.
@@ -394,8 +356,8 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   private _listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
-  ): Promise<PacketCoreDataPlanesListByPacketCoreControlPlaneResponse> {
+    options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams
+  ): Promise<DiagnosticsPackagesListByPacketCoreControlPlaneResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, packetCoreControlPlaneName, options },
       listByPacketCoreControlPlaneOperationSpec
@@ -414,8 +376,8 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     nextLink: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneNextOptionalParams
-  ): Promise<PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse> {
+    options?: DiagnosticsPackagesListByPacketCoreControlPlaneNextOptionalParams
+  ): Promise<DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, packetCoreControlPlaneName, nextLink, options },
       listByPacketCoreControlPlaneNextOperationSpec
@@ -425,9 +387,64 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages/{diagnosticsPackageName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticsPackage
+    },
+    201: {
+      bodyMapper: Mappers.DiagnosticsPackage
+    },
+    202: {
+      bodyMapper: Mappers.DiagnosticsPackage
+    },
+    204: {
+      bodyMapper: Mappers.DiagnosticsPackage
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName,
+    Parameters.diagnosticsPackageName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages/{diagnosticsPackageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticsPackage
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName,
+    Parameters.diagnosticsPackageName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages/{diagnosticsPackageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -444,100 +461,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
+    Parameters.diagnosticsPackageName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PacketCoreDataPlane
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PacketCoreDataPlane
-    },
-    201: {
-      bodyMapper: Mappers.PacketCoreDataPlane
-    },
-    202: {
-      bodyMapper: Mappers.PacketCoreDataPlane
-    },
-    204: {
-      bodyMapper: Mappers.PacketCoreDataPlane
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PacketCoreDataPlane
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listByPacketCoreControlPlaneOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreDataPlaneListResult
+      bodyMapper: Mappers.DiagnosticsPackageListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -558,7 +493,7 @@ const listByPacketCoreControlPlaneNextOperationSpec: coreClient.OperationSpec = 
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreDataPlaneListResult
+      bodyMapper: Mappers.DiagnosticsPackageListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

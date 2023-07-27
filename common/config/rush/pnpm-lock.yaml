@@ -15073,7 +15073,7 @@ packages:
     dev: false
 
   file:projects/arm-mobilenetwork.tgz:
-    resolution: {integrity: sha512-cRVhEdtT4Qur940fMRA1QYOlDsdM8NGQCDzibjlfL5D1zVbZ7iiup9z7EZ5Bt3YHaUr5cNsaQapyJfChRxeMYQ==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-eDPBdOzULiyOkUN5WwyAla1LxEb7pjngTUgF2UAdB/DjDPDorEp3f9KL9Kn4ZbfUku5UUs8680Vz6zAnwy5juA==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
@@ -15088,7 +15088,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
