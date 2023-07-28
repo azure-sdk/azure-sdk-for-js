@@ -66,6 +66,7 @@ export interface AppRegistration {
 
 // @public
 export interface AuthConfig extends ProxyResource {
+    encryptionSettings?: EncryptionSettings;
     globalValidation?: GlobalValidation;
     httpSettings?: HttpSettings;
     identityProviders?: IdentityProviders;
@@ -167,6 +168,7 @@ export interface AzureActiveDirectoryValidation {
 export interface AzureCredentials {
     clientId?: string;
     clientSecret?: string;
+    kind?: string;
     subscriptionId?: string;
     tenantId?: string;
 }
@@ -233,6 +235,11 @@ export type BillingMetersGetResponse = BillingMeterCollection;
 
 // @public
 export type BindingType = string;
+
+// @public
+export interface BlobStorageTokenStore {
+    sasUrlSettingName: string;
+}
 
 // @public
 export interface Certificate extends TrackedResource {
@@ -349,6 +356,7 @@ export interface Configuration {
     maxInactiveRevisions?: number;
     registries?: RegistryCredentials[];
     secrets?: Secret[];
+    service?: Service;
 }
 
 // @public
@@ -636,6 +644,9 @@ export interface ContainerAppCollection {
 }
 
 // @public
+export type ContainerAppContainerRunningState = string;
+
+// @public
 export interface ContainerAppJobExecutions {
     readonly nextLink?: string;
     value: JobExecution[];
@@ -679,11 +690,18 @@ export interface ContainerAppProbeTcpSocket {
 export type ContainerAppProvisioningState = string;
 
 // @public
+export type ContainerAppReplicaRunningState = string;
+
+// @public
 export interface ContainerApps {
     beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsCreateOrUpdateResponse>, ContainerAppsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
+    beginStart(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsStartResponse>, ContainerAppsStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams): Promise<ContainerAppsStartResponse>;
+    beginStop(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsStopResponse>, ContainerAppsStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams): Promise<ContainerAppsStopResponse>;
     beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<ContainerAppsUpdateResponse>;
     get(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
@@ -729,6 +747,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     containerAppsSourceControls: ContainerAppsSourceControls;
     // (undocumented)
     daprComponents: DaprComponents;
+    getCustomDomainVerificationId(options?: GetCustomDomainVerificationIdOptionalParams): Promise<GetCustomDomainVerificationIdResponse>;
+    jobExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobExecutionOptionalParams): Promise<JobExecutionResponse>;
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
@@ -744,11 +764,15 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     managedEnvironmentsStorages: ManagedEnvironmentsStorages;
     // (undocumented)
+    managedEnvironmentUsages: ManagedEnvironmentUsages;
+    // (undocumented)
     namespaces: Namespaces;
     // (undocumented)
     operations: Operations;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    usages: Usages;
 }
 
 // @public
@@ -1051,6 +1075,36 @@ export interface ContainerAppsSourceControlsListByContainerAppOptionalParams ext
 
 // @public
 export type ContainerAppsSourceControlsListByContainerAppResponse = SourceControlCollection;
+
+// @public
+export interface ContainerAppsStartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsStartResponse = ContainerApp;
+
+// @public
+export interface ContainerAppsStopHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsStopOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsStopResponse = ContainerApp;
 
 // @public
 export interface ContainerAppsUpdateHeaders {
@@ -1377,6 +1431,12 @@ export interface DiagnosticSupportTopic {
 export type DnsVerificationTestResult = "Passed" | "Failed" | "Skipped";
 
 // @public
+export interface EncryptionSettings {
+    containerAppAuthEncryptionSecretName?: string;
+    containerAppAuthSigningSecretName?: string;
+}
+
+// @public
 export interface EnvironmentAuthToken extends TrackedResource {
     readonly expires?: Date;
     readonly token?: string;
@@ -1443,6 +1503,15 @@ export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GetCustomDomainVerificationIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetCustomDomainVerificationIdResponse = {
+    body: string;
+};
+
+// @public
 export interface GitHub {
     enabled?: boolean;
     login?: LoginScopes;
@@ -1453,6 +1522,7 @@ export interface GitHub {
 export interface GithubActionConfiguration {
     azureCredentials?: AzureCredentials;
     contextPath?: string;
+    githubPersonalAccessToken?: string;
     image?: string;
     os?: string;
     publishType?: string;
@@ -1512,6 +1582,7 @@ export interface IdentityProviders {
 
 // @public
 export interface Ingress {
+    additionalPortMappings?: IngressPortMapping[];
     allowInsecure?: boolean;
     clientCertificateMode?: IngressClientCertificateMode;
     corsPolicy?: CorsPolicy;
@@ -1528,6 +1599,13 @@ export interface Ingress {
 
 // @public
 export type IngressClientCertificateMode = string;
+
+// @public
+export interface IngressPortMapping {
+    exposedPort?: number;
+    external: boolean;
+    targetPort: number;
+}
 
 // @public
 export interface IngressStickySessions {
@@ -1563,6 +1641,7 @@ export interface Job extends TrackedResource {
 
 // @public
 export interface JobConfiguration {
+    eventTriggerConfig?: JobConfigurationEventTriggerConfig;
     manualTriggerConfig?: JobConfigurationManualTriggerConfig;
     registries?: RegistryCredentials[];
     replicaRetryLimit?: number;
@@ -1570,6 +1649,13 @@ export interface JobConfiguration {
     scheduleTriggerConfig?: JobConfigurationScheduleTriggerConfig;
     secrets?: Secret[];
     triggerType: TriggerType;
+}
+
+// @public
+export interface JobConfigurationEventTriggerConfig {
+    parallelism?: number;
+    replicaCompletionCount?: number;
+    scale?: JobScale;
 }
 
 // @public
@@ -1618,6 +1704,13 @@ export interface JobExecutionNamesCollection {
 }
 
 // @public
+export interface JobExecutionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobExecutionResponse = JobExecution;
+
+// @public
 export type JobExecutionRunningState = string;
 
 // @public
@@ -1658,14 +1751,30 @@ export interface Jobs {
     beginStartAndWait(resourceGroupName: string, jobName: string, template: JobExecutionTemplate, options?: JobsStartOptionalParams): Promise<JobsStartResponse>;
     beginStopExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopExecutionAndWait(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<void>;
-    beginStopMultipleExecutions(resourceGroupName: string, jobName: string, jobExecutionName: JobExecutionNamesCollection, options?: JobsStopMultipleExecutionsOptionalParams): Promise<SimplePollerLike<OperationState<JobsStopMultipleExecutionsResponse>, JobsStopMultipleExecutionsResponse>>;
-    beginStopMultipleExecutionsAndWait(resourceGroupName: string, jobName: string, jobExecutionName: JobExecutionNamesCollection, options?: JobsStopMultipleExecutionsOptionalParams): Promise<JobsStopMultipleExecutionsResponse>;
+    beginStopMultipleExecutions(resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams): Promise<SimplePollerLike<OperationState<JobsStopMultipleExecutionsResponse>, JobsStopMultipleExecutionsResponse>>;
+    beginStopMultipleExecutionsAndWait(resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams): Promise<JobsStopMultipleExecutionsResponse>;
     beginUpdate(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<JobsUpdateResponse>;
     get(resourceGroupName: string, jobName: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: JobsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Job>;
     listBySubscription(options?: JobsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Job>;
     listSecrets(resourceGroupName: string, jobName: string, options?: JobsListSecretsOptionalParams): Promise<JobsListSecretsResponse>;
+}
+
+// @public
+export interface JobScale {
+    maxExecutions?: number;
+    minExecutions?: number;
+    pollingInterval?: number;
+    rules?: JobScaleRule[];
+}
+
+// @public
+export interface JobScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: Record<string, unknown>;
+    name?: string;
+    type?: string;
 }
 
 // @public
@@ -1907,12 +2016,26 @@ export enum KnownConnectedEnvironmentProvisioningState {
 }
 
 // @public
+export enum KnownContainerAppContainerRunningState {
+    Running = "Running",
+    Terminated = "Terminated",
+    Waiting = "Waiting"
+}
+
+// @public
 export enum KnownContainerAppProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownContainerAppReplicaRunningState {
+    NotRunning = "NotRunning",
+    Running = "Running",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -2017,6 +2140,16 @@ export enum KnownRevisionProvisioningState {
 }
 
 // @public
+export enum KnownRevisionRunningState {
+    Degraded = "Degraded",
+    Failed = "Failed",
+    Processing = "Processing",
+    Running = "Running",
+    Stopped = "Stopped",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownScheme {
     Http = "HTTP",
     Https = "HTTPS"
@@ -2041,7 +2174,7 @@ export enum KnownStorageType {
 export enum KnownTriggerType {
     Event = "Event",
     Manual = "Manual",
-    Scheduled = "Scheduled"
+    Schedule = "Schedule"
 }
 
 // @public
@@ -2049,6 +2182,12 @@ export enum KnownType {
     Liveness = "Liveness",
     Readiness = "Readiness",
     Startup = "Startup"
+}
+
+// @public (undocumented)
+export interface ListUsagesResult {
+    nextLink?: string;
+    value?: Usage[];
 }
 
 // @public
@@ -2064,6 +2203,7 @@ export interface Login {
     nonce?: Nonce;
     preserveUrlFragmentsForLogins?: boolean;
     routes?: LoginRoutes;
+    tokenStore?: TokenStore;
 }
 
 // @public
@@ -2174,6 +2314,7 @@ export interface ManagedEnvironment extends TrackedResource {
     infrastructureResourceGroup?: string;
     kedaConfiguration?: KedaConfiguration;
     kind?: string;
+    peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
     readonly provisioningState?: EnvironmentProvisioningState;
     readonly staticIp?: string;
     vnetConfiguration?: VnetConfiguration;
@@ -2200,6 +2341,11 @@ export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams extend
 
 // @public
 export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsCollection;
+
+// @public
+export interface ManagedEnvironmentPropertiesPeerAuthentication {
+    mtls?: Mtls;
+}
 
 // @public
 export interface ManagedEnvironments {
@@ -2363,6 +2509,25 @@ export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.Oper
 export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
 
 // @public
+export interface ManagedEnvironmentUsages {
+    list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentUsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
+}
+
+// @public
+export interface ManagedEnvironmentUsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentUsagesListNextResponse = ListUsagesResult;
+
+// @public
+export interface ManagedEnvironmentUsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentUsagesListResponse = ListUsagesResult;
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -2374,6 +2539,11 @@ export interface ManagedServiceIdentity {
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface Mtls {
+    enabled?: boolean;
+}
 
 // @public
 export interface Namespaces {
@@ -2486,6 +2656,9 @@ export interface RegistryInfo {
 export interface Replica extends ProxyResource {
     containers?: ReplicaContainer[];
     readonly createdTime?: Date;
+    initContainers?: ReplicaContainer[];
+    readonly runningState?: ContainerAppReplicaRunningState;
+    readonly runningStateDetails?: string;
 }
 
 // @public
@@ -2501,6 +2674,8 @@ export interface ReplicaContainer {
     name?: string;
     ready?: boolean;
     restartCount?: number;
+    readonly runningState?: ContainerAppContainerRunningState;
+    readonly runningStateDetails?: string;
     started?: boolean;
 }
 
@@ -2522,6 +2697,7 @@ export interface Revision extends ProxyResource {
     readonly provisioningError?: string;
     readonly provisioningState?: RevisionProvisioningState;
     readonly replicas?: number;
+    readonly runningState?: RevisionRunningState;
     readonly template?: Template;
     readonly trafficWeight?: number;
 }
@@ -2537,6 +2713,9 @@ export type RevisionHealthState = string;
 
 // @public
 export type RevisionProvisioningState = string;
+
+// @public
+export type RevisionRunningState = string;
 
 // @public
 export interface Scale {
@@ -2583,6 +2762,17 @@ export interface SecretVolumeItem {
 }
 
 // @public
+export interface Service {
+    type: string;
+}
+
+// @public
+export interface ServiceBind {
+    name?: string;
+    serviceId?: string;
+}
+
+// @public
 export interface SourceControl extends ProxyResource {
     branch?: string;
     githubActionConfiguration?: GithubActionConfiguration;
@@ -2626,7 +2816,16 @@ export interface Template {
     initContainers?: InitContainer[];
     revisionSuffix?: string;
     scale?: Scale;
+    serviceBinds?: ServiceBind[];
+    terminationGracePeriodSeconds?: number;
     volumes?: Volume[];
+}
+
+// @public
+export interface TokenStore {
+    azureBlobStorage?: BlobStorageTokenStore;
+    enabled?: boolean;
+    tokenRefreshExtensionHours?: number;
 }
 
 // @public
@@ -2667,6 +2866,39 @@ export type Type = string;
 export type UnauthenticatedClientActionV2 = "RedirectToLoginPage" | "AllowAnonymous" | "Return401" | "Return403";
 
 // @public
+export interface Usage {
+    currentValue: number;
+    limit: number;
+    name: UsageName;
+    unit: "Count";
+}
+
+// @public
+export interface UsageName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface Usages {
+    list(location: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
+}
+
+// @public
+export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UsagesListNextResponse = ListUsagesResult;
+
+// @public
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UsagesListResponse = ListUsagesResult;
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -2683,6 +2915,7 @@ export interface VnetConfiguration {
 
 // @public
 export interface Volume {
+    mountOptions?: string;
     name?: string;
     secrets?: SecretVolumeItem[];
     storageName?: string;
@@ -2692,6 +2925,7 @@ export interface Volume {
 // @public
 export interface VolumeMount {
     mountPath?: string;
+    subPath?: string;
     volumeName?: string;
 }
 

@@ -23,21 +23,23 @@ import {
   ConnectedEnvironmentsDaprComponentsImpl,
   ConnectedEnvironmentsStoragesImpl,
   ContainerAppsImpl,
-  JobsImpl,
-  JobsExecutionsImpl,
   ContainerAppsRevisionsImpl,
   ContainerAppsRevisionReplicasImpl,
   ContainerAppsDiagnosticsImpl,
   ManagedEnvironmentDiagnosticsImpl,
   ManagedEnvironmentsDiagnosticsImpl,
   OperationsImpl,
+  JobsImpl,
+  JobsExecutionsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
   ManagedCertificatesImpl,
   NamespacesImpl,
   DaprComponentsImpl,
   ManagedEnvironmentsStoragesImpl,
-  ContainerAppsSourceControlsImpl
+  ContainerAppsSourceControlsImpl,
+  UsagesImpl,
+  ManagedEnvironmentUsagesImpl
 } from "./operations";
 import {
   ContainerAppsAuthConfigs,
@@ -48,23 +50,33 @@ import {
   ConnectedEnvironmentsDaprComponents,
   ConnectedEnvironmentsStorages,
   ContainerApps,
-  Jobs,
-  JobsExecutions,
   ContainerAppsRevisions,
   ContainerAppsRevisionReplicas,
   ContainerAppsDiagnostics,
   ManagedEnvironmentDiagnostics,
   ManagedEnvironmentsDiagnostics,
   Operations,
+  Jobs,
+  JobsExecutions,
   ManagedEnvironments,
   Certificates,
   ManagedCertificates,
   Namespaces,
   DaprComponents,
   ManagedEnvironmentsStorages,
-  ContainerAppsSourceControls
+  ContainerAppsSourceControls,
+  Usages,
+  ManagedEnvironmentUsages
 } from "./operationsInterfaces";
-import { ContainerAppsAPIClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  ContainerAppsAPIClientOptionalParams,
+  JobExecutionOptionalParams,
+  JobExecutionResponse,
+  GetCustomDomainVerificationIdOptionalParams,
+  GetCustomDomainVerificationIdResponse
+} from "./models";
 
 export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   $host: string;
@@ -151,7 +163,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-02-preview";
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
     this.billingMeters = new BillingMetersImpl(this);
@@ -166,8 +178,6 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       this
     );
     this.containerApps = new ContainerAppsImpl(this);
-    this.jobs = new JobsImpl(this);
-    this.jobsExecutions = new JobsExecutionsImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
       this
@@ -180,6 +190,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
+    this.jobs = new JobsImpl(this);
+    this.jobsExecutions = new JobsExecutionsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.managedCertificates = new ManagedCertificatesImpl(this);
@@ -191,6 +203,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
       this
     );
+    this.usages = new UsagesImpl(this);
+    this.managedEnvironmentUsages = new ManagedEnvironmentUsagesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -222,6 +236,38 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Get details of a single job execution
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param jobExecutionName Job execution name.
+   * @param options The options parameters.
+   */
+  jobExecution(
+    resourceGroupName: string,
+    jobName: string,
+    jobExecutionName: string,
+    options?: JobExecutionOptionalParams
+  ): Promise<JobExecutionResponse> {
+    return this.sendOperationRequest(
+      { resourceGroupName, jobName, jobExecutionName, options },
+      jobExecutionOperationSpec
+    );
+  }
+
+  /**
+   * Get the verification id of a subscription used for verifying custom domains
+   * @param options The options parameters.
+   */
+  getCustomDomainVerificationId(
+    options?: GetCustomDomainVerificationIdOptionalParams
+  ): Promise<GetCustomDomainVerificationIdResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getCustomDomainVerificationIdOperationSpec
+    );
+  }
+
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
   availableWorkloadProfiles: AvailableWorkloadProfiles;
   billingMeters: BillingMeters;
@@ -230,14 +276,14 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
   connectedEnvironmentsStorages: ConnectedEnvironmentsStorages;
   containerApps: ContainerApps;
-  jobs: Jobs;
-  jobsExecutions: JobsExecutions;
   containerAppsRevisions: ContainerAppsRevisions;
   containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
   containerAppsDiagnostics: ContainerAppsDiagnostics;
   managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
   managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
   operations: Operations;
+  jobs: Jobs;
+  jobsExecutions: JobsExecutions;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
   managedCertificates: ManagedCertificates;
@@ -245,4 +291,49 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   daprComponents: DaprComponents;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSourceControls: ContainerAppsSourceControls;
+  usages: Usages;
+  managedEnvironmentUsages: ManagedEnvironmentUsages;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const jobExecutionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobExecution
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName,
+    Parameters.jobExecutionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCustomDomainVerificationIdOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.App/getCustomDomainVerificationId",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: { type: { name: "String" } }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
