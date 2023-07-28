@@ -13,6 +13,8 @@ import {
   AzureBareMetalInstancesListByResourceGroupOptionalParams,
   AzureBareMetalInstancesGetOptionalParams,
   AzureBareMetalInstancesGetResponse,
+  AzureBareMetalInstancesDeleteOptionalParams,
+  AzureBareMetalInstancesPutOptionalParams,
   Tags,
   AzureBareMetalInstancesUpdateOptionalParams,
   AzureBareMetalInstancesUpdateResponse
@@ -50,6 +52,29 @@ export interface AzureBareMetalInstances {
     azureBareMetalInstanceName: string,
     options?: AzureBareMetalInstancesGetOptionalParams
   ): Promise<AzureBareMetalInstancesGetResponse>;
+  /**
+   * Deletes an Azure BareMetal instance for the specified subscription, resource group, and instance
+   * name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureBareMetalInstanceName Name of the Azure BareMetal on Azure instance.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    azureBareMetalInstanceName: string,
+    options?: AzureBareMetalInstancesDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Adds an Azure BareMetal instance for the specified subscription, resource group, and instance name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureBareMetalInstanceName Name of the Azure BareMetal on Azure instance.
+   * @param options The options parameters.
+   */
+  put(
+    resourceGroupName: string,
+    azureBareMetalInstanceName: string,
+    options?: AzureBareMetalInstancesPutOptionalParams
+  ): Promise<void>;
   /**
    * Patches the Tags field of a Azure BareMetal instance for the specified subscription, resource group,
    * and instance name.

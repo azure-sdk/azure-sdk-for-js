@@ -11,7 +11,11 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { Tags as TagsMapper } from "../models/mappers";
+import {
+  AzureBareMetalInstance as AzureBareMetalInstanceMapper,
+  Tags as TagsMapper,
+  AzureBareMetalStorageInstance as AzureBareMetalStorageInstanceMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -40,7 +44,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-09",
+    defaultValue: "2023-04-06",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -101,6 +105,11 @@ export const contentType: OperationParameter = {
   }
 };
 
+export const requestBodyParameters: OperationParameter = {
+  parameterPath: ["options", "requestBodyParameters"],
+  mapper: AzureBareMetalInstanceMapper
+};
+
 export const tagsParameter: OperationParameter = {
   parameterPath: "tagsParameter",
   mapper: TagsMapper
@@ -116,4 +125,23 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const azureBareMetalStorageInstanceName: OperationURLParameter = {
+  parameterPath: "azureBareMetalStorageInstanceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(".*")
+    },
+    serializedName: "azureBareMetalStorageInstanceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const requestBodyParameters1: OperationParameter = {
+  parameterPath: "requestBodyParameters",
+  mapper: AzureBareMetalStorageInstanceMapper
 };

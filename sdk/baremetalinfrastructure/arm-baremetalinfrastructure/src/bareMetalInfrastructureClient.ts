@@ -14,8 +14,16 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { AzureBareMetalInstancesImpl, OperationsImpl } from "./operations";
-import { AzureBareMetalInstances, Operations } from "./operationsInterfaces";
+import {
+  AzureBareMetalInstancesImpl,
+  OperationsImpl,
+  AzureBareMetalStorageInstancesImpl
+} from "./operations";
+import {
+  AzureBareMetalInstances,
+  Operations,
+  AzureBareMetalStorageInstances
+} from "./operationsInterfaces";
 import { BareMetalInfrastructureClientOptionalParams } from "./models";
 
 export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
@@ -50,7 +58,7 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-baremetalinfrastructure/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-baremetalinfrastructure/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -103,9 +111,12 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-09";
+    this.apiVersion = options.apiVersion || "2023-04-06";
     this.azureBareMetalInstances = new AzureBareMetalInstancesImpl(this);
     this.operations = new OperationsImpl(this);
+    this.azureBareMetalStorageInstances = new AzureBareMetalStorageInstancesImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -139,4 +150,5 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
 
   azureBareMetalInstances: AzureBareMetalInstances;
   operations: Operations;
+  azureBareMetalStorageInstances: AzureBareMetalStorageInstances;
 }
