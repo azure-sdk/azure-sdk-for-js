@@ -106,6 +106,7 @@ specifiers:
   '@rush-temp/arm-hanaonazure': file:./projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hardwaresecuritymodules': file:./projects/arm-hardwaresecuritymodules.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
+  '@rush-temp/arm-hdinsightonaks': file:./projects/arm-hdinsightonaks.tgz
   '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:./projects/arm-healthcareapis.tgz
   '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
@@ -457,6 +458,7 @@ dependencies:
   '@rush-temp/arm-hanaonazure': file:projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hardwaresecuritymodules': file:projects/arm-hardwaresecuritymodules.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
+  '@rush-temp/arm-hdinsightonaks': file:projects/arm-hdinsightonaks.tgz
   '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:projects/arm-healthcareapis.tgz
   '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
@@ -4803,7 +4805,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230727
+      typescript: 5.2.0-dev.20230728
     dev: false
 
   /duplexer3/0.1.5:
@@ -10300,8 +10302,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230727:
-    resolution: {integrity: sha512-HTNqxwU5roYnvWrrdTxKLREZ+fygKOpf7q2DAhfZntqgyQNxZzZdDypigMS8tNmeQN2X/ohbNzX9PnhHoCCmfw==}
+  /typescript/5.2.0-dev.20230728:
+    resolution: {integrity: sha512-pI6gdSexHd/ESfy6Vwmd6bdId1UIYl1fkE8d2o/n/frQCeD6oupH93WTh0syCk3mYMpnx++flvR1X2WHJS1oVg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14066,6 +14068,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-hdinsightonaks.tgz:
+    resolution: {integrity: sha512-DNFrFxWz6OMK9WTXDNA+ZuUF9OlOx5y0KK41NhmOF+DHj3dkhGd0dCfhxf7rHtjVN+nr9+zRlh76/Ho66Dc8BA==, tarball: file:projects/arm-hdinsightonaks.tgz}
+    name: '@rush-temp/arm-hdinsightonaks'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.1
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-healthbot.tgz:
     resolution: {integrity: sha512-AhsFUruhBEylGQuR3pCyRsb8peidBTO5R+fQG1GPHC5X5ULvjYBr/VjyCyGw6wUncL7mEI+ZAjeD1HRGT5+DGw==, tarball: file:projects/arm-healthbot.tgz}
     name: '@rush-temp/arm-healthbot'
@@ -16757,7 +16787,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-EpSU2v4ZtF6cBet3xtDZP6CVKFpIueokt1QWq2L94nDbejTY0apqrB5ld7Y1wMFd2eCjkWdyOemcoMU3aiEpng==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-JPKp259J5nN+vVi2wzvaIMG+pNlhqHdbjgBFZtF9W1gs3cBR9RX6ZLdzc1FU4ETQ5incWZTpV0+hr/9cWQ7pYg==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -21689,7 +21719,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-a3t9WQAwAL4yGTrCNEjWwLy1F8WZvlCUJH/gvTvAByCDQFyMxXnzHnmwjyfX6mqwMwMI1xrg21friMobdmRM6A==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-dH+gWGwhkEd1ZO/50EEX8BpsXZ+rFqXznGGCIhIW9Q5tbi21QsY2/0k13eGQxRHJjPvKrYRmVSTs926Ll3feKQ==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
