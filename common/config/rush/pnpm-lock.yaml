@@ -19,6 +19,7 @@ specifiers:
   '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:./projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
+  '@rush-temp/arm-apicenter': file:./projects/arm-apicenter.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-appcomplianceautomation': file:./projects/arm-appcomplianceautomation.tgz
   '@rush-temp/arm-appconfiguration': file:./projects/arm-appconfiguration.tgz
@@ -371,6 +372,7 @@ dependencies:
   '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
   '@rush-temp/arm-agrifood': file:projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
+  '@rush-temp/arm-apicenter': file:projects/arm-apicenter.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-appcomplianceautomation': file:projects/arm-appcomplianceautomation.tgz
   '@rush-temp/arm-appconfiguration': file:projects/arm-appconfiguration.tgz
@@ -4805,7 +4807,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230728
+      typescript: 5.2.0-dev.20230730
     dev: false
 
   /duplexer3/0.1.5:
@@ -10292,8 +10294,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230728:
-    resolution: {integrity: sha512-pI6gdSexHd/ESfy6Vwmd6bdId1UIYl1fkE8d2o/n/frQCeD6oupH93WTh0syCk3mYMpnx++flvR1X2WHJS1oVg==}
+  /typescript/5.2.0-dev.20230730:
+    resolution: {integrity: sha512-Un+AAI0hEctoChFvndwcw3Ygv9FxR/DkfohcAQu9bipcFWkCS2QqOHtFNO2r6mu+BAQ23QwArto2GSLp6I6Y7w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11599,6 +11601,34 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.1
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-apicenter.tgz:
+    resolution: {integrity: sha512-lkLCjuv/Rq7+k320BOF2KajuNppG8Fq/PFn2DR/Fh00lUqzTPxO9WrX6l5SFIF9THdmLJGVz5g1T/gZT1LstSA==, tarball: file:projects/arm-apicenter.tgz}
+    name: '@rush-temp/arm-apicenter'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
