@@ -8,82 +8,48 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const Resource: coreClient.CompositeMapper = {
+export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "CheckNameAvailabilityRequest",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
-        readOnly: true,
         type: {
           name: "String"
         }
       },
       type: {
         serializedName: "type",
-        readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       }
     }
   }
 };
 
-export const SystemData: coreClient.CompositeMapper = {
+export const CheckNameAvailabilityResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SystemData",
+    className: "CheckNameAvailabilityResponse",
     modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
         type: {
           name: "String"
         }
       },
-      createdByType: {
-        serializedName: "createdByType",
+      message: {
+        serializedName: "message",
         type: {
           name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -186,26 +152,35 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtensionListResponse: coreClient.CompositeMapper = {
+export const DataConnectorProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExtensionListResponse",
+    className: "DataConnectorProperties",
     modelProperties: {
-      value: {
-        serializedName: "value",
+      credentials: {
+        serializedName: "credentials",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Extension"
-            }
-          }
+          name: "Composite",
+          className: "AuthCredentials"
         }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
+      }
+    }
+  }
+};
+
+export const AuthCredentials: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AuthCredentials",
+    uberParent: "AuthCredentials",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
         type: {
           name: "String"
         }
@@ -214,28 +189,255 @@ export const ExtensionListResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const FarmBeatsExtensionListResponse: coreClient.CompositeMapper = {
+export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FarmBeatsExtensionListResponse",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const DataConnectorListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataConnectorListResponse",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "FarmBeatsExtension"
+              className: "DataConnector"
             }
           }
         }
       },
       nextLink: {
         serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgricultureExtensionListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgricultureExtensionListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataManagerForAgricultureExtension"
+            }
+          }
+        }
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgricultureExtensionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgricultureExtensionProperties",
+    modelProperties: {
+      targetResourceType: {
+        serializedName: "targetResourceType",
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      farmBeatsExtensionId: {
+        constraints: {
+          Pattern: new RegExp("^[a-zA-Z]{3,50}[.][a-zA-Z]{3,100}$"),
+          MaxLength: 100,
+          MinLength: 2
+        },
+        serializedName: "farmBeatsExtensionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmBeatsExtensionName: {
+        constraints: {
+          MaxLength: 100,
+          MinLength: 2
+        },
+        serializedName: "farmBeatsExtensionName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmBeatsExtensionVersion: {
+        constraints: {
+          Pattern: new RegExp("^([1-9]|10).\\d$"),
+          MaxLength: 100,
+          MinLength: 2
+        },
+        serializedName: "farmBeatsExtensionVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      publisherId: {
+        constraints: {
+          MaxLength: 100,
+          MinLength: 2
+        },
+        serializedName: "publisherId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        constraints: {
+          MaxLength: 500,
+          MinLength: 2
+        },
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      extensionCategory: {
+        constraints: {
+          MaxLength: 100,
+          MinLength: 2
+        },
+        serializedName: "extensionCategory",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      extensionAuthLink: {
+        serializedName: "extensionAuthLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      extensionApiDocsLink: {
+        serializedName: "extensionApiDocsLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      detailedInformation: {
+        serializedName: "detailedInformation",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetailedInformation"
+            }
+          }
         }
       }
     }
@@ -253,6 +455,18 @@ export const DetailedInformation: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      apiDocsLink: {
+        serializedName: "apiDocsLink",
+        type: {
+          name: "String"
+        }
+      },
+      apiType: {
+        serializedName: "apiType",
+        type: {
+          name: "String"
+        }
+      },
       customParameters: {
         serializedName: "customParameters",
         type: {
@@ -266,6 +480,17 @@ export const DetailedInformation: coreClient.CompositeMapper = {
       },
       platformParameters: {
         serializedName: "platformParameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      apiDefaultInputParameters: {
+        serializedName: "apiDefaultInputParameters",
         type: {
           name: "Sequence",
           element: {
@@ -305,7 +530,7 @@ export const UnitSystemsInfo: coreClient.CompositeMapper = {
       key: {
         constraints: {
           MaxLength: 100,
-          MinLength: 2
+          MinLength: 1
         },
         serializedName: "key",
         required: true,
@@ -338,14 +563,14 @@ export const Identity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       tenantId: {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       type: {
@@ -432,10 +657,10 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
   }
 };
 
-export const FarmBeatsUpdateRequestModel: coreClient.CompositeMapper = {
+export const DataManagerForAgricultureUpdateRequestModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FarmBeatsUpdateRequestModel",
+    className: "DataManagerForAgricultureUpdateRequestModel",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -454,7 +679,7 @@ export const FarmBeatsUpdateRequestModel: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "FarmBeatsUpdateProperties"
+          className: "DataManagerForAgricultureUpdateProperties"
         }
       },
       tags: {
@@ -468,10 +693,10 @@ export const FarmBeatsUpdateRequestModel: coreClient.CompositeMapper = {
   }
 };
 
-export const FarmBeatsUpdateProperties: coreClient.CompositeMapper = {
+export const DataManagerForAgricultureUpdateProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FarmBeatsUpdateProperties",
+    className: "DataManagerForAgricultureUpdateProperties",
     modelProperties: {
       sensorIntegration: {
         serializedName: "sensorIntegration",
@@ -490,26 +715,32 @@ export const FarmBeatsUpdateProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const FarmBeatsListResponse: coreClient.CompositeMapper = {
+export const DataManagerForAgricultureListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FarmBeatsListResponse",
+    className: "DataManagerForAgricultureListResponse",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "FarmBeats"
+              className: "DataManagerForAgriculture"
             }
           }
         }
       },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String"
+        }
+      },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -528,51 +759,111 @@ export const ArmAsyncOperation: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CheckNameAvailabilityRequest",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
       },
-      type: {
-        serializedName: "type",
+      error: {
+        serializedName: "error",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "ArmAsyncOperationError"
         }
       }
     }
   }
 };
 
-export const CheckNameAvailabilityResponse: coreClient.CompositeMapper = {
+export const ArmAsyncOperationError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CheckNameAvailabilityResponse",
+    className: "ArmAsyncOperationError",
     modelProperties: {
-      nameAvailable: {
-        serializedName: "nameAvailable",
-        type: {
-          name: "Boolean"
-        }
-      },
-      reason: {
-        serializedName: "reason",
+      code: {
+        serializedName: "code",
         type: {
           name: "String"
         }
       },
       message: {
         serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExtensionInstallationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtensionInstallationRequest",
+    modelProperties: {
+      extensionVersion: {
+        constraints: {
+          MaxLength: 10,
+          MinLength: 3
+        },
+        serializedName: "extensionVersion",
+        type: {
+          name: "String"
+        }
+      },
+      additionalApiProperties: {
+        serializedName: "additionalApiProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "ApiProperties" } }
+        }
+      }
+    }
+  }
+};
+
+export const ApiProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiProperties",
+    modelProperties: {
+      apiFreshnessTimeInMinutes: {
+        constraints: {
+          InclusiveMaximum: 10080,
+          InclusiveMinimum: 0
+        },
+        serializedName: "apiFreshnessTimeInMinutes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ExtensionListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtensionListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Extension"
+            }
+          }
+        }
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -733,6 +1024,358 @@ export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const SolutionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionProperties",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      partnerId: {
+        serializedName: "partnerId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      saasSubscriptionId: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "saasSubscriptionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      saasSubscriptionName: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "saasSubscriptionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      marketplacePublisherId: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "marketplacePublisherId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      planId: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "planId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      offerId: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "offerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      termId: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "termId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SolutionListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Solution"
+            }
+          }
+        }
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgricultureSolutionListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgricultureSolutionListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataManagerForAgricultureSolution"
+            }
+          }
+        }
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgricultureSolutionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgricultureSolutionProperties",
+    modelProperties: {
+      partnerId: {
+        serializedName: "partnerId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      partnerTenantId: {
+        serializedName: "partnerTenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      dataAccessScopes: {
+        serializedName: "dataAccessScopes",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      marketplaceOfferDetails: {
+        serializedName: "marketplaceOfferDetails",
+        type: {
+          name: "Composite",
+          className: "MarketplaceOfferDetails"
+        }
+      },
+      openApiSpecsDictionary: {
+        serializedName: "openApiSpecsDictionary",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      accessFBApplicationId: {
+        serializedName: "accessFBApplicationId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      saaSApplicationId: {
+        serializedName: "saaSApplicationId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionIds: {
+        serializedName: "actionIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      roleId: {
+        serializedName: "roleId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      roleName: {
+        serializedName: "roleName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      accessFBApplicationName: {
+        serializedName: "accessFBApplicationName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MarketplaceOfferDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MarketplaceOfferDetails",
+    modelProperties: {
+      saasOfferId: {
+        serializedName: "saasOfferId",
+        type: {
+          name: "String"
+        }
+      },
+      publisherId: {
+        serializedName: "publisherId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultProperties",
+    modelProperties: {
+      keyVaultUri: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "keyVaultUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyName: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "keyName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVersion: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "keyVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiKeyAuthCredentials: coreClient.CompositeMapper = {
+  serializedName: "ApiKeyAuthCredentials",
+  type: {
+    name: "Composite",
+    className: "ApiKeyAuthCredentials",
+    uberParent: "AuthCredentials",
+    polymorphicDiscriminator: AuthCredentials.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AuthCredentials.type.modelProperties,
+      apiKey: {
+        serializedName: "apiKey",
+        type: {
+          name: "Composite",
+          className: "KeyVaultProperties"
+        }
+      }
+    }
+  }
+};
+
+export const OAuthClientCredentials: coreClient.CompositeMapper = {
+  serializedName: "OAuthClientCredentials",
+  type: {
+    name: "Composite",
+    className: "OAuthClientCredentials",
+    uberParent: "AuthCredentials",
+    polymorphicDiscriminator: AuthCredentials.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AuthCredentials.type.modelProperties,
+      clientId: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "clientId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          className: "KeyVaultProperties"
+        }
+      }
+    }
+  }
+};
+
 export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -749,6 +1392,18 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
     className: "PrivateEndpointConnection",
     modelProperties: {
       ...Resource.type.modelProperties,
+      groupIds: {
+        serializedName: "properties.groupIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       privateEndpoint: {
         serializedName: "properties.privateEndpoint",
         type: {
@@ -838,6 +1493,47 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
   }
 };
 
+export const DataConnector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataConnector",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DataConnectorProperties"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgricultureExtension: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgricultureExtension",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DataManagerForAgricultureExtensionProperties"
+        }
+      }
+    }
+  }
+};
+
 export const Extension: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -891,127 +1587,64 @@ export const Extension: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      additionalApiProperties: {
+        serializedName: "properties.additionalApiProperties",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "ApiProperties" } }
+        }
       }
     }
   }
 };
 
-export const FarmBeatsExtension: coreClient.CompositeMapper = {
+export const Solution: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FarmBeatsExtension",
+    className: "Solution",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      targetResourceType: {
-        serializedName: "properties.targetResourceType",
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SolutionProperties"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
         readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      farmBeatsExtensionId: {
-        constraints: {
-          Pattern: new RegExp("^[a-zA-Z]{3,50}[.][a-zA-Z]{3,100}$"),
-          MaxLength: 100,
-          MinLength: 2
-        },
-        serializedName: "properties.farmBeatsExtensionId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      farmBeatsExtensionName: {
-        constraints: {
-          MaxLength: 100,
-          MinLength: 2
-        },
-        serializedName: "properties.farmBeatsExtensionName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      farmBeatsExtensionVersion: {
-        constraints: {
-          Pattern: new RegExp("^([1-9]|10).\\d$"),
-          MaxLength: 100,
-          MinLength: 2
-        },
-        serializedName: "properties.farmBeatsExtensionVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      publisherId: {
-        constraints: {
-          MaxLength: 100,
-          MinLength: 2
-        },
-        serializedName: "properties.publisherId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        constraints: {
-          MaxLength: 500,
-          MinLength: 2
-        },
-        serializedName: "properties.description",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      extensionCategory: {
-        constraints: {
-          MaxLength: 100,
-          MinLength: 2
-        },
-        serializedName: "properties.extensionCategory",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      extensionAuthLink: {
-        serializedName: "properties.extensionAuthLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      extensionApiDocsLink: {
-        serializedName: "properties.extensionApiDocsLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      detailedInformation: {
-        serializedName: "properties.detailedInformation",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DetailedInformation"
-            }
-          }
         }
       }
     }
   }
 };
 
-export const FarmBeats: coreClient.CompositeMapper = {
+export const DataManagerForAgricultureSolution: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FarmBeats",
+    className: "DataManagerForAgricultureSolution",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DataManagerForAgricultureSolutionProperties"
+        }
+      }
+    }
+  }
+};
+
+export const DataManagerForAgriculture: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataManagerForAgriculture",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
       identity: {
@@ -1050,19 +1683,25 @@ export const FarmBeats: coreClient.CompositeMapper = {
       },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "PrivateEndpointConnection"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const FarmBeatsModelsUpdateHeaders: coreClient.CompositeMapper = {
+export const DataManagerForAgricultureResourcesUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FarmBeatsModelsUpdateHeaders",
+    className: "DataManagerForAgricultureResourcesUpdateHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -1087,4 +1726,10 @@ export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper
       }
     }
   }
+};
+
+export let discriminators = {
+  AuthCredentials: AuthCredentials,
+  "AuthCredentials.ApiKeyAuthCredentials": ApiKeyAuthCredentials,
+  "AuthCredentials.OAuthClientCredentials": OAuthClientCredentials
 };
