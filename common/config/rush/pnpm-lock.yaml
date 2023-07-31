@@ -4805,7 +4805,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230728
+      typescript: 5.2.0-dev.20230730
     dev: false
 
   /duplexer3/0.1.5:
@@ -10292,8 +10292,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230728:
-    resolution: {integrity: sha512-pI6gdSexHd/ESfy6Vwmd6bdId1UIYl1fkE8d2o/n/frQCeD6oupH93WTh0syCk3mYMpnx++flvR1X2WHJS1oVg==}
+  /typescript/5.2.0-dev.20230730:
+    resolution: {integrity: sha512-Un+AAI0hEctoChFvndwcw3Ygv9FxR/DkfohcAQu9bipcFWkCS2QqOHtFNO2r6mu+BAQ23QwArto2GSLp6I6Y7w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11984,7 +11984,7 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-GNOJMBLXUo7nDHLxmV2N6Euv4FTfbiMsNa9qf/2qhS+PoIstjd1e7dT5revoE7uZAUcAVEOSYprvf567IaOsSw==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-BWMVaLzddx2/KnEEW35GF7Fmfp0GQte0jMkV1xRM4btgHJGl5zdp+zmPk2HGR+gbX2tGn1ApGbn7NWY9zqA4Vw==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
@@ -11998,8 +11998,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
