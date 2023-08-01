@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachine,
   VirtualMachinesListByLabOptionalParams,
@@ -65,7 +65,7 @@ export interface VirtualMachines {
     labName: string,
     virtualMachineName: string,
     options?: VirtualMachinesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -95,7 +95,7 @@ export interface VirtualMachines {
     labName: string,
     virtualMachineName: string,
     options?: VirtualMachinesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Action to stop a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -126,7 +126,7 @@ export interface VirtualMachines {
     labName: string,
     virtualMachineName: string,
     options?: VirtualMachinesReimageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
    * published snapshot of the reference environment of the lab.
@@ -158,7 +158,7 @@ export interface VirtualMachines {
     labName: string,
     virtualMachineName: string,
     options?: VirtualMachinesRedeployOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
    * connectivity.
@@ -191,7 +191,7 @@ export interface VirtualMachines {
     virtualMachineName: string,
     body: ResetPasswordBody,
     options?: VirtualMachinesResetPasswordOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resets a lab virtual machine password.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
