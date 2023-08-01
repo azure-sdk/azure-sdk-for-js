@@ -1,16 +1,6 @@
 # Release History
-
-## 10.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 10.0.0-beta.1 (2023-07-04)
+    
+## 10.0.0-beta.2 (2023-08-01)
     
 **Features**
 
@@ -304,10 +294,10 @@
   - Added Enum KnownDefaultDecisionType
   - Added Enum KnownRecordAllDecisionsResult
   - Added Enum KnownSeverityLevel
-  - Class AuthorizationManagementClient has a new signature
 
 **Breaking Changes**
 
+  - Class AuthorizationManagementClient has a new signature
   - Interface RoleManagementPolicyAssignment no longer has parameter effectiveRules
     
     
