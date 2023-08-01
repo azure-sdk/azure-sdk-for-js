@@ -17,6 +17,7 @@ export interface AccessControlList extends TrackedResource {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     configurationType?: ConfigurationType;
+    defaultAction?: CommunityActionTypes;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
     readonly lastSyncedTime?: Date;
     matchConfigurations?: AccessControlListMatchConfiguration[];
@@ -53,6 +54,7 @@ export interface AccessControlListPatch extends TagsUpdate {
     aclsUrl?: string;
     annotation?: string;
     configurationType?: ConfigurationType;
+    defaultAction?: CommunityActionTypes;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
     matchConfigurations?: AccessControlListMatchConfiguration[];
 }
@@ -61,6 +63,7 @@ export interface AccessControlListPatch extends TagsUpdate {
 export interface AccessControlListPatchableProperties {
     aclsUrl?: string;
     configurationType?: ConfigurationType;
+    defaultAction?: CommunityActionTypes;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
     matchConfigurations?: AccessControlListMatchConfiguration[];
 }
@@ -4277,6 +4280,7 @@ export interface RoutePolicy extends TrackedResource {
     readonly administrativeState?: AdministrativeState;
     annotation?: string;
     readonly configurationState?: ConfigurationState;
+    defaultAction?: CommunityActionTypes;
     networkFabricId: string;
     readonly provisioningState?: ProvisioningState;
     statements?: RoutePolicyStatementProperties[];
@@ -4290,11 +4294,13 @@ export type RoutePolicyConditionType = string;
 
 // @public
 export interface RoutePolicyPatch extends TagsUpdate {
+    defaultAction?: CommunityActionTypes;
     statements?: RoutePolicyStatementProperties[];
 }
 
 // @public
 export interface RoutePolicyPatchableProperties {
+    defaultAction?: CommunityActionTypes;
     statements?: RoutePolicyStatementProperties[];
 }
 
