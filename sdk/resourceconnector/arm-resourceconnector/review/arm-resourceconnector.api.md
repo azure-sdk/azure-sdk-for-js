@@ -278,8 +278,6 @@ export enum KnownDistro {
 // @public
 export enum KnownProvider {
     HCI = "HCI",
-    KubeVirt = "KubeVirt",
-    OpenStack = "OpenStack",
     Scvmm = "SCVMM",
     VMWare = "VMWare"
 }
@@ -302,6 +300,7 @@ export enum KnownSSHKeyType {
 export enum KnownStatus {
     Connected = "Connected",
     Connecting = "Connecting",
+    EtcdSnapshotFailed = "ETCDSnapshotFailed",
     ImageDeprovisioning = "ImageDeprovisioning",
     ImageDownloaded = "ImageDownloaded",
     ImageDownloading = "ImageDownloading",
@@ -324,6 +323,10 @@ export enum KnownStatus {
     UpgradePrerequisitesCompleted = "UpgradePrerequisitesCompleted",
     UpgradingKvaio = "UpgradingKVAIO",
     Validating = "Validating",
+    ValidatingEtcdHealth = "ValidatingETCDHealth",
+    ValidatingImageDownload = "ValidatingImageDownload",
+    ValidatingImageUpload = "ValidatingImageUpload",
+    ValidatingSFSConnectivity = "ValidatingSFSConnectivity",
     WaitingForCloudOperator = "WaitingForCloudOperator",
     WaitingForHeartbeat = "WaitingForHeartbeat",
     WaitingForKvaio = "WaitingForKVAIO"
@@ -352,12 +355,13 @@ export class ResourceConnectorManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceConnectorManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ResourceConnectorManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     appliances: Appliances;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public

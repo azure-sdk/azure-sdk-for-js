@@ -472,11 +472,7 @@ export enum KnownProvider {
   /** HCI */
   HCI = "HCI",
   /** Scvmm */
-  Scvmm = "SCVMM",
-  /** KubeVirt */
-  KubeVirt = "KubeVirt",
-  /** OpenStack */
-  OpenStack = "OpenStack"
+  Scvmm = "SCVMM"
 }
 
 /**
@@ -486,9 +482,7 @@ export enum KnownProvider {
  * ### Known values supported by the service
  * **VMWare** \
  * **HCI** \
- * **SCVMM** \
- * **KubeVirt** \
- * **OpenStack**
+ * **SCVMM**
  */
 export type Provider = string;
 
@@ -506,8 +500,18 @@ export enum KnownStatus {
   Running = "Running",
   /** PreparingForUpgrade */
   PreparingForUpgrade = "PreparingForUpgrade",
+  /** EtcdSnapshotFailed */
+  EtcdSnapshotFailed = "ETCDSnapshotFailed",
   /** UpgradePrerequisitesCompleted */
   UpgradePrerequisitesCompleted = "UpgradePrerequisitesCompleted",
+  /** ValidatingSFSConnectivity */
+  ValidatingSFSConnectivity = "ValidatingSFSConnectivity",
+  /** ValidatingImageDownload */
+  ValidatingImageDownload = "ValidatingImageDownload",
+  /** ValidatingImageUpload */
+  ValidatingImageUpload = "ValidatingImageUpload",
+  /** ValidatingEtcdHealth */
+  ValidatingEtcdHealth = "ValidatingETCDHealth",
   /** PreUpgrade */
   PreUpgrade = "PreUpgrade",
   /** UpgradingKvaio */
@@ -561,7 +565,12 @@ export enum KnownStatus {
  * **Connected** \
  * **Running** \
  * **PreparingForUpgrade** \
+ * **ETCDSnapshotFailed** \
  * **UpgradePrerequisitesCompleted** \
+ * **ValidatingSFSConnectivity** \
+ * **ValidatingImageDownload** \
+ * **ValidatingImageUpload** \
+ * **ValidatingETCDHealth** \
  * **PreUpgrade** \
  * **UpgradingKVAIO** \
  * **WaitingForKVAIO** \
