@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LabPlan,
   LabPlansListBySubscriptionOptionalParams,
@@ -69,8 +69,8 @@ export interface LabPlans {
     body: LabPlan,
     options?: LabPlansCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LabPlansCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LabPlansCreateOrUpdateResponse>,
       LabPlansCreateOrUpdateResponse
     >
   >;
@@ -102,8 +102,8 @@ export interface LabPlans {
     body: LabPlanUpdate,
     options?: LabPlansUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LabPlansUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LabPlansUpdateResponse>,
       LabPlansUpdateResponse
     >
   >;
@@ -133,7 +133,7 @@ export interface LabPlans {
     resourceGroupName: string,
     labPlanName: string,
     options?: LabPlansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Lab Plan resource. Deleting a lab plan does not delete labs associated with a
    * lab plan, nor does it delete shared images added to a gallery via the lab plan permission container.
@@ -160,7 +160,7 @@ export interface LabPlans {
     labPlanName: string,
     body: SaveImageBody,
     options?: LabPlansSaveImageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Saves an image from a lab VM to the attached shared image gallery.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
