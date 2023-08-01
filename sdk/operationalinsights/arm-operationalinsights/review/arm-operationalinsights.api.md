@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AssociatedWorkspace {
@@ -107,11 +107,11 @@ export interface ClusterPatch {
 
 // @public
 export interface Clusters {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
@@ -553,6 +553,7 @@ export enum KnownLinkedServiceEntityStatus {
 
 // @public
 export enum KnownProvisioningStateEnum {
+    Deleting = "Deleting",
     InProgress = "InProgress",
     Succeeded = "Succeeded",
     Updating = "Updating"
@@ -669,9 +670,9 @@ export interface LinkedServiceListResult {
 
 // @public
 export interface LinkedServices {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: LinkedService, options?: LinkedServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LinkedServicesCreateOrUpdateResponse>, LinkedServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: LinkedService, options?: LinkedServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServicesCreateOrUpdateResponse>, LinkedServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: LinkedService, options?: LinkedServicesCreateOrUpdateOptionalParams): Promise<LinkedServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<LinkedServicesDeleteResponse>, LinkedServicesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServicesDeleteResponse>, LinkedServicesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams): Promise<LinkedServicesDeleteResponse>;
     get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: LinkedServicesGetOptionalParams): Promise<LinkedServicesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: LinkedServicesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<LinkedService>;
@@ -1441,11 +1442,11 @@ export type TablePlanEnum = string;
 
 // @public
 export interface Tables {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TablesCreateOrUpdateResponse>, TablesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TablesCreateOrUpdateResponse>, TablesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOrUpdateOptionalParams): Promise<TablesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<PollerLike<PollOperationState<TablesUpdateResponse>, TablesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TablesUpdateResponse>, TablesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<TablesUpdateResponse>;
     cancelSearch(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesCancelSearchOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesGetOptionalParams): Promise<TablesGetResponse>;
@@ -1689,9 +1690,9 @@ export interface WorkspacePurgeStatusResponse {
 
 // @public
 export interface Workspaces {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     list(options?: WorkspacesListOptionalParams): PagedAsyncIterableIterator<Workspace>;
