@@ -1,15 +1,12 @@
 # Release History
+    
+## 5.0.0 (2023-08-02)
+    
+**Breaking Changes**
 
-## 4.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class MicrosoftResourceHealth has a new signature
+    
+    
 ## 4.0.0 (2023-05-12)
     
 **Features**

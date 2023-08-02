@@ -686,6 +686,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftResourceHealthOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: MicrosoftResourceHealthOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -709,7 +710,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     // (undocumented)
     securityAdvisoryImpactedResources: SecurityAdvisoryImpactedResources;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
