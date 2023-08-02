@@ -1432,7 +1432,7 @@ export const ClusterSku: coreClient.CompositeMapper = {
         serializedName: "capacity",
         type: {
           name: "Enum",
-          allowedValues: [500, 1000, 2000, 5000]
+          allowedValues: [100, 200, 300, 400, 500, 1000, 2000, 5000]
         }
       },
       name: {
@@ -2667,7 +2667,7 @@ export const Table: coreClient.CompositeMapper = {
       },
       totalRetentionInDays: {
         constraints: {
-          InclusiveMaximum: 2555,
+          InclusiveMaximum: 2556,
           InclusiveMinimum: 4
         },
         serializedName: "properties.totalRetentionInDays",
