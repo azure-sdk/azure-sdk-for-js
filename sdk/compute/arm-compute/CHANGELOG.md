@@ -1,15 +1,26 @@
 # Release History
+    
+## 21.2.0 (2023-08-02)
+    
+**Features**
 
-## 21.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias DomainNameLabelScopeTypes
+  - Added Type Alias NetworkInterfaceAuxiliaryMode
+  - Added Type Alias NetworkInterfaceAuxiliarySku
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachineScaleSetVM has a new optional parameter timeCreated
+  - Added Enum KnownDomainNameLabelScopeTypes
+  - Added Enum KnownNetworkInterfaceAuxiliaryMode
+  - Added Enum KnownNetworkInterfaceAuxiliarySku
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**

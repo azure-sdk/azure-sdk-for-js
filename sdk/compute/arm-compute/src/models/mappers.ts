@@ -1580,6 +1580,18 @@ export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMap
         type: {
           name: "String"
         }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1771,6 +1783,12 @@ export const VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings: core
       domainNameLabel: {
         serializedName: "domainNameLabel",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainNameLabelScope: {
+        serializedName: "domainNameLabelScope",
         type: {
           name: "String"
         }
@@ -2908,6 +2926,18 @@ export const VirtualMachineScaleSetUpdateNetworkConfiguration: coreClient.Compos
       },
       deleteOption: {
         serializedName: "properties.deleteOption",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
         type: {
           name: "String"
         }
@@ -4617,6 +4647,18 @@ export const VirtualMachineNetworkInterfaceConfiguration: coreClient.CompositeMa
           name: "Composite",
           className: "SubResource"
         }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4801,6 +4843,12 @@ export const VirtualMachinePublicIPAddressDnsSettingsConfiguration: coreClient.C
       domainNameLabel: {
         serializedName: "domainNameLabel",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainNameLabelScope: {
+        serializedName: "domainNameLabelScope",
         type: {
           name: "String"
         }
@@ -13077,6 +13125,13 @@ export const VirtualMachineScaleSetVM: coreClient.CompositeMapper = {
         serializedName: "properties.userData",
         type: {
           name: "String"
+        }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }
