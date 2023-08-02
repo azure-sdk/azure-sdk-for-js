@@ -6,12 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ProductPolicy } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
 import {
+  PolicyContract,
+  ProductPolicyListByProductNextOptionalParams,
   ProductPolicyListByProductOptionalParams,
   ProductPolicyListByProductResponse,
   PolicyIdName,
@@ -19,12 +23,13 @@ import {
   ProductPolicyGetEntityTagResponse,
   ProductPolicyGetOptionalParams,
   ProductPolicyGetResponse,
-  PolicyContract,
   ProductPolicyCreateOrUpdateOptionalParams,
   ProductPolicyCreateOrUpdateResponse,
-  ProductPolicyDeleteOptionalParams
+  ProductPolicyDeleteOptionalParams,
+  ProductPolicyListByProductNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing ProductPolicy operations. */
 export class ProductPolicyImpl implements ProductPolicy {
   private readonly client: ApiManagementClient;
@@ -39,12 +44,105 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Get the policy configuration at the Product level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
-  listByProduct(
+  public listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: ProductPolicyListByProductOptionalParams
+  ): PagedAsyncIterableIterator<PolicyContract> {
+    const iter = this.listByProductPagingAll(
+      resourceGroupName,
+      serviceName,
+      productId,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByProductPagingPage(
+          resourceGroupName,
+          serviceName,
+          productId,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByProductPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: ProductPolicyListByProductOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<PolicyContract[]> {
+    let result: ProductPolicyListByProductResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProduct(
+        resourceGroupName,
+        serviceName,
+        productId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByProductNext(
+        resourceGroupName,
+        serviceName,
+        productId,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByProductPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: ProductPolicyListByProductOptionalParams
+  ): AsyncIterableIterator<PolicyContract> {
+    for await (const page of this.listByProductPagingPage(
+      resourceGroupName,
+      serviceName,
+      productId,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get the policy configuration at the Product level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  private _listByProduct(
     resourceGroupName: string,
     serviceName: string,
     productId: string,
@@ -58,7 +156,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Get the ETag of the policy configuration at the Product level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param policyId The identifier of the Policy.
@@ -79,7 +177,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Get the policy configuration at the Product level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param policyId The identifier of the Policy.
@@ -100,7 +198,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Creates or updates policy configuration for the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param policyId The identifier of the Policy.
@@ -130,7 +228,7 @@ export class ProductPolicyImpl implements ProductPolicy {
 
   /**
    * Deletes the policy configuration at the Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param policyId The identifier of the Policy.
@@ -149,6 +247,27 @@ export class ProductPolicyImpl implements ProductPolicy {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, policyId, ifMatch, options },
       deleteOperationSpec
+    );
+  }
+
+  /**
+   * ListByProductNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param nextLink The nextLink from the previous successful call to the ListByProduct method.
+   * @param options The options parameters.
+   */
+  private _listByProductNext(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    nextLink: string,
+    options?: ProductPolicyListByProductNextOptionalParams
+  ): Promise<ProductPolicyListByProductNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, productId, nextLink, options },
+      listByProductNextOperationSpec
     );
   }
 }
@@ -283,5 +402,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.productId
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer
+};
+const listByProductNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.productId
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
