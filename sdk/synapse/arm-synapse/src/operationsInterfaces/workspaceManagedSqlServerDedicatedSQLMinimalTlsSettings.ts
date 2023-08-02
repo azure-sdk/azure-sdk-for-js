@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DedicatedSQLminimalTlsSettings,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
@@ -47,8 +47,8 @@ export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings {
     parameters: DedicatedSQLminimalTlsSettings,
     options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
       >,
       WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse

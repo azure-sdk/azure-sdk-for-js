@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BigDataPoolResourceInfo,
   BigDataPoolsListByWorkspaceOptionalParams,
@@ -79,8 +79,8 @@ export interface BigDataPools {
     bigDataPoolInfo: BigDataPoolResourceInfo,
     options?: BigDataPoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BigDataPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BigDataPoolsCreateOrUpdateResponse>,
       BigDataPoolsCreateOrUpdateResponse
     >
   >;
@@ -112,8 +112,8 @@ export interface BigDataPools {
     bigDataPoolName: string,
     options?: BigDataPoolsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BigDataPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<BigDataPoolsDeleteResponse>,
       BigDataPoolsDeleteResponse
     >
   >;
