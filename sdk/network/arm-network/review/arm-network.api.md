@@ -1941,6 +1941,7 @@ export interface BackendAddressPool extends SubResource {
     readonly outboundRule?: SubResource;
     readonly outboundRules?: SubResource[];
     readonly provisioningState?: ProvisioningState;
+    syncMode?: SyncMode;
     tunnelInterfaces?: GatewayLoadBalancerTunnelInterface[];
     readonly type?: string;
     virtualNetwork?: SubResource;
@@ -1990,9 +1991,12 @@ export interface BastionHost extends Resource {
     enableTunneling?: boolean;
     readonly etag?: string;
     ipConfigurations?: BastionHostIPConfiguration[];
+    // (undocumented)
+    networkAcls?: BastionHostPropertiesFormatNetworkAcls;
     readonly provisioningState?: ProvisioningState;
     scaleUnits?: number;
     sku?: Sku;
+    virtualNetwork?: SubResource;
 }
 
 // @public
@@ -2010,6 +2014,11 @@ export interface BastionHostIPConfiguration extends SubResource {
 export interface BastionHostListResult {
     nextLink?: string;
     value?: BastionHost[];
+}
+
+// @public (undocumented)
+export interface BastionHostPropertiesFormatNetworkAcls {
+    ipRules?: IPRule[];
 }
 
 // @public
@@ -5886,6 +5895,11 @@ export interface IPPrefixesList {
     ipPrefixes?: string[];
 }
 
+// @public (undocumented)
+export interface IPRule {
+    addressPrefix?: string;
+}
+
 // @public
 export type IpsecEncryption = string;
 
@@ -6069,6 +6083,7 @@ export enum KnownApplicationGatewayRuleSetStatusOptions {
 
 // @public
 export enum KnownApplicationGatewaySkuName {
+    Basic = "Basic",
     StandardLarge = "Standard_Large",
     StandardMedium = "Standard_Medium",
     StandardSmall = "Standard_Small",
@@ -6136,6 +6151,7 @@ export enum KnownApplicationGatewaySslProtocol {
 
 // @public
 export enum KnownApplicationGatewayTier {
+    Basic = "Basic",
     Standard = "Standard",
     StandardV2 = "Standard_v2",
     WAF = "WAF",
@@ -7213,6 +7229,12 @@ export enum KnownSeverity {
 }
 
 // @public
+export enum KnownSyncMode {
+    Automatic = "Automatic",
+    Manual = "Manual"
+}
+
+// @public
 export enum KnownSyncRemoteAddressSpace {
     True = "true"
 }
@@ -7929,6 +7951,7 @@ export interface LoadBalancers {
     get(resourceGroupName: string, loadBalancerName: string, options?: LoadBalancersGetOptionalParams): Promise<LoadBalancersGetResponse>;
     list(resourceGroupName: string, options?: LoadBalancersListOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
     listAll(options?: LoadBalancersListAllOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
+    migrateToIpBased(groupName: string, loadBalancerName: string, options?: LoadBalancersMigrateToIpBasedOptionalParams): Promise<LoadBalancersMigrateToIpBasedResponse>;
     updateTags(resourceGroupName: string, loadBalancerName: string, parameters: TagsObject, options?: LoadBalancersUpdateTagsOptionalParams): Promise<LoadBalancersUpdateTagsResponse>;
 }
 
@@ -8003,6 +8026,14 @@ export interface LoadBalancersListOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type LoadBalancersListResponse = LoadBalancerListResult;
+
+// @public
+export interface LoadBalancersMigrateToIpBasedOptionalParams extends coreClient.OperationOptions {
+    parameters?: MigrateLoadBalancerToIpBasedRequest;
+}
+
+// @public
+export type LoadBalancersMigrateToIpBasedResponse = MigratedPools;
 
 // @public
 export interface LoadBalancersSwapPublicIpAddressesOptionalParams extends coreClient.OperationOptions {
@@ -8247,6 +8278,16 @@ export interface MetricSpecification {
     sourceMdmAccount?: string;
     sourceMdmNamespace?: string;
     unit?: string;
+}
+
+// @public
+export interface MigratedPools {
+    migratedPools?: string[];
+}
+
+// @public
+export interface MigrateLoadBalancerToIpBasedRequest {
+    pools?: string[];
 }
 
 // @public
@@ -12889,6 +12930,9 @@ export interface SwapResourceListResult {
 export interface SwapResourceProperties {
     slotType?: SlotType;
 }
+
+// @public
+export type SyncMode = string;
 
 // @public
 export type SyncRemoteAddressSpace = string;

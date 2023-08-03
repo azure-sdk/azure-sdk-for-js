@@ -2767,6 +2767,42 @@ export const AzureWebCategoryListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const BastionHostPropertiesFormatNetworkAcls: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionHostPropertiesFormatNetworkAcls",
+    modelProperties: {
+      ipRules: {
+        serializedName: "ipRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IPRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPRule",
+    modelProperties: {
+      addressPrefix: {
+        serializedName: "addressPrefix",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5760,6 +5796,46 @@ export const InboundNatRulePortMapping: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateLoadBalancerToIpBasedRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrateLoadBalancerToIpBasedRequest",
+    modelProperties: {
+      pools: {
+        serializedName: "pools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MigratedPools: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigratedPools",
+    modelProperties: {
+      migratedPools: {
+        serializedName: "migratedPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -18502,6 +18578,12 @@ export const BackendAddressPool: coreClient.CompositeMapper = {
           name: "Composite",
           className: "SubResource"
         }
+      },
+      syncMode: {
+        serializedName: "properties.syncMode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -25613,6 +25695,20 @@ export const BastionHost: coreClient.CompositeMapper = {
         serializedName: "properties.dnsName",
         type: {
           name: "String"
+        }
+      },
+      virtualNetwork: {
+        serializedName: "properties.virtualNetwork",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      networkAcls: {
+        serializedName: "properties.networkAcls",
+        type: {
+          name: "Composite",
+          className: "BastionHostPropertiesFormatNetworkAcls"
         }
       },
       provisioningState: {
