@@ -1,15 +1,13 @@
 # Release History
+    
+## 22.0.0 (2023-08-03)
+    
+**Breaking Changes**
 
-## 21.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GrantAccessData no longer has parameter fileFormat
+  - Removed Enum KnownFileFormat
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**
