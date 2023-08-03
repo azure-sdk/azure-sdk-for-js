@@ -4818,7 +4818,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230802
+      typescript: 5.2.0-dev.20230803
     dev: false
 
   /duplexer3/0.1.5:
@@ -10335,8 +10335,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230802:
-    resolution: {integrity: sha512-rBvAnzaaMhwBAS2UaKejYhaED3VM74/xng/+xcVSst0PbkJBqggj19w/gwJ/4q07oOjKMgwunklsSjwe+iw2ZA==}
+  /typescript/5.2.0-dev.20230803:
+    resolution: {integrity: sha512-DwCyutWHyT7Il7xpJCxtx4/S5F4qjAo2SE6QDRSLhEUtBFGwGHTHCvuyfm9KNrdwn67jGitdlw4gpbSTVVjoww==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12056,7 +12056,7 @@ packages:
     dev: false
 
   file:projects/arm-avs.tgz:
-    resolution: {integrity: sha512-TZDZKKy73ZKxfKnn2hI1aEnhRXuC3MwcGRmeMBASf37XDB0fdqnUBMUxdcS/ONHJH4BaMcMLXNc1gRBkarBo3Q==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-6Aslzu/POd/fO1aUupCLFZt1TD9WJp+GSyWKytXJwOS2CNkiXHM0cyAqfWfrT0InwJaIyGnV93L303NKfQM2RQ==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
@@ -12070,8 +12070,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -20409,7 +20409,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-FCdWABf3EgpULN8AvClM8zv9lCeDVvuNSA2dAb2upZBiJ6WftNFfdDLY/q8whjc97R5c1SmG9zriNqRGu0Xm6g==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-+05JR31WLH5d8FD+GslDQxNHYPLOrvExWUugJJNalgNZpbtoqzQF0837G7tKGDg98VU4XjK6qZA7Gjo2n7O3yg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -21512,7 +21512,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-XKoapSGfj9adWoSaAEOMkONC7brW8Pez+vfuoU0Viw46LuU2KTH9ZMWkRYDub+3xt331YRTyWuxdwvbKVzk/Kg==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-tbnZhWCWiQTtvxAeRQm8UDHo89yoMoWis4kDc+5OvIxpTyXUk3Fwz3h1e2czVSscQUckjus9VILPNKxfEbQhsA==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
