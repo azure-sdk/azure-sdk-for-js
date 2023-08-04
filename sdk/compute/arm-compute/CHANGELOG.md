@@ -1,15 +1,14 @@
 # Release History
+    
+## 21.2.0 (2023-08-04)
+    
+**Features**
 
-## 21.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CreationData has a new optional parameter elasticSanResourceId
+  - Interface Disk has a new optional parameter lastOwnershipUpdateTime
+  - Enum KnownDiskCreateOption has a new value CopyFromSanSnapshot
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**
