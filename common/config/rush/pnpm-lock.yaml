@@ -246,6 +246,7 @@ specifiers:
   '@rush-temp/communication-toll-free-verification': file:./projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest': file:./projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp': file:./projects/core-amqp.tgz
   '@rush-temp/core-auth': file:./projects/core-auth.tgz
   '@rush-temp/core-client': file:./projects/core-client.tgz
@@ -599,6 +600,7 @@ dependencies:
   '@rush-temp/communication-toll-free-verification': file:projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest': file:projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
   '@rush-temp/core-auth': file:projects/core-auth.tgz
   '@rush-temp/core-client': file:projects/core-client.tgz
@@ -4818,7 +4820,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230803
+      typescript: 5.2.0-dev.20230804
     dev: false
 
   /duplexer3/0.1.5:
@@ -10335,8 +10337,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230803:
-    resolution: {integrity: sha512-DwCyutWHyT7Il7xpJCxtx4/S5F4qjAo2SE6QDRSLhEUtBFGwGHTHCvuyfm9KNrdwn67jGitdlw4gpbSTVVjoww==}
+  /typescript/5.2.0-dev.20230804:
+    resolution: {integrity: sha512-4g7zcF85Th+zpaMgR7CHzM1MqjJ0Fv3+2PUxzCUMW8tc7aRYGPtQBfnAyN0+yXChZaV6lVejmrh7hle1DMAEcw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18287,6 +18289,47 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/contoso-widgetmanager-rest.tgz:
+    resolution: {integrity: sha512-m2A4LObBwunrX8PxoPZi8QYOlRIeYNlY7+G2/YHApMy7mAuW0TGiKzm7PjhntHXobTY3S0YbJGt02TSKT4r2ug==, tarball: file:projects/contoso-widgetmanager-rest.tgz}
+    name: '@rush-temp/contoso-widgetmanager-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@types/chai': 4.3.5
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.54
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.46.0
+      karma: 6.4.2
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.6.1
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/core-amqp.tgz:
     resolution: {integrity: sha512-+SAkBV7fqAketk4q1nOKI0b8ViGfSPidqJlCJUWkjwg1T0cSMFpoAyeTDVxDj3ayLdtx6/G39qs/huAxmjyq6Q==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
@@ -20263,7 +20306,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-9MFu1tfnxzzD0yi+/vt2r/ZCUZ79/cMut8DlmlKrYaA4vJo/CicjvfUAWMHz6lkhbJLpYuHy73X0IPIbve11fg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-DGgM6ZJxfKnVK8axRpJQXEKY+mhOliJQc1QU5q/cyzia188SP9xzz4UX73KmCYNchJuY8AhUoRMShUy+p4ztlg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
