@@ -1885,6 +1885,7 @@ export type Channels = "Notification" | "Api" | "Email" | "Webhook" | "All";
 
 // @public
 export interface CheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+    environmentId?: string;
     isFqdn?: boolean;
 }
 
@@ -4262,6 +4263,27 @@ export enum KnownSupportedTlsVersions {
 }
 
 // @public
+export enum KnownTlsCipherSuites {
+    TLSAES128GCMSHA256 = "TLS_AES_128_GCM_SHA256",
+    TLSAES256GCMSHA384 = "TLS_AES_256_GCM_SHA384",
+    TLSEcdheEcdsaWithAES128CBCSHA256 = "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
+    TLSEcdheEcdsaWithAES128GCMSHA256 = "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+    TLSEcdheEcdsaWithAES256GCMSHA384 = "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+    TLSEcdheRSAWithAES128CBCSHA = "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+    TLSEcdheRSAWithAES128CBCSHA256 = "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
+    TLSEcdheRSAWithAES128GCMSHA256 = "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+    TLSEcdheRSAWithAES256CBCSHA = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+    TLSEcdheRSAWithAES256CBCSHA384 = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384",
+    TLSEcdheRSAWithAES256GCMSHA384 = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+    TLSRSAWithAES128CBCSHA = "TLS_RSA_WITH_AES_128_CBC_SHA",
+    TLSRSAWithAES128CBCSHA256 = "TLS_RSA_WITH_AES_128_CBC_SHA256",
+    TLSRSAWithAES128GCMSHA256 = "TLS_RSA_WITH_AES_128_GCM_SHA256",
+    TLSRSAWithAES256CBCSHA = "TLS_RSA_WITH_AES_256_CBC_SHA",
+    TLSRSAWithAES256CBCSHA256 = "TLS_RSA_WITH_AES_256_CBC_SHA256",
+    TLSRSAWithAES256GCMSHA384 = "TLS_RSA_WITH_AES_256_GCM_SHA384"
+}
+
+// @public
 export enum KnownTriggerTypes {
     HttpTrigger = "HttpTrigger",
     Unknown = "Unknown"
@@ -4322,6 +4344,16 @@ export enum KnownWorkflowSkuName {
     Premium = "Premium",
     Shared = "Shared",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownWorkflowState {
+    Completed = "Completed",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified",
+    Suspended = "Suspended"
 }
 
 // @public
@@ -4810,6 +4842,18 @@ export interface Nonce {
 
 // @public
 export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
+
+// @public
+export interface OneDeployRequest extends ProxyOnlyResource {
+    async?: boolean;
+    clean?: boolean;
+    ignoreStack?: boolean;
+    packageUri?: string;
+    path?: string;
+    reset?: boolean;
+    restart?: boolean;
+    trackDeploymentProgress?: boolean;
+}
 
 // @public
 export interface OpenAuthenticationAccessPolicies {
@@ -5806,6 +5850,7 @@ export interface ResourceNameAvailability {
 
 // @public
 export interface ResourceNameAvailabilityRequest {
+    environmentId?: string;
     isFqdn?: boolean;
     name: string;
     type: CheckNameResourceTypes;
@@ -5983,6 +6028,7 @@ export interface Site extends Resource {
     readonly defaultHostName?: string;
     enabled?: boolean;
     readonly enabledHostNames?: string[];
+    environmentId?: string;
     extendedLocation?: ExtendedLocation;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
     readonly hostNames?: string[];
@@ -6134,6 +6180,7 @@ export interface SiteConfig {
     managedServiceIdentityId?: number;
     metadata?: NameValuePair[];
     minimumElasticInstanceCount?: number;
+    minTlsCipherSuite?: TlsCipherSuites;
     minTlsVersion?: SupportedTlsVersions;
     netFrameworkVersion?: string;
     nodeVersion?: string;
@@ -6219,6 +6266,7 @@ export interface SiteConfigResource extends ProxyOnlyResource {
     managedServiceIdentityId?: number;
     metadata?: NameValuePair[];
     minimumElasticInstanceCount?: number;
+    minTlsCipherSuite?: TlsCipherSuites;
     minTlsVersion?: SupportedTlsVersions;
     netFrameworkVersion?: string;
     nodeVersion?: string;
@@ -7673,6 +7721,9 @@ export interface TldLegalAgreementCollection {
 }
 
 // @public
+export type TlsCipherSuites = string;
+
+// @public
 export interface TokenStore {
     azureBlobStorage?: BlobStorageTokenStore;
     enabled?: boolean;
@@ -8653,10 +8704,11 @@ export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
 
 // @public
 export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClient.OperationOptions {
+    request?: OneDeployRequest;
 }
 
 // @public
-export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
+export type WebAppsCreateOneDeployOperationResponse = Deployment;
 
 // @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -9564,7 +9616,7 @@ export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
+export type WebAppsGetOneDeployStatusResponse = Deployment;
 
 // @public
 export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {
@@ -11777,6 +11829,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WebSiteManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: WebSiteManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -11828,7 +11881,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     staticSites: StaticSites;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     topLevelDomains: TopLevelDomains;
     updatePublishingUser(userDetails: User, options?: UpdatePublishingUserOptionalParams): Promise<UpdatePublishingUserResponse>;
@@ -12301,7 +12354,7 @@ export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.O
 }
 
 // @public
-export type WorkflowState = "NotSpecified" | "Completed" | "Enabled" | "Disabled" | "Deleted" | "Suspended";
+export type WorkflowState = string;
 
 // @public
 export type WorkflowStatus = string;

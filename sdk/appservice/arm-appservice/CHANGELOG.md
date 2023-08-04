@@ -1,15 +1,25 @@
 # Release History
+    
+## 15.0.0 (2023-08-04)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
+  - Added Interface OneDeployRequest
+  - Added Type Alias TlsCipherSuites
+  - Interface CheckNameAvailabilityOptionalParams has a new optional parameter environmentId
+  - Interface ResourceNameAvailabilityRequest has a new optional parameter environmentId
+  - Interface Site has a new optional parameter environmentId
+  - Interface SiteConfig has a new optional parameter minTlsCipherSuite
+  - Interface SiteConfigResource has a new optional parameter minTlsCipherSuite
+  - Interface WebAppsCreateOneDeployOperationOptionalParams has a new optional parameter request
+  - Added Enum KnownTlsCipherSuites
+  - Added Enum KnownWorkflowState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class WebSiteManagementClient has a new signature
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**
