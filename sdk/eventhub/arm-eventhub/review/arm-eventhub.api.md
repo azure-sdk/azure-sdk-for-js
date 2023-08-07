@@ -98,6 +98,7 @@ export interface ArmDisasterRecovery extends ProxyResource {
     readonly provisioningState?: ProvisioningStateDR;
     readonly role?: RoleDisasterRecovery;
     readonly systemData?: SystemData;
+    typePropertiesType?: Type;
 }
 
 // @public
@@ -157,6 +158,7 @@ export type CleanupPolicyRetentionDescription = string;
 export interface Cluster extends TrackedResource {
     readonly createdAt?: string;
     readonly metricId?: string;
+    readonly provisioningState?: ProvisioningState;
     sku?: ClusterSku;
     readonly status?: string;
     supportsScaling?: boolean;
@@ -735,7 +737,7 @@ export enum KnownApplicationGroupPolicyType {
 
 // @public
 export enum KnownCleanupPolicyRetentionDescription {
-    Compaction = "Compaction",
+    Compact = "Compact",
     Delete = "Delete"
 }
 
@@ -817,6 +819,18 @@ export enum KnownPrivateLinkConnectionStatus {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Active = "Active",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Scaling = "Scaling",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled",
@@ -871,6 +885,11 @@ export enum KnownTlsVersion {
     One0 = "1.0",
     One1 = "1.1",
     One2 = "1.2"
+}
+
+// @public
+export enum KnownType {
+    MetadataReplication = "MetadataReplication"
 }
 
 // @public
@@ -1059,7 +1078,7 @@ export interface NetworkSecurityPerimeter {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfiguration extends Resource {
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
     readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
     readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
     provisioningIssues?: ProvisioningIssue[];
@@ -1198,6 +1217,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
+    groupId?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
@@ -1297,6 +1317,9 @@ export interface ProvisioningIssueProperties {
 }
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 // @public
@@ -1365,11 +1388,8 @@ export interface SchemaGroupListResult {
 
 // @public
 export interface SchemaRegistry {
-    // (undocumented)
     createOrUpdate(resourceGroupName: string, namespaceName: string, schemaGroupName: string, parameters: SchemaGroup, options?: SchemaRegistryCreateOrUpdateOptionalParams): Promise<SchemaRegistryCreateOrUpdateResponse>;
-    // (undocumented)
     delete(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryDeleteOptionalParams): Promise<void>;
-    // (undocumented)
     get(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryGetOptionalParams): Promise<SchemaRegistryGetResponse>;
     listByNamespace(resourceGroupName: string, namespaceName: string, options?: SchemaRegistryListByNamespaceOptionalParams): PagedAsyncIterableIterator<SchemaGroup>;
 }
@@ -1456,6 +1476,9 @@ export interface TrackedResource extends Resource {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type Type = string;
 
 // @public
 export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";

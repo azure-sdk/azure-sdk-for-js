@@ -597,7 +597,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ArmDisasterRecovery
     },
-    201: {},
+    201: {
+      bodyMapper: Mappers.ArmDisasterRecovery
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

@@ -1,16 +1,6 @@
 # Release History
-
-## 5.2.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 5.2.0-beta.1 (2023-04-12)
+    
+## 6.0.0-beta.1 (2023-08-07)
     
 **Features**
 
@@ -50,22 +40,32 @@
   - Added Type Alias NetworkSecurityPerimeterConfigurationListResponse
   - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
   - Added Type Alias NspAccessRuleDirection
+  - Added Type Alias ProvisioningState
   - Added Type Alias PublicNetworkAccess
   - Added Type Alias ResourceAssociationAccessMode
   - Added Type Alias TlsVersion
+  - Added Type Alias Type
+  - Interface ArmDisasterRecovery has a new optional parameter typePropertiesType
+  - Interface Cluster has a new optional parameter provisioningState
   - Interface Cluster has a new optional parameter supportsScaling
   - Interface EHNamespace has a new optional parameter minimumTlsVersion
   - Interface EHNamespace has a new optional parameter publicNetworkAccess
   - Interface Eventhub has a new optional parameter retentionDescription
+  - Interface PrivateEndpointConnection has a new optional parameter groupId
   - Added Enum KnownApplicationGroupPolicyType
   - Added Enum KnownCleanupPolicyRetentionDescription
   - Added Enum KnownMetricId
   - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
   - Added Enum KnownNspAccessRuleDirection
+  - Added Enum KnownProvisioningState
   - Added Enum KnownPublicNetworkAccess
   - Added Enum KnownResourceAssociationAccessMode
   - Added Enum KnownTlsVersion
+  - Added Enum KnownType
   - Enum KnownPublicNetworkAccessFlag has a new value SecuredByPerimeter
+
+**Breaking Changes**
+
   - Interface ConsumerGroupsListByEventHubNextOptionalParams no longer has parameter skip
   - Interface ConsumerGroupsListByEventHubNextOptionalParams no longer has parameter top
   - Interface EventHubsListByNamespaceNextOptionalParams no longer has parameter skip

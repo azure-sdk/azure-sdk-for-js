@@ -609,9 +609,9 @@ export interface Destination {
 export interface RetentionDescription {
   /** Enumerates the possible values for cleanup policy */
   cleanupPolicy?: CleanupPolicyRetentionDescription;
-  /** Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned value of this property is Long.MaxValue */
+  /** Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compact the returned value of this property is Long.MaxValue */
   retentionTimeInHours?: number;
-  /** Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub */
+  /** Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compact. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub */
   tombstoneRetentionTimeInHours?: number;
 }
 
@@ -650,8 +650,25 @@ export interface TrackedResource extends Resource {
   tags?: { [propertyName: string]: string };
 }
 
+/** Properties of the PrivateEndpointConnection. */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The Private Endpoint resource for this Connection. */
+  privateEndpoint?: PrivateEndpoint;
+  /** Details about the state of the connection. */
+  privateLinkServiceConnectionState?: ConnectionState;
+  /** Array of group IDs. */
+  groupId?: string[];
+  /** Provisioning state of the Private Endpoint Connection. */
+  provisioningState?: EndPointProvisioningState;
+}
+
 /** Network Security Perimeter related configurations of a given namespace */
-export interface NetworkSecurityPerimeterConfiguration extends Resource {
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
   /** Provisioning state of NetworkSecurityPerimeter configuration propagation */
   provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
   /** List of Provisioning Issues if any */
@@ -671,21 +688,6 @@ export interface NetworkSecurityPerimeterConfiguration extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
-}
-
-/** Properties of the PrivateEndpointConnection. */
-export interface PrivateEndpointConnection extends ProxyResource {
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The Private Endpoint resource for this Connection. */
-  privateEndpoint?: PrivateEndpoint;
-  /** Details about the state of the connection. */
-  privateLinkServiceConnectionState?: ConnectionState;
-  /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: EndPointProvisioningState;
 }
 
 /** Description of topic resource. */
@@ -753,6 +755,8 @@ export interface ArmDisasterRecovery extends ProxyResource {
   readonly provisioningState?: ProvisioningStateDR;
   /** ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
   partnerNamespace?: string;
+  /** replication type */
+  typePropertiesType?: Type;
   /** Alternate name specified when alias and namespace names are same. */
   alternateName?: string;
   /**
@@ -868,6 +872,11 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdAt?: string;
+  /**
+   * Provisioning state of the Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /**
    * The UTC time when the Event Hubs Cluster was last updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -990,6 +999,42 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Scaling */
+  Scaling = "Scaling",
+  /** Active */
+  Active = "Active",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Creating** \
+ * **Deleting** \
+ * **Scaling** \
+ * **Active** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -1312,12 +1357,27 @@ export enum KnownKeyType {
  */
 export type KeyType = string;
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** MetadataReplication */
+  MetadataReplication = "MetadataReplication"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MetadataReplication**
+ */
+export type Type = string;
+
 /** Known values of {@link CleanupPolicyRetentionDescription} that the service accepts. */
 export enum KnownCleanupPolicyRetentionDescription {
   /** Delete */
   Delete = "Delete",
-  /** Compaction */
-  Compaction = "Compaction"
+  /** Compact */
+  Compact = "Compact"
 }
 
 /**
@@ -1326,7 +1386,7 @@ export enum KnownCleanupPolicyRetentionDescription {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Delete** \
- * **Compaction**
+ * **Compact**
  */
 export type CleanupPolicyRetentionDescription = string;
 

@@ -1018,6 +1018,7 @@ export const NWRuleSetIpRules: coreClient.CompositeMapper = {
         }
       },
       action: {
+        defaultValue: "Allow",
         serializedName: "action",
         type: {
           name: "String"
@@ -1507,6 +1508,7 @@ export const RetentionDescription: coreClient.CompositeMapper = {
     className: "RetentionDescription",
     modelProperties: {
       cleanupPolicy: {
+        defaultValue: "Delete",
         serializedName: "cleanupPolicy",
         type: {
           name: "String"
@@ -1634,12 +1636,60 @@ export const TrackedResource: coreClient.CompositeMapper = {
   }
 };
 
+export const PrivateEndpointConnection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "ConnectionState"
+        }
+      },
+      groupId: {
+        serializedName: "properties.groupId",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NetworkSecurityPerimeterConfiguration",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...ProxyResource.type.modelProperties,
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -1678,43 +1728,6 @@ export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper =
         type: {
           name: "Composite",
           className: "NetworkSecurityPerimeterConfigurationPropertiesProfile"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpointConnection: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnection",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      privateEndpoint: {
-        serializedName: "properties.privateEndpoint",
-        type: {
-          name: "Composite",
-          className: "PrivateEndpoint"
-        }
-      },
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "ConnectionState"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1869,6 +1882,13 @@ export const ArmDisasterRecovery: coreClient.CompositeMapper = {
       },
       partnerNamespace: {
         serializedName: "properties.partnerNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesType: {
+        defaultValue: "MetadataReplication",
+        serializedName: "properties.type",
         type: {
           name: "String"
         }
@@ -2143,6 +2163,13 @@ export const Cluster: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       updatedAt: {
         serializedName: "properties.updatedAt",
         readOnly: true,
@@ -2202,6 +2229,7 @@ export const EHNamespace: coreClient.CompositeMapper = {
         }
       },
       minimumTlsVersion: {
+        defaultValue: "1.2",
         serializedName: "properties.minimumTlsVersion",
         type: {
           name: "String"
@@ -2281,6 +2309,7 @@ export const EHNamespace: coreClient.CompositeMapper = {
         }
       },
       zoneRedundant: {
+        defaultValue: false,
         serializedName: "properties.zoneRedundant",
         type: {
           name: "Boolean"
@@ -2306,6 +2335,7 @@ export const EHNamespace: coreClient.CompositeMapper = {
         }
       },
       disableLocalAuth: {
+        defaultValue: false,
         serializedName: "properties.disableLocalAuth",
         type: {
           name: "Boolean"
