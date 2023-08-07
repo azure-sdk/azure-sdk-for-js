@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DomainService,
   DomainServicesListOptionalParams,
@@ -59,8 +59,8 @@ export interface DomainServices {
     domainService: DomainService,
     options?: DomainServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainServicesCreateOrUpdateResponse>,
       DomainServicesCreateOrUpdateResponse
     >
   >;
@@ -103,7 +103,7 @@ export interface DomainServices {
     resourceGroupName: string,
     domainServiceName: string,
     options?: DomainServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The Delete Domain Service operation deletes an existing Domain Service.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -131,8 +131,8 @@ export interface DomainServices {
     domainService: DomainService,
     options?: DomainServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainServicesUpdateResponse>,
       DomainServicesUpdateResponse
     >
   >;
