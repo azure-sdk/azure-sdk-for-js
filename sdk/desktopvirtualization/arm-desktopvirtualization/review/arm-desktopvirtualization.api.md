@@ -327,6 +327,10 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinkResources: PrivateLinkResources;
+    // (undocumented)
     scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
     // (undocumented)
     scalingPlans: ScalingPlans;
@@ -395,6 +399,8 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
     readonly objectId?: string;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType: PreferredAppGroupType;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    publicNetworkAccess?: HostpoolPublicNetworkAccess;
     registrationInfo?: RegistrationInfo;
     ring?: number;
     ssoadfsAuthority?: string;
@@ -423,6 +429,7 @@ export interface HostPoolPatch extends Resource {
     maxSessionLimit?: number;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType?: PreferredAppGroupType;
+    publicNetworkAccess?: HostpoolPublicNetworkAccess;
     registrationInfo?: RegistrationInfoPatch;
     ring?: number;
     ssoadfsAuthority?: string;
@@ -436,6 +443,9 @@ export interface HostPoolPatch extends Resource {
     validationEnvironment?: boolean;
     vmTemplate?: string;
 }
+
+// @public
+export type HostpoolPublicNetworkAccess = string;
 
 // @public
 export interface HostPools {
@@ -577,6 +587,14 @@ export enum KnownHealthCheckResult {
 }
 
 // @public
+export enum KnownHostpoolPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    EnabledForClientsOnly = "EnabledForClientsOnly",
+    EnabledForSessionHostsOnly = "EnabledForSessionHostsOnly"
+}
+
+// @public
 export enum KnownHostPoolType {
     BYODesktop = "BYODesktop",
     Personal = "Personal",
@@ -601,6 +619,27 @@ export enum KnownPreferredAppGroupType {
     Desktop = "Desktop",
     None = "None",
     RailApplications = "RailApplications"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -876,6 +915,177 @@ export interface Plan {
 
 // @public
 export type PreferredAppGroupType = string;
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResultWithSystemData {
+    readonly nextLink?: string;
+    value?: PrivateEndpointConnectionWithSystemData[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnections {
+    deleteByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams): Promise<void>;
+    deleteByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams): Promise<void>;
+    getByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsGetByHostPoolResponse>;
+    getByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: PrivateEndpointConnectionsListByHostPoolOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
+    updateByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
+    updateByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
+
+// @public
+export interface PrivateEndpointConnectionsGetByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
+
+// @public
+export interface PrivateEndpointConnectionsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByHostPoolNextResponse = PrivateEndpointConnectionListResultWithSystemData;
+
+// @public
+export interface PrivateEndpointConnectionsListByHostPoolOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsListByHostPoolResponse = PrivateEndpointConnectionListResultWithSystemData;
+
+// @public
+export interface PrivateEndpointConnectionsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByWorkspaceNextResponse = PrivateEndpointConnectionListResultWithSystemData;
+
+// @public
+export interface PrivateEndpointConnectionsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultWithSystemData;
+
+// @public
+export interface PrivateEndpointConnectionsUpdateByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsUpdateByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
+
+// @public
+export interface PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
+
+// @public
+export interface PrivateEndpointConnectionWithSystemData extends PrivateEndpointConnection {
+    readonly systemData?: SystemData;
+}
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends Resource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    readonly nextLink?: string;
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResources {
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: PrivateLinkResourcesListByHostPoolOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateLinkResourcesListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByHostPoolNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkResourcesListByHostPoolOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
+}
+
+// @public
+export type PrivateLinkResourcesListByHostPoolResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkResourcesListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByWorkspaceNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkResourcesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
+}
+
+// @public
+export type PrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export interface RegistrationInfo {
@@ -1494,6 +1704,8 @@ export interface Workspace extends ResourceModelWithAllowedPropertySet {
     description?: string;
     friendlyName?: string;
     readonly objectId?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly systemData?: SystemData;
 }
 
@@ -1508,6 +1720,7 @@ export interface WorkspacePatch {
     applicationGroupReferences?: string[];
     description?: string;
     friendlyName?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     tags?: {
         [propertyName: string]: string;
     };
