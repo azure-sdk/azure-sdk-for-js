@@ -21,6 +21,9 @@ import {
   TemplateSpecsListByResourceGroupNextOptionalParams,
   TemplateSpecsListByResourceGroupOptionalParams,
   TemplateSpecsListByResourceGroupResponse,
+  TemplateSpecsListBuiltInsNextOptionalParams,
+  TemplateSpecsListBuiltInsOptionalParams,
+  TemplateSpecsListBuiltInsResponse,
   TemplateSpecsCreateOrUpdateOptionalParams,
   TemplateSpecsCreateOrUpdateResponse,
   TemplateSpecsUpdateOptionalParams,
@@ -28,8 +31,11 @@ import {
   TemplateSpecsGetOptionalParams,
   TemplateSpecsGetResponse,
   TemplateSpecsDeleteOptionalParams,
+  TemplateSpecsGetBuiltInOptionalParams,
+  TemplateSpecsGetBuiltInResponse,
   TemplateSpecsListBySubscriptionNextResponse,
-  TemplateSpecsListByResourceGroupNextResponse
+  TemplateSpecsListByResourceGroupNextResponse,
+  TemplateSpecsListBuiltInsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -169,6 +175,60 @@ export class TemplateSpecsImpl implements TemplateSpecs {
   }
 
   /**
+   * Lists built-in Template Specs.
+   * @param options The options parameters.
+   */
+  public listBuiltIns(
+    options?: TemplateSpecsListBuiltInsOptionalParams
+  ): PagedAsyncIterableIterator<TemplateSpec> {
+    const iter = this.listBuiltInsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBuiltInsPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listBuiltInsPagingPage(
+    options?: TemplateSpecsListBuiltInsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<TemplateSpec[]> {
+    let result: TemplateSpecsListBuiltInsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBuiltIns(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBuiltInsNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBuiltInsPagingAll(
+    options?: TemplateSpecsListBuiltInsOptionalParams
+  ): AsyncIterableIterator<TemplateSpec> {
+    for await (const page of this.listBuiltInsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Creates or updates a Template Spec.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param templateSpecName Name of the Template Spec.
@@ -267,6 +327,34 @@ export class TemplateSpecsImpl implements TemplateSpecs {
   }
 
   /**
+   * Gets a built-in Template Spec with a given name.
+   * @param templateSpecName Name of the Template Spec.
+   * @param options The options parameters.
+   */
+  getBuiltIn(
+    templateSpecName: string,
+    options?: TemplateSpecsGetBuiltInOptionalParams
+  ): Promise<TemplateSpecsGetBuiltInResponse> {
+    return this.client.sendOperationRequest(
+      { templateSpecName, options },
+      getBuiltInOperationSpec
+    );
+  }
+
+  /**
+   * Lists built-in Template Specs.
+   * @param options The options parameters.
+   */
+  private _listBuiltIns(
+    options?: TemplateSpecsListBuiltInsOptionalParams
+  ): Promise<TemplateSpecsListBuiltInsResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBuiltInsOperationSpec
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -295,6 +383,21 @@ export class TemplateSpecsImpl implements TemplateSpecs {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
+    );
+  }
+
+  /**
+   * ListBuiltInsNext
+   * @param nextLink The nextLink from the previous successful call to the ListBuiltIns method.
+   * @param options The options parameters.
+   */
+  private _listBuiltInsNext(
+    nextLink: string,
+    options?: TemplateSpecsListBuiltInsNextOptionalParams
+  ): Promise<TemplateSpecsListBuiltInsNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBuiltInsNextOperationSpec
     );
   }
 }
@@ -433,6 +536,39 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getBuiltInOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Resources/builtInTemplateSpecs/{templateSpecName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TemplateSpec
+    },
+    default: {
+      bodyMapper: Mappers.TemplateSpecsError
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [Parameters.$host, Parameters.templateSpecName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBuiltInsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Resources/builtInTemplateSpecs/",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TemplateSpecsListResult
+    },
+    default: {
+      bodyMapper: Mappers.TemplateSpecsError
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -444,7 +580,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TemplateSpecsError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -464,13 +599,27 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TemplateSpecsError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink
   ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBuiltInsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TemplateSpecsListResult
+    },
+    default: {
+      bodyMapper: Mappers.TemplateSpecsError
+    }
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
