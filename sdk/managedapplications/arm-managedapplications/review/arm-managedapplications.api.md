@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Application extends GenericResource {
@@ -36,6 +36,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ApplicationClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ApplicationClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -44,7 +45,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
     applications: Applications;
     listOperations(options?: ListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -75,13 +76,13 @@ export interface ApplicationDefinitionListResult {
 
 // @public
 export interface ApplicationDefinitions {
-    beginCreateOrUpdate(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApplicationDefinitionsCreateOrUpdateResponse>, ApplicationDefinitionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationDefinitionsCreateOrUpdateResponse>, ApplicationDefinitionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateOptionalParams): Promise<ApplicationDefinitionsCreateOrUpdateResponse>;
-    beginCreateOrUpdateById(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateByIdOptionalParams): Promise<PollerLike<PollOperationState<ApplicationDefinitionsCreateOrUpdateByIdResponse>, ApplicationDefinitionsCreateOrUpdateByIdResponse>>;
+    beginCreateOrUpdateById(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateByIdOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationDefinitionsCreateOrUpdateByIdResponse>, ApplicationDefinitionsCreateOrUpdateByIdResponse>>;
     beginCreateOrUpdateByIdAndWait(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateByIdOptionalParams): Promise<ApplicationDefinitionsCreateOrUpdateByIdResponse>;
-    beginDelete(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteOptionalParams): Promise<void>;
-    beginDeleteById(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteByIdOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteById(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteByIdOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteByIdAndWait(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteByIdOptionalParams): Promise<void>;
     get(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsGetOptionalParams): Promise<ApplicationDefinitionsGetResponse>;
     getById(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsGetByIdOptionalParams): Promise<ApplicationDefinitionsGetByIdResponse>;
@@ -174,13 +175,13 @@ export interface ApplicationProviderAuthorization {
 
 // @public
 export interface Applications {
-    beginCreateOrUpdate(resourceGroupName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApplicationsCreateOrUpdateResponse>, ApplicationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsCreateOrUpdateResponse>, ApplicationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<ApplicationsCreateOrUpdateResponse>;
-    beginCreateOrUpdateById(applicationId: string, parameters: Application, options?: ApplicationsCreateOrUpdateByIdOptionalParams): Promise<PollerLike<PollOperationState<ApplicationsCreateOrUpdateByIdResponse>, ApplicationsCreateOrUpdateByIdResponse>>;
+    beginCreateOrUpdateById(applicationId: string, parameters: Application, options?: ApplicationsCreateOrUpdateByIdOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsCreateOrUpdateByIdResponse>, ApplicationsCreateOrUpdateByIdResponse>>;
     beginCreateOrUpdateByIdAndWait(applicationId: string, parameters: Application, options?: ApplicationsCreateOrUpdateByIdOptionalParams): Promise<ApplicationsCreateOrUpdateByIdResponse>;
-    beginDelete(resourceGroupName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<void>;
-    beginDeleteById(applicationId: string, options?: ApplicationsDeleteByIdOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteById(applicationId: string, options?: ApplicationsDeleteByIdOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteByIdAndWait(applicationId: string, options?: ApplicationsDeleteByIdOptionalParams): Promise<void>;
     get(resourceGroupName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationsGetResponse>;
     getById(applicationId: string, options?: ApplicationsGetByIdOptionalParams): Promise<ApplicationsGetByIdResponse>;
