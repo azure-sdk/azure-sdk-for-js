@@ -11561,7 +11561,7 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-d0Ezmr+ltff07OE4zJnhcTNEfqYBjwUzvG4vD6ELe30fk2JYb/AeEyPAQFwQB2pWPvQlABKt/Llxk6CgFMuIew==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-6tEhi20xpMN8RuFDnXFBbVQMEDVnH3fSdraOiDzSWZ1jZn/wALbjr3g2JWxXu1oq89S8X0cjShM0F2M1mUx/Og==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
@@ -11575,7 +11575,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -20368,7 +20369,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-+05JR31WLH5d8FD+GslDQxNHYPLOrvExWUugJJNalgNZpbtoqzQF0837G7tKGDg98VU4XjK6qZA7Gjo2n7O3yg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-W/M7XPCsmg8eZBzlsl8J6yyEH+1DoeC7F4keU6px84ohKSVn3vZHTYM2xj9e61MzYDWUjormNqquQD9oeB+qEA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
