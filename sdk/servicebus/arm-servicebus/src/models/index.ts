@@ -476,6 +476,8 @@ export interface SqlFilter {
   compatibilityLevel?: number;
   /** Value that indicates whether the rule action requires preprocessing. */
   requiresPreprocessing?: boolean;
+  /** Sets the value of a filter expression. */
+  parameters?: { [propertyName: string]: string };
 }
 
 /** Represents the correlation filter expression. */
@@ -550,6 +552,8 @@ export interface PrivateEndpointConnection extends ProxyResource {
   privateEndpoint?: PrivateEndpoint;
   /** Details about the state of the connection. */
   privateLinkServiceConnectionState?: ConnectionState;
+  /** Array of group IDs. */
+  groupId?: string[];
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: EndPointProvisioningState;
 }
@@ -573,6 +577,8 @@ export interface ArmDisasterRecovery extends ProxyResource {
   readonly pendingReplicationOperationsCount?: number;
   /** ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
   partnerNamespace?: string;
+  /** replication type */
+  typePropertiesType?: Type;
   /** Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
   alternateName?: string;
   /**
@@ -1094,6 +1100,21 @@ export enum KnownPublicNetworkAccess {
  * **SecuredByPerimeter**
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** MetadataReplication */
+  MetadataReplication = "MetadataReplication"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MetadataReplication**
+ */
+export type Type = string;
 
 /** Known values of {@link MigrationConfigurationName} that the service accepts. */
 export enum KnownMigrationConfigurationName {

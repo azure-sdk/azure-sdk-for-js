@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SBNamespace,
   NamespacesListOptionalParams,
@@ -98,8 +98,8 @@ export interface Namespaces {
     parameters: SBNamespace,
     options?: NamespacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NamespacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NamespacesCreateOrUpdateResponse>,
       NamespacesCreateOrUpdateResponse
     >
   >;
@@ -128,7 +128,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     options?: NamespacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
    * namespace.

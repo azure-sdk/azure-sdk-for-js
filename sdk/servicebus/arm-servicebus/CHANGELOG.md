@@ -1,26 +1,21 @@
 # Release History
-
-## 6.2.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.2.0-beta.1 (2023-02-08)
+    
+## 6.2.0-beta.2 (2023-08-07)
     
 **Features**
 
   - Added Type Alias PublicNetworkAccess
   - Added Type Alias TlsVersion
+  - Added Type Alias Type
+  - Interface ArmDisasterRecovery has a new optional parameter typePropertiesType
+  - Interface PrivateEndpointConnection has a new optional parameter groupId
   - Interface SBNamespace has a new optional parameter minimumTlsVersion
   - Interface SBNamespace has a new optional parameter premiumMessagingPartitions
   - Interface SBNamespace has a new optional parameter publicNetworkAccess
+  - Interface SqlFilter has a new optional parameter parameters
   - Added Enum KnownPublicNetworkAccess
   - Added Enum KnownTlsVersion
+  - Added Enum KnownType
     
     
 ## 6.1.0 (2022-12-09)

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MigrationConfigProperties,
   MigrationConfigsListOptionalParams,
@@ -50,8 +50,8 @@ export interface MigrationConfigs {
     parameters: MigrationConfigProperties,
     options?: MigrationConfigsCreateAndStartMigrationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>,
+    SimplePollerLike<
+      OperationState<MigrationConfigsCreateAndStartMigrationResponse>,
       MigrationConfigsCreateAndStartMigrationResponse
     >
   >;

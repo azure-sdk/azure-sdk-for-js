@@ -1119,6 +1119,13 @@ export const SqlFilter: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -1328,6 +1335,17 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
           className: "ConnectionState"
         }
       },
+      groupId: {
+        serializedName: "properties.groupId",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -1368,6 +1386,13 @@ export const ArmDisasterRecovery: coreClient.CompositeMapper = {
       },
       partnerNamespace: {
         serializedName: "properties.partnerNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesType: {
+        defaultValue: "MetadataReplication",
+        serializedName: "properties.type",
         type: {
           name: "String"
         }
