@@ -4818,7 +4818,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230804
+      typescript: 5.2.0-dev.20230807
     dev: false
 
   /duplexer3/0.1.5:
@@ -10326,8 +10326,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230804:
-    resolution: {integrity: sha512-4g7zcF85Th+zpaMgR7CHzM1MqjJ0Fv3+2PUxzCUMW8tc7aRYGPtQBfnAyN0+yXChZaV6lVejmrh7hle1DMAEcw==}
+  /typescript/5.2.0-dev.20230807:
+    resolution: {integrity: sha512-sF8sZl3r/mpAdKAxASaWaoU+mNPF3g8OrZ601HraU2l4WEwAf6nO7sq0Bzl+Y3FV7sWjy+gb6kdM1CtLjVne/g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12019,7 +12019,7 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-GNOJMBLXUo7nDHLxmV2N6Euv4FTfbiMsNa9qf/2qhS+PoIstjd1e7dT5revoE7uZAUcAVEOSYprvf567IaOsSw==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-BWMVaLzddx2/KnEEW35GF7Fmfp0GQte0jMkV1xRM4btgHJGl5zdp+zmPk2HGR+gbX2tGn1ApGbn7NWY9zqA4Vw==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
@@ -12033,8 +12033,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -19300,7 +19300,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-suRodhlNh4+HKHblrqtOmgcd0v93ubPFRNq17B5XYbNYKyI2Od9n8dyx888Ncq111F0AkZ18ZuHtfOlGGj2kMA==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-m0hoOpafOAY1QGvzbcWmZ09OVvF0vr9h1IJXZPPBm7k9Z6PY7YnbcVSmGhNDTM7uYh+dviEKRh4+iw1ZDeZkDw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -20254,7 +20254,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-9MFu1tfnxzzD0yi+/vt2r/ZCUZ79/cMut8DlmlKrYaA4vJo/CicjvfUAWMHz6lkhbJLpYuHy73X0IPIbve11fg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-DGgM6ZJxfKnVK8axRpJQXEKY+mhOliJQc1QU5q/cyzia188SP9xzz4UX73KmCYNchJuY8AhUoRMShUy+p4ztlg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
