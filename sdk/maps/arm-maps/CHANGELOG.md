@@ -1,42 +1,24 @@
 # Release History
-
-## 3.1.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 3.1.0-beta.2 (2022-11-29)
+    
+## 4.0.0-beta.1 (2023-08-08)
     
 **Features**
 
-  - Added operation Accounts.listSas
-  - Added Interface AccountSasParameters
-  - Added Interface AccountsListSasOptionalParams
-  - Added Interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties
-  - Added Interface CorsRule
-  - Added Interface CorsRules
   - Added Interface Creator
-  - Added Interface LinkedResource
-  - Added Interface ManagedServiceIdentity
-  - Added Interface MapsAccount
-  - Added Interface MapsAccountSasToken
   - Added Interface TrackedResource
-  - Added Type Alias AccountsListSasResponse
-  - Added Type Alias ResourceIdentityType
-  - Added Type Alias SigningKey
-  - Interface MapsAccountProperties has a new optional parameter cors
-  - Interface MapsAccountProperties has a new optional parameter linkedResources
-  - Interface MapsAccountUpdateParameters has a new optional parameter cors
-  - Interface MapsAccountUpdateParameters has a new optional parameter identity
-  - Interface MapsAccountUpdateParameters has a new optional parameter linkedResources
-  - Interface MetricSpecification has a new optional parameter internalMetricName
-  - Interface MetricSpecification has a new optional parameter sourceMdmAccount
-  - Added Enum KnownSigningKey
+  - Interface CreatorProperties has a new optional parameter consumedStorageUnitSizeInBytes
+  - Interface CreatorProperties has a new optional parameter totalStorageUnitSizeInBytes
+  - Interface CreatorUpdateParameters has a new optional parameter consumedStorageUnitSizeInBytes
+  - Interface CreatorUpdateParameters has a new optional parameter totalStorageUnitSizeInBytes
+  - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Removed operation group Accounts
+  - Removed operation group Maps
+  - Class AzureMapsManagementClient no longer has parameter accounts
+  - Class AzureMapsManagementClient no longer has parameter maps
+  - Removed Enum KnownCreatedByType
     
     
 ## 3.0.0 (2022-01-19)

@@ -8,104 +8,33 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** The SKU of the Maps Account. */
-export interface Sku {
-  /** The name of the SKU, in standard format (such as S0). */
-  name: Name;
+/** A list of Creator resources. */
+export interface CreatorList {
   /**
-   * Gets the sku tier. This is based on the SKU name.
+   * a Creator account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly tier?: string;
+  readonly value?: Creator[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Identity for the resource. */
-export interface ManagedServiceIdentity {
+/** Creator resource properties */
+export interface CreatorProperties {
   /**
-   * The principal ID of resource identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The identity type. */
-  type?: ResourceIdentityType;
-  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
-  };
-}
-
-export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
-  /**
-   * The principal id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** Additional Map account properties */
-export interface MapsAccountProperties {
-  /**
-   * A unique identifier for the maps account
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uniqueId?: string;
-  /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys authentication from any usage. */
-  disableLocalAuth?: boolean;
-  /**
-   * The provisioning state of the Map account resource.
+   * The state of the resource provisioning, terminal states: Succeeded, Failed, Canceled
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** Sets the resources to be used for Managed Identities based operations for the Map account resource. */
-  linkedResources?: LinkedResource[];
-  /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
-  cors?: CorsRules;
-}
-
-/** Linked resource is reference to a resource deployed in an Azure subscription, add the linked resource `uniqueName` value as an optional parameter for operations on Azure Maps Geospatial REST APIs. */
-export interface LinkedResource {
-  /** A provided name which uniquely identifies the linked resource. */
-  uniqueName: string;
-  /** ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'. */
-  id: string;
-}
-
-/** Sets the CORS rules. You can include up to five CorsRule elements in the request. */
-export interface CorsRules {
-  /** The list of CORS rules. You can include up to five CorsRule elements in the request. */
-  corsRules?: CorsRule[];
-}
-
-/** Specifies a CORS rule for the Map Account. */
-export interface CorsRule {
-  /** Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*" to allow all domains */
-  allowedOrigins: string[];
+  /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
+  storageUnits: number;
+  /** The total allocated storage unit size in bytes for the creator resource. */
+  totalStorageUnitSizeInBytes?: number;
+  /** The consumed storage unit size in bytes for the creator resource. */
+  consumedStorageUnitSizeInBytes?: number;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -176,95 +105,32 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Parameters used to update an existing Maps Account. */
-export interface MapsAccountUpdateParameters {
+/** Parameters used to update an existing Creator resource. */
+export interface CreatorUpdateParameters {
   /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. */
   tags?: { [propertyName: string]: string };
-  /** Get or Set Kind property. */
-  kind?: Kind;
-  /** The SKU of this account. */
-  sku?: Sku;
-  /** Sets the identity property for maps account. */
-  identity?: ManagedServiceIdentity;
   /**
-   * A unique identifier for the maps account
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uniqueId?: string;
-  /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys authentication from any usage. */
-  disableLocalAuth?: boolean;
-  /**
-   * The provisioning state of the Map account resource.
+   * The state of the resource provisioning, terminal states: Succeeded, Failed, Canceled
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** Sets the resources to be used for Managed Identities based operations for the Map account resource. */
-  linkedResources?: LinkedResource[];
-  /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
-  cors?: CorsRules;
+  /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
+  storageUnits?: number;
+  /** The total allocated storage unit size in bytes for the creator resource. */
+  totalStorageUnitSizeInBytes?: number;
+  /** The consumed storage unit size in bytes for the creator resource. */
+  consumedStorageUnitSizeInBytes?: number;
 }
 
-/** A list of Maps Accounts. */
-export interface MapsAccounts {
+/** The SKU of the Maps Account. */
+export interface Sku {
+  /** The name of the SKU, in standard format (such as S0). */
+  name: Name;
   /**
-   * a Maps Account.
+   * Gets the sku tier. This is based on the SKU name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: MapsAccount[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/** Parameters used to create an account Shared Access Signature (SAS) token. The REST API access control is provided by Azure Maps Role Based Access (RBAC) identity and access. */
-export interface AccountSasParameters {
-  /** The Map account key to use for signing. */
-  signingKey: SigningKey;
-  /** The principal Id also known as the object Id of a User Assigned Managed Identity currently assigned to the Map Account. To assign a Managed Identity of the account, use operation Create or Update an assign a User Assigned Identity resource Id. */
-  principalId: string;
-  /** Optional, allows control of which region locations are permitted access to Azure Maps REST APIs with the SAS token. Example: "eastus", "westus2". Omitting this parameter will allow all region locations to be accessible. */
-  regions?: string[];
-  /** Required parameter which represents the desired maximum request per second to allowed for the given SAS token. This does not guarantee perfect accuracy in measurements but provides application safe guards of abuse with eventual enforcement. */
-  maxRatePerSecond: number;
-  /** The date time offset of when the token validity begins. For example "2017-05-24T10:42:03.1567373Z". */
-  start: string;
-  /** The date time offset of when the token validity expires. For example "2017-05-24T10:42:03.1567373Z" */
-  expiry: string;
-}
-
-/** A new Sas token which can be used to access the Maps REST APIs and is controlled by the specified Managed identity permissions on Azure (IAM) Role Based Access Control. */
-export interface MapsAccountSasToken {
-  /**
-   * The shared access signature access token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountSasToken?: string;
-}
-
-/** The set of keys which can be used to access the Maps REST APIs. Two keys are provided for key rotation without interruption. */
-export interface MapsAccountKeys {
-  /**
-   * The last updated date and time of the primary key.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryKeyLastUpdated?: string;
-  /**
-   * The primary key for accessing the Maps REST APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryKey?: string;
-  /**
-   * The secondary key for accessing the Maps REST APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondaryKey?: string;
-  /**
-   * The last updated date and time of the secondary key.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondaryKeyLastUpdated?: string;
+  readonly tier?: string;
 }
 
 /** Whether the operation refers to the primary or secondary key. */
@@ -339,10 +205,6 @@ export interface MetricSpecification {
   category?: string;
   /** Account Resource Id. */
   resourceIdDimensionNameOverride?: string;
-  /** Source metrics account. */
-  sourceMdmAccount?: string;
-  /** Internal metric name. */
-  internalMetricName?: string;
 }
 
 /** Dimension of map account, for example API Category, Api Name, Result Type, and Response Code. */
@@ -361,44 +223,6 @@ export interface Dimension {
   toBeExportedToShoebox?: boolean;
 }
 
-/** A list of Creator resources. */
-export interface CreatorList {
-  /**
-   * a Creator account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Creator[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/** Creator resource properties */
-export interface CreatorProperties {
-  /**
-   * The state of the resource provisioning, terminal states: Succeeded, Failed, Canceled
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
-  storageUnits: number;
-}
-
-/** Parameters used to update an existing Creator resource. */
-export interface CreatorUpdateParameters {
-  /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The state of the resource provisioning, terminal states: Succeeded, Failed, Canceled
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
-  storageUnits?: number;
-}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -407,32 +231,10 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** An Azure resource which represents access to a suite of Maps REST APIs. */
-export interface MapsAccount extends TrackedResource {
-  /** The SKU of this account. */
-  sku: Sku;
-  /** Get or Set Kind property. */
-  kind?: Kind;
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Sets the identity property for maps account. */
-  identity?: ManagedServiceIdentity;
-  /** The map account properties. */
-  properties?: MapsAccountProperties;
-}
-
 /** An Azure resource which represents Maps Creator product and provides ability to manage private location data. */
 export interface Creator extends TrackedResource {
   /** The Creator resource properties. */
   properties: CreatorProperties;
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
 }
 
 /** Known values of {@link Name} that the service accepts. */
@@ -456,66 +258,6 @@ export enum KnownName {
  */
 export type Name = string;
 
-/** Known values of {@link Kind} that the service accepts. */
-export enum KnownKind {
-  /** Gen1 */
-  Gen1 = "Gen1",
-  /** Gen2 */
-  Gen2 = "Gen2"
-}
-
-/**
- * Defines values for Kind. \
- * {@link KnownKind} can be used interchangeably with Kind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Gen1** \
- * **Gen2**
- */
-export type Kind = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link SigningKey} that the service accepts. */
-export enum KnownSigningKey {
-  /** PrimaryKey */
-  PrimaryKey = "primaryKey",
-  /** SecondaryKey */
-  SecondaryKey = "secondaryKey"
-}
-
-/**
- * Defines values for SigningKey. \
- * {@link KnownSigningKey} can be used interchangeably with SigningKey,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **primaryKey** \
- * **secondaryKey**
- */
-export type SigningKey = string;
-
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
   /** Primary */
@@ -533,114 +275,24 @@ export enum KnownKeyType {
  * **secondary**
  */
 export type KeyType = string;
-/** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
 
-/** Optional parameters. */
-export interface AccountsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link Kind} that the service accepts. */
+export enum KnownKind {
+  /** Gen1 */
+  Gen1 = "Gen1",
+  /** Gen2 */
+  Gen2 = "Gen2"
+}
 
-/** Contains response data for the createOrUpdate operation. */
-export type AccountsCreateOrUpdateResponse = MapsAccount;
-
-/** Optional parameters. */
-export interface AccountsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type AccountsUpdateResponse = MapsAccount;
-
-/** Optional parameters. */
-export interface AccountsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccountsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AccountsGetResponse = MapsAccount;
-
-/** Optional parameters. */
-export interface AccountsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type AccountsListByResourceGroupResponse = MapsAccounts;
-
-/** Optional parameters. */
-export interface AccountsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type AccountsListBySubscriptionResponse = MapsAccounts;
-
-/** Optional parameters. */
-export interface AccountsListSasOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSas operation. */
-export type AccountsListSasResponse = MapsAccountSasToken;
-
-/** Optional parameters. */
-export interface AccountsListKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeys operation. */
-export type AccountsListKeysResponse = MapsAccountKeys;
-
-/** Optional parameters. */
-export interface AccountsRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the regenerateKeys operation. */
-export type AccountsRegenerateKeysResponse = MapsAccountKeys;
-
-/** Optional parameters. */
-export interface AccountsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type AccountsListByResourceGroupNextResponse = MapsAccounts;
-
-/** Optional parameters. */
-export interface AccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type AccountsListBySubscriptionNextResponse = MapsAccounts;
-
-/** Optional parameters. */
-export interface MapsListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperations operation. */
-export type MapsListOperationsResponse = MapsOperations;
-
-/** Optional parameters. */
-export interface MapsListSubscriptionOperationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSubscriptionOperations operation. */
-export type MapsListSubscriptionOperationsResponse = MapsOperations;
-
-/** Optional parameters. */
-export interface MapsListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNext operation. */
-export type MapsListOperationsNextResponse = MapsOperations;
-
-/** Optional parameters. */
-export interface MapsListSubscriptionOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSubscriptionOperationsNext operation. */
-export type MapsListSubscriptionOperationsNextResponse = MapsOperations;
+/**
+ * Defines values for Kind. \
+ * {@link KnownKind} can be used interchangeably with Kind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Gen1** \
+ * **Gen2**
+ */
+export type Kind = string;
 
 /** Optional parameters. */
 export interface CreatorsListByAccountOptionalParams

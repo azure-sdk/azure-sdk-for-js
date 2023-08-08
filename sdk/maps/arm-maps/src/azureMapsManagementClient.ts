@@ -14,8 +14,8 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { AccountsImpl, MapsImpl, CreatorsImpl } from "./operations";
-import { Accounts, Maps, Creators } from "./operationsInterfaces";
+import { CreatorsImpl } from "./operations";
+import { Creators } from "./operationsInterfaces";
 import { AzureMapsManagementClientOptionalParams } from "./models";
 
 export class AzureMapsManagementClient extends coreClient.ServiceClient {
@@ -50,7 +50,7 @@ export class AzureMapsManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-maps/3.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-maps/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -103,9 +103,7 @@ export class AzureMapsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-12-01-preview";
-    this.accounts = new AccountsImpl(this);
-    this.maps = new MapsImpl(this);
+    this.apiVersion = options.apiVersion || "2023-08-01-preview";
     this.creators = new CreatorsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -138,7 +136,5 @@ export class AzureMapsManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  accounts: Accounts;
-  maps: Maps;
   creators: Creators;
 }

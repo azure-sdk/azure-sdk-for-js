@@ -12,30 +12,9 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  MapsAccount as MapsAccountMapper,
-  MapsAccountUpdateParameters as MapsAccountUpdateParametersMapper,
-  AccountSasParameters as AccountSasParametersMapper,
-  MapsKeySpecification as MapsKeySpecificationMapper,
   Creator as CreatorMapper,
   CreatorUpdateParameters as CreatorUpdateParametersMapper
 } from "../models/mappers";
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const mapsAccount: OperationParameter = {
-  parameterPath: "mapsAccount",
-  mapper: MapsAccountMapper
-};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -64,7 +43,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-12-01-preview",
+    defaultValue: "2023-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -113,31 +92,16 @@ export const accountName: OperationURLParameter = {
   }
 };
 
-export const mapsAccountUpdateParameters: OperationParameter = {
-  parameterPath: "mapsAccountUpdateParameters",
-  mapper: MapsAccountUpdateParametersMapper
-};
-
-export const mapsAccountSasParameters: OperationParameter = {
-  parameterPath: "mapsAccountSasParameters",
-  mapper: AccountSasParametersMapper
-};
-
-export const keySpecification: OperationParameter = {
-  parameterPath: "keySpecification",
-  mapper: MapsKeySpecificationMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
   mapper: {
-    serializedName: "nextLink",
-    required: true,
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
     type: {
       name: "String"
     }
-  },
-  skipEncoding: true
+  }
 };
 
 export const creatorResource: OperationParameter = {
@@ -159,4 +123,16 @@ export const creatorName: OperationURLParameter = {
 export const creatorUpdateParameters: OperationParameter = {
   parameterPath: "creatorUpdateParameters",
   mapper: CreatorUpdateParametersMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };

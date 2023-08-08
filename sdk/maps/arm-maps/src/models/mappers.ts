@@ -8,138 +8,26 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const Sku: coreClient.CompositeMapper = {
+export const CreatorList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Sku",
+    className: "CreatorList",
     modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      tier: {
-        serializedName: "tier",
+      value: {
+        serializedName: "value",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedServiceIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedServiceIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
-        }
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
+          name: "Sequence",
+          element: {
             type: {
               name: "Composite",
-              className:
-                "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties"
+              className: "Creator"
             }
           }
         }
-      }
-    }
-  }
-};
-
-export const Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
       },
-      clientId: {
-        serializedName: "clientId",
-        readOnly: true,
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -148,25 +36,11 @@ export const Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassigne
   }
 };
 
-export const MapsAccountProperties: coreClient.CompositeMapper = {
+export const CreatorProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MapsAccountProperties",
+    className: "CreatorProperties",
     modelProperties: {
-      uniqueId: {
-        serializedName: "uniqueId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      disableLocalAuth: {
-        defaultValue: false,
-        serializedName: "disableLocalAuth",
-        type: {
-          name: "Boolean"
-        }
-      },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
@@ -174,94 +48,27 @@ export const MapsAccountProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      linkedResources: {
+      storageUnits: {
         constraints: {
-          MaxItems: 10
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 1
         },
-        serializedName: "linkedResources",
+        serializedName: "storageUnits",
+        required: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LinkedResource"
-            }
-          }
+          name: "Number"
         }
       },
-      cors: {
-        serializedName: "cors",
+      totalStorageUnitSizeInBytes: {
+        serializedName: "totalStorageUnitSizeInBytes",
         type: {
-          name: "Composite",
-          className: "CorsRules"
-        }
-      }
-    }
-  }
-};
-
-export const LinkedResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedResource",
-    modelProperties: {
-      uniqueName: {
-        serializedName: "uniqueName",
-        required: true,
-        type: {
-          name: "String"
+          name: "Number"
         }
       },
-      id: {
-        serializedName: "id",
-        required: true,
+      consumedStorageUnitSizeInBytes: {
+        serializedName: "consumedStorageUnitSizeInBytes",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CorsRules: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CorsRules",
-    modelProperties: {
-      corsRules: {
-        constraints: {
-          MaxItems: 5
-        },
-        serializedName: "corsRules",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CorsRule"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const CorsRule: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CorsRule",
-    modelProperties: {
-      allowedOrigins: {
-        serializedName: "allowedOrigins",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "Number"
         }
       }
     }
@@ -394,51 +201,16 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const MapsAccountUpdateParameters: coreClient.CompositeMapper = {
+export const CreatorUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MapsAccountUpdateParameters",
+    className: "CreatorUpdateParameters",
     modelProperties: {
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      },
-      kind: {
-        defaultValue: "Gen1",
-        serializedName: "kind",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "ManagedServiceIdentity"
-        }
-      },
-      uniqueId: {
-        serializedName: "properties.uniqueId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      disableLocalAuth: {
-        defaultValue: false,
-        serializedName: "properties.disableLocalAuth",
-        type: {
-          name: "Boolean"
         }
       },
       provisioningState: {
@@ -448,164 +220,46 @@ export const MapsAccountUpdateParameters: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      linkedResources: {
+      storageUnits: {
         constraints: {
-          MaxItems: 10
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 1
         },
-        serializedName: "properties.linkedResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LinkedResource"
-            }
-          }
-        }
-      },
-      cors: {
-        serializedName: "properties.cors",
-        type: {
-          name: "Composite",
-          className: "CorsRules"
-        }
-      }
-    }
-  }
-};
-
-export const MapsAccounts: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsAccounts",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MapsAccount"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AccountSasParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AccountSasParameters",
-    modelProperties: {
-      signingKey: {
-        serializedName: "signingKey",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      principalId: {
-        serializedName: "principalId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      regions: {
-        serializedName: "regions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      maxRatePerSecond: {
-        defaultValue: 500,
-        constraints: {
-          InclusiveMaximum: 500,
-          ExclusiveMinimum: 0
-        },
-        serializedName: "maxRatePerSecond",
-        required: true,
+        serializedName: "properties.storageUnits",
         type: {
           name: "Number"
         }
       },
-      start: {
-        serializedName: "start",
-        required: true,
+      totalStorageUnitSizeInBytes: {
+        serializedName: "properties.totalStorageUnitSizeInBytes",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
-      expiry: {
-        serializedName: "expiry",
-        required: true,
+      consumedStorageUnitSizeInBytes: {
+        serializedName: "properties.consumedStorageUnitSizeInBytes",
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
   }
 };
 
-export const MapsAccountSasToken: coreClient.CompositeMapper = {
+export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MapsAccountSasToken",
+    className: "Sku",
     modelProperties: {
-      accountSasToken: {
-        serializedName: "accountSasToken",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MapsAccountKeys: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsAccountKeys",
-    modelProperties: {
-      primaryKeyLastUpdated: {
-        serializedName: "primaryKeyLastUpdated",
-        readOnly: true,
+      name: {
+        serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
-      primaryKey: {
-        serializedName: "primaryKey",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      secondaryKey: {
-        serializedName: "secondaryKey",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      secondaryKeyLastUpdated: {
-        serializedName: "secondaryKeyLastUpdated",
+      tier: {
+        serializedName: "tier",
         readOnly: true,
         type: {
           name: "String"
@@ -818,18 +472,6 @@ export const MetricSpecification: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      sourceMdmAccount: {
-        serializedName: "sourceMdmAccount",
-        type: {
-          name: "String"
-        }
-      },
-      internalMetricName: {
-        serializedName: "internalMetricName",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -880,94 +522,6 @@ export const Dimension: coreClient.CompositeMapper = {
   }
 };
 
-export const CreatorList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreatorList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Creator"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CreatorProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreatorProperties",
-    modelProperties: {
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      storageUnits: {
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 1
-        },
-        serializedName: "storageUnits",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const CreatorUpdateParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreatorUpdateParameters",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      storageUnits: {
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 1
-        },
-        serializedName: "properties.storageUnits",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -992,51 +546,6 @@ export const TrackedResource: coreClient.CompositeMapper = {
   }
 };
 
-export const MapsAccount: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsAccount",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
-      kind: {
-        defaultValue: "Gen1",
-        serializedName: "kind",
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "ManagedServiceIdentity"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "MapsAccountProperties"
-        }
-      }
-    }
-  }
-};
-
 export const Creator: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1048,13 +557,6 @@ export const Creator: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CreatorProperties"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       }
     }

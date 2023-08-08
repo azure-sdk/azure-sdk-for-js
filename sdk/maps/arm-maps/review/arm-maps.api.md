@@ -8,116 +8,15 @@ import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
-// @public
-export interface Accounts {
-    createOrUpdate(resourceGroupName: string, accountName: string, mapsAccount: MapsAccount, options?: AccountsCreateOrUpdateOptionalParams): Promise<AccountsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MapsAccount>;
-    listBySubscription(options?: AccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MapsAccount>;
-    listKeys(resourceGroupName: string, accountName: string, options?: AccountsListKeysOptionalParams): Promise<AccountsListKeysResponse>;
-    listSas(resourceGroupName: string, accountName: string, mapsAccountSasParameters: AccountSasParameters, options?: AccountsListSasOptionalParams): Promise<AccountsListSasResponse>;
-    regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: MapsKeySpecification, options?: AccountsRegenerateKeysOptionalParams): Promise<AccountsRegenerateKeysResponse>;
-    update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: MapsAccountUpdateParameters, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
-}
-
-// @public
-export interface AccountSasParameters {
-    expiry: string;
-    maxRatePerSecond: number;
-    principalId: string;
-    regions?: string[];
-    signingKey: SigningKey;
-    start: string;
-}
-
-// @public
-export interface AccountsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsCreateOrUpdateResponse = MapsAccount;
-
-// @public
-export interface AccountsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AccountsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsGetResponse = MapsAccount;
-
-// @public
-export interface AccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsListByResourceGroupNextResponse = MapsAccounts;
-
-// @public
-export interface AccountsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsListByResourceGroupResponse = MapsAccounts;
-
-// @public
-export interface AccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsListBySubscriptionNextResponse = MapsAccounts;
-
-// @public
-export interface AccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsListBySubscriptionResponse = MapsAccounts;
-
-// @public
-export interface AccountsListKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsListKeysResponse = MapsAccountKeys;
-
-// @public
-export interface AccountsListSasOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsListSasResponse = MapsAccountSasToken;
-
-// @public
-export interface AccountsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsRegenerateKeysResponse = MapsAccountKeys;
-
-// @public
-export interface AccountsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsUpdateResponse = MapsAccount;
-
 // @public (undocumented)
 export class AzureMapsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMapsManagementClientOptionalParams);
     // (undocumented)
-    accounts: Accounts;
-    // (undocumented)
     apiVersion: string;
     // (undocumented)
     creators: Creators;
-    // (undocumented)
-    maps: Maps;
     // (undocumented)
     subscriptionId: string;
 }
@@ -129,29 +28,9 @@ export interface AzureMapsManagementClientOptionalParams extends coreClient.Serv
     endpoint?: string;
 }
 
-// @public (undocumented)
-export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
-
-// @public
-export interface CorsRule {
-    allowedOrigins: string[];
-}
-
-// @public
-export interface CorsRules {
-    corsRules?: CorsRule[];
-}
-
-// @public
-export type CreatedByType = string;
-
 // @public
 export interface Creator extends TrackedResource {
     properties: CreatorProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -162,8 +41,10 @@ export interface CreatorList {
 
 // @public
 export interface CreatorProperties {
+    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits: number;
+    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
@@ -216,11 +97,13 @@ export type CreatorsUpdateResponse = Creator;
 
 // @public
 export interface CreatorUpdateParameters {
+    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits?: number;
     tags?: {
         [propertyName: string]: string;
     };
+    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
@@ -264,14 +147,6 @@ export { KeyType_2 as KeyType }
 export type Kind = string;
 
 // @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
 export enum KnownKeyType {
     Primary = "primary",
     Secondary = "secondary"
@@ -291,117 +166,9 @@ export enum KnownName {
 }
 
 // @public
-export enum KnownSigningKey {
-    PrimaryKey = "primaryKey",
-    SecondaryKey = "secondaryKey"
-}
-
-// @public
-export interface LinkedResource {
-    id: string;
-    uniqueName: string;
-}
-
-// @public
-export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
-    };
-}
-
-// @public
-export interface Maps {
-    listOperations(options?: MapsListOperationsOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
-    listSubscriptionOperations(options?: MapsListSubscriptionOperationsOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
-}
-
-// @public
-export interface MapsAccount extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    kind?: Kind;
-    properties?: MapsAccountProperties;
-    sku: Sku;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface MapsAccountKeys {
-    readonly primaryKey?: string;
-    readonly primaryKeyLastUpdated?: string;
-    readonly secondaryKey?: string;
-    readonly secondaryKeyLastUpdated?: string;
-}
-
-// @public
-export interface MapsAccountProperties {
-    cors?: CorsRules;
-    disableLocalAuth?: boolean;
-    linkedResources?: LinkedResource[];
-    readonly provisioningState?: string;
-    readonly uniqueId?: string;
-}
-
-// @public
-export interface MapsAccounts {
-    nextLink?: string;
-    readonly value?: MapsAccount[];
-}
-
-// @public
-export interface MapsAccountSasToken {
-    readonly accountSasToken?: string;
-}
-
-// @public
-export interface MapsAccountUpdateParameters {
-    cors?: CorsRules;
-    disableLocalAuth?: boolean;
-    identity?: ManagedServiceIdentity;
-    kind?: Kind;
-    linkedResources?: LinkedResource[];
-    readonly provisioningState?: string;
-    sku?: Sku;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly uniqueId?: string;
-}
-
-// @public
 export interface MapsKeySpecification {
     keyType: KeyType_2;
 }
-
-// @public
-export interface MapsListOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MapsListOperationsNextResponse = MapsOperations;
-
-// @public
-export interface MapsListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MapsListOperationsResponse = MapsOperations;
-
-// @public
-export interface MapsListSubscriptionOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MapsListSubscriptionOperationsNextResponse = MapsOperations;
-
-// @public
-export interface MapsListSubscriptionOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MapsListSubscriptionOperationsResponse = MapsOperations;
 
 // @public
 export interface MapsOperations {
@@ -417,10 +184,8 @@ export interface MetricSpecification {
     displayDescription?: string;
     displayName?: string;
     fillGapWithZero?: boolean;
-    internalMetricName?: string;
     name?: string;
     resourceIdDimensionNameOverride?: string;
-    sourceMdmAccount?: string;
     unit?: string;
 }
 
@@ -452,30 +217,14 @@ export interface Resource {
 }
 
 // @public
-export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
-
-// @public
 export interface ServiceSpecification {
     metricSpecifications?: MetricSpecification[];
 }
 
 // @public
-export type SigningKey = string;
-
-// @public
 export interface Sku {
     name: Name;
     readonly tier?: string;
-}
-
-// @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
 }
 
 // @public
