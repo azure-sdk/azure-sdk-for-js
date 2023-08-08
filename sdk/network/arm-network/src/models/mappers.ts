@@ -5766,6 +5766,46 @@ export const InboundNatRulePortMapping: coreClient.CompositeMapper = {
   }
 };
 
+export const MigrateLoadBalancerToIpBasedRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrateLoadBalancerToIpBasedRequest",
+    modelProperties: {
+      pools: {
+        serializedName: "pools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MigratedPools: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigratedPools",
+    modelProperties: {
+      migratedPools: {
+        serializedName: "migratedPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const NatGatewayListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -12665,6 +12705,43 @@ export const VirtualNetworkDdosProtectionStatusResult: coreClient.CompositeMappe
   }
 };
 
+export const VirtualNetworkGatewayAutoScaleConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkGatewayAutoScaleConfiguration",
+    modelProperties: {
+      bounds: {
+        serializedName: "bounds",
+        type: {
+          name: "Composite",
+          className: "VirtualNetworkGatewayAutoScaleBounds"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkGatewayAutoScaleBounds: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkGatewayAutoScaleBounds",
+    modelProperties: {
+      min: {
+        serializedName: "min",
+        type: {
+          name: "Number"
+        }
+      },
+      max: {
+        serializedName: "max",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualNetworkGatewaySku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -18501,6 +18578,12 @@ export const BackendAddressPool: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SubResource"
+        }
+      },
+      syncMode: {
+        serializedName: "properties.syncMode",
+        type: {
+          name: "String"
         }
       }
     }
@@ -27692,6 +27775,13 @@ export const VirtualNetworkGateway: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      autoScaleConfiguration: {
+        serializedName: "properties.autoScaleConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualNetworkGatewayAutoScaleConfiguration"
         }
       },
       ipConfigurations: {
