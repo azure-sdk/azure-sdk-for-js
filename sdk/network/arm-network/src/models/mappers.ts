@@ -5766,6 +5766,46 @@ export const InboundNatRulePortMapping: coreClient.CompositeMapper = {
   }
 };
 
+export const MigrateLoadBalancerToIpBasedRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrateLoadBalancerToIpBasedRequest",
+    modelProperties: {
+      pools: {
+        serializedName: "pools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MigratedPools: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigratedPools",
+    modelProperties: {
+      migratedPools: {
+        serializedName: "migratedPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const NatGatewayListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -18502,6 +18542,12 @@ export const BackendAddressPool: coreClient.CompositeMapper = {
           name: "Composite",
           className: "SubResource"
         }
+      },
+      syncMode: {
+        serializedName: "properties.syncMode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -21191,6 +21237,13 @@ export const FirewallPolicyRuleCollectionGroup: coreClient.CompositeMapper = {
       },
       type: {
         serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      ruleCollectionGroupSize: {
+        serializedName: "properties.ruleCollectionGroupSize",
         readOnly: true,
         type: {
           name: "String"
@@ -26501,6 +26554,13 @@ export const FirewallPolicy: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedServiceIdentity"
+        }
+      },
+      firewallPolicySize: {
+        serializedName: "properties.firewallPolicySize",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       ruleCollectionGroups: {
