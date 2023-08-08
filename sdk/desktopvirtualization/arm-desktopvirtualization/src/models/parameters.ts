@@ -14,6 +14,7 @@ import {
 import {
   Workspace as WorkspaceMapper,
   WorkspacePatch as WorkspacePatchMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ScalingPlan as ScalingPlanMapper,
   ScalingPlanPatch as ScalingPlanPatchMapper,
   ScalingPlanPooledSchedule as ScalingPlanPooledScheduleMapper,
@@ -59,7 +60,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-09",
+    defaultValue: "2022-10-14-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -176,6 +177,37 @@ export const initialSkip: OperationQueryParameter = {
   }
 };
 
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const connection: OperationParameter = {
+  parameterPath: "connection",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const hostPoolName: OperationURLParameter = {
+  parameterPath: "hostPoolName",
+  mapper: {
+    constraints: {
+      MaxLength: 64,
+      MinLength: 3
+    },
+    serializedName: "hostPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const scalingPlanName: OperationURLParameter = {
   parameterPath: "scalingPlanName",
   mapper: {
@@ -199,21 +231,6 @@ export const scalingPlan: OperationParameter = {
 export const scalingPlan1: OperationParameter = {
   parameterPath: ["options", "scalingPlan"],
   mapper: ScalingPlanPatchMapper
-};
-
-export const hostPoolName: OperationURLParameter = {
-  parameterPath: "hostPoolName",
-  mapper: {
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
-    },
-    serializedName: "hostPoolName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const scalingPlanScheduleName: OperationURLParameter = {
