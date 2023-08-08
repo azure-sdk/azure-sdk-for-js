@@ -1,15 +1,21 @@
 # Release History
+    
+## 3.0.0 (2023-08-08)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
+  - Added Type Alias MoveType
+  - Interface MoveCollectionProperties has a new optional parameter moveType
+  - Interface MoveCollectionProperties has a new optional parameter resourceRegion
+  - Interface MoveCollectionProperties has a new optional parameter version
+  - Interface ResourceSettings has a new optional parameter targetResourceGroupName
+  - Added Enum KnownMoveType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class ResourceMoverServiceAPI has a new signature
+    
+    
 ## 2.1.0 (2022-12-12)
     
 **Features**
