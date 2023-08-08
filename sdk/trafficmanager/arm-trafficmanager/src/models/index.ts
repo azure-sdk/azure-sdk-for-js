@@ -605,6 +605,27 @@ export interface TrafficManagerUserMetricsKeysDeleteOptionalParams
 export type TrafficManagerUserMetricsKeysDeleteResponse = DeleteOperationResult;
 
 /** Optional parameters. */
+export interface TrafficManagerUserMetricsKeysGetNoDefaultOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNoDefault operation. */
+export type TrafficManagerUserMetricsKeysGetNoDefaultResponse = UserMetricsModel;
+
+/** Optional parameters. */
+export interface TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateNoDefault operation. */
+export type TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultResponse = UserMetricsModel;
+
+/** Optional parameters. */
+export interface TrafficManagerUserMetricsKeysDeleteNoDefaultOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the deleteNoDefault operation. */
+export type TrafficManagerUserMetricsKeysDeleteNoDefaultResponse = DeleteOperationResult;
+
+/** Optional parameters. */
 export interface TrafficManagerManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */

@@ -17,7 +17,13 @@ import {
   TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams,
   TrafficManagerUserMetricsKeysCreateOrUpdateResponse,
   TrafficManagerUserMetricsKeysDeleteOptionalParams,
-  TrafficManagerUserMetricsKeysDeleteResponse
+  TrafficManagerUserMetricsKeysDeleteResponse,
+  TrafficManagerUserMetricsKeysGetNoDefaultOptionalParams,
+  TrafficManagerUserMetricsKeysGetNoDefaultResponse,
+  TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultOptionalParams,
+  TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultResponse,
+  TrafficManagerUserMetricsKeysDeleteNoDefaultOptionalParams,
+  TrafficManagerUserMetricsKeysDeleteNoDefaultResponse
 } from "../models";
 
 /** Class containing TrafficManagerUserMetricsKeys operations. */
@@ -65,6 +71,45 @@ export class TrafficManagerUserMetricsKeysImpl
   ): Promise<TrafficManagerUserMetricsKeysDeleteResponse> {
     return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
+
+  /**
+   * Get the subscription-level key used for Real User Metrics collection.
+   * @param options The options parameters.
+   */
+  getNoDefault(
+    options?: TrafficManagerUserMetricsKeysGetNoDefaultOptionalParams
+  ): Promise<TrafficManagerUserMetricsKeysGetNoDefaultResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      getNoDefaultOperationSpec
+    );
+  }
+
+  /**
+   * Create or update a subscription-level key used for Real User Metrics collection.
+   * @param options The options parameters.
+   */
+  createOrUpdateNoDefault(
+    options?: TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultOptionalParams
+  ): Promise<TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      createOrUpdateNoDefaultOperationSpec
+    );
+  }
+
+  /**
+   * Delete a subscription-level key used for Real User Metrics collection.
+   * @param options The options parameters.
+   */
+  deleteNoDefault(
+    options?: TrafficManagerUserMetricsKeysDeleteNoDefaultOptionalParams
+  ): Promise<TrafficManagerUserMetricsKeysDeleteNoDefaultResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      deleteNoDefaultOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -106,6 +151,57 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeleteOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getNoDefaultOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UserMetricsModel
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateNoDefaultOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys",
+  httpMethod: "PUT",
+  responses: {
+    201: {
+      bodyMapper: Mappers.UserMetricsModel
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteNoDefaultOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys",
   httpMethod: "DELETE",
   responses: {
     200: {

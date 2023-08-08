@@ -1,15 +1,24 @@
 # Release History
+    
+## 7.0.0 (2023-08-08)
+    
+**Features**
 
-## 6.1.1 (Unreleased)
+  - Added operation TrafficManagerUserMetricsKeys.createOrUpdateNoDefault
+  - Added operation TrafficManagerUserMetricsKeys.deleteNoDefault
+  - Added operation TrafficManagerUserMetricsKeys.getNoDefault
+  - Added Interface TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultOptionalParams
+  - Added Interface TrafficManagerUserMetricsKeysDeleteNoDefaultOptionalParams
+  - Added Interface TrafficManagerUserMetricsKeysGetNoDefaultOptionalParams
+  - Added Type Alias TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultResponse
+  - Added Type Alias TrafficManagerUserMetricsKeysDeleteNoDefaultResponse
+  - Added Type Alias TrafficManagerUserMetricsKeysGetNoDefaultResponse
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class TrafficManagerManagementClient has a new signature
+    
+    
 ## 6.1.0 (2023-06-02)
     
 **Features**

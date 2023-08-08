@@ -12,7 +12,13 @@ import {
   TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams,
   TrafficManagerUserMetricsKeysCreateOrUpdateResponse,
   TrafficManagerUserMetricsKeysDeleteOptionalParams,
-  TrafficManagerUserMetricsKeysDeleteResponse
+  TrafficManagerUserMetricsKeysDeleteResponse,
+  TrafficManagerUserMetricsKeysGetNoDefaultOptionalParams,
+  TrafficManagerUserMetricsKeysGetNoDefaultResponse,
+  TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultOptionalParams,
+  TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultResponse,
+  TrafficManagerUserMetricsKeysDeleteNoDefaultOptionalParams,
+  TrafficManagerUserMetricsKeysDeleteNoDefaultResponse
 } from "../models";
 
 /** Interface representing a TrafficManagerUserMetricsKeys. */
@@ -38,4 +44,25 @@ export interface TrafficManagerUserMetricsKeys {
   delete(
     options?: TrafficManagerUserMetricsKeysDeleteOptionalParams
   ): Promise<TrafficManagerUserMetricsKeysDeleteResponse>;
+  /**
+   * Get the subscription-level key used for Real User Metrics collection.
+   * @param options The options parameters.
+   */
+  getNoDefault(
+    options?: TrafficManagerUserMetricsKeysGetNoDefaultOptionalParams
+  ): Promise<TrafficManagerUserMetricsKeysGetNoDefaultResponse>;
+  /**
+   * Create or update a subscription-level key used for Real User Metrics collection.
+   * @param options The options parameters.
+   */
+  createOrUpdateNoDefault(
+    options?: TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultOptionalParams
+  ): Promise<TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultResponse>;
+  /**
+   * Delete a subscription-level key used for Real User Metrics collection.
+   * @param options The options parameters.
+   */
+  deleteNoDefault(
+    options?: TrafficManagerUserMetricsKeysDeleteNoDefaultOptionalParams
+  ): Promise<TrafficManagerUserMetricsKeysDeleteNoDefaultResponse>;
 }

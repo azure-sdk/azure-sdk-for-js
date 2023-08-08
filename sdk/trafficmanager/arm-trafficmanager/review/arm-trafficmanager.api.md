@@ -403,6 +403,7 @@ export class TrafficManagerManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: TrafficManagerManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: TrafficManagerManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -414,7 +415,7 @@ export class TrafficManagerManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     profiles: Profiles;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     trafficManagerUserMetricsKeys: TrafficManagerUserMetricsKeys;
 }
@@ -438,9 +439,19 @@ export interface TrafficManagerNameAvailability {
 // @public
 export interface TrafficManagerUserMetricsKeys {
     createOrUpdate(options?: TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams): Promise<TrafficManagerUserMetricsKeysCreateOrUpdateResponse>;
+    createOrUpdateNoDefault(options?: TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultOptionalParams): Promise<TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultResponse>;
     delete(options?: TrafficManagerUserMetricsKeysDeleteOptionalParams): Promise<TrafficManagerUserMetricsKeysDeleteResponse>;
+    deleteNoDefault(options?: TrafficManagerUserMetricsKeysDeleteNoDefaultOptionalParams): Promise<TrafficManagerUserMetricsKeysDeleteNoDefaultResponse>;
     get(options?: TrafficManagerUserMetricsKeysGetOptionalParams): Promise<TrafficManagerUserMetricsKeysGetResponse>;
+    getNoDefault(options?: TrafficManagerUserMetricsKeysGetNoDefaultOptionalParams): Promise<TrafficManagerUserMetricsKeysGetNoDefaultResponse>;
 }
+
+// @public
+export interface TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrafficManagerUserMetricsKeysCreateOrUpdateNoDefaultResponse = UserMetricsModel;
 
 // @public
 export interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -450,11 +461,25 @@ export interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams exten
 export type TrafficManagerUserMetricsKeysCreateOrUpdateResponse = UserMetricsModel;
 
 // @public
+export interface TrafficManagerUserMetricsKeysDeleteNoDefaultOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrafficManagerUserMetricsKeysDeleteNoDefaultResponse = DeleteOperationResult;
+
+// @public
 export interface TrafficManagerUserMetricsKeysDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type TrafficManagerUserMetricsKeysDeleteResponse = DeleteOperationResult;
+
+// @public
+export interface TrafficManagerUserMetricsKeysGetNoDefaultOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrafficManagerUserMetricsKeysGetNoDefaultResponse = UserMetricsModel;
 
 // @public
 export interface TrafficManagerUserMetricsKeysGetOptionalParams extends coreClient.OperationOptions {
