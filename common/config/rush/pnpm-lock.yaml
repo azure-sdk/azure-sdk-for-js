@@ -14620,7 +14620,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-v6dFAC6Bj9p72hgugMs2+q61rI5weBvt8AdUULuedsjcpCA9lSrv5MxPHywlX4xUvMwywSBgBlbvSb74jPiwiQ==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-tusssveTqIkW+NSonhExWZ4LrgaflfoUYg3ta+5MFuZhWF2/tWRlV72SH0JSXJvaVYjggEj5lY52w3kx5Q+dKg==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -14634,7 +14634,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -20276,7 +20277,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-P2Kt7ieMv/lI2IQF2IYFl/xUaX++zno8QLczqULMhbQpAQ+0i19LZ+pAZR9tnL3BpMS/dyuz3QxIMekW2cyOUA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-N8E0x1oZNJ/0S88emgJ97tMxe0iZmc59ZDKR/eNoY5XEqZumAlO1u4R5KLKOHphDdDt30md1DVa/VY68Ql8x2A==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20368,7 +20369,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-+05JR31WLH5d8FD+GslDQxNHYPLOrvExWUugJJNalgNZpbtoqzQF0837G7tKGDg98VU4XjK6qZA7Gjo2n7O3yg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-W/M7XPCsmg8eZBzlsl8J6yyEH+1DoeC7F4keU6px84ohKSVn3vZHTYM2xj9e61MzYDWUjormNqquQD9oeB+qEA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
