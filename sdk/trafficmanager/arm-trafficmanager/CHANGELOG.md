@@ -1,15 +1,12 @@
 # Release History
+    
+## 7.0.0 (2023-08-08)
+    
+**Breaking Changes**
 
-## 6.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class TrafficManagerManagementClient has a new signature
+    
+    
 ## 6.1.0 (2023-06-02)
     
 **Features**
