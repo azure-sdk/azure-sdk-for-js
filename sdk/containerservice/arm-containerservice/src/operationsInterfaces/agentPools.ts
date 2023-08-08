@@ -43,16 +43,14 @@ export interface AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   beginAbortLatestOperation(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsAbortLatestOperationOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -63,43 +61,37 @@ export interface AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   beginAbortLatestOperationAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsAbortLatestOperationOptionalParams
   ): Promise<AgentPoolsAbortLatestOperationResponse>;
   /**
    * Gets the specified managed cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsGetOptionalParams
   ): Promise<AgentPoolsGetResponse>;
   /**
    * Creates or updates an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param parameters The agent pool to create or update.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     parameters: AgentPool,
     options?: AgentPoolsCreateOrUpdateOptionalParams
   ): Promise<
@@ -112,14 +104,12 @@ export interface AgentPools {
    * Creates or updates an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param parameters The agent pool to create or update.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     parameters: AgentPool,
     options?: AgentPoolsCreateOrUpdateOptionalParams
   ): Promise<AgentPoolsCreateOrUpdateResponse>;
@@ -127,13 +117,11 @@ export interface AgentPools {
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -145,26 +133,22 @@ export interface AgentPools {
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
   ): Promise<AgentPoolsDeleteResponse>;
   /**
    * Gets the upgrade profile for an agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   getUpgradeProfile(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsGetUpgradeProfileOptionalParams
   ): Promise<AgentPoolsGetUpgradeProfileResponse>;
   /**
@@ -186,13 +170,11 @@ export interface AgentPools {
    * versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   beginUpgradeNodeImageVersion(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsUpgradeNodeImageVersionOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
@@ -201,13 +183,11 @@ export interface AgentPools {
    * versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   beginUpgradeNodeImageVersionAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsUpgradeNodeImageVersionOptionalParams
   ): Promise<void>;
 }
