@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RegisteredServer,
   RegisteredServersListByStorageSyncServiceOptionalParams,
@@ -160,8 +164,8 @@ export class RegisteredServersImpl implements RegisteredServers {
     parameters: RegisteredServerCreateParameters,
     options?: RegisteredServersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersCreateResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersCreateResponse>,
       RegisteredServersCreateResponse
     >
   > {
@@ -171,7 +175,7 @@ export class RegisteredServersImpl implements RegisteredServers {
     ): Promise<RegisteredServersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -204,19 +208,22 @@ export class RegisteredServersImpl implements RegisteredServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         serverId,
         parameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RegisteredServersCreateResponse,
+      OperationState<RegisteredServersCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -261,8 +268,8 @@ export class RegisteredServersImpl implements RegisteredServers {
     serverId: string,
     options?: RegisteredServersDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersDeleteResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersDeleteResponse>,
       RegisteredServersDeleteResponse
     >
   > {
@@ -272,7 +279,7 @@ export class RegisteredServersImpl implements RegisteredServers {
     ): Promise<RegisteredServersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,13 +312,16 @@ export class RegisteredServersImpl implements RegisteredServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSyncServiceName, serverId, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSyncServiceName, serverId, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RegisteredServersDeleteResponse,
+      OperationState<RegisteredServersDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -355,8 +365,8 @@ export class RegisteredServersImpl implements RegisteredServers {
     parameters: TriggerRolloverRequest,
     options?: RegisteredServersTriggerRolloverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersTriggerRolloverResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersTriggerRolloverResponse>,
       RegisteredServersTriggerRolloverResponse
     >
   > {
@@ -366,7 +376,7 @@ export class RegisteredServersImpl implements RegisteredServers {
     ): Promise<RegisteredServersTriggerRolloverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -399,19 +409,22 @@ export class RegisteredServersImpl implements RegisteredServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         serverId,
         parameters,
         options
       },
-      triggerRolloverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: triggerRolloverOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RegisteredServersTriggerRolloverResponse,
+      OperationState<RegisteredServersTriggerRolloverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

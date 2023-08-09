@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerEndpoint,
   ServerEndpointsListBySyncGroupOptionalParams,
@@ -58,8 +58,8 @@ export interface ServerEndpoints {
     parameters: ServerEndpointCreateParameters,
     options?: ServerEndpointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsCreateResponse>,
       ServerEndpointsCreateResponse
     >
   >;
@@ -95,8 +95,8 @@ export interface ServerEndpoints {
     serverEndpointName: string,
     options?: ServerEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsUpdateResponse>,
       ServerEndpointsUpdateResponse
     >
   >;
@@ -145,8 +145,8 @@ export interface ServerEndpoints {
     serverEndpointName: string,
     options?: ServerEndpointsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsDeleteResponse>,
       ServerEndpointsDeleteResponse
     >
   >;
@@ -182,8 +182,8 @@ export interface ServerEndpoints {
     parameters: RecallActionParameters,
     options?: ServerEndpointsRecallActionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsRecallActionResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsRecallActionResponse>,
       ServerEndpointsRecallActionResponse
     >
   >;
