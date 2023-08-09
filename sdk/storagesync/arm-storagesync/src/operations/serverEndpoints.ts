@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ServerEndpoint,
   ServerEndpointsListBySyncGroupOptionalParams,
@@ -136,8 +140,8 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     parameters: ServerEndpointCreateParameters,
     options?: ServerEndpointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsCreateResponse>,
       ServerEndpointsCreateResponse
     >
   > {
@@ -147,7 +151,7 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     ): Promise<ServerEndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -180,9 +184,9 @@ export class ServerEndpointsImpl implements ServerEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
@@ -190,10 +194,13 @@ export class ServerEndpointsImpl implements ServerEndpoints {
         parameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServerEndpointsCreateResponse,
+      OperationState<ServerEndpointsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -243,8 +250,8 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     serverEndpointName: string,
     options?: ServerEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsUpdateResponse>,
       ServerEndpointsUpdateResponse
     >
   > {
@@ -254,7 +261,7 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     ): Promise<ServerEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -287,19 +294,22 @@ export class ServerEndpointsImpl implements ServerEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         serverEndpointName,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServerEndpointsUpdateResponse,
+      OperationState<ServerEndpointsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -373,8 +383,8 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     serverEndpointName: string,
     options?: ServerEndpointsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsDeleteResponse>,
       ServerEndpointsDeleteResponse
     >
   > {
@@ -384,7 +394,7 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     ): Promise<ServerEndpointsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -417,19 +427,22 @@ export class ServerEndpointsImpl implements ServerEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         serverEndpointName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServerEndpointsDeleteResponse,
+      OperationState<ServerEndpointsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -497,8 +510,8 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     parameters: RecallActionParameters,
     options?: ServerEndpointsRecallActionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsRecallActionResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsRecallActionResponse>,
       ServerEndpointsRecallActionResponse
     >
   > {
@@ -508,7 +521,7 @@ export class ServerEndpointsImpl implements ServerEndpoints {
     ): Promise<ServerEndpointsRecallActionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -541,9 +554,9 @@ export class ServerEndpointsImpl implements ServerEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
@@ -551,10 +564,13 @@ export class ServerEndpointsImpl implements ServerEndpoints {
         parameters,
         options
       },
-      recallActionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: recallActionOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServerEndpointsRecallActionResponse,
+      OperationState<ServerEndpointsRecallActionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CloudEndpoint,
   CloudEndpointsListBySyncGroupOptionalParams,
@@ -37,7 +41,9 @@ import {
   PostRestoreRequest,
   CloudEndpointsPostRestoreOptionalParams,
   TriggerChangeDetectionParameters,
-  CloudEndpointsTriggerChangeDetectionOptionalParams
+  CloudEndpointsTriggerChangeDetectionOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -144,8 +150,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     parameters: CloudEndpointCreateParameters,
     options?: CloudEndpointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsCreateResponse>,
       CloudEndpointsCreateResponse
     >
   > {
@@ -155,7 +161,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     ): Promise<CloudEndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -188,9 +194,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
@@ -198,10 +204,13 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         parameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudEndpointsCreateResponse,
+      OperationState<CloudEndpointsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -278,8 +287,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     cloudEndpointName: string,
     options?: CloudEndpointsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsDeleteResponse>,
       CloudEndpointsDeleteResponse
     >
   > {
@@ -289,7 +298,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     ): Promise<CloudEndpointsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -322,19 +331,22 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudEndpointsDeleteResponse,
+      OperationState<CloudEndpointsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -402,8 +414,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     parameters: BackupRequest,
     options?: CloudEndpointsPreBackupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsPreBackupResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsPreBackupResponse>,
       CloudEndpointsPreBackupResponse
     >
   > {
@@ -413,7 +425,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     ): Promise<CloudEndpointsPreBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -446,9 +458,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
@@ -456,10 +468,13 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         parameters,
         options
       },
-      preBackupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: preBackupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudEndpointsPreBackupResponse,
+      OperationState<CloudEndpointsPreBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -511,8 +526,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     parameters: BackupRequest,
     options?: CloudEndpointsPostBackupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsPostBackupResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsPostBackupResponse>,
       CloudEndpointsPostBackupResponse
     >
   > {
@@ -522,7 +537,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     ): Promise<CloudEndpointsPostBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -555,9 +570,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
@@ -565,10 +580,13 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         parameters,
         options
       },
-      postBackupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: postBackupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CloudEndpointsPostBackupResponse,
+      OperationState<CloudEndpointsPostBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -619,14 +637,14 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     cloudEndpointName: string,
     parameters: PreRestoreRequest,
     options?: CloudEndpointsPreRestoreOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -659,9 +677,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
@@ -669,10 +687,10 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         parameters,
         options
       },
-      preRestoreOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: preRestoreOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -750,14 +768,14 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     cloudEndpointName: string,
     parameters: PostRestoreRequest,
     options?: CloudEndpointsPostRestoreOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -790,9 +808,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
@@ -800,10 +818,10 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         parameters,
         options
       },
-      postRestoreOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: postRestoreOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -855,14 +873,14 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     cloudEndpointName: string,
     parameters: TriggerChangeDetectionParameters,
     options?: CloudEndpointsTriggerChangeDetectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -895,9 +913,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
@@ -905,10 +923,10 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         parameters,
         options
       },
-      triggerChangeDetectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: triggerChangeDetectionOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -942,6 +960,33 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Get the AFS file share metadata signing certificate public keys.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param syncGroupName Name of Sync Group resource.
+   * @param cloudEndpointName Name of Cloud Endpoint object.
+   * @param options The options parameters.
+   */
+  afsShareMetadataCertificatePublicKeys(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
+  ): Promise<CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        cloudEndpointName,
+        options
+      },
+      afsShareMetadataCertificatePublicKeysOperationSpec
+    );
   }
 }
 // Operation Specifications
@@ -1245,5 +1290,31 @@ const triggerChangeDetectionOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const afsShareMetadataCertificatePublicKeysOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/afsShareMetadataCertificatePublicKeys",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CloudEndpointAfsShareMetadataCertificatePublicKeys,
+      headersMapper:
+        Mappers.CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageSyncError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageSyncServiceName,
+    Parameters.syncGroupName,
+    Parameters.cloudEndpointName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
