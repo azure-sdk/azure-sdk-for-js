@@ -7578,6 +7578,12 @@ export const CreationData: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      elasticSanResourceId: {
+        serializedName: "elasticSanResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -14258,6 +14264,13 @@ export const Disk: coreClient.CompositeMapper = {
         serializedName: "properties.optimizedForFrequentAttach",
         type: {
           name: "Boolean"
+        }
+      },
+      lastOwnershipUpdateTime: {
+        serializedName: "properties.LastOwnershipUpdateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }
