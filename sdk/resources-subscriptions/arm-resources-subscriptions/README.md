@@ -6,7 +6,7 @@ All resource groups and resources exist within subscriptions. These operation en
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources-subscriptions/arm-resources-subscriptions) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resources-subscriptions) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resources-subscriptions?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
