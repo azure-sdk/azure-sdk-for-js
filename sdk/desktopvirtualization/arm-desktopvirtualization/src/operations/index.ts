@@ -8,6 +8,8 @@
 
 export * from "./operations";
 export * from "./workspaces";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
 export * from "./scalingPlans";
 export * from "./scalingPlanPooledSchedules";
 export * from "./applicationGroups";
