@@ -4325,6 +4325,16 @@ export enum KnownWorkflowSkuName {
 }
 
 // @public
+export enum KnownWorkflowState {
+    Completed = "Completed",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified",
+    Suspended = "Suspended"
+}
+
+// @public
 export enum KnownWorkflowStatus {
     Aborted = "Aborted",
     Cancelled = "Cancelled",
@@ -11777,6 +11787,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WebSiteManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: WebSiteManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -11828,7 +11839,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     staticSites: StaticSites;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     topLevelDomains: TopLevelDomains;
     updatePublishingUser(userDetails: User, options?: UpdatePublishingUserOptionalParams): Promise<UpdatePublishingUserResponse>;
@@ -12301,7 +12312,7 @@ export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.O
 }
 
 // @public
-export type WorkflowState = "NotSpecified" | "Completed" | "Enabled" | "Disabled" | "Deleted" | "Suspended";
+export type WorkflowState = string;
 
 // @public
 export type WorkflowStatus = string;

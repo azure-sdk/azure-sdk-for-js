@@ -1,15 +1,16 @@
 # Release History
+    
+## 15.0.0 (2023-08-09)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
+  - Added Enum KnownWorkflowState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class WebSiteManagementClient has a new signature
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**

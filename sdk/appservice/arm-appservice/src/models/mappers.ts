@@ -13152,15 +13152,7 @@ export const WorkflowEnvelopeProperties: coreClient.CompositeMapper = {
         serializedName: "flowState",
         xmlName: "flowState",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       health: {
@@ -14863,15 +14855,7 @@ export const WorkflowFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       }
     }
@@ -14953,15 +14937,7 @@ export const WorkflowTriggerFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       }
     }
@@ -25683,15 +25659,7 @@ export const WorkflowTrigger: coreClient.CompositeMapper = {
         readOnly: true,
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       status: {
@@ -26216,15 +26184,7 @@ export const Workflow: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       version: {
@@ -26345,15 +26305,7 @@ export const WorkflowVersion: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       version: {
