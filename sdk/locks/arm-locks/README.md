@@ -6,7 +6,7 @@ Azure resources can be locked to prevent other users in your organization from d
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/locks/arm-locks) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-locks) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-locks) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-locks?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
