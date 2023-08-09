@@ -218,8 +218,7 @@ export class DataConnectionsImpl implements DataConnections {
       OperationState<DataConnectionsDataConnectionValidationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -382,8 +381,7 @@ export class DataConnectionsImpl implements DataConnections {
       OperationState<DataConnectionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -495,8 +493,7 @@ export class DataConnectionsImpl implements DataConnections {
       OperationState<DataConnectionsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -597,8 +594,7 @@ export class DataConnectionsImpl implements DataConnections {
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
