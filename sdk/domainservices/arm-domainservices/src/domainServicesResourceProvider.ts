@@ -31,7 +31,7 @@ import { DomainServicesResourceProviderOptionalParams } from "./models";
 export class DomainServicesResourceProvider extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the DomainServicesResourceProvider class.
@@ -44,12 +44,28 @@ export class DomainServicesResourceProvider extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: DomainServicesResourceProviderOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: DomainServicesResourceProviderOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | DomainServicesResourceProviderOptionalParams
+      | string,
+    options?: DomainServicesResourceProviderOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -61,7 +77,7 @@ export class DomainServicesResourceProvider extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-domainservices/4.1.1`;
+    const packageDetails = `azsdk-js-arm-domainservices/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -114,7 +130,7 @@ export class DomainServicesResourceProvider extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-05-01";
+    this.apiVersion = options.apiVersion || "2022-12-01";
     this.domainServiceOperations = new DomainServiceOperationsImpl(this);
     this.domainServices = new DomainServicesImpl(this);
     this.ouContainerOperations = new OuContainerOperationsImpl(this);
