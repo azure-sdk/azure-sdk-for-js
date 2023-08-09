@@ -132,16 +132,14 @@ export class AgentPoolsImpl implements AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   async beginAbortLatestOperation(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsAbortLatestOperationOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -190,7 +188,7 @@ export class AgentPoolsImpl implements AgentPools {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, resourceName, agentPoolName, options },
+      args: { resourceGroupName, resourceName, options },
       spec: abortLatestOperationOperationSpec
     });
     const poller = await createHttpPoller<
@@ -208,22 +206,19 @@ export class AgentPoolsImpl implements AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   async beginAbortLatestOperationAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsAbortLatestOperationOptionalParams
   ): Promise<AgentPoolsAbortLatestOperationResponse> {
     const poller = await this.beginAbortLatestOperation(
       resourceGroupName,
       resourceName,
-      agentPoolName,
       options
     );
     return poller.pollUntilDone();
@@ -250,17 +245,15 @@ export class AgentPoolsImpl implements AgentPools {
    * Gets the specified managed cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsGetOptionalParams
   ): Promise<AgentPoolsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, options },
+      { resourceGroupName, resourceName, options },
       getOperationSpec
     );
   }
@@ -269,14 +262,12 @@ export class AgentPoolsImpl implements AgentPools {
    * Creates or updates an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param parameters The agent pool to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     parameters: AgentPool,
     options?: AgentPoolsCreateOrUpdateOptionalParams
   ): Promise<
@@ -326,13 +317,7 @@ export class AgentPoolsImpl implements AgentPools {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
-        parameters,
-        options
-      },
+      args: { resourceGroupName, resourceName, parameters, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
@@ -350,21 +335,18 @@ export class AgentPoolsImpl implements AgentPools {
    * Creates or updates an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param parameters The agent pool to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     parameters: AgentPool,
     options?: AgentPoolsCreateOrUpdateOptionalParams
   ): Promise<AgentPoolsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
-      agentPoolName,
       parameters,
       options
     );
@@ -375,13 +357,11 @@ export class AgentPoolsImpl implements AgentPools {
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -430,7 +410,7 @@ export class AgentPoolsImpl implements AgentPools {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, resourceName, agentPoolName, options },
+      args: { resourceGroupName, resourceName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<
@@ -448,19 +428,16 @@ export class AgentPoolsImpl implements AgentPools {
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
   ): Promise<AgentPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      agentPoolName,
       options
     );
     return poller.pollUntilDone();
@@ -470,17 +447,15 @@ export class AgentPoolsImpl implements AgentPools {
    * Gets the upgrade profile for an agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   getUpgradeProfile(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsGetUpgradeProfileOptionalParams
   ): Promise<AgentPoolsGetUpgradeProfileResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, options },
+      { resourceGroupName, resourceName, options },
       getUpgradeProfileOperationSpec
     );
   }
@@ -510,13 +485,11 @@ export class AgentPoolsImpl implements AgentPools {
    * versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   async beginUpgradeNodeImageVersion(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsUpgradeNodeImageVersionOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -560,7 +533,7 @@ export class AgentPoolsImpl implements AgentPools {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, resourceName, agentPoolName, options },
+      args: { resourceGroupName, resourceName, options },
       spec: upgradeNodeImageVersionOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -578,19 +551,16 @@ export class AgentPoolsImpl implements AgentPools {
    * versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   async beginUpgradeNodeImageVersionAndWait(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     options?: AgentPoolsUpgradeNodeImageVersionOptionalParams
   ): Promise<void> {
     const poller = await this.beginUpgradeNodeImageVersion(
       resourceGroupName,
       resourceName,
-      agentPoolName,
       options
     );
     return poller.pollUntilDone();
@@ -723,7 +693,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName1
+    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -750,13 +720,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignorePodDisruptionBudget
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName1
+    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
   serializer
