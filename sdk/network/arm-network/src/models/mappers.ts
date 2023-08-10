@@ -2458,6 +2458,36 @@ export const AzureFirewallNetworkRule: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureFirewallAutoScaleSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallAutoScaleSettings",
+    modelProperties: {
+      minimumInstances: {
+        constraints: {
+          InclusiveMinimum: 2,
+          MultipleOf: 2
+        },
+        serializedName: "minimumInstances",
+        type: {
+          name: "Number"
+        }
+      },
+      maximumInstances: {
+        constraints: {
+          ExclusiveMaximum: 50,
+          InclusiveMinimum: 2,
+          MultipleOf: 2
+        },
+        serializedName: "maximumInstances",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const HubIPAddresses: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5760,6 +5790,46 @@ export const InboundNatRulePortMapping: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const MigrateLoadBalancerToIpBasedRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrateLoadBalancerToIpBasedRequest",
+    modelProperties: {
+      pools: {
+        serializedName: "pools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MigratedPools: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigratedPools",
+    modelProperties: {
+      migratedPools: {
+        serializedName: "migratedPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -18502,6 +18572,12 @@ export const BackendAddressPool: coreClient.CompositeMapper = {
           name: "Composite",
           className: "SubResource"
         }
+      },
+      syncMode: {
+        serializedName: "properties.syncMode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -25492,6 +25568,13 @@ export const AzureFirewall: coreClient.CompositeMapper = {
         serializedName: "properties.threatIntelMode",
         type: {
           name: "String"
+        }
+      },
+      autoscaleSettings: {
+        serializedName: "properties.autoscaleSettings",
+        type: {
+          name: "Composite",
+          className: "AzureFirewallAutoScaleSettings"
         }
       },
       virtualHub: {

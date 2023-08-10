@@ -1,15 +1,23 @@
 # Release History
+    
+## 32.1.0 (2023-08-10)
+    
+**Features**
 
-## 32.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added Interface AzureFirewallAutoScaleSettings
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias SyncMode
+  - Interface AzureFirewall has a new optional parameter autoscaleSettings
+  - Interface BackendAddressPool has a new optional parameter syncMode
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
+    
+    
 ## 32.0.0 (2023-07-06)
     
 **Features**
