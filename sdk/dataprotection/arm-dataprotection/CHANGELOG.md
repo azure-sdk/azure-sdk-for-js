@@ -1,15 +1,59 @@
 # Release History
+    
+## 2.0.0-beta.1 (2023-08-10)
+    
+**Features**
 
-## 1.2.1 (Unreleased)
+  - Added operation group BackupInstancesExtensionRouting
+  - Added operation group CrossRegionRestoreJob
+  - Added operation group CrossRegionRestoreJobs
+  - Added operation group SecondaryRPs
+  - Added operation BackupInstances.beginTriggerCrossRegionRestore
+  - Added operation BackupInstances.beginTriggerCrossRegionRestoreAndWait
+  - Added operation BackupInstances.beginValidateCrossRegionRestore
+  - Added operation BackupInstances.beginValidateCrossRegionRestoreAndWait
+  - Added Interface BackupInstancesExtensionRoutingListNextOptionalParams
+  - Added Interface BackupInstancesExtensionRoutingListOptionalParams
+  - Added Interface BackupInstancesTriggerCrossRegionRestoreHeaders
+  - Added Interface BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  - Added Interface BackupInstancesValidateCrossRegionRestoreHeaders
+  - Added Interface BackupInstancesValidateCrossRegionRestoreOptionalParams
+  - Added Interface CrossRegionRestoreDetails
+  - Added Interface CrossRegionRestoreJobGetOptionalParams
+  - Added Interface CrossRegionRestoreJobRequest
+  - Added Interface CrossRegionRestoreJobsListNextOptionalParams
+  - Added Interface CrossRegionRestoreJobsListOptionalParams
+  - Added Interface CrossRegionRestoreJobsRequest
+  - Added Interface CrossRegionRestoreRequestObject
+  - Added Interface FetchSecondaryRPsRequestParameters
+  - Added Interface SecondaryRPsFetchNextOptionalParams
+  - Added Interface SecondaryRPsFetchOptionalParams
+  - Added Interface UserAssignedIdentityDetails
+  - Added Interface ValidateCrossRegionRestoreRequestObject
+  - Added Type Alias BackupInstancesExtensionRoutingListNextResponse
+  - Added Type Alias BackupInstancesExtensionRoutingListResponse
+  - Added Type Alias BackupInstancesTriggerCrossRegionRestoreResponse
+  - Added Type Alias BackupInstancesValidateCrossRegionRestoreResponse
+  - Added Type Alias CrossRegionRestoreJobGetResponse
+  - Added Type Alias CrossRegionRestoreJobsListNextResponse
+  - Added Type Alias CrossRegionRestoreJobsListResponse
+  - Added Type Alias SecondaryRPsFetchNextResponse
+  - Added Type Alias SecondaryRPsFetchResponse
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureBackupJob no longer has parameter rehydrationPriority
+  - Interface Datasource no longer has parameter resourceProperties
+  - Interface DatasourceSet no longer has parameter resourceProperties
+  - Interface KubernetesClusterBackupDatasourceParameters no longer has parameter backupHookReferences
+  - Interface KubernetesClusterRestoreCriteria no longer has parameter restoreHookReferences
+  - Type of parameter userAssignedIdentities of interface DppIdentityDetails is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentityDetails;
+    }
+    
+    
 ## 1.2.0 (2023-07-10)
     
 **Features**
