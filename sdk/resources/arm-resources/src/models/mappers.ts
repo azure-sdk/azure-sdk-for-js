@@ -238,7 +238,9 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
         serializedName: "parameters",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: {
+            type: { name: "Composite", className: "DeploymentParameter" }
+          }
         }
       },
       parametersLink: {
@@ -312,6 +314,73 @@ export const TemplateLink: coreClient.CompositeMapper = {
       },
       queryString: {
         serializedName: "queryString",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentParameter",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "any"
+        }
+      },
+      reference: {
+        serializedName: "reference",
+        type: {
+          name: "Composite",
+          className: "KeyVaultParameterReference"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultParameterReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultParameterReference",
+    modelProperties: {
+      keyVault: {
+        serializedName: "keyVault",
+        type: {
+          name: "Composite",
+          className: "KeyVaultReference"
+        }
+      },
+      secretName: {
+        serializedName: "secretName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      secretVersion: {
+        serializedName: "secretVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
@@ -2843,6 +2912,51 @@ export const DeploymentsWhatIfHeaders: coreClient.CompositeMapper = {
       },
       retryAfter: {
         serializedName: "retry-after",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TagsCreateOrUpdateAtScopeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagsCreateOrUpdateAtScopeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TagsUpdateAtScopeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagsUpdateAtScopeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TagsDeleteAtScopeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagsDeleteAtScopeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
