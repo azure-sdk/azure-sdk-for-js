@@ -121,6 +121,16 @@ export const tags: OperationParameter = {
   mapper: PatchableApplianceMapper
 };
 
+export const artifactType: OperationQueryParameter = {
+  parameterPath: ["options", "artifactType"],
+  mapper: {
+    serializedName: "artifactType",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const upgradeGraph: OperationURLParameter = {
   parameterPath: "upgradeGraph",
   mapper: {

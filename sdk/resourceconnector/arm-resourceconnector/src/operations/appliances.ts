@@ -827,7 +827,7 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.artifactType],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
