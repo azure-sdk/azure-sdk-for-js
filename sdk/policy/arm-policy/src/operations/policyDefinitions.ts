@@ -65,12 +65,14 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
    * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
    * $filter='category -eq {value}' is provided, the returned list only includes all policy definitions
    * whose category match the {value}.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   public list(
+    subscriptionId: string,
     options?: PolicyDefinitionsListOptionalParams
   ): PagedAsyncIterableIterator<PolicyDefinition> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listPagingAll(subscriptionId, options);
     return {
       next() {
         return iter.next();
@@ -82,26 +84,27 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(subscriptionId, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
+    subscriptionId: string,
     options?: PolicyDefinitionsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<PolicyDefinition[]> {
     let result: PolicyDefinitionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(subscriptionId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(subscriptionId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,9 +113,10 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
   }
 
   private async *listPagingAll(
+    subscriptionId: string,
     options?: PolicyDefinitionsListOptionalParams
   ): AsyncIterableIterator<PolicyDefinition> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listPagingPage(subscriptionId, options)) {
       yield* page;
     }
   }
@@ -258,47 +262,53 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
 
   /**
    * This operation creates or updates a policy definition in the given subscription with the given name.
+   * @param subscriptionId The ID of the target subscription.
    * @param policyDefinitionName The name of the policy definition to create.
    * @param parameters The policy definition properties.
    * @param options The options parameters.
    */
   createOrUpdate(
+    subscriptionId: string,
     policyDefinitionName: string,
     parameters: PolicyDefinition,
     options?: PolicyDefinitionsCreateOrUpdateOptionalParams
   ): Promise<PolicyDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { policyDefinitionName, parameters, options },
+      { subscriptionId, policyDefinitionName, parameters, options },
       createOrUpdateOperationSpec
     );
   }
 
   /**
    * This operation deletes the policy definition in the given subscription with the given name.
+   * @param subscriptionId The ID of the target subscription.
    * @param policyDefinitionName The name of the policy definition to delete.
    * @param options The options parameters.
    */
   delete(
+    subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyDefinitionsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { policyDefinitionName, options },
+      { subscriptionId, policyDefinitionName, options },
       deleteOperationSpec
     );
   }
 
   /**
    * This operation retrieves the policy definition in the given subscription with the given name.
+   * @param subscriptionId The ID of the target subscription.
    * @param policyDefinitionName The name of the policy definition to get.
    * @param options The options parameters.
    */
   get(
+    subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyDefinitionsGetOptionalParams
   ): Promise<PolicyDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
-      { policyDefinitionName, options },
+      { subscriptionId, policyDefinitionName, options },
       getOperationSpec
     );
   }
@@ -321,53 +331,53 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
   /**
    * This operation creates or updates a policy definition in the given management group with the given
    * name.
-   * @param policyDefinitionName The name of the policy definition to create.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to create.
    * @param parameters The policy definition properties.
    * @param options The options parameters.
    */
   createOrUpdateAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
+    policyDefinitionName: string,
     parameters: PolicyDefinition,
     options?: PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams
   ): Promise<PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
-      { policyDefinitionName, managementGroupId, parameters, options },
+      { managementGroupId, policyDefinitionName, parameters, options },
       createOrUpdateAtManagementGroupOperationSpec
     );
   }
 
   /**
    * This operation deletes the policy definition in the given management group with the given name.
-   * @param policyDefinitionName The name of the policy definition to delete.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to delete.
    * @param options The options parameters.
    */
   deleteAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
+    policyDefinitionName: string,
     options?: PolicyDefinitionsDeleteAtManagementGroupOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { policyDefinitionName, managementGroupId, options },
+      { managementGroupId, policyDefinitionName, options },
       deleteAtManagementGroupOperationSpec
     );
   }
 
   /**
    * This operation retrieves the policy definition in the given management group with the given name.
-   * @param policyDefinitionName The name of the policy definition to get.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to get.
    * @param options The options parameters.
    */
   getAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
+    policyDefinitionName: string,
     options?: PolicyDefinitionsGetAtManagementGroupOptionalParams
   ): Promise<PolicyDefinitionsGetAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
-      { policyDefinitionName, managementGroupId, options },
+      { managementGroupId, policyDefinitionName, options },
       getAtManagementGroupOperationSpec
     );
   }
@@ -383,12 +393,17 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
    * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
    * $filter='category -eq {value}' is provided, the returned list only includes all policy definitions
    * whose category match the {value}.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   private _list(
+    subscriptionId: string,
     options?: PolicyDefinitionsListOptionalParams
   ): Promise<PolicyDefinitionsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { subscriptionId, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -434,15 +449,17 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
 
   /**
    * ListNext
+   * @param subscriptionId The ID of the target subscription.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    subscriptionId: string,
     nextLink: string,
     options?: PolicyDefinitionsListNextOptionalParams
   ): Promise<PolicyDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { subscriptionId, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -494,7 +511,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -575,12 +592,12 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -600,8 +617,8 @@ const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -621,8 +638,8 @@ const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.policyDefinitionName
+    Parameters.policyDefinitionName,
+    Parameters.managementGroupId
   ],
   headerParameters: [Parameters.accept],
   serializer

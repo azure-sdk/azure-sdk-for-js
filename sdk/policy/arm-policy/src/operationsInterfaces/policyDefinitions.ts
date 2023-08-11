@@ -40,9 +40,11 @@ export interface PolicyDefinitions {
    * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
    * $filter='category -eq {value}' is provided, the returned list only includes all policy definitions
    * whose category match the {value}.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   list(
+    subscriptionId: string,
     options?: PolicyDefinitionsListOptionalParams
   ): PagedAsyncIterableIterator<PolicyDefinition>;
   /**
@@ -76,30 +78,36 @@ export interface PolicyDefinitions {
   ): PagedAsyncIterableIterator<PolicyDefinition>;
   /**
    * This operation creates or updates a policy definition in the given subscription with the given name.
+   * @param subscriptionId The ID of the target subscription.
    * @param policyDefinitionName The name of the policy definition to create.
    * @param parameters The policy definition properties.
    * @param options The options parameters.
    */
   createOrUpdate(
+    subscriptionId: string,
     policyDefinitionName: string,
     parameters: PolicyDefinition,
     options?: PolicyDefinitionsCreateOrUpdateOptionalParams
   ): Promise<PolicyDefinitionsCreateOrUpdateResponse>;
   /**
    * This operation deletes the policy definition in the given subscription with the given name.
+   * @param subscriptionId The ID of the target subscription.
    * @param policyDefinitionName The name of the policy definition to delete.
    * @param options The options parameters.
    */
   delete(
+    subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyDefinitionsDeleteOptionalParams
   ): Promise<void>;
   /**
    * This operation retrieves the policy definition in the given subscription with the given name.
+   * @param subscriptionId The ID of the target subscription.
    * @param policyDefinitionName The name of the policy definition to get.
    * @param options The options parameters.
    */
   get(
+    subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyDefinitionsGetOptionalParams
   ): Promise<PolicyDefinitionsGetResponse>;
@@ -115,37 +123,37 @@ export interface PolicyDefinitions {
   /**
    * This operation creates or updates a policy definition in the given management group with the given
    * name.
-   * @param policyDefinitionName The name of the policy definition to create.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to create.
    * @param parameters The policy definition properties.
    * @param options The options parameters.
    */
   createOrUpdateAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
+    policyDefinitionName: string,
     parameters: PolicyDefinition,
     options?: PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams
   ): Promise<PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse>;
   /**
    * This operation deletes the policy definition in the given management group with the given name.
-   * @param policyDefinitionName The name of the policy definition to delete.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to delete.
    * @param options The options parameters.
    */
   deleteAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
+    policyDefinitionName: string,
     options?: PolicyDefinitionsDeleteAtManagementGroupOptionalParams
   ): Promise<void>;
   /**
    * This operation retrieves the policy definition in the given management group with the given name.
-   * @param policyDefinitionName The name of the policy definition to get.
    * @param managementGroupId The ID of the management group.
+   * @param policyDefinitionName The name of the policy definition to get.
    * @param options The options parameters.
    */
   getAtManagementGroup(
-    policyDefinitionName: string,
     managementGroupId: string,
+    policyDefinitionName: string,
     options?: PolicyDefinitionsGetAtManagementGroupOptionalParams
   ): Promise<PolicyDefinitionsGetAtManagementGroupResponse>;
 }

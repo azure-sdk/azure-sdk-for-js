@@ -75,14 +75,20 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * provided, the returned list only includes all policy assignments that at the resource group. If
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
    * assignments of the policy definition whose id is {value} that apply to the resource group.
+   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param options The options parameters.
    */
   public listForResourceGroup(
+    subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyAssignmentsListForResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<PolicyAssignment> {
-    const iter = this.listForResourceGroupPagingAll(resourceGroupName, options);
+    const iter = this.listForResourceGroupPagingAll(
+      subscriptionId,
+      resourceGroupName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -95,6 +101,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForResourceGroupPagingPage(
+          subscriptionId,
           resourceGroupName,
           options,
           settings
@@ -104,6 +111,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   }
 
   private async *listForResourceGroupPagingPage(
+    subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyAssignmentsListForResourceGroupOptionalParams,
     settings?: PageSettings
@@ -111,7 +119,11 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     let result: PolicyAssignmentsListForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listForResourceGroup(resourceGroupName, options);
+      result = await this._listForResourceGroup(
+        subscriptionId,
+        resourceGroupName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -119,6 +131,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     }
     while (continuationToken) {
       result = await this._listForResourceGroupNext(
+        subscriptionId,
         resourceGroupName,
         continuationToken,
         options
@@ -131,10 +144,12 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   }
 
   private async *listForResourceGroupPagingAll(
+    subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyAssignmentsListForResourceGroupOptionalParams
   ): AsyncIterableIterator<PolicyAssignment> {
     for await (const page of this.listForResourceGroupPagingPage(
+      subscriptionId,
       resourceGroupName,
       options
     )) {
@@ -165,6 +180,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * namespace and type name separately is to provide both in the {resourceType} parameter, format:
    * ({resourceProviderNamespace} == '', {parentResourcePath} == '', {resourceType} ==
    * 'Microsoft.Web/sites', {resourceName} == 'MyWebApp').
+   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group containing the resource.
    * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
    *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
@@ -175,6 +191,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * @param options The options parameters.
    */
   public listForResource(
+    subscriptionId: string,
     resourceGroupName: string,
     resourceProviderNamespace: string,
     parentResourcePath: string,
@@ -183,6 +200,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     options?: PolicyAssignmentsListForResourceOptionalParams
   ): PagedAsyncIterableIterator<PolicyAssignment> {
     const iter = this.listForResourcePagingAll(
+      subscriptionId,
       resourceGroupName,
       resourceProviderNamespace,
       parentResourcePath,
@@ -202,6 +220,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForResourcePagingPage(
+          subscriptionId,
           resourceGroupName,
           resourceProviderNamespace,
           parentResourcePath,
@@ -215,6 +234,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   }
 
   private async *listForResourcePagingPage(
+    subscriptionId: string,
     resourceGroupName: string,
     resourceProviderNamespace: string,
     parentResourcePath: string,
@@ -227,6 +247,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listForResource(
+        subscriptionId,
         resourceGroupName,
         resourceProviderNamespace,
         parentResourcePath,
@@ -241,6 +262,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     }
     while (continuationToken) {
       result = await this._listForResourceNext(
+        subscriptionId,
         resourceGroupName,
         resourceProviderNamespace,
         parentResourcePath,
@@ -257,6 +279,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   }
 
   private async *listForResourcePagingAll(
+    subscriptionId: string,
     resourceGroupName: string,
     resourceProviderNamespace: string,
     parentResourcePath: string,
@@ -265,6 +288,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     options?: PolicyAssignmentsListForResourceOptionalParams
   ): AsyncIterableIterator<PolicyAssignment> {
     for await (const page of this.listForResourcePagingPage(
+      subscriptionId,
       resourceGroupName,
       resourceProviderNamespace,
       parentResourcePath,
@@ -367,12 +391,14 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * returned list only includes all policy assignments that at the subscription. If
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
    * assignments of the policy definition whose id is {value}.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   public list(
+    subscriptionId: string,
     options?: PolicyAssignmentsListOptionalParams
   ): PagedAsyncIterableIterator<PolicyAssignment> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listPagingAll(subscriptionId, options);
     return {
       next() {
         return iter.next();
@@ -384,26 +410,27 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(subscriptionId, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
+    subscriptionId: string,
     options?: PolicyAssignmentsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<PolicyAssignment[]> {
     let result: PolicyAssignmentsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(subscriptionId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(subscriptionId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -412,9 +439,10 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   }
 
   private async *listPagingAll(
+    subscriptionId: string,
     options?: PolicyAssignmentsListOptionalParams
   ): AsyncIterableIterator<PolicyAssignment> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listPagingPage(subscriptionId, options)) {
       yield* page;
     }
   }
@@ -525,15 +553,17 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * provided, the returned list only includes all policy assignments that at the resource group. If
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
    * assignments of the policy definition whose id is {value} that apply to the resource group.
+   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param options The options parameters.
    */
   private _listForResourceGroup(
+    subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyAssignmentsListForResourceGroupOptionalParams
   ): Promise<PolicyAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { subscriptionId, resourceGroupName, options },
       listForResourceGroupOperationSpec
     );
   }
@@ -561,6 +591,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * namespace and type name separately is to provide both in the {resourceType} parameter, format:
    * ({resourceProviderNamespace} == '', {parentResourcePath} == '', {resourceType} ==
    * 'Microsoft.Web/sites', {resourceName} == 'MyWebApp').
+   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group containing the resource.
    * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
    *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
@@ -571,6 +602,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * @param options The options parameters.
    */
   private _listForResource(
+    subscriptionId: string,
     resourceGroupName: string,
     resourceProviderNamespace: string,
     parentResourcePath: string,
@@ -580,6 +612,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   ): Promise<PolicyAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
+        subscriptionId,
         resourceGroupName,
         resourceProviderNamespace,
         parentResourcePath,
@@ -625,12 +658,17 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * returned list only includes all policy assignments that at the subscription. If
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
    * assignments of the policy definition whose id is {value}.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   private _list(
+    subscriptionId: string,
     options?: PolicyAssignmentsListOptionalParams
   ): Promise<PolicyAssignmentsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { subscriptionId, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -731,23 +769,26 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
 
   /**
    * ListForResourceGroupNext
+   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param nextLink The nextLink from the previous successful call to the ListForResourceGroup method.
    * @param options The options parameters.
    */
   private _listForResourceGroupNext(
+    subscriptionId: string,
     resourceGroupName: string,
     nextLink: string,
     options?: PolicyAssignmentsListForResourceGroupNextOptionalParams
   ): Promise<PolicyAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
+      { subscriptionId, resourceGroupName, nextLink, options },
       listForResourceGroupNextOperationSpec
     );
   }
 
   /**
    * ListForResourceNext
+   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group containing the resource.
    * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
    *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
@@ -759,6 +800,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
    * @param options The options parameters.
    */
   private _listForResourceNext(
+    subscriptionId: string,
     resourceGroupName: string,
     resourceProviderNamespace: string,
     parentResourcePath: string,
@@ -769,6 +811,7 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   ): Promise<PolicyAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
+        subscriptionId,
         resourceGroupName,
         resourceProviderNamespace,
         parentResourcePath,
@@ -800,15 +843,17 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
 
   /**
    * ListNext
+   * @param subscriptionId The ID of the target subscription.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    subscriptionId: string,
     nextLink: string,
     options?: PolicyAssignmentsListNextOptionalParams
   ): Promise<PolicyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { subscriptionId, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -850,7 +895,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -894,7 +939,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -920,8 +965,8 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -941,8 +986,8 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
@@ -1013,7 +1058,7 @@ const createByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1047,7 +1092,7 @@ const updateByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1068,8 +1113,8 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1088,8 +1133,8 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,

@@ -11,55 +11,87 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   DataPolicyManifestsImpl,
-  PolicyAssignmentsImpl,
   PolicyDefinitionsImpl,
+  PolicyDefinitionVersionsImpl,
   PolicySetDefinitionsImpl,
-  PolicyExemptionsImpl
+  PolicySetDefinitionVersionsImpl,
+  PolicyAssignmentsImpl,
+  PolicyExemptionsImpl,
+  VariablesImpl,
+  VariableValuesImpl
 } from "./operations";
 import {
   DataPolicyManifests,
-  PolicyAssignments,
   PolicyDefinitions,
+  PolicyDefinitionVersions,
   PolicySetDefinitions,
-  PolicyExemptions
+  PolicySetDefinitionVersions,
+  PolicyAssignments,
+  PolicyExemptions,
+  Variables,
+  VariableValues
 } from "./operationsInterfaces";
 import { PolicyClientOptionalParams } from "./models";
 
 export class PolicyClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId?: string;
+  policyDefinitionName: string;
+  policyDefinitionVersion: string;
+  policySetDefinitionName: string;
 
   /**
    * Initializes a new instance of the PolicyClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param policyDefinitionName The name of the policy definition.
+   * @param policyDefinitionVersion The policy definition version.  The format is x.y.z where x is the
+   *                                major version number, y is the minor version number, and z is the patch number
+   * @param policySetDefinitionName The name of the policy set definition.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    policyDefinitionName: string,
+    policyDefinitionVersion: string,
+    policySetDefinitionName: string,
     options?: PolicyClientOptionalParams
   );
   constructor(
     credentials: coreAuth.TokenCredential,
+    policyDefinitionName: string,
+    policyDefinitionVersion: string,
+    policySetDefinitionName: string,
     options?: PolicyClientOptionalParams
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?: string | PolicyClientOptionalParams,
+    policyDefinitionName: string,
+    policyDefinitionVersion: string,
+    policySetDefinitionName: string,
+    subscriptionIdOrOptions?: PolicyClientOptionalParams | string,
     options?: PolicyClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
+    if (policyDefinitionName === undefined) {
+      throw new Error("'policyDefinitionName' cannot be null");
+    }
+    if (policyDefinitionVersion === undefined) {
+      throw new Error("'policyDefinitionVersion' cannot be null");
+    }
+    if (policySetDefinitionName === undefined) {
+      throw new Error("'policySetDefinitionName' cannot be null");
+    }
+
     let subscriptionId: string | undefined;
 
-    if (!subscriptionIdOrOptions !== undefined) {
-      if (typeof subscriptionIdOrOptions === "string") {
-        subscriptionId = subscriptionIdOrOptions;
-      } else if (typeof subscriptionIdOrOptions === "object") {
-        options = subscriptionIdOrOptions;
-      }
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -71,7 +103,7 @@ export class PolicyClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-policy/5.1.1`;
+    const packageDetails = `azsdk-js-arm-policy/6.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -121,19 +153,32 @@ export class PolicyClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.policyDefinitionName = policyDefinitionName;
+    this.policyDefinitionVersion = policyDefinitionVersion;
+    this.policySetDefinitionName = policySetDefinitionName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.dataPolicyManifests = new DataPolicyManifestsImpl(this);
-    this.policyAssignments = new PolicyAssignmentsImpl(this);
     this.policyDefinitions = new PolicyDefinitionsImpl(this);
+    this.policyDefinitionVersions = new PolicyDefinitionVersionsImpl(this);
     this.policySetDefinitions = new PolicySetDefinitionsImpl(this);
+    this.policySetDefinitionVersions = new PolicySetDefinitionVersionsImpl(
+      this
+    );
+    this.policyAssignments = new PolicyAssignmentsImpl(this);
     this.policyExemptions = new PolicyExemptionsImpl(this);
+    this.variables = new VariablesImpl(this);
+    this.variableValues = new VariableValuesImpl(this);
   }
 
   dataPolicyManifests: DataPolicyManifests;
-  policyAssignments: PolicyAssignments;
   policyDefinitions: PolicyDefinitions;
+  policyDefinitionVersions: PolicyDefinitionVersions;
   policySetDefinitions: PolicySetDefinitions;
+  policySetDefinitionVersions: PolicySetDefinitionVersions;
+  policyAssignments: PolicyAssignments;
   policyExemptions: PolicyExemptions;
+  variables: Variables;
+  variableValues: VariableValues;
 }

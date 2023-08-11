@@ -47,10 +47,12 @@ export interface PolicyAssignments {
    * provided, the returned list only includes all policy assignments that at the resource group. If
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
    * assignments of the policy definition whose id is {value} that apply to the resource group.
+   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param options The options parameters.
    */
   listForResourceGroup(
+    subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyAssignmentsListForResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<PolicyAssignment>;
@@ -77,6 +79,7 @@ export interface PolicyAssignments {
    * namespace and type name separately is to provide both in the {resourceType} parameter, format:
    * ({resourceProviderNamespace} == '', {parentResourcePath} == '', {resourceType} ==
    * 'Microsoft.Web/sites', {resourceName} == 'MyWebApp').
+   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group containing the resource.
    * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
    *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
@@ -87,6 +90,7 @@ export interface PolicyAssignments {
    * @param options The options parameters.
    */
   listForResource(
+    subscriptionId: string,
     resourceGroupName: string,
     resourceProviderNamespace: string,
     parentResourcePath: string,
@@ -122,9 +126,11 @@ export interface PolicyAssignments {
    * returned list only includes all policy assignments that at the subscription. If
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
    * assignments of the policy definition whose id is {value}.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The options parameters.
    */
   list(
+    subscriptionId: string,
     options?: PolicyAssignmentsListOptionalParams
   ): PagedAsyncIterableIterator<PolicyAssignment>;
   /**

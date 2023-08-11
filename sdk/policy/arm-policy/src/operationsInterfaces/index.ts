@@ -7,7 +7,11 @@
  */
 
 export * from "./dataPolicyManifests";
-export * from "./policyAssignments";
 export * from "./policyDefinitions";
+export * from "./policyDefinitionVersions";
 export * from "./policySetDefinitions";
+export * from "./policySetDefinitionVersions";
+export * from "./policyAssignments";
 export * from "./policyExemptions";
+export * from "./variables";
+export * from "./variableValues";
