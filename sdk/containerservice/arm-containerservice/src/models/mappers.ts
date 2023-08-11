@@ -247,6 +247,12 @@ export const KubernetesVersion: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      isDefault: {
+        serializedName: "isDefault",
+        type: {
+          name: "Boolean"
+        }
+      },
       patchVersions: {
         serializedName: "patchVersions",
         type: {
@@ -396,6 +402,13 @@ export const ManagedClusterIdentity: coreClient.CompositeMapper = {
           allowedValues: ["SystemAssigned", "UserAssigned", "None"]
         }
       },
+      delegatedResources: {
+        serializedName: "delegatedResources",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "DelegatedResource" } }
+        }
+      },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
         type: {
@@ -406,6 +419,39 @@ export const ManagedClusterIdentity: coreClient.CompositeMapper = {
               className: "ManagedServiceIdentityUserAssignedIdentitiesValue"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DelegatedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DelegatedResource",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      referralResource: {
+        serializedName: "referralResource",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }
@@ -743,6 +789,16 @@ export const AgentPoolUpgradeSettings: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      drainTimeoutInMinutes: {
+        constraints: {
+          InclusiveMaximum: 1440,
+          InclusiveMinimum: 1
+        },
+        serializedName: "drainTimeoutInMinutes",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -943,6 +999,10 @@ export const SysctlConfig: coreClient.CompositeMapper = {
         }
       },
       netIpv4TcpkeepaliveIntvl: {
+        constraints: {
+          InclusiveMaximum: 90,
+          InclusiveMinimum: 10
+        },
         serializedName: "netIpv4TcpkeepaliveIntvl",
         type: {
           name: "Number"
@@ -979,12 +1039,20 @@ export const SysctlConfig: coreClient.CompositeMapper = {
         }
       },
       netNetfilterNfConntrackMax: {
+        constraints: {
+          InclusiveMaximum: 2097152,
+          InclusiveMinimum: 131072
+        },
         serializedName: "netNetfilterNfConntrackMax",
         type: {
           name: "Number"
         }
       },
       netNetfilterNfConntrackBuckets: {
+        constraints: {
+          InclusiveMaximum: 524288,
+          InclusiveMinimum: 65536
+        },
         serializedName: "netNetfilterNfConntrackBuckets",
         type: {
           name: "Number"
@@ -1906,6 +1974,49 @@ export const ManagedClusterAutoUpgradeProfile: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      nodeOSUpgradeChannel: {
+        serializedName: "nodeOSUpgradeChannel",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterUpgradeSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpgradeSettings",
+    modelProperties: {
+      overrideSettings: {
+        serializedName: "overrideSettings",
+        type: {
+          name: "Composite",
+          className: "UpgradeOverrideSettings"
+        }
+      }
+    }
+  }
+};
+
+export const UpgradeOverrideSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpgradeOverrideSettings",
+    modelProperties: {
+      forceUpgrade: {
+        serializedName: "forceUpgrade",
+        type: {
+          name: "Boolean"
+        }
+      },
+      until: {
+        serializedName: "until",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -2407,6 +2518,14 @@ export const ManagedClusterWorkloadAutoScalerProfile: coreClient.CompositeMapper
           name: "Composite",
           className: "ManagedClusterWorkloadAutoScalerProfileKeda"
         }
+      },
+      verticalPodAutoscaler: {
+        serializedName: "verticalPodAutoscaler",
+        type: {
+          name: "Composite",
+          className:
+            "ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler"
+        }
       }
     }
   }
@@ -2418,6 +2537,23 @@ export const ManagedClusterWorkloadAutoScalerProfileKeda: coreClient.CompositeMa
     className: "ManagedClusterWorkloadAutoScalerProfileKeda",
     modelProperties: {
       enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler",
+    modelProperties: {
+      enabled: {
+        defaultValue: false,
         serializedName: "enabled",
         required: true,
         type: {
@@ -4210,6 +4346,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterAutoUpgradeProfile"
+        }
+      },
+      upgradeSettings: {
+        serializedName: "properties.upgradeSettings",
+        type: {
+          name: "Composite",
+          className: "ClusterUpgradeSettings"
         }
       },
       autoScalerProfile: {
