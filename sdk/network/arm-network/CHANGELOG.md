@@ -1,15 +1,26 @@
 # Release History
+    
+## 32.1.0 (2023-08-11)
+    
+**Features**
 
-## 32.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added Interface ConnectionMonitorEndPointLocationDetails
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias SyncMode
+  - Interface ApplicationGatewayFrontendIPConfiguration has a new optional parameter httpListeners
+  - Interface BackendAddressPool has a new optional parameter syncMode
+  - Interface ConnectionMonitorEndpoint has a new optional parameter locationDetails
+  - Interface ConnectionMonitorEndpoint has a new optional parameter subscriptionId
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
+  - Enum KnownEndpointType has a new value AzureArcNetwork
+    
+    
 ## 32.0.0 (2023-07-06)
     
 **Features**

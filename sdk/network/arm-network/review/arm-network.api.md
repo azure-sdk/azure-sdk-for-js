@@ -509,6 +509,7 @@ export type ApplicationGatewayFirewallUserSessionVariable = string;
 // @public
 export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
     readonly etag?: string;
+    readonly httpListeners?: SubResource;
     name?: string;
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
@@ -1941,6 +1942,7 @@ export interface BackendAddressPool extends SubResource {
     readonly outboundRule?: SubResource;
     readonly outboundRules?: SubResource[];
     readonly provisioningState?: ProvisioningState;
+    syncMode?: SyncMode;
     tunnelInterfaces?: GatewayLoadBalancerTunnelInterface[];
     readonly type?: string;
     virtualNetwork?: SubResource;
@@ -2338,9 +2340,11 @@ export interface ConnectionMonitorEndpoint {
     address?: string;
     coverageLevel?: CoverageLevel;
     filter?: ConnectionMonitorEndpointFilter;
+    locationDetails?: ConnectionMonitorEndPointLocationDetails;
     name: string;
     resourceId?: string;
     scope?: ConnectionMonitorEndpointScope;
+    subscriptionId?: string;
     type?: EndpointType;
 }
 
@@ -2361,6 +2365,11 @@ export type ConnectionMonitorEndpointFilterItemType = string;
 
 // @public
 export type ConnectionMonitorEndpointFilterType = string;
+
+// @public
+export interface ConnectionMonitorEndPointLocationDetails {
+    region?: string;
+}
 
 // @public
 export interface ConnectionMonitorEndpointScope {
@@ -6069,6 +6078,7 @@ export enum KnownApplicationGatewayRuleSetStatusOptions {
 
 // @public
 export enum KnownApplicationGatewaySkuName {
+    Basic = "Basic",
     StandardLarge = "Standard_Large",
     StandardMedium = "Standard_Medium",
     StandardSmall = "Standard_Small",
@@ -6136,6 +6146,7 @@ export enum KnownApplicationGatewaySslProtocol {
 
 // @public
 export enum KnownApplicationGatewayTier {
+    Basic = "Basic",
     Standard = "Standard",
     StandardV2 = "Standard_v2",
     WAF = "WAF",
@@ -6448,6 +6459,7 @@ export enum KnownEffectiveSecurityRuleProtocol {
 
 // @public
 export enum KnownEndpointType {
+    AzureArcNetwork = "AzureArcNetwork",
     AzureArcVM = "AzureArcVM",
     AzureSubnet = "AzureSubnet",
     AzureVM = "AzureVM",
@@ -7213,6 +7225,12 @@ export enum KnownSeverity {
 }
 
 // @public
+export enum KnownSyncMode {
+    Automatic = "Automatic",
+    Manual = "Manual"
+}
+
+// @public
 export enum KnownSyncRemoteAddressSpace {
     True = "true"
 }
@@ -7929,6 +7947,7 @@ export interface LoadBalancers {
     get(resourceGroupName: string, loadBalancerName: string, options?: LoadBalancersGetOptionalParams): Promise<LoadBalancersGetResponse>;
     list(resourceGroupName: string, options?: LoadBalancersListOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
     listAll(options?: LoadBalancersListAllOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
+    migrateToIpBased(groupName: string, loadBalancerName: string, options?: LoadBalancersMigrateToIpBasedOptionalParams): Promise<LoadBalancersMigrateToIpBasedResponse>;
     updateTags(resourceGroupName: string, loadBalancerName: string, parameters: TagsObject, options?: LoadBalancersUpdateTagsOptionalParams): Promise<LoadBalancersUpdateTagsResponse>;
 }
 
@@ -8003,6 +8022,14 @@ export interface LoadBalancersListOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type LoadBalancersListResponse = LoadBalancerListResult;
+
+// @public
+export interface LoadBalancersMigrateToIpBasedOptionalParams extends coreClient.OperationOptions {
+    parameters?: MigrateLoadBalancerToIpBasedRequest;
+}
+
+// @public
+export type LoadBalancersMigrateToIpBasedResponse = MigratedPools;
 
 // @public
 export interface LoadBalancersSwapPublicIpAddressesOptionalParams extends coreClient.OperationOptions {
@@ -8247,6 +8274,16 @@ export interface MetricSpecification {
     sourceMdmAccount?: string;
     sourceMdmNamespace?: string;
     unit?: string;
+}
+
+// @public
+export interface MigratedPools {
+    migratedPools?: string[];
+}
+
+// @public
+export interface MigrateLoadBalancerToIpBasedRequest {
+    pools?: string[];
 }
 
 // @public
@@ -12889,6 +12926,9 @@ export interface SwapResourceListResult {
 export interface SwapResourceProperties {
     slotType?: SlotType;
 }
+
+// @public
+export type SyncMode = string;
 
 // @public
 export type SyncRemoteAddressSpace = string;
