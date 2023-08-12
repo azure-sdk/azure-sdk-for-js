@@ -543,6 +543,63 @@ export const JobStages: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      delayInformation: {
+        serializedName: "delayInformation",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "JobDelayDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const JobDelayDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JobDelayDetails",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "errorCode",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      resolutionTime: {
+        serializedName: "resolutionTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -4018,6 +4075,13 @@ export const JobResource: coreClient.CompositeMapper = {
       },
       status: {
         serializedName: "properties.status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      delayedStage: {
+        serializedName: "properties.delayedStage",
         readOnly: true,
         type: {
           name: "String"
