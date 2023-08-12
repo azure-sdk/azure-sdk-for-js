@@ -343,6 +343,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FrontDoorManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: FrontDoorManagementClientOptionalParams);
     // (undocumented)
     endpoints: Endpoints;
     // (undocumented)
@@ -368,7 +369,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     rulesEngines: RulesEngines;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
