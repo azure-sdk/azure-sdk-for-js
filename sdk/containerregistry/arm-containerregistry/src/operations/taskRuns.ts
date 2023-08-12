@@ -549,7 +549,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName1,
     Parameters.taskRunName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -607,7 +607,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName1,
     Parameters.taskRunName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -671,8 +671,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer

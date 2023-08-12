@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Tasks } from "../operationsInterfaces";
+import { ConnectedRegistries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,30 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Task,
-  TasksListNextOptionalParams,
-  TasksListOptionalParams,
-  TasksListResponse,
-  TasksGetOptionalParams,
-  TasksGetResponse,
-  TasksCreateOptionalParams,
-  TasksCreateResponse,
-  TasksDeleteOptionalParams,
-  TaskUpdateParameters,
-  TasksUpdateOptionalParams,
-  TasksUpdateResponse,
-  TasksGetDetailsOptionalParams,
-  TasksGetDetailsResponse,
-  TasksListNextResponse
+  ConnectedRegistry,
+  ConnectedRegistriesListNextOptionalParams,
+  ConnectedRegistriesListOptionalParams,
+  ConnectedRegistriesListResponse,
+  ConnectedRegistriesGetOptionalParams,
+  ConnectedRegistriesGetResponse,
+  ConnectedRegistriesCreateOptionalParams,
+  ConnectedRegistriesCreateResponse,
+  ConnectedRegistriesDeleteOptionalParams,
+  ConnectedRegistryUpdateParameters,
+  ConnectedRegistriesUpdateOptionalParams,
+  ConnectedRegistriesUpdateResponse,
+  ConnectedRegistriesDeactivateOptionalParams,
+  ConnectedRegistriesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Tasks operations. */
-export class TasksImpl implements Tasks {
+/** Class containing ConnectedRegistries operations. */
+export class ConnectedRegistriesImpl implements ConnectedRegistries {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class Tasks class.
+   * Initialize a new instance of the class ConnectedRegistries class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -51,16 +50,16 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all connected registries for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): PagedAsyncIterableIterator<Task> {
+    options?: ConnectedRegistriesListOptionalParams
+  ): PagedAsyncIterableIterator<ConnectedRegistry> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
@@ -86,10 +85,10 @@ export class TasksImpl implements Tasks {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams,
+    options?: ConnectedRegistriesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Task[]> {
-    let result: TasksListResponse;
+  ): AsyncIterableIterator<ConnectedRegistry[]> {
+    let result: ConnectedRegistriesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, registryName, options);
@@ -115,8 +114,8 @@ export class TasksImpl implements Tasks {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): AsyncIterableIterator<Task> {
+    options?: ConnectedRegistriesListOptionalParams
+  ): AsyncIterableIterator<ConnectedRegistry> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
@@ -127,16 +126,16 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Lists all the tasks for a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all connected registries for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
-  ): Promise<TasksListResponse> {
+    options?: ConnectedRegistriesListOptionalParams
+  ): Promise<ConnectedRegistriesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
       listOperationSpec
@@ -144,45 +143,48 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * Get the properties of a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Gets the properties of the connected registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksGetOptionalParams
-  ): Promise<TasksGetResponse> {
+    connectedRegistryName: string,
+    options?: ConnectedRegistriesGetOptionalParams
+  ): Promise<ConnectedRegistriesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
+      { resourceGroupName, registryName, connectedRegistryName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates a connected registry for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
+   * @param connectedRegistryName The name of the connected registry.
+   * @param connectedRegistryCreateParameters The parameters for creating a connectedRegistry.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
+    connectedRegistryName: string,
+    connectedRegistryCreateParameters: ConnectedRegistry,
+    options?: ConnectedRegistriesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
+    SimplePollerLike<
+      OperationState<ConnectedRegistriesCreateResponse>,
+      ConnectedRegistriesCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<TasksCreateResponse> => {
+    ): Promise<ConnectedRegistriesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -223,60 +225,61 @@ export class TasksImpl implements Tasks {
       args: {
         resourceGroupName,
         registryName,
-        taskName,
-        taskCreateParameters,
+        connectedRegistryName,
+        connectedRegistryCreateParameters,
         options
       },
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      TasksCreateResponse,
-      OperationState<TasksCreateResponse>
+      ConnectedRegistriesCreateResponse,
+      OperationState<ConnectedRegistriesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates a connected registry for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
+   * @param connectedRegistryName The name of the connected registry.
+   * @param connectedRegistryCreateParameters The parameters for creating a connectedRegistry.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
-  ): Promise<TasksCreateResponse> {
+    connectedRegistryName: string,
+    connectedRegistryCreateParameters: ConnectedRegistry,
+    options?: ConnectedRegistriesCreateOptionalParams
+  ): Promise<ConnectedRegistriesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      taskName,
-      taskCreateParameters,
+      connectedRegistryName,
+      connectedRegistryCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes a connected registry from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
+    connectedRegistryName: string,
+    options?: ConnectedRegistriesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -319,60 +322,64 @@ export class TasksImpl implements Tasks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, registryName, taskName, options },
+      args: { resourceGroupName, registryName, connectedRegistryName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes a connected registry from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
+    connectedRegistryName: string,
+    options?: ConnectedRegistriesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      taskName,
+      connectedRegistryName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Updates a connected registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
+   * @param connectedRegistryName The name of the connected registry.
+   * @param connectedRegistryUpdateParameters The parameters for updating a connectedRegistry.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
+    connectedRegistryName: string,
+    connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
+    options?: ConnectedRegistriesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
+    SimplePollerLike<
+      OperationState<ConnectedRegistriesUpdateResponse>,
+      ConnectedRegistriesUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<TasksUpdateResponse> => {
+    ): Promise<ConnectedRegistriesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -413,70 +420,140 @@ export class TasksImpl implements Tasks {
       args: {
         resourceGroupName,
         registryName,
-        taskName,
-        taskUpdateParameters,
+        connectedRegistryName,
+        connectedRegistryUpdateParameters,
         options
       },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      TasksUpdateResponse,
-      OperationState<TasksUpdateResponse>
+      ConnectedRegistriesUpdateResponse,
+      OperationState<ConnectedRegistriesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Updates a connected registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
+   * @param connectedRegistryName The name of the connected registry.
+   * @param connectedRegistryUpdateParameters The parameters for updating a connectedRegistry.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
-  ): Promise<TasksUpdateResponse> {
+    connectedRegistryName: string,
+    connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
+    options?: ConnectedRegistriesUpdateOptionalParams
+  ): Promise<ConnectedRegistriesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
-      taskName,
-      taskUpdateParameters,
+      connectedRegistryName,
+      connectedRegistryUpdateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Returns a task with extended information that includes all secrets.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deactivates the connected registry instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
+   * @param connectedRegistryName The name of the connected registry.
    * @param options The options parameters.
    */
-  getDetails(
+  async beginDeactivate(
     resourceGroupName: string,
     registryName: string,
-    taskName: string,
-    options?: TasksGetDetailsOptionalParams
-  ): Promise<TasksGetDetailsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, taskName, options },
-      getDetailsOperationSpec
+    connectedRegistryName: string,
+    options?: ConnectedRegistriesDeactivateOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, connectedRegistryName, options },
+      spec: deactivateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deactivates the connected registry instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param connectedRegistryName The name of the connected registry.
+   * @param options The options parameters.
+   */
+  async beginDeactivateAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    connectedRegistryName: string,
+    options?: ConnectedRegistriesDeactivateOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeactivate(
+      resourceGroupName,
+      registryName,
+      connectedRegistryName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -485,8 +562,8 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: TasksListNextOptionalParams
-  ): Promise<TasksListNextResponse> {
+    options?: ConnectedRegistriesListNextOptionalParams
+  ): Promise<ConnectedRegistriesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
       listNextOperationSpec
@@ -498,78 +575,78 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.ConnectedRegistryListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName,
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.connectedRegistryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     201: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     202: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.taskCreateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.connectedRegistryCreateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.connectedRegistryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -577,7 +654,7 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -588,70 +665,71 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.connectedRegistryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     201: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     202: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ConnectedRegistry
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.taskUpdateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.connectedRegistryUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.connectedRegistryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const getDetailsOperationSpec: coreClient.OperationSpec = {
+const deactivateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}/listDetails",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}/deactivate",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.Task
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.connectedRegistryName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -661,7 +739,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.ConnectedRegistryListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -670,9 +748,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
