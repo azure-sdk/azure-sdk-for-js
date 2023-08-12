@@ -106,6 +106,7 @@ specifiers:
   '@rush-temp/arm-hanaonazure': file:./projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hardwaresecuritymodules': file:./projects/arm-hardwaresecuritymodules.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
+  '@rush-temp/arm-hdinsightonaks': file:./projects/arm-hdinsightonaks.tgz
   '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:./projects/arm-healthcareapis.tgz
   '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
@@ -461,6 +462,7 @@ dependencies:
   '@rush-temp/arm-hanaonazure': file:projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hardwaresecuritymodules': file:projects/arm-hardwaresecuritymodules.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
+  '@rush-temp/arm-hdinsightonaks': file:projects/arm-hdinsightonaks.tgz
   '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:projects/arm-healthcareapis.tgz
   '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
@@ -4117,7 +4119,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230810
+      typescript: 5.3.0-dev.20230811
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8702,8 +8704,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230810:
-    resolution: {integrity: sha512-cD+0wvHU1AJDHnbOizHt2iJ9nEpJAa7t5WXbu6NaNeX3ZWO0lIt0A5TFgWsD4ZbXPHdxq6Uw6IKvTn8W0arAmA==}
+  /typescript/5.3.0-dev.20230811:
+    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12370,6 +12372,34 @@ packages:
   file:projects/arm-hdinsight.tgz:
     resolution: {integrity: sha512-Jv8FIekfHl3zs6alhb+YASFgmSPAY4dG9JqMCOM8QFD5bdsZOL+CxbPE46JXZlzldnSPgsxFKZoIMlDqA+j+tA==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.1
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-hdinsightonaks.tgz:
+    resolution: {integrity: sha512-DNFrFxWz6OMK9WTXDNA+ZuUF9OlOx5y0KK41NhmOF+DHj3dkhGd0dCfhxf7rHtjVN+nr9+zRlh76/Ho66Dc8BA==, tarball: file:projects/arm-hdinsightonaks.tgz}
+    name: '@rush-temp/arm-hdinsightonaks'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
