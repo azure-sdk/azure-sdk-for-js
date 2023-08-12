@@ -16,6 +16,8 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   ServicesImpl,
+  ApmsImpl,
+  EurekaServersImpl,
   ConfigServersImpl,
   ConfigurationServicesImpl,
   ServiceRegistriesImpl,
@@ -47,6 +49,8 @@ import {
 } from "./operations";
 import {
   Services,
+  Apms,
+  EurekaServers,
   ConfigServers,
   ConfigurationServices,
   ServiceRegistries,
@@ -81,7 +85,7 @@ import { AppPlatformManagementClientOptionalParams } from "./models";
 export class AppPlatformManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the AppPlatformManagementClient class.
@@ -94,12 +98,28 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: AppPlatformManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AppPlatformManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | AppPlatformManagementClientOptionalParams
+      | string,
+    options?: AppPlatformManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -164,8 +184,10 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-01-preview";
     this.services = new ServicesImpl(this);
+    this.apms = new ApmsImpl(this);
+    this.eurekaServers = new EurekaServersImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
     this.serviceRegistries = new ServiceRegistriesImpl(this);
@@ -226,6 +248,8 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   }
 
   services: Services;
+  apms: Apms;
+  eurekaServers: EurekaServers;
   configServers: ConfigServers;
   configurationServices: ConfigurationServices;
   serviceRegistries: ServiceRegistries;
