@@ -7,10 +7,10 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GuestAgent,
-  GuestAgentsListByVmOptionalParams,
+  GuestAgentsListOptionalParams,
   GuestAgentsCreateOptionalParams,
   GuestAgentsCreateResponse,
   GuestAgentsGetOptionalParams,
@@ -27,10 +27,10 @@ export interface GuestAgents {
    * @param virtualMachineName Name of the vm.
    * @param options The options parameters.
    */
-  listByVm(
+  list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+    options?: GuestAgentsListOptionalParams
   ): PagedAsyncIterableIterator<GuestAgent>;
   /**
    * Create Or Update GuestAgent.
@@ -45,8 +45,8 @@ export interface GuestAgents {
     name: string,
     options?: GuestAgentsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GuestAgentsCreateResponse>,
+    SimplePollerLike<
+      OperationState<GuestAgentsCreateResponse>,
       GuestAgentsCreateResponse
     >
   >;
@@ -88,7 +88,7 @@ export interface GuestAgents {
     virtualMachineName: string,
     name: string,
     options?: GuestAgentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements GuestAgent DELETE method.
    * @param resourceGroupName The Resource Group Name.
