@@ -8,26 +8,29 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { DataManagerForAgricultureExtensions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse
+  DataManagerForAgricultureExtension,
+  DataManagerForAgricultureExtensionsListNextOptionalParams,
+  DataManagerForAgricultureExtensionsListOptionalParams,
+  DataManagerForAgricultureExtensionsListResponse,
+  DataManagerForAgricultureExtensionsGetOptionalParams,
+  DataManagerForAgricultureExtensionsGetResponse,
+  DataManagerForAgricultureExtensionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing DataManagerForAgricultureExtensions operations. */
+export class DataManagerForAgricultureExtensionsImpl
+  implements DataManagerForAgricultureExtensions {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class DataManagerForAgricultureExtensions class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -35,12 +38,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists the available operations of Microsoft.AgFoodPlatform resource provider.
+   * Get list of Data Manager For Agriculture extension.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+    options?: DataManagerForAgricultureExtensionsListOptionalParams
+  ): PagedAsyncIterableIterator<DataManagerForAgricultureExtension> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -59,10 +62,10 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
+    options?: DataManagerForAgricultureExtensionsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Operation[]> {
-    let result: OperationsListResponse;
+  ): AsyncIterableIterator<DataManagerForAgricultureExtension[]> {
+    let result: DataManagerForAgricultureExtensionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -81,21 +84,36 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
+    options?: DataManagerForAgricultureExtensionsListOptionalParams
+  ): AsyncIterableIterator<DataManagerForAgricultureExtension> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists the available operations of Microsoft.AgFoodPlatform resource provider.
+   * Get list of Data Manager For Agriculture extension.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
+    options?: DataManagerForAgricultureExtensionsListOptionalParams
+  ): Promise<DataManagerForAgricultureExtensionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Get Data Manager For Agriculture extension.
+   * @param dataManagerForAgricultureExtensionId dataManagerForAgricultureExtensionId to be queried.
+   * @param options The options parameters.
+   */
+  get(
+    dataManagerForAgricultureExtensionId: string,
+    options?: DataManagerForAgricultureExtensionsGetOptionalParams
+  ): Promise<DataManagerForAgricultureExtensionsGetResponse> {
+    return this.client.sendOperationRequest(
+      { dataManagerForAgricultureExtensionId, options },
+      getOperationSpec
+    );
   }
 
   /**
@@ -105,8 +123,8 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams
-  ): Promise<OperationsListNextResponse> {
+    options?: DataManagerForAgricultureExtensionsListNextOptionalParams
+  ): Promise<DataManagerForAgricultureExtensionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -117,18 +135,45 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AgFoodPlatform/operations",
+  path: "/providers/Microsoft.AgFoodPlatform/farmBeatsExtensionDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.DataManagerForAgricultureExtensionListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.maxPageSize,
+    Parameters.farmBeatsExtensionIds,
+    Parameters.farmBeatsExtensionNames,
+    Parameters.extensionCategories,
+    Parameters.publisherIds
+  ],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.AgFoodPlatform/farmBeatsExtensionDefinitions/{dataManagerForAgricultureExtensionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataManagerForAgricultureExtension
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.dataManagerForAgricultureExtensionId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -137,7 +182,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.DataManagerForAgricultureExtensionListResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
