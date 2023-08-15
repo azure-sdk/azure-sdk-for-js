@@ -4132,7 +4132,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230811
+      typescript: 5.3.0-dev.20230815
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8717,8 +8717,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230811:
-    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
+  /typescript/5.3.0-dev.20230815:
+    resolution: {integrity: sha512-AB4arWte1oMsTpFUSnkhgLOzWRR6SLMtQ4WjDl+I0mDC3nh0UH5SEJtwjSt7lYIg/xylgXduCFEDoM1Vvv3uPg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15129,7 +15129,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-JPKp259J5nN+vVi2wzvaIMG+pNlhqHdbjgBFZtF9W1gs3cBR9RX6ZLdzc1FU4ETQ5incWZTpV0+hr/9cWQ7pYg==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-YFAltDKaEvcdL4MG3j5BjPK/kTo3h2KXUClgQ+0nIZJjtUA5VcH+3+OFexNExXwIXE0RPplLTeChWs/x7vF2Ag==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -15149,10 +15149,13 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.1
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
