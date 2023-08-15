@@ -9895,6 +9895,127 @@ export const RegionalReplicationStatus: coreClient.CompositeMapper = {
   }
 };
 
+export const ImageVersionSecurityProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageVersionSecurityProfile",
+    modelProperties: {
+      uefiSettings: {
+        serializedName: "uefiSettings",
+        type: {
+          name: "Composite",
+          className: "GalleryImageVersionUefiSettings"
+        }
+      }
+    }
+  }
+};
+
+export const GalleryImageVersionUefiSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryImageVersionUefiSettings",
+    modelProperties: {
+      signatureTemplateNames: {
+        serializedName: "signatureTemplateNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      additionalSignatures: {
+        serializedName: "additionalSignatures",
+        type: {
+          name: "Composite",
+          className: "UefiKeySignatures"
+        }
+      }
+    }
+  }
+};
+
+export const UefiKeySignatures: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UefiKeySignatures",
+    modelProperties: {
+      pk: {
+        serializedName: "pk",
+        type: {
+          name: "Composite",
+          className: "UefiKey"
+        }
+      },
+      kek: {
+        serializedName: "kek",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      },
+      db: {
+        serializedName: "db",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      },
+      dbx: {
+        serializedName: "dbx",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UefiKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UefiKey",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const GalleryApplicationCustomAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -14771,6 +14892,13 @@ export const GalleryImageVersion: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ReplicationStatus"
         }
+      },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "ImageVersionSecurityProfile"
+        }
       }
     }
   }
@@ -16348,6 +16476,13 @@ export const GalleryImageVersionUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReplicationStatus"
+        }
+      },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "ImageVersionSecurityProfile"
         }
       }
     }

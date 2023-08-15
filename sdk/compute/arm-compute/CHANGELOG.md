@@ -1,15 +1,23 @@
 # Release History
+    
+## 21.2.0 (2023-08-15)
+    
+**Features**
 
-## 21.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface GalleryImageVersionUefiSettings
+  - Added Interface ImageVersionSecurityProfile
+  - Added Interface UefiKey
+  - Added Interface UefiKeySignatures
+  - Added Type Alias UefiKeyType
+  - Added Type Alias UefiSignatureTemplateName
+  - Interface GalleryImageVersion has a new optional parameter securityProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter securityProfile
+  - Added Enum KnownUefiKeyType
+  - Added Enum KnownUefiSignatureTemplateName
+  - Enum KnownConfidentialVMEncryptionType has a new value NonPersistedTPM
+  - Enum KnownReplicationStatusTypes has a new value UefiSettings
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**

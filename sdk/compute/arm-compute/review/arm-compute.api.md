@@ -2631,6 +2631,7 @@ export interface GalleryImageVersion extends Resource {
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2716,11 +2717,18 @@ export interface GalleryImageVersionsUpdateOptionalParams extends coreClient.Ope
 export type GalleryImageVersionsUpdateResponse = GalleryImageVersion;
 
 // @public
+export interface GalleryImageVersionUefiSettings {
+    additionalSignatures?: UefiKeySignatures;
+    signatureTemplateNames?: UefiSignatureTemplateName[];
+}
+
+// @public
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2967,6 +2975,11 @@ export interface ImageUpdate extends UpdateResource {
 }
 
 // @public
+export interface ImageVersionSecurityProfile {
+    uefiSettings?: GalleryImageVersionUefiSettings;
+}
+
+// @public
 export interface InnerError {
     errordetail?: string;
     exceptiontype?: string;
@@ -3101,7 +3114,8 @@ export enum KnownCloudServiceUpgradeMode {
 export enum KnownConfidentialVMEncryptionType {
     EncryptedVMGuestStateOnlyWithPmk = "EncryptedVMGuestStateOnlyWithPmk",
     EncryptedWithCmk = "EncryptedWithCmk",
-    EncryptedWithPmk = "EncryptedWithPmk"
+    EncryptedWithPmk = "EncryptedWithPmk",
+    NonPersistedTPM = "NonPersistedTPM"
 }
 
 // @public
@@ -3515,7 +3529,8 @@ export enum KnownReplicationState {
 
 // @public
 export enum KnownReplicationStatusTypes {
-    ReplicationStatus = "ReplicationStatus"
+    ReplicationStatus = "ReplicationStatus",
+    UefiSettings = "UefiSettings"
 }
 
 // @public
@@ -3609,6 +3624,19 @@ export enum KnownStorageAccountTypes {
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownUefiKeyType {
+    Sha256 = "sha256",
+    X509 = "x509"
+}
+
+// @public
+export enum KnownUefiSignatureTemplateName {
+    MicrosoftUefiCertificateAuthorityTemplate = "MicrosoftUefiCertificateAuthorityTemplate",
+    MicrosoftWindowsTemplate = "MicrosoftWindowsTemplate",
+    NoSignatureTemplate = "NoSignatureTemplate"
 }
 
 // @public
@@ -5622,10 +5650,30 @@ export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
 }
 
 // @public
+export interface UefiKey {
+    type?: UefiKeyType;
+    value?: string[];
+}
+
+// @public
+export interface UefiKeySignatures {
+    db?: UefiKey[];
+    dbx?: UefiKey[];
+    kek?: UefiKey[];
+    pk?: UefiKey;
+}
+
+// @public
+export type UefiKeyType = string;
+
+// @public
 export interface UefiSettings {
     secureBootEnabled?: boolean;
     vTpmEnabled?: boolean;
 }
+
+// @public
+export type UefiSignatureTemplateName = string;
 
 // @public
 export interface UpdateDomain {
