@@ -3505,7 +3505,7 @@ export interface GalleryIdentifier {
 
 /** Profile for gallery sharing to subscription or tenant */
 export interface SharingProfile {
-  /** This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community** */
+  /** This property allows you to specify the permission of sharing gallery. Possible values are: **Private,** **Groups,** **Community.** */
   permissions?: GallerySharingPermissionTypes;
   /**
    * A list of sharing profile groups.
@@ -3518,7 +3518,7 @@ export interface SharingProfile {
 
 /** Group of the gallery sharing profile */
 export interface SharingProfileGroup {
-  /** This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** */
+  /** This property allows you to specify the type of sharing group. Possible values are: **Subscriptions,** **AADTenants.** */
   type?: SharingProfileGroupTypes;
   /** A list of subscription/tenant ids the gallery is aimed to be shared to. */
   ids?: string[];
@@ -3900,7 +3900,7 @@ export interface GalleryApplicationVersionList {
 
 /** Specifies information about the gallery sharing profile update. */
 export interface SharingUpdate {
-  /** This property allows you to specify the operation type of gallery sharing update. <br><br> Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset** */
+  /** This property allows you to specify the operation type of gallery sharing update. Possible values are: **Add,** **Remove,** **Reset.** */
   operationType: SharingUpdateOperationTypes;
   /** A list of sharing profile groups. */
   groups?: SharingProfileGroup[];
@@ -3963,6 +3963,20 @@ export interface SharedGalleryDiskImage {
   hostCaching?: SharedGalleryHostCaching;
 }
 
+/** The metadata of community gallery. */
+export interface CommunityGalleryMetadata {
+  /** The publisher URI of this community gallery. */
+  publisherUri?: string;
+  /** The publisher contact of this community gallery. */
+  publisherContact?: string;
+  /** The end-user license agreement for this community gallery. */
+  eula?: string;
+  /** A list of public names the gallery has. */
+  publicNames?: string[];
+  /** The link for the privacy statement of this community gallery from the gallery publisher. */
+  privacyStatementUri?: string;
+}
+
 /** Base information about the community gallery resource in pir. */
 export interface PirCommunityGalleryResource {
   /**
@@ -3998,7 +4012,7 @@ export interface CommunityGalleryImageIdentifier {
 export interface CommunityGalleryImageList {
   /** A list of community gallery images. */
   value: CommunityGalleryImage[];
-  /** The uri to fetch the next page of community gallery images. Call ListNext() with this to fetch the next page of community gallery images. */
+  /** The URI to fetch the next page of community gallery images. Call ListNext() with this to fetch the next page of community gallery images. */
   nextLink?: string;
 }
 
@@ -4006,7 +4020,7 @@ export interface CommunityGalleryImageList {
 export interface CommunityGalleryImageVersionList {
   /** A list of community gallery image versions. */
   value: CommunityGalleryImageVersion[];
-  /** The uri to fetch the next page of community gallery image versions. Call ListNext() with this to fetch the next page of community gallery image versions. */
+  /** The URI to fetch the next page of community gallery image versions. Call ListNext() with this to fetch the next page of community gallery image versions. */
   nextLink?: string;
 }
 
@@ -5728,7 +5742,7 @@ export interface GalleryImage extends Resource {
   privacyStatementUri?: string;
   /** The release note uri. */
   releaseNoteUri?: string;
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -5787,7 +5801,7 @@ export interface GalleryApplication extends Resource {
   releaseNoteUri?: string;
   /** The end of life date of the gallery Application Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** This property allows you to specify the supported type of the OS that application is built for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
   supportedOSType?: OperatingSystemTypes;
   /** A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application. */
   customActions?: GalleryApplicationCustomAction[];
@@ -6340,7 +6354,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   privacyStatementUri?: string;
   /** The release note uri. */
   releaseNoteUri?: string;
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -6399,7 +6413,7 @@ export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
   releaseNoteUri?: string;
   /** The end of life date of the gallery Application Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** This property allows you to specify the supported type of the OS that application is built for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
   supportedOSType?: OperatingSystemTypes;
   /** A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application. */
   customActions?: GalleryApplicationCustomAction[];
@@ -6515,11 +6529,18 @@ export interface SharedGalleryDataDiskImage extends SharedGalleryDiskImage {
 }
 
 /** Specifies information about the Community Gallery that you want to create or update. */
-export interface CommunityGallery extends PirCommunityGalleryResource {}
+export interface CommunityGallery extends PirCommunityGalleryResource {
+  /** The disclaimer for a community gallery resource. */
+  disclaimer?: string;
+  /** The artifact tags of a community gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
+  /** The metadata of community gallery. */
+  communityMetadata?: CommunityGalleryMetadata;
+}
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -6539,10 +6560,14 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   purchasePlan?: ImagePurchasePlan;
   /** The architecture of the image. Applicable to OS disks only. */
   architecture?: Architecture;
-  /** Privacy statement uri for the current community gallery image. */
+  /** Privacy statement URI for the current community gallery image. */
   privacyStatementUri?: string;
-  /** End-user license agreement for the current community gallery image. */
+  /** The end-user license agreement for the current community gallery image. */
   eula?: string;
+  /** The disclaimer for a community gallery resource. */
+  disclaimer?: string;
+  /** The artifact tags of a community gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
 }
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -6556,6 +6581,10 @@ export interface CommunityGalleryImageVersion
   excludeFromLatest?: boolean;
   /** Describes the storage profile of the image version. */
   storageProfile?: SharedGalleryImageVersionStorageProfile;
+  /** The disclaimer for a community gallery resource. */
+  disclaimer?: string;
+  /** The artifact tags of a community gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
 }
 
 /** Describes a Virtual Machine Image. */
@@ -6586,11 +6615,17 @@ export interface VirtualMachineScaleSetReimageParameters
 }
 
 /** Specifies information about the Shared Gallery that you want to create or update. */
-export interface SharedGallery extends PirSharedGalleryResource {}
+export interface SharedGallery extends PirSharedGalleryResource {
+  /**
+   * The artifact tags of a shared gallery resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly artifactTags?: { [propertyName: string]: string };
+}
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface SharedGalleryImage extends PirSharedGalleryResource {
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -6614,6 +6649,8 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   privacyStatementUri?: string;
   /** End-user license agreement for the current community gallery image. */
   eula?: string;
+  /** The artifact tags of a shared gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
 }
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -6626,6 +6663,8 @@ export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
   excludeFromLatest?: boolean;
   /** Describes the storage profile of the image version. */
   storageProfile?: SharedGalleryImageVersionStorageProfile;
+  /** The artifact tags of a shared gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
 }
 
 /** Defines headers for VirtualMachineScaleSets_reapply operation. */

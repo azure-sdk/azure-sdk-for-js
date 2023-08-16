@@ -1,15 +1,22 @@
 # Release History
+    
+## 21.2.0 (2023-08-16)
+    
+**Features**
 
-## 21.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CommunityGalleryMetadata
+  - Interface CommunityGallery has a new optional parameter artifactTags
+  - Interface CommunityGallery has a new optional parameter communityMetadata
+  - Interface CommunityGallery has a new optional parameter disclaimer
+  - Interface CommunityGalleryImage has a new optional parameter artifactTags
+  - Interface CommunityGalleryImage has a new optional parameter disclaimer
+  - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
+  - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
+  - Interface SharedGallery has a new optional parameter artifactTags
+  - Interface SharedGalleryImage has a new optional parameter artifactTags
+  - Interface SharedGalleryImageVersion has a new optional parameter artifactTags
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**

@@ -931,12 +931,21 @@ export type CommunityGalleriesGetResponse = CommunityGallery;
 
 // @public
 export interface CommunityGallery extends PirCommunityGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
+    communityMetadata?: CommunityGalleryMetadata;
+    disclaimer?: string;
 }
 
 // @public
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     architecture?: Architecture;
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     disallowed?: Disallowed;
+    disclaimer?: string;
     endOfLifeDate?: Date;
     eula?: string;
     features?: GalleryImageFeature[];
@@ -991,6 +1000,10 @@ export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
 
 // @public
 export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
+    disclaimer?: string;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
@@ -1036,6 +1049,15 @@ export interface CommunityGalleryInfo {
     eula?: string;
     publicNamePrefix?: string;
     readonly publicNames?: string[];
+    publisherContact?: string;
+    publisherUri?: string;
+}
+
+// @public
+export interface CommunityGalleryMetadata {
+    eula?: string;
+    privacyStatementUri?: string;
+    publicNames?: string[];
     publisherContact?: string;
     publisherUri?: string;
 }
@@ -5103,6 +5125,9 @@ export type SharedGalleriesListResponse = SharedGalleryList;
 
 // @public
 export interface SharedGallery extends PirSharedGalleryResource {
+    readonly artifactTags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -5122,6 +5147,9 @@ export type SharedGalleryHostCaching = string;
 // @public
 export interface SharedGalleryImage extends PirSharedGalleryResource {
     architecture?: Architecture;
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
     eula?: string;
@@ -5171,6 +5199,9 @@ export type SharedGalleryImagesListResponse = SharedGalleryImageList;
 
 // @public
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
