@@ -123,12 +123,6 @@ export const AvailabilityStatusProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      articleId: {
-        serializedName: "articleId",
-        type: {
-          name: "String"
-        }
-      },
       rootCauseAttributionTime: {
         serializedName: "rootCauseAttributionTime",
         type: {
@@ -258,12 +252,6 @@ export const RecommendedAction: coreClient.CompositeMapper = {
       },
       actionUrl: {
         serializedName: "actionUrl",
-        type: {
-          name: "String"
-        }
-      },
-      actionUrlComment: {
-        serializedName: "_ActionUrl\\.Comment",
         type: {
           name: "String"
         }
@@ -703,19 +691,6 @@ export const EventPropertiesArticle: coreClient.CompositeMapper = {
         serializedName: "articleContent",
         type: {
           name: "String"
-        }
-      },
-      articleId: {
-        serializedName: "articleId",
-        type: {
-          name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -1188,6 +1163,46 @@ export const ProxyResource: coreClient.CompositeMapper = {
   }
 };
 
+export const EmergingIssuesGetResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EmergingIssuesGetResult",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      refreshTimestamp: {
+        serializedName: "properties.refreshTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      statusBanners: {
+        serializedName: "properties.statusBanners",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StatusBanner"
+            }
+          }
+        }
+      },
+      statusActiveEvents: {
+        serializedName: "properties.statusActiveEvents",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StatusActiveEvent"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const MetadataEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1341,12 +1356,6 @@ export const Event: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      reason: {
-        serializedName: "properties.reason",
-        type: {
-          name: "String"
-        }
-      },
       article: {
         serializedName: "properties.article",
         type: {
@@ -1475,45 +1484,23 @@ export const Event: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const EmergingIssuesGetResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EmergingIssuesGetResult",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      refreshTimestamp: {
-        serializedName: "properties.refreshTimestamp",
+      },
+      maintenanceId: {
+        serializedName: "properties.maintenanceId",
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
-      statusBanners: {
-        serializedName: "properties.statusBanners",
+      maintenanceType: {
+        serializedName: "properties.maintenanceType",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StatusBanner"
-            }
-          }
+          name: "String"
         }
       },
-      statusActiveEvents: {
-        serializedName: "properties.statusActiveEvents",
+      argQuery: {
+        serializedName: "properties.argQuery",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StatusActiveEvent"
-            }
-          }
+          name: "String"
         }
       }
     }

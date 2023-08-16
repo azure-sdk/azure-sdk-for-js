@@ -1,15 +1,27 @@
 # Release History
+    
+## 5.0.0-beta.1 (2023-08-16)
+    
+**Features**
 
-## 4.0.1 (Unreleased)
+  - Interface Event_2 has a new optional parameter argQuery
+  - Interface Event_2 has a new optional parameter maintenanceId
+  - Interface Event_2 has a new optional parameter maintenanceType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group ChildAvailabilityStatuses
+  - Removed operation group ChildResources
+  - Class MicrosoftResourceHealth has a new signature
+  - Interface AvailabilityStatusProperties no longer has parameter articleId
+  - Interface Event_2 no longer has parameter reason
+  - Interface EventPropertiesArticle no longer has parameter articleId
+  - Interface EventPropertiesArticle no longer has parameter parameters
+  - Interface RecommendedAction no longer has parameter actionUrlComment
+  - Class MicrosoftResourceHealth no longer has parameter childAvailabilityStatuses
+  - Class MicrosoftResourceHealth no longer has parameter childResources
+    
+    
 ## 4.0.0 (2023-05-12)
     
 **Features**

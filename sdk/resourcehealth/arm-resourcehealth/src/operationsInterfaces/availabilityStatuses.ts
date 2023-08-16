@@ -28,7 +28,7 @@ export interface AvailabilityStatuses {
   ): PagedAsyncIterableIterator<AvailabilityStatus>;
   /**
    * Lists the current availability status for all the resources in the resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   listByResourceGroup(

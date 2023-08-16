@@ -46,8 +46,6 @@ export interface AvailabilityStatusProperties {
   context?: string;
   /** When a context field is set to Platform, this field will reflect if the event was planned or unplanned. If the context field does not have a value of Platform, then this field will be ignored. */
   category?: string;
-  /** The Article Id */
-  articleId?: string;
   /** When the resource's availabilityState is Unavailable, it provides the Timestamp for when the health impacting event was received. */
   rootCauseAttributionTime?: Date;
   /** In case of an availability impacting event, it describes when the health impacting event was originated. Examples are Lifecycle, Downtime, Fault Analysis etc. */
@@ -90,9 +88,7 @@ export interface RecommendedAction {
   action?: string;
   /** Link to the action */
   actionUrl?: string;
-  /** the comment for the Action */
-  actionUrlComment?: string;
-  /** Substring of action, it describes which text should host the action URL. */
+  /** Substring of action, it describes which text should host the action url. */
   actionUrlText?: string;
 }
 
@@ -149,11 +145,11 @@ export interface ErrorResponse {
 
 /** Lists the operations response. */
 export interface OperationListResult {
-  /** List of operations available in the Microsoft.ResourceHealth resource provider. */
+  /** List of operations available in the resourcehealth resource provider. */
   value: Operation[];
 }
 
-/** Operation available in the Microsoft.ResourceHealth resource provider. */
+/** Operation available in the resourcehealth resource provider. */
 export interface Operation {
   /** Name of the operation. */
   name?: string;
@@ -265,10 +261,6 @@ export interface Events {
 export interface EventPropertiesArticle {
   /** Article content of event. */
   articleContent?: string;
-  /** Article Id */
-  articleId?: string;
-  /** It provides a map of parameter name and value */
-  parameters?: Record<string, unknown>;
 }
 
 /** Useful links for service health event. */
@@ -424,6 +416,16 @@ export interface ImpactedRegion {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
+/** The Get EmergingIssues operation response. */
+export interface EmergingIssuesGetResult extends Resource {
+  /** Timestamp for when last time refreshed for ongoing emerging issue. */
+  refreshTimestamp?: Date;
+  /** The list of emerging issues of banner type. */
+  statusBanners?: StatusBanner[];
+  /** The list of emerging issues of active event type. */
+  statusActiveEvents?: StatusActiveEvent[];
+}
+
 /** The metadata entity contract. */
 export interface MetadataEntity extends ProxyResource {
   /** The display name. */
@@ -477,8 +479,6 @@ export interface Event extends ProxyResource {
   eventLevel?: EventLevelValues;
   /** The id of the Incident */
   externalIncidentId?: string;
-  /** The reason for the Incident */
-  reason?: string;
   /** Article of event. */
   article?: EventPropertiesArticle;
   /** Useful links of event. */
@@ -515,16 +515,12 @@ export interface Event extends ProxyResource {
   duration?: number;
   /** The type of the impact */
   impactType?: string;
-}
-
-/** The Get EmergingIssues operation response. */
-export interface EmergingIssuesGetResult extends ProxyResource {
-  /** Timestamp for when last time refreshed for ongoing emerging issue. */
-  refreshTimestamp?: Date;
-  /** The list of emerging issues of banner type. */
-  statusBanners?: StatusBanner[];
-  /** The list of emerging issues of active event type. */
-  statusActiveEvents?: StatusActiveEvent[];
+  /** Unique Id for Planned maintenance event */
+  maintenanceId?: string;
+  /** The type of Planned maintenance event */
+  maintenanceType?: string;
+  /** ARG Query to fetch the affected resources from their existing ARG locations */
+  argQuery?: string;
 }
 
 /** impactedResource with health status */
@@ -1097,56 +1093,6 @@ export interface EventFetchDetailsByTenantIdAndTrackingIdOptionalParams
 
 /** Contains response data for the fetchDetailsByTenantIdAndTrackingId operation. */
 export type EventFetchDetailsByTenantIdAndTrackingIdResponse = Event;
-
-/** Optional parameters. */
-export interface ChildAvailabilityStatusesGetByResourceOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the getByResource operation. */
-export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
-
-/** Optional parameters. */
-export interface ChildAvailabilityStatusesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ChildAvailabilityStatusesListResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildAvailabilityStatusesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildResourcesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ChildResourcesListResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ChildResourcesListNextResponse = AvailabilityStatusListResult;
 
 /** Optional parameters. */
 export interface EmergingIssuesListOptionalParams

@@ -93,7 +93,6 @@ export interface AvailabilityStatusListResult {
 
 // @public
 export interface AvailabilityStatusProperties {
-    articleId?: string;
     availabilityState?: AvailabilityStateValues;
     category?: string;
     context?: string;
@@ -121,58 +120,6 @@ export interface AvailabilityStatusPropertiesRecentlyResolved {
     unavailableOccuredTime?: Date;
     unavailableSummary?: string;
 }
-
-// @public
-export interface ChildAvailabilityStatuses {
-    getByResource(resourceUri: string, options?: ChildAvailabilityStatusesGetByResourceOptionalParams): Promise<ChildAvailabilityStatusesGetByResourceResponse>;
-    list(resourceUri: string, options?: ChildAvailabilityStatusesListOptionalParams): PagedAsyncIterableIterator<AvailabilityStatus>;
-}
-
-// @public
-export interface ChildAvailabilityStatusesGetByResourceOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
-
-// @public
-export interface ChildAvailabilityStatusesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildAvailabilityStatusesListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildAvailabilityStatusesListResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildResources {
-    list(resourceUri: string, options?: ChildResourcesListOptionalParams): PagedAsyncIterableIterator<AvailabilityStatus>;
-}
-
-// @public
-export interface ChildResourcesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ChildResourcesListNextResponse = AvailabilityStatusListResult;
-
-// @public
-export interface ChildResourcesListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-}
-
-// @public
-export type ChildResourcesListResponse = AvailabilityStatusListResult;
 
 // @public
 export type CreatedByType = string;
@@ -204,7 +151,7 @@ export interface EmergingIssuesGetOptionalParams extends coreClient.OperationOpt
 export type EmergingIssuesGetResponse = EmergingIssuesGetResult;
 
 // @public
-export interface EmergingIssuesGetResult extends ProxyResource {
+export interface EmergingIssuesGetResult extends Resource {
     refreshTimestamp?: Date;
     statusActiveEvents?: StatusActiveEvent[];
     statusBanners?: StatusBanner[];
@@ -234,6 +181,7 @@ export interface ErrorResponse {
 // @public
 interface Event_2 extends ProxyResource {
     additionalInformation?: EventPropertiesAdditionalInformation;
+    argQuery?: string;
     article?: EventPropertiesArticle;
     description?: string;
     duration?: number;
@@ -254,9 +202,10 @@ interface Event_2 extends ProxyResource {
     lastUpdateTime?: Date;
     level?: LevelValues;
     links?: Link[];
+    maintenanceId?: string;
+    maintenanceType?: string;
     platformInitiated?: boolean;
     priority?: number;
-    reason?: string;
     recommendedActions?: EventPropertiesRecommendedActions;
     status?: EventStatusValues;
     summary?: string;
@@ -329,8 +278,6 @@ export interface EventPropertiesAdditionalInformation {
 // @public
 export interface EventPropertiesArticle {
     articleContent?: string;
-    articleId?: string;
-    parameters?: Record<string, unknown>;
 }
 
 // @public
@@ -686,14 +633,11 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftResourceHealthOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: MicrosoftResourceHealthOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     availabilityStatuses: AvailabilityStatuses;
-    // (undocumented)
-    childAvailabilityStatuses: ChildAvailabilityStatuses;
-    // (undocumented)
-    childResources: ChildResources;
     // (undocumented)
     emergingIssues: EmergingIssues;
     // (undocumented)
@@ -709,7 +653,7 @@ export class MicrosoftResourceHealth extends coreClient.ServiceClient {
     // (undocumented)
     securityAdvisoryImpactedResources: SecurityAdvisoryImpactedResources;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -764,7 +708,6 @@ export type ReasonTypeValues = string;
 export interface RecommendedAction {
     action?: string;
     actionUrl?: string;
-    actionUrlComment?: string;
     actionUrlText?: string;
 }
 

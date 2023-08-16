@@ -39,7 +39,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01",
+    defaultValue: "2023-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -85,10 +85,6 @@ export const expand: OperationQueryParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
     serializedName: "resourceGroupName",
     required: true,
     type: {

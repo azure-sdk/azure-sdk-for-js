@@ -100,7 +100,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
 
   /**
    * Lists the current availability status for all the resources in the resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -244,7 +244,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
 
   /**
    * Lists the current availability status for all the resources in the resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -312,7 +312,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
