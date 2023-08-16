@@ -6844,6 +6844,21 @@ export const ContinuousModeProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const CosmosDataTransferDataSourceSink: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CosmosDataTransferDataSourceSink",
+    modelProperties: {
+      remoteAccountName: {
+        serializedName: "remoteAccountName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataTransferServiceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9322,6 +9337,7 @@ export const CosmosCassandraDataTransferDataSourceSink: coreClient.CompositeMapp
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...CosmosDataTransferDataSourceSink.type.modelProperties,
       keyspaceName: {
         serializedName: "keyspaceName",
         required: true,
@@ -9350,6 +9366,7 @@ export const CosmosMongoDataTransferDataSourceSink: coreClient.CompositeMapper =
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...CosmosDataTransferDataSourceSink.type.modelProperties,
       databaseName: {
         serializedName: "databaseName",
         required: true,
@@ -9378,6 +9395,7 @@ export const CosmosSqlDataTransferDataSourceSink: coreClient.CompositeMapper = {
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...CosmosDataTransferDataSourceSink.type.modelProperties,
       databaseName: {
         serializedName: "databaseName",
         required: true,

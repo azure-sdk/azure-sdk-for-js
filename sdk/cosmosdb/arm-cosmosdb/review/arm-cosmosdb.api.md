@@ -1084,12 +1084,18 @@ export interface CorsPolicy {
 }
 
 // @public
-export interface CosmosCassandraDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export interface CosmosCassandraDataTransferDataSourceSink extends DataTransferDataSourceSink, CosmosDataTransferDataSourceSink {
     component: "CosmosDBCassandra";
     // (undocumented)
     keyspaceName: string;
     // (undocumented)
     tableName: string;
+}
+
+// @public
+export interface CosmosDataTransferDataSourceSink {
+    // (undocumented)
+    remoteAccountName?: string;
 }
 
 // @public (undocumented)
@@ -1191,7 +1197,7 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
 }
 
 // @public
-export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataSourceSink, CosmosDataTransferDataSourceSink {
     // (undocumented)
     collectionName: string;
     component: "CosmosDBMongo";
@@ -1200,7 +1206,7 @@ export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataS
 }
 
 // @public
-export interface CosmosSqlDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export interface CosmosSqlDataTransferDataSourceSink extends DataTransferDataSourceSink, CosmosDataTransferDataSourceSink {
     component: "CosmosDBSql";
     // (undocumented)
     containerName: string;

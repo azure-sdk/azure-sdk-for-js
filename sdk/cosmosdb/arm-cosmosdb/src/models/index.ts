@@ -2858,6 +2858,11 @@ export interface ContinuousModeProperties {
   tier?: ContinuousTier;
 }
 
+/** A base CosmosDB data source/sink */
+export interface CosmosDataTransferDataSourceSink {
+  remoteAccountName?: string;
+}
+
 /** Describes the service response property. */
 export interface DataTransferServiceResource {
   /** Properties for DataTransferServiceResource. */
@@ -3747,7 +3752,8 @@ export interface PhysicalPartitionThroughputInfoResultPropertiesResource
 
 /** A CosmosDB Cassandra API data source/sink */
 export interface CosmosCassandraDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+  extends DataTransferDataSourceSink,
+    CosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBCassandra";
   keyspaceName: string;
@@ -3756,7 +3762,8 @@ export interface CosmosCassandraDataTransferDataSourceSink
 
 /** A CosmosDB Cassandra API data source/sink */
 export interface CosmosMongoDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+  extends DataTransferDataSourceSink,
+    CosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBMongo";
   databaseName: string;
@@ -3765,7 +3772,8 @@ export interface CosmosMongoDataTransferDataSourceSink
 
 /** A CosmosDB Cassandra API data source/sink */
 export interface CosmosSqlDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+  extends DataTransferDataSourceSink,
+    CosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBSql";
   databaseName: string;
