@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { JobsExecutions } from "../operationsInterfaces";
+import { ManagedEnvironmentUsages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  JobExecution,
-  JobsExecutionsListNextOptionalParams,
-  JobsExecutionsListOptionalParams,
-  JobsExecutionsListResponse,
-  JobsExecutionsListNextResponse
+  Usage,
+  ManagedEnvironmentUsagesListNextOptionalParams,
+  ManagedEnvironmentUsagesListOptionalParams,
+  ManagedEnvironmentUsagesListResponse,
+  ManagedEnvironmentUsagesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing JobsExecutions operations. */
-export class JobsExecutionsImpl implements JobsExecutions {
+/** Class containing ManagedEnvironmentUsages operations. */
+export class ManagedEnvironmentUsagesImpl implements ManagedEnvironmentUsages {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class JobsExecutions class.
+   * Initialize a new instance of the class ManagedEnvironmentUsages class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -35,17 +35,21 @@ export class JobsExecutionsImpl implements JobsExecutions {
   }
 
   /**
-   * Get a Container Apps Job's executions
+   * Gets the current usage information as well as the limits for environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Job Name
+   * @param environmentName Name of the Environment.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams
-  ): PagedAsyncIterableIterator<JobExecution> {
-    const iter = this.listPagingAll(resourceGroupName, jobName, options);
+    environmentName: string,
+    options?: ManagedEnvironmentUsagesListOptionalParams
+  ): PagedAsyncIterableIterator<Usage> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      environmentName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -59,7 +63,7 @@ export class JobsExecutionsImpl implements JobsExecutions {
         }
         return this.listPagingPage(
           resourceGroupName,
-          jobName,
+          environmentName,
           options,
           settings
         );
@@ -69,14 +73,14 @@ export class JobsExecutionsImpl implements JobsExecutions {
 
   private async *listPagingPage(
     resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams,
+    environmentName: string,
+    options?: ManagedEnvironmentUsagesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<JobExecution[]> {
-    let result: JobsExecutionsListResponse;
+  ): AsyncIterableIterator<Usage[]> {
+    let result: ManagedEnvironmentUsagesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, jobName, options);
+      result = await this._list(resourceGroupName, environmentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -85,7 +89,7 @@ export class JobsExecutionsImpl implements JobsExecutions {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        jobName,
+        environmentName,
         continuationToken,
         options
       );
@@ -98,12 +102,12 @@ export class JobsExecutionsImpl implements JobsExecutions {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams
-  ): AsyncIterableIterator<JobExecution> {
+    environmentName: string,
+    options?: ManagedEnvironmentUsagesListOptionalParams
+  ): AsyncIterableIterator<Usage> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      jobName,
+      environmentName,
       options
     )) {
       yield* page;
@@ -111,18 +115,18 @@ export class JobsExecutionsImpl implements JobsExecutions {
   }
 
   /**
-   * Get a Container Apps Job's executions
+   * Gets the current usage information as well as the limits for environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Job Name
+   * @param environmentName Name of the Environment.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams
-  ): Promise<JobsExecutionsListResponse> {
+    environmentName: string,
+    options?: ManagedEnvironmentUsagesListOptionalParams
+  ): Promise<ManagedEnvironmentUsagesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, options },
+      { resourceGroupName, environmentName, options },
       listOperationSpec
     );
   }
@@ -130,18 +134,18 @@ export class JobsExecutionsImpl implements JobsExecutions {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Job Name
+   * @param environmentName Name of the Environment.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    jobName: string,
+    environmentName: string,
     nextLink: string,
-    options?: JobsExecutionsListNextOptionalParams
-  ): Promise<JobsExecutionsListNextResponse> {
+    options?: ManagedEnvironmentUsagesListNextOptionalParams
+  ): Promise<ManagedEnvironmentUsagesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, nextLink, options },
+      { resourceGroupName, environmentName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -151,22 +155,22 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppJobExecutions
+      bodyMapper: Mappers.ListUsagesResult
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.jobName
+    Parameters.environmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -176,7 +180,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppJobExecutions
+      bodyMapper: Mappers.ListUsagesResult
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -187,7 +191,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.jobName
+    Parameters.environmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer

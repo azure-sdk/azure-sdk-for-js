@@ -7,20 +7,20 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { JobExecution, JobsExecutionsListOptionalParams } from "../models";
+import { Usage, ManagedEnvironmentUsagesListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a JobsExecutions. */
-export interface JobsExecutions {
+/** Interface representing a ManagedEnvironmentUsages. */
+export interface ManagedEnvironmentUsages {
   /**
-   * Get a Container Apps Job's executions
+   * Gets the current usage information as well as the limits for environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Job Name
+   * @param environmentName Name of the Environment.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams
-  ): PagedAsyncIterableIterator<JobExecution>;
+    environmentName: string,
+    options?: ManagedEnvironmentUsagesListOptionalParams
+  ): PagedAsyncIterableIterator<Usage>;
 }

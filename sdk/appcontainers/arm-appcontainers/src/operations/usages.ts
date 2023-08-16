@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { JobsExecutions } from "../operationsInterfaces";
+import { Usages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  JobExecution,
-  JobsExecutionsListNextOptionalParams,
-  JobsExecutionsListOptionalParams,
-  JobsExecutionsListResponse,
-  JobsExecutionsListNextResponse
+  Usage,
+  UsagesListNextOptionalParams,
+  UsagesListOptionalParams,
+  UsagesListResponse,
+  UsagesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing JobsExecutions operations. */
-export class JobsExecutionsImpl implements JobsExecutions {
+/** Class containing Usages operations. */
+export class UsagesImpl implements Usages {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class JobsExecutions class.
+   * Initialize a new instance of the class Usages class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -35,17 +35,16 @@ export class JobsExecutionsImpl implements JobsExecutions {
   }
 
   /**
-   * Get a Container Apps Job's executions
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Job Name
+   * Gets, for the specified location, the current resource usage information as well as the limits under
+   * the subscription.
+   * @param location The location for which resource usage is queried.
    * @param options The options parameters.
    */
   public list(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams
-  ): PagedAsyncIterableIterator<JobExecution> {
-    const iter = this.listPagingAll(resourceGroupName, jobName, options);
+    location: string,
+    options?: UsagesListOptionalParams
+  ): PagedAsyncIterableIterator<Usage> {
+    const iter = this.listPagingAll(location, options);
     return {
       next() {
         return iter.next();
@@ -57,38 +56,27 @@ export class JobsExecutionsImpl implements JobsExecutions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          jobName,
-          options,
-          settings
-        );
+        return this.listPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams,
+    location: string,
+    options?: UsagesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<JobExecution[]> {
-    let result: JobsExecutionsListResponse;
+  ): AsyncIterableIterator<Usage[]> {
+    let result: UsagesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, jobName, options);
+      result = await this._list(location, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        jobName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -97,51 +85,43 @@ export class JobsExecutionsImpl implements JobsExecutions {
   }
 
   private async *listPagingAll(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams
-  ): AsyncIterableIterator<JobExecution> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      jobName,
-      options
-    )) {
+    location: string,
+    options?: UsagesListOptionalParams
+  ): AsyncIterableIterator<Usage> {
+    for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
-   * Get a Container Apps Job's executions
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Job Name
+   * Gets, for the specified location, the current resource usage information as well as the limits under
+   * the subscription.
+   * @param location The location for which resource usage is queried.
    * @param options The options parameters.
    */
   private _list(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsExecutionsListOptionalParams
-  ): Promise<JobsExecutionsListResponse> {
+    location: string,
+    options?: UsagesListOptionalParams
+  ): Promise<UsagesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, options },
+      { location, options },
       listOperationSpec
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Job Name
+   * @param location The location for which resource usage is queried.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceGroupName: string,
-    jobName: string,
+    location: string,
     nextLink: string,
-    options?: JobsExecutionsListNextOptionalParams
-  ): Promise<JobsExecutionsListNextResponse> {
+    options?: UsagesListNextOptionalParams
+  ): Promise<UsagesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, nextLink, options },
+      { location, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -151,22 +131,21 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppJobExecutions
+      bodyMapper: Mappers.ListUsagesResult
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -176,7 +155,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppJobExecutions
+      bodyMapper: Mappers.ListUsagesResult
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -185,9 +164,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.jobName
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept],
   serializer
