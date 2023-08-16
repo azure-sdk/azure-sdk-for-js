@@ -11,7 +11,29 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper } from "../models/mappers";
+import {
+  GroupQuotasEntity as GroupQuotasEntityMapper,
+  GroupQuotaLimit as GroupQuotaLimitMapper,
+  SubscriptionQuotaAllocations as SubscriptionQuotaAllocationsMapper,
+  CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper
+} from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const groupQuotaPutRequestBody: OperationParameter = {
+  parameterPath: ["options", "groupQuotaPutRequestBody"],
+  mapper: GroupQuotasEntityMapper
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -37,10 +59,30 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
+export const mgId: OperationURLParameter = {
+  parameterPath: "mgId",
   mapper: {
-    serializedName: "resourceName",
+    constraints: {
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "mgId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const groupQuotaName: OperationURLParameter = {
+  parameterPath: "groupQuotaName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "groupQuotaName",
     required: true,
     type: {
       name: "String"
@@ -51,7 +93,117 @@ export const resourceName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-15-preview",
+    defaultValue: "2023-06-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const groupQuotasPatchRequestBody: OperationParameter = {
+  parameterPath: ["options", "groupQuotasPatchRequestBody"],
+  mapper: GroupQuotasEntityMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const requestId: OperationURLParameter = {
+  parameterPath: "requestId",
+  mapper: {
+    serializedName: "requestId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const groupQuotaLimitRequest: OperationParameter = {
+  parameterPath: ["options", "groupQuotaLimitRequest"],
+  mapper: GroupQuotaLimitMapper
+};
+
+export const resourceProviderScope: OperationURLParameter = {
+  parameterPath: "resourceProviderScope",
+  mapper: {
+    serializedName: "resourceProviderScope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceName: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const allocateQuotaRequest: OperationParameter = {
+  parameterPath: "allocateQuotaRequest",
+  mapper: SubscriptionQuotaAllocationsMapper
+};
+
+export const allocationId: OperationURLParameter = {
+  parameterPath: "allocationId",
+  mapper: {
+    serializedName: "allocationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceName1: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -70,30 +222,6 @@ export const scope: OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const createQuotaRequest: OperationParameter = {

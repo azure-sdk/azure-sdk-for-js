@@ -177,7 +177,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExceptionResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.id],
   headerParameters: [Parameters.accept],
   serializer
@@ -194,7 +194,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter,
     Parameters.top,
     Parameters.skiptoken
@@ -214,13 +214,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExceptionResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skiptoken
-  ],
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };
