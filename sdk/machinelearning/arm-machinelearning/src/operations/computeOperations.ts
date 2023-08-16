@@ -12,9 +12,13 @@ import { ComputeOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ComputeResource,
   ComputeListNextOptionalParams,
@@ -36,8 +40,11 @@ import {
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
+  ComputeStartResponse,
   ComputeStopOptionalParams,
+  ComputeStopResponse,
   ComputeRestartOptionalParams,
+  ComputeRestartResponse,
   ComputeListNextResponse,
   ComputeListNodesNextResponse
 } from "../models";
@@ -45,13 +52,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ComputeOperations operations. */
 export class ComputeOperationsImpl implements ComputeOperations {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class ComputeOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -278,8 +285,8 @@ export class ComputeOperationsImpl implements ComputeOperations {
     parameters: ComputeResource,
     options?: ComputeCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ComputeCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ComputeCreateOrUpdateResponse>,
       ComputeCreateOrUpdateResponse
     >
   > {
@@ -289,7 +296,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     ): Promise<ComputeCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -322,13 +329,22 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ComputeCreateOrUpdateResponse,
+      OperationState<ComputeCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -378,7 +394,10 @@ export class ComputeOperationsImpl implements ComputeOperations {
     parameters: ClusterUpdateParameters,
     options?: ComputeUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ComputeUpdateResponse>, ComputeUpdateResponse>
+    SimplePollerLike<
+      OperationState<ComputeUpdateResponse>,
+      ComputeUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -386,7 +405,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     ): Promise<ComputeUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -419,13 +438,22 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ComputeUpdateResponse,
+      OperationState<ComputeUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -473,14 +501,14 @@ export class ComputeOperationsImpl implements ComputeOperations {
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
     options?: ComputeDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -513,19 +541,19 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         computeName,
         underlyingResourceAction,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -608,14 +636,16 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<OperationState<ComputeStartResponse>, ComputeStartResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ComputeStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -648,13 +678,16 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ComputeStartResponse,
+      OperationState<ComputeStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -673,7 +706,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStartOptionalParams
-  ): Promise<void> {
+  ): Promise<ComputeStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       workspaceName,
@@ -695,14 +728,16 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<OperationState<ComputeStopResponse>, ComputeStopResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ComputeStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -735,13 +770,16 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ComputeStopResponse,
+      OperationState<ComputeStopResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -760,7 +798,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStopOptionalParams
-  ): Promise<void> {
+  ): Promise<ComputeStopResponse> {
     const poller = await this.beginStop(
       resourceGroupName,
       workspaceName,
@@ -782,14 +820,19 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ComputeRestartResponse>,
+      ComputeRestartResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ComputeRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -822,13 +865,16 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ComputeRestartResponse,
+      OperationState<ComputeRestartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -847,7 +893,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
-  ): Promise<void> {
+  ): Promise<ComputeRestartResponse> {
     const poller = await this.beginRestart(
       resourceGroupName,
       workspaceName,
@@ -1088,10 +1134,18 @@ const startOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/start",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ComputeStartHeaders
+    },
+    201: {
+      headersMapper: Mappers.ComputeStartHeaders
+    },
+    202: {
+      headersMapper: Mappers.ComputeStartHeaders
+    },
+    204: {
+      headersMapper: Mappers.ComputeStartHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1112,10 +1166,18 @@ const stopOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/stop",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ComputeStopHeaders
+    },
+    201: {
+      headersMapper: Mappers.ComputeStopHeaders
+    },
+    202: {
+      headersMapper: Mappers.ComputeStopHeaders
+    },
+    204: {
+      headersMapper: Mappers.ComputeStopHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1136,10 +1198,18 @@ const restartOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/restart",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ComputeRestartHeaders
+    },
+    201: {
+      headersMapper: Mappers.ComputeRestartHeaders
+    },
+    202: {
+      headersMapper: Mappers.ComputeRestartHeaders
+    },
+    204: {
+      headersMapper: Mappers.ComputeRestartHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1166,7 +1236,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1188,7 +1257,6 @@ const listNodesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

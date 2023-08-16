@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ComputeResource,
   ComputeListOptionalParams,
@@ -25,8 +25,11 @@ import {
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
+  ComputeStartResponse,
   ComputeStopOptionalParams,
-  ComputeRestartOptionalParams
+  ComputeStopResponse,
+  ComputeRestartOptionalParams,
+  ComputeRestartResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -87,8 +90,8 @@ export interface ComputeOperations {
     parameters: ComputeResource,
     options?: ComputeCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ComputeCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ComputeCreateOrUpdateResponse>,
       ComputeCreateOrUpdateResponse
     >
   >;
@@ -125,7 +128,10 @@ export interface ComputeOperations {
     parameters: ClusterUpdateParameters,
     options?: ComputeUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ComputeUpdateResponse>, ComputeUpdateResponse>
+    SimplePollerLike<
+      OperationState<ComputeUpdateResponse>,
+      ComputeUpdateResponse
+    >
   >;
   /**
    * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
@@ -158,7 +164,7 @@ export interface ComputeOperations {
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
     options?: ComputeDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes specified Machine Learning compute.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -200,7 +206,9 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<OperationState<ComputeStartResponse>, ComputeStartResponse>
+  >;
   /**
    * Posts a start action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -213,7 +221,7 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStartOptionalParams
-  ): Promise<void>;
+  ): Promise<ComputeStartResponse>;
   /**
    * Posts a stop action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -226,7 +234,9 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<OperationState<ComputeStopResponse>, ComputeStopResponse>
+  >;
   /**
    * Posts a stop action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -239,7 +249,7 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStopOptionalParams
-  ): Promise<void>;
+  ): Promise<ComputeStopResponse>;
   /**
    * Posts a restart action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -252,7 +262,12 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ComputeRestartResponse>,
+      ComputeRestartResponse
+    >
+  >;
   /**
    * Posts a restart action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -265,5 +280,5 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
-  ): Promise<void>;
+  ): Promise<ComputeRestartResponse>;
 }
