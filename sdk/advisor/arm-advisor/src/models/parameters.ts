@@ -13,7 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   ConfigData as ConfigDataMapper,
-  SuppressionContract as SuppressionContractMapper
+  SuppressionContract as SuppressionContractMapper,
+  PredictionRequest as PredictionRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -54,7 +55,7 @@ export const name: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-01-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -191,4 +192,9 @@ export const recommendationId: OperationURLParameter = {
 export const suppressionContract: OperationParameter = {
   parameterPath: "suppressionContract",
   mapper: SuppressionContractMapper
+};
+
+export const predictionRequest: OperationParameter = {
+  parameterPath: "predictionRequest",
+  mapper: PredictionRequestMapper
 };
