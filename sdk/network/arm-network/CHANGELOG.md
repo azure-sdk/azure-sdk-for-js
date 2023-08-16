@@ -1,15 +1,33 @@
 # Release History
+    
+## 32.1.0 (2023-08-16)
+    
+**Features**
 
-## 32.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added Interface BastionHostPropertiesFormatNetworkAcls
+  - Added Interface IPRule
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
+  - Added Interface VirtualNetworkGatewayAutoScaleBounds
+  - Added Interface VirtualNetworkGatewayAutoScaleConfiguration
+  - Added Type Alias FirewallPolicyIntrusionDetectionProfileType
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias SyncMode
+  - Interface BackendAddressPool has a new optional parameter syncMode
+  - Interface BastionHost has a new optional parameter networkAcls
+  - Interface BastionHost has a new optional parameter virtualNetwork
+  - Interface FirewallPolicy has a new optional parameter size
+  - Interface FirewallPolicyIntrusionDetection has a new optional parameter profile
+  - Interface FirewallPolicyRuleCollectionGroup has a new optional parameter size
+  - Interface VirtualNetworkGateway has a new optional parameter autoScaleConfiguration
+  - Added Enum KnownFirewallPolicyIntrusionDetectionProfileType
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
+    
+    
 ## 32.0.0 (2023-07-06)
     
 **Features**
