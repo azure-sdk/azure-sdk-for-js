@@ -35,6 +35,7 @@ specifiers:
   '@rush-temp/arm-automation': file:./projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azuresphere': file:./projects/arm-azuresphere.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:./projects/arm-azurestackhci.tgz
   '@rush-temp/arm-baremetalinfrastructure': file:./projects/arm-baremetalinfrastructure.tgz
@@ -390,6 +391,7 @@ dependencies:
   '@rush-temp/arm-automation': file:projects/arm-automation.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azuresphere': file:projects/arm-azuresphere.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:projects/arm-azurestackhci.tgz
   '@rush-temp/arm-baremetalinfrastructure': file:projects/arm-baremetalinfrastructure.tgz
@@ -4132,7 +4134,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230811
+      typescript: 5.3.0-dev.20230817
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8717,8 +8719,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230811:
-    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
+  /typescript/5.3.0-dev.20230817:
+    resolution: {integrity: sha512-WbPb4NIGIcx8fQG4JPh54lALvzPUJTcDLCP9xVsrfOMrMAWswPqqekMZ7jVpasCOmYtC9e+oUCpW+jgVVcW7UQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10412,6 +10414,37 @@ packages:
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-azuresphere.tgz:
+    resolution: {integrity: sha512-ayQYxb7xk9eL7Kz66Q2NOI4Znh2l4mjbZXRVOl7DTjP2Czv/hMDlXtJb/pMcIJ/SCDi+mx0syzbaD5LornslBw==, tarball: file:projects/arm-azuresphere.tgz}
+    name: '@rush-temp/arm-azuresphere'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
+      tslib: 2.6.1
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
