@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   JobBase,
   JobsListOptionalParams,
@@ -45,7 +45,7 @@ export interface Jobs {
     workspaceName: string,
     id: string,
     options?: JobsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -99,7 +99,7 @@ export interface Jobs {
     workspaceName: string,
     id: string,
     options?: JobsCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancels a Job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -12,9 +12,13 @@ import { OnlineDeployments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   OnlineDeployment,
   OnlineDeploymentsListNextOptionalParams,
@@ -42,13 +46,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OnlineDeployments operations. */
 export class OnlineDeploymentsImpl implements OnlineDeployments {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class OnlineDeployments class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -280,14 +284,14 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     options?: OnlineDeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -320,20 +324,21 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
         deploymentName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -408,8 +413,8 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     body: PartialMinimalTrackedResourceWithSku,
     options?: OnlineDeploymentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineDeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineDeploymentsUpdateResponse>,
       OnlineDeploymentsUpdateResponse
     >
   > {
@@ -419,7 +424,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     ): Promise<OnlineDeploymentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -452,9 +457,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
@@ -462,10 +467,13 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         body,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OnlineDeploymentsUpdateResponse,
+      OperationState<OnlineDeploymentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -517,8 +525,8 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     body: OnlineDeployment,
     options?: OnlineDeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineDeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineDeploymentsCreateOrUpdateResponse>,
       OnlineDeploymentsCreateOrUpdateResponse
     >
   > {
@@ -528,7 +536,7 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
     ): Promise<OnlineDeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -561,9 +569,9 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
@@ -571,11 +579,15 @@ export class OnlineDeploymentsImpl implements OnlineDeployments {
         body,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      OnlineDeploymentsCreateOrUpdateResponse,
+      OperationState<OnlineDeploymentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -818,7 +830,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -853,7 +865,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body19,
+  requestBody: Parameters.body20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -879,7 +891,7 @@ const getLogsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body20,
+  requestBody: Parameters.body21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -928,12 +940,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -956,7 +962,6 @@ const listSkusNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
