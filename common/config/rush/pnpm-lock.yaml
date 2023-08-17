@@ -4132,7 +4132,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230811
+      typescript: 5.3.0-dev.20230817
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8717,8 +8717,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230811:
-    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
+  /typescript/5.3.0-dev.20230817:
+    resolution: {integrity: sha512-WbPb4NIGIcx8fQG4JPh54lALvzPUJTcDLCP9xVsrfOMrMAWswPqqekMZ7jVpasCOmYtC9e+oUCpW+jgVVcW7UQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12603,7 +12603,7 @@ packages:
     dev: false
 
   file:projects/arm-iotfirmwaredefense.tgz:
-    resolution: {integrity: sha512-WIj5c8uF/mAXwe8EU45nUgYW8ktN9U4jnws1wb3ASNsyCvwBwOWsquHpUvDRvFVnlcmJE800qpLxs+vEAo2meg==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
+    resolution: {integrity: sha512-RLjdosy/z52Skdm/qkrocDw+xGNE18yeSoyDMkkMJ8SISdSnrtlqLZhHICLwukT//hIaHzUeECip0kSd1zy06w==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
     name: '@rush-temp/arm-iotfirmwaredefense'
     version: 0.0.0
     dependencies:
@@ -12623,10 +12623,13 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.1
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 

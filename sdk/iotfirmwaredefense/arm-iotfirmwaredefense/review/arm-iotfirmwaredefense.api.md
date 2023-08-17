@@ -461,19 +461,11 @@ export interface FirmwareUpdateOptionalParams extends coreClient.OperationOption
 // @public
 export type FirmwareUpdateResponse = Firmware;
 
-// @public
-export interface GenerateUploadUrlRequest {
-    firmwareId?: string;
-}
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
 // @public (undocumented)
-export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
+export class Fist extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: IoTFirmwareDefenseClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FistOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -487,11 +479,19 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
 }
 
 // @public
-export interface IoTFirmwareDefenseClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface FistOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export interface GenerateUploadUrlRequest {
+    firmwareId?: string;
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type IsExpired = string;

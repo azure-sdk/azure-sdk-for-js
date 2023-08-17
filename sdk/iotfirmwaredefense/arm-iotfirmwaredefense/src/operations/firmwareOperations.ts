@@ -12,7 +12,7 @@ import { FirmwareOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { IoTFirmwareDefenseClient } from "../ioTFirmwareDefenseClient";
+import { Fist } from "../fist";
 import {
   Firmware,
   FirmwareListByWorkspaceNextOptionalParams,
@@ -80,13 +80,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FirmwareOperations operations. */
 export class FirmwareOperationsImpl implements FirmwareOperations {
-  private readonly client: IoTFirmwareDefenseClient;
+  private readonly client: Fist;
 
   /**
    * Initialize a new instance of the class FirmwareOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: IoTFirmwareDefenseClient) {
+  constructor(client: Fist) {
     this.client = client;
   }
 
