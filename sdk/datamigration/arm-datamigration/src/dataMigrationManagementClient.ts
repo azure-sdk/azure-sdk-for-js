@@ -15,9 +15,11 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  DatabaseMigrationsSqlDbImpl,
   DatabaseMigrationsSqlMiImpl,
   DatabaseMigrationsSqlVmImpl,
   OperationsImpl,
+  MigrationServicesImpl,
   SqlMigrationServicesImpl,
   ResourceSkusImpl,
   ServicesImpl,
@@ -28,9 +30,11 @@ import {
   FilesImpl
 } from "./operations";
 import {
+  DatabaseMigrationsSqlDb,
   DatabaseMigrationsSqlMi,
   DatabaseMigrationsSqlVm,
   Operations,
+  MigrationServices,
   SqlMigrationServices,
   ResourceSkus,
   Services,
@@ -127,10 +131,12 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-30-preview";
+    this.apiVersion = options.apiVersion || "2023-07-15-preview";
+    this.databaseMigrationsSqlDb = new DatabaseMigrationsSqlDbImpl(this);
     this.databaseMigrationsSqlMi = new DatabaseMigrationsSqlMiImpl(this);
     this.databaseMigrationsSqlVm = new DatabaseMigrationsSqlVmImpl(this);
     this.operations = new OperationsImpl(this);
+    this.migrationServices = new MigrationServicesImpl(this);
     this.sqlMigrationServices = new SqlMigrationServicesImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
     this.services = new ServicesImpl(this);
@@ -170,9 +176,11 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  databaseMigrationsSqlDb: DatabaseMigrationsSqlDb;
   databaseMigrationsSqlMi: DatabaseMigrationsSqlMi;
   databaseMigrationsSqlVm: DatabaseMigrationsSqlVm;
   operations: Operations;
+  migrationServices: MigrationServices;
   sqlMigrationServices: SqlMigrationServices;
   resourceSkus: ResourceSkus;
   services: Services;
