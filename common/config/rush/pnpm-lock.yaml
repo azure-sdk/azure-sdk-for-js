@@ -4136,7 +4136,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230811
+      typescript: 5.3.0-dev.20230818
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8721,8 +8721,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230811:
-    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
+  /typescript/5.3.0-dev.20230818:
+    resolution: {integrity: sha512-inkObfKw5TVieNQdO9vTAAzUIKV6i2bjqpC28j1knVWvcxaBLtNGrPgxGVnhWB/LQ5AjMLvgkCM58kkamkRObQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14285,7 +14285,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices-siterecovery.tgz:
-    resolution: {integrity: sha512-CburLVfm8RTB0DPRJAnrvOo7Pixk8dmFxw2lMp75az3K3YwhXJIDVSYmnqkLj8BMfzepQSxXXFQnR676O8Acig==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-F44B8OZMGGP09nyk1UK5YJ64U7hCpxNV6yk6iYeKQHsQ49WtcT5VC3SRiCko/VjYwa7o4hviwiitw8+E+JlMuA==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
@@ -14299,15 +14299,19 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.1
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -17642,7 +17646,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
@@ -17650,7 +17654,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
-      eslint: 8.45.0
+      eslint: 8.46.0
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -17668,7 +17672,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      tslib: 2.6.0
+      tslib: 2.6.1
       typescript: 5.0.4
     transitivePeerDependencies:
       - bufferutil
@@ -17683,7 +17687,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
@@ -17691,7 +17695,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
-      eslint: 8.45.0
+      eslint: 8.46.0
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -17709,7 +17713,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      tslib: 2.6.0
+      tslib: 2.6.1
       typescript: 5.0.4
     transitivePeerDependencies:
       - bufferutil
