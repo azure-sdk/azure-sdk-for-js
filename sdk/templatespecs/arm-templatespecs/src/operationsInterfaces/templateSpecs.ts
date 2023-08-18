@@ -11,13 +11,16 @@ import {
   TemplateSpec,
   TemplateSpecsListBySubscriptionOptionalParams,
   TemplateSpecsListByResourceGroupOptionalParams,
+  TemplateSpecsListBuiltInsOptionalParams,
   TemplateSpecsCreateOrUpdateOptionalParams,
   TemplateSpecsCreateOrUpdateResponse,
   TemplateSpecsUpdateOptionalParams,
   TemplateSpecsUpdateResponse,
   TemplateSpecsGetOptionalParams,
   TemplateSpecsGetResponse,
-  TemplateSpecsDeleteOptionalParams
+  TemplateSpecsDeleteOptionalParams,
+  TemplateSpecsGetBuiltInOptionalParams,
+  TemplateSpecsGetBuiltInResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,6 +41,13 @@ export interface TemplateSpecs {
   listByResourceGroup(
     resourceGroupName: string,
     options?: TemplateSpecsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<TemplateSpec>;
+  /**
+   * Lists built-in Template Specs.
+   * @param options The options parameters.
+   */
+  listBuiltIns(
+    options?: TemplateSpecsListBuiltInsOptionalParams
   ): PagedAsyncIterableIterator<TemplateSpec>;
   /**
    * Creates or updates a Template Spec.
@@ -85,4 +95,13 @@ export interface TemplateSpecs {
     templateSpecName: string,
     options?: TemplateSpecsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Gets a built-in Template Spec with a given name.
+   * @param templateSpecName Name of the Template Spec.
+   * @param options The options parameters.
+   */
+  getBuiltIn(
+    templateSpecName: string,
+    options?: TemplateSpecsGetBuiltInOptionalParams
+  ): Promise<TemplateSpecsGetBuiltInResponse>;
 }
