@@ -1,21 +1,12 @@
 # Release History
-
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.1 (2023-07-11)
+    
+## 2.0.0-beta.2 (2023-08-18)
     
 **Features**
 
   - Added operation group WebPubSubReplicas
   - Added operation WebPubSub.listReplicaSkus
+  - Added Interface IPRule
   - Added Interface Replica
   - Added Interface ReplicaList
   - Added Interface WebPubSubListReplicaSkusOptionalParams
@@ -41,17 +32,20 @@
   - Added Type Alias WebPubSubReplicasUpdateResponse
   - Added Type Alias WebPubSubRestartResponse
   - Interface Resource has a new optional parameter systemData
+  - Interface WebPubSubNetworkACLs has a new optional parameter ipRules
   - Interface WebPubSubResource has a new optional parameter kind
+  - Interface WebPubSubResource has a new optional parameter regionEndpointEnabled
+  - Interface WebPubSubResource has a new optional parameter resourceStopped
   - Added Enum KnownServiceKind
+
+**Breaking Changes**
+
   - Interface CustomCertificate no longer has parameter systemData
   - Interface CustomDomain no longer has parameter systemData
   - Interface PrivateEndpointConnection no longer has parameter systemData
   - Interface SharedPrivateLinkResource no longer has parameter systemData
   - Interface WebPubSubHub no longer has parameter systemData
   - Interface WebPubSubResource no longer has parameter systemData
-
-**Breaking Changes**
-
   - Parameter location of interface TrackedResource is now required
     
     
