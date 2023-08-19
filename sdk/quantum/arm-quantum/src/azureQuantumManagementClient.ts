@@ -15,16 +15,14 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  WorkspacesImpl,
-  OfferingsImpl,
   OperationsImpl,
-  WorkspaceImpl
+  WorkspaceOperationsImpl,
+  WorkspacesOperationsImpl
 } from "./operations";
 import {
-  Workspaces,
-  Offerings,
   Operations,
-  Workspace
+  WorkspaceOperations,
+  WorkspacesOperations
 } from "./operationsInterfaces";
 import { AzureQuantumManagementClientOptionalParams } from "./models";
 
@@ -36,7 +34,7 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the AzureQuantumManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -114,10 +112,9 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2022-01-10-preview";
-    this.workspaces = new WorkspacesImpl(this);
-    this.offerings = new OfferingsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.workspace = new WorkspaceImpl(this);
+    this.workspaceOperations = new WorkspaceOperationsImpl(this);
+    this.workspacesOperations = new WorkspacesOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -149,8 +146,7 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  workspaces: Workspaces;
-  offerings: Offerings;
   operations: Operations;
-  workspace: Workspace;
+  workspaceOperations: WorkspaceOperations;
+  workspacesOperations: WorkspacesOperations;
 }

@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Workspace } from "../operationsInterfaces";
+import { WorkspaceOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuantumManagementClient } from "../azureQuantumManagementClient";
 import {
-  CheckNameAvailabilityParameters,
-  WorkspaceCheckNameAvailabilityOptionalParams,
-  WorkspaceCheckNameAvailabilityResponse
+  QuantumWorkspace,
+  WorkspaceOperationsCheckNameAvailabilityOptionalParams,
+  WorkspaceOperationsCheckNameAvailabilityResponse
 } from "../models";
 
-/** Class containing Workspace operations. */
-export class WorkspaceImpl implements Workspace {
+/** Class containing WorkspaceOperations operations. */
+export class WorkspaceOperationsImpl implements WorkspaceOperations {
   private readonly client: AzureQuantumManagementClient;
 
   /**
-   * Initialize a new instance of the class Workspace class.
+   * Initialize a new instance of the class WorkspaceOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AzureQuantumManagementClient) {
@@ -31,17 +31,17 @@ export class WorkspaceImpl implements Workspace {
 
   /**
    * Check the availability of the resource name.
-   * @param locationName Location.
-   * @param checkNameAvailabilityParameters The name and type of the resource.
+   * @param location The name of Azure region.
+   * @param body The CheckAvailability request
    * @param options The options parameters.
    */
   checkNameAvailability(
-    locationName: string,
-    checkNameAvailabilityParameters: CheckNameAvailabilityParameters,
-    options?: WorkspaceCheckNameAvailabilityOptionalParams
-  ): Promise<WorkspaceCheckNameAvailabilityResponse> {
+    location: string,
+    body: QuantumWorkspace,
+    options?: WorkspaceOperationsCheckNameAvailabilityOptionalParams
+  ): Promise<WorkspaceOperationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { locationName, checkNameAvailabilityParameters, options },
+      { location, body, options },
       checkNameAvailabilityOperationSpec
     );
   }
@@ -51,22 +51,22 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{locationName}/checkNameAvailability",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
+      bodyMapper: Mappers.CheckNameAvailabilityResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.checkNameAvailabilityParameters,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.location
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

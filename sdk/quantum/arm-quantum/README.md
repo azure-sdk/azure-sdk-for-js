@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Quantum Management client.
 
-
+// FIXME: (miissing-service-description) Add service description
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/arm-quantum) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-quantum) |

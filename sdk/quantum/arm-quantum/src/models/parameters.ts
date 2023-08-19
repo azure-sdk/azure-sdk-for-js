@@ -13,8 +13,7 @@ import {
 } from "@azure/core-client";
 import {
   QuantumWorkspace as QuantumWorkspaceMapper,
-  TagsObject as TagsObjectMapper,
-  CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper
+  QuantumWorkspaceUpdate as QuantumWorkspaceUpdateMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -41,17 +40,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -62,50 +50,6 @@ export const apiVersion: OperationQueryParameter = {
       name: "String"
     }
   }
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const workspaceName: OperationURLParameter = {
-  parameterPath: "workspaceName",
-  mapper: {
-    serializedName: "workspaceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const quantumWorkspace: OperationParameter = {
-  parameterPath: "quantumWorkspace",
-  mapper: QuantumWorkspaceMapper
-};
-
-export const workspaceTags: OperationParameter = {
-  parameterPath: "workspaceTags",
-  mapper: TagsObjectMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -120,10 +64,30 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const locationName: OperationURLParameter = {
-  parameterPath: "locationName",
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
   mapper: {
-    serializedName: "locationName",
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: QuantumWorkspaceMapper
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "subscriptionId",
     required: true,
     type: {
       name: "String"
@@ -131,7 +95,52 @@ export const locationName: OperationURLParameter = {
   }
 };
 
-export const checkNameAvailabilityParameters: OperationParameter = {
-  parameterPath: "checkNameAvailabilityParameters",
-  mapper: CheckNameAvailabilityParametersMapper
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: QuantumWorkspaceMapper
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: QuantumWorkspaceUpdateMapper
 };
