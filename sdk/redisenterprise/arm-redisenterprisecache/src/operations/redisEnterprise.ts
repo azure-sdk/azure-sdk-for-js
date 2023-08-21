@@ -35,6 +35,8 @@ import {
   RedisEnterpriseDeleteOptionalParams,
   RedisEnterpriseGetOptionalParams,
   RedisEnterpriseGetResponse,
+  CheckNameAvailabilityParameters,
+  RedisEnterpriseCheckNameAvailabilityOptionalParams,
   RedisEnterpriseListByResourceGroupNextResponse,
   RedisEnterpriseListNextResponse
 } from "../models";
@@ -493,6 +495,22 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
+   * Checks that the Redis Enterprise cache name is valid and is not already in use.
+   * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only
+   *                   supported resource type is 'Microsoft.Cache/redisenterprise'
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    parameters: CheckNameAvailabilityParameters,
+    options?: RedisEnterpriseCheckNameAvailabilityOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { parameters, options },
+      checkNameAvailabilityOperationSpec
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -674,6 +692,23 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
