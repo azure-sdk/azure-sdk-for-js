@@ -6,25 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  PolicyContract,
   PolicyListByServiceOptionalParams,
-  PolicyListByServiceResponse,
   PolicyIdName,
   PolicyGetEntityTagOptionalParams,
   PolicyGetEntityTagResponse,
   PolicyGetOptionalParams,
   PolicyGetResponse,
-  PolicyContract,
   PolicyCreateOrUpdateOptionalParams,
   PolicyCreateOrUpdateResponse,
   PolicyDeleteOptionalParams
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Policy. */
 export interface Policy {
   /**
    * Lists all the Global Policy definitions of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -32,10 +33,10 @@ export interface Policy {
     resourceGroupName: string,
     serviceName: string,
     options?: PolicyListByServiceOptionalParams
-  ): Promise<PolicyListByServiceResponse>;
+  ): PagedAsyncIterableIterator<PolicyContract>;
   /**
    * Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param options The options parameters.
@@ -48,7 +49,7 @@ export interface Policy {
   ): Promise<PolicyGetEntityTagResponse>;
   /**
    * Get the Global policy definition of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param options The options parameters.
@@ -61,7 +62,7 @@ export interface Policy {
   ): Promise<PolicyGetResponse>;
   /**
    * Creates or updates the global policy configuration of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param parameters The policy contents to apply.
@@ -76,7 +77,7 @@ export interface Policy {
   ): Promise<PolicyCreateOrUpdateResponse>;
   /**
    * Deletes the global policy configuration of the Api Management Service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
