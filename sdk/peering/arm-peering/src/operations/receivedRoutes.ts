@@ -199,14 +199,6 @@ const listByPeeringNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.prefix,
-    Parameters.asPath,
-    Parameters.originAsValidationState,
-    Parameters.rpkiValidationState,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

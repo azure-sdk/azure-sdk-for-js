@@ -75,11 +75,7 @@ export class CdnPeeringPrefixesImpl implements CdnPeeringPrefixes {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        peeringLocation,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -113,17 +109,15 @@ export class CdnPeeringPrefixesImpl implements CdnPeeringPrefixes {
 
   /**
    * ListNext
-   * @param peeringLocation The peering location.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    peeringLocation: string,
     nextLink: string,
     options?: CdnPeeringPrefixesListNextOptionalParams
   ): Promise<CdnPeeringPrefixesListNextResponse> {
     return this.client.sendOperationRequest(
-      { peeringLocation, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }
@@ -159,7 +153,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.peeringLocation, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

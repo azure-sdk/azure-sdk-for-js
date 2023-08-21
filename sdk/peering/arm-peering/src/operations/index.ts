@@ -22,3 +22,4 @@ export * from "./peeringServiceLocations";
 export * from "./prefixes";
 export * from "./peeringServiceProviders";
 export * from "./peeringServices";
+export * from "./rpUnbilledPrefixes";

@@ -8,27 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { LegacyPeerings } from "../operationsInterfaces";
+import { RpUnbilledPrefixes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PeeringManagementClient } from "../peeringManagementClient";
 import {
-  Peering,
-  LegacyPeeringsListNextOptionalParams,
-  LegacyPeeringsKind,
-  LegacyPeeringsListOptionalParams,
-  LegacyPeeringsListResponse,
-  LegacyPeeringsListNextResponse
+  RpUnbilledPrefix,
+  RpUnbilledPrefixesListNextOptionalParams,
+  RpUnbilledPrefixesListOptionalParams,
+  RpUnbilledPrefixesListResponse,
+  RpUnbilledPrefixesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing LegacyPeerings operations. */
-export class LegacyPeeringsImpl implements LegacyPeerings {
+/** Class containing RpUnbilledPrefixes operations. */
+export class RpUnbilledPrefixesImpl implements RpUnbilledPrefixes {
   private readonly client: PeeringManagementClient;
 
   /**
-   * Initialize a new instance of the class LegacyPeerings class.
+   * Initialize a new instance of the class RpUnbilledPrefixes class.
    * @param client Reference to the service client
    */
   constructor(client: PeeringManagementClient) {
@@ -36,18 +35,17 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
   }
 
   /**
-   * Lists all of the legacy peerings under the given subscription matching the specified kind and
-   * location.
-   * @param peeringLocation The location of the peering.
-   * @param kind The kind of the peering.
+   * Lists all of the RP unbilled prefixes for the specified peering
+   * @param resourceGroupName The Azure resource group name.
+   * @param peeringName The peering name.
    * @param options The options parameters.
    */
   public list(
-    peeringLocation: string,
-    kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams
-  ): PagedAsyncIterableIterator<Peering> {
-    const iter = this.listPagingAll(peeringLocation, kind, options);
+    resourceGroupName: string,
+    peeringName: string,
+    options?: RpUnbilledPrefixesListOptionalParams
+  ): PagedAsyncIterableIterator<RpUnbilledPrefix> {
+    const iter = this.listPagingAll(resourceGroupName, peeringName, options);
     return {
       next() {
         return iter.next();
@@ -59,28 +57,38 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(peeringLocation, kind, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          peeringName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listPagingPage(
-    peeringLocation: string,
-    kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams,
+    resourceGroupName: string,
+    peeringName: string,
+    options?: RpUnbilledPrefixesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Peering[]> {
-    let result: LegacyPeeringsListResponse;
+  ): AsyncIterableIterator<RpUnbilledPrefix[]> {
+    let result: RpUnbilledPrefixesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(peeringLocation, kind, options);
+      result = await this._list(resourceGroupName, peeringName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        peeringName,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -89,13 +97,13 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
   }
 
   private async *listPagingAll(
-    peeringLocation: string,
-    kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams
-  ): AsyncIterableIterator<Peering> {
+    resourceGroupName: string,
+    peeringName: string,
+    options?: RpUnbilledPrefixesListOptionalParams
+  ): AsyncIterableIterator<RpUnbilledPrefix> {
     for await (const page of this.listPagingPage(
-      peeringLocation,
-      kind,
+      resourceGroupName,
+      peeringName,
       options
     )) {
       yield* page;
@@ -103,34 +111,37 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
   }
 
   /**
-   * Lists all of the legacy peerings under the given subscription matching the specified kind and
-   * location.
-   * @param peeringLocation The location of the peering.
-   * @param kind The kind of the peering.
+   * Lists all of the RP unbilled prefixes for the specified peering
+   * @param resourceGroupName The Azure resource group name.
+   * @param peeringName The peering name.
    * @param options The options parameters.
    */
   private _list(
-    peeringLocation: string,
-    kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams
-  ): Promise<LegacyPeeringsListResponse> {
+    resourceGroupName: string,
+    peeringName: string,
+    options?: RpUnbilledPrefixesListOptionalParams
+  ): Promise<RpUnbilledPrefixesListResponse> {
     return this.client.sendOperationRequest(
-      { peeringLocation, kind, options },
+      { resourceGroupName, peeringName, options },
       listOperationSpec
     );
   }
 
   /**
    * ListNext
+   * @param resourceGroupName The Azure resource group name.
+   * @param peeringName The peering name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceGroupName: string,
+    peeringName: string,
     nextLink: string,
-    options?: LegacyPeeringsListNextOptionalParams
-  ): Promise<LegacyPeeringsListNextResponse> {
+    options?: RpUnbilledPrefixesListNextOptionalParams
+  ): Promise<RpUnbilledPrefixesListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { resourceGroupName, peeringName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -140,24 +151,23 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/legacyPeerings",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/rpUnbilledPrefixes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringListResult
+      bodyMapper: Mappers.RpUnbilledPrefixListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.peeringLocation,
-    Parameters.apiVersion,
-    Parameters.kind,
-    Parameters.asn,
-    Parameters.directPeeringType
+  queryParameters: [Parameters.apiVersion, Parameters.consolidate],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.peeringName
   ],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -166,7 +176,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringListResult
+      bodyMapper: Mappers.RpUnbilledPrefixListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -175,7 +185,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName,
+    Parameters.peeringName
   ],
   headerParameters: [Parameters.accept],
   serializer
