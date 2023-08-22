@@ -704,6 +704,13 @@ export const VirtualMachineScaleSetVMProfile: coreClient.CompositeMapper = {
           name: "Composite",
           className: "SecurityPostureReference"
         }
+      },
+      timeCreated: {
+        serializedName: "timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -8007,12 +8014,6 @@ export const GrantAccessData: coreClient.CompositeMapper = {
         serializedName: "getSecureVMGuestStateSAS",
         type: {
           name: "Boolean"
-        }
-      },
-      fileFormat: {
-        serializedName: "fileFormat",
-        type: {
-          name: "String"
         }
       }
     }

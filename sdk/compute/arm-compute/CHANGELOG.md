@@ -1,15 +1,17 @@
 # Release History
+    
+## 22.0.0 (2023-08-22)
+    
+**Features**
 
-## 21.1.1 (Unreleased)
+  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter timeCreated
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GrantAccessData no longer has parameter fileFormat
+  - Removed Enum KnownFileFormat
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**
