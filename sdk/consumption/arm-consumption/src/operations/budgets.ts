@@ -52,7 +52,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param options The options parameters.
    */
@@ -122,7 +122,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param options The options parameters.
    */
@@ -149,7 +149,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param options The options parameters.
@@ -180,7 +180,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param parameters Parameters supplied to the Create Budget operation.
@@ -211,7 +211,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param options The options parameters.
@@ -240,7 +240,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
