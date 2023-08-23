@@ -4131,7 +4131,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230822
+      typescript: 5.3.0-dev.20230823
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8715,8 +8715,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230822:
-    resolution: {integrity: sha512-zVlawDu8ult5+AoXXQck+R+qJn1Gzv5aE1lH9UcStRRE461MjXK7P8DDJuee840m66huRJKMzh+ttgrTUEfWmQ==}
+  /typescript/5.3.0-dev.20230823:
+    resolution: {integrity: sha512-IEFfTl67UgTTJzf+Ma4+0txDKzxzxtjNjyFjTm7c+yP5sff+atKe44mAjhCxX8wGjwRrFuhAUeHz1udmzBZ4ow==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14510,7 +14510,7 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-A5KPLmzwoQ024tNq6AKb/Er0C6bwhs8U1HtzQRmYFRuFLXhHSh+Dk86nwQRc2vgV/J+Cvr4QQ+uYDQ0x0K4gHw==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-19vyuiPH5cJogzuaO5ZWxm9aCXhh6xgkOl4NA3n8f1HlR1cjy4dfz23a5qEGkcxQVudXpN53gCOeoTc1sDYD7w==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
@@ -15162,7 +15162,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-JPKp259J5nN+vVi2wzvaIMG+pNlhqHdbjgBFZtF9W1gs3cBR9RX6ZLdzc1FU4ETQ5incWZTpV0+hr/9cWQ7pYg==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-YFAltDKaEvcdL4MG3j5BjPK/kTo3h2KXUClgQ+0nIZJjtUA5VcH+3+OFexNExXwIXE0RPplLTeChWs/x7vF2Ag==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -15182,10 +15182,13 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.2
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
