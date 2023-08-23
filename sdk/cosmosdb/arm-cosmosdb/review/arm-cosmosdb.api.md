@@ -1084,12 +1084,18 @@ export interface CorsPolicy {
 }
 
 // @public
-export interface CosmosCassandraDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export interface CosmosCassandraDataTransferDataSourceSink extends DataTransferDataSourceSink, CosmosDataTransferDataSourceSink {
     component: "CosmosDBCassandra";
     // (undocumented)
     keyspaceName: string;
     // (undocumented)
     tableName: string;
+}
+
+// @public
+export interface CosmosDataTransferDataSourceSink {
+    // (undocumented)
+    remoteAccountName?: string;
 }
 
 // @public (undocumented)
@@ -1191,7 +1197,7 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
 }
 
 // @public
-export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataSourceSink, CosmosDataTransferDataSourceSink {
     // (undocumented)
     collectionName: string;
     component: "CosmosDBMongo";
@@ -1200,7 +1206,7 @@ export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataS
 }
 
 // @public
-export interface CosmosSqlDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export interface CosmosSqlDataTransferDataSourceSink extends DataTransferDataSourceSink, CosmosDataTransferDataSourceSink {
     component: "CosmosDBSql";
     // (undocumented)
     containerName: string;
@@ -1224,6 +1230,9 @@ export interface CreateUpdateOptions {
     autoscaleSettings?: AutoscaleSettings;
     throughput?: number;
 }
+
+// @public
+export type CustomerManagedKeyStatus = string;
 
 // @public
 export interface Database {
@@ -1251,8 +1260,10 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
     createMode?: CreateMode;
+    customerManagedKeyStatus?: CustomerManagedKeyStatus;
     databaseAccountOfferType: "Standard";
     defaultIdentity?: string;
+    defaultPriorityLevel?: DefaultPriorityLevel;
     diagnosticLogSettings?: DiagnosticLogSettings;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
@@ -1264,6 +1275,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
+    enablePriorityBasedExecution?: boolean;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
     readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -1289,8 +1301,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
     createMode?: CreateMode;
+    customerManagedKeyStatus?: CustomerManagedKeyStatus;
     readonly databaseAccountOfferType?: "Standard";
     defaultIdentity?: string;
+    defaultPriorityLevel?: DefaultPriorityLevel;
     diagnosticLogSettings?: DiagnosticLogSettings;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
@@ -1303,6 +1317,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
+    enablePriorityBasedExecution?: boolean;
     readonly failoverPolicies?: FailoverPolicy[];
     readonly instanceId?: string;
     ipRules?: IpAddressOrRange[];
@@ -1577,7 +1592,9 @@ export interface DatabaseAccountUpdateParameters {
     connectorOffer?: ConnectorOffer;
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
+    customerManagedKeyStatus?: CustomerManagedKeyStatus;
     defaultIdentity?: string;
+    defaultPriorityLevel?: DefaultPriorityLevel;
     diagnosticLogSettings?: DiagnosticLogSettings;
     disableKeyBasedMetadataWriteAccess?: boolean;
     disableLocalAuth?: boolean;
@@ -1589,6 +1606,7 @@ export interface DatabaseAccountUpdateParameters {
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
+    enablePriorityBasedExecution?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
@@ -1780,6 +1798,9 @@ export type DataType = string;
 
 // @public
 export type DefaultConsistencyLevel = "Eventual" | "Session" | "BoundedStaleness" | "Strong" | "ConsistentPrefix";
+
+// @public
+export type DefaultPriorityLevel = string;
 
 // @public
 export interface DiagnosticLogSettings {
@@ -2415,6 +2436,21 @@ export enum KnownCreateMode {
 }
 
 // @public
+export enum KnownCustomerManagedKeyStatus {
+    AccessToTheConfiguredCustomerManagedKeyConfirmed = "Access to the configured customer managed key confirmed.",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheAccessRulesAreBlockingOutboundRequestsToTheAzureKeyVaultServiceForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide4016 = "Access to your account is currently revoked because the access rules are blocking outbound requests to the Azure Key Vault service; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountHasAnUndefinedDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInvalidAzureCosmosDbDefaultIdentity4015 = "Access to your account is currently revoked because the Azure Cosmos DB account has an undefined default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity (4015).",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountSKeyVaultKeyURIDoesNotFollowTheExpectedFormatForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideImproperSyntaxDetectedOnTheKeyVaultUriProperty4006 = "Access to your account is currently revoked because the Azure Cosmos DB account's key vault key URI does not follow the expected format; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property (4006).",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToObtainTheAADAuthenticationTokenForTheAccountSDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureActiveDirectoryTokenAcquisitionError4000 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to obtain the AAD authentication token for the account's default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error (4000).",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToWrapOrUnwrapTheKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInternalUnwrappingProcedureError4005 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to wrap or unwrap the key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error (4005).",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureKeyVaultDNSNameSpecifiedByTheAccountSKeyvaultkeyuriPropertyCouldNotBeResolvedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideUnableToResolveTheKeyVaultsDns4009 = "Access to your account is currently revoked because the Azure Key Vault DNS name specified by the account's keyvaultkeyuri property could not be resolved; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns (4009).",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentAzureKeyVaultWasNotFoundForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4017 = "Access to your account is currently revoked because the correspondent Azure Key Vault was not found; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4017).",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentKeyIsNotFoundOnTheSpecifiedKeyVaultForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4003 = "Access to your account is currently revoked because the correspondent key is not found on the specified Key Vault; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4003).",
+    AccessToYourAccountIsCurrentlyRevokedBecauseTheCurrentDefaultIdentityNoLongerHasPermissionToTheAssociatedKeyVaultKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideDefaultIdentityIsUnauthorizedToAccessTheAzureKeyVaultKey4002 = "Access to your account is currently revoked because the current default identity no longer has permission to the associated Key Vault key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key (4002).",
+    AccessToYourAccountIsCurrentlyRevokedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide = "Access to your account is currently revoked; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide"
+}
+
+// @public
 export enum KnownDatabaseAccountKind {
     GlobalDocumentDB = "GlobalDocumentDB",
     MongoDB = "MongoDB",
@@ -2437,6 +2473,12 @@ export enum KnownDataType {
     Point = "Point",
     Polygon = "Polygon",
     String = "String"
+}
+
+// @public
+export enum KnownDefaultPriorityLevel {
+    High = "High",
+    Low = "Low"
 }
 
 // @public

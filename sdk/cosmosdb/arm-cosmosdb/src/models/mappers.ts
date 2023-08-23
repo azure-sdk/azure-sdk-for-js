@@ -960,6 +960,24 @@ export const DatabaseAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      customerManagedKeyStatus: {
+        serializedName: "properties.customerManagedKeyStatus",
+        type: {
+          name: "String"
+        }
+      },
+      enablePriorityBasedExecution: {
+        serializedName: "properties.enablePriorityBasedExecution",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultPriorityLevel: {
+        serializedName: "properties.defaultPriorityLevel",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6844,6 +6862,21 @@ export const ContinuousModeProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const CosmosDataTransferDataSourceSink: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CosmosDataTransferDataSourceSink",
+    modelProperties: {
+      remoteAccountName: {
+        serializedName: "remoteAccountName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataTransferServiceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7391,6 +7424,24 @@ export const DatabaseAccountGetResults: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      customerManagedKeyStatus: {
+        serializedName: "properties.customerManagedKeyStatus",
+        type: {
+          name: "String"
+        }
+      },
+      enablePriorityBasedExecution: {
+        serializedName: "properties.enablePriorityBasedExecution",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultPriorityLevel: {
+        serializedName: "properties.defaultPriorityLevel",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -7649,6 +7700,24 @@ export const DatabaseAccountCreateUpdateParameters: coreClient.CompositeMapper =
       },
       minimalTlsVersion: {
         serializedName: "properties.minimalTlsVersion",
+        type: {
+          name: "String"
+        }
+      },
+      customerManagedKeyStatus: {
+        serializedName: "properties.customerManagedKeyStatus",
+        type: {
+          name: "String"
+        }
+      },
+      enablePriorityBasedExecution: {
+        serializedName: "properties.enablePriorityBasedExecution",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultPriorityLevel: {
+        serializedName: "properties.defaultPriorityLevel",
         type: {
           name: "String"
         }
@@ -9322,6 +9391,7 @@ export const CosmosCassandraDataTransferDataSourceSink: coreClient.CompositeMapp
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...CosmosDataTransferDataSourceSink.type.modelProperties,
       keyspaceName: {
         serializedName: "keyspaceName",
         required: true,
@@ -9350,6 +9420,7 @@ export const CosmosMongoDataTransferDataSourceSink: coreClient.CompositeMapper =
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...CosmosDataTransferDataSourceSink.type.modelProperties,
       databaseName: {
         serializedName: "databaseName",
         required: true,
@@ -9378,6 +9449,7 @@ export const CosmosSqlDataTransferDataSourceSink: coreClient.CompositeMapper = {
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...CosmosDataTransferDataSourceSink.type.modelProperties,
       databaseName: {
         serializedName: "databaseName",
         required: true,

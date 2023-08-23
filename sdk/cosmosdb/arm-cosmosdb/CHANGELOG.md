@@ -1,16 +1,6 @@
 # Release History
-
-## 16.0.0-beta.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 16.0.0-beta.6 (2023-06-13)
+    
+## 16.0.0-beta.7 (2023-08-23)
     
 **Features**
 
@@ -84,6 +74,7 @@
   - Added Interface CheckNameAvailabilityResponse
   - Added Interface ConnectionString
   - Added Interface CosmosCassandraDataTransferDataSourceSink
+  - Added Interface CosmosDataTransferDataSourceSink
   - Added Interface CosmosMongoDataTransferDataSourceSink
   - Added Interface CosmosSqlDataTransferDataSourceSink
   - Added Interface CreateJobRequest
@@ -194,6 +185,7 @@
   - Added Type Alias CassandraResourcesMigrateCassandraViewToManualThroughputResponse
   - Added Type Alias CassandraResourcesUpdateCassandraViewThroughputResponse
   - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias CustomerManagedKeyStatus
   - Added Type Alias DataTransferComponent
   - Added Type Alias DataTransferDataSourceSinkUnion
   - Added Type Alias DataTransferJobsCancelResponse
@@ -203,6 +195,7 @@
   - Added Type Alias DataTransferJobsListByDatabaseAccountResponse
   - Added Type Alias DataTransferJobsPauseResponse
   - Added Type Alias DataTransferJobsResumeResponse
+  - Added Type Alias DefaultPriorityLevel
   - Added Type Alias EnableFullTextQuery
   - Added Type Alias GraphResourcesCreateUpdateGraphResponse
   - Added Type Alias GraphResourcesGetGraphResponse
@@ -239,15 +232,24 @@
   - Added Type Alias SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
   - Added Type Alias ThroughputPolicyType
   - Interface ARMResourceProperties has a new optional parameter identity
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableBurstCapacity
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enablePriorityBasedExecution
+  - Interface DatabaseAccountGetResults has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountGetResults has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountGetResults has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountGetResults has a new optional parameter enableBurstCapacity
   - Interface DatabaseAccountGetResults has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountGetResults has a new optional parameter enablePriorityBasedExecution
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableBurstCapacity
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enablePriorityBasedExecution
   - Interface GremlinDatabaseResource has a new optional parameter createMode
   - Interface GremlinDatabaseResource has a new optional parameter restoreParameters
   - Interface GremlinGraphResource has a new optional parameter createMode
@@ -265,7 +267,9 @@
   - Interface TableResource has a new optional parameter createMode
   - Interface TableResource has a new optional parameter restoreParameters
   - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownCustomerManagedKeyStatus
   - Added Enum KnownDataTransferComponent
+  - Added Enum KnownDefaultPriorityLevel
   - Added Enum KnownMongoClusterStatus
   - Added Enum KnownNodeKind
   - Added Enum KnownProvisioningState
