@@ -232,7 +232,7 @@ export interface KeyReleasePolicy {
 }
 
 // @public
-export type KeyRotationPolicyActionType = "rotate" | "notify";
+export type KeyRotationPolicyActionType = "Rotate" | "rotate" | "Notify";
 
 // @public (undocumented)
 export interface KeyRotationPolicyAttributes {
@@ -832,7 +832,7 @@ export interface ManagedHsmSku {
 export type ManagedHsmSkuFamily = string;
 
 // @public
-export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32";
+export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6";
 
 // @public
 export interface ManagedHsmsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
