@@ -18,6 +18,9 @@ export type FeatureValidationResponseBaseUnion =
   | FeatureValidationResponseBase
   | FeatureValidationResponse;
 export type BaseBackupPolicyUnion = BaseBackupPolicy | BackupPolicy;
+export type BaseResourcePropertiesUnion =
+  | BaseResourceProperties
+  | DefaultResourceProperties;
 export type DataStoreParametersUnion =
   | DataStoreParameters
   | AzureOperationalStoreParameters;
@@ -532,13 +535,13 @@ export interface Datasource {
   /** Uri of the resource. */
   resourceUri?: string;
   /** Properties specific to data source */
-  resourceProperties?: BaseResourceProperties;
+  resourceProperties?: BaseResourcePropertiesUnion;
 }
 
 /** Properties which are specific to datasource/datasourceSets */
 export interface BaseResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  objectType: "BaseResourceProperties";
+  objectType: "DefaultResourceProperties";
 }
 
 /** DatasourceSet details of datasource to be backed up */
@@ -558,7 +561,7 @@ export interface DatasourceSet {
   /** Uri of the resource. */
   resourceUri?: string;
   /** Properties specific to data source set */
-  resourceProperties?: BaseResourceProperties;
+  resourceProperties?: BaseResourcePropertiesUnion;
 }
 
 /** Policy Info in backupInstance */
@@ -1426,6 +1429,12 @@ export interface DeletedBackupInstance extends BackupInstance {
   readonly deletionInfo?: DeletionInfo;
 }
 
+/** Default source properties */
+export interface DefaultResourceProperties extends BaseResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "DefaultResourceProperties";
+}
+
 /** Parameters for Operational-Tier DataStore */
 export interface AzureOperationalStoreParameters extends DataStoreParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2151,6 +2160,21 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ResourcePropertiesObjectType} that the service accepts. */
+export enum KnownResourcePropertiesObjectType {
+  /** DefaultResourceProperties */
+  DefaultResourceProperties = "DefaultResourceProperties"
+}
+
+/**
+ * Defines values for ResourcePropertiesObjectType. \
+ * {@link KnownResourcePropertiesObjectType} can be used interchangeably with ResourcePropertiesObjectType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DefaultResourceProperties**
+ */
+export type ResourcePropertiesObjectType = string;
 
 /** Known values of {@link DataStoreTypes} that the service accepts. */
 export enum KnownDataStoreTypes {
