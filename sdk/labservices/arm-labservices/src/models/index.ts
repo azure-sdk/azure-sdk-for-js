@@ -132,6 +132,18 @@ export interface PagedLabPlans {
   readonly nextLink?: string;
 }
 
+/** Error details of the latest operation failure on this resource */
+export interface ResourceOperationError {
+  /** The datetime of when the error occured */
+  timestamp?: Date;
+  /** The code that corresponds to the type of operation failure */
+  code?: string;
+  /** The operation failure message */
+  message?: string;
+  /** The operation action that failed */
+  action?: string;
+}
+
 /** Lab plan resource properties for updates */
 export interface LabPlanUpdateProperties {
   /** The default lab connection profile. This can be changed on a lab resource and only provides a default profile. */
@@ -872,6 +884,11 @@ export interface LabPlanProperties extends LabPlanUpdateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Error details of last operation done on lab plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
 }
 
 /** Contains lab configuration and default settings. This variant is used for PATCH. */
@@ -928,6 +945,11 @@ export interface LabProperties extends LabUpdateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: LabState;
+  /**
+   * Error details of last operation done on lab.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
 }
 
 /** Schedule resource properties */
@@ -937,6 +959,11 @@ export interface ScheduleProperties extends ScheduleUpdateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Error details of last operation done on schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
 }
 
 /** User resource properties */
@@ -946,6 +973,11 @@ export interface UserProperties extends UserUpdateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Error details of last operation done on lab plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
   /**
    * Display name of the user, for example user's full name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1080,6 +1112,11 @@ export interface Schedule extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Error details of last operation done on schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
 }
 
 /** User of a lab that can register for and use virtual machines within the lab. */
@@ -1096,6 +1133,11 @@ export interface User extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Error details of last operation done on lab plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
   /**
    * Display name of the user, for example user's full name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1143,6 +1185,11 @@ export interface VirtualMachine extends ProxyResource {
    */
   readonly state?: VirtualMachineState;
   /**
+   * Error details of last operation done on lab plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
+  /**
    * Profile for information about connecting to the virtual machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1187,6 +1234,11 @@ export interface LabPlan extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Error details of last operation done on lab plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
 }
 
 /** The lab resource. */
@@ -1224,6 +1276,11 @@ export interface Lab extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: LabState;
+  /**
+   * Error details of last operation done on lab.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOperationError?: ResourceOperationError;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */

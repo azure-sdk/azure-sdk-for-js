@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -249,6 +249,7 @@ export interface Lab extends TrackedResource {
     labPlanId?: string;
     networkProfile?: LabNetworkProfile;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceOperationError?: ResourceOperationError;
     rosterProfile?: RosterProfile;
     securityProfile?: SecurityProfile;
     readonly state?: LabState;
@@ -273,6 +274,7 @@ export interface LabPlan extends TrackedResource {
     identity?: Identity;
     linkedLmsInstance?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceOperationError?: ResourceOperationError;
     sharedGalleryId?: string;
     supportInfo?: SupportInfo;
     readonly systemData?: SystemData;
@@ -286,17 +288,18 @@ export interface LabPlanNetworkProfile {
 // @public
 export interface LabPlanProperties extends LabPlanUpdateProperties {
     readonly provisioningState?: ProvisioningState;
+    readonly resourceOperationError?: ResourceOperationError;
 }
 
 // @public
 export interface LabPlans {
-    beginCreateOrUpdate(resourceGroupName: string, labPlanName: string, body: LabPlan, options?: LabPlansCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LabPlansCreateOrUpdateResponse>, LabPlansCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labPlanName: string, body: LabPlan, options?: LabPlansCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LabPlansCreateOrUpdateResponse>, LabPlansCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labPlanName: string, body: LabPlan, options?: LabPlansCreateOrUpdateOptionalParams): Promise<LabPlansCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labPlanName: string, options?: LabPlansDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labPlanName: string, options?: LabPlansDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labPlanName: string, options?: LabPlansDeleteOptionalParams): Promise<void>;
-    beginSaveImage(resourceGroupName: string, labPlanName: string, body: SaveImageBody, options?: LabPlansSaveImageOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSaveImage(resourceGroupName: string, labPlanName: string, body: SaveImageBody, options?: LabPlansSaveImageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSaveImageAndWait(resourceGroupName: string, labPlanName: string, body: SaveImageBody, options?: LabPlansSaveImageOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, labPlanName: string, body: LabPlanUpdate, options?: LabPlansUpdateOptionalParams): Promise<PollerLike<PollOperationState<LabPlansUpdateResponse>, LabPlansUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, labPlanName: string, body: LabPlanUpdate, options?: LabPlansUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LabPlansUpdateResponse>, LabPlansUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, labPlanName: string, body: LabPlanUpdate, options?: LabPlansUpdateOptionalParams): Promise<LabPlansUpdateResponse>;
     get(resourceGroupName: string, labPlanName: string, options?: LabPlansGetOptionalParams): Promise<LabPlansGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LabPlansListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LabPlan>;
@@ -396,20 +399,21 @@ export interface LabPlanUpdateProperties {
 export interface LabProperties extends LabUpdateProperties {
     networkProfile?: LabNetworkProfile;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceOperationError?: ResourceOperationError;
     readonly state?: LabState;
 }
 
 // @public
 export interface Labs {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, body: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LabsCreateOrUpdateResponse>, LabsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, body: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LabsCreateOrUpdateResponse>, LabsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, body: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<LabsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, options?: LabsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, options?: LabsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, options?: LabsDeleteOptionalParams): Promise<void>;
-    beginPublish(resourceGroupName: string, labName: string, options?: LabsPublishOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPublish(resourceGroupName: string, labName: string, options?: LabsPublishOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPublishAndWait(resourceGroupName: string, labName: string, options?: LabsPublishOptionalParams): Promise<void>;
-    beginSyncGroup(resourceGroupName: string, labName: string, options?: LabsSyncGroupOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSyncGroup(resourceGroupName: string, labName: string, options?: LabsSyncGroupOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSyncGroupAndWait(resourceGroupName: string, labName: string, options?: LabsSyncGroupOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, labName: string, body: LabUpdate, options?: LabsUpdateOptionalParams): Promise<PollerLike<PollOperationState<LabsUpdateResponse>, LabsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, labName: string, body: LabUpdate, options?: LabsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LabsUpdateResponse>, LabsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, labName: string, body: LabUpdate, options?: LabsUpdateOptionalParams): Promise<LabsUpdateResponse>;
     get(resourceGroupName: string, labName: string, options?: LabsGetOptionalParams): Promise<LabsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LabsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Lab>;
@@ -758,6 +762,14 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceOperationError {
+    action?: string;
+    code?: string;
+    message?: string;
+    timestamp?: Date;
+}
+
+// @public
 export type RestrictionReasonCode = string;
 
 // @public
@@ -786,6 +798,7 @@ export interface Schedule extends ProxyResource {
     notes?: string;
     readonly provisioningState?: ProvisioningState;
     recurrencePattern?: RecurrencePattern;
+    readonly resourceOperationError?: ResourceOperationError;
     startAt?: Date;
     stopAt?: Date;
     readonly systemData?: SystemData;
@@ -795,11 +808,12 @@ export interface Schedule extends ProxyResource {
 // @public
 export interface ScheduleProperties extends ScheduleUpdateProperties {
     readonly provisioningState?: ProvisioningState;
+    readonly resourceOperationError?: ResourceOperationError;
 }
 
 // @public
 export interface Schedules {
-    beginDelete(resourceGroupName: string, labName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, labName: string, scheduleName: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SchedulesCreateOrUpdateResponse>;
     get(resourceGroupName: string, labName: string, scheduleName: string, options?: SchedulesGetOptionalParams): Promise<SchedulesGetResponse>;
@@ -987,6 +1001,7 @@ export interface User extends ProxyResource {
     readonly invitationState?: InvitationState;
     readonly provisioningState?: ProvisioningState;
     readonly registrationState?: RegistrationState;
+    readonly resourceOperationError?: ResourceOperationError;
     readonly systemData?: SystemData;
     readonly totalUsage?: string;
 }
@@ -999,18 +1014,19 @@ export interface UserProperties extends UserUpdateProperties {
     readonly invitationState?: InvitationState;
     readonly provisioningState?: ProvisioningState;
     readonly registrationState?: RegistrationState;
+    readonly resourceOperationError?: ResourceOperationError;
     readonly totalUsage?: string;
 }
 
 // @public
 export interface Users {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, body: User, options?: UsersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, body: User, options?: UsersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, body: User, options?: UsersCreateOrUpdateOptionalParams): Promise<UsersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, userName: string, options?: UsersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, userName: string, options?: UsersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, userName: string, options?: UsersDeleteOptionalParams): Promise<void>;
-    beginInvite(resourceGroupName: string, labName: string, userName: string, body: InviteBody, options?: UsersInviteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginInvite(resourceGroupName: string, labName: string, userName: string, body: InviteBody, options?: UsersInviteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginInviteAndWait(resourceGroupName: string, labName: string, userName: string, body: InviteBody, options?: UsersInviteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, labName: string, userName: string, body: UserUpdate, options?: UsersUpdateOptionalParams): Promise<PollerLike<PollOperationState<UsersUpdateResponse>, UsersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, labName: string, userName: string, body: UserUpdate, options?: UsersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<UsersUpdateResponse>, UsersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, labName: string, userName: string, body: UserUpdate, options?: UsersUpdateOptionalParams): Promise<UsersUpdateResponse>;
     get(resourceGroupName: string, labName: string, userName: string, options?: UsersGetOptionalParams): Promise<UsersGetResponse>;
     listByLab(resourceGroupName: string, labName: string, options?: UsersListByLabOptionalParams): PagedAsyncIterableIterator<User>;
@@ -1083,6 +1099,7 @@ export interface VirtualMachine extends ProxyResource {
     readonly claimedByUserId?: string;
     readonly connectionProfile?: VirtualMachineConnectionProfile;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceOperationError?: ResourceOperationError;
     readonly state?: VirtualMachineState;
     readonly systemData?: SystemData;
     readonly vmType?: VirtualMachineType;
@@ -1119,15 +1136,15 @@ export interface VirtualMachineProfile {
 
 // @public
 export interface VirtualMachines {
-    beginRedeploy(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesRedeployOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRedeploy(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesRedeployOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRedeployAndWait(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesRedeployOptionalParams): Promise<void>;
-    beginReimage(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginReimage(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginReimageAndWait(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams): Promise<void>;
-    beginResetPassword(resourceGroupName: string, labName: string, virtualMachineName: string, body: ResetPasswordBody, options?: VirtualMachinesResetPasswordOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResetPassword(resourceGroupName: string, labName: string, virtualMachineName: string, body: ResetPasswordBody, options?: VirtualMachinesResetPasswordOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResetPasswordAndWait(resourceGroupName: string, labName: string, virtualMachineName: string, body: ResetPasswordBody, options?: VirtualMachinesResetPasswordOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, virtualMachineName: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
     listByLab(resourceGroupName: string, labName: string, options?: VirtualMachinesListByLabOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;

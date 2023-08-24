@@ -72,7 +72,7 @@ export class LabServicesClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-labservices/3.1.1`;
+    const packageDetails = `azsdk-js-arm-labservices/3.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,7 +125,7 @@ export class LabServicesClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01";
+    this.apiVersion = options.apiVersion || "2023-06-07";
     this.images = new ImagesImpl(this);
     this.labPlans = new LabPlansImpl(this);
     this.operations = new OperationsImpl(this);

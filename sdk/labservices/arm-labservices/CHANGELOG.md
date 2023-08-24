@@ -1,15 +1,21 @@
 # Release History
+    
+## 3.2.0 (2023-08-24)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ResourceOperationError
+  - Interface Lab has a new optional parameter resourceOperationError
+  - Interface LabPlan has a new optional parameter resourceOperationError
+  - Interface LabPlanProperties has a new optional parameter resourceOperationError
+  - Interface LabProperties has a new optional parameter resourceOperationError
+  - Interface Schedule has a new optional parameter resourceOperationError
+  - Interface ScheduleProperties has a new optional parameter resourceOperationError
+  - Interface User has a new optional parameter resourceOperationError
+  - Interface UserProperties has a new optional parameter resourceOperationError
+  - Interface VirtualMachine has a new optional parameter resourceOperationError
+    
+    
 ## 3.1.0 (2023-01-17)
     
 **Features**
