@@ -140,6 +140,7 @@ specifiers:
   '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
   '@rush-temp/arm-migrate': file:./projects/arm-migrate.tgz
   '@rush-temp/arm-mixedreality': file:./projects/arm-mixedreality.tgz
+  '@rush-temp/arm-mobilecore': file:./projects/arm-mobilecore.tgz
   '@rush-temp/arm-mobilenetwork': file:./projects/arm-mobilenetwork.tgz
   '@rush-temp/arm-monitor': file:./projects/arm-monitor.tgz
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid': file:./projects/arm-monitor-profile-2020-09-01-hybrid.tgz
@@ -498,6 +499,7 @@ dependencies:
   '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
   '@rush-temp/arm-migrate': file:projects/arm-migrate.tgz
   '@rush-temp/arm-mixedreality': file:projects/arm-mixedreality.tgz
+  '@rush-temp/arm-mobilecore': file:projects/arm-mobilecore.tgz
   '@rush-temp/arm-mobilenetwork': file:projects/arm-mobilenetwork.tgz
   '@rush-temp/arm-monitor': file:projects/arm-monitor.tgz
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid': file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz
@@ -4084,7 +4086,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230823
+      typescript: 5.3.0-dev.20230824
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8653,8 +8655,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230823:
-    resolution: {integrity: sha512-IEFfTl67UgTTJzf+Ma4+0txDKzxzxtjNjyFjTm7c+yP5sff+atKe44mAjhCxX8wGjwRrFuhAUeHz1udmzBZ4ow==}
+  /typescript/5.3.0-dev.20230824:
+    resolution: {integrity: sha512-iiUWxGibzrRHEBLDJfVymsvpPKflf3cMrw0oQTMQoguFS2ikNlVlfQWAsYeHqGpRQc77nSQkzsE9rAHNHqvIjw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13669,6 +13671,37 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-mobilecore.tgz:
+    resolution: {integrity: sha512-JbouiusupTF6CB2ZxxKLTUCx/gFc8tVFB55cGi9VftWPVgBYX51fCDBYUtB8fcSr33mlYtUT+TEJ1LfQD8gLXA==, tarball: file:projects/arm-mobilecore.tgz}
+    name: '@rush-temp/arm-mobilecore'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
