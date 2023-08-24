@@ -4084,7 +4084,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230823
+      typescript: 5.3.0-dev.20230824
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8653,8 +8653,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230823:
-    resolution: {integrity: sha512-IEFfTl67UgTTJzf+Ma4+0txDKzxzxtjNjyFjTm7c+yP5sff+atKe44mAjhCxX8wGjwRrFuhAUeHz1udmzBZ4ow==}
+  /typescript/5.3.0-dev.20230824:
+    resolution: {integrity: sha512-iiUWxGibzrRHEBLDJfVymsvpPKflf3cMrw0oQTMQoguFS2ikNlVlfQWAsYeHqGpRQc77nSQkzsE9rAHNHqvIjw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14192,7 +14192,7 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-qpwJu8I7SK6Fr7xvi3rwJuE0tEDAdsfO5CZ9duKEBlgJtHUUqo17K9bEA7/0JAhuD2kgCMzOhrNHeoUg1PHu6g==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-TQTt07HDaX3AUD58wfeXxFGbnPK4+b6dhpb+ZXbm2zBLrddnXwv/nUFo0BbbQrs9bTmWDbAUO7UJsJctRYIJHg==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
@@ -14206,8 +14206,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
