@@ -846,6 +846,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-managementgroups/2.0.2:
+    resolution: {integrity: sha512-vR5g/LDdyVI5zTUJrNCYks3AMU7TYUqbDbQ2lfhGvyf+6Vvi9qh3BHVYTFE963x7/M9oEINK2lPvl21/dxFNyA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network/26.0.0:
     resolution: {integrity: sha512-Hp0Q4ZzChs8C0DUdGZOChWKMrhzZ53V0Q681puREZ9S1E6o2yWM0Vb+cYuWoyPOylwuzP2fjNjJZGtB7WuFd3w==}
     engines: {node: '>=12.0.0'}
@@ -4084,7 +4099,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230823
+      typescript: 5.3.0-dev.20230824
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8653,8 +8668,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230823:
-    resolution: {integrity: sha512-IEFfTl67UgTTJzf+Ma4+0txDKzxzxtjNjyFjTm7c+yP5sff+atKe44mAjhCxX8wGjwRrFuhAUeHz1udmzBZ4ow==}
+  /typescript/5.3.0-dev.20230824:
+    resolution: {integrity: sha512-iiUWxGibzrRHEBLDJfVymsvpPKflf3cMrw0oQTMQoguFS2ikNlVlfQWAsYeHqGpRQc77nSQkzsE9rAHNHqvIjw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13438,7 +13453,7 @@ packages:
     dev: false
 
   file:projects/arm-managementgroups.tgz:
-    resolution: {integrity: sha512-eGvYwwtGUAasIOk58dhrYFUALCTt/vfr87gMH+5lHR8JsdCkjlDzo4yS9k5OHyy8T6KHDdPPYC7cR/jqblIQCg==, tarball: file:projects/arm-managementgroups.tgz}
+    resolution: {integrity: sha512-NPFW7ATbCAxIIJBY+vJXxluJ5gzlTrIGDibUT2u9/JUhyuM/P2Y34HBjnuu37hIVV8PAGnJRlEVGiZy757x9Yw==, tarball: file:projects/arm-managementgroups.tgz}
     name: '@rush-temp/arm-managementgroups'
     version: 0.0.0
     dependencies:
@@ -13452,7 +13467,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14376,10 +14392,11 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-n6KwX80aCVYIEXhoOG4IXisALy2vqw15NwO2moHCsdXMi3Y/wTdwnWrQbxc5gGX/4aAvfmVvMz/QtXNXaiRavw==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-QnahmEdfApfgbCLjL8/CVjGn21yOW55h0u6mMEbluY7Ujz+5bD5LDczTmEXqGH6yrBx54tWa5eqI33ByqzRJ2A==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
+      '@azure/arm-managementgroups': 2.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
