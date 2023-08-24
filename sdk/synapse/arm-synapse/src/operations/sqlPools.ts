@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SqlPool,
   SqlPoolsListByWorkspaceNextOptionalParams,
@@ -33,8 +37,6 @@ import {
   SqlPoolsPauseResponse,
   SqlPoolsResumeOptionalParams,
   SqlPoolsResumeResponse,
-  ResourceMoveDefinition,
-  SqlPoolsRenameOptionalParams,
   SqlPoolsListByWorkspaceNextResponse
 } from "../models";
 
@@ -169,8 +171,8 @@ export class SqlPoolsImpl implements SqlPools {
     sqlPoolInfo: SqlPoolPatchInfo,
     options?: SqlPoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsUpdateResponse>,
       SqlPoolsUpdateResponse
     >
   > {
@@ -180,7 +182,7 @@ export class SqlPoolsImpl implements SqlPools {
     ): Promise<SqlPoolsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -213,13 +215,22 @@ export class SqlPoolsImpl implements SqlPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, sqlPoolInfo, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        sqlPoolInfo,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsUpdateResponse,
+      OperationState<SqlPoolsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -266,8 +277,8 @@ export class SqlPoolsImpl implements SqlPools {
     sqlPoolInfo: SqlPool,
     options?: SqlPoolsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsCreateResponse>,
       SqlPoolsCreateResponse
     >
   > {
@@ -277,7 +288,7 @@ export class SqlPoolsImpl implements SqlPools {
     ): Promise<SqlPoolsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -310,15 +321,24 @@ export class SqlPoolsImpl implements SqlPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, sqlPoolInfo, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        sqlPoolInfo,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsCreateResponse,
+      OperationState<SqlPoolsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -362,8 +382,8 @@ export class SqlPoolsImpl implements SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsDeleteResponse>,
       SqlPoolsDeleteResponse
     >
   > {
@@ -373,7 +393,7 @@ export class SqlPoolsImpl implements SqlPools {
     ): Promise<SqlPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -406,15 +426,18 @@ export class SqlPoolsImpl implements SqlPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, sqlPoolName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsDeleteResponse,
+      OperationState<SqlPoolsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -472,7 +495,10 @@ export class SqlPoolsImpl implements SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsPauseOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<SqlPoolsPauseResponse>, SqlPoolsPauseResponse>
+    SimplePollerLike<
+      OperationState<SqlPoolsPauseResponse>,
+      SqlPoolsPauseResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -480,7 +506,7 @@ export class SqlPoolsImpl implements SqlPools {
     ): Promise<SqlPoolsPauseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -513,15 +539,18 @@ export class SqlPoolsImpl implements SqlPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, options },
-      pauseOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, sqlPoolName, options },
+      spec: pauseOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsPauseResponse,
+      OperationState<SqlPoolsPauseResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -562,8 +591,8 @@ export class SqlPoolsImpl implements SqlPools {
     sqlPoolName: string,
     options?: SqlPoolsResumeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsResumeResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsResumeResponse>,
       SqlPoolsResumeResponse
     >
   > {
@@ -573,7 +602,7 @@ export class SqlPoolsImpl implements SqlPools {
     ): Promise<SqlPoolsResumeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -606,15 +635,18 @@ export class SqlPoolsImpl implements SqlPools {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, options },
-      resumeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, sqlPoolName, options },
+      spec: resumeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsResumeResponse,
+      OperationState<SqlPoolsResumeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -640,27 +672,6 @@ export class SqlPoolsImpl implements SqlPools {
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Rename a SQL pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sqlPoolName SQL pool name
-   * @param parameters The resource move definition for renaming this Sql pool.
-   * @param options The options parameters.
-   */
-  rename(
-    resourceGroupName: string,
-    workspaceName: string,
-    sqlPoolName: string,
-    parameters: ResourceMoveDefinition,
-    options?: SqlPoolsRenameOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, sqlPoolName, parameters, options },
-      renameOperationSpec
-    );
   }
 
   /**
@@ -895,24 +906,6 @@ const resumeOperationSpec: coreClient.OperationSpec = {
     Parameters.sqlPoolName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const renameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/move",
-  httpMethod: "POST",
-  responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName
-  ],
-  headerParameters: [Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {

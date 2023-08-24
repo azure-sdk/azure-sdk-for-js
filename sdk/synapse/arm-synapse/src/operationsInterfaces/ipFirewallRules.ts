@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IpFirewallRuleInfo,
   IpFirewallRulesListByWorkspaceOptionalParams,
@@ -51,8 +51,8 @@ export interface IpFirewallRules {
     ipFirewallRuleInfo: IpFirewallRuleInfo,
     options?: IpFirewallRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesCreateOrUpdateResponse>,
       IpFirewallRulesCreateOrUpdateResponse
     >
   >;
@@ -84,8 +84,8 @@ export interface IpFirewallRules {
     ruleName: string,
     options?: IpFirewallRulesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesDeleteResponse>,
       IpFirewallRulesDeleteResponse
     >
   >;
@@ -128,8 +128,8 @@ export interface IpFirewallRules {
     request: ReplaceAllIpFirewallRulesRequest,
     options?: IpFirewallRulesReplaceAllOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesReplaceAllResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesReplaceAllResponse>,
       IpFirewallRulesReplaceAllResponse
     >
   >;
