@@ -20,6 +20,8 @@ export interface AccessControlListPatchableProperties {
   configurationType?: ConfigurationType;
   /** Access Control List file URL. */
   aclsUrl?: string;
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** List of match configurations. */
   matchConfigurations?: AccessControlListMatchConfiguration[];
   /** List of dynamic match configurations. */
@@ -48,7 +50,7 @@ export interface PortCondition {
   layer4Protocol: Layer4Protocol;
   /** List of the Ports that need to be matched. */
   ports?: string[];
-  /** List of the port Group Names that to be matched. */
+  /** List of the port Group Names that need to be matched. */
   portGroupNames?: string[];
 }
 
@@ -62,23 +64,23 @@ export interface CommonMatchConditions {
   ipCondition?: IpMatchCondition;
 }
 
-/** The vlan match conditions that needs to be matched. */
+/** The vlan match conditions that need to be matched. */
 export interface VlanMatchCondition {
-  /** List of vlans that needs to be matched. */
+  /** List of vlans that need to be matched. */
   vlans?: string[];
-  /** List of inner vlans that needs to be matched. */
+  /** List of inner vlans that need to be matched. */
   innerVlans?: string[];
-  /** List of vlan group names that to be matched. */
+  /** List of vlan group names that need to be matched. */
   vlanGroupNames?: string[];
 }
 
 /** Defines the condition that can be filtered using the selected IPs. */
 export interface IpMatchCondition {
-  /** IP Address type. */
+  /** IP Address type that needs to be matched. */
   type?: SourceDestinationType;
-  /** IP Prefix Type. */
+  /** IP Prefix Type that needs to be matched. */
   prefixType?: PrefixType;
-  /** The list of IP Prefixes. */
+  /** The list of IP Prefixes that need to be matched. */
   ipPrefixValues?: string[];
   /** The List of IP Group Names that need to be matched. */
   ipGroupNames?: string[];
@@ -98,7 +100,7 @@ export interface CommonDynamicMatchConfiguration {
   ipGroups?: IpGroupProperties[];
   /** List of vlan groups. */
   vlanGroups?: VlanGroupProperties[];
-  /** List of the port group. */
+  /** List of the port groups. */
   portGroups?: PortGroupProperties[];
 }
 
@@ -124,7 +126,7 @@ export interface VlanGroupProperties {
 export interface PortGroupProperties {
   /** The name of the port group. */
   name?: string;
-  /** List of the ports that needs to be matched. */
+  /** List of the ports that need to be matched. */
   ports?: string[];
 }
 
@@ -1085,6 +1087,8 @@ export interface OperationDisplay {
 
 /** Route Policy patchable properties. */
 export interface RoutePolicyPatchableProperties {
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** Route Policy statements. */
   statements?: RoutePolicyStatementProperties[];
 }
@@ -1849,21 +1853,21 @@ export interface RoutePolicyProperties
 
 /** Defines the port condition that needs to be matched. */
 export interface AccessControlListPortCondition extends PortCondition {
-  /** List of protocol flags that needs to be matched. */
+  /** List of protocol flags that need to be matched. */
   flags?: string[];
 }
 
 /** Defines the match condition that is supported to filter the traffic. */
 export interface AccessControlListMatchCondition extends CommonMatchConditions {
-  /** List of ether type values that needs to be matched. */
+  /** List of ether type values that need to be matched. */
   etherTypes?: string[];
-  /** List of IP fragment packets that needs to be matched. */
+  /** List of IP fragment packets that need to be matched. */
   fragments?: string[];
-  /** List of IP Lengths that needs to be matched. */
+  /** List of IP Lengths that need to be matched. */
   ipLengths?: string[];
-  /** List of TTL [Time To Live] values that needs to be matched. */
+  /** List of TTL [Time To Live] values that need to be matched. */
   ttlValues?: string[];
-  /** List of DSCP Markings that needs to be matched. */
+  /** List of DSCP Markings that need to be matched. */
   dscpMarkings?: string[];
   /** Defines the port condition that needs to be matched. */
   portCondition?: AccessControlListPortCondition;
@@ -1871,7 +1875,7 @@ export interface AccessControlListMatchCondition extends CommonMatchConditions {
 
 /** Defines the match condition that is supported to filter the traffic. */
 export interface NetworkTapRuleMatchCondition extends CommonMatchConditions {
-  /** Encapsulation Type. */
+  /** Encapsulation Type that needs to be matched. */
   encapsulationType?: EncapsulationType;
   /** Defines the port condition that needs to be matched. */
   portCondition?: PortCondition;
@@ -1927,6 +1931,8 @@ export interface AccessControlListPatch extends TagsUpdate {
   configurationType?: ConfigurationType;
   /** Access Control List file URL. */
   aclsUrl?: string;
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** List of match configurations. */
   matchConfigurations?: AccessControlListMatchConfiguration[];
   /** List of dynamic match configurations. */
@@ -2063,6 +2069,8 @@ export interface NetworkTapPatch extends TagsUpdate {
 
 /** The Route Policy patch resource definition. */
 export interface RoutePolicyPatch extends TagsUpdate {
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** Route Policy statements. */
   statements?: RoutePolicyStatementProperties[];
 }
@@ -2176,6 +2184,8 @@ export interface AccessControlList extends TrackedResource {
   configurationType?: ConfigurationType;
   /** Access Control List file URL. */
   aclsUrl?: string;
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** List of match configurations. */
   matchConfigurations?: AccessControlListMatchConfiguration[];
   /** List of dynamic match configurations. */
@@ -2691,6 +2701,8 @@ export interface NetworkTap extends TrackedResource {
 export interface RoutePolicy extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** Route Policy statements. */
   statements?: RoutePolicyStatementProperties[];
   /** Arm Resource ID of Network Fabric. */
@@ -3516,6 +3528,24 @@ export enum KnownConfigurationType {
  */
 export type ConfigurationType = string;
 
+/** Known values of {@link CommunityActionTypes} that the service accepts. */
+export enum KnownCommunityActionTypes {
+  /** Permit */
+  Permit = "Permit",
+  /** Deny */
+  Deny = "Deny"
+}
+
+/**
+ * Defines values for CommunityActionTypes. \
+ * {@link KnownCommunityActionTypes} can be used interchangeably with CommunityActionTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Permit** \
+ * **Deny**
+ */
+export type CommunityActionTypes = string;
+
 /** Known values of {@link IPAddressType} that the service accepts. */
 export enum KnownIPAddressType {
   /** IPv4 */
@@ -3704,24 +3734,6 @@ export enum KnownAction {
  * **Deny**
  */
 export type Action = string;
-
-/** Known values of {@link CommunityActionTypes} that the service accepts. */
-export enum KnownCommunityActionTypes {
-  /** Permit */
-  Permit = "Permit",
-  /** Deny */
-  Deny = "Deny"
-}
-
-/**
- * Defines values for CommunityActionTypes. \
- * {@link KnownCommunityActionTypes} can be used interchangeably with CommunityActionTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Permit** \
- * **Deny**
- */
-export type CommunityActionTypes = string;
 
 /** Known values of {@link WellKnownCommunities} that the service accepts. */
 export enum KnownWellKnownCommunities {

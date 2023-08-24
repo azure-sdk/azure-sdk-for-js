@@ -43,6 +43,12 @@ export const AccessControlListPatchableProperties: coreClient.CompositeMapper = 
           name: "String"
         }
       },
+      defaultAction: {
+        serializedName: "defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       matchConfigurations: {
         constraints: {
           MinItems: 1
@@ -3598,6 +3604,12 @@ export const RoutePolicyPatchableProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "RoutePolicyPatchableProperties",
     modelProperties: {
+      defaultAction: {
+        serializedName: "defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       statements: {
         serializedName: "statements",
         type: {
@@ -5587,6 +5599,12 @@ export const AccessControlListPatch: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       matchConfigurations: {
         constraints: {
           MinItems: 1
@@ -6083,6 +6101,12 @@ export const RoutePolicyPatch: coreClient.CompositeMapper = {
     className: "RoutePolicyPatch",
     modelProperties: {
       ...TagsUpdate.type.modelProperties,
+      defaultAction: {
+        serializedName: "properties.defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       statements: {
         serializedName: "properties.statements",
         type: {
@@ -6353,6 +6377,12 @@ export const AccessControlList: coreClient.CompositeMapper = {
           MinLength: 1
         },
         serializedName: "properties.aclsUrl",
+        type: {
+          name: "String"
+        }
+      },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
         type: {
           name: "String"
         }
@@ -7566,6 +7596,12 @@ export const RoutePolicy: coreClient.CompositeMapper = {
       ...TrackedResource.type.modelProperties,
       annotation: {
         serializedName: "properties.annotation",
+        type: {
+          name: "String"
+        }
+      },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
         type: {
           name: "String"
         }
