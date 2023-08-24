@@ -4084,7 +4084,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230823
+      typescript: 5.3.0-dev.20230824
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8653,8 +8653,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230823:
-    resolution: {integrity: sha512-IEFfTl67UgTTJzf+Ma4+0txDKzxzxtjNjyFjTm7c+yP5sff+atKe44mAjhCxX8wGjwRrFuhAUeHz1udmzBZ4ow==}
+  /typescript/5.3.0-dev.20230824:
+    resolution: {integrity: sha512-iiUWxGibzrRHEBLDJfVymsvpPKflf3cMrw0oQTMQoguFS2ikNlVlfQWAsYeHqGpRQc77nSQkzsE9rAHNHqvIjw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11122,7 +11122,7 @@ packages:
     dev: false
 
   file:projects/arm-consumption.tgz:
-    resolution: {integrity: sha512-yb8YUeWhChtl/BE66FF15GU8PbNnO/85O/7sXF7aC/QzHOrdK5ldrqIiHJ3m04n+H0BG80hAAeaLZslt9ZTl0w==, tarball: file:projects/arm-consumption.tgz}
+    resolution: {integrity: sha512-SuJOjmOIsiQ9Fd/l6Pz32jDvJniQF7SgTt+3IeeXmam8fmyN+PM36eHIgVFKAivgvplelwtIOcUCw1OGuY+MJA==, tarball: file:projects/arm-consumption.tgz}
     name: '@rush-temp/arm-consumption'
     version: 0.0.0
     dependencies:
@@ -11137,7 +11137,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
