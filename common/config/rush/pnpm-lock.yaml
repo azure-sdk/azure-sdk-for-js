@@ -13353,7 +13353,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-Xx3JWFcuUoNn3AK9vUwtq92vfEdJPg3ABvtjFQFIwpoa+h/FRhb1EzSHMzFRBJkM0Ghj5kpusFbDXKuFeU3H3w==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-jFzSExNSO6grUaxz+1B+9QkJH+aLwwcLdJpW8hG6d+j+sDfTb+wbA1hUztKSBHPS9WFzZDWnsi5SOabjOFr2mA==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -13367,7 +13367,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
