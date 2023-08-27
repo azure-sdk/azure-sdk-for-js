@@ -8,28 +8,31 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { APICollection } from "../operationsInterfaces";
+import { APICollections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  ApiCollectionResponse,
-  APICollectionListNextOptionalParams,
-  APICollectionListOptionalParams,
-  APICollectionListResponse,
-  APICollectionGetOptionalParams,
-  APICollectionGetResponse,
-  APICollectionListNextResponse
+  ApiCollection,
+  APICollectionsListNextOptionalParams,
+  APICollectionsListOptionalParams,
+  APICollectionsListResponse,
+  APICollectionsGetOptionalParams,
+  APICollectionsGetResponse,
+  APICollectionsCreateOptionalParams,
+  APICollectionsCreateResponse,
+  APICollectionsDeleteOptionalParams,
+  APICollectionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing APICollection operations. */
-export class APICollectionImpl implements APICollection {
+/** Class containing APICollections operations. */
+export class APICollectionsImpl implements APICollections {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class APICollection class.
+   * Initialize a new instance of the class APICollections class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -41,15 +44,16 @@ export class APICollectionImpl implements APICollection {
    * API Management API is onboarded to Defender for APIs, the system will monitor the operations within
    * the Azure API Management API for intrusive behaviors and provide alerts for attacks that have been
    * detected.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: APICollectionListOptionalParams
-  ): PagedAsyncIterableIterator<ApiCollectionResponse> {
+    options?: APICollectionsListOptionalParams
+  ): PagedAsyncIterableIterator<ApiCollection> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -75,10 +79,10 @@ export class APICollectionImpl implements APICollection {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: APICollectionListOptionalParams,
+    options?: APICollectionsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ApiCollectionResponse[]> {
-    let result: APICollectionListResponse;
+  ): AsyncIterableIterator<ApiCollection[]> {
+    let result: APICollectionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, serviceName, options);
@@ -104,8 +108,8 @@ export class APICollectionImpl implements APICollection {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: APICollectionListOptionalParams
-  ): AsyncIterableIterator<ApiCollectionResponse> {
+    options?: APICollectionsListOptionalParams
+  ): AsyncIterableIterator<ApiCollection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -120,15 +124,16 @@ export class APICollectionImpl implements APICollection {
    * API Management API is onboarded to Defender for APIs, the system will monitor the operations within
    * the Azure API Management API for intrusive behaviors and provide alerts for attacks that have been
    * detected.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: APICollectionListOptionalParams
-  ): Promise<APICollectionListResponse> {
+    options?: APICollectionsListOptionalParams
+  ): Promise<APICollectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       listOperationSpec
@@ -140,7 +145,8 @@ export class APICollectionImpl implements APICollection {
    * Management API is onboarded to Defender for APIs, the system will monitor the operations within the
    * Azure API Management API for intrusive behaviors and provide alerts for attacks that have been
    * detected.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiCollectionId A string representing the apiCollections resource within the
    *                        Microsoft.Security provider namespace. This string matches the Azure API Management API name.
@@ -150,8 +156,8 @@ export class APICollectionImpl implements APICollection {
     resourceGroupName: string,
     serviceName: string,
     apiCollectionId: string,
-    options?: APICollectionGetOptionalParams
-  ): Promise<APICollectionGetResponse> {
+    options?: APICollectionsGetOptionalParams
+  ): Promise<APICollectionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiCollectionId, options },
       getOperationSpec
@@ -159,8 +165,54 @@ export class APICollectionImpl implements APICollection {
   }
 
   /**
+   * Onboard an Azure API Management API to Defender for APIs. The system will start monitoring the
+   * operations within the Azure Management API for intrusive behaviors and provide alerts for attacks
+   * that have been detected.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiCollectionId A string representing the apiCollections resource within the
+   *                        Microsoft.Security provider namespace. This string matches the Azure API Management API name.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    serviceName: string,
+    apiCollectionId: string,
+    options?: APICollectionsCreateOptionalParams
+  ): Promise<APICollectionsCreateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiCollectionId, options },
+      createOperationSpec
+    );
+  }
+
+  /**
+   * Offboard an Azure API Management API from Defender for APIs. The system will stop monitoring the
+   * operations within the Azure API Management API for intrusive behaviors.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiCollectionId A string representing the apiCollections resource within the
+   *                        Microsoft.Security provider namespace. This string matches the Azure API Management API name.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    apiCollectionId: string,
+    options?: APICollectionsDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiCollectionId, options },
+      deleteOperationSpec
+    );
+  }
+
+  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -169,8 +221,8 @@ export class APICollectionImpl implements APICollection {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: APICollectionListNextOptionalParams
-  ): Promise<APICollectionListNextResponse> {
+    options?: APICollectionsListNextOptionalParams
+  ): Promise<APICollectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -186,13 +238,13 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollectionResponseList
+      bodyMapper: Mappers.ApiCollectionList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -208,13 +260,58 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollectionResponse
+      bodyMapper: Mappers.ApiCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion10],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.serviceName,
+    Parameters.apiCollectionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/providers/Microsoft.Security/apiCollections/{apiCollectionId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion10],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.serviceName,
+    Parameters.apiCollectionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/providers/Microsoft.Security/apiCollections/{apiCollectionId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -230,7 +327,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollectionResponseList
+      bodyMapper: Mappers.ApiCollectionList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

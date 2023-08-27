@@ -6,18 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  SecurityContact,
   SecurityContactsListOptionalParams,
+  SecurityContactsListResponse,
   SecurityContactsGetOptionalParams,
   SecurityContactsGetResponse,
+  SecurityContact,
   SecurityContactsCreateOptionalParams,
   SecurityContactsCreateResponse,
   SecurityContactsDeleteOptionalParams
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecurityContacts. */
 export interface SecurityContacts {
   /**
@@ -26,7 +25,7 @@ export interface SecurityContacts {
    */
   list(
     options?: SecurityContactsListOptionalParams
-  ): PagedAsyncIterableIterator<SecurityContact>;
+  ): Promise<SecurityContactsListResponse>;
   /**
    * Get Default Security contact configurations for the subscription
    * @param securityContactName Name of the security contact object

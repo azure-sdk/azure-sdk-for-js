@@ -579,7 +579,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -596,7 +596,7 @@ const listByRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -617,7 +617,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -638,12 +638,12 @@ const listByResourceGroupAndRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ascLocation
+    Parameters.ascLocation,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -660,12 +660,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.jitNetworkAccessPolicyName
   ],
   headerParameters: [Parameters.accept],
@@ -683,13 +683,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion10],
+  requestBody: Parameters.body4,
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.jitNetworkAccessPolicyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -707,12 +707,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.jitNetworkAccessPolicyName
   ],
   headerParameters: [Parameters.accept],
@@ -730,13 +730,13 @@ const initiateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.body3,
-  queryParameters: [Parameters.apiVersion10],
+  requestBody: Parameters.body5,
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.jitNetworkAccessPolicyName,
     Parameters.jitNetworkAccessPolicyInitiateType
   ],
@@ -777,8 +777,8 @@ const listByRegionNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.ascLocation
+    Parameters.ascLocation,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -797,8 +797,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -817,9 +817,9 @@ const listByResourceGroupAndRegionNextOperationSpec: coreClient.OperationSpec = 
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.ascLocation,
     Parameters.nextLink,
-    Parameters.ascLocation
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer

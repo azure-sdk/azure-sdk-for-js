@@ -51,9 +51,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Get a list of all relevant governance rules over a scope
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
@@ -112,9 +112,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Get a list of all relevant governance rules over a scope
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
@@ -130,9 +130,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Get a specific governance rule for the requested scope by ruleId
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
@@ -150,9 +150,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Creates or updates a governance rule over a given scope
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param governanceRule Governance rule over a given scope
@@ -172,9 +172,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Delete a Governance rule over a given scope
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
@@ -239,9 +239,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Delete a Governance rule over a given scope
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
@@ -257,9 +257,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Execute a governance rule
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
@@ -332,9 +332,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Execute a governance rule
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param options The options parameters.
@@ -350,9 +350,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * Get governance rules long run operation result for the requested scope by ruleId and operationId
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param ruleId The governance rule key - unique key for the standard governance rule (GUID)
    * @param operationId The governance rule long running operation unique key
@@ -372,9 +372,9 @@ export class GovernanceRulesImpl implements GovernanceRules {
 
   /**
    * ListNext
-   * @param scope The scope of the Governance rules. Valid scopes are: management group (format:
-   *              'providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -404,8 +404,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion16],
-  urlParameters: [Parameters.$host, Parameters.scope1],
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -420,8 +420,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion16],
-  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.ruleId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -440,8 +440,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.governanceRule,
-  queryParameters: [Parameters.apiVersion16],
-  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.ruleId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
@@ -449,9 +449,18 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Security/governanceRules/{ruleId}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion16],
-  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.ruleId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const executeOperationSpec: coreClient.OperationSpec = {
@@ -476,8 +485,8 @@ const executeOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.executeGovernanceRuleParams,
-  queryParameters: [Parameters.apiVersion16],
-  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.ruleId],
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.ruleId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
@@ -497,10 +506,10 @@ const operationResultsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope1,
+    Parameters.scope,
     Parameters.ruleId,
     Parameters.operationId
   ],
@@ -518,7 +527,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope1],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };

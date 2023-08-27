@@ -38,9 +38,10 @@ export class ComplianceResultsImpl implements ComplianceResults {
 
   /**
    * Security compliance results in the subscription
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
   public list(
@@ -98,9 +99,10 @@ export class ComplianceResultsImpl implements ComplianceResults {
 
   /**
    * Security compliance results in the subscription
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
   private _list(
@@ -132,9 +134,10 @@ export class ComplianceResultsImpl implements ComplianceResults {
 
   /**
    * ListNext
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -163,7 +166,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -180,7 +183,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,

@@ -23,9 +23,10 @@ import {
 export interface Assessments {
   /**
    * Get security assessments on all your scanned resources inside a scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
   list(

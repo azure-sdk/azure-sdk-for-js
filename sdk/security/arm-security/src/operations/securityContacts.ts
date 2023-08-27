@@ -6,27 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
 import { SecurityContacts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  SecurityContact,
-  SecurityContactsListNextOptionalParams,
   SecurityContactsListOptionalParams,
   SecurityContactsListResponse,
   SecurityContactsGetOptionalParams,
   SecurityContactsGetResponse,
+  SecurityContact,
   SecurityContactsCreateOptionalParams,
   SecurityContactsCreateResponse,
-  SecurityContactsDeleteOptionalParams,
-  SecurityContactsListNextResponse
+  SecurityContactsDeleteOptionalParams
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing SecurityContacts operations. */
 export class SecurityContactsImpl implements SecurityContacts {
   private readonly client: SecurityCenter;
@@ -43,61 +38,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * List all security contact configurations for the subscription
    * @param options The options parameters.
    */
-  public list(
-    options?: SecurityContactsListOptionalParams
-  ): PagedAsyncIterableIterator<SecurityContact> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    options?: SecurityContactsListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<SecurityContact[]> {
-    let result: SecurityContactsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: SecurityContactsListOptionalParams
-  ): AsyncIterableIterator<SecurityContact> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List all security contact configurations for the subscription
-   * @param options The options parameters.
-   */
-  private _list(
+  list(
     options?: SecurityContactsListOptionalParams
   ): Promise<SecurityContactsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
@@ -149,21 +90,6 @@ export class SecurityContactsImpl implements SecurityContacts {
       deleteOperationSpec
     );
   }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: SecurityContactsListNextOptionalParams
-  ): Promise<SecurityContactsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -180,7 +106,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -197,7 +123,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -222,7 +148,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.securityContact,
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -243,30 +169,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.securityContactName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecurityContactList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

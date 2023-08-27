@@ -22,10 +22,11 @@ import {
 export interface GovernanceAssignments {
   /**
    * Get governance assignments on all of your resources inside a scope
-   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
-   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param options The options parameters.
    */
   list(
@@ -35,10 +36,11 @@ export interface GovernanceAssignments {
   ): PagedAsyncIterableIterator<GovernanceAssignment>;
   /**
    * Get a specific governanceAssignment for the requested scope by AssignmentKey
-   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
-   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param assignmentKey The governance assignment key - the assessment key of the required governance
    *                      assignment
    * @param options The options parameters.
@@ -51,10 +53,11 @@ export interface GovernanceAssignments {
   ): Promise<GovernanceAssignmentsGetResponse>;
   /**
    * Creates or updates a governance assignment on the given subscription.
-   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
-   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param assignmentKey The governance assignment key - the assessment key of the required governance
    *                      assignment
    * @param governanceAssignment Governance assignment over a subscription scope
@@ -69,10 +72,11 @@ export interface GovernanceAssignments {
   ): Promise<GovernanceAssignmentsCreateOrUpdateResponse>;
   /**
    * Delete a GovernanceAssignment over a given scope
-   * @param scope The scope of the Governance assignments. Valid scopes are: subscription (format:
-   *              'subscriptions/{subscriptionId}'), or security connector (format:
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
    *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
-   * @param assessmentName The Assessment Key - A unique key for the assessment type
+   * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param assignmentKey The governance assignment key - the assessment key of the required governance
    *                      assignment
    * @param options The options parameters.

@@ -42,9 +42,10 @@ export class SubAssessmentsImpl implements SubAssessments {
 
   /**
    * Get security sub-assessments on all your scanned resources inside a subscription scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
   public listAll(
@@ -102,9 +103,10 @@ export class SubAssessmentsImpl implements SubAssessments {
 
   /**
    * Get security sub-assessments on all your scanned resources inside a scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param options The options parameters.
    */
@@ -175,9 +177,10 @@ export class SubAssessmentsImpl implements SubAssessments {
 
   /**
    * Get security sub-assessments on all your scanned resources inside a subscription scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
   private _listAll(
@@ -192,9 +195,10 @@ export class SubAssessmentsImpl implements SubAssessments {
 
   /**
    * Get security sub-assessments on all your scanned resources inside a scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param options The options parameters.
    */
@@ -211,9 +215,10 @@ export class SubAssessmentsImpl implements SubAssessments {
 
   /**
    * Get a security sub-assessment on your scanned resource
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param subAssessmentName The Sub-Assessment Key - Unique key for the sub-assessment type
    * @param options The options parameters.
@@ -232,9 +237,10 @@ export class SubAssessmentsImpl implements SubAssessments {
 
   /**
    * ListAllNext
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param nextLink The nextLink from the previous successful call to the ListAll method.
    * @param options The options parameters.
    */
@@ -251,9 +257,10 @@ export class SubAssessmentsImpl implements SubAssessments {
 
   /**
    * ListNext
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -284,7 +291,7 @@ const listAllOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -301,7 +308,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -322,7 +329,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,

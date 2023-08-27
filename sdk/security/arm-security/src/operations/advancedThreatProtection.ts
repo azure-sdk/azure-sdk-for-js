@@ -78,11 +78,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.settingName
+    Parameters.settingName2
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -100,11 +100,11 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.advancedThreatProtectionSetting,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.settingName
+    Parameters.settingName2
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

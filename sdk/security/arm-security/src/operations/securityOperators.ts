@@ -114,11 +114,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.pricingName1
+    Parameters.pricingName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -135,11 +135,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.pricingName1,
+    Parameters.pricingName,
     Parameters.securityOperatorName
   ],
   headerParameters: [Parameters.accept],
@@ -157,11 +157,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.pricingName1,
+    Parameters.pricingName,
     Parameters.securityOperatorName
   ],
   headerParameters: [Parameters.accept],
@@ -178,11 +178,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.pricingName1,
+    Parameters.pricingName,
     Parameters.securityOperatorName
   ],
   headerParameters: [Parameters.accept],

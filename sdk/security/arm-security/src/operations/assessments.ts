@@ -42,9 +42,10 @@ export class AssessmentsImpl implements Assessments {
 
   /**
    * Get security assessments on all your scanned resources inside a scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
   public list(
@@ -102,9 +103,10 @@ export class AssessmentsImpl implements Assessments {
 
   /**
    * Get security assessments on all your scanned resources inside a scope
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param options The options parameters.
    */
   private _list(
@@ -174,9 +176,10 @@ export class AssessmentsImpl implements Assessments {
 
   /**
    * ListNext
-   * @param scope Scope of the query, can be subscription
-   *              (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   *              (/providers/Microsoft.Management/managementGroups/mgName).
+   * @param scope Scope of the query. can be subscription (/subscriptions/{subscriptionId}) or management
+   *              group (/providers/Microsoft.Management/managementGroups/mgName) or a security connector scope:
+   *              (format:
+   *              'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName})'
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -205,7 +208,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion22],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -222,11 +225,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion11, Parameters.expand],
+  queryParameters: [Parameters.apiVersion22, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceId,
-    Parameters.assessmentName
+    Parameters.assessmentName,
+    Parameters.resourceId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -247,11 +250,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.assessment,
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion22],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceId,
-    Parameters.assessmentName
+    Parameters.assessmentName,
+    Parameters.resourceId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -268,11 +271,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion22],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceId,
-    Parameters.assessmentName
+    Parameters.assessmentName,
+    Parameters.resourceId
   ],
   headerParameters: [Parameters.accept],
   serializer
