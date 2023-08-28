@@ -872,6 +872,13 @@ export const Login: coreClient.CompositeMapper = {
           className: "LoginRoutes"
         }
       },
+      tokenStore: {
+        serializedName: "tokenStore",
+        type: {
+          name: "Composite",
+          className: "TokenStore"
+        }
+      },
       preserveUrlFragmentsForLogins: {
         serializedName: "preserveUrlFragmentsForLogins",
         type: {
@@ -914,6 +921,50 @@ export const LoginRoutes: coreClient.CompositeMapper = {
     modelProperties: {
       logoutEndpoint: {
         serializedName: "logoutEndpoint",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TokenStore: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TokenStore",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      tokenRefreshExtensionHours: {
+        serializedName: "tokenRefreshExtensionHours",
+        type: {
+          name: "Number"
+        }
+      },
+      azureBlobStorage: {
+        serializedName: "azureBlobStorage",
+        type: {
+          name: "Composite",
+          className: "BlobStorageTokenStore"
+        }
+      }
+    }
+  }
+};
+
+export const BlobStorageTokenStore: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BlobStorageTokenStore",
+    modelProperties: {
+      sasUrlSettingName: {
+        serializedName: "sasUrlSettingName",
+        required: true,
         type: {
           name: "String"
         }
@@ -1029,6 +1080,27 @@ export const ForwardProxy: coreClient.CompositeMapper = {
       },
       customProtoHeaderName: {
         serializedName: "customProtoHeaderName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionSettings",
+    modelProperties: {
+      containerAppAuthEncryptionSecretName: {
+        serializedName: "containerAppAuthEncryptionSecretName",
+        type: {
+          name: "String"
+        }
+      },
+      containerAppAuthSigningSecretName: {
+        serializedName: "containerAppAuthSigningSecretName",
         type: {
           name: "String"
         }
@@ -2176,6 +2248,18 @@ export const Ingress: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CorsPolicy"
         }
+      },
+      additionalPortMappings: {
+        serializedName: "additionalPortMappings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IngressPortMapping"
+            }
+          }
+        }
       }
     }
   }
@@ -2354,6 +2438,35 @@ export const CorsPolicy: coreClient.CompositeMapper = {
         serializedName: "allowCredentials",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const IngressPortMapping: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IngressPortMapping",
+    modelProperties: {
+      external: {
+        serializedName: "external",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      targetPort: {
+        serializedName: "targetPort",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      exposedPort: {
+        serializedName: "exposedPort",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -3979,6 +4092,155 @@ export const LogAnalyticsConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const AppInsightsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppInsightsConfiguration",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OpenTelemetryConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OpenTelemetryConfiguration",
+    modelProperties: {
+      destinationsConfiguration: {
+        serializedName: "destinationsConfiguration",
+        type: {
+          name: "Composite",
+          className: "DestinationsConfiguration"
+        }
+      },
+      tracesConfiguration: {
+        serializedName: "tracesConfiguration",
+        type: {
+          name: "Composite",
+          className: "TracesConfiguration"
+        }
+      },
+      logsConfiguration: {
+        serializedName: "logsConfiguration",
+        type: {
+          name: "Composite",
+          className: "LogsConfiguration"
+        }
+      },
+      metricsConfiguration: {
+        serializedName: "metricsConfiguration",
+        type: {
+          name: "Composite",
+          className: "MetricsConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const DestinationsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DestinationsConfiguration",
+    modelProperties: {
+      dataDogConfiguration: {
+        serializedName: "dataDogConfiguration",
+        type: {
+          name: "Composite",
+          className: "DataDogConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const DataDogConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataDogConfiguration",
+    modelProperties: {
+      site: {
+        serializedName: "site",
+        type: {
+          name: "String"
+        }
+      },
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TracesConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TracesConfiguration",
+    modelProperties: {
+      destinations: {
+        serializedName: "destinations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LogsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LogsConfiguration",
+    modelProperties: {
+      destinations: {
+        serializedName: "destinations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MetricsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetricsConfiguration",
+    modelProperties: {
+      destinations: {
+        serializedName: "destinations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const WorkloadProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5144,6 +5406,92 @@ export const AzureCredentials: coreClient.CompositeMapper = {
   }
 };
 
+export const ListUsagesResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListUsagesResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Usage"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Usage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Usage",
+    modelProperties: {
+      unit: {
+        defaultValue: "Count",
+        isConstant: true,
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      },
+      currentValue: {
+        serializedName: "currentValue",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      limit: {
+        serializedName: "limit",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "UsageName"
+        }
+      }
+    }
+  }
+};
+
+export const UsageName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UsageName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const JobExecutionNamesCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5271,6 +5619,13 @@ export const AuthConfig: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "HttpSettings"
+        }
+      },
+      encryptionSettings: {
+        serializedName: "properties.encryptionSettings",
+        type: {
+          name: "Composite",
+          className: "EncryptionSettings"
         }
       }
     }
@@ -5923,6 +6278,20 @@ export const ManagedEnvironment: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AppLogsConfiguration"
+        }
+      },
+      appInsightsConfiguration: {
+        serializedName: "properties.appInsightsConfiguration",
+        type: {
+          name: "Composite",
+          className: "AppInsightsConfiguration"
+        }
+      },
+      openTelemetryConfiguration: {
+        serializedName: "properties.openTelemetryConfiguration",
+        type: {
+          name: "Composite",
+          className: "OpenTelemetryConfiguration"
         }
       },
       zoneRedundant: {

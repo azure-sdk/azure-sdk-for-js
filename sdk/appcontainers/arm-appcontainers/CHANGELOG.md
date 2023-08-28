@@ -1,15 +1,41 @@
 # Release History
+    
+## 2.1.0-beta.1 (2023-08-28)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ManagedEnvironmentUsages
+  - Added operation group Usages
+  - Added Interface AppInsightsConfiguration
+  - Added Interface BlobStorageTokenStore
+  - Added Interface DataDogConfiguration
+  - Added Interface DestinationsConfiguration
+  - Added Interface EncryptionSettings
+  - Added Interface GetCustomDomainVerificationIdOptionalParams
+  - Added Interface IngressPortMapping
+  - Added Interface ListUsagesResult
+  - Added Interface LogsConfiguration
+  - Added Interface ManagedEnvironmentUsagesListNextOptionalParams
+  - Added Interface ManagedEnvironmentUsagesListOptionalParams
+  - Added Interface MetricsConfiguration
+  - Added Interface OpenTelemetryConfiguration
+  - Added Interface TokenStore
+  - Added Interface TracesConfiguration
+  - Added Interface Usage
+  - Added Interface UsageName
+  - Added Interface UsagesListNextOptionalParams
+  - Added Interface UsagesListOptionalParams
+  - Added Type Alias GetCustomDomainVerificationIdResponse
+  - Added Type Alias ManagedEnvironmentUsagesListNextResponse
+  - Added Type Alias ManagedEnvironmentUsagesListResponse
+  - Added Type Alias UsagesListNextResponse
+  - Added Type Alias UsagesListResponse
+  - Interface AuthConfig has a new optional parameter encryptionSettings
+  - Interface Ingress has a new optional parameter additionalPortMappings
+  - Interface Login has a new optional parameter tokenStore
+  - Interface ManagedEnvironment has a new optional parameter appInsightsConfiguration
+  - Interface ManagedEnvironment has a new optional parameter openTelemetryConfiguration
+    
 ## 2.0.0 (2023-08-08)
 
 **Features**

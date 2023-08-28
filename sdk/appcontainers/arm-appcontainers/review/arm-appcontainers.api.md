@@ -34,6 +34,11 @@ export interface AllowedPrincipals {
 }
 
 // @public
+export interface AppInsightsConfiguration {
+    connectionString?: string;
+}
+
+// @public
 export interface Apple {
     enabled?: boolean;
     login?: LoginScopes;
@@ -66,6 +71,7 @@ export interface AppRegistration {
 
 // @public
 export interface AuthConfig extends ProxyResource {
+    encryptionSettings?: EncryptionSettings;
     globalValidation?: GlobalValidation;
     httpSettings?: HttpSettings;
     identityProviders?: IdentityProviders;
@@ -234,6 +240,11 @@ export type BillingMetersGetResponse = BillingMeterCollection;
 
 // @public
 export type BindingType = string;
+
+// @public
+export interface BlobStorageTokenStore {
+    sasUrlSettingName: string;
+}
 
 // @public
 export interface Certificate extends TrackedResource {
@@ -741,6 +752,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     containerAppsSourceControls: ContainerAppsSourceControls;
     // (undocumented)
     daprComponents: DaprComponents;
+    getCustomDomainVerificationId(options?: GetCustomDomainVerificationIdOptionalParams): Promise<GetCustomDomainVerificationIdResponse>;
     jobExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobExecutionOptionalParams): Promise<JobExecutionResponse>;
     // (undocumented)
     jobs: Jobs;
@@ -757,11 +769,15 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     managedEnvironmentsStorages: ManagedEnvironmentsStorages;
     // (undocumented)
+    managedEnvironmentUsages: ManagedEnvironmentUsages;
+    // (undocumented)
     namespaces: Namespaces;
     // (undocumented)
     operations: Operations;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    usages: Usages;
 }
 
 // @public
@@ -1306,6 +1322,12 @@ export interface DaprSecretsCollection {
 }
 
 // @public
+export interface DataDogConfiguration {
+    key?: string;
+    site?: string;
+}
+
+// @public
 export interface DefaultAuthorizationPolicy {
     allowedApplications?: string[];
     allowedPrincipals?: AllowedPrincipals;
@@ -1330,6 +1352,11 @@ export interface DefaultErrorResponseErrorDetailsItem {
     readonly code?: string;
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface DestinationsConfiguration {
+    dataDogConfiguration?: DataDogConfiguration;
 }
 
 // @public
@@ -1420,6 +1447,12 @@ export interface DiagnosticSupportTopic {
 export type DnsVerificationTestResult = "Passed" | "Failed" | "Skipped";
 
 // @public
+export interface EncryptionSettings {
+    containerAppAuthEncryptionSecretName?: string;
+    containerAppAuthSigningSecretName?: string;
+}
+
+// @public
 export interface EnvironmentAuthToken extends TrackedResource {
     readonly expires?: Date;
     readonly token?: string;
@@ -1484,6 +1517,15 @@ export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GetCustomDomainVerificationIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetCustomDomainVerificationIdResponse = {
+    body: string;
+};
 
 // @public
 export interface GitHub {
@@ -1556,6 +1598,7 @@ export interface IdentityProviders {
 
 // @public
 export interface Ingress {
+    additionalPortMappings?: IngressPortMapping[];
     allowInsecure?: boolean;
     clientCertificateMode?: IngressClientCertificateMode;
     corsPolicy?: CorsPolicy;
@@ -1572,6 +1615,13 @@ export interface Ingress {
 
 // @public
 export type IngressClientCertificateMode = string;
+
+// @public
+export interface IngressPortMapping {
+    exposedPort?: number;
+    external: boolean;
+    targetPort: number;
+}
 
 // @public
 export interface IngressStickySessions {
@@ -2151,6 +2201,12 @@ export enum KnownType {
     Startup = "Startup"
 }
 
+// @public (undocumented)
+export interface ListUsagesResult {
+    nextLink?: string;
+    value?: Usage[];
+}
+
 // @public
 export interface LogAnalyticsConfiguration {
     customerId?: string;
@@ -2164,6 +2220,7 @@ export interface Login {
     nonce?: Nonce;
     preserveUrlFragmentsForLogins?: boolean;
     routes?: LoginRoutes;
+    tokenStore?: TokenStore;
 }
 
 // @public
@@ -2178,6 +2235,11 @@ export interface LoginScopes {
 
 // @public
 export type LogLevel = string;
+
+// @public
+export interface LogsConfiguration {
+    destinations?: string[];
+}
 
 // @public
 export interface ManagedCertificate extends TrackedResource {
@@ -2263,6 +2325,7 @@ export type ManagedCertificatesUpdateResponse = ManagedCertificate;
 
 // @public
 export interface ManagedEnvironment extends TrackedResource {
+    appInsightsConfiguration?: AppInsightsConfiguration;
     appLogsConfiguration?: AppLogsConfiguration;
     customDomainConfiguration?: CustomDomainConfiguration;
     daprAIConnectionString?: string;
@@ -2274,6 +2337,7 @@ export interface ManagedEnvironment extends TrackedResource {
     infrastructureResourceGroup?: string;
     kedaConfiguration?: KedaConfiguration;
     kind?: string;
+    openTelemetryConfiguration?: OpenTelemetryConfiguration;
     peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
     readonly provisioningState?: EnvironmentProvisioningState;
     readonly staticIp?: string;
@@ -2469,6 +2533,25 @@ export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.Oper
 export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
 
 // @public
+export interface ManagedEnvironmentUsages {
+    list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentUsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
+}
+
+// @public
+export interface ManagedEnvironmentUsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentUsagesListNextResponse = ListUsagesResult;
+
+// @public
+export interface ManagedEnvironmentUsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentUsagesListResponse = ListUsagesResult;
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -2480,6 +2563,11 @@ export interface ManagedServiceIdentity {
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface MetricsConfiguration {
+    destinations?: string[];
+}
 
 // @public
 export interface Mtls {
@@ -2530,6 +2618,14 @@ export interface OpenIdConnectRegistration {
     clientCredential?: OpenIdConnectClientCredential;
     clientId?: string;
     openIdConnectConfiguration?: OpenIdConnectConfig;
+}
+
+// @public
+export interface OpenTelemetryConfiguration {
+    destinationsConfiguration?: DestinationsConfiguration;
+    logsConfiguration?: LogsConfiguration;
+    metricsConfiguration?: MetricsConfiguration;
+    tracesConfiguration?: TracesConfiguration;
 }
 
 // @public
@@ -2763,6 +2859,18 @@ export interface Template {
 }
 
 // @public
+export interface TokenStore {
+    azureBlobStorage?: BlobStorageTokenStore;
+    enabled?: boolean;
+    tokenRefreshExtensionHours?: number;
+}
+
+// @public
+export interface TracesConfiguration {
+    destinations?: string[];
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
@@ -2798,6 +2906,39 @@ export type Type = string;
 
 // @public
 export type UnauthenticatedClientActionV2 = "RedirectToLoginPage" | "AllowAnonymous" | "Return401" | "Return403";
+
+// @public
+export interface Usage {
+    currentValue: number;
+    limit: number;
+    name: UsageName;
+    unit: "Count";
+}
+
+// @public
+export interface UsageName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface Usages {
+    list(location: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
+}
+
+// @public
+export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UsagesListNextResponse = ListUsagesResult;
+
+// @public
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UsagesListResponse = ListUsagesResult;
 
 // @public
 export interface UserAssignedIdentity {
