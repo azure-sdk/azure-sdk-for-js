@@ -542,13 +542,13 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName,
-    Parameters.appName,
+    Parameters.appName1,
     Parameters.domainName
   ],
   headerParameters: [Parameters.accept],
@@ -576,13 +576,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.domainResource,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName,
-    Parameters.appName,
+    Parameters.appName1,
     Parameters.domainName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -602,13 +602,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName,
-    Parameters.appName,
+    Parameters.appName1,
     Parameters.domainName
   ],
   headerParameters: [Parameters.accept],
@@ -636,13 +636,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.domainResource,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName,
-    Parameters.appName,
+    Parameters.appName1,
     Parameters.domainName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -661,13 +661,13 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.appName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -686,10 +686,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.appName
+    Parameters.resourceGroupName1,
+    Parameters.serviceName,
+    Parameters.appName1
   ],
   headerParameters: [Parameters.accept],
   serializer

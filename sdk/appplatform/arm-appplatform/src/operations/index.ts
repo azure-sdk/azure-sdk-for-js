@@ -6,7 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./javaApps";
+export * from "./revisions";
+export * from "./revisionReplicas";
+export * from "./javaEnvironments";
+export * from "./namespaces";
+export * from "./middlewareEurekaServers";
+export * from "./middlewareConfigServers";
 export * from "./services";
+export * from "./apms";
+export * from "./eurekaServers";
 export * from "./configServers";
 export * from "./configurationServices";
 export * from "./serviceRegistries";

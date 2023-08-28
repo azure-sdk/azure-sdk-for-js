@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConfigServers } from "../operationsInterfaces";
+import { EurekaServers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -18,24 +18,23 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ConfigServersGetOptionalParams,
-  ConfigServersGetResponse,
-  ConfigServerResource,
-  ConfigServersUpdatePutOptionalParams,
-  ConfigServersUpdatePutResponse,
-  ConfigServersUpdatePatchOptionalParams,
-  ConfigServersUpdatePatchResponse,
-  ConfigServerSettings,
-  ConfigServersValidateOptionalParams,
-  ConfigServersValidateResponse
+  EurekaServersListOptionalParams,
+  EurekaServersListResponse,
+  EurekaServersGetOptionalParams,
+  EurekaServersGetResponse,
+  EurekaServerResource,
+  EurekaServersUpdatePutOptionalParams,
+  EurekaServersUpdatePutResponse,
+  EurekaServersUpdatePatchOptionalParams,
+  EurekaServersUpdatePatchResponse
 } from "../models";
 
-/** Class containing ConfigServers operations. */
-export class ConfigServersImpl implements ConfigServers {
+/** Class containing EurekaServers operations. */
+export class EurekaServersImpl implements EurekaServers {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class ConfigServers class.
+   * Initialize a new instance of the class EurekaServers class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -43,7 +42,25 @@ export class ConfigServersImpl implements ConfigServers {
   }
 
   /**
-   * Get the config server and its properties.
+   * List the eureka server settings.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: EurekaServersListOptionalParams
+  ): Promise<EurekaServersListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Get the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -52,8 +69,8 @@ export class ConfigServersImpl implements ConfigServers {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigServersGetOptionalParams
-  ): Promise<ConfigServersGetResponse> {
+    options?: EurekaServersGetOptionalParams
+  ): Promise<EurekaServersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       getOperationSpec
@@ -61,28 +78,28 @@ export class ConfigServersImpl implements ConfigServers {
   }
 
   /**
-   * Update the config server.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param configServerResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginUpdatePut(
     resourceGroupName: string,
     serviceName: string,
-    configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePutOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ConfigServersUpdatePutResponse>,
-      ConfigServersUpdatePutResponse
+      OperationState<EurekaServersUpdatePutResponse>,
+      EurekaServersUpdatePutResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ConfigServersUpdatePutResponse> => {
+    ): Promise<EurekaServersUpdatePutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -120,66 +137,67 @@ export class ConfigServersImpl implements ConfigServers {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, serviceName, configServerResource, options },
+      args: { resourceGroupName, serviceName, eurekaServerResource, options },
       spec: updatePutOperationSpec
     });
     const poller = await createHttpPoller<
-      ConfigServersUpdatePutResponse,
-      OperationState<ConfigServersUpdatePutResponse>
+      EurekaServersUpdatePutResponse,
+      OperationState<EurekaServersUpdatePutResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update the config server.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param configServerResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginUpdatePutAndWait(
     resourceGroupName: string,
     serviceName: string,
-    configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
-  ): Promise<ConfigServersUpdatePutResponse> {
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePutOptionalParams
+  ): Promise<EurekaServersUpdatePutResponse> {
     const poller = await this.beginUpdatePut(
       resourceGroupName,
       serviceName,
-      configServerResource,
+      eurekaServerResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update the config server.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param configServerResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginUpdatePatch(
     resourceGroupName: string,
     serviceName: string,
-    configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePatchOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ConfigServersUpdatePatchResponse>,
-      ConfigServersUpdatePatchResponse
+      OperationState<EurekaServersUpdatePatchResponse>,
+      EurekaServersUpdatePatchResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ConfigServersUpdatePatchResponse> => {
+    ): Promise<EurekaServersUpdatePatchResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -217,109 +235,12 @@ export class ConfigServersImpl implements ConfigServers {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, serviceName, configServerResource, options },
+      args: { resourceGroupName, serviceName, eurekaServerResource, options },
       spec: updatePatchOperationSpec
     });
     const poller = await createHttpPoller<
-      ConfigServersUpdatePatchResponse,
-      OperationState<ConfigServersUpdatePatchResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update the config server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param configServerResource Parameters for the update operation
-   * @param options The options parameters.
-   */
-  async beginUpdatePatchAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
-  ): Promise<ConfigServersUpdatePatchResponse> {
-    const poller = await this.beginUpdatePatch(
-      resourceGroupName,
-      serviceName,
-      configServerResource,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Check if the config server settings are valid.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param configServerSettings Config server settings to be validated
-   * @param options The options parameters.
-   */
-  async beginValidate(
-    resourceGroupName: string,
-    serviceName: string,
-    configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConfigServersValidateResponse>,
-      ConfigServersValidateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ConfigServersValidateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, configServerSettings, options },
-      spec: validateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ConfigServersValidateResponse,
-      OperationState<ConfigServersValidateResponse>
+      EurekaServersUpdatePatchResponse,
+      OperationState<EurekaServersUpdatePatchResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -330,23 +251,23 @@ export class ConfigServersImpl implements ConfigServers {
   }
 
   /**
-   * Check if the config server settings are valid.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param configServerSettings Config server settings to be validated
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  async beginValidateAndWait(
+  async beginUpdatePatchAndWait(
     resourceGroupName: string,
     serviceName: string,
-    configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
-  ): Promise<ConfigServersValidateResponse> {
-    const poller = await this.beginValidate(
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePatchOptionalParams
+  ): Promise<EurekaServersUpdatePatchResponse> {
+    const poller = await this.beginUpdatePatch(
       resourceGroupName,
       serviceName,
-      configServerSettings,
+      eurekaServerResource,
       options
     );
     return poller.pollUntilDone();
@@ -355,13 +276,35 @@ export class ConfigServersImpl implements ConfigServers {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/eurekaServers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.serviceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/eurekaServers/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EurekaServerResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -379,26 +322,26 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const updatePutOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/eurekaServers/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResource
     },
     201: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResource
     },
     202: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResource
     },
     204: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.configServerResource1,
+  requestBody: Parameters.eurekaServerResource1,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -412,59 +355,26 @@ const updatePutOperationSpec: coreClient.OperationSpec = {
 };
 const updatePatchOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/eurekaServers/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResource
     },
     201: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResource
     },
     202: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResource
     },
     204: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.EurekaServerResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.configServerResource1,
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/validate",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
-    },
-    201: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
-    },
-    202: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
-    },
-    204: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.configServerSettings1,
+  requestBody: Parameters.eurekaServerResource1,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
