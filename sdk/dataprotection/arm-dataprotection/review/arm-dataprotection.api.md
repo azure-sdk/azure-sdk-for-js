@@ -130,6 +130,7 @@ export interface AzureBackupJob {
     readonly restoreType?: string;
     // (undocumented)
     sourceDataStoreName?: string;
+    readonly sourceDataStoreType?: string;
     sourceResourceGroup: string;
     sourceSubscriptionID: string;
     startTime: Date;
@@ -137,6 +138,11 @@ export interface AzureBackupJob {
     subscriptionId: string;
     supportedActions: string[];
     vaultName: string;
+}
+
+// @public
+export interface AzureBackupJobProgressUrl {
+    progressUrl?: string;
 }
 
 // @public
@@ -305,10 +311,18 @@ export interface BackupInstances {
     beginSuspendBackupsAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesSuspendBackupsOptionalParams): Promise<void>;
     beginSyncBackupInstance(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: SyncBackupInstanceRequest, options?: BackupInstancesSyncBackupInstanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSyncBackupInstanceAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: SyncBackupInstanceRequest, options?: BackupInstancesSyncBackupInstanceOptionalParams): Promise<void>;
+    // (undocumented)
+    beginTriggerCrossRegionRestore(resourceGroupName: string, location: string, parameters: CrossRegionRestoreRequestObject, options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesTriggerCrossRegionRestoreResponse>, BackupInstancesTriggerCrossRegionRestoreResponse>>;
+    // (undocumented)
+    beginTriggerCrossRegionRestoreAndWait(resourceGroupName: string, location: string, parameters: CrossRegionRestoreRequestObject, options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams): Promise<BackupInstancesTriggerCrossRegionRestoreResponse>;
     beginTriggerRehydrate(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRehydrationRequest, options?: BackupInstancesTriggerRehydrateOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesTriggerRehydrateResponse>, BackupInstancesTriggerRehydrateResponse>>;
     beginTriggerRehydrateAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRehydrationRequest, options?: BackupInstancesTriggerRehydrateOptionalParams): Promise<BackupInstancesTriggerRehydrateResponse>;
     beginTriggerRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRestoreRequestUnion, options?: BackupInstancesTriggerRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesTriggerRestoreResponse>, BackupInstancesTriggerRestoreResponse>>;
     beginTriggerRestoreAndWait(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupRestoreRequestUnion, options?: BackupInstancesTriggerRestoreOptionalParams): Promise<BackupInstancesTriggerRestoreResponse>;
+    // (undocumented)
+    beginValidateCrossRegionRestore(resourceGroupName: string, location: string, parameters: ValidateCrossRegionRestoreRequestObject, options?: BackupInstancesValidateCrossRegionRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateCrossRegionRestoreResponse>, BackupInstancesValidateCrossRegionRestoreResponse>>;
+    // (undocumented)
+    beginValidateCrossRegionRestoreAndWait(resourceGroupName: string, location: string, parameters: ValidateCrossRegionRestoreRequestObject, options?: BackupInstancesValidateCrossRegionRestoreOptionalParams): Promise<BackupInstancesValidateCrossRegionRestoreResponse>;
     beginValidateForBackup(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForBackupResponse>, BackupInstancesValidateForBackupResponse>>;
     beginValidateForBackupAndWait(resourceGroupName: string, vaultName: string, parameters: ValidateForBackupRequest, options?: BackupInstancesValidateForBackupOptionalParams): Promise<BackupInstancesValidateForBackupResponse>;
     beginValidateForRestore(resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: ValidateRestoreRequestObject, options?: BackupInstancesValidateForRestoreOptionalParams): Promise<SimplePollerLike<OperationState<BackupInstancesValidateForRestoreResponse>, BackupInstancesValidateForRestoreResponse>>;
@@ -361,6 +375,25 @@ export interface BackupInstancesDeleteOptionalParams extends coreClient.Operatio
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface BackupInstancesExtensionRouting {
+    list(resourceId: string, options?: BackupInstancesExtensionRoutingListOptionalParams): PagedAsyncIterableIterator<BackupInstanceResource>;
+}
+
+// @public
+export interface BackupInstancesExtensionRoutingListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupInstancesExtensionRoutingListNextResponse = BackupInstanceResourceList;
+
+// @public
+export interface BackupInstancesExtensionRoutingListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupInstancesExtensionRoutingListResponse = BackupInstanceResourceList;
 
 // @public
 export interface BackupInstancesGetBackupInstanceOperationResultOptionalParams extends coreClient.OperationOptions {
@@ -456,6 +489,22 @@ export interface BackupInstancesSyncBackupInstanceOptionalParams extends coreCli
 }
 
 // @public
+export interface BackupInstancesTriggerCrossRegionRestoreHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface BackupInstancesTriggerCrossRegionRestoreOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupInstancesTriggerCrossRegionRestoreResponse = OperationJobExtendedInfo;
+
+// @public
 export interface BackupInstancesTriggerRehydrateHeaders {
     azureAsyncOperation?: string;
     location?: string;
@@ -486,6 +535,22 @@ export interface BackupInstancesTriggerRestoreOptionalParams extends coreClient.
 
 // @public
 export type BackupInstancesTriggerRestoreResponse = OperationJobExtendedInfo;
+
+// @public
+export interface BackupInstancesValidateCrossRegionRestoreHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface BackupInstancesValidateCrossRegionRestoreOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupInstancesValidateCrossRegionRestoreResponse = OperationJobExtendedInfo;
 
 // @public
 export interface BackupInstancesValidateForBackupHeaders {
@@ -733,8 +798,11 @@ export type BasePolicyRuleUnion = BasePolicyRule | AzureBackupRule | AzureRetent
 
 // @public
 export interface BaseResourceProperties {
-    objectType: "BaseResourceProperties";
+    objectType: "DefaultResourceProperties";
 }
+
+// @public (undocumented)
+export type BaseResourcePropertiesUnion = BaseResourceProperties | DefaultResourceProperties;
 
 // @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
@@ -816,6 +884,71 @@ export type CopyOptionUnion = CopyOption | CopyOnExpiryOption | CustomCopyOption
 // @public
 export type CreatedByType = string;
 
+// @public
+export interface CrossRegionRestoreDetails {
+    // (undocumented)
+    sourceBackupInstanceId: string;
+    // (undocumented)
+    sourceRegion: string;
+}
+
+// @public
+export interface CrossRegionRestoreJob {
+    // (undocumented)
+    get(resourceGroupName: string, location: string, parameters: CrossRegionRestoreJobRequest, options?: CrossRegionRestoreJobGetOptionalParams): Promise<CrossRegionRestoreJobGetResponse>;
+}
+
+// @public
+export interface CrossRegionRestoreJobGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CrossRegionRestoreJobGetResponse = AzureBackupJobResource;
+
+// @public (undocumented)
+export interface CrossRegionRestoreJobRequest {
+    // (undocumented)
+    jobId: string;
+    // (undocumented)
+    sourceBackupVaultId: string;
+    // (undocumented)
+    sourceRegion: string;
+}
+
+// @public
+export interface CrossRegionRestoreJobs {
+    // (undocumented)
+    list(resourceGroupName: string, location: string, parameters: CrossRegionRestoreJobsRequest, options?: CrossRegionRestoreJobsListOptionalParams): PagedAsyncIterableIterator<AzureBackupJobResource>;
+}
+
+// @public
+export interface CrossRegionRestoreJobsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CrossRegionRestoreJobsListNextResponse = AzureBackupJobResourceList;
+
+// @public
+export interface CrossRegionRestoreJobsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CrossRegionRestoreJobsListResponse = AzureBackupJobResourceList;
+
+// @public (undocumented)
+export interface CrossRegionRestoreJobsRequest {
+    // (undocumented)
+    sourceBackupVaultId: string;
+    // (undocumented)
+    sourceRegion: string;
+}
+
+// @public
+export interface CrossRegionRestoreRequestObject {
+    crossRegionRestoreDetails: CrossRegionRestoreDetails;
+    restoreRequestObject: AzureBackupRestoreRequestUnion;
+}
+
 // @public (undocumented)
 export interface CrossRegionRestoreSettings {
     state?: CrossRegionRestoreState;
@@ -864,11 +997,17 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     // (undocumented)
     backupInstances: BackupInstances;
     // (undocumented)
+    backupInstancesExtensionRouting: BackupInstancesExtensionRouting;
+    // (undocumented)
     backupPolicies: BackupPolicies;
     // (undocumented)
     backupVaultOperationResults: BackupVaultOperationResults;
     // (undocumented)
     backupVaults: BackupVaults;
+    // (undocumented)
+    crossRegionRestoreJob: CrossRegionRestoreJob;
+    // (undocumented)
+    crossRegionRestoreJobs: CrossRegionRestoreJobs;
     // (undocumented)
     dataProtection: DataProtection;
     // (undocumented)
@@ -897,6 +1036,8 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     resourceGuards: ResourceGuards;
     // (undocumented)
     restorableTimeRanges: RestorableTimeRanges;
+    // (undocumented)
+    secondaryRPs: SecondaryRPs;
     // (undocumented)
     subscriptionId?: string;
 }
@@ -934,7 +1075,7 @@ export interface Datasource {
     resourceID: string;
     resourceLocation?: string;
     resourceName?: string;
-    resourceProperties?: BaseResourceProperties;
+    resourceProperties?: BaseResourcePropertiesUnion;
     resourceType?: string;
     resourceUri?: string;
 }
@@ -946,7 +1087,7 @@ export interface DatasourceSet {
     resourceID: string;
     resourceLocation?: string;
     resourceName?: string;
-    resourceProperties?: BaseResourceProperties;
+    resourceProperties?: BaseResourcePropertiesUnion;
     resourceType?: string;
     resourceUri?: string;
 }
@@ -977,6 +1118,11 @@ export interface Day {
 
 // @public
 export type DayOfWeek = string;
+
+// @public
+export interface DefaultResourceProperties extends BaseResourceProperties {
+    objectType: "DefaultResourceProperties";
+}
 
 // @public
 export interface DeletedBackupInstance extends BackupInstance {
@@ -1288,6 +1434,12 @@ export interface FeatureValidationResponseBase {
 export type FeatureValidationResponseBaseUnion = FeatureValidationResponseBase | FeatureValidationResponse;
 
 // @public
+export interface FetchSecondaryRPsRequestParameters {
+    sourceBackupInstanceId?: string;
+    sourceRegion?: string;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
@@ -1354,13 +1506,24 @@ export interface JobExtendedInfo {
     readonly sourceRecoverPoint?: RestoreJobRecoveryPointDetails;
     readonly subTasks?: JobSubTask[];
     readonly targetRecoverPoint?: RestoreJobRecoveryPointDetails;
+    readonly warningDetails?: UserFacingWarningDetail[];
 }
 
 // @public
 export interface Jobs {
+    beginTriggerCancel(resourceGroupName: string, vaultName: string, jobId: string, options?: JobsTriggerCancelOptionalParams): Promise<SimplePollerLike<OperationState<JobsTriggerCancelResponse>, JobsTriggerCancelResponse>>;
+    beginTriggerCancelAndWait(resourceGroupName: string, vaultName: string, jobId: string, options?: JobsTriggerCancelOptionalParams): Promise<JobsTriggerCancelResponse>;
+    generateProgressUrl(resourceGroupName: string, vaultName: string, jobId: string, options?: JobsGenerateProgressUrlOptionalParams): Promise<JobsGenerateProgressUrlResponse>;
     get(resourceGroupName: string, vaultName: string, jobId: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
     list(resourceGroupName: string, vaultName: string, options?: JobsListOptionalParams): PagedAsyncIterableIterator<AzureBackupJobResource>;
 }
+
+// @public
+export interface JobsGenerateProgressUrlOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsGenerateProgressUrlResponse = AzureBackupJobProgressUrl;
 
 // @public
 export interface JobsGetOptionalParams extends coreClient.OperationOptions {
@@ -1382,6 +1545,21 @@ export interface JobsListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type JobsListResponse = AzureBackupJobResourceList;
+
+// @public
+export interface JobsTriggerCancelHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface JobsTriggerCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type JobsTriggerCancelResponse = JobsTriggerCancelHeaders;
 
 // @public
 export interface JobSubTask {
@@ -1560,6 +1738,11 @@ export enum KnownResourceMoveState {
 }
 
 // @public
+export enum KnownResourcePropertiesObjectType {
+    DefaultResourceProperties = "DefaultResourceProperties"
+}
+
+// @public
 export enum KnownRestoreSourceDataStoreType {
     ArchiveStore = "ArchiveStore",
     OperationalStore = "OperationalStore",
@@ -1676,6 +1859,8 @@ export interface KubernetesClusterRestoreCriteria extends ItemLevelRestoreCriter
     objectType: "KubernetesClusterRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
     restoreHookReferences?: NamespacedNameResource[];
+    stagingResourceGroupId?: string;
+    stagingStorageAccountId?: string;
 }
 
 // @public
@@ -2185,6 +2370,9 @@ export interface ResourceMoveDetails {
 // @public
 export type ResourceMoveState = string;
 
+// @public
+export type ResourcePropertiesObjectType = string;
+
 // @public (undocumented)
 export interface RestorableTimeRange {
     endTime: string;
@@ -2268,6 +2456,27 @@ export interface ScheduleBasedTriggerContext extends TriggerContext {
     schedule: BackupSchedule;
     taggingCriteria: TaggingCriteria[];
 }
+
+// @public
+export interface SecondaryRPs {
+    listFetch(resourceGroupName: string, location: string, parameters: FetchSecondaryRPsRequestParameters, options?: SecondaryRPsFetchOptionalParams): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource>;
+}
+
+// @public
+export interface SecondaryRPsFetchNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecondaryRPsFetchNextResponse = AzureBackupRecoveryPointResourceList;
+
+// @public
+export interface SecondaryRPsFetchOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    skipToken?: string;
+}
+
+// @public
+export type SecondaryRPsFetchResponse = AzureBackupRecoveryPointResourceList;
 
 // @public
 export interface SecretStoreBasedAuthCredentials extends AuthCredentials {
@@ -2409,6 +2618,12 @@ export interface UserAssignedIdentity {
 }
 
 // @public
+export interface UserAssignedIdentityDetails {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface UserFacingError {
     code?: string;
     details?: UserFacingError[];
@@ -2422,6 +2637,18 @@ export interface UserFacingError {
     };
     recommendedAction?: string[];
     target?: string;
+}
+
+// @public
+export interface UserFacingWarningDetail {
+    resourceName?: string;
+    warning: UserFacingError;
+}
+
+// @public
+export interface ValidateCrossRegionRestoreRequestObject {
+    crossRegionRestoreDetails: CrossRegionRestoreDetails;
+    restoreRequestObject: AzureBackupRestoreRequestUnion;
 }
 
 // @public
