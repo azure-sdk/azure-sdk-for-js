@@ -338,6 +338,8 @@ export interface OpenIdConnectLogin {
 export interface Login {
   /** The routes that specify the endpoints used for login and logout requests. */
   routes?: LoginRoutes;
+  /** The configuration settings of the token store. */
+  tokenStore?: TokenStore;
   /** <code>true</code> if the fragments from the request are preserved after the login request is made; otherwise, <code>false</code>. */
   preserveUrlFragmentsForLogins?: boolean;
   /**
@@ -356,6 +358,28 @@ export interface Login {
 export interface LoginRoutes {
   /** The endpoint at which a logout request should be made. */
   logoutEndpoint?: string;
+}
+
+/** The configuration settings of the token store. */
+export interface TokenStore {
+  /**
+   * <code>true</code> to durably store platform-specific security tokens that are obtained during login flows; otherwise, <code>false</code>.
+   *  The default is <code>false</code>.
+   */
+  enabled?: boolean;
+  /**
+   * The number of hours after session token expiration that a session token can be used to
+   * call the token refresh API. The default is 72 hours.
+   */
+  tokenRefreshExtensionHours?: number;
+  /** The configuration settings of the storage of the tokens if blob storage is used. */
+  azureBlobStorage?: BlobStorageTokenStore;
+}
+
+/** The configuration settings of the storage of the tokens if blob storage is used. */
+export interface BlobStorageTokenStore {
+  /** The name of the app secrets containing the SAS URL of the blob storage containing the tokens. */
+  sasUrlSettingName: string;
 }
 
 /** The configuration settings of the session cookie's expiration. */
@@ -398,6 +422,14 @@ export interface ForwardProxy {
   customHostHeaderName?: string;
   /** The name of the header containing the scheme of the request. */
   customProtoHeaderName?: string;
+}
+
+/** The configuration settings of the secrets references of encryption key and signing key for ContainerApp Service Authentication/Authorization. */
+export interface EncryptionSettings {
+  /** The secret name which is referenced for EncryptionKey. */
+  containerAppAuthEncryptionSecretName?: string;
+  /** The secret name which is referenced for SigningKey. */
+  containerAppAuthSigningSecretName?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -713,6 +745,8 @@ export interface CertificateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly publicKeyHash?: string;
+  /** The type of the certificate. Allowed values are `ServerSSLCertificate` and `ImagePullTrustedCA` */
+  type?: CertificateType;
 }
 
 /** A certificate to update */
@@ -891,6 +925,8 @@ export interface Ingress {
   clientCertificateMode?: IngressClientCertificateMode;
   /** CORS policy for container app */
   corsPolicy?: CorsPolicy;
+  /** Settings to expose additional ports on container app */
+  additionalPortMappings?: IngressPortMapping[];
 }
 
 /** Traffic weight assigned to a revision */
@@ -947,6 +983,16 @@ export interface CorsPolicy {
   maxAge?: number;
   /** Specifies whether the resource allows credentials */
   allowCredentials?: boolean;
+}
+
+/** Port mappings of container app ingress */
+export interface IngressPortMapping {
+  /** Specifies whether the app port is accessible outside of the environment */
+  external: boolean;
+  /** Specifies the port user's container listens on */
+  targetPort: number;
+  /** Specifies the exposed port for the target port. If not specified, it defaults to target port */
+  exposedPort?: number;
 }
 
 /** Container App Private Registry */
@@ -1963,6 +2009,33 @@ export interface AzureCredentials {
   subscriptionId?: string;
 }
 
+export interface ListUsagesResult {
+  /** The list of compute resource usages. */
+  value?: Usage[];
+  /** The URI to fetch the next page of compute resource usage information. Call ListNext() with this to fetch the next page of compute resource usage information. */
+  nextLink?: string;
+}
+
+/** Describes Compute Resource Usage. */
+export interface Usage {
+  /** An enum describing the unit of usage measurement. */
+  unit: "Count";
+  /** The current usage of the resource. */
+  currentValue: number;
+  /** The maximum permitted usage of the resource. */
+  limit: number;
+  /** The name of the type of usage. */
+  name: UsageName;
+}
+
+/** The Usage Names. */
+export interface UsageName {
+  /** The name of the resource. */
+  value?: string;
+  /** The localized name of the resource. */
+  localizedValue?: string;
+}
+
 /** Container App executions names list. */
 export interface JobExecutionNamesCollection {
   /** Collection of resources. */
@@ -2001,6 +2074,8 @@ export interface AuthConfig extends ProxyResource {
   login?: Login;
   /** The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. */
   httpSettings?: HttpSettings;
+  /** The configuration settings of the secrets references of encryption key and signing key for ContainerApp Service Authentication/Authorization. */
+  encryptionSettings?: EncryptionSettings;
 }
 
 /** A workload profile with specific hardware configure to run container apps. */
@@ -2562,6 +2637,24 @@ export enum KnownCertificateProvisioningState {
  * **Pending**
  */
 export type CertificateProvisioningState = string;
+
+/** Known values of {@link CertificateType} that the service accepts. */
+export enum KnownCertificateType {
+  /** ServerSSLCertificate */
+  ServerSSLCertificate = "ServerSSLCertificate",
+  /** ImagePullTrustedCA */
+  ImagePullTrustedCA = "ImagePullTrustedCA"
+}
+
+/**
+ * Defines values for CertificateType. \
+ * {@link KnownCertificateType} can be used interchangeably with CertificateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServerSSLCertificate** \
+ * **ImagePullTrustedCA**
+ */
+export type CertificateType = string;
 
 /** Known values of {@link AccessMode} that the service accepts. */
 export enum KnownAccessMode {
@@ -3766,6 +3859,16 @@ export interface JobExecutionOptionalParams
 export type JobExecutionResponse = JobExecution;
 
 /** Optional parameters. */
+export interface GetCustomDomainVerificationIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCustomDomainVerificationId operation. */
+export type GetCustomDomainVerificationIdResponse = {
+  /** The parsed response body. */
+  body: string;
+};
+
+/** Optional parameters. */
 export interface ManagedEnvironmentsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4054,6 +4157,33 @@ export interface ContainerAppsSourceControlsListByContainerAppNextOptionalParams
 
 /** Contains response data for the listByContainerAppNext operation. */
 export type ContainerAppsSourceControlsListByContainerAppNextResponse = SourceControlCollection;
+
+/** Optional parameters. */
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UsagesListResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface UsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UsagesListNextResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentUsagesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ManagedEnvironmentUsagesListResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentUsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ManagedEnvironmentUsagesListNextResponse = ListUsagesResult;
 
 /** Optional parameters. */
 export interface ContainerAppsAPIClientOptionalParams

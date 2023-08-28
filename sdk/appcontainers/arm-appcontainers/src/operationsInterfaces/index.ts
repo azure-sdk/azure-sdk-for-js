@@ -29,3 +29,5 @@ export * from "./namespaces";
 export * from "./daprComponents";
 export * from "./managedEnvironmentsStorages";
 export * from "./containerAppsSourceControls";
+export * from "./usages";
+export * from "./managedEnvironmentUsages";
