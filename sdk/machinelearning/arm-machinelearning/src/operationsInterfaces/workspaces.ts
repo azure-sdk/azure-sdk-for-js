@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workspace,
   WorkspacesListByResourceGroupOptionalParams,
@@ -80,8 +80,8 @@ export interface Workspaces {
     parameters: Workspace,
     options?: WorkspacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
       WorkspacesCreateOrUpdateResponse
     >
   >;
@@ -108,7 +108,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -133,8 +133,8 @@ export interface Workspaces {
     parameters: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesUpdateResponse>,
       WorkspacesUpdateResponse
     >
   >;
@@ -162,8 +162,8 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesDiagnoseOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesDiagnoseResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesDiagnoseResponse>,
       WorkspacesDiagnoseResponse
     >
   >;
@@ -201,7 +201,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesResyncKeysOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resync all the keys associated with this workspace. This includes keys for the storage account, app
    * insights and password for container registry
@@ -236,8 +236,8 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesPrepareNotebookOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesPrepareNotebookResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesPrepareNotebookResponse>,
       WorkspacesPrepareNotebookResponse
     >
   >;
