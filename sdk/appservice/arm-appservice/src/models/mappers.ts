@@ -3096,6 +3096,13 @@ export const SiteConfig: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      minTlsCipherSuite: {
+        serializedName: "minTlsCipherSuite",
+        xmlName: "minTlsCipherSuite",
+        type: {
+          name: "String"
+        }
+      },
       scmMinTlsVersion: {
         serializedName: "scmMinTlsVersion",
         xmlName: "scmMinTlsVersion",
@@ -4015,6 +4022,66 @@ export const AzureStorageInfoValue: coreClient.CompositeMapper = {
             "InvalidShare",
             "NotValidated"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const DaprConfig: coreClient.CompositeMapper = {
+  serializedName: "DaprConfig",
+  type: {
+    name: "Composite",
+    className: "DaprConfig",
+    modelProperties: {
+      enabled: {
+        defaultValue: false,
+        serializedName: "enabled",
+        xmlName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        xmlName: "appId",
+        type: {
+          name: "String"
+        }
+      },
+      appPort: {
+        serializedName: "appPort",
+        xmlName: "appPort",
+        type: {
+          name: "Number"
+        }
+      },
+      httpReadBufferSize: {
+        serializedName: "httpReadBufferSize",
+        xmlName: "httpReadBufferSize",
+        type: {
+          name: "Number"
+        }
+      },
+      httpMaxRequestSize: {
+        serializedName: "httpMaxRequestSize",
+        xmlName: "httpMaxRequestSize",
+        type: {
+          name: "Number"
+        }
+      },
+      logLevel: {
+        serializedName: "logLevel",
+        xmlName: "logLevel",
+        type: {
+          name: "String"
+        }
+      },
+      enableApiLogging: {
+        serializedName: "enableApiLogging",
+        xmlName: "enableApiLogging",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -8371,6 +8438,13 @@ export const ResourceNameAvailabilityRequest: coreClient.CompositeMapper = {
         xmlName: "isFqdn",
         type: {
           name: "Boolean"
+        }
+      },
+      environmentId: {
+        serializedName: "environmentId",
+        xmlName: "environmentId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -13152,15 +13226,7 @@ export const WorkflowEnvelopeProperties: coreClient.CompositeMapper = {
         serializedName: "flowState",
         xmlName: "flowState",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       health: {
@@ -14863,15 +14929,7 @@ export const WorkflowFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       }
     }
@@ -14953,15 +15011,7 @@ export const WorkflowTriggerFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       }
     }
@@ -15802,6 +15852,14 @@ export const Site: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SiteConfig"
+        }
+      },
+      daprConfig: {
+        serializedName: "properties.daprConfig",
+        xmlName: "properties.daprConfig",
+        type: {
+          name: "Composite",
+          className: "DaprConfig"
         }
       },
       trafficManagerHostNames: {
@@ -22545,6 +22603,13 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      minTlsCipherSuite: {
+        serializedName: "properties.minTlsCipherSuite",
+        xmlName: "properties.minTlsCipherSuite",
+        type: {
+          name: "String"
+        }
+      },
       scmMinTlsVersion: {
         serializedName: "properties.scmMinTlsVersion",
         xmlName: "properties.scmMinTlsVersion",
@@ -23653,6 +23718,73 @@ export const MSDeployLog: coreClient.CompositeMapper = {
               className: "MSDeployLogEntry"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const OneDeployRequest: coreClient.CompositeMapper = {
+  serializedName: "OneDeployRequest",
+  type: {
+    name: "Composite",
+    className: "OneDeployRequest",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      packageUri: {
+        serializedName: "packageUri",
+        xmlName: "packageUri",
+        type: {
+          name: "String"
+        }
+      },
+      async: {
+        serializedName: "async",
+        xmlName: "async",
+        type: {
+          name: "Boolean"
+        }
+      },
+      path: {
+        serializedName: "path",
+        xmlName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      restart: {
+        serializedName: "restart",
+        xmlName: "restart",
+        type: {
+          name: "Boolean"
+        }
+      },
+      clean: {
+        serializedName: "clean",
+        xmlName: "clean",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ignoreStack: {
+        serializedName: "ignoreStack",
+        xmlName: "ignoreStack",
+        type: {
+          name: "Boolean"
+        }
+      },
+      trackDeploymentProgress: {
+        serializedName: "trackDeploymentProgress",
+        xmlName: "trackDeploymentProgress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reset: {
+        serializedName: "reset",
+        xmlName: "reset",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -25683,15 +25815,7 @@ export const WorkflowTrigger: coreClient.CompositeMapper = {
         readOnly: true,
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       status: {
@@ -26216,15 +26340,7 @@ export const Workflow: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       version: {
@@ -26345,15 +26461,7 @@ export const WorkflowVersion: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       version: {
