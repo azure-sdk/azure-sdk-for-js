@@ -337,11 +337,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName,
     Parameters.buildServiceName
   ],
@@ -360,11 +360,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName,
     Parameters.buildServiceName,
     Parameters.agentPoolName
@@ -394,11 +394,11 @@ const updatePutOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.agentPoolResource,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName,
     Parameters.buildServiceName,
     Parameters.agentPoolName
@@ -421,9 +421,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.nextLink,
+    Parameters.resourceGroupName1,
+    Parameters.serviceName,
     Parameters.buildServiceName
   ],
   headerParameters: [Parameters.accept],

@@ -276,11 +276,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName
   ],
   headerParameters: [Parameters.accept],
@@ -308,11 +308,11 @@ const updatePutOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.monitoringSettingResource,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -341,11 +341,11 @@ const updatePatchOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.monitoringSettingResource,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.serviceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],

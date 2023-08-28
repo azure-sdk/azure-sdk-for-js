@@ -12,9 +12,20 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  JavaApp as JavaAppMapper,
+  JavaAppForPatch as JavaAppForPatchMapper,
+  JavaEnvironment as JavaEnvironmentMapper,
+  JavaEnvironmentForPatchBody as JavaEnvironmentForPatchBodyMapper,
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
+  MiddlewareEurekaServer as MiddlewareEurekaServerMapper,
+  MiddlewareConfigServer as MiddlewareConfigServerMapper,
+  MiddlewareConfigServerSettings as MiddlewareConfigServerSettingsMapper,
   ServiceResource as ServiceResourceMapper,
   RegenerateTestKeyRequestPayload as RegenerateTestKeyRequestPayloadMapper,
+  ApmReference as ApmReferenceMapper,
   NameAvailabilityParameters as NameAvailabilityParametersMapper,
+  ApmResource as ApmResourceMapper,
+  EurekaServerResource as EurekaServerResourceMapper,
   ConfigServerResource as ConfigServerResourceMapper,
   ConfigServerSettings as ConfigServerSettingsMapper,
   ConfigurationServiceResource as ConfigurationServiceResourceMapper,
@@ -22,6 +33,7 @@ import {
   ApplicationLiveViewResource as ApplicationLiveViewResourceMapper,
   DevToolPortalResource as DevToolPortalResourceMapper,
   ContainerRegistryResource as ContainerRegistryResourceMapper,
+  ContainerRegistryProperties as ContainerRegistryPropertiesMapper,
   BuildService as BuildServiceMapper,
   Build as BuildMapper,
   BuildpackBindingResource as BuildpackBindingResourceMapper,
@@ -73,21 +85,12 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2023-03-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
@@ -96,7 +99,204 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-08-02-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const appName: OperationURLParameter = {
+  parameterPath: "appName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "appName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const appEnvelope: OperationParameter = {
+  parameterPath: "appEnvelope",
+  mapper: JavaAppMapper
+};
+
+export const appEnvelope1: OperationParameter = {
+  parameterPath: "appEnvelope",
+  mapper: JavaAppForPatchMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: "filter",
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const revisionName: OperationURLParameter = {
+  parameterPath: "revisionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "revisionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const replicaName: OperationURLParameter = {
+  parameterPath: "replicaName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "replicaName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const javaEnvironmentName: OperationURLParameter = {
+  parameterPath: "javaEnvironmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "javaEnvironmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const environmentEnvelope: OperationParameter = {
+  parameterPath: "environmentEnvelope",
+  mapper: JavaEnvironmentMapper
+};
+
+export const environmentEnvelope1: OperationParameter = {
+  parameterPath: "environmentEnvelope",
+  mapper: JavaEnvironmentForPatchBodyMapper
+};
+
+export const checkNameAvailabilityRequest: OperationParameter = {
+  parameterPath: "checkNameAvailabilityRequest",
+  mapper: CheckNameAvailabilityRequestMapper
+};
+
+export const eurekaServerName: OperationURLParameter = {
+  parameterPath: "eurekaServerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "eurekaServerName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const eurekaServerResource: OperationParameter = {
+  parameterPath: "eurekaServerResource",
+  mapper: MiddlewareEurekaServerMapper
+};
+
+export const configServerName: OperationURLParameter = {
+  parameterPath: "configServerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$")
+    },
+    serializedName: "configServerName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const configServerResource: OperationParameter = {
+  parameterPath: "configServerResource",
+  mapper: MiddlewareConfigServerMapper
+};
+
+export const configServerSettings: OperationParameter = {
+  parameterPath: "configServerSettings",
+  mapper: MiddlewareConfigServerSettingsMapper
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-07-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceGroupName1: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     serializedName: "resourceGroupName",
@@ -121,18 +321,6 @@ export const serviceName: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const resource: OperationParameter = {
   parameterPath: "resource",
   mapper: ServiceResourceMapper
@@ -141,6 +329,11 @@ export const resource: OperationParameter = {
 export const regenerateTestKeyRequest: OperationParameter = {
   parameterPath: "regenerateTestKeyRequest",
   mapper: RegenerateTestKeyRequestPayloadMapper
+};
+
+export const apm: OperationParameter = {
+  parameterPath: "apm",
+  mapper: ApmReferenceMapper
 };
 
 export const availabilityParameters: OperationParameter = {
@@ -159,24 +352,36 @@ export const location: OperationURLParameter = {
   }
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const apmName: OperationURLParameter = {
+  parameterPath: "apmName",
   mapper: {
-    serializedName: "nextLink",
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9-]*[a-z0-9]$")
+    },
+    serializedName: "apmName",
     required: true,
     type: {
       name: "String"
     }
-  },
-  skipEncoding: true
+  }
 };
 
-export const configServerResource: OperationParameter = {
+export const apmResource: OperationParameter = {
+  parameterPath: "apmResource",
+  mapper: ApmResourceMapper
+};
+
+export const eurekaServerResource1: OperationParameter = {
+  parameterPath: "eurekaServerResource",
+  mapper: EurekaServerResourceMapper
+};
+
+export const configServerResource1: OperationParameter = {
   parameterPath: "configServerResource",
   mapper: ConfigServerResourceMapper
 };
 
-export const configServerSettings: OperationParameter = {
+export const configServerSettings1: OperationParameter = {
   parameterPath: "configServerSettings",
   mapper: ConfigServerSettingsMapper
 };
@@ -184,6 +389,9 @@ export const configServerSettings: OperationParameter = {
 export const configurationServiceName: OperationURLParameter = {
   parameterPath: "configurationServiceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$")
+    },
     serializedName: "configurationServiceName",
     required: true,
     type: {
@@ -262,6 +470,11 @@ export const containerRegistryName: OperationURLParameter = {
 export const containerRegistryResource: OperationParameter = {
   parameterPath: "containerRegistryResource",
   mapper: ContainerRegistryResourceMapper
+};
+
+export const containerRegistryProperties: OperationParameter = {
+  parameterPath: "containerRegistryProperties",
+  mapper: ContainerRegistryPropertiesMapper
 };
 
 export const buildServiceName: OperationURLParameter = {
@@ -382,7 +595,7 @@ export const monitoringSettingResource: OperationParameter = {
   mapper: MonitoringSettingResourceMapper
 };
 
-export const appName: OperationURLParameter = {
+export const appName1: OperationURLParameter = {
   parameterPath: "appName",
   mapper: {
     serializedName: "appName",

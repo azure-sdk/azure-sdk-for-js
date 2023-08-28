@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DevToolPortals } from "../operationsInterfaces";
+import { Apms } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,27 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  DevToolPortalResource,
-  DevToolPortalsListNextOptionalParams,
-  DevToolPortalsListOptionalParams,
-  DevToolPortalsListResponse,
-  DevToolPortalsGetOptionalParams,
-  DevToolPortalsGetResponse,
-  DevToolPortalsCreateOrUpdateOptionalParams,
-  DevToolPortalsCreateOrUpdateResponse,
-  DevToolPortalsDeleteOptionalParams,
-  DevToolPortalsListNextResponse
+  ApmResource,
+  ApmsListNextOptionalParams,
+  ApmsListOptionalParams,
+  ApmsListResponse,
+  ApmsGetOptionalParams,
+  ApmsGetResponse,
+  ApmsCreateOrUpdateOptionalParams,
+  ApmsCreateOrUpdateResponse,
+  ApmsDeleteOptionalParams,
+  ApmsListSecretKeysOptionalParams,
+  ApmsListSecretKeysResponse,
+  ApmsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DevToolPortals operations. */
-export class DevToolPortalsImpl implements DevToolPortals {
+/** Class containing Apms operations. */
+export class ApmsImpl implements Apms {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class DevToolPortals class.
+   * Initialize a new instance of the class Apms class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -46,7 +48,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Get collection of APMs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -55,8 +57,8 @@ export class DevToolPortalsImpl implements DevToolPortals {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: DevToolPortalsListOptionalParams
-  ): PagedAsyncIterableIterator<DevToolPortalResource> {
+    options?: ApmsListOptionalParams
+  ): PagedAsyncIterableIterator<ApmResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -82,10 +84,10 @@ export class DevToolPortalsImpl implements DevToolPortals {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: DevToolPortalsListOptionalParams,
+    options?: ApmsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<DevToolPortalResource[]> {
-    let result: DevToolPortalsListResponse;
+  ): AsyncIterableIterator<ApmResource[]> {
+    let result: ApmsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, serviceName, options);
@@ -111,8 +113,8 @@ export class DevToolPortalsImpl implements DevToolPortals {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: DevToolPortalsListOptionalParams
-  ): AsyncIterableIterator<DevToolPortalResource> {
+    options?: ApmsListOptionalParams
+  ): AsyncIterableIterator<ApmResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -123,7 +125,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Get collection of APMs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -132,8 +134,8 @@ export class DevToolPortalsImpl implements DevToolPortals {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: DevToolPortalsListOptionalParams
-  ): Promise<DevToolPortalsListResponse> {
+    options?: ApmsListOptionalParams
+  ): Promise<ApmsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       listOperationSpec
@@ -141,50 +143,50 @@ export class DevToolPortalsImpl implements DevToolPortals {
   }
 
   /**
-   * Get the Application Live  and its properties.
+   * Get the APM by name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    options?: DevToolPortalsGetOptionalParams
-  ): Promise<DevToolPortalsGetResponse> {
+    apmName: string,
+    options?: ApmsGetOptionalParams
+  ): Promise<ApmsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, devToolPortalName, options },
+      { resourceGroupName, serviceName, apmName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
+   * Create or update an APM.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
-   * @param devToolPortalResource Parameters for the create or update operation
+   * @param apmName The name of the APM
+   * @param apmResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    devToolPortalResource: DevToolPortalResource,
-    options?: DevToolPortalsCreateOrUpdateOptionalParams
+    apmName: string,
+    apmResource: ApmResource,
+    options?: ApmsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<DevToolPortalsCreateOrUpdateResponse>,
-      DevToolPortalsCreateOrUpdateResponse
+      OperationState<ApmsCreateOrUpdateResponse>,
+      ApmsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DevToolPortalsCreateOrUpdateResponse> => {
+    ): Promise<ApmsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -222,18 +224,12 @@ export class DevToolPortalsImpl implements DevToolPortals {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        devToolPortalName,
-        devToolPortalResource,
-        options
-      },
+      args: { resourceGroupName, serviceName, apmName, apmResource, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      DevToolPortalsCreateOrUpdateResponse,
-      OperationState<DevToolPortalsCreateOrUpdateResponse>
+      ApmsCreateOrUpdateResponse,
+      OperationState<ApmsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -243,44 +239,44 @@ export class DevToolPortalsImpl implements DevToolPortals {
   }
 
   /**
-   * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
+   * Create or update an APM.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
-   * @param devToolPortalResource Parameters for the create or update operation
+   * @param apmName The name of the APM
+   * @param apmResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    devToolPortalResource: DevToolPortalResource,
-    options?: DevToolPortalsCreateOrUpdateOptionalParams
-  ): Promise<DevToolPortalsCreateOrUpdateResponse> {
+    apmName: string,
+    apmResource: ApmResource,
+    options?: ApmsCreateOrUpdateOptionalParams
+  ): Promise<ApmsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      devToolPortalName,
-      devToolPortalResource,
+      apmName,
+      apmResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Dev Tool Portal.
+   * Operation to delete an APM
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    options?: DevToolPortalsDeleteOptionalParams
+    apmName: string,
+    options?: ApmsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -323,38 +319,59 @@ export class DevToolPortalsImpl implements DevToolPortals {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, serviceName, devToolPortalName, options },
+      args: { resourceGroupName, serviceName, apmName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Disable the default Dev Tool Portal.
+   * Operation to delete an APM
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    options?: DevToolPortalsDeleteOptionalParams
+    apmName: string,
+    options?: ApmsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      devToolPortalName,
+      apmName,
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * List keys of APM sensitive properties.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param apmName The name of the APM
+   * @param options The options parameters.
+   */
+  listSecretKeys(
+    resourceGroupName: string,
+    serviceName: string,
+    apmName: string,
+    options?: ApmsListSecretKeysOptionalParams
+  ): Promise<ApmsListSecretKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apmName, options },
+      listSecretKeysOperationSpec
+    );
   }
 
   /**
@@ -369,8 +386,8 @@ export class DevToolPortalsImpl implements DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: DevToolPortalsListNextOptionalParams
-  ): Promise<DevToolPortalsListNextResponse> {
+    options?: ApmsListNextOptionalParams
+  ): Promise<ApmsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -382,11 +399,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResourceCollection
+      bodyMapper: Mappers.ApmResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -404,11 +421,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.ApmResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -420,40 +437,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
     Parameters.serviceName,
-    Parameters.devToolPortalName
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.ApmResource
     },
     201: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.ApmResource
     },
     202: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.ApmResource
     },
     204: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.ApmResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.devToolPortalResource,
+  requestBody: Parameters.apmResource,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
     Parameters.serviceName,
-    Parameters.devToolPortalName
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -461,7 +478,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -478,7 +495,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
     Parameters.serviceName,
-    Parameters.devToolPortalName
+    Parameters.apmName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSecretKeysOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}/listSecretKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApmSecretKeys
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.serviceName,
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -488,7 +528,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResourceCollection
+      bodyMapper: Mappers.ApmResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
