@@ -1580,6 +1580,18 @@ export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMap
         type: {
           name: "String"
         }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1771,6 +1783,12 @@ export const VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings: core
       domainNameLabel: {
         serializedName: "domainNameLabel",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainNameLabelScope: {
+        serializedName: "domainNameLabelScope",
         type: {
           name: "String"
         }
@@ -2908,6 +2926,18 @@ export const VirtualMachineScaleSetUpdateNetworkConfiguration: coreClient.Compos
       },
       deleteOption: {
         serializedName: "properties.deleteOption",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
         type: {
           name: "String"
         }
@@ -4617,6 +4647,18 @@ export const VirtualMachineNetworkInterfaceConfiguration: coreClient.CompositeMa
           name: "Composite",
           className: "SubResource"
         }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4804,6 +4846,12 @@ export const VirtualMachinePublicIPAddressDnsSettingsConfiguration: coreClient.C
         type: {
           name: "String"
         }
+      },
+      domainNameLabelScope: {
+        serializedName: "domainNameLabelScope",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4962,6 +5010,89 @@ export const RetrieveBootDiagnosticsDataResult: coreClient.CompositeMapper = {
       serialConsoleLogBlobUri: {
         serializedName: "serialConsoleLogBlobUri",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AttachDetachDataDisksRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachDetachDataDisksRequest",
+    modelProperties: {
+      attachDataDisks: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "attachDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AttachDataDisk"
+            }
+          }
+        }
+      },
+      detachDataDisks: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "detachDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetachDataDisk"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AttachDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachDataDisk",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lun: {
+        serializedName: "lun",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DetachDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetachDataDisk",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      detachOption: {
+        serializedName: "detachOption",
         type: {
           name: "String"
         }
@@ -7577,6 +7708,12 @@ export const CreationData: coreClient.CompositeMapper = {
         serializedName: "performancePlus",
         type: {
           name: "Boolean"
+        }
+      },
+      elasticSanResourceId: {
+        serializedName: "elasticSanResourceId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -13078,6 +13215,13 @@ export const VirtualMachineScaleSetVM: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -14258,6 +14402,13 @@ export const Disk: coreClient.CompositeMapper = {
         serializedName: "properties.optimizedForFrequentAttach",
         type: {
           name: "Boolean"
+        }
+      },
+      lastOwnershipUpdateTime: {
+        serializedName: "properties.LastOwnershipUpdateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }

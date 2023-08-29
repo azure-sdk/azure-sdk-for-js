@@ -80,6 +80,18 @@ export type Architecture = string;
 export type ArchitectureTypes = string;
 
 // @public
+export interface AttachDataDisk {
+    diskId: string;
+    lun?: number;
+}
+
+// @public
+export interface AttachDetachDataDisksRequest {
+    attachDataDisks?: AttachDataDisk[];
+    detachDataDisks?: DetachDataDisk[];
+}
+
+// @public
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
@@ -1186,6 +1198,7 @@ export type CopyCompletionErrorReason = string;
 // @public
 export interface CreationData {
     createOption: DiskCreateOption;
+    elasticSanResourceId?: string;
     galleryImageReference?: ImageDiskReference;
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
@@ -1472,6 +1485,12 @@ export interface DedicatedHostUpdate extends UpdateResource {
 export type DeleteOptions = string;
 
 // @public
+export interface DetachDataDisk {
+    detachOption?: DiskDetachOptionTypes;
+    diskId: string;
+}
+
+// @public
 export interface DiagnosticsProfile {
     bootDiagnostics?: BootDiagnostics;
 }
@@ -1517,6 +1536,7 @@ export interface Disk extends Resource {
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGeneration;
+    readonly lastOwnershipUpdateTime?: Date;
     readonly managedBy?: string;
     readonly managedByExtended?: string[];
     maxShares?: number;
@@ -2079,6 +2099,9 @@ export interface DiskUpdate {
     };
     tier?: string;
 }
+
+// @public
+export type DomainNameLabelScopeTypes = string;
 
 // @public
 export type EdgeZoneStorageAccountType = string;
@@ -3149,6 +3172,7 @@ export enum KnownDiskControllerTypes {
 export enum KnownDiskCreateOption {
     Attach = "Attach",
     Copy = "Copy",
+    CopyFromSanSnapshot = "CopyFromSanSnapshot",
     CopyStart = "CopyStart",
     Empty = "Empty",
     FromImage = "FromImage",
@@ -3221,6 +3245,14 @@ export enum KnownDiskStorageAccountTypes {
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownDomainNameLabelScopeTypes {
+    NoReuse = "NoReuse",
+    ResourceGroupReuse = "ResourceGroupReuse",
+    SubscriptionReuse = "SubscriptionReuse",
+    TenantReuse = "TenantReuse"
 }
 
 // @public
@@ -3381,6 +3413,22 @@ export enum KnownNetworkAccessPolicy {
 // @public
 export enum KnownNetworkApiVersion {
     TwoThousandTwenty1101 = "2020-11-01"
+}
+
+// @public
+export enum KnownNetworkInterfaceAuxiliaryMode {
+    AcceleratedConnections = "AcceleratedConnections",
+    Floating = "Floating",
+    None = "None"
+}
+
+// @public
+export enum KnownNetworkInterfaceAuxiliarySku {
+    A1 = "A1",
+    A2 = "A2",
+    A4 = "A4",
+    A8 = "A8",
+    None = "None"
 }
 
 // @public
@@ -4042,6 +4090,12 @@ export type NetworkAccessPolicy = string;
 
 // @public
 export type NetworkApiVersion = string;
+
+// @public
+export type NetworkInterfaceAuxiliaryMode = string;
+
+// @public
+export type NetworkInterfaceAuxiliarySku = string;
 
 // @public
 export interface NetworkInterfaceReference extends SubResource {
@@ -6197,6 +6251,8 @@ export interface VirtualMachineListResult {
 
 // @public
 export interface VirtualMachineNetworkInterfaceConfiguration {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
@@ -6254,6 +6310,7 @@ export interface VirtualMachinePublicIPAddressConfiguration {
 // @public
 export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
     domainNameLabel: string;
+    domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 // @public
@@ -6689,6 +6746,8 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 
 // @public
 export interface VirtualMachineScaleSetNetworkConfiguration {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -6756,6 +6815,7 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
 // @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
     domainNameLabel: string;
+    domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 // @public
@@ -7117,6 +7177,8 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration {
 
 // @public
 export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -7210,6 +7272,7 @@ export interface VirtualMachineScaleSetVM extends Resource {
     securityProfile?: SecurityProfile;
     readonly sku?: Sku;
     storageProfile?: StorageProfile;
+    readonly timeCreated?: Date;
     userData?: string;
     readonly vmId?: string;
     readonly zones?: string[];
@@ -7447,6 +7510,8 @@ export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineRu
 
 // @public
 export interface VirtualMachineScaleSetVMs {
+    beginAttachDetachDataDisks(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginAttachDetachDataDisksAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams): Promise<void>;
     beginDeallocate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeallocateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<void>;
     beginDelete(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -7474,6 +7539,12 @@ export interface VirtualMachineScaleSetVMs {
     list(resourceGroupName: string, virtualMachineScaleSetName: string, options?: VirtualMachineScaleSetVMsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSetVM>;
     retrieveBootDiagnosticsData(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
     simulateEviction(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams): Promise<void>;
+}
+
+// @public
+export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
