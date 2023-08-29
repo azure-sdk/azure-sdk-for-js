@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { GuestAgents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureStackHCIClient } from "../azureStackHCIClient";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse
+  GuestAgent,
+  GuestAgentsListNextOptionalParams,
+  GuestAgentsListOptionalParams,
+  GuestAgentsListResponse,
+  GuestAgentsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing GuestAgents operations. */
+export class GuestAgentsImpl implements GuestAgents {
   private readonly client: AzureStackHCIClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class GuestAgents class.
    * @param client Reference to the service client
    */
   constructor(client: AzureStackHCIClient) {
@@ -35,13 +35,16 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all the supported operations.
+   * Returns the list of GuestAgent of the given vm.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
-    const iter = this.listPagingAll(options);
+    resourceUri: string,
+    options?: GuestAgentsListOptionalParams
+  ): PagedAsyncIterableIterator<GuestAgent> {
+    const iter = this.listPagingAll(resourceUri, options);
     return {
       next() {
         return iter.next();
@@ -53,26 +56,27 @@ export class OperationsImpl implements Operations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(resourceUri, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
+    resourceUri: string,
+    options?: GuestAgentsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Operation[]> {
-    let result: OperationsListResponse;
+  ): AsyncIterableIterator<GuestAgent[]> {
+    let result: GuestAgentsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(resourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(resourceUri, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -81,34 +85,44 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
-    for await (const page of this.listPagingPage(options)) {
+    resourceUri: string,
+    options?: GuestAgentsListOptionalParams
+  ): AsyncIterableIterator<GuestAgent> {
+    for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
     }
   }
 
   /**
-   * List all the supported operations.
+   * Returns the list of GuestAgent of the given vm.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    resourceUri: string,
+    options?: GuestAgentsListOptionalParams
+  ): Promise<GuestAgentsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, options },
+      listOperationSpec
+    );
   }
 
   /**
    * ListNext
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceUri: string,
     nextLink: string,
-    options?: OperationsListNextOptionalParams
-  ): Promise<OperationsListNextResponse> {
+    options?: GuestAgentsListNextOptionalParams
+  ): Promise<GuestAgentsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { resourceUri, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -117,18 +131,19 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AzureStackHCI/operations",
+  path:
+    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.GuestAgentList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -137,13 +152,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.GuestAgentList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.resourceUri
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
