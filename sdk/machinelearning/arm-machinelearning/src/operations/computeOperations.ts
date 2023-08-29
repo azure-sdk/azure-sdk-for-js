@@ -12,9 +12,13 @@ import { ComputeOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ComputeResource,
   ComputeListNextOptionalParams,
@@ -33,11 +37,20 @@ import {
   ComputeUpdateResponse,
   UnderlyingResourceAction,
   ComputeDeleteOptionalParams,
+  CustomService,
+  ComputeUpdateCustomServicesOptionalParams,
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
   ComputeRestartOptionalParams,
+  IdleShutdownSetting,
+  ComputeUpdateIdleShutdownSettingOptionalParams,
+  ComputeGetAllowedResizeSizesOptionalParams,
+  ComputeGetAllowedResizeSizesResponse,
+  ResizeSchema,
+  ComputeResizeOptionalParams,
+  ComputeResizeResponse,
   ComputeListNextResponse,
   ComputeListNodesNextResponse
 } from "../models";
@@ -45,13 +58,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ComputeOperations operations. */
 export class ComputeOperationsImpl implements ComputeOperations {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class ComputeOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -278,8 +291,8 @@ export class ComputeOperationsImpl implements ComputeOperations {
     parameters: ComputeResource,
     options?: ComputeCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ComputeCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ComputeCreateOrUpdateResponse>,
       ComputeCreateOrUpdateResponse
     >
   > {
@@ -289,7 +302,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     ): Promise<ComputeCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -322,13 +335,22 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ComputeCreateOrUpdateResponse,
+      OperationState<ComputeCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -378,7 +400,10 @@ export class ComputeOperationsImpl implements ComputeOperations {
     parameters: ClusterUpdateParameters,
     options?: ComputeUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ComputeUpdateResponse>, ComputeUpdateResponse>
+    SimplePollerLike<
+      OperationState<ComputeUpdateResponse>,
+      ComputeUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -386,7 +411,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     ): Promise<ComputeUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -419,13 +444,22 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ComputeUpdateResponse,
+      OperationState<ComputeUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -473,14 +507,14 @@ export class ComputeOperationsImpl implements ComputeOperations {
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
     options?: ComputeDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -513,19 +547,19 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         computeName,
         underlyingResourceAction,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -556,6 +590,33 @@ export class ComputeOperationsImpl implements ComputeOperations {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the custom services list. The list of custom services provided shall be overwritten
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param customServices New list of Custom Services.
+   * @param options The options parameters.
+   */
+  updateCustomServices(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    customServices: CustomService[],
+    options?: ComputeUpdateCustomServicesOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        customServices,
+        options
+      },
+      updateCustomServicesOperationSpec
+    );
   }
 
   /**
@@ -608,14 +669,14 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -648,13 +709,13 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -695,14 +756,14 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -735,13 +796,13 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -782,14 +843,14 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -822,13 +883,13 @@ export class ComputeOperationsImpl implements ComputeOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -852,6 +913,152 @@ export class ComputeOperationsImpl implements ComputeOperations {
       resourceGroupName,
       workspaceName,
       computeName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the idle shutdown setting of a compute instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating idle shutdown setting of specified ComputeInstance.
+   * @param options The options parameters.
+   */
+  updateIdleShutdownSetting(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: IdleShutdownSetting,
+    options?: ComputeUpdateIdleShutdownSettingOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, computeName, parameters, options },
+      updateIdleShutdownSettingOperationSpec
+    );
+  }
+
+  /**
+   * Returns supported virtual machine sizes for resize
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param options The options parameters.
+   */
+  getAllowedResizeSizes(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    options?: ComputeGetAllowedResizeSizesOptionalParams
+  ): Promise<ComputeGetAllowedResizeSizesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, computeName, options },
+      getAllowedResizeSizesOperationSpec
+    );
+  }
+
+  /**
+   * Updates the size of a Compute Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating VM size setting of specified Compute Instance.
+   * @param options The options parameters.
+   */
+  async beginResize(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: ResizeSchema,
+    options?: ComputeResizeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ComputeResizeResponse>,
+      ComputeResizeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ComputeResizeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        parameters,
+        options
+      },
+      spec: resizeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ComputeResizeResponse,
+      OperationState<ComputeResizeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the size of a Compute Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating VM size setting of specified Compute Instance.
+   * @param options The options parameters.
+   */
+  async beginResizeAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: ResizeSchema,
+    options?: ComputeResizeOptionalParams
+  ): Promise<ComputeResizeResponse> {
+    const poller = await this.beginResize(
+      resourceGroupName,
+      workspaceName,
+      computeName,
+      parameters,
       options
     );
     return poller.pollUntilDone();
@@ -966,7 +1173,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1000,7 +1207,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1035,6 +1242,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.computeName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateCustomServicesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/customServices",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.customServices,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNodesOperationSpec: coreClient.OperationSpec = {
@@ -1155,6 +1385,86 @@ const restartOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateIdleShutdownSettingOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/updateIdleShutdownSetting",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getAllowedResizeSizesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/getAllowedVmSizesForResize",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineSizeListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const resizeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/resize",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ComputeResizeHeaders
+    },
+    201: {
+      headersMapper: Mappers.ComputeResizeHeaders
+    },
+    202: {
+      headersMapper: Mappers.ComputeResizeHeaders
+    },
+    204: {
+      headersMapper: Mappers.ComputeResizeHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1166,13 +1476,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1188,13 +1497,12 @@ const listNodesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.computeName
   ],
   headerParameters: [Parameters.accept],
