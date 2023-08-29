@@ -332,9 +332,9 @@ export interface ProjectEnvironmentTypeUpdateProperties {
   userRoleAssignments?: { [propertyName: string]: UserRoleAssignmentValue };
 }
 
-/** The role definition assigned to the environment creator on backing resources. */
-export interface ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment {
-  /** A map of roles to assign to the environment creator. */
+/** A set of role assignments. */
+export interface RoleAssignment {
+  /** A map of roles to assign to the parent user. */
   roles?: { [propertyName: string]: EnvironmentRole };
 }
 
@@ -350,12 +350,6 @@ export interface EnvironmentRole {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
-}
-
-/** Mapping of user object ID to role assignments. */
-export interface UserRoleAssignmentValue {
-  /** A map of roles to assign to the parent user. */
-  roles?: { [propertyName: string]: EnvironmentRole };
 }
 
 /** The project environment type for partial update. Properties not provided in the update request will not be changed. */
@@ -1122,6 +1116,13 @@ export interface ProjectEnvironmentTypeProperties
    */
   readonly provisioningState?: ProvisioningState;
 }
+
+/** The role definition assigned to the environment creator on backing resources. */
+export interface ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment
+  extends RoleAssignment {}
+
+/** Mapping of user object ID to role assignments. */
+export interface UserRoleAssignmentValue extends RoleAssignment {}
 
 /** Properties of a Dev Box definition. */
 export interface DevBoxDefinitionProperties

@@ -1559,10 +1559,7 @@ export interface ProjectEnvironmentTypeUpdateProperties {
 }
 
 // @public
-export interface ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment {
-    roles?: {
-        [propertyName: string]: EnvironmentRole;
-    };
+export interface ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment extends RoleAssignment {
 }
 
 // @public
@@ -1690,6 +1687,13 @@ export interface Resource {
 export interface ResourceRange {
     readonly max?: number;
     readonly min?: number;
+}
+
+// @public
+export interface RoleAssignment {
+    roles?: {
+        [propertyName: string]: EnvironmentRole;
+    };
 }
 
 // @public
@@ -1918,10 +1922,7 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface UserRoleAssignmentValue {
-    roles?: {
-        [propertyName: string]: EnvironmentRole;
-    };
+export interface UserRoleAssignmentValue extends RoleAssignment {
 }
 
 // (No @packageDocumentation comment for this package)

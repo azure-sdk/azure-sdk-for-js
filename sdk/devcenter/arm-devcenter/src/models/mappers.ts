@@ -737,10 +737,10 @@ export const ProjectEnvironmentTypeUpdateProperties: coreClient.CompositeMapper 
   }
 };
 
-export const ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment: coreClient.CompositeMapper = {
+export const RoleAssignment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment",
+    className: "RoleAssignment",
     modelProperties: {
       roles: {
         serializedName: "roles",
@@ -770,22 +770,6 @@ export const EnvironmentRole: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UserRoleAssignmentValue: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserRoleAssignmentValue",
-    modelProperties: {
-      roles: {
-        serializedName: "roles",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "EnvironmentRole" } }
         }
       }
     }
@@ -2506,6 +2490,26 @@ export const ProjectEnvironmentTypeProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       }
+    }
+  }
+};
+
+export const ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment",
+    modelProperties: {
+      ...RoleAssignment.type.modelProperties
+    }
+  }
+};
+
+export const UserRoleAssignmentValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserRoleAssignmentValue",
+    modelProperties: {
+      ...RoleAssignment.type.modelProperties
     }
   }
 };
