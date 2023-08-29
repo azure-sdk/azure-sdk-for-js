@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetwork,
   VirtualNetworksListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface VirtualNetworks {
     body: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
       VirtualNetworksCreateOrUpdateResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deregisters the ScVmm virtual network from Azure.
    * @param resourceGroupName The name of the resource group.
@@ -118,8 +118,8 @@ export interface VirtualNetworks {
     body: ResourcePatch,
     options?: VirtualNetworksUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksUpdateResponse>,
       VirtualNetworksUpdateResponse
     >
   >;

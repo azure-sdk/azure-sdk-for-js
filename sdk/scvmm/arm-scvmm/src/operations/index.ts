@@ -14,3 +14,6 @@ export * from "./virtualMachines";
 export * from "./virtualMachineTemplates";
 export * from "./availabilitySets";
 export * from "./inventoryItems";
+export * from "./hybridIdentityMetadatas";
+export * from "./machineExtensions";
+export * from "./guestAgents";
