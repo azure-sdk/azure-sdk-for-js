@@ -4970,6 +4970,89 @@ export const RetrieveBootDiagnosticsDataResult: coreClient.CompositeMapper = {
   }
 };
 
+export const AttachDetachDataDisksRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachDetachDataDisksRequest",
+    modelProperties: {
+      attachDataDisks: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "attachDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AttachDataDisk"
+            }
+          }
+        }
+      },
+      detachDataDisks: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "detachDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetachDataDisk"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AttachDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachDataDisk",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lun: {
+        serializedName: "lun",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DetachDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetachDataDisk",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      detachOption: {
+        serializedName: "detachOption",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineExtensionsListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8007,12 +8090,6 @@ export const GrantAccessData: coreClient.CompositeMapper = {
         serializedName: "getSecureVMGuestStateSAS",
         type: {
           name: "Boolean"
-        }
-      },
-      fileFormat: {
-        serializedName: "fileFormat",
-        type: {
-          name: "String"
         }
       }
     }

@@ -1788,6 +1788,30 @@ export interface RetrieveBootDiagnosticsDataResult {
   readonly serialConsoleLogBlobUri?: string;
 }
 
+/** Specifies the input for attaching and detaching a list of managed data disks. */
+export interface AttachDetachDataDisksRequest {
+  /** The list of managed data disks to be attached. */
+  attachDataDisks?: AttachDataDisk[];
+  /** The list of managed data disks to be detached. */
+  detachDataDisks?: DetachDataDisk[];
+}
+
+/** Describes the data disk to be attached. */
+export interface AttachDataDisk {
+  /** ID of the managed data disk. */
+  diskId: string;
+  /** The logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. If not specified, lun would be auto assigned. */
+  lun?: number;
+}
+
+/** Describes the data disk to be detached. */
+export interface DetachDataDisk {
+  /** ID of the managed data disk. */
+  diskId: string;
+  /** Supported options available for Detach of a disk from a VM. Refer to DetachOption object reference for more details. */
+  detachOption?: DiskDetachOptionTypes;
+}
+
 /** The List Extension operation response */
 export interface VirtualMachineExtensionsListResult {
   /** The list of extensions */
@@ -3010,8 +3034,6 @@ export interface GrantAccessData {
   durationInSeconds: number;
   /** Set this flag to true to get additional SAS for VM guest state */
   getSecureVMGuestStateSAS?: boolean;
-  /** Used to specify the file format when making request for SAS on a VHDX file format snapshot */
-  fileFormat?: FileFormat;
 }
 
 /** A disk access SAS uri. */
@@ -8559,24 +8581,6 @@ export enum KnownAccessLevel {
  */
 export type AccessLevel = string;
 
-/** Known values of {@link FileFormat} that the service accepts. */
-export enum KnownFileFormat {
-  /** A VHD file is a disk image file in the Virtual Hard Disk file format. */
-  VHD = "VHD",
-  /** A VHDX file is a disk image file in the Virtual Hard Disk v2 file format. */
-  Vhdx = "VHDX"
-}
-
-/**
- * Defines values for FileFormat. \
- * {@link KnownFileFormat} can be used interchangeably with FileFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **VHD**: A VHD file is a disk image file in the Virtual Hard Disk file format. \
- * **VHDX**: A VHDX file is a disk image file in the Virtual Hard Disk v2 file format.
- */
-export type FileFormat = string;
-
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Pending */
@@ -9801,6 +9805,15 @@ export interface VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsSimulateEvictionOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsRunCommandOptionalParams

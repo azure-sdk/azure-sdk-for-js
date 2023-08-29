@@ -1,15 +1,22 @@
 # Release History
+    
+## 22.0.0 (2023-08-29)
+    
+**Features**
 
-## 21.1.1 (Unreleased)
+  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisks
+  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait
+  - Added Interface AttachDataDisk
+  - Added Interface AttachDetachDataDisksRequest
+  - Added Interface DetachDataDisk
+  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GrantAccessData no longer has parameter fileFormat
+  - Removed Enum KnownFileFormat
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**
