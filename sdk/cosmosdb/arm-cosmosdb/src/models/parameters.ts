@@ -17,14 +17,10 @@ import {
   FailoverPolicies as FailoverPoliciesMapper,
   RegionForOnlineOffline as RegionForOnlineOfflineMapper,
   DatabaseAccountRegenerateKeyParameters as DatabaseAccountRegenerateKeyParametersMapper,
-  GraphResourceCreateUpdateParameters as GraphResourceCreateUpdateParametersMapper,
   SqlDatabaseCreateUpdateParameters as SqlDatabaseCreateUpdateParametersMapper,
   ThroughputSettingsUpdateParameters as ThroughputSettingsUpdateParametersMapper,
-  ClientEncryptionKeyCreateUpdateParameters as ClientEncryptionKeyCreateUpdateParametersMapper,
   SqlContainerCreateUpdateParameters as SqlContainerCreateUpdateParametersMapper,
-  MergeParameters as MergeParametersMapper,
-  RetrieveThroughputParameters as RetrieveThroughputParametersMapper,
-  RedistributeThroughputParameters as RedistributeThroughputParametersMapper,
+  ClientEncryptionKeyCreateUpdateParameters as ClientEncryptionKeyCreateUpdateParametersMapper,
   SqlStoredProcedureCreateUpdateParameters as SqlStoredProcedureCreateUpdateParametersMapper,
   SqlUserDefinedFunctionCreateUpdateParameters as SqlUserDefinedFunctionCreateUpdateParametersMapper,
   SqlTriggerCreateUpdateParameters as SqlTriggerCreateUpdateParametersMapper,
@@ -38,17 +34,13 @@ import {
   TableCreateUpdateParameters as TableCreateUpdateParametersMapper,
   CassandraKeyspaceCreateUpdateParameters as CassandraKeyspaceCreateUpdateParametersMapper,
   CassandraTableCreateUpdateParameters as CassandraTableCreateUpdateParametersMapper,
-  CassandraViewCreateUpdateParameters as CassandraViewCreateUpdateParametersMapper,
   GremlinDatabaseCreateUpdateParameters as GremlinDatabaseCreateUpdateParametersMapper,
   GremlinGraphCreateUpdateParameters as GremlinGraphCreateUpdateParametersMapper,
-  CreateJobRequest as CreateJobRequestMapper,
   ClusterResource as ClusterResourceMapper,
   CommandPostBody as CommandPostBodyMapper,
   DataCenterResource as DataCenterResourceMapper,
-  MongoCluster as MongoClusterMapper,
-  MongoClusterUpdate as MongoClusterUpdateMapper,
-  FirewallRule as FirewallRuleMapper,
-  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
+  CassandraClusterRepairPublicResource as CassandraClusterRepairPublicResourceMapper,
+  CassandraClusterRepairListFilter as CassandraClusterRepairListFilterMapper,
   NotebookWorkspaceCreateUpdateParameters as NotebookWorkspaceCreateUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ServiceResourceCreateUpdateParameters as ServiceResourceCreateUpdateParametersMapper
@@ -126,7 +118,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-15-preview",
+    defaultValue: "2023-09-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -276,22 +268,6 @@ export const partitionKeyRangeId: OperationURLParameter = {
   }
 };
 
-export const graphName: OperationURLParameter = {
-  parameterPath: "graphName",
-  mapper: {
-    serializedName: "graphName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const createUpdateGraphParameters: OperationParameter = {
-  parameterPath: "createUpdateGraphParameters",
-  mapper: GraphResourceCreateUpdateParametersMapper
-};
-
 export const databaseName: OperationURLParameter = {
   parameterPath: "databaseName",
   mapper: {
@@ -313,22 +289,6 @@ export const updateThroughputParameters: OperationParameter = {
   mapper: ThroughputSettingsUpdateParametersMapper
 };
 
-export const clientEncryptionKeyName: OperationURLParameter = {
-  parameterPath: "clientEncryptionKeyName",
-  mapper: {
-    serializedName: "clientEncryptionKeyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const createUpdateClientEncryptionKeyParameters: OperationParameter = {
-  parameterPath: "createUpdateClientEncryptionKeyParameters",
-  mapper: ClientEncryptionKeyCreateUpdateParametersMapper
-};
-
 export const containerName: OperationURLParameter = {
   parameterPath: "containerName",
   mapper: {
@@ -345,19 +305,20 @@ export const createUpdateSqlContainerParameters: OperationParameter = {
   mapper: SqlContainerCreateUpdateParametersMapper
 };
 
-export const mergeParameters: OperationParameter = {
-  parameterPath: "mergeParameters",
-  mapper: MergeParametersMapper
+export const clientEncryptionKeyName: OperationURLParameter = {
+  parameterPath: "clientEncryptionKeyName",
+  mapper: {
+    serializedName: "clientEncryptionKeyName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
-export const retrieveThroughputParameters: OperationParameter = {
-  parameterPath: "retrieveThroughputParameters",
-  mapper: RetrieveThroughputParametersMapper
-};
-
-export const redistributeThroughputParameters: OperationParameter = {
-  parameterPath: "redistributeThroughputParameters",
-  mapper: RedistributeThroughputParametersMapper
+export const createUpdateClientEncryptionKeyParameters: OperationParameter = {
+  parameterPath: "createUpdateClientEncryptionKeyParameters",
+  mapper: ClientEncryptionKeyCreateUpdateParametersMapper
 };
 
 export const storedProcedureName: OperationURLParameter = {
@@ -535,25 +496,20 @@ export const createUpdateCassandraTableParameters: OperationParameter = {
   mapper: CassandraTableCreateUpdateParametersMapper
 };
 
-export const viewName: OperationURLParameter = {
-  parameterPath: "viewName",
+export const createUpdateGremlinDatabaseParameters: OperationParameter = {
+  parameterPath: "createUpdateGremlinDatabaseParameters",
+  mapper: GremlinDatabaseCreateUpdateParametersMapper
+};
+
+export const graphName: OperationURLParameter = {
+  parameterPath: "graphName",
   mapper: {
-    serializedName: "viewName",
+    serializedName: "graphName",
     required: true,
     type: {
       name: "String"
     }
   }
-};
-
-export const createUpdateCassandraViewParameters: OperationParameter = {
-  parameterPath: "createUpdateCassandraViewParameters",
-  mapper: CassandraViewCreateUpdateParametersMapper
-};
-
-export const createUpdateGremlinDatabaseParameters: OperationParameter = {
-  parameterPath: "createUpdateGremlinDatabaseParameters",
-  mapper: GremlinDatabaseCreateUpdateParametersMapper
 };
 
 export const createUpdateGremlinGraphParameters: OperationParameter = {
@@ -565,22 +521,6 @@ export const location1: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const jobCreateParameters: OperationParameter = {
-  parameterPath: "jobCreateParameters",
-  mapper: CreateJobRequestMapper
-};
-
-export const jobName: OperationURLParameter = {
-  parameterPath: "jobName",
-  mapper: {
-    serializedName: "jobName",
     required: true,
     type: {
       name: "String"
@@ -630,6 +570,16 @@ export const backupId: OperationURLParameter = {
   }
 };
 
+export const xMsForceDeallocate: OperationParameter = {
+  parameterPath: ["options", "xMsForceDeallocate"],
+  mapper: {
+    serializedName: "x-ms-force-deallocate",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const dataCenterName: OperationURLParameter = {
   parameterPath: "dataCenterName",
   mapper: {
@@ -651,20 +601,15 @@ export const body2: OperationParameter = {
   mapper: DataCenterResourceMapper
 };
 
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: MongoClusterMapper
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: CassandraClusterRepairPublicResourceMapper
 };
 
-export const mongoClusterName: OperationURLParameter = {
-  parameterPath: "mongoClusterName",
+export const repairRunId: OperationURLParameter = {
+  parameterPath: "repairRunId",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z0-9]+(-[a-z0-9]+)*"),
-      MaxLength: 40,
-      MinLength: 3
-    },
-    serializedName: "mongoClusterName",
+    serializedName: "repairRunId",
     required: true,
     type: {
       name: "String"
@@ -672,25 +617,10 @@ export const mongoClusterName: OperationURLParameter = {
   }
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: MongoClusterUpdateMapper
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: FirewallRuleMapper
-};
-
-export const firewallRuleName: OperationURLParameter = {
-  parameterPath: "firewallRuleName",
+export const ownerName: OperationURLParameter = {
+  parameterPath: "ownerName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][-_.a-zA-Z0-9]*"),
-      MaxLength: 80,
-      MinLength: 1
-    },
-    serializedName: "firewallRuleName",
+    serializedName: "ownerName",
     required: true,
     type: {
       name: "String"
@@ -698,18 +628,26 @@ export const firewallRuleName: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckNameAvailabilityRequestMapper
+export const body4: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: CassandraClusterRepairListFilterMapper
 };
 
-export const location2: OperationURLParameter = {
-  parameterPath: "location",
+export const segmentId: OperationURLParameter = {
+  parameterPath: "segmentId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "location",
+    serializedName: "segmentId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const intensityValue: OperationURLParameter = {
+  parameterPath: "intensityValue",
+  mapper: {
+    serializedName: "intensityValue",
     required: true,
     type: {
       name: "String"
@@ -744,7 +682,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const parameters4: OperationParameter = {
+export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
 };
