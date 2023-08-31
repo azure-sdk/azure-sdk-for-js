@@ -78,6 +78,7 @@ import {
   Deployment as DeploymentMapper,
   Identifier as IdentifierMapper,
   MSDeploy as MSDeployMapper,
+  OneDeployRequest as OneDeployRequestMapper,
   FunctionEnvelope as FunctionEnvelopeMapper,
   KeyInfo as KeyInfoMapper,
   HostNameBinding as HostNameBindingMapper,
@@ -140,7 +141,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -904,6 +905,11 @@ export const isFqdn: OperationParameter = {
   mapper: ResourceNameAvailabilityRequestMapper
 };
 
+export const environmentId: OperationParameter = {
+  parameterPath: ["options", "environmentId"],
+  mapper: ResourceNameAvailabilityRequestMapper
+};
+
 export const hostname: OperationQueryParameter = {
   parameterPath: ["options", "hostname"],
   mapper: {
@@ -972,6 +978,33 @@ export const moveResourceEnvelope: OperationParameter = {
 export const validateRequest: OperationParameter = {
   parameterPath: "validateRequest",
   mapper: ValidateRequestMapper
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
+    xmlName: "location",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const quotaType: OperationURLParameter = {
+  parameterPath: "quotaType",
+  mapper: {
+    serializedName: "quotaType",
+    required: true,
+    xmlName: "quotaType",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const staticSitesWorkflowPreviewRequest: OperationParameter = {
@@ -1420,6 +1453,11 @@ export const domainOwnershipIdentifier1: OperationParameter = {
 export const mSDeploy: OperationParameter = {
   parameterPath: "mSDeploy",
   mapper: MSDeployMapper
+};
+
+export const request3: OperationParameter = {
+  parameterPath: ["options", "request"],
+  mapper: OneDeployRequestMapper
 };
 
 export const functionName: OperationURLParameter = {
