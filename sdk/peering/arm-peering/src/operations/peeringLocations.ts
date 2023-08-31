@@ -15,8 +15,8 @@ import * as Parameters from "../models/parameters";
 import { PeeringManagementClient } from "../peeringManagementClient";
 import {
   PeeringLocation,
-  PeeringLocationsKind,
   PeeringLocationsListNextOptionalParams,
+  PeeringLocationsKind,
   PeeringLocationsListOptionalParams,
   PeeringLocationsListResponse,
   PeeringLocationsListNextResponse
@@ -76,7 +76,7 @@ export class PeeringLocationsImpl implements PeeringLocations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(kind, continuationToken, options);
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,17 +110,15 @@ export class PeeringLocationsImpl implements PeeringLocations {
 
   /**
    * ListNext
-   * @param kind The kind of the peering.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    kind: PeeringLocationsKind,
     nextLink: string,
     options?: PeeringLocationsListNextOptionalParams
   ): Promise<PeeringLocationsListNextResponse> {
     return this.client.sendOperationRequest(
-      { kind, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }
@@ -143,7 +141,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.kind1,
-    Parameters.directPeeringType
+    Parameters.directPeeringType1
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
@@ -160,11 +158,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.kind1,
-    Parameters.directPeeringType
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

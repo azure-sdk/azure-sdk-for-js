@@ -20,7 +20,8 @@ import {
   ResourceTags as ResourceTagsMapper,
   ConnectionMonitorTest as ConnectionMonitorTestMapper,
   PeeringServicePrefix as PeeringServicePrefixMapper,
-  PeeringService as PeeringServiceMapper
+  PeeringService as PeeringServiceMapper,
+  ResourceMoveRequest as ResourceMoveRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -72,7 +73,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2023-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -127,6 +128,16 @@ export const asn: OperationQueryParameter = {
     serializedName: "asn",
     type: {
       name: "Number"
+    }
+  }
+};
+
+export const directPeeringType: OperationQueryParameter = {
+  parameterPath: ["options", "directPeeringType"],
+  mapper: {
+    serializedName: "directPeeringType",
+    type: {
+      name: "String"
     }
   }
 };
@@ -202,7 +213,7 @@ export const kind1: OperationQueryParameter = {
   }
 };
 
-export const directPeeringType: OperationQueryParameter = {
+export const directPeeringType1: OperationQueryParameter = {
   parameterPath: ["options", "directPeeringType"],
   mapper: {
     serializedName: "directPeeringType",
@@ -392,4 +403,19 @@ export const peeringServicePrefix: OperationParameter = {
 export const peeringService: OperationParameter = {
   parameterPath: "peeringService",
   mapper: PeeringServiceMapper
+};
+
+export const resourceMoveRequest: OperationParameter = {
+  parameterPath: "resourceMoveRequest",
+  mapper: ResourceMoveRequestMapper
+};
+
+export const consolidate: OperationQueryParameter = {
+  parameterPath: ["options", "consolidate"],
+  mapper: {
+    serializedName: "consolidate",
+    type: {
+      name: "Boolean"
+    }
+  }
 };

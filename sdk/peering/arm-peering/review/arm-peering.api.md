@@ -221,12 +221,15 @@ export enum KnownCommand {
 // @public
 export enum KnownConnectionState {
     Active = "Active",
+    ActiveNoBilling = "ActiveNoBilling",
     Approved = "Approved",
     None = "None",
     PendingApproval = "PendingApproval",
     ProvisioningCompleted = "ProvisioningCompleted",
     ProvisioningFailed = "ProvisioningFailed",
     ProvisioningStarted = "ProvisioningStarted",
+    TypeChangeInProgress = "TypeChangeInProgress",
+    TypeChangeRequested = "TypeChangeRequested",
     Validating = "Validating"
 }
 
@@ -234,6 +237,7 @@ export enum KnownConnectionState {
 export enum KnownDirectPeeringType {
     Cdn = "Cdn",
     Edge = "Edge",
+    EdgeZoneForOperators = "EdgeZoneForOperators",
     Internal = "Internal",
     Ix = "Ix",
     IxRs = "IxRs",
@@ -289,6 +293,7 @@ export enum KnownLookingGlassSourceType {
 export enum KnownPeeringLocationsDirectPeeringType {
     Cdn = "Cdn",
     Edge = "Edge",
+    EdgeZoneForOperators = "EdgeZoneForOperators",
     Internal = "Internal",
     Ix = "Ix",
     IxRs = "IxRs",
@@ -401,7 +406,6 @@ export type LegacyPeeringsKind = string;
 
 // @public
 export interface LegacyPeeringsListNextOptionalParams extends coreClient.OperationOptions {
-    asn?: number;
 }
 
 // @public
@@ -410,6 +414,7 @@ export type LegacyPeeringsListNextResponse = PeeringListResult;
 // @public
 export interface LegacyPeeringsListOptionalParams extends coreClient.OperationOptions {
     asn?: number;
+    directPeeringType?: DirectPeeringType;
 }
 
 // @public
@@ -625,7 +630,6 @@ export type PeeringLocationsKind = string;
 
 // @public
 export interface PeeringLocationsListNextOptionalParams extends coreClient.OperationOptions {
-    directPeeringType?: PeeringLocationsDirectPeeringType;
 }
 
 // @public
@@ -679,6 +683,10 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
     registeredAsns: RegisteredAsns;
     // (undocumented)
     registeredPrefixes: RegisteredPrefixes;
+    // (undocumented)
+    resourceMove: ResourceMove;
+    // (undocumented)
+    rpUnbilledPrefixes: RpUnbilledPrefixes;
     // (undocumented)
     subscriptionId: string;
 }
@@ -840,7 +848,6 @@ export interface PeeringServiceLocations {
 
 // @public
 export interface PeeringServiceLocationsListNextOptionalParams extends coreClient.OperationOptions {
-    country?: string;
 }
 
 // @public
@@ -1063,7 +1070,6 @@ export type PrefixesGetResponse = PeeringServicePrefix;
 
 // @public
 export interface PrefixesListByPeeringServiceNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -1090,11 +1096,6 @@ export interface ReceivedRoutes {
 
 // @public
 export interface ReceivedRoutesListByPeeringNextOptionalParams extends coreClient.OperationOptions {
-    asPath?: string;
-    originAsValidationState?: string;
-    prefix?: string;
-    rpkiValidationState?: string;
-    skipToken?: string;
 }
 
 // @public
@@ -1158,6 +1159,7 @@ export interface RegisteredPrefixes {
     delete(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesGetOptionalParams): Promise<RegisteredPrefixesGetResponse>;
     listByPeering(resourceGroupName: string, peeringName: string, options?: RegisteredPrefixesListByPeeringOptionalParams): PagedAsyncIterableIterator<PeeringRegisteredPrefix>;
+    validate(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesValidateOptionalParams): Promise<RegisteredPrefixesValidateResponse>;
 }
 
 // @public
@@ -1193,10 +1195,37 @@ export interface RegisteredPrefixesListByPeeringOptionalParams extends coreClien
 export type RegisteredPrefixesListByPeeringResponse = PeeringRegisteredPrefixListResult;
 
 // @public
+export interface RegisteredPrefixesValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegisteredPrefixesValidateResponse = PeeringRegisteredPrefix;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceMove {
+    moveResources(resourceGroupName: string, resourceMoveRequest: ResourceMoveRequest, options?: ResourceMoveMoveResourcesOptionalParams): Promise<void>;
+    validateMoveResources(resourceGroupName: string, resourceMoveRequest: ResourceMoveRequest, options?: ResourceMoveValidateMoveResourcesOptionalParams): Promise<void>;
+}
+
+// @public
+export interface ResourceMoveMoveResourcesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ResourceMoveRequest {
+    resources: string[];
+    targetResourceGroup: string;
+}
+
+// @public
+export interface ResourceMoveValidateMoveResourcesOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -1208,6 +1237,39 @@ export interface ResourceTags {
 
 // @public
 export type Role = string;
+
+// @public
+export interface RpUnbilledPrefix {
+    readonly azureRegion?: string;
+    readonly peerAsn?: number;
+    readonly prefix?: string;
+}
+
+// @public
+export interface RpUnbilledPrefixes {
+    list(resourceGroupName: string, peeringName: string, options?: RpUnbilledPrefixesListOptionalParams): PagedAsyncIterableIterator<RpUnbilledPrefix>;
+}
+
+// @public
+export interface RpUnbilledPrefixesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RpUnbilledPrefixesListNextResponse = RpUnbilledPrefixListResult;
+
+// @public
+export interface RpUnbilledPrefixesListOptionalParams extends coreClient.OperationOptions {
+    consolidate?: boolean;
+}
+
+// @public
+export type RpUnbilledPrefixesListResponse = RpUnbilledPrefixListResult;
+
+// @public
+export interface RpUnbilledPrefixListResult {
+    nextLink?: string;
+    value?: RpUnbilledPrefix[];
+}
 
 // @public
 export interface ServiceSpecification {

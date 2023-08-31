@@ -1,15 +1,43 @@
 # Release History
+    
+## 3.0.0 (2023-08-31)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
+  - Added operation group ResourceMove
+  - Added operation group RpUnbilledPrefixes
+  - Added operation RegisteredPrefixes.validate
+  - Added Interface RegisteredPrefixesValidateOptionalParams
+  - Added Interface ResourceMoveMoveResourcesOptionalParams
+  - Added Interface ResourceMoveRequest
+  - Added Interface ResourceMoveValidateMoveResourcesOptionalParams
+  - Added Interface RpUnbilledPrefix
+  - Added Interface RpUnbilledPrefixesListNextOptionalParams
+  - Added Interface RpUnbilledPrefixesListOptionalParams
+  - Added Interface RpUnbilledPrefixListResult
+  - Added Type Alias RegisteredPrefixesValidateResponse
+  - Added Type Alias RpUnbilledPrefixesListNextResponse
+  - Added Type Alias RpUnbilledPrefixesListResponse
+  - Interface LegacyPeeringsListOptionalParams has a new optional parameter directPeeringType
+  - Enum KnownConnectionState has a new value ActiveNoBilling
+  - Enum KnownConnectionState has a new value TypeChangeInProgress
+  - Enum KnownConnectionState has a new value TypeChangeRequested
+  - Enum KnownDirectPeeringType has a new value EdgeZoneForOperators
+  - Enum KnownPeeringLocationsDirectPeeringType has a new value EdgeZoneForOperators
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface LegacyPeeringsListNextOptionalParams no longer has parameter asn
+  - Interface PeeringLocationsListNextOptionalParams no longer has parameter directPeeringType
+  - Interface PeeringServiceLocationsListNextOptionalParams no longer has parameter country
+  - Interface PrefixesListByPeeringServiceNextOptionalParams no longer has parameter expand
+  - Interface ReceivedRoutesListByPeeringNextOptionalParams no longer has parameter asPath
+  - Interface ReceivedRoutesListByPeeringNextOptionalParams no longer has parameter originAsValidationState
+  - Interface ReceivedRoutesListByPeeringNextOptionalParams no longer has parameter prefix
+  - Interface ReceivedRoutesListByPeeringNextOptionalParams no longer has parameter rpkiValidationState
+  - Interface ReceivedRoutesListByPeeringNextOptionalParams no longer has parameter skipToken
+    
+    
 ## 2.1.0 (2022-12-02)
     
 **Features**
