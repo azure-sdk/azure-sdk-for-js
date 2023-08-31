@@ -159,6 +159,8 @@ export interface WorkspacePropertiesEncryption {
 export interface EncryptionEntitiesDefinition {
   /** Encryption properties for the databricks managed services. */
   managedServices?: EncryptionV2;
+  /** Encryption properties for the databricks managed disks. */
+  managedDisk?: ManagedDiskEncryption;
 }
 
 /** The object that contains details of encryption used on the workspace. */
@@ -177,6 +179,76 @@ export interface EncryptionV2KeyVaultProperties {
   keyName: string;
   /** The version of KeyVault key. */
   keyVersion: string;
+}
+
+/** The object that contains details of encryption used on the workspace. */
+export interface ManagedDiskEncryption {
+  /** The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Keyvault */
+  keySource: EncryptionKeySource;
+  /** Key Vault input properties for encryption. */
+  keyVaultProperties: ManagedDiskEncryptionKeyVaultProperties;
+  /** Indicate whether the latest key version should be automatically used for Managed Disk Encryption. */
+  rotationToLatestKeyVersionEnabled?: boolean;
+}
+
+/** Key Vault input properties for encryption. */
+export interface ManagedDiskEncryptionKeyVaultProperties {
+  /** The URI of KeyVault. */
+  keyVaultUri: string;
+  /** The name of KeyVault key. */
+  keyName: string;
+  /** The version of KeyVault key. */
+  keyVersion: string;
+}
+
+/** Status of settings related to the Enhanced Security and Compliance Add-On. */
+export interface EnhancedSecurityComplianceDefinition {
+  /** Feature that allows for automatic restart of compute resources */
+  automaticClusterUpdate?: AutomaticClusterUpdateDefinition;
+  /** Feature that helps customers meet the applicable security requirements of some compliance standards. */
+  complianceSecurityProfile?: ComplianceSecurityProfileDefinition;
+  /** Feature that provides an enhanced disk image and additional security monitoring agents */
+  enhancedSecurityMonitoring?: EnhancedSecurityMonitoringDefinition;
+}
+
+/** Feature that allows for automatic restart of compute resources */
+export interface AutomaticClusterUpdateDefinition {
+  /** Schedule for automatic restart of compute resources */
+  maintenanceWindow?: MaintenanceWindowDefinition;
+  /** Status of automatic cluster updates */
+  value?: AutomaticClusterUpdateValue;
+}
+
+/** Schedule for automatic restart of compute resources */
+export interface MaintenanceWindowDefinition {
+  /** Frequency of execution of cluster updates */
+  weekDayFrequency?: WeekDayFrequency;
+  /** Day of the week for automatic cluster updates to occur */
+  weekDay?: WeekDay;
+  /** Configuration of time of day when automatic cluster updates should occur */
+  startTimeWindow?: StartTimeWindowDefinition;
+}
+
+/** Configuration of time of day when automatic cluster updates should occur */
+export interface StartTimeWindowDefinition {
+  /** Hour of the day when automatic cluster updates should occur */
+  hours?: number;
+  /** The minute when automatic cluster updates should occur */
+  minutes?: number;
+}
+
+/** Feature that helps customers meet the applicable security requirements of some compliance standards. */
+export interface ComplianceSecurityProfileDefinition {
+  /** Compliance standards associated with the workspace. */
+  complianceStandards?: ComplianceStandard[];
+  /** Status of Compliance Security Profile feature */
+  value?: ComplianceSecurityProfileValue;
+}
+
+/** Feature that provides an enhanced disk image and additional security monitoring agents */
+export interface EnhancedSecurityMonitoringDefinition {
+  /** Status of Enhanced Security Monitoring feature. */
+  value?: EnhancedSecurityMonitoringValue;
 }
 
 /** The private endpoint connection of a workspace */
@@ -204,6 +276,8 @@ export interface PrivateEndpointConnection {
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint */
   privateEndpoint?: PrivateEndpoint;
+  /** GroupIds from the private link service resource. */
+  groupIds?: string[];
   /** Private endpoint connection state */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /**
@@ -229,7 +303,15 @@ export interface PrivateLinkServiceConnectionState {
   /** The description for the current state of a private endpoint connection */
   description?: string;
   /** Actions required for a private endpoint connection */
-  actionRequired?: string;
+  actionsRequired?: string;
+}
+
+/** Information regarding the initial default catalog associated with the workspace. */
+export interface DefaultCatalogDefinition {
+  /** Name of the initial default catalog of the workspace */
+  initialName?: string;
+  /** Type of the initial default catalog of the workspace */
+  initialType?: InitialType;
 }
 
 /** SKU for the resource. */
@@ -335,12 +417,14 @@ export interface Operation {
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
-  /** Service provider: Microsoft.ResourceProvider */
+  /** Service provider: ex Microsoft.Databricks */
   provider?: string;
   /** Resource on which the operation is performed. */
   resource?: string;
   /** Operation type: Read, write, delete, etc. */
   operation?: string;
+  /** Description for the resource operation. */
+  description?: string;
 }
 
 /** The available private link resources for a workspace */
@@ -468,6 +552,62 @@ export interface VirtualNetworkPeeringList {
   nextLink?: string;
 }
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+export interface AccessConnectorProperties {
+  /**
+   * Provisioning status of the accessConnector.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** An update to an azure databricks accessConnector. */
+export interface AccessConnectorUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+}
+
+/** List of azure databricks accessConnector. */
+export interface AccessConnectorListResult {
+  /** The array of azure databricks accessConnector. */
+  value?: AccessConnector[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
 /** The resource model definition for a ARM tracked top level resource */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -525,8 +665,17 @@ export interface Workspace extends TrackedResource {
   readonly workspaceUrl?: string;
   /** The details of Managed Identity of Storage Account */
   storageAccountIdentity?: ManagedIdentityConfiguration;
+  /** The details of Managed Identity of Disk Encryption Set used for Managed Disk Encryption */
+  managedDiskIdentity?: ManagedIdentityConfiguration;
+  /**
+   * The resource Id of the managed disk encryption set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskEncryptionSetId?: string;
   /** Encryption properties for databricks workspace */
   encryption?: WorkspacePropertiesEncryption;
+  /** Contains settings related to the Enhanced Security and Compliance Add-On. */
+  enhancedSecurityCompliance?: EnhancedSecurityComplianceDefinition;
   /**
    * Private endpoint connections created on the workspace
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -536,6 +685,21 @@ export interface Workspace extends TrackedResource {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Gets or sets a value indicating whether data plane (clusters) to control plane communication happen over private endpoint. Supported values are 'AllRules' and 'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. */
   requiredNsgRules?: RequiredNsgRules;
+  /** Information regarding the initial default catalog associated with the workspace. */
+  defaultCatalog?: DefaultCatalogDefinition;
+}
+
+/** Information about azure databricks accessConnector. */
+export interface AccessConnector extends TrackedResource {
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Azure Databricks accessConnector properties */
+  properties?: AccessConnectorProperties;
 }
 
 /** Known values of {@link CustomParameterType} that the service accepts. */
@@ -579,6 +743,12 @@ export type KeySource = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
   /** Accepted */
   Accepted = "Accepted",
   /** Running */
@@ -591,14 +761,8 @@ export enum KnownProvisioningState {
   Created = "Created",
   /** Deleting */
   Deleting = "Deleting",
-  /** Deleted */
-  Deleted = "Deleted",
   /** Canceled */
   Canceled = "Canceled",
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
   /** Updating */
   Updating = "Updating"
 }
@@ -608,16 +772,16 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Deleted** \
+ * **Failed** \
+ * **Succeeded** \
  * **Accepted** \
  * **Running** \
  * **Ready** \
  * **Creating** \
  * **Created** \
  * **Deleting** \
- * **Deleted** \
  * **Canceled** \
- * **Failed** \
- * **Succeeded** \
  * **Updating**
  */
 export type ProvisioningState = string;
@@ -636,6 +800,150 @@ export enum KnownEncryptionKeySource {
  * **Microsoft.Keyvault**
  */
 export type EncryptionKeySource = string;
+
+/** Known values of {@link WeekDayFrequency} that the service accepts. */
+export enum KnownWeekDayFrequency {
+  /** None */
+  None = "None",
+  /** FirstOfMonth */
+  FirstOfMonth = "FirstOfMonth",
+  /** SecondOfMonth */
+  SecondOfMonth = "SecondOfMonth",
+  /** ThirdOfMonth */
+  ThirdOfMonth = "ThirdOfMonth",
+  /** FourthOfMonth */
+  FourthOfMonth = "FourthOfMonth",
+  /** FirstAndThirdOfMonth */
+  FirstAndThirdOfMonth = "FirstAndThirdOfMonth",
+  /** SecondAndFourthOfMonth */
+  SecondAndFourthOfMonth = "SecondAndFourthOfMonth"
+}
+
+/**
+ * Defines values for WeekDayFrequency. \
+ * {@link KnownWeekDayFrequency} can be used interchangeably with WeekDayFrequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **FirstOfMonth** \
+ * **SecondOfMonth** \
+ * **ThirdOfMonth** \
+ * **FourthOfMonth** \
+ * **FirstAndThirdOfMonth** \
+ * **SecondAndFourthOfMonth**
+ */
+export type WeekDayFrequency = string;
+
+/** Known values of {@link WeekDay} that the service accepts. */
+export enum KnownWeekDay {
+  /** None */
+  None = "None",
+  /** Monday */
+  Monday = "Monday",
+  /** Tuesday */
+  Tuesday = "Tuesday",
+  /** Wednesday */
+  Wednesday = "Wednesday",
+  /** Thursday */
+  Thursday = "Thursday",
+  /** Friday */
+  Friday = "Friday",
+  /** Saturday */
+  Saturday = "Saturday",
+  /** Sunday */
+  Sunday = "Sunday"
+}
+
+/**
+ * Defines values for WeekDay. \
+ * {@link KnownWeekDay} can be used interchangeably with WeekDay,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Monday** \
+ * **Tuesday** \
+ * **Wednesday** \
+ * **Thursday** \
+ * **Friday** \
+ * **Saturday** \
+ * **Sunday**
+ */
+export type WeekDay = string;
+
+/** Known values of {@link AutomaticClusterUpdateValue} that the service accepts. */
+export enum KnownAutomaticClusterUpdateValue {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AutomaticClusterUpdateValue. \
+ * {@link KnownAutomaticClusterUpdateValue} can be used interchangeably with AutomaticClusterUpdateValue,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AutomaticClusterUpdateValue = string;
+
+/** Known values of {@link ComplianceStandard} that the service accepts. */
+export enum KnownComplianceStandard {
+  /** Hipaa */
+  Hipaa = "HIPAA",
+  /** PCIDSS */
+  PCIDSS = "PCI_DSS",
+  /** None */
+  None = "NONE"
+}
+
+/**
+ * Defines values for ComplianceStandard. \
+ * {@link KnownComplianceStandard} can be used interchangeably with ComplianceStandard,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HIPAA** \
+ * **PCI_DSS** \
+ * **NONE**
+ */
+export type ComplianceStandard = string;
+
+/** Known values of {@link ComplianceSecurityProfileValue} that the service accepts. */
+export enum KnownComplianceSecurityProfileValue {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ComplianceSecurityProfileValue. \
+ * {@link KnownComplianceSecurityProfileValue} can be used interchangeably with ComplianceSecurityProfileValue,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ComplianceSecurityProfileValue = string;
+
+/** Known values of {@link EnhancedSecurityMonitoringValue} that the service accepts. */
+export enum KnownEnhancedSecurityMonitoringValue {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for EnhancedSecurityMonitoringValue. \
+ * {@link KnownEnhancedSecurityMonitoringValue} can be used interchangeably with EnhancedSecurityMonitoringValue,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type EnhancedSecurityMonitoringValue = string;
 
 /** Known values of {@link PrivateLinkServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionStatus {
@@ -727,6 +1035,24 @@ export enum KnownRequiredNsgRules {
  */
 export type RequiredNsgRules = string;
 
+/** Known values of {@link InitialType} that the service accepts. */
+export enum KnownInitialType {
+  /** HiveMetastore */
+  HiveMetastore = "HiveMetastore",
+  /** UnityCatalog */
+  UnityCatalog = "UnityCatalog"
+}
+
+/**
+ * Defines values for InitialType. \
+ * {@link KnownInitialType} can be used interchangeably with InitialType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HiveMetastore** \
+ * **UnityCatalog**
+ */
+export type InitialType = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -796,6 +1122,30 @@ export enum KnownPeeringProvisioningState {
  */
 export type PeeringProvisioningState = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Optional parameters. */
 export interface WorkspacesGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -806,6 +1156,8 @@ export type WorkspacesGetResponse = Workspace;
 /** Optional parameters. */
 export interface WorkspacesDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** Optional parameter to retain default unity catalog data. */
+  retainUcData?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -991,12 +1343,78 @@ export interface VNetPeeringListByWorkspaceNextOptionalParams
 export type VNetPeeringListByWorkspaceNextResponse = VirtualNetworkPeeringList;
 
 /** Optional parameters. */
+export interface AccessConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccessConnectorsGetResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AccessConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AccessConnectorsCreateOrUpdateResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AccessConnectorsUpdateResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AccessConnectorsListByResourceGroupResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type AccessConnectorsListBySubscriptionResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AccessConnectorsListByResourceGroupNextResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AccessConnectorsListBySubscriptionNextResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
 export interface AzureDatabricksManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
