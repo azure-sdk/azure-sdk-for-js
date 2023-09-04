@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceLinkerManagementClient } from "../serviceLinkerManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LinkerResource,
   LinkerListNextOptionalParams,
@@ -49,7 +53,8 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Returns list of Linkers which connects to the resource.
+   * Returns list of Linkers which connects to the resource. which supports to config both application
+   * and target service during the resource provision.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
@@ -108,7 +113,8 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Returns list of Linkers which connects to the resource.
+   * Returns list of Linkers which connects to the resource. which supports to config both application
+   * and target service during the resource provision.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
@@ -142,7 +148,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Create or update linker resource.
+   * Create or update Linker resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -155,8 +161,8 @@ export class LinkerImpl implements Linker {
     parameters: LinkerResource,
     options?: LinkerCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkerCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LinkerCreateOrUpdateResponse>,
       LinkerCreateOrUpdateResponse
     >
   > {
@@ -166,7 +172,7 @@ export class LinkerImpl implements Linker {
     ): Promise<LinkerCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -199,22 +205,25 @@ export class LinkerImpl implements Linker {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceUri, linkerName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, linkerName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LinkerCreateOrUpdateResponse,
+      OperationState<LinkerCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update linker resource.
+   * Create or update Linker resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -237,7 +246,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Delete a link.
+   * Delete a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -247,14 +256,14 @@ export class LinkerImpl implements Linker {
     resourceUri: string,
     linkerName: string,
     options?: LinkerDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -287,22 +296,22 @@ export class LinkerImpl implements Linker {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceUri, linkerName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, linkerName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a link.
+   * Delete a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -318,7 +327,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Operation to update an existing link.
+   * Operation to update an existing Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -331,7 +340,7 @@ export class LinkerImpl implements Linker {
     parameters: LinkerPatch,
     options?: LinkerUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
+    SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -339,7 +348,7 @@ export class LinkerImpl implements Linker {
     ): Promise<LinkerUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -372,22 +381,25 @@ export class LinkerImpl implements Linker {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceUri, linkerName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, linkerName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LinkerUpdateResponse,
+      OperationState<LinkerUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Operation to update an existing link.
+   * Operation to update an existing Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -410,7 +422,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * Validate a link.
+   * Validate a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -421,8 +433,8 @@ export class LinkerImpl implements Linker {
     linkerName: string,
     options?: LinkerValidateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkerValidateResponse>,
+    SimplePollerLike<
+      OperationState<LinkerValidateResponse>,
       LinkerValidateResponse
     >
   > {
@@ -432,7 +444,7 @@ export class LinkerImpl implements Linker {
     ): Promise<LinkerValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -465,22 +477,25 @@ export class LinkerImpl implements Linker {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceUri, linkerName, options },
-      validateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, linkerName, options },
+      spec: validateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LinkerValidateResponse,
+      OperationState<LinkerValidateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Validate a link.
+   * Validate a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -496,7 +511,7 @@ export class LinkerImpl implements Linker {
   }
 
   /**
-   * list source configurations for a linker.
+   * list source configurations for a Linker.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -539,7 +554,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerList
+      bodyMapper: Mappers.ResourceList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -590,7 +605,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -642,7 +657,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -689,7 +704,7 @@ const listConfigurationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceConfigurationResult
+      bodyMapper: Mappers.ConfigurationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -709,7 +724,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerList
+      bodyMapper: Mappers.ResourceList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -717,8 +732,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceUri
   ],
   headerParameters: [Parameters.accept],
   serializer
