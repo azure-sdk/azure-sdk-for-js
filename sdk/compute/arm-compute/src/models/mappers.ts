@@ -1580,6 +1580,18 @@ export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMap
         type: {
           name: "String"
         }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1771,6 +1783,12 @@ export const VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings: core
       domainNameLabel: {
         serializedName: "domainNameLabel",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainNameLabelScope: {
+        serializedName: "domainNameLabelScope",
         type: {
           name: "String"
         }
@@ -2908,6 +2926,18 @@ export const VirtualMachineScaleSetUpdateNetworkConfiguration: coreClient.Compos
       },
       deleteOption: {
         serializedName: "properties.deleteOption",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
         type: {
           name: "String"
         }
@@ -4617,6 +4647,18 @@ export const VirtualMachineNetworkInterfaceConfiguration: coreClient.CompositeMa
           name: "Composite",
           className: "SubResource"
         }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4801,6 +4843,12 @@ export const VirtualMachinePublicIPAddressDnsSettingsConfiguration: coreClient.C
       domainNameLabel: {
         serializedName: "domainNameLabel",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainNameLabelScope: {
+        serializedName: "domainNameLabelScope",
         type: {
           name: "String"
         }
@@ -7577,6 +7625,12 @@ export const CreationData: coreClient.CompositeMapper = {
         serializedName: "performancePlus",
         type: {
           name: "Boolean"
+        }
+      },
+      elasticSanResourceId: {
+        serializedName: "elasticSanResourceId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -10374,6 +10428,50 @@ export const SharedGalleryDiskImage: coreClient.CompositeMapper = {
   }
 };
 
+export const CommunityGalleryMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryMetadata",
+    modelProperties: {
+      publisherUri: {
+        serializedName: "publisherUri",
+        type: {
+          name: "String"
+        }
+      },
+      publisherContact: {
+        serializedName: "publisherContact",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "eula",
+        type: {
+          name: "String"
+        }
+      },
+      publicNames: {
+        serializedName: "publicNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privacyStatementUri: {
+        serializedName: "privacyStatementUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -13078,6 +13176,13 @@ export const VirtualMachineScaleSetVM: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -14258,6 +14363,13 @@ export const Disk: coreClient.CompositeMapper = {
         serializedName: "properties.optimizedForFrequentAttach",
         type: {
           name: "Boolean"
+        }
+      },
+      lastOwnershipUpdateTime: {
+        serializedName: "properties.LastOwnershipUpdateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -16704,7 +16816,27 @@ export const CommunityGallery: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunityGallery",
     modelProperties: {
-      ...PirCommunityGalleryResource.type.modelProperties
+      ...PirCommunityGalleryResource.type.modelProperties,
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      communityMetadata: {
+        serializedName: "properties.communityMetadata",
+        type: {
+          name: "Composite",
+          className: "CommunityGalleryMetadata"
+        }
+      }
     }
   }
 };
@@ -16798,6 +16930,19 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -16832,6 +16977,19 @@ export const CommunityGalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharedGalleryImageVersionStorageProfile"
+        }
+      },
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -16945,7 +17103,15 @@ export const SharedGallery: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SharedGallery",
     modelProperties: {
-      ...PirSharedGalleryResource.type.modelProperties
+      ...PirSharedGalleryResource.type.modelProperties,
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
     }
   }
 };
@@ -17039,6 +17205,13 @@ export const SharedGalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -17073,6 +17246,13 @@ export const SharedGalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharedGalleryImageVersionStorageProfile"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }

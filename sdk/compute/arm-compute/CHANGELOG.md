@@ -1,15 +1,40 @@
 # Release History
+    
+## 21.2.0 (2023-09-05)
+    
+**Features**
 
-## 21.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CommunityGalleryMetadata
+  - Added Type Alias DomainNameLabelScopeTypes
+  - Added Type Alias NetworkInterfaceAuxiliaryMode
+  - Added Type Alias NetworkInterfaceAuxiliarySku
+  - Interface CommunityGallery has a new optional parameter artifactTags
+  - Interface CommunityGallery has a new optional parameter communityMetadata
+  - Interface CommunityGallery has a new optional parameter disclaimer
+  - Interface CommunityGalleryImage has a new optional parameter artifactTags
+  - Interface CommunityGalleryImage has a new optional parameter disclaimer
+  - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
+  - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
+  - Interface CreationData has a new optional parameter elasticSanResourceId
+  - Interface Disk has a new optional parameter lastOwnershipUpdateTime
+  - Interface SharedGallery has a new optional parameter artifactTags
+  - Interface SharedGalleryImage has a new optional parameter artifactTags
+  - Interface SharedGalleryImageVersion has a new optional parameter artifactTags
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachineScaleSetVM has a new optional parameter timeCreated
+  - Added Enum KnownDomainNameLabelScopeTypes
+  - Added Enum KnownNetworkInterfaceAuxiliaryMode
+  - Added Enum KnownNetworkInterfaceAuxiliarySku
+  - Enum KnownDiskCreateOption has a new value CopyFromSanSnapshot
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**
