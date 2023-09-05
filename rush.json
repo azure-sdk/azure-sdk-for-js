@@ -2089,6 +2089,11 @@
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservicesdatareplication",
+      "projectFolder": "sdk/recoveryservicesdatareplication/arm-recoveryservicesdatareplication",
+      "versionPolicyName": "management"
     }
   ]
 }
