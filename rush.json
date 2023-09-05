@@ -2089,6 +2089,11 @@
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mobilecore",
+      "projectFolder": "sdk/mobilecore/arm-mobilecore",
+      "versionPolicyName": "management"
     }
   ]
 }
