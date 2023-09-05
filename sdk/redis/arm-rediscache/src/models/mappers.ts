@@ -372,11 +372,6 @@ export const RedisCreateParameters: coreClient.CompositeMapper = {
         }
       },
       subnetId: {
-        constraints: {
-          Pattern: new RegExp(
-            "^\\/subscriptions\\/[^/]*\\/resourceGroups\\/[^/]*\\/providers\\/Microsoft.(ClassicNetwork|Network)\\/virtualNetworks\\/[^/]*\\/subnets\\/[^/]*$"
-          )
-        },
         serializedName: "properties.subnetId",
         type: {
           name: "String"
@@ -1488,11 +1483,6 @@ export const RedisCreateProperties: coreClient.CompositeMapper = {
         }
       },
       subnetId: {
-        constraints: {
-          Pattern: new RegExp(
-            "^\\/subscriptions\\/[^/]*\\/resourceGroups\\/[^/]*\\/providers\\/Microsoft.(ClassicNetwork|Network)\\/virtualNetworks\\/[^/]*\\/subnets\\/[^/]*$"
-          )
-        },
         serializedName: "subnetId",
         type: {
           name: "String"
@@ -1841,11 +1831,6 @@ export const RedisResource: coreClient.CompositeMapper = {
         }
       },
       subnetId: {
-        constraints: {
-          Pattern: new RegExp(
-            "^\\/subscriptions\\/[^/]*\\/resourceGroups\\/[^/]*\\/providers\\/Microsoft.(ClassicNetwork|Network)\\/virtualNetworks\\/[^/]*\\/subnets\\/[^/]*$"
-          )
-        },
         serializedName: "properties.subnetId",
         type: {
           name: "String"
