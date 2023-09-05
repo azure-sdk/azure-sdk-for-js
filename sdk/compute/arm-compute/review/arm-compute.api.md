@@ -1186,6 +1186,7 @@ export type CopyCompletionErrorReason = string;
 // @public
 export interface CreationData {
     createOption: DiskCreateOption;
+    elasticSanResourceId?: string;
     galleryImageReference?: ImageDiskReference;
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
@@ -1517,6 +1518,7 @@ export interface Disk extends Resource {
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGeneration;
+    readonly lastOwnershipUpdateTime?: Date;
     readonly managedBy?: string;
     readonly managedByExtended?: string[];
     maxShares?: number;
@@ -2081,6 +2083,9 @@ export interface DiskUpdate {
 }
 
 // @public
+export type DomainNameLabelScopeTypes = string;
+
+// @public
 export type EdgeZoneStorageAccountType = string;
 
 // @public
@@ -2631,6 +2636,7 @@ export interface GalleryImageVersion extends Resource {
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2716,11 +2722,18 @@ export interface GalleryImageVersionsUpdateOptionalParams extends coreClient.Ope
 export type GalleryImageVersionsUpdateResponse = GalleryImageVersion;
 
 // @public
+export interface GalleryImageVersionUefiSettings {
+    additionalSignatures?: UefiKeySignatures;
+    signatureTemplateNames?: UefiSignatureTemplateName[];
+}
+
+// @public
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2967,6 +2980,11 @@ export interface ImageUpdate extends UpdateResource {
 }
 
 // @public
+export interface ImageVersionSecurityProfile {
+    uefiSettings?: GalleryImageVersionUefiSettings;
+}
+
+// @public
 export interface InnerError {
     errordetail?: string;
     exceptiontype?: string;
@@ -3101,7 +3119,8 @@ export enum KnownCloudServiceUpgradeMode {
 export enum KnownConfidentialVMEncryptionType {
     EncryptedVMGuestStateOnlyWithPmk = "EncryptedVMGuestStateOnlyWithPmk",
     EncryptedWithCmk = "EncryptedWithCmk",
-    EncryptedWithPmk = "EncryptedWithPmk"
+    EncryptedWithPmk = "EncryptedWithPmk",
+    NonPersistedTPM = "NonPersistedTPM"
 }
 
 // @public
@@ -3149,6 +3168,7 @@ export enum KnownDiskControllerTypes {
 export enum KnownDiskCreateOption {
     Attach = "Attach",
     Copy = "Copy",
+    CopyFromSanSnapshot = "CopyFromSanSnapshot",
     CopyStart = "CopyStart",
     Empty = "Empty",
     FromImage = "FromImage",
@@ -3221,6 +3241,14 @@ export enum KnownDiskStorageAccountTypes {
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownDomainNameLabelScopeTypes {
+    NoReuse = "NoReuse",
+    ResourceGroupReuse = "ResourceGroupReuse",
+    SubscriptionReuse = "SubscriptionReuse",
+    TenantReuse = "TenantReuse"
 }
 
 // @public
@@ -3384,6 +3412,22 @@ export enum KnownNetworkApiVersion {
 }
 
 // @public
+export enum KnownNetworkInterfaceAuxiliaryMode {
+    AcceleratedConnections = "AcceleratedConnections",
+    Floating = "Floating",
+    None = "None"
+}
+
+// @public
+export enum KnownNetworkInterfaceAuxiliarySku {
+    A1 = "A1",
+    A2 = "A2",
+    A4 = "A4",
+    A8 = "A8",
+    None = "None"
+}
+
+// @public
 export enum KnownOperatingSystemType {
     Linux = "Linux",
     Windows = "Windows"
@@ -3515,7 +3559,8 @@ export enum KnownReplicationState {
 
 // @public
 export enum KnownReplicationStatusTypes {
-    ReplicationStatus = "ReplicationStatus"
+    ReplicationStatus = "ReplicationStatus",
+    UefiSettings = "UefiSettings"
 }
 
 // @public
@@ -3609,6 +3654,19 @@ export enum KnownStorageAccountTypes {
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownUefiKeyType {
+    Sha256 = "sha256",
+    X509 = "x509"
+}
+
+// @public
+export enum KnownUefiSignatureTemplateName {
+    MicrosoftUefiCertificateAuthorityTemplate = "MicrosoftUefiCertificateAuthorityTemplate",
+    MicrosoftWindowsTemplate = "MicrosoftWindowsTemplate",
+    NoSignatureTemplate = "NoSignatureTemplate"
 }
 
 // @public
@@ -4042,6 +4100,12 @@ export type NetworkAccessPolicy = string;
 
 // @public
 export type NetworkApiVersion = string;
+
+// @public
+export type NetworkInterfaceAuxiliaryMode = string;
+
+// @public
+export type NetworkInterfaceAuxiliarySku = string;
 
 // @public
 export interface NetworkInterfaceReference extends SubResource {
@@ -5622,10 +5686,30 @@ export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
 }
 
 // @public
+export interface UefiKey {
+    type?: UefiKeyType;
+    value?: string[];
+}
+
+// @public
+export interface UefiKeySignatures {
+    db?: UefiKey[];
+    dbx?: UefiKey[];
+    kek?: UefiKey[];
+    pk?: UefiKey;
+}
+
+// @public
+export type UefiKeyType = string;
+
+// @public
 export interface UefiSettings {
     secureBootEnabled?: boolean;
     vTpmEnabled?: boolean;
 }
+
+// @public
+export type UefiSignatureTemplateName = string;
 
 // @public
 export interface UpdateDomain {
@@ -6197,6 +6281,8 @@ export interface VirtualMachineListResult {
 
 // @public
 export interface VirtualMachineNetworkInterfaceConfiguration {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
@@ -6254,6 +6340,7 @@ export interface VirtualMachinePublicIPAddressConfiguration {
 // @public
 export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
     domainNameLabel: string;
+    domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 // @public
@@ -6689,6 +6776,8 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 
 // @public
 export interface VirtualMachineScaleSetNetworkConfiguration {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -6756,6 +6845,7 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
 // @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
     domainNameLabel: string;
+    domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 // @public
@@ -7117,6 +7207,8 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration {
 
 // @public
 export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -7210,6 +7302,7 @@ export interface VirtualMachineScaleSetVM extends Resource {
     securityProfile?: SecurityProfile;
     readonly sku?: Sku;
     storageProfile?: StorageProfile;
+    readonly timeCreated?: Date;
     userData?: string;
     readonly vmId?: string;
     readonly zones?: string[];

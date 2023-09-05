@@ -541,6 +541,10 @@ export interface VirtualMachineScaleSetNetworkConfiguration {
   enableIPForwarding?: boolean;
   /** Specify what happens to the network interface when the VM is deleted */
   deleteOption?: DeleteOptions;
+  /** Specifies whether the Auxiliary mode is enabled for the Network Interface resource. */
+  auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+  /** Specifies whether the Auxiliary sku is enabled for the Network Interface resource. */
+  auxiliarySku?: NetworkInterfaceAuxiliarySku;
 }
 
 /** Describes a virtual machines scale sets network configuration's DNS settings. */
@@ -595,6 +599,8 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
   /** The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created */
   domainNameLabel: string;
+  /** The Domain name label scope.The concatenation of the hashed domain name label that generated according to the policy from domain name label scope and vm index will be the domain name labels of the PublicIPAddress resources that will be created */
+  domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 /** Contains the IP tag associated with the public IP address. */
@@ -998,6 +1004,10 @@ export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
   enableIPForwarding?: boolean;
   /** Specify what happens to the network interface when the VM is deleted */
   deleteOption?: DeleteOptions;
+  /** Specifies whether the Auxiliary mode is enabled for the Network Interface resource. */
+  auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+  /** Specifies whether the Auxiliary sku is enabled for the Network Interface resource. */
+  auxiliarySku?: NetworkInterfaceAuxiliarySku;
 }
 
 /** Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a scale set may be modified as long as the original subnet and the new subnet are in the same virtual network */
@@ -1668,6 +1678,10 @@ export interface VirtualMachineNetworkInterfaceConfiguration {
   /** Specifies the IP configurations of the network interface. */
   ipConfigurations?: VirtualMachineNetworkInterfaceIPConfiguration[];
   dscpConfiguration?: SubResource;
+  /** Specifies whether the Auxiliary mode is enabled for the Network Interface resource. */
+  auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+  /** Specifies whether the Auxiliary sku is enabled for the Network Interface resource. */
+  auxiliarySku?: NetworkInterfaceAuxiliarySku;
 }
 
 /** Describes a virtual machines network configuration's DNS settings. */
@@ -1722,6 +1736,8 @@ export interface VirtualMachinePublicIPAddressConfiguration {
 export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
   /** The Domain name label prefix of the PublicIPAddress resources that will be created. The generated name label is the concatenation of the domain name label and vm network profile unique ID. */
   domainNameLabel: string;
+  /** The Domain name label scope of the PublicIPAddress resources that will be created. The generated name label is the concatenation of the hashed domain name label with policy according to the domain name label scope and vm network profile unique ID. */
+  domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 /** Contains the IP tag associated with the public IP address. */
@@ -2860,6 +2876,8 @@ export interface CreationData {
   securityDataUri?: string;
   /** Set this flag to true to get a boost on the performance target of the disk deployed, see here on the respective performance target. This flag can only be set on disk creation time and cannot be disabled after enabled. */
   performancePlus?: boolean;
+  /** Required if createOption is CopyFromSanSnapshot. This is the ARM id of the source elastic san volume snapshot. */
+  elasticSanResourceId?: string;
 }
 
 /** The source image used for creating the disk. */
@@ -3505,7 +3523,7 @@ export interface GalleryIdentifier {
 
 /** Profile for gallery sharing to subscription or tenant */
 export interface SharingProfile {
-  /** This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community** */
+  /** This property allows you to specify the permission of sharing gallery. Possible values are: **Private,** **Groups,** **Community.** */
   permissions?: GallerySharingPermissionTypes;
   /**
    * A list of sharing profile groups.
@@ -3518,7 +3536,7 @@ export interface SharingProfile {
 
 /** Group of the gallery sharing profile */
 export interface SharingProfileGroup {
-  /** This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** */
+  /** This property allows you to specify the type of sharing group. Possible values are: **Subscriptions,** **AADTenants.** */
   type?: SharingProfileGroupTypes;
   /** A list of subscription/tenant ids the gallery is aimed to be shared to. */
   ids?: string[];
@@ -3807,6 +3825,40 @@ export interface RegionalReplicationStatus {
   readonly progress?: number;
 }
 
+/** The security profile of a gallery image version */
+export interface ImageVersionSecurityProfile {
+  /** Contains UEFI settings for the image version. */
+  uefiSettings?: GalleryImageVersionUefiSettings;
+}
+
+/** Contains UEFI settings for the image version. */
+export interface GalleryImageVersionUefiSettings {
+  /** The name of the template(s) that contains default UEFI key signatures that will be added to the image. */
+  signatureTemplateNames?: UefiSignatureTemplateName[];
+  /** Additional UEFI key signatures that will be added to the image in addition to the signature templates */
+  additionalSignatures?: UefiKeySignatures;
+}
+
+/** Additional UEFI key signatures that will be added to the image in addition to the signature templates */
+export interface UefiKeySignatures {
+  /** The Platform Key of this image version. */
+  pk?: UefiKey;
+  /** The Key Encryption Keys of this image version. */
+  kek?: UefiKey[];
+  /** The database of UEFI keys for this image version. */
+  db?: UefiKey[];
+  /** The database of revoked UEFI keys for this image version. */
+  dbx?: UefiKey[];
+}
+
+/** A UEFI key signature. */
+export interface UefiKey {
+  /** The type of key signature. */
+  type?: UefiKeyType;
+  /** The value of the key signature. */
+  value?: string[];
+}
+
 /** A custom action that can be performed with a Gallery Application Version. */
 export interface GalleryApplicationCustomAction {
   /** The name of the custom action.  Must be unique within the Gallery Application Version. */
@@ -3900,7 +3952,7 @@ export interface GalleryApplicationVersionList {
 
 /** Specifies information about the gallery sharing profile update. */
 export interface SharingUpdate {
-  /** This property allows you to specify the operation type of gallery sharing update. <br><br> Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset** */
+  /** This property allows you to specify the operation type of gallery sharing update. Possible values are: **Add,** **Remove,** **Reset.** */
   operationType: SharingUpdateOperationTypes;
   /** A list of sharing profile groups. */
   groups?: SharingProfileGroup[];
@@ -5105,6 +5157,11 @@ export interface VirtualMachineScaleSetVM extends Resource {
   protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
   userData?: string;
+  /**
+   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeCreated?: Date;
 }
 
 /** Describes a Virtual Machine. */
@@ -5562,6 +5619,11 @@ export interface Disk extends Resource {
   dataAccessAuthMode?: DataAccessAuthMode;
   /** Setting this property to true improves reliability and performance of data disks that are frequently (more than 5 times a day) by detached from one virtual machine and attached to another. This property should not be set for disks that are not detached and attached frequently as it causes the disks to not align with the fault domain of the virtual machine. */
   optimizedForFrequentAttach?: boolean;
+  /**
+   * The UTC time when the ownership state of the disk was last changed i.e., the time the disk was last attached or detached from a VM or the time when the VM to which the disk was attached was deallocated or started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOwnershipUpdateTime?: Date;
 }
 
 /** disk access resource. */
@@ -5728,7 +5790,7 @@ export interface GalleryImage extends Resource {
   privacyStatementUri?: string;
   /** The release note uri. */
   releaseNoteUri?: string;
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -5773,6 +5835,8 @@ export interface GalleryImageVersion extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicationStatus?: ReplicationStatus;
+  /** The security profile of a gallery image version */
+  securityProfile?: ImageVersionSecurityProfile;
 }
 
 /** Specifies information about the gallery Application Definition that you want to create or update. */
@@ -5787,7 +5851,7 @@ export interface GalleryApplication extends Resource {
   releaseNoteUri?: string;
   /** The end of life date of the gallery Application Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** This property allows you to specify the supported type of the OS that application is built for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
   supportedOSType?: OperatingSystemTypes;
   /** A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application. */
   customActions?: GalleryApplicationCustomAction[];
@@ -6340,7 +6404,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   privacyStatementUri?: string;
   /** The release note uri. */
   releaseNoteUri?: string;
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -6385,6 +6449,8 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicationStatus?: ReplicationStatus;
+  /** The security profile of a gallery image version */
+  securityProfile?: ImageVersionSecurityProfile;
 }
 
 /** Specifies information about the gallery Application Definition that you want to update. */
@@ -6399,7 +6465,7 @@ export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
   releaseNoteUri?: string;
   /** The end of life date of the gallery Application Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** This property allows you to specify the supported type of the OS that application is built for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
   supportedOSType?: OperatingSystemTypes;
   /** A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application. */
   customActions?: GalleryApplicationCustomAction[];
@@ -6519,7 +6585,7 @@ export interface CommunityGallery extends PirCommunityGalleryResource {}
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -6590,7 +6656,7 @@ export interface SharedGallery extends PirSharedGalleryResource {}
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface SharedGalleryImage extends PirSharedGalleryResource {
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
   osType?: OperatingSystemTypes;
   /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
   osState?: OperatingSystemStateTypes;
@@ -6900,6 +6966,30 @@ export enum KnownDiskDeleteOptionTypes {
  */
 export type DiskDeleteOptionTypes = string;
 
+/** Known values of {@link DomainNameLabelScopeTypes} that the service accepts. */
+export enum KnownDomainNameLabelScopeTypes {
+  /** TenantReuse */
+  TenantReuse = "TenantReuse",
+  /** SubscriptionReuse */
+  SubscriptionReuse = "SubscriptionReuse",
+  /** ResourceGroupReuse */
+  ResourceGroupReuse = "ResourceGroupReuse",
+  /** NoReuse */
+  NoReuse = "NoReuse"
+}
+
+/**
+ * Defines values for DomainNameLabelScopeTypes. \
+ * {@link KnownDomainNameLabelScopeTypes} can be used interchangeably with DomainNameLabelScopeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TenantReuse** \
+ * **SubscriptionReuse** \
+ * **ResourceGroupReuse** \
+ * **NoReuse**
+ */
+export type DomainNameLabelScopeTypes = string;
+
 /** Known values of {@link IPVersion} that the service accepts. */
 export enum KnownIPVersion {
   /** IPv4 */
@@ -6971,6 +7061,54 @@ export enum KnownPublicIPAddressSkuTier {
  * **Global**
  */
 export type PublicIPAddressSkuTier = string;
+
+/** Known values of {@link NetworkInterfaceAuxiliaryMode} that the service accepts. */
+export enum KnownNetworkInterfaceAuxiliaryMode {
+  /** None */
+  None = "None",
+  /** AcceleratedConnections */
+  AcceleratedConnections = "AcceleratedConnections",
+  /** Floating */
+  Floating = "Floating"
+}
+
+/**
+ * Defines values for NetworkInterfaceAuxiliaryMode. \
+ * {@link KnownNetworkInterfaceAuxiliaryMode} can be used interchangeably with NetworkInterfaceAuxiliaryMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **AcceleratedConnections** \
+ * **Floating**
+ */
+export type NetworkInterfaceAuxiliaryMode = string;
+
+/** Known values of {@link NetworkInterfaceAuxiliarySku} that the service accepts. */
+export enum KnownNetworkInterfaceAuxiliarySku {
+  /** None */
+  None = "None",
+  /** A1 */
+  A1 = "A1",
+  /** A2 */
+  A2 = "A2",
+  /** A4 */
+  A4 = "A4",
+  /** A8 */
+  A8 = "A8"
+}
+
+/**
+ * Defines values for NetworkInterfaceAuxiliarySku. \
+ * {@link KnownNetworkInterfaceAuxiliarySku} can be used interchangeably with NetworkInterfaceAuxiliarySku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **A1** \
+ * **A2** \
+ * **A4** \
+ * **A8**
+ */
+export type NetworkInterfaceAuxiliarySku = string;
 
 /** Known values of {@link NetworkApiVersion} that the service accepts. */
 export enum KnownNetworkApiVersion {
@@ -8379,7 +8517,9 @@ export enum KnownDiskCreateOption {
   /** Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId */
   ImportSecure = "ImportSecure",
   /** Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state */
-  UploadPreparedSecure = "UploadPreparedSecure"
+  UploadPreparedSecure = "UploadPreparedSecure",
+  /** Create a new disk by exporting from elastic san volume snapshot */
+  CopyFromSanSnapshot = "CopyFromSanSnapshot"
 }
 
 /**
@@ -8396,7 +8536,8 @@ export enum KnownDiskCreateOption {
  * **Upload**: Create a new disk by obtaining a write token and using it to directly upload the contents of the disk. \
  * **CopyStart**: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source. \
  * **ImportSecure**: Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId \
- * **UploadPreparedSecure**: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state
+ * **UploadPreparedSecure**: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state \
+ * **CopyFromSanSnapshot**: Create a new disk by exporting from elastic san volume snapshot
  */
 export type DiskCreateOption = string;
 
@@ -8869,7 +9010,9 @@ export enum KnownConfidentialVMEncryptionType {
   /** EncryptedWithPmk */
   EncryptedWithPmk = "EncryptedWithPmk",
   /** EncryptedWithCmk */
-  EncryptedWithCmk = "EncryptedWithCmk"
+  EncryptedWithCmk = "EncryptedWithCmk",
+  /** NonPersistedTPM */
+  NonPersistedTPM = "NonPersistedTPM"
 }
 
 /**
@@ -8879,7 +9022,8 @@ export enum KnownConfidentialVMEncryptionType {
  * ### Known values supported by the service
  * **EncryptedVMGuestStateOnlyWithPmk** \
  * **EncryptedWithPmk** \
- * **EncryptedWithCmk**
+ * **EncryptedWithCmk** \
+ * **NonPersistedTPM**
  */
 export type ConfidentialVMEncryptionType = string;
 
@@ -9015,10 +9159,51 @@ export enum KnownReplicationState {
  */
 export type ReplicationState = string;
 
+/** Known values of {@link UefiSignatureTemplateName} that the service accepts. */
+export enum KnownUefiSignatureTemplateName {
+  /** NoSignatureTemplate */
+  NoSignatureTemplate = "NoSignatureTemplate",
+  /** MicrosoftUefiCertificateAuthorityTemplate */
+  MicrosoftUefiCertificateAuthorityTemplate = "MicrosoftUefiCertificateAuthorityTemplate",
+  /** MicrosoftWindowsTemplate */
+  MicrosoftWindowsTemplate = "MicrosoftWindowsTemplate"
+}
+
+/**
+ * Defines values for UefiSignatureTemplateName. \
+ * {@link KnownUefiSignatureTemplateName} can be used interchangeably with UefiSignatureTemplateName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoSignatureTemplate** \
+ * **MicrosoftUefiCertificateAuthorityTemplate** \
+ * **MicrosoftWindowsTemplate**
+ */
+export type UefiSignatureTemplateName = string;
+
+/** Known values of {@link UefiKeyType} that the service accepts. */
+export enum KnownUefiKeyType {
+  /** Sha256 */
+  Sha256 = "sha256",
+  /** X509 */
+  X509 = "x509"
+}
+
+/**
+ * Defines values for UefiKeyType. \
+ * {@link KnownUefiKeyType} can be used interchangeably with UefiKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **sha256** \
+ * **x509**
+ */
+export type UefiKeyType = string;
+
 /** Known values of {@link ReplicationStatusTypes} that the service accepts. */
 export enum KnownReplicationStatusTypes {
   /** ReplicationStatus */
-  ReplicationStatus = "ReplicationStatus"
+  ReplicationStatus = "ReplicationStatus",
+  /** UefiSettings */
+  UefiSettings = "UefiSettings"
 }
 
 /**
@@ -9026,7 +9211,8 @@ export enum KnownReplicationStatusTypes {
  * {@link KnownReplicationStatusTypes} can be used interchangeably with ReplicationStatusTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ReplicationStatus**
+ * **ReplicationStatus** \
+ * **UefiSettings**
  */
 export type ReplicationStatusTypes = string;
 

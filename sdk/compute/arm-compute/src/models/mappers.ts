@@ -1580,6 +1580,18 @@ export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMap
         type: {
           name: "String"
         }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1771,6 +1783,12 @@ export const VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings: core
       domainNameLabel: {
         serializedName: "domainNameLabel",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainNameLabelScope: {
+        serializedName: "domainNameLabelScope",
         type: {
           name: "String"
         }
@@ -2908,6 +2926,18 @@ export const VirtualMachineScaleSetUpdateNetworkConfiguration: coreClient.Compos
       },
       deleteOption: {
         serializedName: "properties.deleteOption",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
         type: {
           name: "String"
         }
@@ -4617,6 +4647,18 @@ export const VirtualMachineNetworkInterfaceConfiguration: coreClient.CompositeMa
           name: "Composite",
           className: "SubResource"
         }
+      },
+      auxiliaryMode: {
+        serializedName: "properties.auxiliaryMode",
+        type: {
+          name: "String"
+        }
+      },
+      auxiliarySku: {
+        serializedName: "properties.auxiliarySku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4801,6 +4843,12 @@ export const VirtualMachinePublicIPAddressDnsSettingsConfiguration: coreClient.C
       domainNameLabel: {
         serializedName: "domainNameLabel",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      domainNameLabelScope: {
+        serializedName: "domainNameLabelScope",
         type: {
           name: "String"
         }
@@ -7578,6 +7626,12 @@ export const CreationData: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      elasticSanResourceId: {
+        serializedName: "elasticSanResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -9889,6 +9943,127 @@ export const RegionalReplicationStatus: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ImageVersionSecurityProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageVersionSecurityProfile",
+    modelProperties: {
+      uefiSettings: {
+        serializedName: "uefiSettings",
+        type: {
+          name: "Composite",
+          className: "GalleryImageVersionUefiSettings"
+        }
+      }
+    }
+  }
+};
+
+export const GalleryImageVersionUefiSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryImageVersionUefiSettings",
+    modelProperties: {
+      signatureTemplateNames: {
+        serializedName: "signatureTemplateNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      additionalSignatures: {
+        serializedName: "additionalSignatures",
+        type: {
+          name: "Composite",
+          className: "UefiKeySignatures"
+        }
+      }
+    }
+  }
+};
+
+export const UefiKeySignatures: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UefiKeySignatures",
+    modelProperties: {
+      pk: {
+        serializedName: "pk",
+        type: {
+          name: "Composite",
+          className: "UefiKey"
+        }
+      },
+      kek: {
+        serializedName: "kek",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      },
+      db: {
+        serializedName: "db",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      },
+      dbx: {
+        serializedName: "dbx",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UefiKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UefiKey",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -13078,6 +13253,13 @@ export const VirtualMachineScaleSetVM: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -14259,6 +14441,13 @@ export const Disk: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      lastOwnershipUpdateTime: {
+        serializedName: "properties.LastOwnershipUpdateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -14770,6 +14959,13 @@ export const GalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReplicationStatus"
+        }
+      },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "ImageVersionSecurityProfile"
         }
       }
     }
@@ -16348,6 +16544,13 @@ export const GalleryImageVersionUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReplicationStatus"
+        }
+      },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "ImageVersionSecurityProfile"
         }
       }
     }
