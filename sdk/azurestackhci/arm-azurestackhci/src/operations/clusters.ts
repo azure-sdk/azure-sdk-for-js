@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureStackHCIClient } from "../azureStackHCIClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Cluster,
   ClustersListBySubscriptionNextOptionalParams,
@@ -35,6 +39,9 @@ import {
   ClustersUploadCertificateOptionalParams,
   ClustersCreateIdentityOptionalParams,
   ClustersCreateIdentityResponse,
+  SoftwareAssuranceChangeRequest,
+  ClustersExtendSoftwareAssuranceBenefitOptionalParams,
+  ClustersExtendSoftwareAssuranceBenefitResponse,
   ClustersListBySubscriptionNextResponse,
   ClustersListByResourceGroupNextResponse
 } from "../models";
@@ -268,14 +275,14 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,13 +315,13 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -352,14 +359,14 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     uploadCertificateRequest: UploadCertificateRequest,
     options?: ClustersUploadCertificateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -392,15 +399,20 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, uploadCertificateRequest, options },
-      uploadCertificateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        uploadCertificateRequest,
+        options
+      },
+      spec: uploadCertificateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -439,8 +451,8 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     options?: ClustersCreateIdentityOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateIdentityResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateIdentityResponse>,
       ClustersCreateIdentityResponse
     >
   > {
@@ -450,7 +462,7 @@ export class ClustersImpl implements Clusters {
     ): Promise<ClustersCreateIdentityResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -483,15 +495,18 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      createIdentityOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: createIdentityOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClustersCreateIdentityResponse,
+      OperationState<ClustersCreateIdentityResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -511,6 +526,107 @@ export class ClustersImpl implements Clusters {
     const poller = await this.beginCreateIdentity(
       resourceGroupName,
       clusterName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Extends Software Assurance Benefit to a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param softwareAssuranceChangeRequest Software Assurance Change Request Payload
+   * @param options The options parameters.
+   */
+  async beginExtendSoftwareAssuranceBenefit(
+    resourceGroupName: string,
+    clusterName: string,
+    softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
+    options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersExtendSoftwareAssuranceBenefitResponse>,
+      ClustersExtendSoftwareAssuranceBenefitResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ClustersExtendSoftwareAssuranceBenefitResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        softwareAssuranceChangeRequest,
+        options
+      },
+      spec: extendSoftwareAssuranceBenefitOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClustersExtendSoftwareAssuranceBenefitResponse,
+      OperationState<ClustersExtendSoftwareAssuranceBenefitResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Extends Software Assurance Benefit to a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param softwareAssuranceChangeRequest Software Assurance Change Request Payload
+   * @param options The options parameters.
+   */
+  async beginExtendSoftwareAssuranceBenefitAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
+    options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  ): Promise<ClustersExtendSoftwareAssuranceBenefitResponse> {
+    const poller = await this.beginExtendSoftwareAssuranceBenefit(
+      resourceGroupName,
+      clusterName,
+      softwareAssuranceChangeRequest,
       options
     );
     return poller.pollUntilDone();
@@ -738,6 +854,39 @@ const createIdentityOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const extendSoftwareAssuranceBenefitOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/extendSoftwareAssuranceBenefit",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Cluster
+    },
+    201: {
+      bodyMapper: Mappers.Cluster
+    },
+    202: {
+      bodyMapper: Mappers.Cluster
+    },
+    204: {
+      bodyMapper: Mappers.Cluster
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.softwareAssuranceChangeRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -749,7 +898,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -769,7 +917,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
