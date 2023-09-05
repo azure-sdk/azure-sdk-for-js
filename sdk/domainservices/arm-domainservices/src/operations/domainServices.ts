@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DomainServicesResourceProvider } from "../domainServicesResourceProvider";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DomainService,
   DomainServicesListNextOptionalParams,
@@ -217,8 +221,8 @@ export class DomainServicesImpl implements DomainServices {
     domainService: DomainService,
     options?: DomainServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainServicesCreateOrUpdateResponse>,
       DomainServicesCreateOrUpdateResponse
     >
   > {
@@ -228,7 +232,7 @@ export class DomainServicesImpl implements DomainServices {
     ): Promise<DomainServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -261,13 +265,16 @@ export class DomainServicesImpl implements DomainServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, domainServiceName, domainService, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, domainServiceName, domainService, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainServicesCreateOrUpdateResponse,
+      OperationState<DomainServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -328,14 +335,14 @@ export class DomainServicesImpl implements DomainServices {
     resourceGroupName: string,
     domainServiceName: string,
     options?: DomainServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -368,13 +375,13 @@ export class DomainServicesImpl implements DomainServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, domainServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, domainServiceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -416,8 +423,8 @@ export class DomainServicesImpl implements DomainServices {
     domainService: DomainService,
     options?: DomainServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainServicesUpdateResponse>,
       DomainServicesUpdateResponse
     >
   > {
@@ -427,7 +434,7 @@ export class DomainServicesImpl implements DomainServices {
     ): Promise<DomainServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -460,13 +467,16 @@ export class DomainServicesImpl implements DomainServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, domainServiceName, domainService, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, domainServiceName, domainService, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainServicesUpdateResponse,
+      OperationState<DomainServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -693,7 +703,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -713,7 +722,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
