@@ -1,49 +1,23 @@
 # Release History
-
-## 2.3.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.3.0-beta.1 (2023-03-27)
+    
+## 3.0.0 (2023-09-05)
     
 **Features**
 
-  - Added operation group Skus
   - Added operation Databases.beginFlush
   - Added operation Databases.beginFlushAndWait
-  - Added Interface Capability
-  - Added Interface ClusterPropertiesEncryption
-  - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption
-  - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
+  - Added operation PrivateEndpointConnections.beginDelete
+  - Added operation PrivateEndpointConnections.beginDeleteAndWait
   - Added Interface DatabasesFlushHeaders
   - Added Interface DatabasesFlushOptionalParams
   - Added Interface FlushParameters
-  - Added Interface LocationInfo
-  - Added Interface ManagedServiceIdentity
-  - Added Interface RegionSkuDetail
-  - Added Interface RegionSkuDetails
-  - Added Interface SkuDetail
-  - Added Interface SkusListOptionalParams
-  - Added Interface SystemData
-  - Added Interface UserAssignedIdentity
-  - Added Type Alias CmkIdentityType
-  - Added Type Alias CreatedByType
-  - Added Type Alias ManagedServiceIdentityType
-  - Added Type Alias SkusListResponse
-  - Interface Cluster has a new optional parameter encryption
-  - Interface Cluster has a new optional parameter identity
-  - Interface ClusterUpdate has a new optional parameter encryption
-  - Interface ClusterUpdate has a new optional parameter identity
-  - Interface Resource has a new optional parameter systemData
-  - Added Enum KnownCmkIdentityType
-  - Added Enum KnownCreatedByType
-  - Added Enum KnownManagedServiceIdentityType
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+
+**Breaking Changes**
+
+  - Removed operation PrivateEndpointConnections.delete
     
     
 ## 2.2.0 (2022-12-07)

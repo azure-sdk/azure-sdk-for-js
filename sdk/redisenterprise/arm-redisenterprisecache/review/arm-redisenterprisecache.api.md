@@ -26,16 +26,8 @@ export type ActionType = string;
 export type AofFrequency = string;
 
 // @public
-export interface Capability {
-    name?: string;
-    value?: boolean;
-}
-
-// @public
 export interface Cluster extends TrackedResource {
-    encryption?: ClusterPropertiesEncryption;
     readonly hostName?: string;
-    identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -55,27 +47,8 @@ export interface ClusterList {
 }
 
 // @public
-export interface ClusterPropertiesEncryption {
-    customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
-}
-
-// @public
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
-    keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
-    keyEncryptionKeyUrl?: string;
-}
-
-// @public
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
-    identityType?: CmkIdentityType;
-    userAssignedIdentityResourceId?: string;
-}
-
-// @public
 export interface ClusterUpdate {
-    encryption?: ClusterPropertiesEncryption;
     readonly hostName?: string;
-    identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -86,12 +59,6 @@ export interface ClusterUpdate {
         [propertyName: string]: string;
     };
 }
-
-// @public
-export type CmkIdentityType = string;
-
-// @public
-export type CreatedByType = string;
 
 // @public
 export interface Database extends ProxyResource {
@@ -309,20 +276,6 @@ export enum KnownClusteringPolicy {
 }
 
 // @public
-export enum KnownCmkIdentityType {
-    SystemAssignedIdentity = "systemAssignedIdentity",
-    UserAssignedIdentity = "userAssignedIdentity"
-}
-
-// @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
 export enum KnownEvictionPolicy {
     AllKeysLFU = "AllKeysLFU",
     AllKeysLRU = "AllKeysLRU",
@@ -341,14 +294,6 @@ export enum KnownLinkState {
     Linking = "Linking",
     UnlinkFailed = "UnlinkFailed",
     Unlinking = "Unlinking"
-}
-
-// @public
-export enum KnownManagedServiceIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -438,25 +383,6 @@ export interface LinkedDatabase {
 
 // @public
 export type LinkState = string;
-
-// @public
-export interface LocationInfo {
-    capabilities?: Capability[];
-    location?: string;
-}
-
-// @public
-export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
-}
-
-// @public
-export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Module {
@@ -562,15 +488,24 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
+    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     beginPut(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsPutResponse>, PrivateEndpointConnectionsPutResponse>>;
     beginPutAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<PrivateEndpointConnectionsPutResponse>;
-    delete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
 // @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -726,8 +661,6 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     redisEnterprise: RedisEnterprise;
     // (undocumented)
-    skus: Skus;
-    // (undocumented)
     subscriptionId: string;
 }
 
@@ -753,22 +686,9 @@ export interface RegenerateKeyParameters {
 }
 
 // @public
-export interface RegionSkuDetail {
-    locationInfo?: LocationInfo;
-    resourceType?: string;
-    skuDetails?: SkuDetail;
-}
-
-// @public
-export interface RegionSkuDetails {
-    value?: RegionSkuDetail[];
-}
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -782,34 +702,7 @@ export interface Sku {
 }
 
 // @public
-export interface SkuDetail {
-    name?: SkuName;
-}
-
-// @public
 export type SkuName = string;
-
-// @public
-export interface Skus {
-    list(location: string, options?: SkusListOptionalParams): PagedAsyncIterableIterator<RegionSkuDetail>;
-}
-
-// @public
-export interface SkusListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SkusListResponse = RegionSkuDetails;
-
-// @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-}
 
 // @public
 export type TlsVersion = string;
@@ -820,12 +713,6 @@ export interface TrackedResource extends Resource {
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface UserAssignedIdentity {
-    readonly clientId?: string;
-    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
