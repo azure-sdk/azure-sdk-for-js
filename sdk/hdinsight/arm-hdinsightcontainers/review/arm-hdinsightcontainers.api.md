@@ -225,8 +225,12 @@ export interface ClusterLogAnalyticsProfile {
 }
 
 // @public
-export interface ClusterPatch extends TrackedResource {
+export interface ClusterPatch {
     clusterProfile?: UpdatableClusterProfile;
+    location?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public

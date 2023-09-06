@@ -632,6 +632,16 @@ export interface ScriptActionProfile {
   shouldPersist?: boolean;
 }
 
+/** The patch for a cluster. */
+export interface ClusterPatch {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location?: string;
+  /** Cluster resource patch properties. */
+  clusterProfile?: UpdatableClusterProfile;
+}
+
 /** Cluster resource patch properties. */
 export interface UpdatableClusterProfile {
   /** The service configs profiles. */
@@ -1041,12 +1051,6 @@ export interface Cluster extends TrackedResource {
 export interface ClusterResizeData extends TrackedResource {
   /** Target node count of worker node. */
   targetWorkerNodeCount?: number;
-}
-
-/** The patch for a cluster. */
-export interface ClusterPatch extends TrackedResource {
-  /** Cluster resource patch properties. */
-  clusterProfile?: UpdatableClusterProfile;
 }
 
 /** Cluster job. */

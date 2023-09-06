@@ -1868,6 +1868,35 @@ export const ScriptActionProfile: coreClient.CompositeMapper = {
   }
 };
 
+export const ClusterPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterPatch",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      clusterProfile: {
+        serializedName: "properties.clusterProfile",
+        type: {
+          name: "Composite",
+          className: "UpdatableClusterProfile"
+        }
+      }
+    }
+  }
+};
+
 export const UpdatableClusterProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2910,23 +2939,6 @@ export const ClusterResizeData: coreClient.CompositeMapper = {
         serializedName: "properties.targetWorkerNodeCount",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ClusterPatch: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ClusterPatch",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      clusterProfile: {
-        serializedName: "properties.clusterProfile",
-        type: {
-          name: "Composite",
-          className: "UpdatableClusterProfile"
         }
       }
     }
