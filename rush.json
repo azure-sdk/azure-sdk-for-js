@@ -2094,6 +2094,11 @@
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/contoso-widgetmanager-rest",
+      "projectFolder": "sdk/contosowidgetmanager/contosowidgetmanager-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
