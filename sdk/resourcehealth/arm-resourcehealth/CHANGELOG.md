@@ -1,15 +1,26 @@
 # Release History
+    
+## 5.0.0-beta.1 (2023-09-06)
+    
+**Features**
 
-## 4.0.1 (Unreleased)
+  - Added Type Alias EventSubTypeValues
+  - Interface Event_2 has a new optional parameter argQuery
+  - Interface Event_2 has a new optional parameter eventSubType
+  - Interface Event_2 has a new optional parameter maintenanceId
+  - Interface Event_2 has a new optional parameter maintenanceType
+  - Interface EventImpactedResource has a new optional parameter maintenanceEndTime
+  - Interface EventImpactedResource has a new optional parameter maintenanceStartTime
+  - Interface EventImpactedResource has a new optional parameter resourceGroup
+  - Interface EventImpactedResource has a new optional parameter resourceName
+  - Interface EventImpactedResource has a new optional parameter status
+  - Added Enum KnownEventSubTypeValues
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class MicrosoftResourceHealth has a new signature
+    
+    
 ## 4.0.0 (2023-05-12)
     
 **Features**
