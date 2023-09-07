@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { FleetMembers } from "../operationsInterfaces";
+import { FleetUpdateStrategies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  FleetMember,
-  FleetMembersListByFleetNextOptionalParams,
-  FleetMembersListByFleetOptionalParams,
-  FleetMembersListByFleetResponse,
-  FleetMembersGetOptionalParams,
-  FleetMembersGetResponse,
-  FleetMembersCreateOptionalParams,
-  FleetMembersCreateResponse,
-  FleetMemberUpdate,
-  FleetMembersUpdateOptionalParams,
-  FleetMembersUpdateResponse,
-  FleetMembersDeleteOptionalParams,
-  FleetMembersListByFleetNextResponse
+  FleetUpdateStrategy,
+  FleetUpdateStrategiesListByFleetNextOptionalParams,
+  FleetUpdateStrategiesListByFleetOptionalParams,
+  FleetUpdateStrategiesListByFleetResponse,
+  FleetUpdateStrategiesGetOptionalParams,
+  FleetUpdateStrategiesGetResponse,
+  FleetUpdateStrategiesCreateOrUpdateOptionalParams,
+  FleetUpdateStrategiesCreateOrUpdateResponse,
+  FleetUpdateStrategiesDeleteOptionalParams,
+  FleetUpdateStrategiesListByFleetNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FleetMembers operations. */
-export class FleetMembersImpl implements FleetMembers {
+/** Class containing FleetUpdateStrategies operations. */
+export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   private readonly client: ContainerServiceFleetClient;
 
   /**
-   * Initialize a new instance of the class FleetMembers class.
+   * Initialize a new instance of the class FleetUpdateStrategies class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceFleetClient) {
@@ -49,7 +46,7 @@ export class FleetMembersImpl implements FleetMembers {
   }
 
   /**
-   * List FleetMember resources by Fleet
+   * List FleetUpdateStrategy resources by Fleet
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
    * @param options The options parameters.
@@ -57,8 +54,8 @@ export class FleetMembersImpl implements FleetMembers {
   public listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
-  ): PagedAsyncIterableIterator<FleetMember> {
+    options?: FleetUpdateStrategiesListByFleetOptionalParams
+  ): PagedAsyncIterableIterator<FleetUpdateStrategy> {
     const iter = this.listByFleetPagingAll(
       resourceGroupName,
       fleetName,
@@ -88,10 +85,10 @@ export class FleetMembersImpl implements FleetMembers {
   private async *listByFleetPagingPage(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams,
+    options?: FleetUpdateStrategiesListByFleetOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<FleetMember[]> {
-    let result: FleetMembersListByFleetResponse;
+  ): AsyncIterableIterator<FleetUpdateStrategy[]> {
+    let result: FleetUpdateStrategiesListByFleetResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByFleet(resourceGroupName, fleetName, options);
@@ -117,8 +114,8 @@ export class FleetMembersImpl implements FleetMembers {
   private async *listByFleetPagingAll(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
-  ): AsyncIterableIterator<FleetMember> {
+    options?: FleetUpdateStrategiesListByFleetOptionalParams
+  ): AsyncIterableIterator<FleetUpdateStrategy> {
     for await (const page of this.listByFleetPagingPage(
       resourceGroupName,
       fleetName,
@@ -129,7 +126,7 @@ export class FleetMembersImpl implements FleetMembers {
   }
 
   /**
-   * List FleetMember resources by Fleet
+   * List FleetUpdateStrategy resources by Fleet
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
    * @param options The options parameters.
@@ -137,8 +134,8 @@ export class FleetMembersImpl implements FleetMembers {
   private _listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
-  ): Promise<FleetMembersListByFleetResponse> {
+    options?: FleetUpdateStrategiesListByFleetOptionalParams
+  ): Promise<FleetUpdateStrategiesListByFleetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fleetName, options },
       listByFleetOperationSpec
@@ -146,48 +143,48 @@ export class FleetMembersImpl implements FleetMembers {
   }
 
   /**
-   * Get a FleetMember
+   * Get a FleetUpdateStrategy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
+   * @param updateStrategyName The name of the UpdateStrategy resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     fleetName: string,
-    fleetMemberName: string,
-    options?: FleetMembersGetOptionalParams
-  ): Promise<FleetMembersGetResponse> {
+    updateStrategyName: string,
+    options?: FleetUpdateStrategiesGetOptionalParams
+  ): Promise<FleetUpdateStrategiesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, fleetName, fleetMemberName, options },
+      { resourceGroupName, fleetName, updateStrategyName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a FleetMember
+   * Create a FleetUpdateStrategy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
+   * @param updateStrategyName The name of the UpdateStrategy resource.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     fleetName: string,
-    fleetMemberName: string,
-    resource: FleetMember,
-    options?: FleetMembersCreateOptionalParams
+    updateStrategyName: string,
+    resource: FleetUpdateStrategy,
+    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<FleetMembersCreateResponse>,
-      FleetMembersCreateResponse
+      OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>,
+      FleetUpdateStrategiesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<FleetMembersCreateResponse> => {
+    ): Promise<FleetUpdateStrategiesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -228,15 +225,15 @@ export class FleetMembersImpl implements FleetMembers {
       args: {
         resourceGroupName,
         fleetName,
-        fleetMemberName,
+        updateStrategyName,
         resource,
         options
       },
-      spec: createOperationSpec
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      FleetMembersCreateResponse,
-      OperationState<FleetMembersCreateResponse>
+      FleetUpdateStrategiesCreateOrUpdateResponse,
+      OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -247,24 +244,24 @@ export class FleetMembersImpl implements FleetMembers {
   }
 
   /**
-   * Create a FleetMember
+   * Create a FleetUpdateStrategy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
+   * @param updateStrategyName The name of the UpdateStrategy resource.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     fleetName: string,
-    fleetMemberName: string,
-    resource: FleetMember,
-    options?: FleetMembersCreateOptionalParams
-  ): Promise<FleetMembersCreateResponse> {
-    const poller = await this.beginCreate(
+    updateStrategyName: string,
+    resource: FleetUpdateStrategy,
+    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams
+  ): Promise<FleetUpdateStrategiesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       fleetName,
-      fleetMemberName,
+      updateStrategyName,
       resource,
       options
     );
@@ -272,124 +269,17 @@ export class FleetMembersImpl implements FleetMembers {
   }
 
   /**
-   * Update a FleetMember
+   * Delete a FleetUpdateStrategy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
-   * @param properties The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    fleetName: string,
-    fleetMemberName: string,
-    properties: FleetMemberUpdate,
-    options?: FleetMembersUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<FleetMembersUpdateResponse>,
-      FleetMembersUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<FleetMembersUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        fleetName,
-        fleetMemberName,
-        properties,
-        options
-      },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      FleetMembersUpdateResponse,
-      OperationState<FleetMembersUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update a FleetMember
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
-   * @param properties The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    fleetName: string,
-    fleetMemberName: string,
-    properties: FleetMemberUpdate,
-    options?: FleetMembersUpdateOptionalParams
-  ): Promise<FleetMembersUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      fleetName,
-      fleetMemberName,
-      properties,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete a FleetMember
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
+   * @param updateStrategyName The name of the UpdateStrategy resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     fleetName: string,
-    fleetMemberName: string,
-    options?: FleetMembersDeleteOptionalParams
+    updateStrategyName: string,
+    options?: FleetUpdateStrategiesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -432,35 +322,35 @@ export class FleetMembersImpl implements FleetMembers {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, fleetName, fleetMemberName, options },
+      args: { resourceGroupName, fleetName, updateStrategyName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a FleetMember
+   * Delete a FleetUpdateStrategy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param fleetMemberName The name of the Fleet member resource.
+   * @param updateStrategyName The name of the UpdateStrategy resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     fleetName: string,
-    fleetMemberName: string,
-    options?: FleetMembersDeleteOptionalParams
+    updateStrategyName: string,
+    options?: FleetUpdateStrategiesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       fleetName,
-      fleetMemberName,
+      updateStrategyName,
       options
     );
     return poller.pollUntilDone();
@@ -477,8 +367,8 @@ export class FleetMembersImpl implements FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     nextLink: string,
-    options?: FleetMembersListByFleetNextOptionalParams
-  ): Promise<FleetMembersListByFleetNextResponse> {
+    options?: FleetUpdateStrategiesListByFleetNextOptionalParams
+  ): Promise<FleetUpdateStrategiesListByFleetNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fleetName, nextLink, options },
       listByFleetNextOperationSpec
@@ -490,11 +380,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFleetOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetMemberListResult
+      bodyMapper: Mappers.FleetUpdateStrategyListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -512,11 +402,11 @@ const listByFleetOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies/{updateStrategyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetUpdateStrategy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -528,40 +418,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.fleetMemberName
+    Parameters.updateStrategyName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies/{updateStrategyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetUpdateStrategy
     },
     201: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetUpdateStrategy
     },
     202: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetUpdateStrategy
     },
     204: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetUpdateStrategy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.resource1,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.fleetMemberName
+    Parameters.updateStrategyName
   ],
   headerParameters: [
     Parameters.accept,
@@ -572,47 +462,9 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FleetMember
-    },
-    201: {
-      bodyMapper: Mappers.FleetMember
-    },
-    202: {
-      bodyMapper: Mappers.FleetMember
-    },
-    204: {
-      bodyMapper: Mappers.FleetMember
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.properties1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.fleetName,
-    Parameters.fleetMemberName
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
-  mediaType: "json",
-  serializer
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies/{updateStrategyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -629,7 +481,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.fleetMemberName
+    Parameters.updateStrategyName
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer
@@ -639,7 +491,7 @@ const listByFleetNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetMemberListResult
+      bodyMapper: Mappers.FleetUpdateStrategyListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
