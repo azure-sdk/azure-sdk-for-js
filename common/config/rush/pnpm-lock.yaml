@@ -217,6 +217,7 @@ specifiers:
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
   '@rush-temp/arm-storagemover': file:./projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
+  '@rush-temp/arm-storagetasks': file:./projects/arm-storagetasks.tgz
   '@rush-temp/arm-storsimple1200series': file:./projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
   '@rush-temp/arm-streamanalytics': file:./projects/arm-streamanalytics.tgz
@@ -581,6 +582,7 @@ dependencies:
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
   '@rush-temp/arm-storagemover': file:projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
+  '@rush-temp/arm-storagetasks': file:projects/arm-storagetasks.tgz
   '@rush-temp/arm-storsimple1200series': file:projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
   '@rush-temp/arm-streamanalytics': file:projects/arm-streamanalytics.tgz
@@ -4028,7 +4030,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230905
+      typescript: 5.3.0-dev.20230908
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8608,8 +8610,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230905:
-    resolution: {integrity: sha512-Nl9MoKWN0YYlCvQnw850L4ZgqdmqwVGCi9cAoQDw4PsqRGaWAi9HKizS9xu0q4qgKKsEKetWCZHT8dBtJTGaMg==}
+  /typescript/5.3.0-dev.20230908:
+    resolution: {integrity: sha512-s4fpER8j1Pj58FmFZUmODUx/D9dBwpPf+gb+/lKV6hsXKPPSsFQ4cktq+feqi98Om9RtjyCC+tmndlfmruObBw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16018,6 +16020,37 @@ packages:
       chai: 4.3.8
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_ucobf5wm57tspgeyqakc4keoiu
+      ts-node: 10.9.1_6nxu25mniawxro3tsddnfyxbbu
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-storagetasks.tgz:
+    resolution: {integrity: sha512-kya1aSLW/pYlpsD6scdzIO5OmYwVOqu+uAEyW/f4XX+BTZJ1zfTNadBDdINwS7mEcI9sWJfVxTsYsgSaeOxehg==, tarball: file:projects/arm-storagetasks.tgz}
+    name: '@rush-temp/arm-storagetasks'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.6
+      '@types/node': 14.18.56
+      chai: 4.3.8
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
