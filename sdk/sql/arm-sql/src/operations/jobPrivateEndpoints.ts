@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ManagedInstanceKeys } from "../operationsInterfaces";
+import { JobPrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ManagedInstanceKey,
-  ManagedInstanceKeysListByInstanceNextOptionalParams,
-  ManagedInstanceKeysListByInstanceOptionalParams,
-  ManagedInstanceKeysListByInstanceResponse,
-  ManagedInstanceKeysGetOptionalParams,
-  ManagedInstanceKeysGetResponse,
-  ManagedInstanceKeysCreateOrUpdateOptionalParams,
-  ManagedInstanceKeysCreateOrUpdateResponse,
-  ManagedInstanceKeysDeleteOptionalParams,
-  ManagedInstanceKeysListByInstanceNextResponse
+  JobPrivateEndpoint,
+  JobPrivateEndpointsListByAgentNextOptionalParams,
+  JobPrivateEndpointsListByAgentOptionalParams,
+  JobPrivateEndpointsListByAgentResponse,
+  JobPrivateEndpointsGetOptionalParams,
+  JobPrivateEndpointsGetResponse,
+  JobPrivateEndpointsCreateOrUpdateOptionalParams,
+  JobPrivateEndpointsCreateOrUpdateResponse,
+  JobPrivateEndpointsDeleteOptionalParams,
+  JobPrivateEndpointsListByAgentNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ManagedInstanceKeys operations. */
-export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
+/** Class containing JobPrivateEndpoints operations. */
+export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class ManagedInstanceKeys class.
+   * Initialize a new instance of the class JobPrivateEndpoints class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -46,20 +46,23 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
   }
 
   /**
-   * Gets a list of managed instance keys.
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
    * @param options The options parameters.
    */
-  public listByInstance(
+  public listByAgent(
     resourceGroupName: string,
-    managedInstanceName: string,
-    options?: ManagedInstanceKeysListByInstanceOptionalParams
-  ): PagedAsyncIterableIterator<ManagedInstanceKey> {
-    const iter = this.listByInstancePagingAll(
+    serverName: string,
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): PagedAsyncIterableIterator<JobPrivateEndpoint> {
+    const iter = this.listByAgentPagingAll(
       resourceGroupName,
-      managedInstanceName,
+      serverName,
+      jobAgentName,
       options
     );
     return {
@@ -73,9 +76,10 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByInstancePagingPage(
+        return this.listByAgentPagingPage(
           resourceGroupName,
-          managedInstanceName,
+          serverName,
+          jobAgentName,
           options,
           settings
         );
@@ -83,18 +87,20 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
     };
   }
 
-  private async *listByInstancePagingPage(
+  private async *listByAgentPagingPage(
     resourceGroupName: string,
-    managedInstanceName: string,
-    options?: ManagedInstanceKeysListByInstanceOptionalParams,
+    serverName: string,
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ManagedInstanceKey[]> {
-    let result: ManagedInstanceKeysListByInstanceResponse;
+  ): AsyncIterableIterator<JobPrivateEndpoint[]> {
+    let result: JobPrivateEndpointsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
+      result = await this._listByAgent(
         resourceGroupName,
-        managedInstanceName,
+        serverName,
+        jobAgentName,
         options
       );
       let page = result.value || [];
@@ -103,9 +109,10 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByInstanceNext(
+      result = await this._listByAgentNext(
         resourceGroupName,
-        managedInstanceName,
+        serverName,
+        jobAgentName,
         continuationToken,
         options
       );
@@ -116,14 +123,16 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
     }
   }
 
-  private async *listByInstancePagingAll(
+  private async *listByAgentPagingAll(
     resourceGroupName: string,
-    managedInstanceName: string,
-    options?: ManagedInstanceKeysListByInstanceOptionalParams
-  ): AsyncIterableIterator<ManagedInstanceKey> {
-    for await (const page of this.listByInstancePagingPage(
+    serverName: string,
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): AsyncIterableIterator<JobPrivateEndpoint> {
+    for await (const page of this.listByAgentPagingPage(
       resourceGroupName,
-      managedInstanceName,
+      serverName,
+      jobAgentName,
       options
     )) {
       yield* page;
@@ -131,68 +140,80 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
   }
 
   /**
-   * Gets a list of managed instance keys.
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
    * @param options The options parameters.
    */
-  private _listByInstance(
+  private _listByAgent(
     resourceGroupName: string,
-    managedInstanceName: string,
-    options?: ManagedInstanceKeysListByInstanceOptionalParams
-  ): Promise<ManagedInstanceKeysListByInstanceResponse> {
+    serverName: string,
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): Promise<JobPrivateEndpointsListByAgentResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      { resourceGroupName, serverName, jobAgentName, options },
+      listByAgentOperationSpec
     );
   }
 
   /**
-   * Gets a managed instance key.
+   * Gets a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param keyName The name of the managed instance key to be retrieved.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to get.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    managedInstanceName: string,
-    keyName: string,
-    options?: ManagedInstanceKeysGetOptionalParams
-  ): Promise<ManagedInstanceKeysGetResponse> {
+    serverName: string,
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsGetOptionalParams
+  ): Promise<JobPrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedInstanceName, keyName, options },
+      {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        privateEndpointName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a managed instance key.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param keyName The name of the managed instance key to be operated on (updated or created).
-   * @param parameters The requested managed instance key resource state.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    managedInstanceName: string,
-    keyName: string,
-    parameters: ManagedInstanceKey,
-    options?: ManagedInstanceKeysCreateOrUpdateOptionalParams
+    serverName: string,
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ManagedInstanceKeysCreateOrUpdateResponse>,
-      ManagedInstanceKeysCreateOrUpdateResponse
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>,
+      JobPrivateEndpointsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ManagedInstanceKeysCreateOrUpdateResponse> => {
+    ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -232,44 +253,49 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
       sendOperationFn,
       args: {
         resourceGroupName,
-        managedInstanceName,
-        keyName,
+        serverName,
+        jobAgentName,
+        privateEndpointName,
         parameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ManagedInstanceKeysCreateOrUpdateResponse,
-      OperationState<ManagedInstanceKeysCreateOrUpdateResponse>
+      JobPrivateEndpointsCreateOrUpdateResponse,
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a managed instance key.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param keyName The name of the managed instance key to be operated on (updated or created).
-   * @param parameters The requested managed instance key resource state.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    managedInstanceName: string,
-    keyName: string,
-    parameters: ManagedInstanceKey,
-    options?: ManagedInstanceKeysCreateOrUpdateOptionalParams
-  ): Promise<ManagedInstanceKeysCreateOrUpdateResponse> {
+    serverName: string,
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+  ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      managedInstanceName,
-      keyName,
+      serverName,
+      jobAgentName,
+      privateEndpointName,
       parameters,
       options
     );
@@ -277,18 +303,20 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
   }
 
   /**
-   * Deletes the managed instance key with the given name.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param keyName The name of the managed instance key to be deleted.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    managedInstanceName: string,
-    keyName: string,
-    options?: ManagedInstanceKeysDeleteOptionalParams
+    serverName: string,
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -331,90 +359,103 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, managedInstanceName, keyName, options },
+      args: {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        privateEndpointName,
+        options
+      },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes the managed instance key with the given name.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param keyName The name of the managed instance key to be deleted.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    managedInstanceName: string,
-    keyName: string,
-    options?: ManagedInstanceKeysDeleteOptionalParams
+    serverName: string,
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      managedInstanceName,
-      keyName,
+      serverName,
+      jobAgentName,
+      privateEndpointName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByInstanceNext
+   * ListByAgentNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param nextLink The nextLink from the previous successful call to the ListByInstance method.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param nextLink The nextLink from the previous successful call to the ListByAgent method.
    * @param options The options parameters.
    */
-  private _listByInstanceNext(
+  private _listByAgentNext(
     resourceGroupName: string,
-    managedInstanceName: string,
+    serverName: string,
+    jobAgentName: string,
     nextLink: string,
-    options?: ManagedInstanceKeysListByInstanceNextOptionalParams
-  ): Promise<ManagedInstanceKeysListByInstanceNextResponse> {
+    options?: JobPrivateEndpointsListByAgentNextOptionalParams
+  ): Promise<JobPrivateEndpointsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      { resourceGroupName, serverName, jobAgentName, nextLink, options },
+      listByAgentNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByInstanceOperationSpec: coreClient.OperationSpec = {
+const listByAgentOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/keys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceKeyListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.serverName,
     Parameters.subscriptionId,
-    Parameters.managedInstanceName
+    Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/keys/{keyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceKey
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     default: {}
   },
@@ -422,40 +463,42 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.serverName,
     Parameters.subscriptionId,
-    Parameters.managedInstanceName,
-    Parameters.keyName
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/keys/{keyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceKey
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     201: {
-      bodyMapper: Mappers.ManagedInstanceKey
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     202: {
-      bodyMapper: Mappers.ManagedInstanceKey
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     204: {
-      bodyMapper: Mappers.ManagedInstanceKey
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     default: {}
   },
-  requestBody: Parameters.parameters66,
+  requestBody: Parameters.parameters40,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.serverName,
     Parameters.subscriptionId,
-    Parameters.managedInstanceName,
-    Parameters.keyName
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -463,34 +506,36 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/keys/{keyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.serverName,
     Parameters.subscriptionId,
-    Parameters.managedInstanceName,
-    Parameters.keyName
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   serializer
 };
-const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
+const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceKeyListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult
     },
     default: {}
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.serverName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept],
   serializer
