@@ -4028,7 +4028,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230905
+      typescript: 5.3.0-dev.20230908
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8608,8 +8608,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230905:
-    resolution: {integrity: sha512-Nl9MoKWN0YYlCvQnw850L4ZgqdmqwVGCi9cAoQDw4PsqRGaWAi9HKizS9xu0q4qgKKsEKetWCZHT8dBtJTGaMg==}
+  /typescript/5.3.0-dev.20230908:
+    resolution: {integrity: sha512-s4fpER8j1Pj58FmFZUmODUx/D9dBwpPf+gb+/lKV6hsXKPPSsFQ4cktq+feqi98Om9RtjyCC+tmndlfmruObBw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9824,7 +9824,7 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-cGhofZGVsI5LHBboOCJaSBdrbwTyZGn100iNaB767AdOmcammrvVsn4VhMDgOHlld5UFNtX9OohDAQkuw//7MA==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-iA/mHf+1h6zJacSETY0ikYe2/yFDQoskWah08MG+7bNLeoMc3erWK0BLfOu0FavTCpt6cehYjlHkyyB3DfrCxw==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
@@ -9838,7 +9838,8 @@ packages:
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
