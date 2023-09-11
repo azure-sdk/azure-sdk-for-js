@@ -22,7 +22,13 @@ import {
   VirtualMachinesImpl,
   VirtualMachineTemplatesImpl,
   AvailabilitySetsImpl,
-  InventoryItemsImpl
+  InventoryItemsImpl,
+  HybridIdentityMetadatasImpl,
+  MachineExtensionsImpl,
+  GuestAgentsImpl,
+  VirtualMachineInstancesImpl,
+  VirtualMachineInstanceHybridIdentityMetadataImpl,
+  VMInstanceGuestAgentsImpl
 } from "./operations";
 import {
   VmmServers,
@@ -32,13 +38,19 @@ import {
   VirtualMachines,
   VirtualMachineTemplates,
   AvailabilitySets,
-  InventoryItems
+  InventoryItems,
+  HybridIdentityMetadatas,
+  MachineExtensions,
+  GuestAgents,
+  VirtualMachineInstances,
+  VirtualMachineInstanceHybridIdentityMetadata,
+  VMInstanceGuestAgents
 } from "./operationsInterfaces";
 import { ScvmmOptionalParams } from "./models";
 
 export class Scvmm extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -52,12 +64,26 @@ export class Scvmm extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ScvmmOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ScvmmOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ScvmmOptionalParams | string,
+    options?: ScvmmOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -122,7 +148,7 @@ export class Scvmm extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-06-05-preview";
+    this.apiVersion = options.apiVersion || "2023-04-01-preview";
     this.vmmServers = new VmmServersImpl(this);
     this.operations = new OperationsImpl(this);
     this.clouds = new CloudsImpl(this);
@@ -131,6 +157,14 @@ export class Scvmm extends coreClient.ServiceClient {
     this.virtualMachineTemplates = new VirtualMachineTemplatesImpl(this);
     this.availabilitySets = new AvailabilitySetsImpl(this);
     this.inventoryItems = new InventoryItemsImpl(this);
+    this.hybridIdentityMetadatas = new HybridIdentityMetadatasImpl(this);
+    this.machineExtensions = new MachineExtensionsImpl(this);
+    this.guestAgents = new GuestAgentsImpl(this);
+    this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
+    this.virtualMachineInstanceHybridIdentityMetadata = new VirtualMachineInstanceHybridIdentityMetadataImpl(
+      this
+    );
+    this.vMInstanceGuestAgents = new VMInstanceGuestAgentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -170,4 +204,10 @@ export class Scvmm extends coreClient.ServiceClient {
   virtualMachineTemplates: VirtualMachineTemplates;
   availabilitySets: AvailabilitySets;
   inventoryItems: InventoryItems;
+  hybridIdentityMetadatas: HybridIdentityMetadatas;
+  machineExtensions: MachineExtensions;
+  guestAgents: GuestAgents;
+  virtualMachineInstances: VirtualMachineInstances;
+  virtualMachineInstanceHybridIdentityMetadata: VirtualMachineInstanceHybridIdentityMetadata;
+  vMInstanceGuestAgents: VMInstanceGuestAgents;
 }

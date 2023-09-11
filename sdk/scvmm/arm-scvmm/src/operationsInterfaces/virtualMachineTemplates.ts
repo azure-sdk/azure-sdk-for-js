@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineTemplate,
   VirtualMachineTemplatesListByResourceGroupOptionalParams,
@@ -65,8 +65,8 @@ export interface VirtualMachineTemplates {
     body: VirtualMachineTemplate,
     options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesCreateOrUpdateResponse>,
       VirtualMachineTemplatesCreateOrUpdateResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface VirtualMachineTemplates {
     resourceGroupName: string,
     virtualMachineTemplateName: string,
     options?: VirtualMachineTemplatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deregisters the ScVmm VM Template from Azure.
    * @param resourceGroupName The name of the resource group.
@@ -118,8 +118,8 @@ export interface VirtualMachineTemplates {
     body: ResourcePatch,
     options?: VirtualMachineTemplatesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesUpdateResponse>,
       VirtualMachineTemplatesUpdateResponse
     >
   >;

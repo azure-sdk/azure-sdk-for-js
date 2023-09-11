@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VMMServer,
   VmmServersListByResourceGroupNextOptionalParams,
@@ -201,8 +205,8 @@ export class VmmServersImpl implements VmmServers {
     body: VMMServer,
     options?: VmmServersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersCreateOrUpdateResponse>,
       VmmServersCreateOrUpdateResponse
     >
   > {
@@ -212,7 +216,7 @@ export class VmmServersImpl implements VmmServers {
     ): Promise<VmmServersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +249,18 @@ export class VmmServersImpl implements VmmServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmmServerName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmmServerName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VmmServersCreateOrUpdateResponse,
+      OperationState<VmmServersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -291,14 +298,14 @@ export class VmmServersImpl implements VmmServers {
     resourceGroupName: string,
     vmmServerName: string,
     options?: VmmServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -331,15 +338,15 @@ export class VmmServersImpl implements VmmServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmmServerName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmmServerName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -377,8 +384,8 @@ export class VmmServersImpl implements VmmServers {
     body: ResourcePatch,
     options?: VmmServersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersUpdateResponse>,
       VmmServersUpdateResponse
     >
   > {
@@ -388,7 +395,7 @@ export class VmmServersImpl implements VmmServers {
     ): Promise<VmmServersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -421,15 +428,18 @@ export class VmmServersImpl implements VmmServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmmServerName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmmServerName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VmmServersUpdateResponse,
+      OperationState<VmmServersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
