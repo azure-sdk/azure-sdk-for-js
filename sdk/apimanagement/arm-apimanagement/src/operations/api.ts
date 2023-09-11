@@ -39,6 +39,7 @@ import {
   ApiUpdateOptionalParams,
   ApiUpdateResponse,
   ApiDeleteOptionalParams,
+  ApiDeleteResponse,
   ApiListByServiceNextResponse,
   ApiListByTagsNextResponse
 } from "../models";
@@ -415,17 +416,96 @@ export class ApiImpl implements Api {
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
     ifMatch: string,
     options?: ApiDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, ifMatch, options },
-      deleteOperationSpec
+  ): Promise<
+    SimplePollerLike<OperationState<ApiDeleteResponse>, ApiDeleteResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ApiDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, apiId, ifMatch, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApiDeleteResponse,
+      OperationState<ApiDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the specified API of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    ifMatch: string,
+    options?: ApiDeleteOptionalParams
+  ): Promise<ApiDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      ifMatch,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -639,8 +719,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ApiDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.ApiDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.ApiDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.ApiDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
