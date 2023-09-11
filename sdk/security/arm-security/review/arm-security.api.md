@@ -28,6 +28,17 @@ export interface AadSolutionProperties extends ExternalSecuritySolutionPropertie
 }
 
 // @public
+export interface ActionableRemediation {
+    branchConfiguration?: TargetBranchConfiguration;
+    categoryConfigurations?: CategoryConfiguration[];
+    inheritFromParentState?: InheritFromParentState;
+    state?: ActionableRemediationState;
+}
+
+// @public
+export type ActionableRemediationState = string;
+
+// @public
 export type ActionType = string;
 
 // @public
@@ -550,66 +561,106 @@ export interface AmqpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertR
 }
 
 // @public
-export interface APICollection {
-    get(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionGetOptionalParams): Promise<APICollectionGetResponse>;
-    list(resourceGroupName: string, serviceName: string, options?: APICollectionListOptionalParams): PagedAsyncIterableIterator<ApiCollectionResponse>;
+export type AnnotateDefaultBranchState = string;
+
+// @public
+export interface ApiCollection extends Resource {
+    readonly baseUrl?: string;
+    readonly discoveredVia?: string;
+    readonly displayName?: string;
+    readonly numberOfApiEndpoints?: number;
+    readonly numberOfApiEndpointsWithSensitiveDataExposed?: number;
+    readonly numberOfExternalApiEndpoints?: number;
+    readonly numberOfInactiveApiEndpoints?: number;
+    readonly numberOfUnauthenticatedApiEndpoints?: number;
+    readonly provisioningState?: ProvisioningState;
+    readonly sensitivityLabel?: string;
 }
 
 // @public
-export interface APICollectionGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type APICollectionGetResponse = ApiCollectionResponse;
-
-// @public
-export interface APICollectionListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type APICollectionListNextResponse = ApiCollectionResponseList;
-
-// @public
-export interface APICollectionListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type APICollectionListResponse = ApiCollectionResponseList;
-
-// @public
-export interface APICollectionOffboarding {
-    delete(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionOffboardingDeleteOptionalParams): Promise<void>;
-}
-
-// @public
-export interface APICollectionOffboardingDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface APICollectionOnboarding {
-    create(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionOnboardingCreateOptionalParams): Promise<APICollectionOnboardingCreateResponse>;
-}
-
-// @public
-export interface APICollectionOnboardingCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type APICollectionOnboardingCreateResponse = ApiCollectionResponse;
-
-// @public
-export interface ApiCollectionResponse extends Resource {
-    additionalData?: {
-        [propertyName: string]: string;
-    };
-    displayName?: string;
-}
-
-// @public
-export interface ApiCollectionResponseList {
+export interface ApiCollectionList {
     readonly nextLink?: string;
-    readonly value?: ApiCollectionResponse[];
+    readonly value?: ApiCollection[];
 }
+
+// @public
+export interface APICollections {
+    beginOnboardAzureApiManagementApi(resourceGroupName: string, serviceName: string, apiId: string, options?: APICollectionsOnboardAzureApiManagementApiOptionalParams): Promise<SimplePollerLike<OperationState<APICollectionsOnboardAzureApiManagementApiResponse>, APICollectionsOnboardAzureApiManagementApiResponse>>;
+    beginOnboardAzureApiManagementApiAndWait(resourceGroupName: string, serviceName: string, apiId: string, options?: APICollectionsOnboardAzureApiManagementApiOptionalParams): Promise<APICollectionsOnboardAzureApiManagementApiResponse>;
+    getByAzureApiManagementService(resourceGroupName: string, serviceName: string, apiId: string, options?: APICollectionsGetByAzureApiManagementServiceOptionalParams): Promise<APICollectionsGetByAzureApiManagementServiceResponse>;
+    listByAzureApiManagementService(resourceGroupName: string, serviceName: string, options?: APICollectionsListByAzureApiManagementServiceOptionalParams): PagedAsyncIterableIterator<ApiCollection>;
+    listByResourceGroup(resourceGroupName: string, options?: APICollectionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ApiCollection>;
+    listBySubscription(options?: APICollectionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ApiCollection>;
+    offboardAzureApiManagementApi(resourceGroupName: string, serviceName: string, apiId: string, options?: APICollectionsOffboardAzureApiManagementApiOptionalParams): Promise<void>;
+}
+
+// @public
+export interface APICollectionsGetByAzureApiManagementServiceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionsGetByAzureApiManagementServiceResponse = ApiCollection;
+
+// @public
+export interface APICollectionsListByAzureApiManagementServiceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionsListByAzureApiManagementServiceNextResponse = ApiCollectionList;
+
+// @public
+export interface APICollectionsListByAzureApiManagementServiceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionsListByAzureApiManagementServiceResponse = ApiCollectionList;
+
+// @public
+export interface APICollectionsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionsListByResourceGroupNextResponse = ApiCollectionList;
+
+// @public
+export interface APICollectionsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionsListByResourceGroupResponse = ApiCollectionList;
+
+// @public
+export interface APICollectionsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionsListBySubscriptionNextResponse = ApiCollectionList;
+
+// @public
+export interface APICollectionsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionsListBySubscriptionResponse = ApiCollectionList;
+
+// @public
+export interface APICollectionsOffboardAzureApiManagementApiOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface APICollectionsOnboardAzureApiManagementApiHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface APICollectionsOnboardAzureApiManagementApiOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type APICollectionsOnboardAzureApiManagementApiResponse = ApiCollection;
 
 // @public
 export interface Application extends Resource {
@@ -852,6 +903,14 @@ export type AuthenticationProvisioningState = string;
 export type AuthenticationType = string;
 
 // @public
+export interface Authorization {
+    code?: string;
+}
+
+// @public
+export type AutoDiscovery = string;
+
+// @public
 export interface Automation extends TrackedResource {
     actions?: AutomationActionUnion[];
     description?: string;
@@ -1085,6 +1144,247 @@ export interface AwsOrganizationalDataMember extends AwsOrganizationalData {
 export type AwsOrganizationalDataUnion = AwsOrganizationalData | AwsOrganizationalDataMaster | AwsOrganizationalDataMember;
 
 // @public
+export interface AzureDevOpsOrg extends ProxyResource {
+    properties?: AzureDevOpsOrgProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AzureDevOpsOrganizationConfiguration {
+    autoDiscovery?: AutoDiscovery;
+    projectConfigs?: {
+        [propertyName: string]: AzureDevOpsProjectConfiguration;
+    };
+}
+
+// @public
+export interface AzureDevOpsOrgListResponse {
+    nextLink?: string;
+    value?: AzureDevOpsOrg[];
+}
+
+// @public
+export interface AzureDevOpsOrgProperties {
+    actionableRemediation?: ActionableRemediation;
+    onboardingState?: OnboardingState;
+    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+}
+
+// @public
+export interface AzureDevOpsOrgs {
+    beginCreateOrUpdate(resourceGroupName: string, securityConnectorName: string, orgName: string, azureDevOpsOrg: AzureDevOpsOrg, options?: AzureDevOpsOrgsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AzureDevOpsOrgsCreateOrUpdateResponse>, AzureDevOpsOrgsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, securityConnectorName: string, orgName: string, azureDevOpsOrg: AzureDevOpsOrg, options?: AzureDevOpsOrgsCreateOrUpdateOptionalParams): Promise<AzureDevOpsOrgsCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, securityConnectorName: string, orgName: string, azureDevOpsOrg: AzureDevOpsOrg, options?: AzureDevOpsOrgsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AzureDevOpsOrgsUpdateResponse>, AzureDevOpsOrgsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, securityConnectorName: string, orgName: string, azureDevOpsOrg: AzureDevOpsOrg, options?: AzureDevOpsOrgsUpdateOptionalParams): Promise<AzureDevOpsOrgsUpdateResponse>;
+    get(resourceGroupName: string, securityConnectorName: string, orgName: string, options?: AzureDevOpsOrgsGetOptionalParams): Promise<AzureDevOpsOrgsGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, options?: AzureDevOpsOrgsListOptionalParams): PagedAsyncIterableIterator<AzureDevOpsOrg>;
+    listAvailable(resourceGroupName: string, securityConnectorName: string, options?: AzureDevOpsOrgsListAvailableOptionalParams): Promise<AzureDevOpsOrgsListAvailableResponse>;
+}
+
+// @public
+export interface AzureDevOpsOrgsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureDevOpsOrgsCreateOrUpdateResponse = AzureDevOpsOrg;
+
+// @public
+export interface AzureDevOpsOrgsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsOrgsGetResponse = AzureDevOpsOrg;
+
+// @public
+export interface AzureDevOpsOrgsListAvailableOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsOrgsListAvailableResponse = AzureDevOpsOrgListResponse;
+
+// @public
+export interface AzureDevOpsOrgsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsOrgsListNextResponse = AzureDevOpsOrgListResponse;
+
+// @public
+export interface AzureDevOpsOrgsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsOrgsListResponse = AzureDevOpsOrgListResponse;
+
+// @public
+export interface AzureDevOpsOrgsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureDevOpsOrgsUpdateResponse = AzureDevOpsOrg;
+
+// @public
+export interface AzureDevOpsProject extends ProxyResource {
+    properties?: AzureDevOpsProjectProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AzureDevOpsProjectConfiguration {
+    autoDiscovery?: AutoDiscovery;
+    repositoryConfigs?: {
+        [propertyName: string]: BaseResourceConfiguration;
+    };
+}
+
+// @public
+export interface AzureDevOpsProjectListResponse {
+    nextLink?: string;
+    value?: AzureDevOpsProject[];
+}
+
+// @public
+export interface AzureDevOpsProjectProperties {
+    actionableRemediation?: ActionableRemediation;
+    onboardingState?: OnboardingState;
+    parentOrgName?: string;
+    readonly projectId?: string;
+    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+}
+
+// @public
+export interface AzureDevOpsProjects {
+    beginCreateOrUpdate(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, azureDevOpsProject: AzureDevOpsProject, options?: AzureDevOpsProjectsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AzureDevOpsProjectsCreateOrUpdateResponse>, AzureDevOpsProjectsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, azureDevOpsProject: AzureDevOpsProject, options?: AzureDevOpsProjectsCreateOrUpdateOptionalParams): Promise<AzureDevOpsProjectsCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, azureDevOpsProject: AzureDevOpsProject, options?: AzureDevOpsProjectsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AzureDevOpsProjectsUpdateResponse>, AzureDevOpsProjectsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, azureDevOpsProject: AzureDevOpsProject, options?: AzureDevOpsProjectsUpdateOptionalParams): Promise<AzureDevOpsProjectsUpdateResponse>;
+    get(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, options?: AzureDevOpsProjectsGetOptionalParams): Promise<AzureDevOpsProjectsGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, orgName: string, options?: AzureDevOpsProjectsListOptionalParams): PagedAsyncIterableIterator<AzureDevOpsProject>;
+}
+
+// @public
+export interface AzureDevOpsProjectsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureDevOpsProjectsCreateOrUpdateResponse = AzureDevOpsProject;
+
+// @public
+export interface AzureDevOpsProjectsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsProjectsGetResponse = AzureDevOpsProject;
+
+// @public
+export interface AzureDevOpsProjectsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsProjectsListNextResponse = AzureDevOpsProjectListResponse;
+
+// @public
+export interface AzureDevOpsProjectsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsProjectsListResponse = AzureDevOpsProjectListResponse;
+
+// @public
+export interface AzureDevOpsProjectsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureDevOpsProjectsUpdateResponse = AzureDevOpsProject;
+
+// @public
+export interface AzureDevOpsRepos {
+    beginCreateOrUpdate(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, repoName: string, azureDevOpsRepository: AzureDevOpsRepository, options?: AzureDevOpsReposCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AzureDevOpsReposCreateOrUpdateResponse>, AzureDevOpsReposCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, repoName: string, azureDevOpsRepository: AzureDevOpsRepository, options?: AzureDevOpsReposCreateOrUpdateOptionalParams): Promise<AzureDevOpsReposCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, repoName: string, azureDevOpsRepository: AzureDevOpsRepository, options?: AzureDevOpsReposUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AzureDevOpsReposUpdateResponse>, AzureDevOpsReposUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, repoName: string, azureDevOpsRepository: AzureDevOpsRepository, options?: AzureDevOpsReposUpdateOptionalParams): Promise<AzureDevOpsReposUpdateResponse>;
+    get(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, repoName: string, options?: AzureDevOpsReposGetOptionalParams): Promise<AzureDevOpsReposGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, orgName: string, projectName: string, options?: AzureDevOpsReposListOptionalParams): PagedAsyncIterableIterator<AzureDevOpsRepository>;
+}
+
+// @public
+export interface AzureDevOpsReposCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureDevOpsReposCreateOrUpdateResponse = AzureDevOpsRepository;
+
+// @public
+export interface AzureDevOpsReposGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsReposGetResponse = AzureDevOpsRepository;
+
+// @public
+export interface AzureDevOpsRepository extends ProxyResource {
+    properties?: AzureDevOpsRepositoryProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AzureDevOpsRepositoryListResponse {
+    nextLink?: string;
+    value?: AzureDevOpsRepository[];
+}
+
+// @public
+export interface AzureDevOpsRepositoryProperties {
+    actionableRemediation?: ActionableRemediation;
+    onboardingState?: OnboardingState;
+    parentOrgName?: string;
+    parentProjectName?: string;
+    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    readonly repoId?: string;
+    readonly repoUrl?: string;
+    readonly visibility?: string;
+}
+
+// @public
+export interface AzureDevOpsReposListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsReposListNextResponse = AzureDevOpsRepositoryListResponse;
+
+// @public
+export interface AzureDevOpsReposListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureDevOpsReposListResponse = AzureDevOpsRepositoryListResponse;
+
+// @public
+export interface AzureDevOpsReposUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureDevOpsReposUpdateResponse = AzureDevOpsRepository;
+
+// @public
 export interface AzureDevOpsScopeEnvironmentData extends EnvironmentData {
     environmentType: "AzureDevOpsScope";
 }
@@ -1107,6 +1407,12 @@ export interface AzureResourceLink {
 }
 
 // @public
+export interface AzureServersSetting extends ServerVulnerabilityAssessmentsSetting {
+    kind: "AzureServersSetting";
+    selectedProvider?: ServerVulnerabilityAssessmentsAzureSettingSelectedProvider;
+}
+
+// @public
 export interface AzureTrackedResourceLocation {
     location?: string;
 }
@@ -1126,9 +1432,21 @@ export interface BaselineAdjustedResult {
 }
 
 // @public
+export interface BaseResourceConfiguration {
+    desiredOnboardingState?: DesiredOnboardingState;
+}
+
+// @public
 export interface BenchmarkReference {
     benchmark?: string;
     reference?: string;
+}
+
+// @public
+export interface BuiltInInfoType {
+    id?: string;
+    name?: string;
+    type?: string;
 }
 
 // @public
@@ -1136,6 +1454,12 @@ export type BundleType = string;
 
 // @public
 export type Categories = string;
+
+// @public
+export interface CategoryConfiguration {
+    category?: RuleCategory;
+    minimumSeverityLevel?: string;
+}
 
 // @public
 export interface CefExternalSecuritySolution extends ExternalSecuritySolution {
@@ -1926,10 +2250,44 @@ export interface DefenderForServersGcpOfferingVmScannersConfiguration {
 }
 
 // @public
+export interface DefenderForStorage {
+    create(resourceId: string, settingName: SettingNameAutoGenerated, defenderForStorageSetting: DefenderForStorageSetting, options?: DefenderForStorageCreateOptionalParams): Promise<DefenderForStorageCreateResponse>;
+    get(resourceId: string, settingName: SettingNameAutoGenerated, options?: DefenderForStorageGetOptionalParams): Promise<DefenderForStorageGetResponse>;
+}
+
+// @public
+export interface DefenderForStorageCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DefenderForStorageCreateResponse = DefenderForStorageSetting;
+
+// @public
+export interface DefenderForStorageGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DefenderForStorageGetResponse = DefenderForStorageSetting;
+
+// @public
+export interface DefenderForStorageSetting extends Resource {
+    capGBPerMonth?: number;
+    isEnabledPropertiesIsEnabled?: boolean;
+    isEnabledPropertiesMalwareScanningOnUploadIsEnabled?: boolean;
+    isEnabledPropertiesSensitiveDataDiscoveryIsEnabled?: boolean;
+    readonly operationStatusPropertiesMalwareScanningOperationStatus?: OperationStatusAutoGenerated;
+    readonly operationStatusPropertiesSensitiveDataDiscoveryOperationStatus?: OperationStatusAutoGenerated;
+    overrideSubscriptionLevelSettings?: boolean;
+}
+
+// @public
 export interface DenylistCustomAlertRule extends ListCustomAlertRule {
     denylistValues: string[];
     ruleType: "DenylistCustomAlertRule";
 }
+
+// @public
+export type DesiredOnboardingState = string;
 
 // @public
 export interface DeviceSecurityGroup extends Resource {
@@ -1984,6 +2342,100 @@ export interface DeviceSecurityGroupsListOptionalParams extends coreClient.Opera
 
 // @public
 export type DeviceSecurityGroupsListResponse = DeviceSecurityGroupList;
+
+// @public
+export interface DevOpsConfiguration extends ProxyResource {
+    properties?: DevOpsConfigurationProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface DevOpsConfigurationListResponse {
+    nextLink?: string;
+    value?: DevOpsConfiguration[];
+}
+
+// @public
+export interface DevOpsConfigurationProperties {
+    authorization?: Authorization;
+    autoDiscovery?: AutoDiscovery;
+    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    topLevelInventoryList?: string[];
+}
+
+// @public
+export interface DevOpsConfigurations {
+    beginCreateOrUpdate(resourceGroupName: string, securityConnectorName: string, devOpsConfiguration: DevOpsConfiguration, options?: DevOpsConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevOpsConfigurationsCreateOrUpdateResponse>, DevOpsConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, securityConnectorName: string, devOpsConfiguration: DevOpsConfiguration, options?: DevOpsConfigurationsCreateOrUpdateOptionalParams): Promise<DevOpsConfigurationsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, securityConnectorName: string, options?: DevOpsConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, securityConnectorName: string, options?: DevOpsConfigurationsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, securityConnectorName: string, devOpsConfiguration: DevOpsConfiguration, options?: DevOpsConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevOpsConfigurationsUpdateResponse>, DevOpsConfigurationsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, securityConnectorName: string, devOpsConfiguration: DevOpsConfiguration, options?: DevOpsConfigurationsUpdateOptionalParams): Promise<DevOpsConfigurationsUpdateResponse>;
+    get(resourceGroupName: string, securityConnectorName: string, options?: DevOpsConfigurationsGetOptionalParams): Promise<DevOpsConfigurationsGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, options?: DevOpsConfigurationsListOptionalParams): PagedAsyncIterableIterator<DevOpsConfiguration>;
+}
+
+// @public
+export interface DevOpsConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DevOpsConfigurationsCreateOrUpdateResponse = DevOpsConfiguration;
+
+// @public
+export interface DevOpsConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DevOpsConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevOpsConfigurationsGetResponse = DevOpsConfiguration;
+
+// @public
+export interface DevOpsConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevOpsConfigurationsListNextResponse = DevOpsConfigurationListResponse;
+
+// @public
+export interface DevOpsConfigurationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevOpsConfigurationsListResponse = DevOpsConfigurationListResponse;
+
+// @public
+export interface DevOpsConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DevOpsConfigurationsUpdateResponse = DevOpsConfiguration;
+
+// @public
+export interface DevOpsOperationResults {
+    get(resourceGroupName: string, securityConnectorName: string, operationResultId: string, options?: DevOpsOperationResultsGetOptionalParams): Promise<DevOpsOperationResultsGetResponse>;
+}
+
+// @public
+export interface DevOpsOperationResultsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevOpsOperationResultsGetResponse = OperationStatusResult;
+
+// @public
+export type DevOpsProvisioningState = string;
 
 // @public
 export type Direction = string;
@@ -2295,14 +2747,297 @@ export interface GcpProjectEnvironmentData extends EnvironmentData {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GetSensitivitySettingsListResponse {
+    // (undocumented)
+    value?: GetSensitivitySettingsResponse[];
+}
+
+// @public
+export type GetSensitivitySettingsOperationResponse = GetSensitivitySettingsResponse;
+
+// @public
+export interface GetSensitivitySettingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GetSensitivitySettingsResponse {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: GetSensitivitySettingsResponseProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface GetSensitivitySettingsResponseProperties {
+    mipInformation?: GetSensitivitySettingsResponsePropertiesMipInformation;
+    sensitiveInfoTypesIds?: string[];
+    sensitivityThresholdLabelId?: string;
+    sensitivityThresholdLabelOrder?: number;
+}
+
+// @public
+export interface GetSensitivitySettingsResponsePropertiesMipInformation {
+    builtInInfoTypes?: BuiltInInfoType[];
+    customInfoTypes?: InfoType[];
+    labels?: Label[];
+    mipIntegrationStatus?: MipIntegrationStatus;
+}
+
+// @public
+export interface GitHubOwner extends ProxyResource {
+    properties?: GitHubOwnerProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface GitHubOwnerConfiguration {
+    autoDiscovery?: AutoDiscovery;
+    repositoryConfigs?: {
+        [propertyName: string]: BaseResourceConfiguration;
+    };
+}
+
+// @public
+export interface GitHubOwnerListResponse {
+    nextLink?: string;
+    value?: GitHubOwner[];
+}
+
+// @public
+export interface GitHubOwnerProperties {
+    readonly gitHubInternalId?: string;
+    onboardingState?: OnboardingState;
+    readonly ownerUrl?: string;
+    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+}
+
+// @public
+export interface GitHubOwners {
+    get(resourceGroupName: string, securityConnectorName: string, ownerName: string, options?: GitHubOwnersGetOptionalParams): Promise<GitHubOwnersGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, options?: GitHubOwnersListOptionalParams): PagedAsyncIterableIterator<GitHubOwner>;
+    listAvailable(resourceGroupName: string, securityConnectorName: string, options?: GitHubOwnersListAvailableOptionalParams): Promise<GitHubOwnersListAvailableResponse>;
+}
+
+// @public
+export interface GitHubOwnersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitHubOwnersGetResponse = GitHubOwner;
+
+// @public
+export interface GitHubOwnersListAvailableOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitHubOwnersListAvailableResponse = GitHubOwnerListResponse;
+
+// @public
+export interface GitHubOwnersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitHubOwnersListNextResponse = GitHubOwnerListResponse;
+
+// @public
+export interface GitHubOwnersListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitHubOwnersListResponse = GitHubOwnerListResponse;
+
+// @public
+export interface GitHubRepos {
+    get(resourceGroupName: string, securityConnectorName: string, ownerName: string, repoName: string, options?: GitHubReposGetOptionalParams): Promise<GitHubReposGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, ownerName: string, options?: GitHubReposListOptionalParams): PagedAsyncIterableIterator<GitHubRepository>;
+}
+
+// @public
+export interface GitHubReposGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitHubReposGetResponse = GitHubRepository;
+
+// @public
+export interface GitHubRepository extends ProxyResource {
+    properties?: GitHubRepositoryProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface GitHubRepositoryListResponse {
+    nextLink?: string;
+    value?: GitHubRepository[];
+}
+
+// @public
+export interface GitHubRepositoryProperties {
+    onboardingState?: OnboardingState;
+    parentOwnerName?: string;
+    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    readonly repoFullName?: string;
+    readonly repoId?: string;
+    readonly repoName?: string;
+    readonly repoUrl?: string;
+}
+
+// @public
+export interface GitHubReposListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitHubReposListNextResponse = GitHubRepositoryListResponse;
+
+// @public
+export interface GitHubReposListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitHubReposListResponse = GitHubRepositoryListResponse;
+
+// @public
 export interface GithubScopeEnvironmentData extends EnvironmentData {
     environmentType: "GithubScope";
 }
 
 // @public
+export interface GitLabGroup extends ProxyResource {
+    properties?: GitLabGroupProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface GitLabGroupConfiguration {
+    autoDiscovery?: AutoDiscovery;
+    projectConfigs?: {
+        [propertyName: string]: BaseResourceConfiguration;
+    };
+}
+
+// @public
+export interface GitLabGroupListResponse {
+    nextLink?: string;
+    value?: GitLabGroup[];
+}
+
+// @public
+export interface GitLabGroupProperties {
+    readonly fullyQualifiedFriendlyName?: string;
+    readonly fullyQualifiedName?: string;
+    onboardingState?: OnboardingState;
+    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    readonly url?: string;
+}
+
+// @public
+export interface GitLabGroups {
+    get(resourceGroupName: string, securityConnectorName: string, groupFQName: string, options?: GitLabGroupsGetOptionalParams): Promise<GitLabGroupsGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, options?: GitLabGroupsListOptionalParams): PagedAsyncIterableIterator<GitLabGroup>;
+    listAvailable(resourceGroupName: string, securityConnectorName: string, options?: GitLabGroupsListAvailableOptionalParams): Promise<GitLabGroupsListAvailableResponse>;
+}
+
+// @public
+export interface GitLabGroupsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitLabGroupsGetResponse = GitLabGroup;
+
+// @public
+export interface GitLabGroupsListAvailableOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitLabGroupsListAvailableResponse = GitLabGroupListResponse;
+
+// @public
+export interface GitLabGroupsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitLabGroupsListNextResponse = GitLabGroupListResponse;
+
+// @public
+export interface GitLabGroupsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitLabGroupsListResponse = GitLabGroupListResponse;
+
+// @public
+export interface GitLabProject extends ProxyResource {
+    properties?: GitLabProjectProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface GitLabProjectListResponse {
+    nextLink?: string;
+    value?: GitLabProject[];
+}
+
+// @public
+export interface GitLabProjectProperties {
+    readonly fullyQualifiedFriendlyName?: string;
+    readonly fullyQualifiedName?: string;
+    readonly fullyQualifiedParentGroupName?: string;
+    onboardingState?: OnboardingState;
+    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    readonly url?: string;
+}
+
+// @public
+export interface GitLabProjects {
+    get(resourceGroupName: string, securityConnectorName: string, groupFQName: string, projectName: string, options?: GitLabProjectsGetOptionalParams): Promise<GitLabProjectsGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, groupFQName: string, options?: GitLabProjectsListOptionalParams): PagedAsyncIterableIterator<GitLabProject>;
+}
+
+// @public
+export interface GitLabProjectsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitLabProjectsGetResponse = GitLabProject;
+
+// @public
+export interface GitLabProjectsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitLabProjectsListNextResponse = GitLabProjectListResponse;
+
+// @public
+export interface GitLabProjectsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitLabProjectsListResponse = GitLabProjectListResponse;
+
+// @public
 export interface GitlabScopeEnvironmentData extends EnvironmentData {
     environmentType: "GitlabScope";
 }
+
+// @public
+export interface GitLabSubgroups {
+    list(resourceGroupName: string, securityConnectorName: string, groupFQName: string, options?: GitLabSubgroupsListOptionalParams): Promise<GitLabSubgroupsListResponse>;
+}
+
+// @public
+export interface GitLabSubgroupsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GitLabSubgroupsListResponse = GitLabGroupListResponse;
 
 // @public
 export interface GovernanceAssignment extends Resource {
@@ -2512,35 +3247,35 @@ export type GovernanceRuleType = string;
 export interface HealthDataClassification {
     component?: string;
     scenario?: string;
-    scope?: ScopeName;
+    scope?: string;
 }
 
 // @public
 export interface HealthReport extends Resource {
     affectedDefendersPlans?: string[];
+    affectedDefendersSubPlans?: string[];
     environmentDetails?: EnvironmentDetails;
     healthDataClassification?: HealthDataClassification;
     issues?: Issue[];
+    readonly reportAdditionalData?: {
+        [propertyName: string]: string;
+    };
     resourceDetails?: ResourceDetailsAutoGenerated;
     status?: StatusAutoGenerated;
 }
 
 // @public
-export interface HealthReportGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HealthReportGetResponse = HealthReport;
-
-// @public
-export interface HealthReportOperations {
-    get(resourceId: string, healthReportName: string, options?: HealthReportGetOptionalParams): Promise<HealthReportGetResponse>;
-}
-
-// @public
 export interface HealthReports {
+    get(resourceId: string, healthReportName: string, options?: HealthReportsGetOptionalParams): Promise<HealthReportsGetResponse>;
     list(scope: string, options?: HealthReportsListOptionalParams): PagedAsyncIterableIterator<HealthReport>;
 }
+
+// @public
+export interface HealthReportsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HealthReportsGetResponse = HealthReport;
 
 // @public
 export interface HealthReportsList {
@@ -2687,6 +3422,13 @@ export interface InformationType {
 }
 
 // @public
+export interface InfoType {
+    description?: string;
+    id?: string;
+    name?: string;
+}
+
+// @public
 export interface IngestionConnectionString {
     readonly location?: string;
     readonly value?: string;
@@ -2763,6 +3505,9 @@ export type IngestionSettingsListTokensResponse = IngestionSettingToken;
 export interface IngestionSettingToken {
     readonly token?: string;
 }
+
+// @public
+export type InheritFromParentState = string;
 
 // @public
 export type Intent = string;
@@ -3240,6 +3985,13 @@ export enum KnownAadConnectivityState {
 }
 
 // @public
+export enum KnownActionableRemediationState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    None = "None"
+}
+
+// @public
 export enum KnownActionType {
     EventHub = "EventHub",
     LogicApp = "LogicApp",
@@ -3281,6 +4033,12 @@ export enum KnownAlertStatus {
     Dismissed = "Dismissed",
     InProgress = "InProgress",
     Resolved = "Resolved"
+}
+
+// @public
+export enum KnownAnnotateDefaultBranchState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -3330,6 +4088,13 @@ export enum KnownAuthenticationType {
     AwsAssumeRole = "awsAssumeRole",
     AwsCreds = "awsCreds",
     GcpCredentials = "gcpCredentials"
+}
+
+// @public
+export enum KnownAutoDiscovery {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotApplicable = "NotApplicable"
 }
 
 // @public
@@ -3408,6 +4173,23 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownDataSource {
     TwinData = "TwinData"
+}
+
+// @public
+export enum KnownDesiredOnboardingState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDevOpsProvisioningState {
+    Canceled = "Canceled",
+    DeletionFailure = "DeletionFailure",
+    DeletionSuccess = "DeletionSuccess",
+    Failed = "Failed",
+    Pending = "Pending",
+    PendingDeletion = "PendingDeletion",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -3540,6 +4322,12 @@ export enum KnownInformationProtectionPolicyName {
 }
 
 // @public
+export enum KnownInheritFromParentState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownIntent {
     Collection = "Collection",
     CommandAndControl = "CommandAndControl",
@@ -3578,6 +4366,14 @@ export enum KnownMinimalSeverity {
 }
 
 // @public
+export enum KnownMipIntegrationStatus {
+    NoAutoLabelingRules = "noAutoLabelingRules",
+    NoConsent = "noConsent",
+    NoMipLabels = "noMipLabels",
+    Ok = "Ok"
+}
+
+// @public
 export enum KnownOfferingType {
     CspmMonitorAws = "CspmMonitorAws",
     CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
@@ -3596,6 +4392,14 @@ export enum KnownOfferingType {
     DefenderForServersAws = "DefenderForServersAws",
     DefenderForServersGcp = "DefenderForServersGcp",
     InformationProtectionAws = "InformationProtectionAws"
+}
+
+// @public
+export enum KnownOnboardingState {
+    NotApplicable = "NotApplicable",
+    NotOnboarded = "NotOnboarded",
+    Onboarded = "Onboarded",
+    OnboardedByOtherConnector = "OnboardedByOtherConnector"
 }
 
 // @public
@@ -3732,6 +4536,16 @@ export enum KnownRoles {
 }
 
 // @public
+export enum KnownRuleCategory {
+    Artifacts = "Artifacts",
+    Code = "Code",
+    Containers = "Containers",
+    Dependencies = "Dependencies",
+    IaC = "IaC",
+    Secrets = "Secrets"
+}
+
+// @public
 export enum KnownRuleSeverity {
     High = "High",
     Informational = "Informational",
@@ -3775,14 +4589,6 @@ export enum KnownScanTriggerType {
 }
 
 // @public
-export enum KnownScopeName {
-    Clusters = "Clusters",
-    Connectors = "Connectors",
-    Unknown = "Unknown",
-    VirtualMachines = "VirtualMachines"
-}
-
-// @public
 export enum KnownSecurityFamily {
     Ngfw = "Ngfw",
     SaasWaf = "SaasWaf",
@@ -3806,6 +4612,21 @@ export enum KnownServerVulnerabilityAssessmentPropertiesProvisioningState {
 }
 
 // @public
+export enum KnownServerVulnerabilityAssessmentsAzureSettingSelectedProvider {
+    MdeTvm = "MdeTvm"
+}
+
+// @public
+export enum KnownServerVulnerabilityAssessmentsSettingKind {
+    AzureServersSetting = "AzureServersSetting"
+}
+
+// @public
+export enum KnownServerVulnerabilityAssessmentsSettingKindName {
+    AzureServersSetting = "azureServersSetting"
+}
+
+// @public
 export enum KnownSettingKind {
     AlertSuppressionSetting = "AlertSuppressionSetting",
     AlertSyncSettings = "AlertSyncSettings",
@@ -3819,6 +4640,11 @@ export enum KnownSettingName {
     Wdatp = "WDATP",
     WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
     WdatpUnifiedSolution = "WDATP_UNIFIED_SOLUTION"
+}
+
+// @public
+export enum KnownSettingNameAutoGenerated {
+    Current = "current"
 }
 
 // @public
@@ -4077,6 +4903,13 @@ export enum KnownValueType {
 }
 
 // @public
+export interface Label {
+    id?: string;
+    name?: string;
+    order?: number;
+}
+
+// @public
 export interface ListCustomAlertRule extends CustomAlertRule {
     ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule" | "ConnectionToIpNotAllowed" | "ConnectionFromIpNotAllowed" | "LocalUserNotAllowed" | "ProcessNotAllowed";
     readonly valueType?: ValueType;
@@ -4167,6 +5000,9 @@ export type MdeOnboardingsListResponse = MdeOnboardingDataList;
 export type MinimalSeverity = string;
 
 // @public
+export type MipIntegrationStatus = string;
+
+// @public
 export interface MqttC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
     ruleType: "MqttC2DMessagesNotInAllowedRange";
 }
@@ -4183,6 +5019,9 @@ export interface MqttD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertR
 
 // @public
 export type OfferingType = string;
+
+// @public
+export type OnboardingState = string;
 
 // @public
 export interface OnPremiseResourceDetails extends ResourceDetails {
@@ -4255,6 +5094,24 @@ export type OperationsListResponse = OperationList;
 export interface OperationStatus {
     code?: Code;
     message?: string;
+}
+
+// @public
+export interface OperationStatusAutoGenerated {
+    code?: string;
+    message?: string;
+}
+
+// @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetailAutoGenerated;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    startTime?: Date;
+    status: string;
 }
 
 // @public
@@ -4349,6 +5206,10 @@ export type Protocol = string;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends ResourceAutoGenerated2 {
+}
 
 // @public
 export interface ProxyServerProperties {
@@ -4557,6 +5418,21 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceAutoGenerated2 {
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
 export interface ResourceDetails {
     source: "Azure" | "OnPremise" | "OnPremiseSql";
 }
@@ -4596,6 +5472,9 @@ export interface Rule {
     name?: string;
     protocols?: TransportProtocol[];
 }
+
+// @public
+export type RuleCategory = string;
 
 // @public
 export interface RuleResults extends Resource {
@@ -4702,9 +5581,6 @@ export interface ScopeElement {
     [property: string]: any;
     field?: string;
 }
-
-// @public
-export type ScopeName = string;
 
 // @public
 export interface SecureScoreControlDefinitionItem extends Resource {
@@ -5024,6 +5900,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SecurityCenterOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: SecurityCenterOptionalParams);
     // (undocumented)
     adaptiveApplicationControls: AdaptiveApplicationControls;
     // (undocumented)
@@ -5037,11 +5914,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     allowedConnections: AllowedConnections;
     // (undocumented)
-    aPICollection: APICollection;
-    // (undocumented)
-    aPICollectionOffboarding: APICollectionOffboarding;
-    // (undocumented)
-    aPICollectionOnboarding: APICollectionOnboarding;
+    aPICollections: APICollections;
     // (undocumented)
     applicationOperations: ApplicationOperations;
     // (undocumented)
@@ -5055,6 +5928,12 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     autoProvisioningSettings: AutoProvisioningSettings;
     // (undocumented)
+    azureDevOpsOrgs: AzureDevOpsOrgs;
+    // (undocumented)
+    azureDevOpsProjects: AzureDevOpsProjects;
+    // (undocumented)
+    azureDevOpsRepos: AzureDevOpsRepos;
+    // (undocumented)
     complianceResults: ComplianceResults;
     // (undocumented)
     compliances: Compliances;
@@ -5065,17 +5944,32 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     customEntityStoreAssignments: CustomEntityStoreAssignments;
     // (undocumented)
+    defenderForStorage: DefenderForStorage;
+    // (undocumented)
     deviceSecurityGroups: DeviceSecurityGroups;
+    // (undocumented)
+    devOpsConfigurations: DevOpsConfigurations;
+    // (undocumented)
+    devOpsOperationResults: DevOpsOperationResults;
     // (undocumented)
     discoveredSecuritySolutions: DiscoveredSecuritySolutions;
     // (undocumented)
     externalSecuritySolutions: ExternalSecuritySolutions;
+    getSensitivitySettings(options?: GetSensitivitySettingsOptionalParams): Promise<GetSensitivitySettingsOperationResponse>;
+    // (undocumented)
+    gitHubOwners: GitHubOwners;
+    // (undocumented)
+    gitHubRepos: GitHubRepos;
+    // (undocumented)
+    gitLabGroups: GitLabGroups;
+    // (undocumented)
+    gitLabProjects: GitLabProjects;
+    // (undocumented)
+    gitLabSubgroups: GitLabSubgroups;
     // (undocumented)
     governanceAssignments: GovernanceAssignments;
     // (undocumented)
     governanceRules: GovernanceRules;
-    // (undocumented)
-    healthReportOperations: HealthReportOperations;
     // (undocumented)
     healthReports: HealthReports;
     // (undocumented)
@@ -5127,7 +6021,11 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     securitySolutionsReferenceDataOperations: SecuritySolutionsReferenceDataOperations;
     // (undocumented)
+    sensitivitySettings: SensitivitySettings;
+    // (undocumented)
     serverVulnerabilityAssessmentOperations: ServerVulnerabilityAssessmentOperations;
+    // (undocumented)
+    serverVulnerabilityAssessmentsSettings: ServerVulnerabilityAssessmentsSettings;
     // (undocumented)
     settings: Settings;
     // (undocumented)
@@ -5141,11 +6039,12 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     subAssessments: SubAssessments;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     tasks: Tasks;
     // (undocumented)
     topology: Topology;
+    updateSensitivitySettings(sensitivitySettings: UpdateSensitivitySettingsRequest, options?: UpdateSensitivitySettingsOptionalParams): Promise<UpdateSensitivitySettingsResponse>;
     // (undocumented)
     workspaceSettings: WorkspaceSettings;
 }
@@ -5524,6 +6423,18 @@ export interface SensitivityLabel {
 }
 
 // @public
+export interface SensitivitySettings {
+    list(options?: SensitivitySettingsListOptionalParams): Promise<SensitivitySettingsListResponse>;
+}
+
+// @public
+export interface SensitivitySettingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SensitivitySettingsListResponse = GetSensitivitySettingsListResponse;
+
+// @public
 export interface ServerVulnerabilityAssessment extends Resource {
     readonly provisioningState?: ServerVulnerabilityAssessmentPropertiesProvisioningState;
 }
@@ -5568,10 +6479,73 @@ export interface ServerVulnerabilityAssessmentOperations {
 export type ServerVulnerabilityAssessmentPropertiesProvisioningState = string;
 
 // @public
+export type ServerVulnerabilityAssessmentsAzureSettingSelectedProvider = string;
+
+// @public
 export interface ServerVulnerabilityAssessmentsList {
     // (undocumented)
     value?: ServerVulnerabilityAssessment[];
 }
+
+// @public
+export interface ServerVulnerabilityAssessmentsSetting extends ResourceAutoGenerated {
+    kind: ServerVulnerabilityAssessmentsSettingKind;
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingKind = string;
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingKindName = string;
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettings {
+    createOrUpdate(settingKind: ServerVulnerabilityAssessmentsSettingKindName, serverVulnerabilityAssessmentsSetting: ServerVulnerabilityAssessmentsSettingUnion, options?: ServerVulnerabilityAssessmentsSettingsCreateOrUpdateOptionalParams): Promise<ServerVulnerabilityAssessmentsSettingsCreateOrUpdateResponse>;
+    delete(settingKind: ServerVulnerabilityAssessmentsSettingKindName, options?: ServerVulnerabilityAssessmentsSettingsDeleteOptionalParams): Promise<void>;
+    get(settingKind: ServerVulnerabilityAssessmentsSettingKindName, options?: ServerVulnerabilityAssessmentsSettingsGetOptionalParams): Promise<ServerVulnerabilityAssessmentsSettingsGetResponse>;
+    listBySubscription(options?: ServerVulnerabilityAssessmentsSettingsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ServerVulnerabilityAssessmentsSettingUnion>;
+}
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingsCreateOrUpdateResponse = ServerVulnerabilityAssessmentsSettingUnion;
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingsGetResponse = ServerVulnerabilityAssessmentsSettingUnion;
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsList {
+    readonly nextLink?: string;
+    readonly value?: ServerVulnerabilityAssessmentsSettingUnion[];
+}
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingsListBySubscriptionNextResponse = ServerVulnerabilityAssessmentsSettingsList;
+
+// @public
+export interface ServerVulnerabilityAssessmentsSettingsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerVulnerabilityAssessmentsSettingsListBySubscriptionResponse = ServerVulnerabilityAssessmentsSettingsList;
+
+// @public (undocumented)
+export type ServerVulnerabilityAssessmentsSettingUnion = ServerVulnerabilityAssessmentsSetting | AzureServersSetting;
 
 // @public
 export interface ServerVulnerabilityProperties extends AdditionalData {
@@ -5603,6 +6577,9 @@ export type SettingKind = string;
 
 // @public
 export type SettingName = string;
+
+// @public
+export type SettingNameAutoGenerated = string;
 
 // @public
 export interface Settings {
@@ -5822,6 +6799,8 @@ export type Status = string;
 export interface StatusAutoGenerated {
     code?: StatusName;
     readonly firstEvaluationDate?: Date;
+    readonly lastScannedDate?: Date;
+    readonly reason?: string;
     readonly statusChangeDate?: Date;
 }
 
@@ -5920,6 +6899,12 @@ export interface TagsResource {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface TargetBranchConfiguration {
+    annotateDefaultBranch?: AnnotateDefaultBranchState;
+    branchNames?: string[];
 }
 
 // @public
@@ -6132,6 +7117,20 @@ export interface UpdateIotSecuritySolutionData extends TagsResource {
     recommendationsConfiguration?: RecommendationConfigurationProperties[];
     userDefinedResources?: UserDefinedResourcesProperties;
 }
+
+// @public
+export interface UpdateSensitivitySettingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface UpdateSensitivitySettingsRequest {
+    sensitiveInfoTypesIds: string[];
+    sensitivityThresholdLabelId?: string;
+    sensitivityThresholdLabelOrder?: number;
+}
+
+// @public
+export type UpdateSensitivitySettingsResponse = GetSensitivitySettingsResponse;
 
 // @public
 export interface UserDefinedResourcesProperties {

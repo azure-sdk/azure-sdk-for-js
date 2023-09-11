@@ -8,28 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { APICollection } from "../operationsInterfaces";
+import { GitHubRepos } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  ApiCollectionResponse,
-  APICollectionListNextOptionalParams,
-  APICollectionListOptionalParams,
-  APICollectionListResponse,
-  APICollectionGetOptionalParams,
-  APICollectionGetResponse,
-  APICollectionListNextResponse
+  GitHubRepository,
+  GitHubReposListNextOptionalParams,
+  GitHubReposListOptionalParams,
+  GitHubReposListResponse,
+  GitHubReposGetOptionalParams,
+  GitHubReposGetResponse,
+  GitHubReposListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing APICollection operations. */
-export class APICollectionImpl implements APICollection {
+/** Class containing GitHubRepos operations. */
+export class GitHubReposImpl implements GitHubRepos {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class APICollection class.
+   * Initialize a new instance of the class GitHubRepos class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -37,20 +37,24 @@ export class APICollectionImpl implements APICollection {
   }
 
   /**
-   * Gets a list of Azure API Management APIs that have been onboarded to Defender for APIs. If an Azure
-   * API Management API is onboarded to Defender for APIs, the system will monitor the operations within
-   * the Azure API Management API for intrusive behaviors and provide alerts for attacks that have been
-   * detected.
+   * Returns a list of GitHub repositories onboarded to the connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
+   * @param securityConnectorName The security connector name.
+   * @param ownerName The GitHub owner name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    serviceName: string,
-    options?: APICollectionListOptionalParams
-  ): PagedAsyncIterableIterator<ApiCollectionResponse> {
-    const iter = this.listPagingAll(resourceGroupName, serviceName, options);
+    securityConnectorName: string,
+    ownerName: string,
+    options?: GitHubReposListOptionalParams
+  ): PagedAsyncIterableIterator<GitHubRepository> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      securityConnectorName,
+      ownerName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -64,7 +68,8 @@ export class APICollectionImpl implements APICollection {
         }
         return this.listPagingPage(
           resourceGroupName,
-          serviceName,
+          securityConnectorName,
+          ownerName,
           options,
           settings
         );
@@ -74,14 +79,20 @@ export class APICollectionImpl implements APICollection {
 
   private async *listPagingPage(
     resourceGroupName: string,
-    serviceName: string,
-    options?: APICollectionListOptionalParams,
+    securityConnectorName: string,
+    ownerName: string,
+    options?: GitHubReposListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ApiCollectionResponse[]> {
-    let result: APICollectionListResponse;
+  ): AsyncIterableIterator<GitHubRepository[]> {
+    let result: GitHubReposListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, serviceName, options);
+      result = await this._list(
+        resourceGroupName,
+        securityConnectorName,
+        ownerName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -90,7 +101,8 @@ export class APICollectionImpl implements APICollection {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        serviceName,
+        securityConnectorName,
+        ownerName,
         continuationToken,
         options
       );
@@ -103,12 +115,14 @@ export class APICollectionImpl implements APICollection {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    serviceName: string,
-    options?: APICollectionListOptionalParams
-  ): AsyncIterableIterator<ApiCollectionResponse> {
+    securityConnectorName: string,
+    ownerName: string,
+    options?: GitHubReposListOptionalParams
+  ): AsyncIterableIterator<GitHubRepository> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      serviceName,
+      securityConnectorName,
+      ownerName,
       options
     )) {
       yield* page;
@@ -116,44 +130,47 @@ export class APICollectionImpl implements APICollection {
   }
 
   /**
-   * Gets a list of Azure API Management APIs that have been onboarded to Defender for APIs. If an Azure
-   * API Management API is onboarded to Defender for APIs, the system will monitor the operations within
-   * the Azure API Management API for intrusive behaviors and provide alerts for attacks that have been
-   * detected.
+   * Returns a list of GitHub repositories onboarded to the connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
+   * @param securityConnectorName The security connector name.
+   * @param ownerName The GitHub owner name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    serviceName: string,
-    options?: APICollectionListOptionalParams
-  ): Promise<APICollectionListResponse> {
+    securityConnectorName: string,
+    ownerName: string,
+    options?: GitHubReposListOptionalParams
+  ): Promise<GitHubReposListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
+      { resourceGroupName, securityConnectorName, ownerName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Gets an Azure API Management API if it has been onboarded to Defender for APIs. If an Azure API
-   * Management API is onboarded to Defender for APIs, the system will monitor the operations within the
-   * Azure API Management API for intrusive behaviors and provide alerts for attacks that have been
-   * detected.
+   * Returns a monitored GitHub repository.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiCollectionId A string representing the apiCollections resource within the
-   *                        Microsoft.Security provider namespace. This string matches the Azure API Management API name.
+   * @param securityConnectorName The security connector name.
+   * @param ownerName The GitHub owner name.
+   * @param repoName The repository name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    serviceName: string,
-    apiCollectionId: string,
-    options?: APICollectionGetOptionalParams
-  ): Promise<APICollectionGetResponse> {
+    securityConnectorName: string,
+    ownerName: string,
+    repoName: string,
+    options?: GitHubReposGetOptionalParams
+  ): Promise<GitHubReposGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiCollectionId, options },
+      {
+        resourceGroupName,
+        securityConnectorName,
+        ownerName,
+        repoName,
+        options
+      },
       getOperationSpec
     );
   }
@@ -161,18 +178,26 @@ export class APICollectionImpl implements APICollection {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
+   * @param securityConnectorName The security connector name.
+   * @param ownerName The GitHub owner name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    serviceName: string,
+    securityConnectorName: string,
+    ownerName: string,
     nextLink: string,
-    options?: APICollectionListNextOptionalParams
-  ): Promise<APICollectionListNextResponse> {
+    options?: GitHubReposListNextOptionalParams
+  ): Promise<GitHubReposListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, nextLink, options },
+      {
+        resourceGroupName,
+        securityConnectorName,
+        ownerName,
+        nextLink,
+        options
+      },
       listNextOperationSpec
     );
   }
@@ -182,45 +207,47 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/providers/Microsoft.Security/apiCollections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/gitHubOwners/{ownerName}/repos",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollectionResponseList
+      bodyMapper: Mappers.GitHubRepositoryListResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion26],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.securityConnectorName,
     Parameters.resourceGroupName1,
-    Parameters.serviceName
+    Parameters.ownerName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/providers/Microsoft.Security/apiCollections/{apiCollectionId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/gitHubOwners/{ownerName}/repos/{repoName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollectionResponse
+      bodyMapper: Mappers.GitHubRepository
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion18],
+  queryParameters: [Parameters.apiVersion26],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.securityConnectorName,
     Parameters.resourceGroupName1,
-    Parameters.serviceName,
-    Parameters.apiCollectionId
+    Parameters.repoName,
+    Parameters.ownerName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -230,18 +257,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollectionResponseList
+      bodyMapper: Mappers.GitHubRepositoryListResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponseAutoGenerated
     }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.securityConnectorName,
     Parameters.resourceGroupName1,
-    Parameters.serviceName
+    Parameters.ownerName
   ],
   headerParameters: [Parameters.accept],
   serializer
