@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   UserContract,
   UserListByServiceOptionalParams,
@@ -21,6 +22,7 @@ import {
   UserUpdateOptionalParams,
   UserUpdateResponse,
   UserDeleteOptionalParams,
+  UserDeleteResponse,
   UserGenerateSsoUrlOptionalParams,
   UserGenerateSsoUrlResponse,
   UserTokenParameters,
@@ -110,13 +112,31 @@ export interface User {
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     serviceName: string,
     userId: string,
     ifMatch: string,
     options?: UserDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<OperationState<UserDeleteResponse>, UserDeleteResponse>
+  >;
+  /**
+   * Deletes specific user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: UserDeleteOptionalParams
+  ): Promise<UserDeleteResponse>;
   /**
    * Retrieves a redirection URL containing an authentication token for signing a given user into the
    * developer portal.

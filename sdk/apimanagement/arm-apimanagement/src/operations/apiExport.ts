@@ -38,7 +38,7 @@ export class ApiExportImpl implements ApiExport {
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5
-   *               minutes.
+   *               minutes. New formats can be added in the future.
    * @param exportParam Query parameter required to export the API details.
    * @param options The options parameters.
    */
