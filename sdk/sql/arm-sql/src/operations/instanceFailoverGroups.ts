@@ -598,11 +598,11 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.locationName
   ],
   headerParameters: [Parameters.accept],
@@ -618,13 +618,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.locationName,
-    Parameters.failoverGroupName
+    Parameters.subscriptionId,
+    Parameters.failoverGroupName,
+    Parameters.locationName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -648,16 +648,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters84,
-  queryParameters: [Parameters.apiVersion7],
+  requestBody: Parameters.parameters34,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.locationName,
-    Parameters.failoverGroupName
+    Parameters.subscriptionId,
+    Parameters.failoverGroupName,
+    Parameters.locationName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -666,13 +666,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.locationName,
-    Parameters.failoverGroupName
+    Parameters.subscriptionId,
+    Parameters.failoverGroupName,
+    Parameters.locationName
   ],
   serializer
 };
@@ -695,13 +695,13 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.locationName,
-    Parameters.failoverGroupName
+    Parameters.subscriptionId,
+    Parameters.failoverGroupName,
+    Parameters.locationName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -725,13 +725,13 @@ const forceFailoverAllowDataLossOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.locationName,
-    Parameters.failoverGroupName
+    Parameters.subscriptionId,
+    Parameters.failoverGroupName,
+    Parameters.locationName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -747,8 +747,8 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.locationName
   ],

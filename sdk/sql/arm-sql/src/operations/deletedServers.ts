@@ -14,25 +14,17 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
   DeletedServer,
   DeletedServersListNextOptionalParams,
   DeletedServersListOptionalParams,
   DeletedServersListResponse,
-  DeletedServersListByLocationNextOptionalParams,
-  DeletedServersListByLocationOptionalParams,
-  DeletedServersListByLocationResponse,
+  DeletedServersListByResourceGroupNextOptionalParams,
+  DeletedServersListByResourceGroupOptionalParams,
+  DeletedServersListByResourceGroupResponse,
   DeletedServersGetOptionalParams,
   DeletedServersGetResponse,
-  DeletedServersRecoverOptionalParams,
-  DeletedServersRecoverResponse,
   DeletedServersListNextResponse,
-  DeletedServersListByLocationNextResponse
+  DeletedServersListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +41,8 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   /**
-   * Gets a list of all deleted servers in a subscription.
+   * Gets a list of all deleted servers in a subscription that can be restored. Deleted servers that
+   * cannot be restored will not show up in this list.
    * @param options The options parameters.
    */
   public list(
@@ -103,15 +96,17 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   /**
-   * Gets a list of deleted servers for a location.
-   * @param locationName The name of the region where the resource is located.
+   * Gets a list of all deleted servers in the specified resource group that can be restored. Deleted
+   * servers that cannot be restored will not show up in this list.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
    */
-  public listByLocation(
-    locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: DeletedServersListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<DeletedServer> {
-    const iter = this.listByLocationPagingAll(locationName, options);
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -123,28 +118,32 @@ export class DeletedServersImpl implements DeletedServers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByLocationPagingPage(locationName, options, settings);
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
-  private async *listByLocationPagingPage(
-    locationName: string,
-    options?: DeletedServersListByLocationOptionalParams,
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: DeletedServersListByResourceGroupOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<DeletedServer[]> {
-    let result: DeletedServersListByLocationResponse;
+    let result: DeletedServersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByLocation(locationName, options);
+      result = await this._listByResourceGroup(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
-        locationName,
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
         continuationToken,
         options
       );
@@ -155,12 +154,12 @@ export class DeletedServersImpl implements DeletedServers {
     }
   }
 
-  private async *listByLocationPagingAll(
-    locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: DeletedServersListByResourceGroupOptionalParams
   ): AsyncIterableIterator<DeletedServer> {
-    for await (const page of this.listByLocationPagingPage(
-      locationName,
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
       options
     )) {
       yield* page;
@@ -168,7 +167,8 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   /**
-   * Gets a list of all deleted servers in a subscription.
+   * Gets a list of all deleted servers in a subscription that can be restored. Deleted servers that
+   * cannot be restored will not show up in this list.
    * @param options The options parameters.
    */
   private _list(
@@ -178,125 +178,39 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   /**
-   * Gets a deleted server.
-   * @param locationName The name of the region where the resource is located.
+   * Gets a list of all deleted servers in the specified resource group that can be restored. Deleted
+   * servers that cannot be restored will not show up in this list.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: DeletedServersListByResourceGroupOptionalParams
+  ): Promise<DeletedServersListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec
+    );
+  }
+
+  /**
+   * Gets information about an Azure SQL server that has been deleted and can be restored. To restore a
+   * deleted server, create a server with the same name and a create mode of `Restore`.
    * @param deletedServerName The name of the deleted server.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
    */
   get(
-    locationName: string,
     deletedServerName: string,
+    resourceGroupName: string,
     options?: DeletedServersGetOptionalParams
   ): Promise<DeletedServersGetResponse> {
     return this.client.sendOperationRequest(
-      { locationName, deletedServerName, options },
+      { deletedServerName, resourceGroupName, options },
       getOperationSpec
     );
-  }
-
-  /**
-   * Gets a list of deleted servers for a location.
-   * @param locationName The name of the region where the resource is located.
-   * @param options The options parameters.
-   */
-  private _listByLocation(
-    locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
-  ): Promise<DeletedServersListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec
-    );
-  }
-
-  /**
-   * Recovers a deleted server.
-   * @param locationName The name of the region where the resource is located.
-   * @param deletedServerName The name of the deleted server.
-   * @param options The options parameters.
-   */
-  async beginRecover(
-    locationName: string,
-    deletedServerName: string,
-    options?: DeletedServersRecoverOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DeletedServersRecoverResponse>,
-      DeletedServersRecoverResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<DeletedServersRecoverResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { locationName, deletedServerName, options },
-      spec: recoverOperationSpec
-    });
-    const poller = await createHttpPoller<
-      DeletedServersRecoverResponse,
-      OperationState<DeletedServersRecoverResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Recovers a deleted server.
-   * @param locationName The name of the region where the resource is located.
-   * @param deletedServerName The name of the deleted server.
-   * @param options The options parameters.
-   */
-  async beginRecoverAndWait(
-    locationName: string,
-    deletedServerName: string,
-    options?: DeletedServersRecoverOptionalParams
-  ): Promise<DeletedServersRecoverResponse> {
-    const poller = await this.beginRecover(
-      locationName,
-      deletedServerName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -315,19 +229,20 @@ export class DeletedServersImpl implements DeletedServers {
   }
 
   /**
-   * ListByLocationNext
-   * @param locationName The name of the region where the resource is located.
-   * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
-  private _listByLocationNext(
-    locationName: string,
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
     nextLink: string,
-    options?: DeletedServersListByLocationNextOptionalParams
-  ): Promise<DeletedServersListByLocationNextResponse> {
+    options?: DeletedServersListByResourceGroupNextOptionalParams
+  ): Promise<DeletedServersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { locationName, nextLink, options },
-      listByLocationNextOperationSpec
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec
     );
   }
 }
@@ -344,34 +259,14 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedServer
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-    Parameters.deletedServerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/deletedServers",
   httpMethod: "GET",
   responses: {
     200: {
@@ -379,39 +274,30 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const recoverOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/deletedServers/{deletedServerName}/recover",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/deletedServers/{deletedServerName}",
+  httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.DeletedServer
     },
-    201: {
-      bodyMapper: Mappers.DeletedServer
-    },
-    202: {
-      bodyMapper: Mappers.DeletedServer
-    },
-    204: {
-      bodyMapper: Mappers.DeletedServer
-    },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.locationName,
     Parameters.deletedServerName
   ],
   headerParameters: [Parameters.accept],
@@ -434,7 +320,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByLocationNextOperationSpec: coreClient.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -445,9 +331,9 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.locationName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -7,72 +7,47 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DeletedServer,
   DeletedServersListOptionalParams,
-  DeletedServersListByLocationOptionalParams,
+  DeletedServersListByResourceGroupOptionalParams,
   DeletedServersGetOptionalParams,
-  DeletedServersGetResponse,
-  DeletedServersRecoverOptionalParams,
-  DeletedServersRecoverResponse
+  DeletedServersGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedServers. */
 export interface DeletedServers {
   /**
-   * Gets a list of all deleted servers in a subscription.
+   * Gets a list of all deleted servers in a subscription that can be restored. Deleted servers that
+   * cannot be restored will not show up in this list.
    * @param options The options parameters.
    */
   list(
     options?: DeletedServersListOptionalParams
   ): PagedAsyncIterableIterator<DeletedServer>;
   /**
-   * Gets a list of deleted servers for a location.
-   * @param locationName The name of the region where the resource is located.
+   * Gets a list of all deleted servers in the specified resource group that can be restored. Deleted
+   * servers that cannot be restored will not show up in this list.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
    */
-  listByLocation(
-    locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: DeletedServersListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<DeletedServer>;
   /**
-   * Gets a deleted server.
-   * @param locationName The name of the region where the resource is located.
+   * Gets information about an Azure SQL server that has been deleted and can be restored. To restore a
+   * deleted server, create a server with the same name and a create mode of `Restore`.
    * @param deletedServerName The name of the deleted server.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
    */
   get(
-    locationName: string,
     deletedServerName: string,
+    resourceGroupName: string,
     options?: DeletedServersGetOptionalParams
   ): Promise<DeletedServersGetResponse>;
-  /**
-   * Recovers a deleted server.
-   * @param locationName The name of the region where the resource is located.
-   * @param deletedServerName The name of the deleted server.
-   * @param options The options parameters.
-   */
-  beginRecover(
-    locationName: string,
-    deletedServerName: string,
-    options?: DeletedServersRecoverOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DeletedServersRecoverResponse>,
-      DeletedServersRecoverResponse
-    >
-  >;
-  /**
-   * Recovers a deleted server.
-   * @param locationName The name of the region where the resource is located.
-   * @param deletedServerName The name of the deleted server.
-   * @param options The options parameters.
-   */
-  beginRecoverAndWait(
-    locationName: string,
-    deletedServerName: string,
-    options?: DeletedServersRecoverOptionalParams
-  ): Promise<DeletedServersRecoverResponse>;
 }
