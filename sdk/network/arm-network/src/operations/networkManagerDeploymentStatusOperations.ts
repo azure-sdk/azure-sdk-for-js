@@ -65,14 +65,14 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters35,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.top1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

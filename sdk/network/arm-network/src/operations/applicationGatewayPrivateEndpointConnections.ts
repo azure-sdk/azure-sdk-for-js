@@ -405,12 +405,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
-    Parameters.subscriptionId,
     Parameters.connectionName
   ],
   headerParameters: [Parameters.accept],
@@ -438,15 +438,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
-    Parameters.subscriptionId,
     Parameters.connectionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -462,12 +462,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
-    Parameters.subscriptionId,
     Parameters.connectionName
   ],
   headerParameters: [Parameters.accept],
@@ -485,12 +485,12 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationGatewayName,
-    Parameters.subscriptionId
+    Parameters.applicationGatewayName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -508,10 +508,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.applicationGatewayName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.applicationGatewayName
   ],
   headerParameters: [Parameters.accept],
   serializer

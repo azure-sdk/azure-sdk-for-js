@@ -18,6 +18,7 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "./lroImpl";
 import {
+  IpamPoolOperationsImpl,
   ApplicationGatewaysImpl,
   ApplicationGatewayPrivateLinkResourcesImpl,
   ApplicationGatewayPrivateEndpointConnectionsImpl,
@@ -152,6 +153,7 @@ import {
   WebApplicationFirewallPoliciesImpl
 } from "./operations";
 import {
+  IpamPoolOperations,
   ApplicationGateways,
   ApplicationGatewayPrivateLinkResources,
   ApplicationGatewayPrivateEndpointConnections,
@@ -340,26 +342,32 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the NetworkManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The subscription credentials which uniquely identify the Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param $host server parameter
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
+    $host: string,
     subscriptionId: string,
     options?: NetworkManagementClientOptionalParams
   );
   constructor(
     credentials: coreAuth.TokenCredential,
+    $host: string,
     options?: NetworkManagementClientOptionalParams
   );
   constructor(
     credentials: coreAuth.TokenCredential,
+    $host: string,
     subscriptionIdOrOptions?: NetworkManagementClientOptionalParams | string,
     options?: NetworkManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
+    }
+    if ($host === undefined) {
+      throw new Error("'$host' cannot be null");
     }
 
     let subscriptionId: string | undefined;
@@ -379,7 +387,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-network/32.1.1`;
+    const packageDetails = `azsdk-js-arm-network/33.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -428,10 +436,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       );
     }
     // Parameter assignments
+    this.$host = $host;
     this.subscriptionId = subscriptionId;
-
-    // Assigning values to Constant parameters
-    this.$host = options.$host || "https://management.azure.com";
+    this.ipamPoolOperations = new IpamPoolOperationsImpl(this);
     this.applicationGateways = new ApplicationGatewaysImpl(this);
     this.applicationGatewayPrivateLinkResources = new ApplicationGatewayPrivateLinkResourcesImpl(
       this
@@ -1596,6 +1603,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     );
   }
 
+  ipamPoolOperations: IpamPoolOperations;
   applicationGateways: ApplicationGateways;
   applicationGatewayPrivateLinkResources: ApplicationGatewayPrivateLinkResources;
   applicationGatewayPrivateEndpointConnections: ApplicationGatewayPrivateEndpointConnections;
@@ -1754,14 +1762,14 @@ const putBastionShareableLinkOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.bslRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1779,14 +1787,14 @@ const deleteBastionShareableLinkOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.bslRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1803,14 +1811,14 @@ const getBastionShareableLinkOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.bslRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1835,11 +1843,11 @@ const getActiveSessionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName
   ],
   headerParameters: [Parameters.accept],
@@ -1858,14 +1866,14 @@ const disconnectActiveSessionsOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.sessionIds,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1881,7 +1889,7 @@ const checkDnsNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.domainNameLabel],
+  queryParameters: [Parameters.apiVersion1, Parameters.domainNameLabel],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1902,7 +1910,7 @@ const expressRouteProviderPortOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1924,14 +1932,14 @@ const listActiveConnectivityConfigurationsOperationSpec: coreClient.OperationSpe
     }
   },
   requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.top1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1948,14 +1956,14 @@ const listActiveSecurityAdminRulesOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.top1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1973,14 +1981,14 @@ const listNetworkManagerEffectiveConnectivityConfigurationsOperationSpec: coreCl
     }
   },
   requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.top1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.virtualNetworkName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1997,14 +2005,14 @@ const listNetworkManagerEffectiveSecurityAdminRulesOperationSpec: coreClient.Ope
     }
   },
   requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.top1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.virtualNetworkName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -2020,11 +2028,11 @@ const supportedSecurityProvidersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.virtualWANName
   ],
   headerParameters: [Parameters.accept],
@@ -2052,14 +2060,14 @@ const generatevirtualwanvpnserverconfigurationvpnprofileOperationSpec: coreClien
     }
   },
   requestBody: Parameters.vpnClientParams,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.virtualWANName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -2077,12 +2085,12 @@ const putBastionShareableLinkNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.bastionHostName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -2099,12 +2107,12 @@ const getBastionShareableLinkNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.bastionHostName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -2122,8 +2130,8 @@ const getActiveSessionsNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.bastionHostName
   ],
@@ -2143,12 +2151,12 @@ const disconnectActiveSessionsNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.bastionHostName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

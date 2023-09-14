@@ -315,11 +315,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.networkGroupName
   ],
@@ -344,17 +344,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters37,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.networkGroupName
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.ifMatch
   ],
   mediaType: "json",
@@ -373,11 +373,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion1, Parameters.force],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.networkGroupName
   ],
@@ -397,14 +397,14 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken
+    Parameters.apiVersion1,
+    Parameters.top1,
+    Parameters.skipToken1
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName
   ],
   headerParameters: [Parameters.accept],
@@ -423,10 +423,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.networkManagerName
+    Parameters.resourceGroupName,
+    Parameters.networkManagerName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

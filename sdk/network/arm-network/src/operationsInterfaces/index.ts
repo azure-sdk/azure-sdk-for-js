@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./ipamPoolOperations";
 export * from "./applicationGateways";
 export * from "./applicationGatewayPrivateLinkResources";
 export * from "./applicationGatewayPrivateEndpointConnections";

@@ -147,7 +147,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.noAddressPrefixes,
     Parameters.tagName
   ],

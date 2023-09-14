@@ -12,6 +12,11 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  IpamPool as IpamPoolMapper,
+  IpamPoolUpdate as IpamPoolUpdateMapper,
+  AssociationRequest as AssociationRequestMapper,
+  AllocationRequest as AllocationRequestMapper,
+  NonAzureAllocationRequest as NonAzureAllocationRequestMapper,
   ApplicationGateway as ApplicationGatewayMapper,
   TagsObject as TagsObjectMapper,
   ApplicationGatewayOnDemandProbe as ApplicationGatewayOnDemandProbeMapper,
@@ -155,6 +160,23 @@ import {
   WebApplicationFirewallPolicy as WebApplicationFirewallPolicyMapper
 } from "../models/mappers";
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: IpamPoolMapper
+};
+
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -179,6 +201,20 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -188,6 +224,124 @@ export const resourceGroupName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const networkManagerName: OperationURLParameter = {
+  parameterPath: "networkManagerName",
+  mapper: {
+    serializedName: "networkManagerName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const poolName: OperationURLParameter = {
+  parameterPath: "poolName",
+  mapper: {
+    serializedName: "poolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-07-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: IpamPoolUpdateMapper
+};
+
+export const skipToken: OperationQueryParameter = {
+  parameterPath: ["options", "skipToken"],
+  mapper: {
+    serializedName: "skipToken",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    defaultValue: 0,
+    serializedName: "skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    defaultValue: 50,
+    serializedName: "top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const sortKey: OperationQueryParameter = {
+  parameterPath: ["options", "sortKey"],
+  mapper: {
+    serializedName: "sortKey",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const sortValue: OperationQueryParameter = {
+  parameterPath: ["options", "sortValue"],
+  mapper: {
+    serializedName: "sortValue",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body2: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: AssociationRequestMapper
+};
+
+export const body3: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: AllocationRequestMapper
+};
+
+export const body4: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: NonAzureAllocationRequestMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const applicationGatewayName: OperationURLParameter = {
@@ -201,35 +355,12 @@ export const applicationGatewayName: OperationURLParameter = {
   }
 };
 
-export const apiVersion: OperationQueryParameter = {
+export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-01",
+    defaultValue: "2023-05-01",
     isConstant: true,
     serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
     type: {
       name: "String"
     }
@@ -270,18 +401,6 @@ export const predefinedPolicyName: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const connectionName: OperationURLParameter = {
@@ -443,18 +562,7 @@ export const parameters7: OperationParameter = {
   mapper: ActiveConfigurationParameterMapper
 };
 
-export const networkManagerName: OperationURLParameter = {
-  parameterPath: "networkManagerName",
-  mapper: {
-    serializedName: "networkManagerName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const top: OperationQueryParameter = {
+export const top1: OperationQueryParameter = {
   parameterPath: ["options", "top"],
   mapper: {
     constraints: {
@@ -560,7 +668,7 @@ export const virtualmachineIndex: OperationURLParameter = {
   }
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2018-10-01",
@@ -1127,7 +1235,7 @@ export const parameters33: OperationParameter = {
   mapper: PatchObjectMapper
 };
 
-export const skipToken: OperationQueryParameter = {
+export const skipToken1: OperationQueryParameter = {
   parameterPath: ["options", "skipToken"],
   mapper: {
     serializedName: "$skipToken",
@@ -1762,22 +1870,12 @@ export const ipAddress: OperationQueryParameter = {
   }
 };
 
-export const top1: OperationQueryParameter = {
+export const top2: OperationQueryParameter = {
   parameterPath: ["options", "top"],
   mapper: {
     serializedName: "top",
     type: {
       name: "Number"
-    }
-  }
-};
-
-export const skipToken1: OperationQueryParameter = {
-  parameterPath: ["options", "skipToken"],
-  mapper: {
-    serializedName: "skipToken",
-    type: {
-      name: "String"
     }
   }
 };
