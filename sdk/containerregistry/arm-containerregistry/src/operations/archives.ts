@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import { Archives } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListNextOptionalParams,
-  PrivateEndpointConnectionsListOptionalParams,
-  PrivateEndpointConnectionsListResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListNextResponse
+  Archive,
+  ArchivesListNextOptionalParams,
+  ArchivesListOptionalParams,
+  ArchivesListResponse,
+  ArchivesGetOptionalParams,
+  ArchivesGetResponse,
+  ArchivesCreateOptionalParams,
+  ArchivesCreateResponse,
+  ArchivesDeleteOptionalParams,
+  ArchivesDeleteResponse,
+  ArchiveUpdateParameters,
+  ArchivesUpdateOptionalParams,
+  ArchivesUpdateResponse,
+  ArchivesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections {
+/** Class containing Archives operations. */
+export class ArchivesImpl implements Archives {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnections class.
+   * Initialize a new instance of the class Archives class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -47,17 +50,24 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * List all private endpoint connections in a container registry.
+   * Lists all archives for the specified container registry and package type.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
+   * @param packageType The type of the package resource.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listPagingAll(resourceGroupName, registryName, options);
+    packageType: string,
+    options?: ArchivesListOptionalParams
+  ): PagedAsyncIterableIterator<Archive> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      registryName,
+      packageType,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -72,6 +82,7 @@ export class PrivateEndpointConnectionsImpl
         return this.listPagingPage(
           resourceGroupName,
           registryName,
+          packageType,
           options,
           settings
         );
@@ -82,13 +93,19 @@ export class PrivateEndpointConnectionsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams,
+    packageType: string,
+    options?: ArchivesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionsListResponse;
+  ): AsyncIterableIterator<Archive[]> {
+    let result: ArchivesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, registryName, options);
+      result = await this._list(
+        resourceGroupName,
+        registryName,
+        packageType,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -98,6 +115,7 @@ export class PrivateEndpointConnectionsImpl
       result = await this._listNext(
         resourceGroupName,
         registryName,
+        packageType,
         continuationToken,
         options
       );
@@ -111,11 +129,13 @@ export class PrivateEndpointConnectionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    packageType: string,
+    options?: ArchivesListOptionalParams
+  ): AsyncIterableIterator<Archive> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
+      packageType,
       options
     )) {
       yield* page;
@@ -123,70 +143,71 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * List all private endpoint connections in a container registry.
+   * Lists all archives for the specified container registry and package type.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
+   * @param packageType The type of the package resource.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
-  ): Promise<PrivateEndpointConnectionsListResponse> {
+    packageType: string,
+    options?: ArchivesListOptionalParams
+  ): Promise<ArchivesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
+      { resourceGroupName, registryName, packageType, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get the specified private endpoint connection associated with the container registry.
+   * Gets the properties of the archive.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
+    packageType: string,
+    archiveName: string,
+    options?: ArchivesGetOptionalParams
+  ): Promise<ArchivesGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        registryName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, registryName, packageType, archiveName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update the state of specified private endpoint connection associated with the container registry.
+   * Creates a archive for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param privateEndpointConnection The parameters for creating a private endpoint connection.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
+   * @param archiveCreateParameters The parameters for creating a archive.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    packageType: string,
+    archiveName: string,
+    archiveCreateParameters: Archive,
+    options?: ArchivesCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-      PrivateEndpointConnectionsCreateOrUpdateResponse
+      OperationState<ArchivesCreateResponse>,
+      ArchivesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
+    ): Promise<ArchivesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -227,15 +248,16 @@ export class PrivateEndpointConnectionsImpl
       args: {
         resourceGroupName,
         registryName,
-        privateEndpointConnectionName,
-        privateEndpointConnection,
+        packageType,
+        archiveName,
+        archiveCreateParameters,
         options
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      PrivateEndpointConnectionsCreateOrUpdateResponse,
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>
+      ArchivesCreateResponse,
+      OperationState<ArchivesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -246,47 +268,57 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Update the state of specified private endpoint connection associated with the container registry.
+   * Creates a archive for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param privateEndpointConnection The parameters for creating a private endpoint connection.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
+   * @param archiveCreateParameters The parameters for creating a archive.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    packageType: string,
+    archiveName: string,
+    archiveCreateParameters: Archive,
+    options?: ArchivesCreateOptionalParams
+  ): Promise<ArchivesCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      privateEndpointConnectionName,
-      privateEndpointConnection,
+      packageType,
+      archiveName,
+      archiveCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the container registry.
+   * Deletes a archive from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    packageType: string,
+    archiveName: string,
+    options?: ArchivesDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArchivesDeleteResponse>,
+      ArchivesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ArchivesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -327,12 +359,16 @@ export class PrivateEndpointConnectionsImpl
       args: {
         resourceGroupName,
         registryName,
-        privateEndpointConnectionName,
+        packageType,
+        archiveName,
         options
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ArchivesDeleteResponse,
+      OperationState<ArchivesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -342,42 +378,77 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the container registry.
+   * Deletes a archive from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<void> {
+    packageType: string,
+    archiveName: string,
+    options?: ArchivesDeleteOptionalParams
+  ): Promise<ArchivesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      privateEndpointConnectionName,
+      packageType,
+      archiveName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
+   * Updates a archive for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param packageType The type of the package resource.
+   * @param archiveName The name of the archive resource.
+   * @param archiveUpdateParameters The parameters for updating a archive.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    packageType: string,
+    archiveName: string,
+    archiveUpdateParameters: ArchiveUpdateParameters,
+    options?: ArchivesUpdateOptionalParams
+  ): Promise<ArchivesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        registryName,
+        packageType,
+        archiveName,
+        archiveUpdateParameters,
+        options
+      },
+      updateOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
+   * @param packageType The type of the package resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     registryName: string,
+    packageType: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListNextOptionalParams
-  ): Promise<PrivateEndpointConnectionsListNextResponse> {
+    options?: ArchivesListNextOptionalParams
+  ): Promise<ArchivesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, nextLink, options },
+      { resourceGroupName, registryName, packageType, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -387,11 +458,14 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.ArchiveListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -399,18 +473,22 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.registryName
+    Parameters.registryName,
+    Parameters.packageType
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Archive
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -419,37 +497,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.privateEndpointConnectionName
+    Parameters.packageType,
+    Parameters.archiveName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Archive
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Archive
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Archive
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Archive
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.privateEndpointConnection,
+  requestBody: Parameters.archiveCreateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.privateEndpointConnectionName
+    Parameters.packageType,
+    Parameters.archiveName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -457,17 +540,61 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.ArchivesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.ArchivesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.ArchivesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.ArchivesDeleteHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.privateEndpointConnectionName
+    Parameters.packageType,
+    Parameters.archiveName
   ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Archive
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.archiveUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.packageType,
+    Parameters.archiveName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -475,7 +602,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.ArchiveListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -483,6 +613,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.packageType,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
