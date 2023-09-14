@@ -28,6 +28,9 @@ import {
   ServicesUpdateOptionalParams,
   ServicesUpdateResponse,
   ServicesDeleteOptionalParams,
+  MetadataAssignmentEntity,
+  ServicesExportMetadataSchemaOptionalParams,
+  ServicesExportMetadataSchemaResponse,
   ServicesListBySubscriptionNextResponse,
   ServicesListByResourceGroupNextResponse
 } from "../models";
@@ -100,7 +103,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Lists services within a resource group
+   * Returns a collection of services within the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -182,7 +185,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Lists services within a resource group
+   * Returns a collection of services within the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -197,7 +200,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Get service
+   * Returns details of the service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName Service name
    * @param options The options parameters.
@@ -214,7 +217,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Create or update service
+   * Creates new or updates existing API.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName Service name
    * @param options The options parameters.
@@ -231,7 +234,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Update service
+   * Updates existing service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName Service name
    * @param options The options parameters.
@@ -248,7 +251,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Delete service
+   * Deletes specified service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName Service name
    * @param options The options parameters.
@@ -261,6 +264,25 @@ export class ServicesImpl implements Services {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       deleteOperationSpec
+    );
+  }
+
+  /**
+   * Exports the effective metadata schema.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
+   * @param assignedTo An entity the metadata schema is requested for.
+   * @param options The options parameters.
+   */
+  exportMetadataSchema(
+    resourceGroupName: string,
+    serviceName: string,
+    assignedTo: MetadataAssignmentEntity,
+    options?: ServicesExportMetadataSchemaOptionalParams
+  ): Promise<ServicesExportMetadataSchemaResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, assignedTo, options },
+      exportMetadataSchemaOperationSpec
     );
   }
 
@@ -374,7 +396,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.resource,
+  requestBody: Parameters.payload,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -398,7 +420,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.payload1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -422,6 +444,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const exportMetadataSchemaOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/exportMetadataSchema",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetadataSchemaExportResult
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.assignedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
