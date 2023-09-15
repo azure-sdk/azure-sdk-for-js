@@ -1172,7 +1172,6 @@ export const Datasource: coreClient.CompositeMapper = {
 };
 
 export const BaseResourceProperties: coreClient.CompositeMapper = {
-  serializedName: "BaseResourceProperties",
   type: {
     name: "Composite",
     className: "BaseResourceProperties",
@@ -3671,6 +3670,20 @@ export const DeletedBackupInstance: coreClient.CompositeMapper = {
   }
 };
 
+export const DefaultResourceProperties: coreClient.CompositeMapper = {
+  serializedName: "DefaultResourceProperties",
+  type: {
+    name: "Composite",
+    className: "DefaultResourceProperties",
+    uberParent: "BaseResourceProperties",
+    polymorphicDiscriminator:
+      BaseResourceProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResourceProperties.type.modelProperties
+    }
+  }
+};
+
 export const AzureOperationalStoreParameters: coreClient.CompositeMapper = {
   serializedName: "AzureOperationalStoreParameters",
   type: {
@@ -5061,7 +5074,7 @@ export let discriminators = {
   FeatureValidationRequestBase: FeatureValidationRequestBase,
   FeatureValidationResponseBase: FeatureValidationResponseBase,
   BaseBackupPolicy: BaseBackupPolicy,
-  "BaseResourceProperties.BaseResourceProperties": BaseResourceProperties,
+  BaseResourceProperties: BaseResourceProperties,
   DataStoreParameters: DataStoreParameters,
   BackupDatasourceParameters: BackupDatasourceParameters,
   AuthCredentials: AuthCredentials,
@@ -5079,6 +5092,7 @@ export let discriminators = {
   "FeatureValidationRequestBase.FeatureValidationRequest": FeatureValidationRequest,
   "FeatureValidationResponseBase.FeatureValidationResponse": FeatureValidationResponse,
   "BaseBackupPolicy.BackupPolicy": BackupPolicy,
+  "BaseResourceProperties.DefaultResourceProperties": DefaultResourceProperties,
   "DataStoreParameters.AzureOperationalStoreParameters": AzureOperationalStoreParameters,
   "BackupDatasourceParameters.KubernetesClusterBackupDatasourceParameters": KubernetesClusterBackupDatasourceParameters,
   "BackupDatasourceParameters.BlobBackupDatasourceParameters": BlobBackupDatasourceParameters,
