@@ -269,6 +269,39 @@ export const PagedLabPlans: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceOperationError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceOperationError",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const LabPlanUpdateProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2048,6 +2081,13 @@ export const LabPlanProperties: coreClient.CompositeMapper = {
             "Locked"
           ]
         }
+      },
+      resourceOperationError: {
+        serializedName: "resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
+        }
       }
     }
   }
@@ -2241,6 +2281,13 @@ export const LabProperties: coreClient.CompositeMapper = {
             "Published"
           ]
         }
+      },
+      resourceOperationError: {
+        serializedName: "resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
+        }
       }
     }
   }
@@ -2266,6 +2313,13 @@ export const ScheduleProperties: coreClient.CompositeMapper = {
             "Locked"
           ]
         }
+      },
+      resourceOperationError: {
+        serializedName: "resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
+        }
       }
     }
   }
@@ -2290,6 +2344,13 @@ export const UserProperties: coreClient.CompositeMapper = {
             "Failed",
             "Locked"
           ]
+        }
+      },
+      resourceOperationError: {
+        serializedName: "resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
         }
       },
       displayName: {
@@ -2556,6 +2617,13 @@ export const Schedule: coreClient.CompositeMapper = {
             "Locked"
           ]
         }
+      },
+      resourceOperationError: {
+        serializedName: "properties.resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
+        }
       }
     }
   }
@@ -2593,6 +2661,13 @@ export const User: coreClient.CompositeMapper = {
             "Failed",
             "Locked"
           ]
+        }
+      },
+      resourceOperationError: {
+        serializedName: "properties.resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
         }
       },
       displayName: {
@@ -2689,6 +2764,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
             "Reimaging",
             "Redeploying"
           ]
+        }
+      },
+      resourceOperationError: {
+        serializedName: "properties.resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
         }
       },
       connectionProfile: {
@@ -2810,6 +2892,13 @@ export const LabPlan: coreClient.CompositeMapper = {
             "Locked"
           ]
         }
+      },
+      resourceOperationError: {
+        serializedName: "properties.resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
+        }
       }
     }
   }
@@ -2923,6 +3012,13 @@ export const Lab: coreClient.CompositeMapper = {
             "Syncing",
             "Published"
           ]
+        }
+      },
+      resourceOperationError: {
+        serializedName: "properties.resourceOperationError",
+        type: {
+          name: "Composite",
+          className: "ResourceOperationError"
         }
       }
     }

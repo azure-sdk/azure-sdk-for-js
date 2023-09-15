@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { LabServicesClient } from "../labServicesClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   User,
   UsersListByLabNextOptionalParams,
@@ -179,8 +183,8 @@ export class UsersImpl implements Users {
     body: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<UsersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<UsersCreateOrUpdateResponse>,
       UsersCreateOrUpdateResponse
     >
   > {
@@ -190,7 +194,7 @@ export class UsersImpl implements Users {
     ): Promise<UsersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -223,15 +227,18 @@ export class UsersImpl implements Users {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      UsersCreateOrUpdateResponse,
+      OperationState<UsersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -281,7 +288,7 @@ export class UsersImpl implements Users {
     body: UserUpdate,
     options?: UsersUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<UsersUpdateResponse>, UsersUpdateResponse>
+    SimplePollerLike<OperationState<UsersUpdateResponse>, UsersUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -289,7 +296,7 @@ export class UsersImpl implements Users {
     ): Promise<UsersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -322,15 +329,18 @@ export class UsersImpl implements Users {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      UsersUpdateResponse,
+      OperationState<UsersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -377,14 +387,14 @@ export class UsersImpl implements Users {
     labName: string,
     userName: string,
     options?: UsersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -417,15 +427,15 @@ export class UsersImpl implements Users {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -471,14 +481,14 @@ export class UsersImpl implements Users {
     userName: string,
     body: InviteBody,
     options?: UsersInviteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -511,15 +521,15 @@ export class UsersImpl implements Users {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, body, options },
-      inviteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, body, options },
+      spec: inviteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

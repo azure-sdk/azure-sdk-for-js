@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { LabServicesClient } from "../labServicesClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Lab,
   LabsListBySubscriptionNextOptionalParams,
@@ -233,8 +237,8 @@ export class LabsImpl implements Labs {
     body: Lab,
     options?: LabsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LabsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LabsCreateOrUpdateResponse>,
       LabsCreateOrUpdateResponse
     >
   > {
@@ -244,7 +248,7 @@ export class LabsImpl implements Labs {
     ): Promise<LabsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -277,15 +281,18 @@ export class LabsImpl implements Labs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LabsCreateOrUpdateResponse,
+      OperationState<LabsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -328,7 +335,7 @@ export class LabsImpl implements Labs {
     body: LabUpdate,
     options?: LabsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<LabsUpdateResponse>, LabsUpdateResponse>
+    SimplePollerLike<OperationState<LabsUpdateResponse>, LabsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -336,7 +343,7 @@ export class LabsImpl implements Labs {
     ): Promise<LabsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -369,15 +376,18 @@ export class LabsImpl implements Labs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LabsUpdateResponse,
+      OperationState<LabsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -417,14 +427,14 @@ export class LabsImpl implements Labs {
     resourceGroupName: string,
     labName: string,
     options?: LabsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -457,15 +467,15 @@ export class LabsImpl implements Labs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -498,14 +508,14 @@ export class LabsImpl implements Labs {
     resourceGroupName: string,
     labName: string,
     options?: LabsPublishOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -538,15 +548,15 @@ export class LabsImpl implements Labs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, options },
-      publishOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, options },
+      spec: publishOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -579,14 +589,14 @@ export class LabsImpl implements Labs {
     resourceGroupName: string,
     labName: string,
     options?: LabsSyncGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -619,15 +629,15 @@ export class LabsImpl implements Labs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, options },
-      syncGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, options },
+      spec: syncGroupOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
