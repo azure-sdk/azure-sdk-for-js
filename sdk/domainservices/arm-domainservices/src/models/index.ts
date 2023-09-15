@@ -241,6 +241,10 @@ export interface DomainSecuritySettings {
   kerberosRc4Encryption?: KerberosRc4Encryption;
   /** A flag to determine whether or not KerberosArmoring is enabled or disabled. */
   kerberosArmoring?: KerberosArmoring;
+  /** A flag to determine whether or not LdapSigning is enabled or disabled. */
+  ldapSigning?: LdapSigning;
+  /** A flag to determine whether or not ChannelBinding is enabled or disabled. */
+  channelBinding?: ChannelBinding;
 }
 
 /** Settings for notification */
@@ -399,6 +403,11 @@ export interface DomainService extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly syncOwner?: string;
+  /**
+   * The unique sync application id of the Azure AD Domain Services deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly syncApplicationId?: string;
   /** List of ReplicaSets */
   replicaSets?: ReplicaSet[];
   /** Secure LDAP Settings */
@@ -413,6 +422,8 @@ export interface DomainService extends Resource {
   sku?: string;
   /** Enabled or Disabled flag to turn on Group-based filtered sync */
   filteredSync?: FilteredSync;
+  /** All or CloudOnly, All users in AAD are synced to AAD DS domain or only users actively syncing in the cloud */
+  syncScope?: SyncScope;
   /** Notification Settings */
   notificationSettings?: NotificationSettings;
   /**
@@ -632,6 +643,42 @@ export enum KnownKerberosArmoring {
  */
 export type KerberosArmoring = string;
 
+/** Known values of {@link LdapSigning} that the service accepts. */
+export enum KnownLdapSigning {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for LdapSigning. \
+ * {@link KnownLdapSigning} can be used interchangeably with LdapSigning,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type LdapSigning = string;
+
+/** Known values of {@link ChannelBinding} that the service accepts. */
+export enum KnownChannelBinding {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ChannelBinding. \
+ * {@link KnownChannelBinding} can be used interchangeably with ChannelBinding,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ChannelBinding = string;
+
 /** Known values of {@link FilteredSync} that the service accepts. */
 export enum KnownFilteredSync {
   /** Enabled */
@@ -649,6 +696,24 @@ export enum KnownFilteredSync {
  * **Disabled**
  */
 export type FilteredSync = string;
+
+/** Known values of {@link SyncScope} that the service accepts. */
+export enum KnownSyncScope {
+  /** All */
+  All = "All",
+  /** CloudOnly */
+  CloudOnly = "CloudOnly"
+}
+
+/**
+ * Defines values for SyncScope. \
+ * {@link KnownSyncScope} can be used interchangeably with SyncScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **All** \
+ * **CloudOnly**
+ */
+export type SyncScope = string;
 
 /** Known values of {@link NotifyGlobalAdmins} that the service accepts. */
 export enum KnownNotifyGlobalAdmins {
