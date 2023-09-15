@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Runs } from "../operationsInterfaces";
+import { ExportPipelines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Run,
-  RunsListNextOptionalParams,
-  RunsListOptionalParams,
-  RunsListResponse,
-  RunsGetOptionalParams,
-  RunsGetResponse,
-  RunUpdateParameters,
-  RunsUpdateOptionalParams,
-  RunsUpdateResponse,
-  RunsGetLogSasUrlOptionalParams,
-  RunsGetLogSasUrlResponse,
-  RunsCancelOptionalParams,
-  RunsListNextResponse
+  ExportPipeline,
+  ExportPipelinesListNextOptionalParams,
+  ExportPipelinesListOptionalParams,
+  ExportPipelinesListResponse,
+  ExportPipelinesGetOptionalParams,
+  ExportPipelinesGetResponse,
+  ExportPipelinesCreateOptionalParams,
+  ExportPipelinesCreateResponse,
+  ExportPipelinesDeleteOptionalParams,
+  ExportPipelinesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Runs operations. */
-export class RunsImpl implements Runs {
+/** Class containing ExportPipelines operations. */
+export class ExportPipelinesImpl implements ExportPipelines {
   private readonly client: ContainerRegistryManagementClient;
 
   /**
-   * Initialize a new instance of the class Runs class.
+   * Initialize a new instance of the class ExportPipelines class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerRegistryManagementClient) {
@@ -49,16 +46,16 @@ export class RunsImpl implements Runs {
   }
 
   /**
-   * Gets all the runs for a registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all export pipelines for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams
-  ): PagedAsyncIterableIterator<Run> {
+    options?: ExportPipelinesListOptionalParams
+  ): PagedAsyncIterableIterator<ExportPipeline> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
@@ -84,10 +81,10 @@ export class RunsImpl implements Runs {
   private async *listPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams,
+    options?: ExportPipelinesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Run[]> {
-    let result: RunsListResponse;
+  ): AsyncIterableIterator<ExportPipeline[]> {
+    let result: ExportPipelinesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, registryName, options);
@@ -113,8 +110,8 @@ export class RunsImpl implements Runs {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams
-  ): AsyncIterableIterator<Run> {
+    options?: ExportPipelinesListOptionalParams
+  ): AsyncIterableIterator<ExportPipeline> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
@@ -125,16 +122,16 @@ export class RunsImpl implements Runs {
   }
 
   /**
-   * Gets all the runs for a registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists all export pipelines for the specified container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams
-  ): Promise<RunsListResponse> {
+    options?: ExportPipelinesListOptionalParams
+  ): Promise<ExportPipelinesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
       listOperationSpec
@@ -142,45 +139,48 @@ export class RunsImpl implements Runs {
   }
 
   /**
-   * Gets the detailed information for a given run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Gets the properties of the export pipeline.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param runId The run ID.
+   * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     registryName: string,
-    runId: string,
-    options?: RunsGetOptionalParams
-  ): Promise<RunsGetResponse> {
+    exportPipelineName: string,
+    options?: ExportPipelinesGetOptionalParams
+  ): Promise<ExportPipelinesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, runId, options },
+      { resourceGroupName, registryName, exportPipelineName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Patch the run properties.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates an export pipeline for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param runUpdateParameters The run update properties.
+   * @param exportPipelineName The name of the export pipeline.
+   * @param exportPipelineCreateParameters The parameters for creating an export pipeline.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  async beginCreate(
     resourceGroupName: string,
     registryName: string,
-    runId: string,
-    runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams
+    exportPipelineName: string,
+    exportPipelineCreateParameters: ExportPipeline,
+    options?: ExportPipelinesCreateOptionalParams
   ): Promise<
-    SimplePollerLike<OperationState<RunsUpdateResponse>, RunsUpdateResponse>
+    SimplePollerLike<
+      OperationState<ExportPipelinesCreateResponse>,
+      ExportPipelinesCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<RunsUpdateResponse> => {
+    ): Promise<ExportPipelinesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -221,79 +221,61 @@ export class RunsImpl implements Runs {
       args: {
         resourceGroupName,
         registryName,
-        runId,
-        runUpdateParameters,
+        exportPipelineName,
+        exportPipelineCreateParameters,
         options
       },
-      spec: updateOperationSpec
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      RunsUpdateResponse,
-      OperationState<RunsUpdateResponse>
+      ExportPipelinesCreateResponse,
+      OperationState<ExportPipelinesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Patch the run properties.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates an export pipeline for a container registry with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param runUpdateParameters The run update properties.
+   * @param exportPipelineName The name of the export pipeline.
+   * @param exportPipelineCreateParameters The parameters for creating an export pipeline.
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     registryName: string,
-    runId: string,
-    runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams
-  ): Promise<RunsUpdateResponse> {
-    const poller = await this.beginUpdate(
+    exportPipelineName: string,
+    exportPipelineCreateParameters: ExportPipeline,
+    options?: ExportPipelinesCreateOptionalParams
+  ): Promise<ExportPipelinesCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
-      runId,
-      runUpdateParameters,
+      exportPipelineName,
+      exportPipelineCreateParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a link to download the run logs.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes an export pipeline from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param runId The run ID.
+   * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
    */
-  getLogSasUrl(
+  async beginDelete(
     resourceGroupName: string,
     registryName: string,
-    runId: string,
-    options?: RunsGetLogSasUrlOptionalParams
-  ): Promise<RunsGetLogSasUrlResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, runId, options },
-      getLogSasUrlOperationSpec
-    );
-  }
-
-  /**
-   * Cancel an existing run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param options The options parameters.
-   */
-  async beginCancel(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    options?: RunsCancelOptionalParams
+    exportPipelineName: string,
+    options?: ExportPipelinesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -336,34 +318,35 @@ export class RunsImpl implements Runs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, registryName, runId, options },
-      spec: cancelOperationSpec
+      args: { resourceGroupName, registryName, exportPipelineName, options },
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Cancel an existing run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes an export pipeline from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
-   * @param runId The run ID.
+   * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
    */
-  async beginCancelAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
-    runId: string,
-    options?: RunsCancelOptionalParams
+    exportPipelineName: string,
+    options?: ExportPipelinesDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginCancel(
+    const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
-      runId,
+      exportPipelineName,
       options
     );
     return poller.pollUntilDone();
@@ -371,7 +354,7 @@ export class RunsImpl implements Runs {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -380,8 +363,8 @@ export class RunsImpl implements Runs {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: RunsListNextOptionalParams
-  ): Promise<RunsListNextResponse> {
+    options?: ExportPipelinesListNextOptionalParams
+  ): Promise<ExportPipelinesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
       listNextOperationSpec
@@ -393,126 +376,103 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RunListResult
+      bodyMapper: Mappers.ExportPipelineListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName,
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Run
+      bodyMapper: Mappers.ExportPipeline
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.runId
+    Parameters.exportPipelineName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
-  httpMethod: "PATCH",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Run
+      bodyMapper: Mappers.ExportPipeline
     },
     201: {
-      bodyMapper: Mappers.Run
+      bodyMapper: Mappers.ExportPipeline
     },
     202: {
-      bodyMapper: Mappers.Run
+      bodyMapper: Mappers.ExportPipeline
     },
     204: {
-      bodyMapper: Mappers.Run
+      bodyMapper: Mappers.ExportPipeline
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.runUpdateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.exportPipelineCreateParameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.runId
+    Parameters.exportPipelineName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/listLogSasUrl",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RunGetLogResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.runId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/cancel",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
+  httpMethod: "DELETE",
   responses: {
     200: {},
     201: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.resourceGroupName1,
-    Parameters.runId
+    Parameters.exportPipelineName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -522,18 +482,18 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RunListResult
+      bodyMapper: Mappers.ExportPipelineListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
