@@ -8,14 +8,9 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl } from "./operations";
-import { Operations } from "./operationsInterfaces";
+import { QueryImpl, OperationsImpl } from "./operations";
+import { Query, Operations } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
@@ -25,24 +20,34 @@ import {
   ResourcesResponse,
   ResourcesHistoryRequest,
   ResourcesHistoryOptionalParams,
-  ResourcesHistoryResponse
+  ResourcesHistoryResponse,
+  ResourceChangesRequestParameters,
+  ResourceChangesOptionalParams,
+  ResourceChangesResponse,
+  ResourceChangeDetailsRequestParameters,
+  ResourceChangeDetailsOptionalParams,
+  ResourceChangeDetailsResponse
 } from "./models";
 
 export class ResourceGraphClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
 
   /**
    * Initializes a new instance of the ResourceGraphClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param $host server parameter
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
+    $host: string,
     options?: ResourceGraphClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
+    }
+    if ($host === undefined) {
+      throw new Error("'$host' cannot be null");
     }
 
     // Initializing default values for options
@@ -102,40 +107,10 @@ export class ResourceGraphClient extends coreClient.ServiceClient {
         })
       );
     }
-
-    // Assigning values to Constant parameters
-    this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01-preview";
+    // Parameter assignments
+    this.$host = $host;
+    this.query = new QueryImpl(this);
     this.operations = new OperationsImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
-  }
-
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      }
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -168,6 +143,37 @@ export class ResourceGraphClient extends coreClient.ServiceClient {
     );
   }
 
+  /**
+   * List changes to a resource for a given time interval.
+   * @param parameters the parameters for this request for changes.
+   * @param options The options parameters.
+   */
+  resourceChanges(
+    parameters: ResourceChangesRequestParameters,
+    options?: ResourceChangesOptionalParams
+  ): Promise<ResourceChangesResponse> {
+    return this.sendOperationRequest(
+      { parameters, options },
+      resourceChangesOperationSpec
+    );
+  }
+
+  /**
+   * Get resource change details.
+   * @param parameters The parameters for this request for resource change details.
+   * @param options The options parameters.
+   */
+  resourceChangeDetails(
+    parameters: ResourceChangeDetailsRequestParameters,
+    options?: ResourceChangeDetailsOptionalParams
+  ): Promise<ResourceChangeDetailsResponse> {
+    return this.sendOperationRequest(
+      { parameters, options },
+      resourceChangeDetailsOperationSpec
+    );
+  }
+
+  query: Query;
   operations: Operations;
 }
 // Operation Specifications
@@ -205,7 +211,50 @@ const resourcesHistoryOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const resourceChangesOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.ResourceGraph/resourceChanges",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceChangeList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const resourceChangeDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.ResourceGraph/resourceChangeDetails",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "ResourceChangeData" }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
