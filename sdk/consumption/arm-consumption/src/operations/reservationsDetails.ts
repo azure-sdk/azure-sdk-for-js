@@ -43,7 +43,11 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   }
 
   /**
-   * Lists the reservations details for provided date range.
+   * Lists the reservations details for provided date range. Note: ARM has a payload size limit of 12MB,
+   * so currently callers get 400 when the response size exceeds the ARM limit. If the data size is too
+   * large, customers may also get 504 as the API timed out preparing the data. In such cases, API call
+   * should be made with smaller date ranges or a call to Generate Reservation Details Report API should
+   * be made as it is asynchronous and will not run into response size time outs.
    * @param reservationOrderId Order Id of the reservation
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date and
    *               end date. The filter supports 'le' and  'ge'
@@ -127,7 +131,11 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   }
 
   /**
-   * Lists the reservations details for provided date range.
+   * Lists the reservations details for provided date range. Note: ARM has a payload size limit of 12MB,
+   * so currently callers get 400 when the response size exceeds the ARM limit. If the data size is too
+   * large, customers may also get 504 as the API timed out preparing the data. In such cases, API call
+   * should be made with smaller date ranges or a call to Generate Reservation Details Report API should
+   * be made as it is asynchronous and will not run into response size time outs.
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date and
@@ -220,19 +228,23 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   }
 
   /**
-   * Lists the reservations details for the defined scope and provided date range.
-   * @param scope The scope associated with reservations details operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * Lists the reservations details for provided date range. Note: ARM has a payload size limit of 12MB,
+   * so currently callers get 400 when the response size exceeds the ARM limit. If the data size is too
+   * large, customers may also get 504 as the API timed out preparing the data. In such cases, API call
+   * should be made with smaller date ranges or a call to Generate Reservation Details Report API should
+   * be made as it is asynchronous and will not run into response size time outs.
+   * @param resourceScope The scope associated with reservations details operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param options The options parameters.
    */
   public list(
-    scope: string,
+    resourceScope: string,
     options?: ReservationsDetailsListOptionalParams
   ): PagedAsyncIterableIterator<ReservationDetail> {
-    const iter = this.listPagingAll(scope, options);
+    const iter = this.listPagingAll(resourceScope, options);
     return {
       next() {
         return iter.next();
@@ -244,27 +256,27 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(scope, options, settings);
+        return this.listPagingPage(resourceScope, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    scope: string,
+    resourceScope: string,
     options?: ReservationsDetailsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<ReservationDetail[]> {
     let result: ReservationsDetailsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(scope, options);
+      result = await this._list(resourceScope, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(scope, continuationToken, options);
+      result = await this._listNext(resourceScope, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -273,16 +285,20 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   }
 
   private async *listPagingAll(
-    scope: string,
+    resourceScope: string,
     options?: ReservationsDetailsListOptionalParams
   ): AsyncIterableIterator<ReservationDetail> {
-    for await (const page of this.listPagingPage(scope, options)) {
+    for await (const page of this.listPagingPage(resourceScope, options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists the reservations details for provided date range.
+   * Lists the reservations details for provided date range. Note: ARM has a payload size limit of 12MB,
+   * so currently callers get 400 when the response size exceeds the ARM limit. If the data size is too
+   * large, customers may also get 504 as the API timed out preparing the data. In such cases, API call
+   * should be made with smaller date ranges or a call to Generate Reservation Details Report API should
+   * be made as it is asynchronous and will not run into response size time outs.
    * @param reservationOrderId Order Id of the reservation
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date and
    *               end date. The filter supports 'le' and  'ge'
@@ -300,7 +316,11 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   }
 
   /**
-   * Lists the reservations details for provided date range.
+   * Lists the reservations details for provided date range. Note: ARM has a payload size limit of 12MB,
+   * so currently callers get 400 when the response size exceeds the ARM limit. If the data size is too
+   * large, customers may also get 504 as the API timed out preparing the data. In such cases, API call
+   * should be made with smaller date ranges or a call to Generate Reservation Details Report API should
+   * be made as it is asynchronous and will not run into response size time outs.
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date and
@@ -320,20 +340,24 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   }
 
   /**
-   * Lists the reservations details for the defined scope and provided date range.
-   * @param scope The scope associated with reservations details operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * Lists the reservations details for provided date range. Note: ARM has a payload size limit of 12MB,
+   * so currently callers get 400 when the response size exceeds the ARM limit. If the data size is too
+   * large, customers may also get 504 as the API timed out preparing the data. In such cases, API call
+   * should be made with smaller date ranges or a call to Generate Reservation Details Report API should
+   * be made as it is asynchronous and will not run into response size time outs.
+   * @param resourceScope The scope associated with reservations details operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param options The options parameters.
    */
   private _list(
-    scope: string,
+    resourceScope: string,
     options?: ReservationsDetailsListOptionalParams
   ): Promise<ReservationsDetailsListResponse> {
     return this.client.sendOperationRequest(
-      { scope, options },
+      { resourceScope, options },
       listOperationSpec
     );
   }
@@ -379,21 +403,21 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
 
   /**
    * ListNext
-   * @param scope The scope associated with reservations details operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * @param resourceScope The scope associated with reservations details operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    scope: string,
+    resourceScope: string,
     nextLink: string,
     options?: ReservationsDetailsListNextOptionalParams
   ): Promise<ReservationsDetailsListNextResponse> {
     return this.client.sendOperationRequest(
-      { scope, nextLink, options },
+      { resourceScope, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -440,7 +464,7 @@ const listByReservationOrderAndReservationOperationSpec: coreClient.OperationSpe
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Consumption/reservationDetails",
+  path: "/{resourceScope}/providers/Microsoft.Consumption/reservationDetails",
   httpMethod: "GET",
   responses: {
     200: {
@@ -458,7 +482,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.reservationId1,
     Parameters.reservationOrderId1
   ],
-  urlParameters: [Parameters.$host, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.resourceScope],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -512,7 +536,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.resourceScope
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
