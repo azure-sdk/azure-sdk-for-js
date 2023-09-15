@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AzureTrafficCollectorsGetOptionalParams,
   AzureTrafficCollectorsGetResponse,
@@ -44,8 +44,8 @@ export interface AzureTrafficCollectors {
     location: string,
     options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AzureTrafficCollectorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AzureTrafficCollectorsCreateOrUpdateResponse>,
       AzureTrafficCollectorsCreateOrUpdateResponse
     >
   >;
@@ -72,7 +72,7 @@ export interface AzureTrafficCollectors {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     options?: AzureTrafficCollectorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified Azure Traffic Collector resource.
    * @param resourceGroupName The name of the resource group.
