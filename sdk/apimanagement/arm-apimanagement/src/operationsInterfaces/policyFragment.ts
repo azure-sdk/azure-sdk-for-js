@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  PolicyFragmentContract,
   PolicyFragmentListByServiceOptionalParams,
-  PolicyFragmentListByServiceResponse,
   PolicyFragmentGetEntityTagOptionalParams,
   PolicyFragmentGetEntityTagResponse,
   PolicyFragmentGetOptionalParams,
   PolicyFragmentGetResponse,
-  PolicyFragmentContract,
   PolicyFragmentCreateOrUpdateOptionalParams,
   PolicyFragmentCreateOrUpdateResponse,
   PolicyFragmentDeleteOptionalParams,
@@ -22,6 +22,7 @@ import {
   PolicyFragmentListReferencesResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PolicyFragment. */
 export interface PolicyFragment {
   /**
@@ -34,7 +35,7 @@ export interface PolicyFragment {
     resourceGroupName: string,
     serviceName: string,
     options?: PolicyFragmentListByServiceOptionalParams
-  ): Promise<PolicyFragmentListByServiceResponse>;
+  ): PagedAsyncIterableIterator<PolicyFragmentContract>;
   /**
    * Gets the entity state (Etag) version of a policy fragment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
