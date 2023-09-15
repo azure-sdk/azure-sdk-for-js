@@ -19,3 +19,6 @@ export * from "./inventoryItems";
 export * from "./hybridIdentityMetadataOperations";
 export * from "./machineExtensions";
 export * from "./guestAgents";
+export * from "./virtualMachineInstances";
+export * from "./vmInstanceHybridIdentityMetadataOperations";
+export * from "./vMInstanceGuestAgents";
