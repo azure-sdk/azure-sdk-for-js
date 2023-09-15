@@ -1,15 +1,13 @@
 # Release History
+    
+## 11.1.0 (2023-09-15)
+    
+**Features**
 
-## 11.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface BackupStatusResponse has a new optional parameter acquireStorageAccountLock
+  - Interface BackupStatusResponse has a new optional parameter protectedItemsCount
+    
+    
 ## 11.0.0 (2023-09-01)
     
 **Features**
