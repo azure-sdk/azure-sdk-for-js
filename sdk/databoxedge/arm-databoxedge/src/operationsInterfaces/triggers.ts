@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TriggerUnion,
   TriggersListByDataBoxEdgeDeviceOptionalParams,
@@ -60,8 +60,8 @@ export interface Triggers {
     trigger: TriggerUnion,
     options?: TriggersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TriggersCreateOrUpdateResponse>,
       TriggersCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface Triggers {
     name: string,
     resourceGroupName: string,
     options?: TriggersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the trigger on the gateway device.
    * @param deviceName The device name.
