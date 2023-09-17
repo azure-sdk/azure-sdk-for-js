@@ -1,5 +1,30 @@
 # Release History
     
+## 1.0.0-beta.3 (2023-09-17)
+    
+**Features**
+
+  - Added operation group FleetUpdateStrategies
+  - Added Interface FleetUpdateStrategiesCreateOrUpdateHeaders
+  - Added Interface FleetUpdateStrategiesCreateOrUpdateOptionalParams
+  - Added Interface FleetUpdateStrategiesDeleteHeaders
+  - Added Interface FleetUpdateStrategiesDeleteOptionalParams
+  - Added Interface FleetUpdateStrategiesGetOptionalParams
+  - Added Interface FleetUpdateStrategiesListByFleetNextOptionalParams
+  - Added Interface FleetUpdateStrategiesListByFleetOptionalParams
+  - Added Interface FleetUpdateStrategy
+  - Added Interface FleetUpdateStrategyListResult
+  - Added Type Alias FleetUpdateStrategiesCreateOrUpdateResponse
+  - Added Type Alias FleetUpdateStrategiesGetResponse
+  - Added Type Alias FleetUpdateStrategiesListByFleetNextResponse
+  - Added Type Alias FleetUpdateStrategiesListByFleetResponse
+  - Added Type Alias FleetUpdateStrategyProvisioningState
+  - Interface AgentProfile has a new optional parameter vmSize
+  - Interface FleetHubProfile has a new optional parameter portalFqdn
+  - Interface UpdateRun has a new optional parameter updateStrategyId
+  - Added Enum KnownFleetUpdateStrategyProvisioningState
+    
+    
 ## 1.0.0-beta.2 (2023-09-08)
     
 **Features**
