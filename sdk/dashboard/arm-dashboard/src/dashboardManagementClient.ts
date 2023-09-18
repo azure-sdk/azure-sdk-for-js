@@ -18,13 +18,17 @@ import {
   OperationsImpl,
   GrafanaImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  EnterpriseDetailsOperationsImpl,
+  ManagedPrivateEndpointsImpl
 } from "./operations";
 import {
   Operations,
   Grafana,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  EnterpriseDetailsOperations,
+  ManagedPrivateEndpoints
 } from "./operationsInterfaces";
 import { DashboardManagementClientOptionalParams } from "./models";
 
@@ -60,7 +64,7 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dashboard/1.0.2`;
+    const packageDetails = `azsdk-js-arm-dashboard/1.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,11 +117,15 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.operations = new OperationsImpl(this);
     this.grafana = new GrafanaImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.enterpriseDetailsOperations = new EnterpriseDetailsOperationsImpl(
+      this
+    );
+    this.managedPrivateEndpoints = new ManagedPrivateEndpointsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -153,4 +161,6 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
   grafana: Grafana;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  enterpriseDetailsOperations: EnterpriseDetailsOperations;
+  managedPrivateEndpoints: ManagedPrivateEndpoints;
 }
