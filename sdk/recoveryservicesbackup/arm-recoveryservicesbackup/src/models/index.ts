@@ -353,6 +353,10 @@ export interface BackupStatusResponse {
   policyName?: string;
   /** Container registration status */
   registrationStatus?: string;
+  /** Number of protected items */
+  protectedItemsCount?: number;
+  /** Specifies whether the storage account lock has been acquired or not */
+  acquireStorageAccountLock?: AcquireStorageAccountLock;
 }
 
 /** Base class for feature request */
@@ -3977,6 +3981,24 @@ export enum KnownFabricName {
  */
 export type FabricName = string;
 
+/** Known values of {@link AcquireStorageAccountLock} that the service accepts. */
+export enum KnownAcquireStorageAccountLock {
+  /** Acquire */
+  Acquire = "Acquire",
+  /** NotAcquire */
+  NotAcquire = "NotAcquire"
+}
+
+/**
+ * Defines values for AcquireStorageAccountLock. \
+ * {@link KnownAcquireStorageAccountLock} can be used interchangeably with AcquireStorageAccountLock,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Acquire** \
+ * **NotAcquire**
+ */
+export type AcquireStorageAccountLock = string;
+
 /** Known values of {@link SupportStatus} that the service accepts. */
 export enum KnownSupportStatus {
   /** Invalid */
@@ -5180,24 +5202,6 @@ export enum KnownOperationType {
  */
 export type OperationType = string;
 
-/** Known values of {@link AcquireStorageAccountLock} that the service accepts. */
-export enum KnownAcquireStorageAccountLock {
-  /** Acquire */
-  Acquire = "Acquire",
-  /** NotAcquire */
-  NotAcquire = "NotAcquire"
-}
-
-/**
- * Defines values for AcquireStorageAccountLock. \
- * {@link KnownAcquireStorageAccountLock} can be used interchangeably with AcquireStorageAccountLock,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Acquire** \
- * **NotAcquire**
- */
-export type AcquireStorageAccountLock = string;
-
 /** Known values of {@link InquiryStatus} that the service accepts. */
 export enum KnownInquiryStatus {
   /** Invalid */
@@ -6067,7 +6071,12 @@ export type ProtectionContainersGetResponse = ProtectionContainerResource;
 
 /** Optional parameters. */
 export interface ProtectionContainersRegisterOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the register operation. */
 export type ProtectionContainersRegisterResponse = ProtectionContainerResource;

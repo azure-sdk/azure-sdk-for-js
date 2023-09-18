@@ -1,15 +1,21 @@
 # Release History
+    
+## 12.0.0 (2023-09-18)
+    
+**Features**
 
-## 11.0.1 (Unreleased)
+  - Added operation ProtectionContainers.beginRegister
+  - Added operation ProtectionContainers.beginRegisterAndWait
+  - Interface BackupStatusResponse has a new optional parameter acquireStorageAccountLock
+  - Interface BackupStatusResponse has a new optional parameter protectedItemsCount
+  - Interface ProtectionContainersRegisterOptionalParams has a new optional parameter resumeFrom
+  - Interface ProtectionContainersRegisterOptionalParams has a new optional parameter updateIntervalInMs
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation ProtectionContainers.register
+    
+    
 ## 11.0.0 (2023-09-01)
     
 **Features**

@@ -361,6 +361,18 @@ export const BackupStatusResponse: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      protectedItemsCount: {
+        serializedName: "protectedItemsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      acquireStorageAccountLock: {
+        serializedName: "acquireStorageAccountLock",
+        type: {
+          name: "String"
+        }
       }
     }
   }
