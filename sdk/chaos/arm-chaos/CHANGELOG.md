@@ -1,15 +1,13 @@
 # Release History
+    
+## 1.0.0-beta.5 (2023-09-18)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CustomerDataStorageProperties
+  - Interface Experiment has a new optional parameter customerDataStorage
+    
+    
 ## 1.0.0-beta.4 (2023-08-04)
     
 **Features**

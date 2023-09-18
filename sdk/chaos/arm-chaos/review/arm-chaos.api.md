@@ -199,6 +199,12 @@ export interface ContinuousAction extends Action {
 export type CreatedByType = string;
 
 // @public
+export interface CustomerDataStorageProperties {
+    blobContainerName?: string;
+    storageAccountResourceId?: string;
+}
+
+// @public
 export interface DelayAction extends Action {
     duration: string;
     type: "delay";
@@ -233,6 +239,7 @@ export interface ErrorResponse {
 
 // @public
 export interface Experiment extends TrackedResource {
+    customerDataStorage?: CustomerDataStorageProperties;
     identity?: ResourceIdentity;
     selectors: SelectorUnion[];
     startOnCreation?: boolean;

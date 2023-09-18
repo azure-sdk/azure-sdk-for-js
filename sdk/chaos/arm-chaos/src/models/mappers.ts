@@ -529,6 +529,33 @@ export const Filter: coreClient.CompositeMapper = {
   }
 };
 
+export const CustomerDataStorageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomerDataStorageProperties",
+    modelProperties: {
+      storageAccountResourceId: {
+        serializedName: "storageAccountResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      blobContainerName: {
+        constraints: {
+          Pattern: new RegExp("^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$"),
+          MaxLength: 63,
+          MinLength: 3
+        },
+        serializedName: "blobContainerName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ExperimentUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1809,6 +1836,13 @@ export const Experiment: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Boolean"
+        }
+      },
+      customerDataStorage: {
+        serializedName: "properties.customerDataStorage",
+        type: {
+          name: "Composite",
+          className: "CustomerDataStorageProperties"
         }
       }
     }

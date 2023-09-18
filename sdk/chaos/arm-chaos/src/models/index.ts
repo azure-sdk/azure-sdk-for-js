@@ -225,6 +225,14 @@ export interface Filter {
   type: "Simple";
 }
 
+/** Model that represents the Customer Managed Storage for an Experiment. */
+export interface CustomerDataStorageProperties {
+  /** ARM Resource ID of the Storage account to use for Customer Data storage. */
+  storageAccountResourceId?: string;
+  /** Name of the Azure Blob Storage container to use or create. */
+  blobContainerName?: string;
+}
+
 /** Describes an experiment update. */
 export interface ExperimentUpdate {
   /** The identity of the experiment resource. */
@@ -837,6 +845,8 @@ export interface Experiment extends TrackedResource {
   selectors: SelectorUnion[];
   /** A boolean value that indicates if experiment should be started on creation or not. */
   startOnCreation?: boolean;
+  /** Optional customer-managed Storage account where Experiment schema will be stored. */
+  customerDataStorage?: CustomerDataStorageProperties;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
