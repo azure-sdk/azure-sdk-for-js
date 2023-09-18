@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   FileImport,
   FileImportsListNextOptionalParams,
@@ -188,8 +192,8 @@ export class FileImportsImpl implements FileImports {
     fileImportId: string,
     options?: FileImportsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FileImportsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<FileImportsDeleteResponse>,
       FileImportsDeleteResponse
     >
   > {
@@ -199,7 +203,7 @@ export class FileImportsImpl implements FileImports {
     ): Promise<FileImportsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -232,15 +236,18 @@ export class FileImportsImpl implements FileImports {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, fileImportId, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, fileImportId, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FileImportsDeleteResponse,
+      OperationState<FileImportsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
