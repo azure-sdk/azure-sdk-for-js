@@ -1,15 +1,122 @@
 # Release History
+    
+## 2.1.0-beta.1 (2023-09-19)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Builders
+  - Added operation group Builds
+  - Added operation group ManagedEnvironmentUsages
+  - Added operation group Patches
+  - Added operation group Usages
+  - Added Interface AppInsightsConfiguration
+  - Added Interface BlobStorageTokenStore
+  - Added Interface BuildCollection
+  - Added Interface BuildConfiguration
+  - Added Interface BuilderCollection
+  - Added Interface BuilderResource
+  - Added Interface BuilderResourceUpdate
+  - Added Interface BuildersCreateOrUpdateHeaders
+  - Added Interface BuildersCreateOrUpdateOptionalParams
+  - Added Interface BuildersDeleteHeaders
+  - Added Interface BuildersDeleteOptionalParams
+  - Added Interface BuildersGetOptionalParams
+  - Added Interface BuildersListByResourceGroupNextOptionalParams
+  - Added Interface BuildersListByResourceGroupOptionalParams
+  - Added Interface BuildersListBySubscriptionNextOptionalParams
+  - Added Interface BuildersListBySubscriptionOptionalParams
+  - Added Interface BuildersUpdateHeaders
+  - Added Interface BuildersUpdateOptionalParams
+  - Added Interface BuildResource
+  - Added Interface BuildsCreateOrUpdateHeaders
+  - Added Interface BuildsCreateOrUpdateOptionalParams
+  - Added Interface BuildsDeleteHeaders
+  - Added Interface BuildsDeleteOptionalParams
+  - Added Interface BuildsGetOptionalParams
+  - Added Interface BuildsListByBuilderResourceNextOptionalParams
+  - Added Interface BuildsListByBuilderResourceOptionalParams
+  - Added Interface ContainerRegistry
+  - Added Interface ContainerRegistryWithCustomImage
+  - Added Interface DaprComponentServiceBinding
+  - Added Interface DaprServiceBindMetadata
+  - Added Interface DataDogConfiguration
+  - Added Interface DestinationsConfiguration
+  - Added Interface EncryptionSettings
+  - Added Interface EnvironmentVariable
+  - Added Interface GetCustomDomainVerificationIdOptionalParams
+  - Added Interface HttpGet
+  - Added Interface IngressPortMapping
+  - Added Interface ListUsagesResult
+  - Added Interface LogsConfiguration
+  - Added Interface ManagedEnvironmentUsagesListNextOptionalParams
+  - Added Interface ManagedEnvironmentUsagesListOptionalParams
+  - Added Interface MetricsConfiguration
+  - Added Interface OpenTelemetryConfiguration
+  - Added Interface PatchCollection
+  - Added Interface PatchDetails
+  - Added Interface PatchDetailsNewLayer
+  - Added Interface PatchDetailsOldLayer
+  - Added Interface PatchesApplyHeaders
+  - Added Interface PatchesApplyOptionalParams
+  - Added Interface PatchesDeleteHeaders
+  - Added Interface PatchesDeleteOptionalParams
+  - Added Interface PatchesGetOptionalParams
+  - Added Interface PatchesListByBuilderResourceOptionalParams
+  - Added Interface PatchesSkipConfigureHeaders
+  - Added Interface PatchesSkipConfigureOptionalParams
+  - Added Interface PatchProperties
+  - Added Interface PatchResource
+  - Added Interface PreBuildStep
+  - Added Interface TokenStore
+  - Added Interface TracesConfiguration
+  - Added Interface Usage
+  - Added Interface UsageName
+  - Added Interface UsagesListNextOptionalParams
+  - Added Interface UsagesListOptionalParams
+  - Added Type Alias BuilderProvisioningState
+  - Added Type Alias BuildersCreateOrUpdateResponse
+  - Added Type Alias BuildersGetResponse
+  - Added Type Alias BuildersListByResourceGroupNextResponse
+  - Added Type Alias BuildersListByResourceGroupResponse
+  - Added Type Alias BuildersListBySubscriptionNextResponse
+  - Added Type Alias BuildersListBySubscriptionResponse
+  - Added Type Alias BuildersUpdateResponse
+  - Added Type Alias BuildProvisioningState
+  - Added Type Alias BuildsCreateOrUpdateResponse
+  - Added Type Alias BuildsGetResponse
+  - Added Type Alias BuildsListByBuilderResourceNextResponse
+  - Added Type Alias BuildsListByBuilderResourceResponse
+  - Added Type Alias BuildStatus
+  - Added Type Alias CertificateType
+  - Added Type Alias DetectionStatus
+  - Added Type Alias GetCustomDomainVerificationIdResponse
+  - Added Type Alias ManagedEnvironmentUsagesListNextResponse
+  - Added Type Alias ManagedEnvironmentUsagesListResponse
+  - Added Type Alias PatchApplyStatus
+  - Added Type Alias PatchesApplyResponse
+  - Added Type Alias PatchesGetResponse
+  - Added Type Alias PatchesListByBuilderResourceResponse
+  - Added Type Alias PatchProvisioningState
+  - Added Type Alias PatchType
+  - Added Type Alias UsagesListNextResponse
+  - Added Type Alias UsagesListResponse
+  - Interface AuthConfig has a new optional parameter encryptionSettings
+  - Interface AvailableWorkloadProfileProperties has a new optional parameter gpus
+  - Interface CertificateProperties has a new optional parameter type
+  - Interface DaprComponent has a new optional parameter serviceComponentBind
+  - Interface Ingress has a new optional parameter additionalPortMappings
+  - Interface Login has a new optional parameter tokenStore
+  - Interface ManagedEnvironment has a new optional parameter appInsightsConfiguration
+  - Interface ManagedEnvironment has a new optional parameter openTelemetryConfiguration
+  - Added Enum KnownBuilderProvisioningState
+  - Added Enum KnownBuildProvisioningState
+  - Added Enum KnownBuildStatus
+  - Added Enum KnownCertificateType
+  - Added Enum KnownDetectionStatus
+  - Added Enum KnownPatchApplyStatus
+  - Added Enum KnownPatchProvisioningState
+  - Added Enum KnownPatchType
+    
 ## 2.0.0 (2023-08-08)
 
 **Features**
