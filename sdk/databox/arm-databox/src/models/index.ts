@@ -269,6 +269,40 @@ export interface JobStages {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly jobStageDetails?: Record<string, unknown>;
+  /**
+   * Delay information for the job stages.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly delayInformation?: JobDelayDetails[];
+}
+
+/** Job Delay Notification details */
+export interface JobDelayDetails {
+  /**
+   * Status of notification
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: DelayNotificationStatus;
+  /**
+   * Delay Error code
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCode?: PortalDelayErrorCode;
+  /**
+   * Description of the delay.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Timestamp when the delay notification was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Timestamp when the delay notification was resolved.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resolutionTime?: Date;
 }
 
 /** Contact Details. */
@@ -1833,6 +1867,11 @@ export interface JobResource extends Resource {
    */
   readonly status?: StageName;
   /**
+   * Name of the stage where delay might be present.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly delayedStage?: StageName;
+  /**
    * Time at which the job was started in UTC ISO 8601 format.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2230,6 +2269,48 @@ export enum KnownStageName {
  * **ShippedToCustomer**: Shipped the device to customer.
  */
 export type StageName = string;
+
+/** Known values of {@link DelayNotificationStatus} that the service accepts. */
+export enum KnownDelayNotificationStatus {
+  /** Delay is still active */
+  Active = "Active",
+  /** Delay has been resolved */
+  Resolved = "Resolved"
+}
+
+/**
+ * Defines values for DelayNotificationStatus. \
+ * {@link KnownDelayNotificationStatus} can be used interchangeably with DelayNotificationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Delay is still active \
+ * **Resolved**: Delay has been resolved
+ */
+export type DelayNotificationStatus = string;
+
+/** Known values of {@link PortalDelayErrorCode} that the service accepts. */
+export enum KnownPortalDelayErrorCode {
+  /** Delay due to any internal reasons */
+  InternalIssueDelay = "InternalIssueDelay",
+  /** Active Order limit breached. */
+  ActiveOrderLimitBreachedDelay = "ActiveOrderLimitBreachedDelay",
+  /** High demand */
+  ActiveOrderLimitBreachedDelay = "ActiveOrderLimitBreachedDelay",
+  /** Slow copy due to large number of files */
+  ActiveOrderLimitBreachedDelay = "ActiveOrderLimitBreachedDelay"
+}
+
+/**
+ * Defines values for PortalDelayErrorCode. \
+ * {@link KnownPortalDelayErrorCode} can be used interchangeably with PortalDelayErrorCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InternalIssueDelay**: Delay due to any internal reasons \
+ * **ActiveOrderLimitBreachedDelay**: Active Order limit breached. \
+ * **ActiveOrderLimitBreachedDelay**: High demand \
+ * **ActiveOrderLimitBreachedDelay**: Slow copy due to large number of files
+ */
+export type PortalDelayErrorCode = string;
 
 /** Known values of {@link NotificationStageName} that the service accepts. */
 export enum KnownNotificationStageName {
