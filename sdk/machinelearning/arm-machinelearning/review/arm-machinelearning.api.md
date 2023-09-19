@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccountKeyDatastoreCredentials extends DatastoreCredentials {
@@ -21,6 +21,15 @@ export interface AccountKeyDatastoreSecrets extends DatastoreSecrets {
     key?: string;
     secretsType: "AccountKey";
 }
+
+// @public
+export interface AcrDetails {
+    systemCreatedAcrAccount?: SystemCreatedAcrAccount;
+    userCreatedAcrAccount?: UserCreatedAcrAccount;
+}
+
+// @public
+export type ActionType = string;
 
 // @public
 export interface Aks extends Compute, AKSSchema {
@@ -63,6 +72,16 @@ export interface AKSSchemaProperties {
     loadBalancerType?: LoadBalancerType;
     sslConfiguration?: SslConfiguration;
     readonly systemServices?: SystemService[];
+}
+
+// @public (undocumented)
+export interface AllFeatures extends MonitoringFeatureFilterBase {
+    filterType: "AllFeatures";
+}
+
+// @public
+export interface AllNodes extends Nodes {
+    nodesValueType: "All";
 }
 
 // @public
@@ -116,28 +135,13 @@ export interface AmlComputeSchema {
 }
 
 // @public
-export interface AmlOperation {
-    display?: AmlOperationDisplay;
-    isDataAction?: boolean;
-    name?: string;
-}
-
-// @public
-export interface AmlOperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
-export interface AmlOperationListResult {
-    value?: AmlOperation[];
-}
-
-// @public
 export interface AmlToken extends IdentityConfiguration {
     identityType: "AMLToken";
+}
+
+// @public
+export interface AmlTokenComputeIdentity extends MonitorComputeIdentityBase {
+    computeIdentityType: "AmlToken";
 }
 
 // @public
@@ -148,7 +152,17 @@ export interface AmlUserFeature {
 }
 
 // @public
+export interface AnonymousAccessCredential extends DataReferenceCredential {
+    credentialType: "NoCredentials";
+}
+
+// @public
 export type ApplicationSharingPolicy = string;
+
+// @public
+export interface ArmResourceId {
+    resourceId?: string;
+}
 
 // @public (undocumented)
 export interface AssetBase extends ResourceBase {
@@ -174,6 +188,9 @@ export interface AssetJobOutput {
     mode?: OutputDeliveryMode;
     uri?: string;
 }
+
+// @public
+export type AssetProvisioningState = string;
 
 // @public
 export interface AssetReferenceBase {
@@ -204,6 +221,7 @@ export interface AutoMLJob extends JobBaseProperties {
     outputs?: {
         [propertyName: string]: JobOutputUnion | null;
     };
+    queueSettings?: QueueSettings;
     resources?: JobResourceConfiguration;
     taskDetails: AutoMLVerticalUnion;
 }
@@ -264,26 +282,23 @@ export interface AutoTargetRollingWindowSize extends TargetRollingWindowSize {
 }
 
 // @public
-export interface AzureBlobDatastore extends DatastoreProperties {
+export interface AzureBlobDatastore extends AzureDatastore, DatastoreProperties {
     accountName?: string;
     containerName?: string;
-    datastoreType: "AzureBlob";
     endpoint?: string;
     protocol?: string;
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
 }
 
 // @public
-export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
-    datastoreType: "AzureDataLakeGen1";
+export interface AzureDataLakeGen1Datastore extends AzureDatastore, DatastoreProperties {
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
     storeName: string;
 }
 
 // @public
-export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
+export interface AzureDataLakeGen2Datastore extends AzureDatastore, DatastoreProperties {
     accountName: string;
-    datastoreType: "AzureDataLakeGen2";
     endpoint?: string;
     filesystem: string;
     protocol?: string;
@@ -291,9 +306,14 @@ export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
 }
 
 // @public
-export interface AzureFileDatastore extends DatastoreProperties {
+export interface AzureDatastore {
+    resourceGroup?: string;
+    subscriptionId?: string;
+}
+
+// @public
+export interface AzureFileDatastore extends AzureDatastore, DatastoreProperties {
     accountName: string;
-    datastoreType: "AzureFile";
     endpoint?: string;
     fileShareName: string;
     protocol?: string;
@@ -301,10 +321,10 @@ export interface AzureFileDatastore extends DatastoreProperties {
 }
 
 // @public (undocumented)
-export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
+export class AzureMachineLearningServices extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMachineLearningWorkspacesOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMachineLearningServicesOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -334,6 +354,10 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
+    managedNetworkProvisions: ManagedNetworkProvisions;
+    // (undocumented)
+    managedNetworkSettingsRule: ManagedNetworkSettingsRule;
+    // (undocumented)
     modelContainers: ModelContainers;
     // (undocumented)
     modelVersions: ModelVersions;
@@ -349,6 +373,30 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
     quotas: Quotas;
+    // (undocumented)
+    registries: Registries;
+    // (undocumented)
+    registryCodeContainers: RegistryCodeContainers;
+    // (undocumented)
+    registryCodeVersions: RegistryCodeVersions;
+    // (undocumented)
+    registryComponentContainers: RegistryComponentContainers;
+    // (undocumented)
+    registryComponentVersions: RegistryComponentVersions;
+    // (undocumented)
+    registryDataContainers: RegistryDataContainers;
+    // (undocumented)
+    registryDataReferences: RegistryDataReferences;
+    // (undocumented)
+    registryDataVersions: RegistryDataVersions;
+    // (undocumented)
+    registryEnvironmentContainers: RegistryEnvironmentContainers;
+    // (undocumented)
+    registryEnvironmentVersions: RegistryEnvironmentVersions;
+    // (undocumented)
+    registryModelContainers: RegistryModelContainers;
+    // (undocumented)
+    registryModelVersions: RegistryModelVersions;
     // (undocumented)
     schedules: Schedules;
     // (undocumented)
@@ -366,7 +414,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
 }
 
 // @public
-export interface AzureMachineLearningWorkspacesOptionalParams extends coreClient.ServiceClientOptions {
+export interface AzureMachineLearningServicesOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
@@ -404,11 +452,11 @@ export interface BatchDeploymentProperties extends EndpointDeploymentPropertiesB
 
 // @public
 export interface BatchDeployments {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: BatchDeployment, options?: BatchDeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BatchDeploymentsCreateOrUpdateResponse>, BatchDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: BatchDeployment, options?: BatchDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BatchDeploymentsCreateOrUpdateResponse>, BatchDeploymentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: BatchDeployment, options?: BatchDeploymentsCreateOrUpdateOptionalParams): Promise<BatchDeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: BatchDeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: BatchDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: BatchDeploymentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties, options?: BatchDeploymentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<BatchDeploymentsUpdateResponse>, BatchDeploymentsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties, options?: BatchDeploymentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BatchDeploymentsUpdateResponse>, BatchDeploymentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties, options?: BatchDeploymentsUpdateOptionalParams): Promise<BatchDeploymentsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: BatchDeploymentsGetOptionalParams): Promise<BatchDeploymentsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchDeploymentsListOptionalParams): PagedAsyncIterableIterator<BatchDeployment>;
@@ -451,9 +499,6 @@ export type BatchDeploymentsGetResponse = BatchDeployment;
 
 // @public
 export interface BatchDeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -512,11 +557,11 @@ export interface BatchEndpointProperties extends EndpointPropertiesBase {
 
 // @public
 export interface BatchEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: BatchEndpoint, options?: BatchEndpointsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BatchEndpointsCreateOrUpdateResponse>, BatchEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: BatchEndpoint, options?: BatchEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BatchEndpointsCreateOrUpdateResponse>, BatchEndpointsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: BatchEndpoint, options?: BatchEndpointsCreateOrUpdateOptionalParams): Promise<BatchEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchEndpointsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: BatchEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<BatchEndpointsUpdateResponse>, BatchEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: BatchEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BatchEndpointsUpdateResponse>, BatchEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: BatchEndpointsUpdateOptionalParams): Promise<BatchEndpointsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, endpointName: string, options?: BatchEndpointsGetOptionalParams): Promise<BatchEndpointsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: BatchEndpointsListOptionalParams): PagedAsyncIterableIterator<BatchEndpoint>;
@@ -567,8 +612,6 @@ export type BatchEndpointsListKeysResponse = EndpointAuthKeys;
 
 // @public
 export interface BatchEndpointsListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    skip?: string;
 }
 
 // @public
@@ -626,6 +669,20 @@ export interface BayesianSamplingAlgorithm extends SamplingAlgorithm {
 export type BillingCurrency = string;
 
 // @public
+export interface BindOptions {
+    createHostPath?: boolean;
+    propagation?: string;
+    selinux?: string;
+}
+
+// @public (undocumented)
+export interface BlobReferenceForConsumptionDto {
+    blobUri?: string;
+    credential?: PendingUploadCredentialDtoUnion;
+    storageAccountArmId?: string;
+}
+
+// @public
 export type BlockedTransformers = string;
 
 // @public
@@ -636,6 +693,33 @@ export interface BuildContext {
 
 // @public
 export type Caching = string;
+
+// @public
+export type CategoricalDataDriftMetric = string;
+
+// @public (undocumented)
+export interface CategoricalDataDriftMetricThreshold extends DataDriftMetricThresholdBase {
+    dataType: "Categorical";
+    metric: CategoricalDataDriftMetric;
+}
+
+// @public
+export type CategoricalDataQualityMetric = string;
+
+// @public (undocumented)
+export interface CategoricalDataQualityMetricThreshold extends DataQualityMetricThresholdBase {
+    dataType: "Categorical";
+    metric: CategoricalDataQualityMetric;
+}
+
+// @public
+export type CategoricalPredictionDriftMetric = string;
+
+// @public (undocumented)
+export interface CategoricalPredictionDriftMetricThreshold extends PredictionDriftMetricThresholdBase {
+    dataType: "Categorical";
+    metric: CategoricalPredictionDriftMetric;
+}
 
 // @public
 export interface CertificateDatastoreCredentials extends DatastoreCredentials {
@@ -697,6 +781,7 @@ export interface CodeContainer extends Resource {
 
 // @public
 export interface CodeContainerProperties extends AssetContainer {
+    readonly provisioningState?: AssetProvisioningState;
 }
 
 // @public
@@ -733,7 +818,6 @@ export type CodeContainersGetResponse = CodeContainer;
 
 // @public
 export interface CodeContainersListNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -755,6 +839,7 @@ export interface CodeVersion extends Resource {
 // @public
 export interface CodeVersionProperties extends AssetBase {
     codeUri?: string;
+    readonly provisioningState?: AssetProvisioningState;
 }
 
 // @public
@@ -765,11 +850,21 @@ export interface CodeVersionResourceArmPaginatedResult {
 
 // @public
 export interface CodeVersions {
+    beginPublish(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: CodeVersionsPublishOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginPublishAndWait(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: CodeVersionsPublishOptionalParams): Promise<void>;
+    createOrGetStartPendingUpload(resourceGroupName: string, workspaceName: string, name: string, version: string, body: PendingUploadRequestDto, options?: CodeVersionsCreateOrGetStartPendingUploadOptionalParams): Promise<CodeVersionsCreateOrGetStartPendingUploadResponse>;
     createOrUpdate(resourceGroupName: string, workspaceName: string, name: string, version: string, body: CodeVersion, options?: CodeVersionsCreateOrUpdateOptionalParams): Promise<CodeVersionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: CodeVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: CodeVersionsGetOptionalParams): Promise<CodeVersionsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, name: string, options?: CodeVersionsListOptionalParams): PagedAsyncIterableIterator<CodeVersion>;
 }
+
+// @public
+export interface CodeVersionsCreateOrGetStartPendingUploadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CodeVersionsCreateOrGetStartPendingUploadResponse = PendingUploadResponseDto;
 
 // @public
 export interface CodeVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -791,9 +886,6 @@ export type CodeVersionsGetResponse = CodeVersion;
 
 // @public
 export interface CodeVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -801,6 +893,8 @@ export type CodeVersionsListNextResponse = CodeVersionResourceArmPaginatedResult
 
 // @public
 export interface CodeVersionsListOptionalParams extends coreClient.OperationOptions {
+    hash?: string;
+    hashVersion?: string;
     orderBy?: string;
     skip?: string;
     top?: number;
@@ -808,6 +902,18 @@ export interface CodeVersionsListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type CodeVersionsListResponse = CodeVersionResourceArmPaginatedResult;
+
+// @public
+export interface CodeVersionsPublishHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CodeVersionsPublishOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface ColumnTransformer {
@@ -833,6 +939,7 @@ export interface CommandJob extends JobBaseProperties {
         [propertyName: string]: JobOutputUnion | null;
     };
     readonly parameters?: Record<string, unknown>;
+    queueSettings?: QueueSettings;
     resources?: JobResourceConfiguration;
 }
 
@@ -848,6 +955,7 @@ export interface ComponentContainer extends Resource {
 
 // @public
 export interface ComponentContainerProperties extends AssetContainer {
+    readonly provisioningState?: AssetProvisioningState;
 }
 
 // @public
@@ -884,8 +992,6 @@ export type ComponentContainersGetResponse = ComponentContainer;
 
 // @public
 export interface ComponentContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -908,6 +1014,7 @@ export interface ComponentVersion extends Resource {
 // @public
 export interface ComponentVersionProperties extends AssetBase {
     componentSpec?: Record<string, unknown>;
+    readonly provisioningState?: AssetProvisioningState;
 }
 
 // @public
@@ -918,6 +1025,8 @@ export interface ComponentVersionResourceArmPaginatedResult {
 
 // @public
 export interface ComponentVersions {
+    beginPublish(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: ComponentVersionsPublishOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginPublishAndWait(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: ComponentVersionsPublishOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workspaceName: string, name: string, version: string, body: ComponentVersion, options?: ComponentVersionsCreateOrUpdateOptionalParams): Promise<ComponentVersionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: ComponentVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: ComponentVersionsGetOptionalParams): Promise<ComponentVersionsGetResponse>;
@@ -944,10 +1053,6 @@ export type ComponentVersionsGetResponse = ComponentVersion;
 
 // @public
 export interface ComponentVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -963,6 +1068,18 @@ export interface ComponentVersionsListOptionalParams extends coreClient.Operatio
 
 // @public
 export type ComponentVersionsListResponse = ComponentVersionResourceArmPaginatedResult;
+
+// @public
+export interface ComponentVersionsPublishHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ComponentVersionsPublishOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface Compute {
@@ -1091,13 +1208,15 @@ export interface ComputeInstanceProperties {
     readonly connectivityEndpoints?: ComputeInstanceConnectivityEndpoints;
     readonly containers?: ComputeInstanceContainer[];
     readonly createdBy?: ComputeInstanceCreatedBy;
+    customServices?: CustomService[];
     readonly dataDisks?: ComputeInstanceDataDisk[];
     readonly dataMounts?: ComputeInstanceDataMount[];
     enableNodePublicIp?: boolean;
     readonly errors?: ErrorResponse[];
     readonly lastOperation?: ComputeInstanceLastOperation;
+    readonly osImageMetadata?: ImageMetadata;
     personalComputeInstanceSettings?: PersonalComputeInstanceSettings;
-    readonly schedules?: ComputeSchedules;
+    schedules?: ComputeSchedules;
     setupScripts?: SetupScripts;
     sshSettings?: ComputeInstanceSshSettings;
     readonly state?: ComputeInstanceState;
@@ -1136,7 +1255,6 @@ export type ComputeListKeysResponse = ComputeSecretsUnion;
 
 // @public
 export interface ComputeListNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -1166,17 +1284,17 @@ export type ComputeListResponse = PaginatedComputeResourcesList;
 
 // @public
 export interface ComputeOperations {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ComputeCreateOrUpdateResponse>, ComputeCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ComputeCreateOrUpdateResponse>, ComputeCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams): Promise<ComputeCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams): Promise<PollerLike<PollOperationState<ComputeUpdateResponse>, ComputeUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ComputeUpdateResponse>, ComputeUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams): Promise<ComputeUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeGetOptionalParams): Promise<ComputeGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: ComputeListOptionalParams): PagedAsyncIterableIterator<ComputeResource>;
@@ -1230,10 +1348,10 @@ export interface ComputeStartOptionalParams extends coreClient.OperationOptions 
 // @public
 export interface ComputeStartStopSchedule {
     action?: ComputePowerAction;
-    cron?: CronTrigger;
+    cron?: Cron;
     readonly id?: string;
     readonly provisioningStatus?: ProvisioningStatus;
-    recurrence?: RecurrenceTrigger;
+    recurrence?: Recurrence;
     schedule?: ScheduleBase;
     status?: ScheduleStatus;
     triggerType?: TriggerType;
@@ -1290,8 +1408,21 @@ export interface CosmosDbSettings {
 // @public
 export type CreatedByType = string;
 
+// @public (undocumented)
+export interface CreateMonitorAction extends ScheduleActionBase {
+    actionType: "CreateMonitor";
+    monitorDefinition: MonitorDefinition;
+}
+
 // @public
 export type CredentialsType = string;
+
+// @public
+export interface Cron {
+    expression?: string;
+    startTime?: string;
+    timeZone?: string;
+}
 
 // @public (undocumented)
 export interface CronTrigger extends TriggerBase {
@@ -1306,11 +1437,30 @@ export interface CustomForecastHorizon extends ForecastHorizon {
 }
 
 // @public (undocumented)
+export interface CustomMetricThreshold {
+    metric: string;
+    threshold?: MonitoringThreshold;
+}
+
+// @public (undocumented)
 export interface CustomModelJobInput extends AssetJobInput, JobInput {
 }
 
 // @public (undocumented)
 export interface CustomModelJobOutput extends AssetJobOutput, JobOutput {
+}
+
+// @public (undocumented)
+export interface CustomMonitoringSignal extends MonitoringSignalBase {
+    componentId: string;
+    inputAssets?: {
+        [propertyName: string]: MonitoringInputDataBaseUnion | null;
+    };
+    inputs?: {
+        [propertyName: string]: JobInputUnion | null;
+    };
+    metricThresholds: CustomMetricThreshold[];
+    signalType: "Custom";
 }
 
 // @public
@@ -1323,6 +1473,19 @@ export interface CustomNCrossValidations extends NCrossValidations {
 export interface CustomSeasonality extends Seasonality {
     mode: "Custom";
     value: number;
+}
+
+// @public
+export interface CustomService {
+    [property: string]: any;
+    docker?: Docker;
+    endpoints?: Endpoint[];
+    environmentVariables?: {
+        [propertyName: string]: EnvironmentVariable;
+    };
+    image?: Image_2;
+    name?: string;
+    volumes?: VolumeDefinition[];
 }
 
 // @public (undocumented)
@@ -1407,8 +1570,6 @@ export type DataContainersGetResponse = DataContainer;
 
 // @public
 export interface DataContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -1422,6 +1583,28 @@ export interface DataContainersListOptionalParams extends coreClient.OperationOp
 
 // @public
 export type DataContainersListResponse = DataContainerResourceArmPaginatedResult;
+
+// @public (undocumented)
+export interface DataDriftMetricThresholdBase {
+    dataType: "Categorical" | "Numerical";
+    threshold?: MonitoringThreshold;
+}
+
+// @public (undocumented)
+export type DataDriftMetricThresholdBaseUnion = DataDriftMetricThresholdBase | CategoricalDataDriftMetricThreshold | NumericalDataDriftMetricThreshold;
+
+// @public (undocumented)
+export interface DataDriftMonitoringSignal extends MonitoringSignalBase {
+    featureDataTypeOverride?: {
+        [propertyName: string]: MonitoringFeatureDataType;
+    };
+    featureImportanceSettings?: FeatureImportanceSettings;
+    features?: MonitoringFeatureFilterBaseUnion;
+    metricThresholds: DataDriftMetricThresholdBaseUnion[];
+    productionData: MonitoringInputDataBaseUnion;
+    referenceData: MonitoringInputDataBaseUnion;
+    signalType: "DataDrift";
+}
 
 // @public
 export interface DataFactory extends Compute {
@@ -1450,6 +1633,39 @@ export interface DataPathAssetReference extends AssetReferenceBase {
     path?: string;
     referenceType: "DataPath";
 }
+
+// @public (undocumented)
+export interface DataQualityMetricThresholdBase {
+    dataType: "Categorical" | "Numerical";
+    threshold?: MonitoringThreshold;
+}
+
+// @public (undocumented)
+export type DataQualityMetricThresholdBaseUnion = DataQualityMetricThresholdBase | CategoricalDataQualityMetricThreshold | NumericalDataQualityMetricThreshold;
+
+// @public (undocumented)
+export interface DataQualityMonitoringSignal extends MonitoringSignalBase {
+    featureDataTypeOverride?: {
+        [propertyName: string]: MonitoringFeatureDataType;
+    };
+    featureImportanceSettings?: FeatureImportanceSettings;
+    features?: MonitoringFeatureFilterBaseUnion;
+    metricThresholds: DataQualityMetricThresholdBaseUnion[];
+    productionData: MonitoringInputDataBaseUnion;
+    referenceData: MonitoringInputDataBaseUnion;
+    signalType: "DataQuality";
+}
+
+// @public
+export interface DataReferenceCredential {
+    credentialType: "NoCredentials" | "DockerCredentials" | "ManagedIdentity" | "SAS";
+}
+
+// @public
+export type DataReferenceCredentialType = string;
+
+// @public (undocumented)
+export type DataReferenceCredentialUnion = DataReferenceCredential | AnonymousAccessCredential | DockerCredential | ManagedIdentityCredential | SASCredential;
 
 // @public
 export interface Datastore extends Resource {
@@ -1518,13 +1734,6 @@ export type DatastoresGetResponse = Datastore;
 
 // @public
 export interface DatastoresListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    isDefault?: boolean;
-    names?: string[];
-    orderBy?: string;
-    orderByAsc?: boolean;
-    searchText?: string;
-    skip?: string;
 }
 
 // @public
@@ -1579,6 +1788,8 @@ export interface DataVersionBaseResourceArmPaginatedResult {
 
 // @public
 export interface DataVersions {
+    beginPublish(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: DataVersionsPublishOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginPublishAndWait(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: DataVersionsPublishOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DataVersionBase, options?: DataVersionsCreateOrUpdateOptionalParams): Promise<DataVersionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: DataVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: DataVersionsGetOptionalParams): Promise<DataVersionsGetResponse>;
@@ -1605,11 +1816,6 @@ export type DataVersionsGetResponse = DataVersionBase;
 
 // @public
 export interface DataVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    tags?: string;
-    top?: number;
 }
 
 // @public
@@ -1626,6 +1832,18 @@ export interface DataVersionsListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type DataVersionsListResponse = DataVersionBaseResourceArmPaginatedResult;
+
+// @public
+export interface DataVersionsPublishHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DataVersionsPublishOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public (undocumented)
 export interface DefaultScaleSettings extends OnlineScaleSettings {
@@ -1648,6 +1866,13 @@ export type DeploymentProvisioningState = string;
 
 // @public (undocumented)
 export interface DeploymentResourceConfiguration extends ResourceConfiguration {
+}
+
+// @public
+export interface DestinationAsset {
+    destinationName?: string;
+    destinationVersion?: string;
+    registryName?: string;
 }
 
 // @public (undocumented)
@@ -1736,6 +1961,19 @@ export type DistributionConfigurationUnion = DistributionConfiguration | Mpi | P
 export type DistributionType = string;
 
 // @public
+export interface Docker {
+    [property: string]: any;
+    privileged?: boolean;
+}
+
+// @public
+export interface DockerCredential extends DataReferenceCredential {
+    credentialType: "DockerCredentials";
+    password?: string;
+    userName?: string;
+}
+
+// @public
 export interface EarlyTerminationPolicy {
     delayEvaluation?: number;
     evaluationInterval?: number;
@@ -1767,6 +2005,15 @@ export interface EncryptionProperty {
 
 // @public
 export type EncryptionStatus = string;
+
+// @public
+export interface Endpoint {
+    hostIp?: string;
+    name?: string;
+    protocol?: Protocol;
+    published?: number;
+    target?: number;
+}
 
 // @public
 export interface EndpointAuthKeys {
@@ -1823,12 +2070,16 @@ export interface EndpointScheduleAction extends ScheduleActionBase {
 }
 
 // @public
+export type EndpointServiceConnectionStatus = string;
+
+// @public
 export interface EnvironmentContainer extends Resource {
     properties: EnvironmentContainerProperties;
 }
 
 // @public
 export interface EnvironmentContainerProperties extends AssetContainer {
+    readonly provisioningState?: AssetProvisioningState;
 }
 
 // @public
@@ -1865,8 +2116,6 @@ export type EnvironmentContainersGetResponse = EnvironmentContainer;
 
 // @public
 export interface EnvironmentContainersListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -1885,6 +2134,16 @@ export type EnvironmentContainersListResponse = EnvironmentContainerResourceArmP
 export type EnvironmentType = string;
 
 // @public
+export interface EnvironmentVariable {
+    [property: string]: any;
+    type?: EnvironmentVariableType;
+    value?: string;
+}
+
+// @public
+export type EnvironmentVariableType = string;
+
+// @public
 export interface EnvironmentVersion extends Resource {
     properties: EnvironmentVersionProperties;
 }
@@ -1898,6 +2157,8 @@ export interface EnvironmentVersionProperties extends AssetBase {
     image?: string;
     inferenceConfig?: InferenceContainerProperties;
     osType?: OperatingSystemType;
+    readonly provisioningState?: AssetProvisioningState;
+    stage?: string;
 }
 
 // @public
@@ -1908,6 +2169,8 @@ export interface EnvironmentVersionResourceArmPaginatedResult {
 
 // @public
 export interface EnvironmentVersions {
+    beginPublish(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: EnvironmentVersionsPublishOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginPublishAndWait(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: EnvironmentVersionsPublishOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workspaceName: string, name: string, version: string, body: EnvironmentVersion, options?: EnvironmentVersionsCreateOrUpdateOptionalParams): Promise<EnvironmentVersionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: EnvironmentVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: EnvironmentVersionsGetOptionalParams): Promise<EnvironmentVersionsGetResponse>;
@@ -1934,10 +2197,6 @@ export type EnvironmentVersionsGetResponse = EnvironmentVersion;
 
 // @public
 export interface EnvironmentVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ListViewType;
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -1953,6 +2212,18 @@ export interface EnvironmentVersionsListOptionalParams extends coreClient.Operat
 
 // @public
 export type EnvironmentVersionsListResponse = EnvironmentVersionResourceArmPaginatedResult;
+
+// @public
+export interface EnvironmentVersionsPublishHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface EnvironmentVersionsPublishOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -1994,8 +2265,44 @@ export interface ExternalFqdnResponse {
     value?: FqdnEndpoints[];
 }
 
+// @public (undocumented)
+export interface FeatureAttributionDriftMonitoringSignal extends MonitoringSignalBase {
+    featureDataTypeOverride?: {
+        [propertyName: string]: MonitoringFeatureDataType;
+    };
+    featureImportanceSettings: FeatureImportanceSettings;
+    metricThreshold: FeatureAttributionMetricThreshold;
+    productionData: MonitoringInputDataBaseUnion[];
+    referenceData: MonitoringInputDataBaseUnion;
+    signalType: "FeatureAttributionDrift";
+}
+
+// @public
+export type FeatureAttributionMetric = string;
+
+// @public (undocumented)
+export interface FeatureAttributionMetricThreshold {
+    metric: FeatureAttributionMetric;
+    threshold?: MonitoringThreshold;
+}
+
+// @public
+export type FeatureImportanceMode = string;
+
+// @public (undocumented)
+export interface FeatureImportanceSettings {
+    mode?: FeatureImportanceMode;
+    targetColumn?: string;
+}
+
 // @public
 export type FeatureLags = string;
+
+// @public (undocumented)
+export interface FeatureSubset extends MonitoringFeatureFilterBase {
+    features: string[];
+    filterType: "FeatureSubset";
+}
 
 // @public
 export type FeaturizationMode = string;
@@ -2003,6 +2310,11 @@ export type FeaturizationMode = string;
 // @public
 export interface FeaturizationSettings {
     datasetLanguage?: string;
+}
+
+// @public
+export interface FixedInputData extends MonitoringInputDataBase {
+    inputDataType: "Fixed";
 }
 
 // @public (undocumented)
@@ -2088,6 +2400,31 @@ export interface FqdnEndpointsProperties {
 }
 
 // @public
+export interface FqdnOutboundRule extends OutboundRule {
+    // (undocumented)
+    destination?: string;
+    type: "FQDN";
+}
+
+// @public (undocumented)
+export interface GetBlobReferenceForConsumptionDto {
+    blobUri?: string;
+    credential?: DataReferenceCredentialUnion;
+    storageAccountArmId?: string;
+}
+
+// @public
+export interface GetBlobReferenceSASRequestDto {
+    assetId?: string;
+    blobUri?: string;
+}
+
+// @public
+export interface GetBlobReferenceSASResponseDto {
+    blobReferenceForConsumption?: GetBlobReferenceForConsumptionDto;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -2138,6 +2475,19 @@ export interface IdentityForCmk {
 }
 
 // @public
+export interface IdleShutdownSetting {
+    idleTimeBeforeShutdown?: string;
+}
+
+// @public
+interface Image_2 {
+    [property: string]: any;
+    reference?: string;
+    type?: ImageType;
+}
+export { Image_2 as Image }
+
+// @public
 export interface ImageClassification extends ImageClassificationBase, AutoMLVertical {
     primaryMetric?: ClassificationPrimaryMetrics;
 }
@@ -2163,6 +2513,13 @@ export interface ImageLimitSettings {
     maxConcurrentTrials?: number;
     maxTrials?: number;
     timeout?: string;
+}
+
+// @public
+export interface ImageMetadata {
+    currentImageVersion?: string;
+    isLatestOsImageVersion?: boolean;
+    latestImageVersion?: string;
 }
 
 // @public
@@ -2301,6 +2658,9 @@ export interface ImageSweepSettings {
 }
 
 // @public
+export type ImageType = string;
+
+// @public
 export interface ImageVertical {
     limitSettings: ImageLimitSettings;
     sweepSettings?: ImageSweepSettings;
@@ -2338,6 +2698,9 @@ export interface InstanceTypeSchemaResources {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type IsolationMode = string;
 
 // @public
 export interface JobBase extends Resource {
@@ -2412,9 +2775,9 @@ export interface JobResourceConfiguration extends ResourceConfiguration {
 
 // @public
 export interface Jobs {
-    beginCancel(resourceGroupName: string, workspaceName: string, id: string, options?: JobsCancelOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCancel(resourceGroupName: string, workspaceName: string, id: string, options?: JobsCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCancelAndWait(resourceGroupName: string, workspaceName: string, id: string, options?: JobsCancelOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, workspaceName: string, id: string, options?: JobsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, id: string, options?: JobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, id: string, options?: JobsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workspaceName: string, id: string, body: JobBase, options?: JobsCreateOrUpdateOptionalParams): Promise<JobsCreateOrUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, id: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
@@ -2464,6 +2827,7 @@ export interface JobService {
     endpoint?: string;
     readonly errorMessage?: string;
     jobServiceType?: string;
+    nodes?: NodesUnion;
     port?: number;
     properties?: {
         [propertyName: string]: string | null;
@@ -2480,10 +2844,6 @@ export type JobsGetResponse = JobBase;
 
 // @public
 export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
-    jobType?: string;
-    listViewType?: ListViewType;
-    skip?: string;
-    tag?: string;
 }
 
 // @public
@@ -2493,6 +2853,7 @@ export type JobsListNextResponse = JobBaseResourceArmPaginatedResult;
 export interface JobsListOptionalParams extends coreClient.OperationOptions {
     jobType?: string;
     listViewType?: ListViewType;
+    properties?: string;
     skip?: string;
     tag?: string;
 }
@@ -2504,11 +2865,19 @@ export type JobsListResponse = JobBaseResourceArmPaginatedResult;
 export type JobStatus = string;
 
 // @public
+export type JobTier = string;
+
+// @public
 export type JobType = string;
 
 // @public
 type KeyType_2 = string;
 export { KeyType_2 as KeyType }
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
 
 // @public
 export enum KnownAllocationState {
@@ -2520,6 +2889,16 @@ export enum KnownAllocationState {
 export enum KnownApplicationSharingPolicy {
     Personal = "Personal",
     Shared = "Shared"
+}
+
+// @public
+export enum KnownAssetProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -2572,6 +2951,27 @@ export enum KnownCaching {
     None = "None",
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
+}
+
+// @public
+export enum KnownCategoricalDataDriftMetric {
+    JensenShannonDistance = "JensenShannonDistance",
+    PearsonsChiSquaredTest = "PearsonsChiSquaredTest",
+    PopulationStabilityIndex = "PopulationStabilityIndex"
+}
+
+// @public
+export enum KnownCategoricalDataQualityMetric {
+    DataTypeErrorRate = "DataTypeErrorRate",
+    NullValueRate = "NullValueRate",
+    OutOfBoundsRate = "OutOfBoundsRate"
+}
+
+// @public
+export enum KnownCategoricalPredictionDriftMetric {
+    JensenShannonDistance = "JensenShannonDistance",
+    PearsonsChiSquaredTest = "PearsonsChiSquaredTest",
+    PopulationStabilityIndex = "PopulationStabilityIndex"
 }
 
 // @public
@@ -2701,6 +3101,14 @@ export enum KnownCredentialsType {
 }
 
 // @public
+export enum KnownDataReferenceCredentialType {
+    DockerCredentials = "DockerCredentials",
+    ManagedIdentity = "ManagedIdentity",
+    NoCredentials = "NoCredentials",
+    SAS = "SAS"
+}
+
+// @public
 export enum KnownDatastoreType {
     AzureBlob = "AzureBlob",
     AzureDataLakeGen1 = "AzureDataLakeGen1",
@@ -2784,9 +3192,33 @@ export enum KnownEndpointProvisioningState {
 }
 
 // @public
+export enum KnownEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownEnvironmentType {
     Curated = "Curated",
     UserCreated = "UserCreated"
+}
+
+// @public
+export enum KnownEnvironmentVariableType {
+    Local = "local"
+}
+
+// @public
+export enum KnownFeatureAttributionMetric {
+    NormalizedDiscountedCumulativeGain = "NormalizedDiscountedCumulativeGain"
+}
+
+// @public
+export enum KnownFeatureImportanceMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -2853,6 +3285,12 @@ export enum KnownIdentityConfigurationType {
 }
 
 // @public
+export enum KnownImageType {
+    Azureml = "azureml",
+    Docker = "docker"
+}
+
+// @public
 export enum KnownInputDeliveryMode {
     Direct = "Direct",
     Download = "Download",
@@ -2865,6 +3303,13 @@ export enum KnownInputDeliveryMode {
 // @public
 export enum KnownInstanceSegmentationPrimaryMetrics {
     MeanAveragePrecision = "MeanAveragePrecision"
+}
+
+// @public
+export enum KnownIsolationMode {
+    AllowInternetOutbound = "AllowInternetOutbound",
+    AllowOnlyApprovedOutbound = "AllowOnlyApprovedOutbound",
+    Disabled = "Disabled"
 }
 
 // @public
@@ -2913,6 +3358,15 @@ export enum KnownJobStatus {
 }
 
 // @public
+export enum KnownJobTier {
+    Basic = "Basic",
+    Null = "Null",
+    Premium = "Premium",
+    Spot = "Spot",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownJobType {
     AutoML = "AutoML",
     Command = "Command",
@@ -2957,6 +3411,12 @@ export enum KnownLogVerbosity {
 }
 
 // @public
+export enum KnownManagedNetworkStatus {
+    Active = "Active",
+    Inactive = "Inactive"
+}
+
+// @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
@@ -2971,6 +3431,57 @@ export enum KnownModelSize {
     Medium = "Medium",
     None = "None",
     Small = "Small"
+}
+
+// @public
+export enum KnownModelTaskType {
+    Classification = "Classification",
+    Regression = "Regression"
+}
+
+// @public
+export enum KnownMonitorComputeIdentityType {
+    AmlToken = "AmlToken",
+    ManagedIdentity = "ManagedIdentity"
+}
+
+// @public
+export enum KnownMonitorComputeType {
+    ServerlessSpark = "ServerlessSpark"
+}
+
+// @public
+export enum KnownMonitoringFeatureDataType {
+    Categorical = "Categorical",
+    Numerical = "Numerical"
+}
+
+// @public
+export enum KnownMonitoringFeatureFilterType {
+    AllFeatures = "AllFeatures",
+    FeatureSubset = "FeatureSubset",
+    TopNByAttribution = "TopNByAttribution"
+}
+
+// @public
+export enum KnownMonitoringInputDataType {
+    Fixed = "Fixed",
+    Rolling = "Rolling",
+    Static = "Static"
+}
+
+// @public
+export enum KnownMonitoringNotificationType {
+    AmlNotification = "AmlNotification"
+}
+
+// @public
+export enum KnownMonitoringSignalType {
+    Custom = "Custom",
+    DataDrift = "DataDrift",
+    DataQuality = "DataQuality",
+    FeatureAttributionDrift = "FeatureAttributionDrift",
+    PredictionDrift = "PredictionDrift"
 }
 
 // @public
@@ -3009,6 +3520,34 @@ export enum KnownNodeState {
     Preparing = "preparing",
     Running = "running",
     Unusable = "unusable"
+}
+
+// @public
+export enum KnownNodesValueType {
+    All = "All"
+}
+
+// @public
+export enum KnownNumericalDataDriftMetric {
+    JensenShannonDistance = "JensenShannonDistance",
+    NormalizedWassersteinDistance = "NormalizedWassersteinDistance",
+    PopulationStabilityIndex = "PopulationStabilityIndex",
+    TwoSampleKolmogorovSmirnovTest = "TwoSampleKolmogorovSmirnovTest"
+}
+
+// @public
+export enum KnownNumericalDataQualityMetric {
+    DataTypeErrorRate = "DataTypeErrorRate",
+    NullValueRate = "NullValueRate",
+    OutOfBoundsRate = "OutOfBoundsRate"
+}
+
+// @public
+export enum KnownNumericalPredictionDriftMetric {
+    JensenShannonDistance = "JensenShannonDistance",
+    NormalizedWassersteinDistance = "NormalizedWassersteinDistance",
+    PopulationStabilityIndex = "PopulationStabilityIndex",
+    TwoSampleKolmogorovSmirnovTest = "TwoSampleKolmogorovSmirnovTest"
 }
 
 // @public
@@ -3060,6 +3599,13 @@ export enum KnownOrderString {
 }
 
 // @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
 export enum KnownOsType {
     Linux = "Linux",
     Windows = "Windows"
@@ -3069,6 +3615,17 @@ export enum KnownOsType {
 export enum KnownOutputDeliveryMode {
     ReadWriteMount = "ReadWriteMount",
     Upload = "Upload"
+}
+
+// @public
+export enum KnownPendingUploadCredentialType {
+    SAS = "SAS"
+}
+
+// @public
+export enum KnownPendingUploadType {
+    None = "None",
+    TemporaryBlobReference = "TemporaryBlobReference"
 }
 
 // @public
@@ -3086,6 +3643,13 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
     Pending = "Pending",
     Rejected = "Rejected",
     Timeout = "Timeout"
+}
+
+// @public
+export enum KnownProtocol {
+    Http = "http",
+    Tcp = "tcp",
+    Udp = "udp"
 }
 
 // @public
@@ -3175,6 +3739,32 @@ export enum KnownRemoteLoginPortPublicAccess {
 }
 
 // @public
+export enum KnownRuleAction {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownRuleCategory {
+    Recommended = "Recommended",
+    Required = "Required",
+    UserDefined = "UserDefined"
+}
+
+// @public
+export enum KnownRuleStatus {
+    Active = "Active",
+    Inactive = "Inactive"
+}
+
+// @public
+export enum KnownRuleType {
+    Fqdn = "FQDN",
+    PrivateEndpoint = "PrivateEndpoint",
+    ServiceTag = "ServiceTag"
+}
+
+// @public
 export enum KnownSamplingAlgorithmType {
     Bayesian = "Bayesian",
     Grid = "Grid",
@@ -3190,6 +3780,7 @@ export enum KnownScaleType {
 // @public
 export enum KnownScheduleActionType {
     CreateJob = "CreateJob",
+    CreateMonitor = "CreateMonitor",
     InvokeBatchEndpoint = "InvokeBatchEndpoint"
 }
 
@@ -3414,6 +4005,14 @@ export enum KnownVMTier {
 }
 
 // @public
+export enum KnownVolumeDefinitionType {
+    Bind = "bind",
+    Npipe = "npipe",
+    Tmpfs = "tmpfs",
+    Volume = "volume"
+}
+
+// @public
 export enum KnownWeekDay {
     Friday = "Friday",
     Monday = "Monday",
@@ -3511,6 +4110,12 @@ export type LoadBalancerType = string;
 export type LogVerbosity = string;
 
 // @public
+export interface ManagedComputeIdentity extends MonitorComputeIdentityBase {
+    computeIdentityType: "ManagedIdentity";
+    identity?: ManagedServiceIdentity;
+}
+
+// @public
 export interface ManagedIdentity extends IdentityConfiguration {
     clientId?: string;
     identityType: "Managed";
@@ -3524,6 +4129,121 @@ export interface ManagedIdentityAuthTypeWorkspaceConnectionProperties extends Wo
     // (undocumented)
     credentials?: WorkspaceConnectionManagedIdentity;
 }
+
+// @public
+export interface ManagedIdentityCredential extends DataReferenceCredential {
+    credentialType: "ManagedIdentity";
+    managedIdentityType?: string;
+    userManagedIdentityClientId?: string;
+    userManagedIdentityPrincipalId?: string;
+    userManagedIdentityResourceId?: string;
+    userManagedIdentityTenantId?: string;
+}
+
+// @public
+export interface ManagedNetworkProvisionOptions {
+    // (undocumented)
+    includeSpark?: boolean;
+}
+
+// @public
+export interface ManagedNetworkProvisions {
+    beginProvisionManagedNetwork(resourceGroupName: string, workspaceName: string, options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams): Promise<SimplePollerLike<OperationState<ManagedNetworkProvisionsProvisionManagedNetworkResponse>, ManagedNetworkProvisionsProvisionManagedNetworkResponse>>;
+    beginProvisionManagedNetworkAndWait(resourceGroupName: string, workspaceName: string, options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams): Promise<ManagedNetworkProvisionsProvisionManagedNetworkResponse>;
+}
+
+// @public
+export interface ManagedNetworkProvisionsProvisionManagedNetworkHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams extends coreClient.OperationOptions {
+    body?: ManagedNetworkProvisionOptions;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedNetworkProvisionsProvisionManagedNetworkResponse = ManagedNetworkProvisionStatus;
+
+// @public
+export interface ManagedNetworkProvisionStatus {
+    // (undocumented)
+    sparkReady?: boolean;
+    status?: ManagedNetworkStatus;
+}
+
+// @public
+export interface ManagedNetworkSettings {
+    isolationMode?: IsolationMode;
+    readonly networkId?: string;
+    outboundRules?: {
+        [propertyName: string]: OutboundRuleUnion;
+    };
+    status?: ManagedNetworkProvisionStatus;
+}
+
+// @public
+export interface ManagedNetworkSettingsRule {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, ruleName: string, body: OutboundRuleBasicResource, options?: ManagedNetworkSettingsRuleCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedNetworkSettingsRuleCreateOrUpdateResponse>, ManagedNetworkSettingsRuleCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, ruleName: string, body: OutboundRuleBasicResource, options?: ManagedNetworkSettingsRuleCreateOrUpdateOptionalParams): Promise<ManagedNetworkSettingsRuleCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, ruleName: string, options?: ManagedNetworkSettingsRuleDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, ruleName: string, options?: ManagedNetworkSettingsRuleDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, ruleName: string, options?: ManagedNetworkSettingsRuleGetOptionalParams): Promise<ManagedNetworkSettingsRuleGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: ManagedNetworkSettingsRuleListOptionalParams): PagedAsyncIterableIterator<OutboundRuleBasicResource>;
+}
+
+// @public
+export interface ManagedNetworkSettingsRuleCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ManagedNetworkSettingsRuleCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedNetworkSettingsRuleCreateOrUpdateResponse = OutboundRuleBasicResource;
+
+// @public
+export interface ManagedNetworkSettingsRuleDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface ManagedNetworkSettingsRuleDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedNetworkSettingsRuleGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNetworkSettingsRuleGetResponse = OutboundRuleBasicResource;
+
+// @public
+export interface ManagedNetworkSettingsRuleListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNetworkSettingsRuleListNextResponse = OutboundRuleListResult;
+
+// @public
+export interface ManagedNetworkSettingsRuleListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNetworkSettingsRuleListResponse = OutboundRuleListResult;
+
+// @public
+export type ManagedNetworkStatus = string;
 
 // @public
 export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
@@ -3577,6 +4297,7 @@ export interface ModelContainer extends Resource {
 
 // @public (undocumented)
 export interface ModelContainerProperties extends AssetContainer {
+    readonly provisioningState?: AssetProvisioningState;
 }
 
 // @public
@@ -3613,9 +4334,6 @@ export type ModelContainersGetResponse = ModelContainer;
 
 // @public
 export interface ModelContainersListNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    listViewType?: ListViewType;
-    skip?: string;
 }
 
 // @public
@@ -3635,6 +4353,9 @@ export type ModelContainersListResponse = ModelContainerResourceArmPaginatedResu
 export type ModelSize = string;
 
 // @public
+export type ModelTaskType = string;
+
+// @public
 export interface ModelVersion extends Resource {
     properties: ModelVersionProperties;
 }
@@ -3647,6 +4368,8 @@ export interface ModelVersionProperties extends AssetBase {
     jobName?: string;
     modelType?: string;
     modelUri?: string;
+    readonly provisioningState?: AssetProvisioningState;
+    stage?: string;
 }
 
 // @public
@@ -3657,6 +4380,8 @@ export interface ModelVersionResourceArmPaginatedResult {
 
 // @public
 export interface ModelVersions {
+    beginPublish(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: ModelVersionsPublishOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginPublishAndWait(resourceGroupName: string, workspaceName: string, name: string, version: string, body: DestinationAsset, options?: ModelVersionsPublishOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workspaceName: string, name: string, version: string, body: ModelVersion, options?: ModelVersionsCreateOrUpdateOptionalParams): Promise<ModelVersionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: ModelVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, name: string, version: string, options?: ModelVersionsGetOptionalParams): Promise<ModelVersionsGetResponse>;
@@ -3683,16 +4408,6 @@ export type ModelVersionsGetResponse = ModelVersion;
 
 // @public
 export interface ModelVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    description?: string;
-    feed?: string;
-    listViewType?: ListViewType;
-    offset?: number;
-    orderBy?: string;
-    properties?: string;
-    skip?: string;
-    tags?: string;
-    top?: number;
-    version?: string;
 }
 
 // @public
@@ -3714,6 +4429,129 @@ export interface ModelVersionsListOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type ModelVersionsListResponse = ModelVersionResourceArmPaginatedResult;
+
+// @public
+export interface ModelVersionsPublishHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ModelVersionsPublishOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitorComputeConfigurationBase {
+    computeType: "ServerlessSpark";
+}
+
+// @public (undocumented)
+export type MonitorComputeConfigurationBaseUnion = MonitorComputeConfigurationBase | MonitorServerlessSparkCompute;
+
+// @public
+export interface MonitorComputeIdentityBase {
+    computeIdentityType: "AmlToken" | "ManagedIdentity";
+}
+
+// @public (undocumented)
+export type MonitorComputeIdentityBaseUnion = MonitorComputeIdentityBase | AmlTokenComputeIdentity | ManagedComputeIdentity;
+
+// @public
+export type MonitorComputeIdentityType = string;
+
+// @public
+export type MonitorComputeType = string;
+
+// @public (undocumented)
+export interface MonitorDefinition {
+    alertNotificationSettings?: MonitorNotificationSettings;
+    computeConfiguration: MonitorComputeConfigurationBaseUnion;
+    monitoringTarget?: MonitoringTarget;
+    signals: {
+        [propertyName: string]: MonitoringSignalBaseUnion | null;
+    };
+}
+
+// @public (undocumented)
+export interface MonitorEmailNotificationSettings {
+    emails?: string[];
+}
+
+// @public
+export type MonitoringFeatureDataType = string;
+
+// @public (undocumented)
+export interface MonitoringFeatureFilterBase {
+    filterType: "AllFeatures" | "FeatureSubset" | "TopNByAttribution";
+}
+
+// @public (undocumented)
+export type MonitoringFeatureFilterBaseUnion = MonitoringFeatureFilterBase | AllFeatures | FeatureSubset | TopNFeaturesByAttribution;
+
+// @public
+export type MonitoringFeatureFilterType = string;
+
+// @public
+export interface MonitoringInputDataBase {
+    columns?: {
+        [propertyName: string]: string | null;
+    };
+    dataContext?: string;
+    inputDataType: "Fixed" | "Rolling" | "Static";
+    jobInputType: JobInputType;
+    uri: string;
+}
+
+// @public (undocumented)
+export type MonitoringInputDataBaseUnion = MonitoringInputDataBase | FixedInputData | RollingInputData | StaticInputData;
+
+// @public
+export type MonitoringInputDataType = string;
+
+// @public
+export type MonitoringNotificationType = string;
+
+// @public (undocumented)
+export interface MonitoringSignalBase {
+    notificationTypes?: MonitoringNotificationType[];
+    properties?: {
+        [propertyName: string]: string | null;
+    };
+    signalType: "Custom" | "DataDrift" | "DataQuality" | "FeatureAttributionDrift" | "PredictionDrift";
+}
+
+// @public (undocumented)
+export type MonitoringSignalBaseUnion = MonitoringSignalBase | CustomMonitoringSignal | DataDriftMonitoringSignal | DataQualityMonitoringSignal | FeatureAttributionDriftMonitoringSignal | PredictionDriftMonitoringSignal;
+
+// @public
+export type MonitoringSignalType = string;
+
+// @public
+export interface MonitoringTarget {
+    deploymentId?: string;
+    modelId?: string;
+    taskType: ModelTaskType;
+}
+
+// @public (undocumented)
+export interface MonitoringThreshold {
+    value?: number;
+}
+
+// @public (undocumented)
+export interface MonitorNotificationSettings {
+    emailNotificationSettings?: MonitorEmailNotificationSettings;
+}
+
+// @public
+export interface MonitorServerlessSparkCompute extends MonitorComputeConfigurationBase {
+    computeIdentity: MonitorComputeIdentityBaseUnion;
+    computeType: "ServerlessSpark";
+    instanceType: string;
+    runtimeVersion: string;
+}
 
 // @public
 export type MountAction = string;
@@ -3760,6 +4598,11 @@ export interface NlpVerticalLimitSettings {
 }
 
 // @public
+export interface Nodes {
+    nodesValueType: "All";
+}
+
+// @public
 export type NodeState = string;
 
 // @public
@@ -3771,6 +4614,12 @@ export interface NodeStateCounts {
     readonly runningNodeCount?: number;
     readonly unusableNodeCount?: number;
 }
+
+// @public (undocumented)
+export type NodesUnion = Nodes | AllNodes;
+
+// @public
+export type NodesValueType = string;
 
 // @public (undocumented)
 export interface NoneAuthTypeWorkspaceConnectionProperties extends WorkspaceConnectionPropertiesV2 {
@@ -3811,6 +4660,33 @@ export interface NotebookResourceInfo {
 }
 
 // @public
+export type NumericalDataDriftMetric = string;
+
+// @public (undocumented)
+export interface NumericalDataDriftMetricThreshold extends DataDriftMetricThresholdBase {
+    dataType: "Numerical";
+    metric: NumericalDataDriftMetric;
+}
+
+// @public
+export type NumericalDataQualityMetric = string;
+
+// @public (undocumented)
+export interface NumericalDataQualityMetricThreshold extends DataQualityMetricThresholdBase {
+    dataType: "Numerical";
+    metric: NumericalDataQualityMetric;
+}
+
+// @public
+export type NumericalPredictionDriftMetric = string;
+
+// @public (undocumented)
+export interface NumericalPredictionDriftMetricThreshold extends PredictionDriftMetricThresholdBase {
+    dataType: "Numerical";
+    metric: NumericalPredictionDriftMetric;
+}
+
+// @public
 export type ObjectDetectionPrimaryMetrics = string;
 
 // @public
@@ -3847,11 +4723,11 @@ export type OnlineDeploymentPropertiesUnion = OnlineDeploymentProperties | Kuber
 
 // @public
 export interface OnlineDeployments {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: OnlineDeployment, options?: OnlineDeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<OnlineDeploymentsCreateOrUpdateResponse>, OnlineDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: OnlineDeployment, options?: OnlineDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OnlineDeploymentsCreateOrUpdateResponse>, OnlineDeploymentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: OnlineDeployment, options?: OnlineDeploymentsCreateOrUpdateOptionalParams): Promise<OnlineDeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: OnlineDeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: OnlineDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: OnlineDeploymentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialMinimalTrackedResourceWithSku, options?: OnlineDeploymentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<OnlineDeploymentsUpdateResponse>, OnlineDeploymentsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialMinimalTrackedResourceWithSku, options?: OnlineDeploymentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OnlineDeploymentsUpdateResponse>, OnlineDeploymentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: PartialMinimalTrackedResourceWithSku, options?: OnlineDeploymentsUpdateOptionalParams): Promise<OnlineDeploymentsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, options?: OnlineDeploymentsGetOptionalParams): Promise<OnlineDeploymentsGetResponse>;
     getLogs(resourceGroupName: string, workspaceName: string, endpointName: string, deploymentName: string, body: DeploymentLogsRequest, options?: OnlineDeploymentsGetLogsOptionalParams): Promise<OnlineDeploymentsGetLogsResponse>;
@@ -3903,9 +4779,6 @@ export type OnlineDeploymentsGetResponse = OnlineDeployment;
 
 // @public
 export interface OnlineDeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-    orderBy?: string;
-    skip?: string;
-    top?: number;
 }
 
 // @public
@@ -3923,8 +4796,6 @@ export type OnlineDeploymentsListResponse = OnlineDeploymentTrackedResourceArmPa
 
 // @public
 export interface OnlineDeploymentsListSkusNextOptionalParams extends coreClient.OperationOptions {
-    count?: number;
-    skip?: string;
 }
 
 // @public
@@ -3972,6 +4843,9 @@ export interface OnlineEndpoint extends TrackedResource {
 // @public
 export interface OnlineEndpointProperties extends EndpointPropertiesBase {
     compute?: string;
+    mirrorTraffic?: {
+        [propertyName: string]: number;
+    };
     readonly provisioningState?: EndpointProvisioningState;
     publicNetworkAccess?: PublicNetworkAccessType;
     traffic?: {
@@ -3981,13 +4855,13 @@ export interface OnlineEndpointProperties extends EndpointPropertiesBase {
 
 // @public
 export interface OnlineEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: OnlineEndpoint, options?: OnlineEndpointsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<OnlineEndpointsCreateOrUpdateResponse>, OnlineEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: OnlineEndpoint, options?: OnlineEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OnlineEndpointsCreateOrUpdateResponse>, OnlineEndpointsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: OnlineEndpoint, options?: OnlineEndpointsCreateOrUpdateOptionalParams): Promise<OnlineEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsDeleteOptionalParams): Promise<void>;
-    beginRegenerateKeys(resourceGroupName: string, workspaceName: string, endpointName: string, body: RegenerateEndpointKeysRequest, options?: OnlineEndpointsRegenerateKeysOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRegenerateKeys(resourceGroupName: string, workspaceName: string, endpointName: string, body: RegenerateEndpointKeysRequest, options?: OnlineEndpointsRegenerateKeysOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRegenerateKeysAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: RegenerateEndpointKeysRequest, options?: OnlineEndpointsRegenerateKeysOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: OnlineEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<OnlineEndpointsUpdateResponse>, OnlineEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: OnlineEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OnlineEndpointsUpdateResponse>, OnlineEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, endpointName: string, body: PartialMinimalTrackedResourceWithIdentity, options?: OnlineEndpointsUpdateOptionalParams): Promise<OnlineEndpointsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsGetOptionalParams): Promise<OnlineEndpointsGetResponse>;
     getToken(resourceGroupName: string, workspaceName: string, endpointName: string, options?: OnlineEndpointsGetTokenOptionalParams): Promise<OnlineEndpointsGetTokenResponse>;
@@ -4046,13 +4920,6 @@ export type OnlineEndpointsListKeysResponse = EndpointAuthKeys;
 
 // @public
 export interface OnlineEndpointsListNextOptionalParams extends coreClient.OperationOptions {
-    computeType?: EndpointComputeType;
-    count?: number;
-    name?: string;
-    orderBy?: OrderString;
-    properties?: string;
-    skip?: string;
-    tags?: string;
 }
 
 // @public
@@ -4125,11 +4992,34 @@ export type OnlineScaleSettingsUnion = OnlineScaleSettings | DefaultScaleSetting
 export type OperatingSystemType = string;
 
 // @public
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
+}
+
+// @public
 export type OperationName = string;
 
 // @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<AmlOperation>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -4137,7 +5027,7 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type OperationsListResponse = AmlOperationListResult;
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type OperationStatus = string;
@@ -4149,7 +5039,31 @@ export type OperationTrigger = string;
 export type OrderString = string;
 
 // @public
+export type Origin = string;
+
+// @public
 export type OsType = string;
+
+// @public
+export interface OutboundRule {
+    category?: RuleCategory;
+    status?: RuleStatus;
+    type: "PrivateEndpoint" | "ServiceTag" | "FQDN";
+}
+
+// @public
+export interface OutboundRuleBasicResource extends Resource {
+    properties: OutboundRuleUnion;
+}
+
+// @public
+export interface OutboundRuleListResult {
+    nextLink?: string;
+    value?: OutboundRuleBasicResource[];
+}
+
+// @public (undocumented)
+export type OutboundRuleUnion = OutboundRule | PrivateEndpointOutboundRule | ServiceTagOutboundRule | FqdnOutboundRule;
 
 // @public
 export type OutputDeliveryMode = string;
@@ -4206,6 +5120,15 @@ export interface PartialMinimalTrackedResourceWithSku extends PartialMinimalTrac
 }
 
 // @public
+export interface PartialRegistryPartialTrackedResource {
+    identity?: RegistryPartialManagedServiceIdentity;
+    sku?: PartialSku;
+    tags?: {
+        [propertyName: string]: string | null;
+    };
+}
+
+// @public
 export interface PartialSku {
     capacity?: number;
     family?: string;
@@ -4226,6 +5149,33 @@ export interface PATAuthTypeWorkspaceConnectionProperties extends WorkspaceConne
     // (undocumented)
     credentials?: WorkspaceConnectionPersonalAccessToken;
 }
+
+// @public (undocumented)
+export interface PendingUploadCredentialDto {
+    credentialType: "SAS";
+}
+
+// @public (undocumented)
+export type PendingUploadCredentialDtoUnion = PendingUploadCredentialDto | SASCredentialDto;
+
+// @public
+export type PendingUploadCredentialType = string;
+
+// @public (undocumented)
+export interface PendingUploadRequestDto {
+    pendingUploadId?: string;
+    pendingUploadType?: PendingUploadType;
+}
+
+// @public (undocumented)
+export interface PendingUploadResponseDto {
+    blobReferenceForConsumption?: BlobReferenceForConsumptionDto;
+    pendingUploadId?: string;
+    pendingUploadType?: PendingUploadType;
+}
+
+// @public
+export type PendingUploadType = string;
 
 // @public
 export interface PersonalComputeInstanceSettings {
@@ -4248,10 +5198,29 @@ export interface PipelineJob extends JobBaseProperties {
     sourceJobId?: string;
 }
 
+// @public (undocumented)
+export interface PredictionDriftMetricThresholdBase {
+    dataType: "Categorical" | "Numerical";
+    threshold?: MonitoringThreshold;
+}
+
+// @public (undocumented)
+export type PredictionDriftMetricThresholdBaseUnion = PredictionDriftMetricThresholdBase | CategoricalPredictionDriftMetricThreshold | NumericalPredictionDriftMetricThreshold;
+
+// @public (undocumented)
+export interface PredictionDriftMonitoringSignal extends MonitoringSignalBase {
+    featureDataTypeOverride?: {
+        [propertyName: string]: MonitoringFeatureDataType;
+    };
+    metricThresholds: PredictionDriftMetricThresholdBaseUnion[];
+    productionData: MonitoringInputDataBaseUnion;
+    referenceData: MonitoringInputDataBaseUnion;
+    signalType: "PredictionDrift";
+}
+
 // @public
 export interface PrivateEndpoint {
     readonly id?: string;
-    readonly subnetArmId?: string;
 }
 
 // @public
@@ -4309,6 +5278,28 @@ export interface PrivateEndpointConnectionsListOptionalParams extends coreClient
 export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 // @public
+export interface PrivateEndpointDestination {
+    // (undocumented)
+    serviceResourceId?: string;
+    // (undocumented)
+    sparkEnabled?: boolean;
+    sparkStatus?: RuleStatus;
+    // (undocumented)
+    subresourceTarget?: string;
+}
+
+// @public
+export interface PrivateEndpointOutboundRule extends OutboundRule {
+    destination?: PrivateEndpointDestination;
+    type: "PrivateEndpoint";
+}
+
+// @public
+export interface PrivateEndpointResource extends PrivateEndpoint {
+    subnetArmId?: string;
+}
+
+// @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
@@ -4358,6 +5349,9 @@ export interface ProbeSettings {
 }
 
 // @public
+export type Protocol = string;
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -4373,6 +5367,11 @@ export type PublicNetworkAccessType = string;
 export interface PyTorch extends DistributionConfiguration {
     distributionType: "PyTorch";
     processCountPerInstance?: number;
+}
+
+// @public (undocumented)
+export interface QueueSettings {
+    jobTier?: JobTier;
 }
 
 // @public
@@ -4430,6 +5429,15 @@ export interface RandomSamplingAlgorithm extends SamplingAlgorithm {
 export type RandomSamplingAlgorithmRule = string;
 
 // @public
+export interface Recurrence {
+    frequency?: RecurrenceFrequency;
+    interval?: number;
+    schedule?: RecurrenceSchedule;
+    startTime?: string;
+    timeZone?: string;
+}
+
+// @public
 export type RecurrenceFrequency = string;
 
 // @public (undocumented)
@@ -4457,12 +5465,811 @@ export interface RegenerateEndpointKeysRequest {
     keyValue?: string;
 }
 
+// @public
+export interface Registries {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, body: Registry, options?: RegistriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistriesCreateOrUpdateResponse>, RegistriesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, body: Registry, options?: RegistriesCreateOrUpdateOptionalParams): Promise<RegistriesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams): Promise<void>;
+    beginRemoveRegions(resourceGroupName: string, registryName: string, body: Registry, options?: RegistriesRemoveRegionsOptionalParams): Promise<SimplePollerLike<OperationState<RegistriesRemoveRegionsResponse>, RegistriesRemoveRegionsResponse>>;
+    beginRemoveRegionsAndWait(resourceGroupName: string, registryName: string, body: Registry, options?: RegistriesRemoveRegionsOptionalParams): Promise<RegistriesRemoveRegionsResponse>;
+    get(resourceGroupName: string, registryName: string, options?: RegistriesGetOptionalParams): Promise<RegistriesGetResponse>;
+    list(resourceGroupName: string, options?: RegistriesListOptionalParams): PagedAsyncIterableIterator<Registry>;
+    listBySubscription(options?: RegistriesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Registry>;
+    update(resourceGroupName: string, registryName: string, body: PartialRegistryPartialTrackedResource, options?: RegistriesUpdateOptionalParams): Promise<RegistriesUpdateResponse>;
+}
+
+// @public
+export interface RegistriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistriesCreateOrUpdateResponse = Registry;
+
+// @public
+export interface RegistriesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistriesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistriesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistriesGetResponse = Registry;
+
+// @public
+export interface RegistriesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistriesListBySubscriptionNextResponse = RegistryTrackedResourceArmPaginatedResult;
+
+// @public
+export interface RegistriesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistriesListBySubscriptionResponse = RegistryTrackedResourceArmPaginatedResult;
+
+// @public
+export interface RegistriesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistriesListNextResponse = RegistryTrackedResourceArmPaginatedResult;
+
+// @public
+export interface RegistriesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistriesListResponse = RegistryTrackedResourceArmPaginatedResult;
+
+// @public
+export interface RegistriesRemoveRegionsHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistriesRemoveRegionsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistriesRemoveRegionsResponse = Registry;
+
+// @public
+export interface RegistriesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistriesUpdateResponse = Registry;
+
+// @public (undocumented)
+export interface Registry extends TrackedResource {
+    discoveryUrl?: string;
+    identity?: ManagedServiceIdentity;
+    intellectualPropertyPublisher?: string;
+    kind?: string;
+    managedResourceGroup?: ArmResourceId;
+    mlFlowRegistryUri?: string;
+    publicNetworkAccess?: string;
+    regionDetails?: RegistryRegionArmDetails[];
+    registryPrivateEndpointConnections?: RegistryPrivateEndpointConnection[];
+    sku?: Sku;
+}
+
+// @public
+export interface RegistryCodeContainers {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, codeName: string, body: CodeContainer, options?: RegistryCodeContainersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryCodeContainersCreateOrUpdateResponse>, RegistryCodeContainersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, codeName: string, body: CodeContainer, options?: RegistryCodeContainersCreateOrUpdateOptionalParams): Promise<RegistryCodeContainersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, codeName: string, options?: RegistryCodeContainersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, codeName: string, options?: RegistryCodeContainersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, codeName: string, options?: RegistryCodeContainersGetOptionalParams): Promise<RegistryCodeContainersGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: RegistryCodeContainersListOptionalParams): PagedAsyncIterableIterator<CodeContainer>;
+}
+
+// @public
+export interface RegistryCodeContainersCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryCodeContainersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryCodeContainersCreateOrUpdateResponse = CodeContainer;
+
+// @public
+export interface RegistryCodeContainersDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryCodeContainersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryCodeContainersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryCodeContainersGetResponse = CodeContainer;
+
+// @public
+export interface RegistryCodeContainersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryCodeContainersListNextResponse = CodeContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryCodeContainersListOptionalParams extends coreClient.OperationOptions {
+    skip?: string;
+}
+
+// @public
+export type RegistryCodeContainersListResponse = CodeContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryCodeVersions {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, codeName: string, version: string, body: CodeVersion, options?: RegistryCodeVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryCodeVersionsCreateOrUpdateResponse>, RegistryCodeVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, codeName: string, version: string, body: CodeVersion, options?: RegistryCodeVersionsCreateOrUpdateOptionalParams): Promise<RegistryCodeVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, codeName: string, version: string, options?: RegistryCodeVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, codeName: string, version: string, options?: RegistryCodeVersionsDeleteOptionalParams): Promise<void>;
+    createOrGetStartPendingUpload(resourceGroupName: string, registryName: string, codeName: string, version: string, body: PendingUploadRequestDto, options?: RegistryCodeVersionsCreateOrGetStartPendingUploadOptionalParams): Promise<RegistryCodeVersionsCreateOrGetStartPendingUploadResponse>;
+    get(resourceGroupName: string, registryName: string, codeName: string, version: string, options?: RegistryCodeVersionsGetOptionalParams): Promise<RegistryCodeVersionsGetResponse>;
+    list(resourceGroupName: string, registryName: string, codeName: string, options?: RegistryCodeVersionsListOptionalParams): PagedAsyncIterableIterator<CodeVersion>;
+}
+
+// @public
+export interface RegistryCodeVersionsCreateOrGetStartPendingUploadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryCodeVersionsCreateOrGetStartPendingUploadResponse = PendingUploadResponseDto;
+
+// @public
+export interface RegistryCodeVersionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryCodeVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryCodeVersionsCreateOrUpdateResponse = CodeVersion;
+
+// @public
+export interface RegistryCodeVersionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryCodeVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryCodeVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryCodeVersionsGetResponse = CodeVersion;
+
+// @public
+export interface RegistryCodeVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryCodeVersionsListNextResponse = CodeVersionResourceArmPaginatedResult;
+
+// @public
+export interface RegistryCodeVersionsListOptionalParams extends coreClient.OperationOptions {
+    orderBy?: string;
+    skip?: string;
+    top?: number;
+}
+
+// @public
+export type RegistryCodeVersionsListResponse = CodeVersionResourceArmPaginatedResult;
+
+// @public
+export interface RegistryComponentContainers {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, componentName: string, body: ComponentContainer, options?: RegistryComponentContainersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryComponentContainersCreateOrUpdateResponse>, RegistryComponentContainersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, componentName: string, body: ComponentContainer, options?: RegistryComponentContainersCreateOrUpdateOptionalParams): Promise<RegistryComponentContainersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, componentName: string, options?: RegistryComponentContainersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, componentName: string, options?: RegistryComponentContainersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, componentName: string, options?: RegistryComponentContainersGetOptionalParams): Promise<RegistryComponentContainersGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: RegistryComponentContainersListOptionalParams): PagedAsyncIterableIterator<ComponentContainer>;
+}
+
+// @public
+export interface RegistryComponentContainersCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryComponentContainersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryComponentContainersCreateOrUpdateResponse = ComponentContainer;
+
+// @public
+export interface RegistryComponentContainersDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryComponentContainersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryComponentContainersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryComponentContainersGetResponse = ComponentContainer;
+
+// @public
+export interface RegistryComponentContainersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryComponentContainersListNextResponse = ComponentContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryComponentContainersListOptionalParams extends coreClient.OperationOptions {
+    skip?: string;
+}
+
+// @public
+export type RegistryComponentContainersListResponse = ComponentContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryComponentVersions {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, componentName: string, version: string, body: ComponentVersion, options?: RegistryComponentVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryComponentVersionsCreateOrUpdateResponse>, RegistryComponentVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, componentName: string, version: string, body: ComponentVersion, options?: RegistryComponentVersionsCreateOrUpdateOptionalParams): Promise<RegistryComponentVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, componentName: string, version: string, options?: RegistryComponentVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, componentName: string, version: string, options?: RegistryComponentVersionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, componentName: string, version: string, options?: RegistryComponentVersionsGetOptionalParams): Promise<RegistryComponentVersionsGetResponse>;
+    list(resourceGroupName: string, registryName: string, componentName: string, options?: RegistryComponentVersionsListOptionalParams): PagedAsyncIterableIterator<ComponentVersion>;
+}
+
+// @public
+export interface RegistryComponentVersionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryComponentVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryComponentVersionsCreateOrUpdateResponse = ComponentVersion;
+
+// @public
+export interface RegistryComponentVersionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryComponentVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryComponentVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryComponentVersionsGetResponse = ComponentVersion;
+
+// @public
+export interface RegistryComponentVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryComponentVersionsListNextResponse = ComponentVersionResourceArmPaginatedResult;
+
+// @public
+export interface RegistryComponentVersionsListOptionalParams extends coreClient.OperationOptions {
+    orderBy?: string;
+    skip?: string;
+    top?: number;
+}
+
+// @public
+export type RegistryComponentVersionsListResponse = ComponentVersionResourceArmPaginatedResult;
+
+// @public
+export interface RegistryDataContainers {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, name: string, body: DataContainer, options?: RegistryDataContainersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryDataContainersCreateOrUpdateResponse>, RegistryDataContainersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, name: string, body: DataContainer, options?: RegistryDataContainersCreateOrUpdateOptionalParams): Promise<RegistryDataContainersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, name: string, options?: RegistryDataContainersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, name: string, options?: RegistryDataContainersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, name: string, options?: RegistryDataContainersGetOptionalParams): Promise<RegistryDataContainersGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: RegistryDataContainersListOptionalParams): PagedAsyncIterableIterator<DataContainer>;
+}
+
+// @public
+export interface RegistryDataContainersCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryDataContainersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryDataContainersCreateOrUpdateResponse = DataContainer;
+
+// @public
+export interface RegistryDataContainersDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryDataContainersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryDataContainersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryDataContainersGetResponse = DataContainer;
+
+// @public
+export interface RegistryDataContainersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryDataContainersListNextResponse = DataContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryDataContainersListOptionalParams extends coreClient.OperationOptions {
+    listViewType?: ListViewType;
+    skip?: string;
+}
+
+// @public
+export type RegistryDataContainersListResponse = DataContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryDataReferences {
+    getBlobReferenceSAS(resourceGroupName: string, registryName: string, name: string, version: string, body: GetBlobReferenceSASRequestDto, options?: RegistryDataReferencesGetBlobReferenceSASOptionalParams): Promise<RegistryDataReferencesGetBlobReferenceSASResponse>;
+}
+
+// @public
+export interface RegistryDataReferencesGetBlobReferenceSASOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryDataReferencesGetBlobReferenceSASResponse = GetBlobReferenceSASResponseDto;
+
+// @public
+export interface RegistryDataVersions {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, name: string, version: string, body: DataVersionBase, options?: RegistryDataVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryDataVersionsCreateOrUpdateResponse>, RegistryDataVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, name: string, version: string, body: DataVersionBase, options?: RegistryDataVersionsCreateOrUpdateOptionalParams): Promise<RegistryDataVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, name: string, version: string, options?: RegistryDataVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, name: string, version: string, options?: RegistryDataVersionsDeleteOptionalParams): Promise<void>;
+    createOrGetStartPendingUpload(resourceGroupName: string, registryName: string, name: string, version: string, body: PendingUploadRequestDto, options?: RegistryDataVersionsCreateOrGetStartPendingUploadOptionalParams): Promise<RegistryDataVersionsCreateOrGetStartPendingUploadResponse>;
+    get(resourceGroupName: string, registryName: string, name: string, version: string, options?: RegistryDataVersionsGetOptionalParams): Promise<RegistryDataVersionsGetResponse>;
+    list(resourceGroupName: string, registryName: string, name: string, options?: RegistryDataVersionsListOptionalParams): PagedAsyncIterableIterator<DataVersionBase>;
+}
+
+// @public
+export interface RegistryDataVersionsCreateOrGetStartPendingUploadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryDataVersionsCreateOrGetStartPendingUploadResponse = PendingUploadResponseDto;
+
+// @public
+export interface RegistryDataVersionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryDataVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryDataVersionsCreateOrUpdateResponse = DataVersionBase;
+
+// @public
+export interface RegistryDataVersionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryDataVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryDataVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryDataVersionsGetResponse = DataVersionBase;
+
+// @public
+export interface RegistryDataVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryDataVersionsListNextResponse = DataVersionBaseResourceArmPaginatedResult;
+
+// @public
+export interface RegistryDataVersionsListOptionalParams extends coreClient.OperationOptions {
+    listViewType?: ListViewType;
+    orderBy?: string;
+    skip?: string;
+    tags?: string;
+    top?: number;
+}
+
+// @public
+export type RegistryDataVersionsListResponse = DataVersionBaseResourceArmPaginatedResult;
+
+// @public
+export interface RegistryEnvironmentContainers {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, environmentName: string, body: EnvironmentContainer, options?: RegistryEnvironmentContainersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryEnvironmentContainersCreateOrUpdateResponse>, RegistryEnvironmentContainersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, environmentName: string, body: EnvironmentContainer, options?: RegistryEnvironmentContainersCreateOrUpdateOptionalParams): Promise<RegistryEnvironmentContainersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, environmentName: string, options?: RegistryEnvironmentContainersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, environmentName: string, options?: RegistryEnvironmentContainersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, environmentName: string, options?: RegistryEnvironmentContainersGetOptionalParams): Promise<RegistryEnvironmentContainersGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: RegistryEnvironmentContainersListOptionalParams): PagedAsyncIterableIterator<EnvironmentContainer>;
+}
+
+// @public
+export interface RegistryEnvironmentContainersCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryEnvironmentContainersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryEnvironmentContainersCreateOrUpdateResponse = EnvironmentContainer;
+
+// @public
+export interface RegistryEnvironmentContainersDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryEnvironmentContainersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryEnvironmentContainersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryEnvironmentContainersGetResponse = EnvironmentContainer;
+
+// @public
+export interface RegistryEnvironmentContainersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryEnvironmentContainersListNextResponse = EnvironmentContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryEnvironmentContainersListOptionalParams extends coreClient.OperationOptions {
+    listViewType?: ListViewType;
+    skip?: string;
+}
+
+// @public
+export type RegistryEnvironmentContainersListResponse = EnvironmentContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryEnvironmentVersions {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, environmentName: string, version: string, body: EnvironmentVersion, options?: RegistryEnvironmentVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryEnvironmentVersionsCreateOrUpdateResponse>, RegistryEnvironmentVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, environmentName: string, version: string, body: EnvironmentVersion, options?: RegistryEnvironmentVersionsCreateOrUpdateOptionalParams): Promise<RegistryEnvironmentVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, environmentName: string, version: string, options?: RegistryEnvironmentVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, environmentName: string, version: string, options?: RegistryEnvironmentVersionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, environmentName: string, version: string, options?: RegistryEnvironmentVersionsGetOptionalParams): Promise<RegistryEnvironmentVersionsGetResponse>;
+    list(resourceGroupName: string, registryName: string, environmentName: string, options?: RegistryEnvironmentVersionsListOptionalParams): PagedAsyncIterableIterator<EnvironmentVersion>;
+}
+
+// @public
+export interface RegistryEnvironmentVersionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryEnvironmentVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryEnvironmentVersionsCreateOrUpdateResponse = EnvironmentVersion;
+
+// @public
+export interface RegistryEnvironmentVersionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryEnvironmentVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryEnvironmentVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryEnvironmentVersionsGetResponse = EnvironmentVersion;
+
+// @public
+export interface RegistryEnvironmentVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryEnvironmentVersionsListNextResponse = EnvironmentVersionResourceArmPaginatedResult;
+
+// @public
+export interface RegistryEnvironmentVersionsListOptionalParams extends coreClient.OperationOptions {
+    listViewType?: ListViewType;
+    orderBy?: string;
+    skip?: string;
+    top?: number;
+}
+
+// @public
+export type RegistryEnvironmentVersionsListResponse = EnvironmentVersionResourceArmPaginatedResult;
+
 // @public (undocumented)
 export interface RegistryListCredentialsResult {
     readonly location?: string;
     // (undocumented)
     passwords?: Password[];
     readonly username?: string;
+}
+
+// @public
+export interface RegistryModelContainers {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, modelName: string, body: ModelContainer, options?: RegistryModelContainersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryModelContainersCreateOrUpdateResponse>, RegistryModelContainersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, modelName: string, body: ModelContainer, options?: RegistryModelContainersCreateOrUpdateOptionalParams): Promise<RegistryModelContainersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, modelName: string, options?: RegistryModelContainersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, modelName: string, options?: RegistryModelContainersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, modelName: string, options?: RegistryModelContainersGetOptionalParams): Promise<RegistryModelContainersGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: RegistryModelContainersListOptionalParams): PagedAsyncIterableIterator<ModelContainer>;
+}
+
+// @public
+export interface RegistryModelContainersCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryModelContainersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryModelContainersCreateOrUpdateResponse = ModelContainer;
+
+// @public
+export interface RegistryModelContainersDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryModelContainersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryModelContainersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryModelContainersGetResponse = ModelContainer;
+
+// @public
+export interface RegistryModelContainersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryModelContainersListNextResponse = ModelContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryModelContainersListOptionalParams extends coreClient.OperationOptions {
+    listViewType?: ListViewType;
+    skip?: string;
+}
+
+// @public
+export type RegistryModelContainersListResponse = ModelContainerResourceArmPaginatedResult;
+
+// @public
+export interface RegistryModelVersions {
+    beginCreateOrUpdate(resourceGroupName: string, registryName: string, modelName: string, version: string, body: ModelVersion, options?: RegistryModelVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegistryModelVersionsCreateOrUpdateResponse>, RegistryModelVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, registryName: string, modelName: string, version: string, body: ModelVersion, options?: RegistryModelVersionsCreateOrUpdateOptionalParams): Promise<RegistryModelVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, modelName: string, version: string, options?: RegistryModelVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, modelName: string, version: string, options?: RegistryModelVersionsDeleteOptionalParams): Promise<void>;
+    createOrGetStartPendingUpload(resourceGroupName: string, registryName: string, modelName: string, version: string, body: PendingUploadRequestDto, options?: RegistryModelVersionsCreateOrGetStartPendingUploadOptionalParams): Promise<RegistryModelVersionsCreateOrGetStartPendingUploadResponse>;
+    get(resourceGroupName: string, registryName: string, modelName: string, version: string, options?: RegistryModelVersionsGetOptionalParams): Promise<RegistryModelVersionsGetResponse>;
+    list(resourceGroupName: string, registryName: string, modelName: string, options?: RegistryModelVersionsListOptionalParams): PagedAsyncIterableIterator<ModelVersion>;
+}
+
+// @public
+export interface RegistryModelVersionsCreateOrGetStartPendingUploadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryModelVersionsCreateOrGetStartPendingUploadResponse = PendingUploadResponseDto;
+
+// @public
+export interface RegistryModelVersionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryModelVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistryModelVersionsCreateOrUpdateResponse = ModelVersion;
+
+// @public
+export interface RegistryModelVersionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface RegistryModelVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryModelVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryModelVersionsGetResponse = ModelVersion;
+
+// @public
+export interface RegistryModelVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistryModelVersionsListNextResponse = ModelVersionResourceArmPaginatedResult;
+
+// @public
+export interface RegistryModelVersionsListOptionalParams extends coreClient.OperationOptions {
+    description?: string;
+    listViewType?: ListViewType;
+    orderBy?: string;
+    properties?: string;
+    skip?: string;
+    tags?: string;
+    top?: number;
+    version?: string;
+}
+
+// @public
+export type RegistryModelVersionsListResponse = ModelVersionResourceArmPaginatedResult;
+
+// @public
+export interface RegistryPartialManagedServiceIdentity extends ManagedServiceIdentity {
+}
+
+// @public
+export interface RegistryPrivateEndpointConnection {
+    groupIds?: string[];
+    id?: string;
+    location?: string;
+    privateEndpoint?: PrivateEndpointResource;
+    provisioningState?: string;
+    registryPrivateLinkServiceConnectionState?: RegistryPrivateLinkServiceConnectionState;
+}
+
+// @public
+export interface RegistryPrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: EndpointServiceConnectionStatus;
+}
+
+// @public
+export interface RegistryRegionArmDetails {
+    acrDetails?: AcrDetails[];
+    location?: string;
+    storageAccountDetails?: StorageAccountDetails[];
+}
+
+// @public
+export interface RegistryTrackedResourceArmPaginatedResult {
+    nextLink?: string;
+    value?: Registry[];
 }
 
 // @public
@@ -4535,11 +6342,31 @@ export interface ResourceQuota {
     readonly unit?: QuotaUnit;
 }
 
+// @public
+export interface RollingInputData extends MonitoringInputDataBase {
+    inputDataType: "Rolling";
+    preprocessingComponentId?: string;
+    windowOffset: string;
+    windowSize: string;
+}
+
 // @public (undocumented)
 export interface Route {
     path: string;
     port: number;
 }
+
+// @public
+export type RuleAction = string;
+
+// @public
+export type RuleCategory = string;
+
+// @public
+export type RuleStatus = string;
+
+// @public
+export type RuleType = string;
 
 // @public
 export interface SamplingAlgorithm {
@@ -4557,6 +6384,18 @@ export interface SASAuthTypeWorkspaceConnectionProperties extends WorkspaceConne
     authType: "SAS";
     // (undocumented)
     credentials?: WorkspaceConnectionSharedAccessSignature;
+}
+
+// @public
+export interface SASCredential extends DataReferenceCredential {
+    credentialType: "SAS";
+    sasUri?: string;
+}
+
+// @public (undocumented)
+export interface SASCredentialDto extends PendingUploadCredentialDto {
+    credentialType: "SAS";
+    sasUri?: string;
 }
 
 // @public
@@ -4593,11 +6432,11 @@ export interface Schedule extends Resource {
 
 // @public (undocumented)
 export interface ScheduleActionBase {
-    actionType: "InvokeBatchEndpoint" | "CreateJob";
+    actionType: "CreateMonitor" | "InvokeBatchEndpoint" | "CreateJob";
 }
 
 // @public (undocumented)
-export type ScheduleActionBaseUnion = ScheduleActionBase | EndpointScheduleAction | JobScheduleAction;
+export type ScheduleActionBaseUnion = ScheduleActionBase | CreateMonitorAction | EndpointScheduleAction | JobScheduleAction;
 
 // @public
 export type ScheduleActionType = string;
@@ -4635,9 +6474,9 @@ export interface ScheduleResourceArmPaginatedResult {
 
 // @public
 export interface Schedules {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, name: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SchedulesCreateOrUpdateResponse>, SchedulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, name: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SchedulesCreateOrUpdateResponse>, SchedulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, name: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SchedulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesGetOptionalParams): Promise<SchedulesGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: SchedulesListOptionalParams): PagedAsyncIterableIterator<Schedule>;
@@ -4680,8 +6519,6 @@ export type SchedulesGetResponse = Schedule;
 
 // @public
 export interface SchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    listViewType?: ScheduleListViewType;
-    skip?: string;
 }
 
 // @public
@@ -4749,6 +6586,24 @@ export interface ServicePrincipalDatastoreCredentials extends DatastoreCredentia
 export interface ServicePrincipalDatastoreSecrets extends DatastoreSecrets {
     clientSecret?: string;
     secretsType: "ServicePrincipal";
+}
+
+// @public
+export interface ServiceTagDestination {
+    action?: RuleAction;
+    readonly addressPrefixes?: string[];
+    // (undocumented)
+    portRanges?: string;
+    // (undocumented)
+    protocol?: string;
+    // (undocumented)
+    serviceTag?: string;
+}
+
+// @public
+export interface ServiceTagOutboundRule extends OutboundRule {
+    destination?: ServiceTagDestination;
+    type: "ServiceTag";
 }
 
 // @public
@@ -4840,10 +6695,24 @@ export interface StackEnsembleSettings {
 export type StackMetaLearnerType = string;
 
 // @public
+export interface StaticInputData extends MonitoringInputDataBase {
+    inputDataType: "Static";
+    preprocessingComponentId?: string;
+    windowEnd: Date;
+    windowStart: Date;
+}
+
+// @public
 export type Status = string;
 
 // @public
 export type StochasticOptimizer = string;
+
+// @public
+export interface StorageAccountDetails {
+    systemCreatedStorageAccount?: SystemCreatedStorageAccount;
+    userCreatedStorageAccount?: UserCreatedStorageAccount;
+}
 
 // @public
 export type StorageAccountType = string;
@@ -4860,6 +6729,7 @@ export interface SweepJob extends JobBaseProperties {
     outputs?: {
         [propertyName: string]: JobOutputUnion | null;
     };
+    queueSettings?: QueueSettings;
     samplingAlgorithm: SamplingAlgorithmUnion;
     searchSpace: Record<string, unknown>;
     trial: TrialComponent;
@@ -4892,6 +6762,22 @@ export interface SynapseSparkProperties {
     sparkVersion?: string;
     subscriptionId?: string;
     workspaceName?: string;
+}
+
+// @public (undocumented)
+export interface SystemCreatedAcrAccount {
+    acrAccountName?: string;
+    acrAccountSku?: string;
+    armResourceId?: ArmResourceId;
+}
+
+// @public (undocumented)
+export interface SystemCreatedStorageAccount {
+    allowBlobPublicAccess?: boolean;
+    armResourceId?: ArmResourceId;
+    storageAccountHnsEnabled?: boolean;
+    storageAccountName?: string;
+    storageAccountType?: string;
 }
 
 // @public
@@ -5008,6 +6894,17 @@ export interface TextNer extends NlpVertical, AutoMLVertical {
 }
 
 // @public
+export interface TmpfsOptions {
+    size?: number;
+}
+
+// @public (undocumented)
+export interface TopNFeaturesByAttribution extends MonitoringFeatureFilterBase {
+    filterType: "TopNByAttribution";
+    top?: number;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
@@ -5043,11 +6940,11 @@ export interface TriggerBase {
     endTime?: string;
     startTime?: string;
     timeZone?: string;
-    triggerType: "Recurrence" | "Cron";
+    triggerType: "Cron" | "Recurrence";
 }
 
 // @public (undocumented)
-export type TriggerBaseUnion = TriggerBase | RecurrenceTrigger | CronTrigger;
+export type TriggerBaseUnion = TriggerBase | CronTrigger | RecurrenceTrigger;
 
 // @public
 export type TriggerType = string;
@@ -5165,6 +7062,16 @@ export interface UserAssignedIdentity {
     readonly principalId?: string;
 }
 
+// @public (undocumented)
+export interface UserCreatedAcrAccount {
+    armResourceId?: ArmResourceId;
+}
+
+// @public (undocumented)
+export interface UserCreatedStorageAccount {
+    armResourceId?: ArmResourceId;
+}
+
 // @public
 export interface UserIdentity extends IdentityConfiguration {
     identityType: "UserIdentity";
@@ -5272,6 +7179,26 @@ export type VmPriority = string;
 export type VMTier = string;
 
 // @public
+export interface VolumeDefinition {
+    bind?: BindOptions;
+    consistency?: string;
+    readOnly?: boolean;
+    source?: string;
+    target?: string;
+    tmpfs?: TmpfsOptions;
+    type?: VolumeDefinitionType;
+    volume?: VolumeOptions;
+}
+
+// @public
+export type VolumeDefinitionType = string;
+
+// @public
+export interface VolumeOptions {
+    nocopy?: boolean;
+}
+
+// @public
 export type WeekDay = string;
 
 // @public
@@ -5288,6 +7215,7 @@ export interface Workspace extends Resource {
     imageBuildCompute?: string;
     keyVault?: string;
     location?: string;
+    managedNetwork?: ManagedNetworkSettings;
     readonly mlFlowTrackingUri?: string;
     readonly notebookInfo?: NotebookResourceInfo;
     primaryUserAssignedIdentity?: string;
@@ -5387,8 +7315,6 @@ export interface WorkspaceConnectionSharedAccessSignature {
 
 // @public
 export interface WorkspaceConnectionsListNextOptionalParams extends coreClient.OperationOptions {
-    category?: string;
-    target?: string;
 }
 
 // @public
@@ -5438,17 +7364,17 @@ export interface WorkspaceListResult {
 
 // @public
 export interface Workspaces {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
-    beginDiagnose(resourceGroupName: string, workspaceName: string, options?: WorkspacesDiagnoseOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesDiagnoseResponse>, WorkspacesDiagnoseResponse>>;
+    beginDiagnose(resourceGroupName: string, workspaceName: string, options?: WorkspacesDiagnoseOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesDiagnoseResponse>, WorkspacesDiagnoseResponse>>;
     beginDiagnoseAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDiagnoseOptionalParams): Promise<WorkspacesDiagnoseResponse>;
-    beginPrepareNotebook(resourceGroupName: string, workspaceName: string, options?: WorkspacesPrepareNotebookOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesPrepareNotebookResponse>, WorkspacesPrepareNotebookResponse>>;
+    beginPrepareNotebook(resourceGroupName: string, workspaceName: string, options?: WorkspacesPrepareNotebookOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesPrepareNotebookResponse>, WorkspacesPrepareNotebookResponse>>;
     beginPrepareNotebookAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesPrepareNotebookOptionalParams): Promise<WorkspacesPrepareNotebookResponse>;
-    beginResyncKeys(resourceGroupName: string, workspaceName: string, options?: WorkspacesResyncKeysOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResyncKeys(resourceGroupName: string, workspaceName: string, options?: WorkspacesResyncKeysOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResyncKeysAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesResyncKeysOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, parameters: WorkspaceUpdateParameters, options?: WorkspacesUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, parameters: WorkspaceUpdateParameters, options?: WorkspacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, parameters: WorkspaceUpdateParameters, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workspace>;
@@ -5458,6 +7384,12 @@ export interface Workspaces {
     listNotebookKeys(resourceGroupName: string, workspaceName: string, options?: WorkspacesListNotebookKeysOptionalParams): Promise<WorkspacesListNotebookKeysResponse>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, workspaceName: string, options?: WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams): Promise<WorkspacesListOutboundNetworkDependenciesEndpointsResponse>;
     listStorageAccountKeys(resourceGroupName: string, workspaceName: string, options?: WorkspacesListStorageAccountKeysOptionalParams): Promise<WorkspacesListStorageAccountKeysResponse>;
+}
+
+// @public
+export interface WorkspacesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -5471,6 +7403,7 @@ export type WorkspacesCreateOrUpdateResponse = Workspace;
 
 // @public
 export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
+    forceToPurge?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -5500,7 +7433,6 @@ export type WorkspacesGetResponse = Workspace;
 
 // @public
 export interface WorkspacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -5516,7 +7448,6 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
 
 // @public
 export interface WorkspacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skip?: string;
 }
 
 // @public
@@ -5566,6 +7497,12 @@ export interface WorkspacesListStorageAccountKeysOptionalParams extends coreClie
 export type WorkspacesListStorageAccountKeysResponse = ListStorageAccountKeysResult;
 
 // @public
+export interface WorkspacesPrepareNotebookHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkspacesPrepareNotebookOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -5575,9 +7512,21 @@ export interface WorkspacesPrepareNotebookOptionalParams extends coreClient.Oper
 export type WorkspacesPrepareNotebookResponse = NotebookResourceInfo;
 
 // @public
+export interface WorkspacesResyncKeysHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkspacesResyncKeysOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkspacesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
