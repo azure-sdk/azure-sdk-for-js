@@ -9949,6 +9949,127 @@ export const RegionalReplicationStatus: coreClient.CompositeMapper = {
   }
 };
 
+export const ImageVersionSecurityProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageVersionSecurityProfile",
+    modelProperties: {
+      uefiSettings: {
+        serializedName: "uefiSettings",
+        type: {
+          name: "Composite",
+          className: "GalleryImageVersionUefiSettings"
+        }
+      }
+    }
+  }
+};
+
+export const GalleryImageVersionUefiSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryImageVersionUefiSettings",
+    modelProperties: {
+      signatureTemplateNames: {
+        serializedName: "signatureTemplateNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      additionalSignatures: {
+        serializedName: "additionalSignatures",
+        type: {
+          name: "Composite",
+          className: "UefiKeySignatures"
+        }
+      }
+    }
+  }
+};
+
+export const UefiKeySignatures: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UefiKeySignatures",
+    modelProperties: {
+      pk: {
+        serializedName: "pk",
+        type: {
+          name: "Composite",
+          className: "UefiKey"
+        }
+      },
+      kek: {
+        serializedName: "kek",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      },
+      db: {
+        serializedName: "db",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      },
+      dbx: {
+        serializedName: "dbx",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UefiKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UefiKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UefiKey",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const GalleryApplicationCustomAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -10420,6 +10541,52 @@ export const SharedGalleryDiskImage: coreClient.CompositeMapper = {
       },
       hostCaching: {
         serializedName: "hostCaching",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommunityGalleryMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryMetadata",
+    modelProperties: {
+      publisherUri: {
+        serializedName: "publisherUri",
+        type: {
+          name: "String"
+        }
+      },
+      publisherContact: {
+        serializedName: "publisherContact",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "eula",
+        type: {
+          name: "String"
+        }
+      },
+      publicNames: {
+        serializedName: "publicNames",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privacyStatementUri: {
+        serializedName: "privacyStatementUri",
         type: {
           name: "String"
         }
@@ -14839,6 +15006,13 @@ export const GalleryImageVersion: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ReplicationStatus"
         }
+      },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "ImageVersionSecurityProfile"
+        }
       }
     }
   }
@@ -16417,6 +16591,13 @@ export const GalleryImageVersionUpdate: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ReplicationStatus"
         }
+      },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "ImageVersionSecurityProfile"
+        }
       }
     }
   }
@@ -16772,7 +16953,27 @@ export const CommunityGallery: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunityGallery",
     modelProperties: {
-      ...PirCommunityGalleryResource.type.modelProperties
+      ...PirCommunityGalleryResource.type.modelProperties,
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      communityMetadata: {
+        serializedName: "properties.communityMetadata",
+        type: {
+          name: "Composite",
+          className: "CommunityGalleryMetadata"
+        }
+      }
     }
   }
 };
@@ -16866,6 +17067,19 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -16900,6 +17114,19 @@ export const CommunityGalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharedGalleryImageVersionStorageProfile"
+        }
+      },
+      disclaimer: {
+        serializedName: "properties.disclaimer",
+        type: {
+          name: "String"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -17013,7 +17240,15 @@ export const SharedGallery: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SharedGallery",
     modelProperties: {
-      ...PirSharedGalleryResource.type.modelProperties
+      ...PirSharedGalleryResource.type.modelProperties,
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
     }
   }
 };
@@ -17107,6 +17342,13 @@ export const SharedGalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -17141,6 +17383,13 @@ export const SharedGalleryImageVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SharedGalleryImageVersionStorageProfile"
+        }
+      },
+      artifactTags: {
+        serializedName: "properties.artifactTags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
