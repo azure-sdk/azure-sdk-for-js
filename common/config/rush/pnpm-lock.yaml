@@ -707,6 +707,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-codesigning-rest':
+    specifier: file:./projects/azure-codesigning-rest.tgz
+    version: file:projects/azure-codesigning-rest.tgz
   '@rush-temp/communication-alpha-ids':
     specifier: file:./projects/communication-alpha-ids.tgz
     version: file:projects/communication-alpha-ids.tgz
@@ -6431,6 +6434,12 @@ packages:
 
   /karma-sourcemap-loader@0.3.8:
     resolution: {integrity: sha512-zorxyAakYZuBcHRJE+vbrK2o2JXLFWK8VVjiT/6P+ltLBUGUvqTEkUiQ119MGdOrK7mrmxXHZF1/pfT6GgIZ6g==}
+    dependencies:
+      graceful-fs: 4.2.11
+    dev: false
+
+  /karma-sourcemap-loader@0.4.0:
+    resolution: {integrity: sha512-xCRL3/pmhAYF3I6qOrcn0uhbQevitc2DERMPH82FMnG+4WReoGcGFZb1pURf2a5apyrOHRdvD+O6K7NljqKHyA==}
     dependencies:
       graceful-fs: 4.2.11
     dev: false
@@ -17089,6 +17098,50 @@ packages:
       tslib: 2.6.2
       typescript: 5.0.4
       util: 0.12.5
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/azure-codesigning-rest.tgz:
+    resolution: {integrity: sha512-Y/VEajlCVIEHGes99KmiCtT7nzsnOsmaW7iz8F72qGqg7MVPvThLPZ6nELwIHfQJwcH+cZlE2VlPeOP6VIjBFQ==, tarball: file:projects/azure-codesigning-rest.tgz}
+    name: '@rush-temp/azure-codesigning-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4(@types/node@14.18.56)
+      '@types/chai': 4.3.6
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.56
+      autorest: 3.6.3
+      chai: 4.3.8
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.48.0
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3(mocha@7.2.0)
+      nyc: 15.1.0
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
+      tslib: 2.6.2
+      typescript: 5.0.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

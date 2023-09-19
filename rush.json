@@ -2104,6 +2104,11 @@
       "packageName": "@azure-tests/perf-monitor-opentelemetry",
       "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-rest/azure-codesigning-rest",
+      "projectFolder": "sdk/codesigning/azurecodesigning-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
