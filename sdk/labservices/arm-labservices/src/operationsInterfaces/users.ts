@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   User,
   UsersListByLabOptionalParams,
@@ -70,8 +70,8 @@ export interface Users {
     body: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<UsersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<UsersCreateOrUpdateResponse>,
       UsersCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface Users {
     body: UserUpdate,
     options?: UsersUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<UsersUpdateResponse>, UsersUpdateResponse>
+    SimplePollerLike<OperationState<UsersUpdateResponse>, UsersUpdateResponse>
   >;
   /**
    * Operation to update a lab user.
@@ -142,7 +142,7 @@ export interface Users {
     labName: string,
     userName: string,
     options?: UsersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a user resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -174,7 +174,7 @@ export interface Users {
     userName: string,
     body: InviteBody,
     options?: UsersInviteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to invite a user to a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

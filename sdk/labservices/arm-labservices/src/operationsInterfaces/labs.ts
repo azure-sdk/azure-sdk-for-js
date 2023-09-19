@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Lab,
   LabsListBySubscriptionOptionalParams,
@@ -69,8 +69,8 @@ export interface Labs {
     body: Lab,
     options?: LabsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LabsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LabsCreateOrUpdateResponse>,
       LabsCreateOrUpdateResponse
     >
   >;
@@ -102,7 +102,7 @@ export interface Labs {
     body: LabUpdate,
     options?: LabsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<LabsUpdateResponse>, LabsUpdateResponse>
+    SimplePollerLike<OperationState<LabsUpdateResponse>, LabsUpdateResponse>
   >;
   /**
    * Operation to update a lab resource.
@@ -129,7 +129,7 @@ export interface Labs {
     resourceGroupName: string,
     labName: string,
     options?: LabsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -153,7 +153,7 @@ export interface Labs {
     resourceGroupName: string,
     labName: string,
     options?: LabsPublishOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -177,7 +177,7 @@ export interface Labs {
     resourceGroupName: string,
     labName: string,
     options?: LabsSyncGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Action used to manually kick off an AAD group sync job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
