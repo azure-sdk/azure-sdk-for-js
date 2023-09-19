@@ -48,29 +48,53 @@ export interface OperationDisplay {
   description?: string;
 }
 
-/** Error response. */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
-  /** The error details. */
-  error?: ErrorDefinition;
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** Error definition. */
-export interface ErrorDefinition {
+/** The error detail. */
+export interface ErrorDetail {
   /**
-   * Service specific error code which serves as the substatus for the HTTP error code.
+   * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
-   * Description of the error.
+   * The error message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
-   * Internal error details.
+   * The error target.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorDefinition[];
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Describes the properties of an AssessPatches result. */
@@ -171,18 +195,6 @@ export interface AvailablePatchCountByClassification {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly other?: number;
-}
-
-/** Error details. */
-export interface ErrorDetail {
-  /** The error's code. */
-  code: string;
-  /** A human readable error message. */
-  message: string;
-  /** Indicates which property in the request is responsible for the error. */
-  target?: string;
-  /** Additional error details. */
-  details?: ErrorDetail[];
 }
 
 /** Input for InstallPatches as directly received by the API */
@@ -383,20 +395,50 @@ export interface ResourcePool {
    */
   readonly memLimitMB?: number;
   /**
+   * Gets the used physical memory on the pool in GB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memOverallUsageGB?: number;
+  /**
+   * Gets the total amount of physical memory on the pool in GB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memCapacityGB?: number;
+  /**
+   * Gets the used CPU usage across all cores on the pool in MHz.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpuOverallUsageMHz?: number;
+  /**
+   * Gets the max CPU usage across all cores on the pool in MHz.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpuCapacityMHz?: number;
+  /**
    * Gets the name of the corresponding resource in Kubernetes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly customResourceName?: string;
+  /**
+   * Gets the datastore ARM ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly datastoreIds?: string[];
+  /**
+   * Gets the network ARM ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkIds?: string[];
   /**
    * The resource status information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statuses?: ResourceStatus[];
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** The resource status information. */
@@ -528,20 +570,40 @@ export interface Cluster {
    */
   readonly customResourceName?: string;
   /**
-   * Gets or sets the datastore ARM ids.
+   * Gets the used physical memory on the cluster in GB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usedMemoryGB?: number;
+  /**
+   * Gets the total amount of physical memory on the cluster in GB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalMemoryGB?: number;
+  /**
+   * Gets the used CPU usage across all cores on the cluster in MHz.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usedCpuMHz?: number;
+  /**
+   * Gets the max CPU usage across all cores on the cluster in MHz.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCpuMHz?: number;
+  /**
+   * Gets the datastore ARM ids.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly datastoreIds?: string[];
   /**
-   * Gets or sets the network ARM ids.
+   * Gets the network ARM ids.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkIds?: string[];
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** List of Clusters. */
@@ -609,10 +671,40 @@ export interface Host {
    */
   readonly customResourceName?: string;
   /**
-   * Gets or sets the provisioning state.
+   * Gets the used physical memory on the host in GB.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly overallMemoryUsageGB?: number;
+  /**
+   * Gets the total amount of physical memory on the host in GB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memorySizeGB?: number;
+  /**
+   * Gets the used CPU usage across all cores in MHz.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly overallCpuUsageMHz?: number;
+  /**
+   * Gets the max CPU usage across all cores in MHz.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpuMhz?: number;
+  /**
+   * Gets the datastore ARM ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly datastoreIds?: string[];
+  /**
+   * Gets the network ARM ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkIds?: string[];
+  /**
+   * Gets the provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** List of Hosts. */
@@ -679,6 +771,16 @@ export interface Datastore {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly customResourceName?: string;
+  /**
+   * Gets or sets Maximum capacity of this datastore in GBs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityGB?: number;
+  /**
+   * Gets or sets Available space of this datastore in GBs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly freeSpaceGB?: number;
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -761,10 +863,10 @@ export interface VCenter {
    */
   readonly statuses?: ResourceStatus[];
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Username / Password Credentials to connect to vcenter. */
@@ -882,10 +984,10 @@ export interface VirtualMachine {
    */
   readonly statuses?: ResourceStatus[];
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * Gets or sets a unique identifier for the vm resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -893,7 +995,7 @@ export interface VirtualMachine {
   readonly vmId?: string;
 }
 
-/** Defines the resource properties. */
+/** Specifies the compute and storage placement settings for the virtual machine. */
 export interface PlacementProfile {
   /** Gets or sets the ARM Id of the resourcePool resource on which this virtual machine will deploy. */
   resourcePoolId?: string;
@@ -905,7 +1007,7 @@ export interface PlacementProfile {
   datastoreId?: string;
 }
 
-/** Defines the resource properties. */
+/** Specifies the operating system settings for the virtual machine. */
 export interface OsProfile {
   /** Gets or sets computer name. */
   computerName?: string;
@@ -964,7 +1066,7 @@ export interface OsProfileLinuxConfiguration {
   patchMode?: string;
 }
 
-/** Defines the resource properties. */
+/** Specifies the hardware settings for the virtual machine. */
 export interface HardwareProfile {
   /** Gets or sets memory size in MBs for the vm. */
   memorySizeMB?: number;
@@ -989,7 +1091,7 @@ export interface HardwareProfile {
   readonly memoryHotAddEnabled?: boolean;
 }
 
-/** Defines the resource properties. */
+/** Specifies the network interfaces of the virtual machine. */
 export interface NetworkProfile {
   /** Gets or sets the list of network interfaces associated with the virtual machine. */
   networkInterfaces?: NetworkInterface[];
@@ -1085,7 +1187,7 @@ export interface NicIPAddressSettings {
   readonly subnetMask?: string;
 }
 
-/** Defines the resource properties. */
+/** Specifies the storage settings for the virtual machine disks. */
 export interface StorageProfile {
   /** Gets or sets the list of virtual disks associated with the virtual machine. */
   disks?: VirtualDisk[];
@@ -1140,7 +1242,7 @@ export interface VirtualScsiController {
   sharing?: VirtualScsiSharing;
 }
 
-/** Defines the resource properties. */
+/** Specifies the guest agent settings for the virtual machine. */
 export interface GuestAgentProfile {
   /**
    * Specifies the VM's unique SMBIOS ID.
@@ -1157,6 +1259,13 @@ export interface GuestAgentProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastStatusChange?: Date;
+  /** Gets or sets the Public Key provided by the client for enabling guest management. */
+  clientPublicKey?: string;
+  /**
+   * Specifies whether any MS SQL instance is discovered on the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mssqlDiscovered?: string;
   /**
    * The hybrid machine agent full version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1203,17 +1312,19 @@ export interface VirtualMachineUpdate {
   tags?: { [propertyName: string]: string };
   /** The identity of the resource. */
   identity?: Identity;
-  /** Defines the resource properties. */
+  /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
   /** OS properties. */
   osProfile?: OsProfileUpdate;
-  /** Defines the resource update properties. */
+  /** Specifies the storage settings for the virtual machine disks. */
   storageProfile?: StorageProfileUpdate;
-  /** Defines the update resource properties. */
+  /** Specifies the network interfaces of the virtual machine. */
   networkProfile?: NetworkProfileUpdate;
+  /** Specifies the guest agent settings for the virtual machine. */
+  guestAgentProfile?: GuestAgentProfileUpdate;
 }
 
-/** Defines the os update properties. */
+/** Specifies the operating system settings for the virtual machine. */
 export interface OsProfileUpdate {
   /** Specifies the windows configuration for update management. */
   windowsConfiguration?: OsProfileUpdateWindowsConfiguration;
@@ -1237,7 +1348,7 @@ export interface OsProfileUpdateLinuxConfiguration {
   patchMode?: string;
 }
 
-/** Defines the resource update properties. */
+/** Specifies the storage settings for the virtual machine disks. */
 export interface StorageProfileUpdate {
   /** Gets or sets the list of virtual disks associated with the virtual machine. */
   disks?: VirtualDiskUpdate[];
@@ -1263,7 +1374,7 @@ export interface VirtualDiskUpdate {
   diskType?: DiskType;
 }
 
-/** Defines the update resource properties. */
+/** Specifies the network interfaces of the virtual machine. */
 export interface NetworkProfileUpdate {
   /** Gets or sets the list of network interfaces associated with the virtual machine. */
   networkInterfaces?: NetworkInterfaceUpdate[];
@@ -1281,6 +1392,12 @@ export interface NetworkInterfaceUpdate {
   powerOnBoot?: PowerOnBootOption;
   /** Gets or sets the device key value. */
   deviceKey?: number;
+}
+
+/** Specifies the guest agent settings for the virtual machine. */
+export interface GuestAgentProfileUpdate {
+  /** Gets or sets the Public Key provided by the client for enabling guest management. */
+  clientPublicKey?: string;
 }
 
 /** Defines the stop action properties. */
@@ -1413,10 +1530,10 @@ export interface VirtualMachineTemplate {
    */
   readonly statuses?: ResourceStatus[];
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** List of VirtualMachineTemplates. */
@@ -1484,10 +1601,10 @@ export interface VirtualNetwork {
    */
   readonly statuses?: ResourceStatus[];
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** List of VirtualNetworks. */
@@ -1498,7 +1615,7 @@ export interface VirtualNetworksList {
   value: VirtualNetwork[];
 }
 
-/** Defines the resource properties. */
+/** Describes the properties of an Inventory Item. */
 export interface InventoryItemProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   inventoryType:
@@ -1516,16 +1633,16 @@ export interface InventoryItemProperties {
   /** Gets or sets the vCenter Managed Object name for the inventory item. */
   moName?: string;
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -1539,6 +1656,11 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
 /** List of InventoryItems. */
@@ -1666,6 +1788,18 @@ export interface MachineExtensionsListResult {
   nextLink?: string;
 }
 
+/** Describes the Machine Extension Upgrade Properties */
+export interface MachineExtensionUpgrade {
+  /** Describes the Extension Target Properties. */
+  extensionTargets?: { [propertyName: string]: ExtensionTargetProperties };
+}
+
+/** Describes the Machine Extension Target Version Properties */
+export interface ExtensionTargetProperties {
+  /** Properties for the specified Extension to Upgrade. */
+  targetVersion?: string;
+}
+
 /** Username / Password Credentials to connect to guest. */
 export interface GuestCredential {
   /** Gets or sets username to connect with the guest. */
@@ -1686,6 +1820,105 @@ export interface GuestAgentList {
   nextLink?: string;
   /** Array of GuestAgent */
   value: GuestAgent[];
+}
+
+/** Specifies the operating system settings for the virtual machine. */
+export interface OsProfileForVMInstance {
+  /** Gets or sets computer name. */
+  computerName?: string;
+  /** Gets or sets administrator username. */
+  adminUsername?: string;
+  /** Sets administrator password. */
+  adminPassword?: string;
+  /** Gets or sets the guestId. */
+  guestId?: string;
+  /** Gets or sets the type of the os. */
+  osType?: OsType;
+  /**
+   * Gets or sets os sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osSku?: string;
+  /**
+   * Gets or sets the current running status of VMware Tools running in the guest operating system.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly toolsRunningStatus?: string;
+  /**
+   * Gets or sets the current version status of VMware Tools installed in the guest operating system.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly toolsVersionStatus?: string;
+  /**
+   * Gets or sets the current version of VMware Tools.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly toolsVersion?: string;
+}
+
+/** Specifies the vCenter infrastructure specific settings for the virtual machine. */
+export interface InfrastructureProfile {
+  /** Gets or sets the ARM Id of the template resource to deploy the virtual machine. */
+  templateId?: string;
+  /** Gets or sets the ARM Id of the vCenter resource in which this resource pool resides. */
+  vCenterId?: string;
+  /**
+   * Gets or sets the vCenter MoRef (Managed Object Reference) ID for the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly moRefId?: string;
+  /** Gets or sets the inventory Item ID for the virtual machine. */
+  inventoryItemId?: string;
+  /**
+   * Gets or sets the vCenter Managed Object name for the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly moName?: string;
+  /**
+   * Gets or sets the folder path of the vm.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly folderPath?: string;
+  /**
+   * Gets or sets the instance uuid of the vm.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceUuid?: string;
+  /** Gets or sets the SMBIOS UUID of the vm. */
+  smbiosUuid?: string;
+  /** Firmware type */
+  firmwareType?: FirmwareType;
+  /**
+   * Gets the name of the corresponding resource in Kubernetes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customResourceName?: string;
+}
+
+/** Defines the virtualMachineInstanceUpdate. */
+export interface VirtualMachineInstanceUpdate {
+  /** Specifies the hardware settings for the virtual machine. */
+  hardwareProfile?: HardwareProfile;
+  /** Specifies the storage settings for the virtual machine disks. */
+  storageProfile?: StorageProfileUpdate;
+  /** Specifies the network interfaces of the virtual machine. */
+  networkProfile?: NetworkProfileUpdate;
+}
+
+/** List of VirtualMachineInstances. */
+export interface VirtualMachineInstancesList {
+  /** Url to follow for getting next page of VirtualMachines. */
+  nextLink?: string;
+  /** Array of VirtualMachines */
+  value: VirtualMachineInstance[];
+}
+
+/** List of HybridIdentityMetadata. */
+export interface VmInstanceHybridIdentityMetadataList {
+  /** Url to follow for getting next page of HybridIdentityMetadata. */
+  nextLink?: string;
+  /** Array of HybridIdentityMetadata */
+  value: VmInstanceHybridIdentityMetadata[];
 }
 
 /** Condition defines an extension to status. */
@@ -1712,12 +1945,14 @@ export interface Condition {
   readonly severity?: string;
 }
 
-/** Defines the resource properties. */
+/** Describes the properties of an Inventory Item reference. */
 export interface InventoryItemDetails {
   /** Gets or sets the inventory Item ID for the resource. */
   inventoryItemId?: string;
   /** Gets or sets the vCenter Managed Object name for the resource. */
   moName?: string;
+  /** The inventory type. */
+  inventoryType?: InventoryType;
 }
 
 /** Describes a Machine Extension Update. */
@@ -1764,6 +1999,8 @@ export interface VirtualMachineInventoryItem extends InventoryItemProperties {
   host?: InventoryItemDetails;
   /** ResourcePool inventory resource details. */
   resourcePool?: InventoryItemDetails;
+  /** Cluster inventory resource details. */
+  cluster?: InventoryItemDetails;
   /** Gets or sets the instance uuid of the vm. */
   instanceUuid?: string;
   /** Gets or sets the SMBIOS UUID of the vm. */
@@ -1808,6 +2045,16 @@ export interface VirtualMachineTemplateInventoryItem
   osType?: OsType;
   /** Gets or sets os name. */
   osName?: string;
+  /**
+   * Gets or sets the current version status of VMware Tools installed in the guest operating system.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly toolsVersionStatus?: string;
+  /**
+   * Gets or sets the current version of VMware Tools.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly toolsVersion?: string;
   /** Gets or sets the folder path of the template. */
   folderPath?: string;
 }
@@ -1851,11 +2098,6 @@ export interface MachineExtensionPropertiesInstanceView
 
 /** Defines the inventory item. */
 export interface InventoryItem extends ProxyResource {
-  /**
-   * The system data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value. */
   kind?: string;
   /** They inventory type. */
@@ -1867,19 +2109,14 @@ export interface InventoryItem extends ProxyResource {
   /** Gets or sets the vCenter Managed Object name for the inventory item. */
   moName?: string;
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Defines the HybridIdentityMetadata. */
 export interface HybridIdentityMetadata extends ProxyResource {
-  /**
-   * The system data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Gets or sets the Vm Id. */
   vmId?: string;
   /** Gets or sets the Public Key. */
@@ -1890,19 +2127,14 @@ export interface HybridIdentityMetadata extends ProxyResource {
    */
   readonly identity?: Identity;
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Defines the GuestAgent. */
 export interface GuestAgent extends ProxyResource {
-  /**
-   * The system data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /**
    * Gets or sets a unique identifier for this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1910,6 +2142,8 @@ export interface GuestAgent extends ProxyResource {
   readonly uuid?: string;
   /** Username / Password Credentials to provision guest agent. */
   credentials?: GuestCredential;
+  /** The resource id of the private link scope this machine is assigned to, if any. */
+  privateLinkScopeResourceId?: string;
   /** HTTP Proxy configuration for the VM. */
   httpProxyConfig?: HttpProxyConfiguration;
   /** Gets or sets the guest agent provisioning action. */
@@ -1930,10 +2164,178 @@ export interface GuestAgent extends ProxyResource {
    */
   readonly statuses?: ResourceStatus[];
   /**
-   * Gets or sets the provisioning state.
+   * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Define the virtualMachineInstance. */
+export interface VirtualMachineInstance extends ProxyResource {
+  /** Gets or sets the extended location. */
+  extendedLocation?: ExtendedLocation;
+  /** Placement properties. */
+  placementProfile?: PlacementProfile;
+  /** OS properties. */
+  osProfile?: OsProfileForVMInstance;
+  /** Hardware properties. */
+  hardwareProfile?: HardwareProfile;
+  /** Network properties. */
+  networkProfile?: NetworkProfile;
+  /** Storage properties. */
+  storageProfile?: StorageProfile;
+  /** Gets the security profile. */
+  securityProfile?: SecurityProfile;
+  /** Gets the infrastructure profile. */
+  infrastructureProfile?: InfrastructureProfile;
+  /**
+   * Gets the power state of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly powerState?: string;
+  /**
+   * The resource status information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statuses?: ResourceStatus[];
+  /**
+   * Gets the provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets or sets a unique identifier for the vm resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceUid?: string;
+}
+
+/** Defines the HybridIdentityMetadata. */
+export interface VmInstanceHybridIdentityMetadata extends ProxyResource {
+  /** The unique identifier for the resource. */
+  resourceUid?: string;
+  /** Gets or sets the Public Key. */
+  publicKey?: string;
+  /**
+   * Gets the provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Defines headers for VirtualMachines_assessPatches operation. */
+export interface VirtualMachinesAssessPatchesHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachines_installPatches operation. */
+export interface VirtualMachinesInstallPatchesHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachines_update operation. */
+export interface VirtualMachinesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachines_delete operation. */
+export interface VirtualMachinesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachines_stop operation. */
+export interface VirtualMachinesStopHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachines_start operation. */
+export interface VirtualMachinesStartHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachines_restart operation. */
+export interface VirtualMachinesRestartHeaders {
+  location?: string;
+}
+
+/** Defines headers for ResourcePools_delete operation. */
+export interface ResourcePoolsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Clusters_delete operation. */
+export interface ClustersDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Hosts_delete operation. */
+export interface HostsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Datastores_delete operation. */
+export interface DatastoresDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VCenters_delete operation. */
+export interface VCentersDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineTemplates_delete operation. */
+export interface VirtualMachineTemplatesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualNetworks_delete operation. */
+export interface VirtualNetworksDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for MachineExtensions_delete operation. */
+export interface MachineExtensionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for AzureArcVMwareManagementServiceAPI_upgradeExtensions operation. */
+export interface AzureArcVMwareManagementServiceAPIUpgradeExtensionsHeaders {
+  location?: string;
+}
+
+/** Defines headers for GuestAgents_delete operation. */
+export interface GuestAgentsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_update operation. */
+export interface VirtualMachineInstancesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_delete operation. */
+export interface VirtualMachineInstancesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_stop operation. */
+export interface VirtualMachineInstancesStopHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_start operation. */
+export interface VirtualMachineInstancesStartHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_restart operation. */
+export interface VirtualMachineInstancesRestartHeaders {
+  location?: string;
+}
+
+/** Defines headers for VMInstanceGuestAgents_delete operation. */
+export interface VMInstanceGuestAgentsDeleteHeaders {
+  location?: string;
 }
 
 /** Known values of {@link PatchOperationStatus} that the service accepts. */
@@ -2137,30 +2539,6 @@ export enum KnownVMGuestPatchRebootStatus {
  */
 export type VMGuestPatchRebootStatus = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Succeeded */
@@ -2196,6 +2574,30 @@ export enum KnownProvisioningState {
  * **Created**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link OsType} that the service accepts. */
 export enum KnownOsType {
@@ -2566,7 +2968,7 @@ export interface VirtualMachinesInstallPatchesOptionalParams
 export type VirtualMachinesInstallPatchesResponse = VirtualMachineInstallPatchesResult;
 
 /** Optional parameters. */
-export interface VirtualMachinesCreateOptionalParams
+export interface VirtualMachinesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Request payload. */
   body?: VirtualMachine;
@@ -2576,8 +2978,8 @@ export interface VirtualMachinesCreateOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the create operation. */
-export type VirtualMachinesCreateResponse = VirtualMachine;
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine;
 
 /** Optional parameters. */
 export interface VirtualMachinesGetOptionalParams
@@ -2603,10 +3005,10 @@ export type VirtualMachinesUpdateResponse = VirtualMachine;
 /** Optional parameters. */
 export interface VirtualMachinesDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** Whether to delete the VM from the vCenter. */
+  deleteFromHost?: boolean;
   /** Whether force delete was specified. */
   force?: boolean;
-  /** Whether to just disable the VM from azure and retain the VM in the VMM. */
-  retain?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2643,6 +3045,13 @@ export interface VirtualMachinesRestartOptionalParams
 }
 
 /** Optional parameters. */
+export interface VirtualMachinesListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type VirtualMachinesListAllResponse = VirtualMachinesList;
+
+/** Optional parameters. */
 export interface VirtualMachinesListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2650,11 +3059,11 @@ export interface VirtualMachinesListOptionalParams
 export type VirtualMachinesListResponse = VirtualMachinesList;
 
 /** Optional parameters. */
-export interface VirtualMachinesListByResourceGroupOptionalParams
+export interface VirtualMachinesListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByResourceGroup operation. */
-export type VirtualMachinesListByResourceGroupResponse = VirtualMachinesList;
+/** Contains response data for the listAllNext operation. */
+export type VirtualMachinesListAllNextResponse = VirtualMachinesList;
 
 /** Optional parameters. */
 export interface VirtualMachinesListNextOptionalParams
@@ -2662,13 +3071,6 @@ export interface VirtualMachinesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachinesListNextResponse = VirtualMachinesList;
-
-/** Optional parameters. */
-export interface VirtualMachinesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualMachinesListByResourceGroupNextResponse = VirtualMachinesList;
 
 /** Optional parameters. */
 export interface ResourcePoolsCreateOptionalParams
@@ -3212,18 +3614,18 @@ export interface HybridIdentityMetadataDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface HybridIdentityMetadataListByVmOptionalParams
+export interface HybridIdentityMetadataListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByVm operation. */
-export type HybridIdentityMetadataListByVmResponse = HybridIdentityMetadataList;
+/** Contains response data for the list operation. */
+export type HybridIdentityMetadataListResponse = HybridIdentityMetadataList;
 
 /** Optional parameters. */
-export interface HybridIdentityMetadataListByVmNextOptionalParams
+export interface HybridIdentityMetadataListNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByVmNext operation. */
-export type HybridIdentityMetadataListByVmNextResponse = HybridIdentityMetadataList;
+/** Contains response data for the listNext operation. */
+export type HybridIdentityMetadataListNextResponse = HybridIdentityMetadataList;
 
 /** Optional parameters. */
 export interface MachineExtensionsCreateOrUpdateOptionalParams
@@ -3283,6 +3685,15 @@ export interface MachineExtensionsListNextOptionalParams
 export type MachineExtensionsListNextResponse = MachineExtensionsListResult;
 
 /** Optional parameters. */
+export interface UpgradeExtensionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface GuestAgentsCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Request payload. */
@@ -3313,18 +3724,189 @@ export interface GuestAgentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface GuestAgentsListByVmOptionalParams
+export interface GuestAgentsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByVm operation. */
-export type GuestAgentsListByVmResponse = GuestAgentList;
+/** Contains response data for the list operation. */
+export type GuestAgentsListResponse = GuestAgentList;
 
 /** Optional parameters. */
-export interface GuestAgentsListByVmNextOptionalParams
+export interface GuestAgentsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByVmNext operation. */
-export type GuestAgentsListByVmNextResponse = GuestAgentList;
+/** Contains response data for the listNext operation. */
+export type GuestAgentsListNextResponse = GuestAgentList;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Request payload. */
+  body?: VirtualMachineInstance;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualMachineInstancesCreateOrUpdateResponse = VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineInstancesGetResponse = VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resource properties to update. */
+  body?: VirtualMachineInstanceUpdate;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type VirtualMachineInstancesUpdateResponse = VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether to delete the VM from the vCenter. */
+  deleteFromHost?: boolean;
+  /** Whether force delete was specified. */
+  force?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type VirtualMachineInstancesDeleteResponse = VirtualMachineInstancesDeleteHeaders;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineInstancesListResponse = VirtualMachineInstancesList;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Virtualmachine stop action payload. */
+  body?: StopVirtualMachineOptions;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stop operation. */
+export type VirtualMachineInstancesStopResponse = VirtualMachineInstancesStopHeaders;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type VirtualMachineInstancesStartResponse = VirtualMachineInstancesStartHeaders;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the restart operation. */
+export type VirtualMachineInstancesRestartResponse = VirtualMachineInstancesRestartHeaders;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VirtualMachineInstancesListNextResponse = VirtualMachineInstancesList;
+
+/** Optional parameters. */
+export interface VmInstanceHybridIdentityMetadataGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VmInstanceHybridIdentityMetadataGetResponse = VmInstanceHybridIdentityMetadata;
+
+/** Optional parameters. */
+export interface VmInstanceHybridIdentityMetadataListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VmInstanceHybridIdentityMetadataListResponse = VmInstanceHybridIdentityMetadataList;
+
+/** Optional parameters. */
+export interface VmInstanceHybridIdentityMetadataListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VmInstanceHybridIdentityMetadataListNextResponse = VmInstanceHybridIdentityMetadataList;
+
+/** Optional parameters. */
+export interface VMInstanceGuestAgentsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Request payload. */
+  body?: GuestAgent;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type VMInstanceGuestAgentsCreateResponse = GuestAgent;
+
+/** Optional parameters. */
+export interface VMInstanceGuestAgentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VMInstanceGuestAgentsGetResponse = GuestAgent;
+
+/** Optional parameters. */
+export interface VMInstanceGuestAgentsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type VMInstanceGuestAgentsDeleteResponse = VMInstanceGuestAgentsDeleteHeaders;
+
+/** Optional parameters. */
+export interface VMInstanceGuestAgentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VMInstanceGuestAgentsListResponse = GuestAgentList;
+
+/** Optional parameters. */
+export interface VMInstanceGuestAgentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VMInstanceGuestAgentsListNextResponse = GuestAgentList;
 
 /** Optional parameters. */
 export interface AzureArcVMwareManagementServiceAPIOptionalParams
