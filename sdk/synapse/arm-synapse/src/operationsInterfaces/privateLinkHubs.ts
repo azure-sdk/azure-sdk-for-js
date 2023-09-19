@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateLinkHub,
   PrivateLinkHubsListByResourceGroupOptionalParams,
@@ -88,7 +88,7 @@ export interface PrivateLinkHubs {
     resourceGroupName: string,
     privateLinkHubName: string,
     options?: PrivateLinkHubsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a privateLinkHub
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -119,7 +119,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenancewindows/current",
   httpMethod: "PUT",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion, Parameters.maintenanceWindowName],
   urlParameters: [
     Parameters.$host,
