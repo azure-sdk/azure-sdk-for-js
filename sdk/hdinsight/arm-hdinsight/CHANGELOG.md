@@ -1,10 +1,13 @@
 # Release History
     
-## 1.3.0-beta.1 (2023-07-06)
+## 1.3.0-beta.2 (2023-09-19)
     
 **Features**
 
+  - Added Type Alias OutboundDependenciesManagedType
+  - Interface NetworkProperties has a new optional parameter outboundDependenciesManagedType
   - Interface StorageAccount has a new optional parameter enableSecureChannel
+  - Added Enum KnownOutboundDependenciesManagedType
     
 ## 1.2.1 (2023-01-10)
 
