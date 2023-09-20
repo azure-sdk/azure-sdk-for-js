@@ -994,7 +994,7 @@ export interface BastionHostListResult {
   nextLink?: string;
 }
 
-/** Post request for all the Bastion Shareable Link endpoints. */
+/** Post request for Create/Delete/Get Bastion Shareable Link endpoints. */
 export interface BastionShareableLinkListRequest {
   /** List of VM references. */
   vms?: BastionShareableLink[];
@@ -1027,6 +1027,12 @@ export interface BastionShareableLinkListResult {
   value?: BastionShareableLink[];
   /** The URL to get the next set of results. */
   nextLink?: string;
+}
+
+/** Post request for Delete Bastion Shareable Link By Token endpoint. */
+export interface BastionShareableLinkTokenListRequest {
+  /** List of Bastion Shareable Link Token. */
+  tokens?: string[];
 }
 
 /** Response for GetActiveSessions. */
@@ -12983,7 +12989,9 @@ export enum KnownBastionHostSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
+  /** Developer */
+  Developer = "Developer"
 }
 
 /**
@@ -12992,7 +13000,8 @@ export enum KnownBastionHostSkuName {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Basic** \
- * **Standard**
+ * **Standard** \
+ * **Developer**
  */
 export type BastionHostSkuName = string;
 
@@ -17116,6 +17125,15 @@ export type PutBastionShareableLinkResponse = BastionShareableLinkListResult;
 
 /** Optional parameters. */
 export interface DeleteBastionShareableLinkOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeleteBastionShareableLinkByTokenOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

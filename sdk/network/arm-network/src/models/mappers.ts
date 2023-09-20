@@ -2931,6 +2931,26 @@ export const BastionShareableLinkListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const BastionShareableLinkTokenListRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionShareableLinkTokenListRequest",
+    modelProperties: {
+      tokens: {
+        serializedName: "tokens",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const BastionActiveSessionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

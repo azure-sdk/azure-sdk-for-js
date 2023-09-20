@@ -1,15 +1,14 @@
 # Release History
+    
+## 32.3.0 (2023-09-20)
+    
+**Features**
 
-## 32.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface BastionShareableLinkTokenListRequest
+  - Added Interface DeleteBastionShareableLinkByTokenOptionalParams
+  - Enum KnownBastionHostSkuName has a new value Developer
+    
+    
 ## 32.2.0 (2023-09-07)
     
 **Features**

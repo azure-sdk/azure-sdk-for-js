@@ -2129,6 +2129,11 @@ export interface BastionShareableLinkListResult {
 }
 
 // @public
+export interface BastionShareableLinkTokenListRequest {
+    tokens?: string[];
+}
+
+// @public
 export interface BGPCommunity {
     communityName?: string;
     communityPrefixes?: string[];
@@ -3126,6 +3131,12 @@ export interface Delegation extends SubResource {
 export interface DelegationProperties {
     readonly provisioningState?: ProvisioningState;
     serviceName?: string;
+}
+
+// @public
+export interface DeleteBastionShareableLinkByTokenOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -6273,6 +6284,7 @@ export enum KnownBastionConnectProtocol {
 // @public
 export enum KnownBastionHostSkuName {
     Basic = "Basic",
+    Developer = "Developer",
     Standard = "Standard"
 }
 
@@ -9010,6 +9022,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     bastionHosts: BastionHosts;
     beginDeleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteBastionShareableLinkAndWait(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<void>;
+    beginDeleteBastionShareableLinkByToken(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteBastionShareableLinkByTokenAndWait(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): Promise<void>;
     beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<SimplePollerLike<OperationState<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>, GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>>;
     beginGeneratevirtualwanvpnserverconfigurationvpnprofileAndWait(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>;
     beginListActiveSessionsAndWait(resourceGroupName: string, bastionHostName: string, options?: GetActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionActiveSession>;
