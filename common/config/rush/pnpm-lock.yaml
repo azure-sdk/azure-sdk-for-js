@@ -4477,7 +4477,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230919
+      typescript: 5.3.0-dev.20230920
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9197,8 +9197,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230919:
-    resolution: {integrity: sha512-FU6DZhzId38aY/dX2gHp7phaYkbNJkCx8G//VVs0nVzZv0qjWGggLkMXoMipphO8Hv0TvZu30Zwdt6nzFIbcBQ==}
+  /typescript@5.3.0-dev.20230920:
+    resolution: {integrity: sha512-XaiYm7T6bGo+5mbRsmFqujMbNz0BLRCTKXiG7Nuodxz/aB5XJhJ01s/9GOJ/BS2XcxBqMoTbrGf61OdqzYhpxg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11161,7 +11161,7 @@ packages:
     dev: false
 
   file:projects/arm-billing.tgz:
-    resolution: {integrity: sha512-PWq9cDPRqQa2n6uyjOnBiXW1JKjxmuynOLy8jEYE3Yb+cB0g/LCheQWT6muoRueWKntmC0grAuS0sOTFv0olsQ==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-nZE+pXQBeKfIzSve9epOypPmCMR9jGinCUtsiqaFvDnURa3R6FUNYALBCURM1CwErcnnpvzS2iV/fXNbxuhg0Q==, tarball: file:projects/arm-billing.tgz}
     name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
@@ -11175,9 +11175,10 @@ packages:
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -11957,7 +11958,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdbforpostgresql.tgz:
-    resolution: {integrity: sha512-aTZZunMkiPA6kuNjfLPPJm7Uhk47BQ+fpMra7raCedYUrnRfPVw1ehndznjELIbuaPaybiBzB9Ti09MSDysHbQ==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    resolution: {integrity: sha512-GhkzcQ7p1/1B503z9URCbi60a95oDT+sJpK98TgsCpeoTBJ4WUN24EAfpdLhMTAwyhs3P7BpxS2Iqo53vo+s0A==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
     name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
@@ -15532,7 +15533,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-JDTsZOuYhef+ouTE3gpTZ6HfGpWoq4Q9NoKyE0OYCHoY6CeiGUqYivKUwEYzmiKIjAyDW9LBLQjjexvhG/xNEg==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-yRoTaH0f5+DBBUidse7sz5UDIn1TTltX///zwO0gjQUvCnte4Mu6zA14Cdg36oRZ60iljQsEIR4tsFx4zhcGBw==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:

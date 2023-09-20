@@ -9,29 +9,31 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   BillingRoleDefinition,
-  BillingRoleDefinitionsListByBillingAccountOptionalParams,
-  BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
   BillingRoleDefinitionsListByBillingProfileOptionalParams,
-  BillingRoleDefinitionsGetByBillingAccountOptionalParams,
-  BillingRoleDefinitionsGetByBillingAccountResponse,
+  BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
+  BillingRoleDefinitionsListByBillingAccountOptionalParams,
+  BillingRoleDefinitionsGetByBillingProfileOptionalParams,
+  BillingRoleDefinitionsGetByBillingProfileResponse,
   BillingRoleDefinitionsGetByInvoiceSectionOptionalParams,
   BillingRoleDefinitionsGetByInvoiceSectionResponse,
-  BillingRoleDefinitionsGetByBillingProfileOptionalParams,
-  BillingRoleDefinitionsGetByBillingProfileResponse
+  BillingRoleDefinitionsGetByBillingAccountOptionalParams,
+  BillingRoleDefinitionsGetByBillingAccountResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingRoleDefinitions. */
 export interface BillingRoleDefinitions {
   /**
-   * Lists the role definitions for a billing account. The operation is supported for billing accounts
+   * Lists the role definitions for a billing profile. The operation is supported for billing accounts
    * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
-  listByBillingAccount(
+  listByBillingProfile(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+    billingProfileName: string,
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
   ): PagedAsyncIterableIterator<BillingRoleDefinition>;
   /**
    * Lists the role definitions for an invoice section. The operation is supported for billing accounts
@@ -48,29 +50,29 @@ export interface BillingRoleDefinitions {
     options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams
   ): PagedAsyncIterableIterator<BillingRoleDefinition>;
   /**
-   * Lists the role definitions for a billing profile. The operation is supported for billing accounts
+   * Lists the role definitions for a billing account. The operation is supported for billing accounts
+   * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  listByBillingAccount(
+    billingAccountName: string,
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<BillingRoleDefinition>;
+  /**
+   * Gets the definition for a role on a billing profile. The operation is supported for billing accounts
    * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param options The options parameters.
-   */
-  listByBillingProfile(
-    billingAccountName: string,
-    billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
-  ): PagedAsyncIterableIterator<BillingRoleDefinition>;
-  /**
-   * Gets the definition for a role on a billing account. The operation is supported for billing accounts
-   * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingRoleDefinitionName The ID that uniquely identifies a role definition.
    * @param options The options parameters.
    */
-  getByBillingAccount(
+  getByBillingProfile(
     billingAccountName: string,
+    billingProfileName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByBillingAccountOptionalParams
-  ): Promise<BillingRoleDefinitionsGetByBillingAccountResponse>;
+    options?: BillingRoleDefinitionsGetByBillingProfileOptionalParams
+  ): Promise<BillingRoleDefinitionsGetByBillingProfileResponse>;
   /**
    * Gets the definition for a role on an invoice section. The operation is supported only for billing
    * accounts with agreement type Microsoft Customer Agreement.
@@ -88,17 +90,15 @@ export interface BillingRoleDefinitions {
     options?: BillingRoleDefinitionsGetByInvoiceSectionOptionalParams
   ): Promise<BillingRoleDefinitionsGetByInvoiceSectionResponse>;
   /**
-   * Gets the definition for a role on a billing profile. The operation is supported for billing accounts
+   * Gets the definition for a role on a billing account. The operation is supported for billing accounts
    * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param billingRoleDefinitionName The ID that uniquely identifies a role definition.
    * @param options The options parameters.
    */
-  getByBillingProfile(
+  getByBillingAccount(
     billingAccountName: string,
-    billingProfileName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByBillingProfileOptionalParams
-  ): Promise<BillingRoleDefinitionsGetByBillingProfileResponse>;
+    options?: BillingRoleDefinitionsGetByBillingAccountOptionalParams
+  ): Promise<BillingRoleDefinitionsGetByBillingAccountResponse>;
 }
