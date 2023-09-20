@@ -9,103 +9,119 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  OutboundFirewallRule,
-  OutboundFirewallRulesListByServerOptionalParams,
-  OutboundFirewallRulesGetOptionalParams,
-  OutboundFirewallRulesGetResponse,
-  OutboundFirewallRulesCreateOrUpdateOptionalParams,
-  OutboundFirewallRulesCreateOrUpdateResponse,
-  OutboundFirewallRulesDeleteOptionalParams
+  JobPrivateEndpoint,
+  JobPrivateEndpointsListByAgentOptionalParams,
+  JobPrivateEndpointsGetOptionalParams,
+  JobPrivateEndpointsGetResponse,
+  JobPrivateEndpointsCreateOrUpdateOptionalParams,
+  JobPrivateEndpointsCreateOrUpdateResponse,
+  JobPrivateEndpointsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a OutboundFirewallRules. */
-export interface OutboundFirewallRules {
+/** Interface representing a JobPrivateEndpoints. */
+export interface JobPrivateEndpoints {
   /**
-   * Gets all outbound firewall rules on a server.
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
    * @param options The options parameters.
    */
-  listByServer(
+  listByAgent(
     resourceGroupName: string,
     serverName: string,
-    options?: OutboundFirewallRulesListByServerOptionalParams
-  ): PagedAsyncIterableIterator<OutboundFirewallRule>;
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): PagedAsyncIterableIterator<JobPrivateEndpoint>;
   /**
-   * Gets an outbound firewall rule.
+   * Gets a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to get.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesGetOptionalParams
-  ): Promise<OutboundFirewallRulesGetResponse>;
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsGetOptionalParams
+  ): Promise<JobPrivateEndpointsGetResponse>;
   /**
-   * Create a outbound firewall rule with a given name.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<OutboundFirewallRulesCreateOrUpdateResponse>,
-      OutboundFirewallRulesCreateOrUpdateResponse
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>,
+      JobPrivateEndpointsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create a outbound firewall rule with a given name.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
-  ): Promise<OutboundFirewallRulesCreateOrUpdateResponse>;
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+  ): Promise<JobPrivateEndpointsCreateOrUpdateResponse>;
   /**
-   * Deletes a outbound firewall rule with a given name.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesDeleteOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a outbound firewall rule with a given name.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesDeleteOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
   ): Promise<void>;
 }
