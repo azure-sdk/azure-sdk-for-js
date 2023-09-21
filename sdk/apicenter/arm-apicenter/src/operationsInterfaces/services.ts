@@ -17,7 +17,10 @@ import {
   ServicesCreateOrUpdateResponse,
   ServicesUpdateOptionalParams,
   ServicesUpdateResponse,
-  ServicesDeleteOptionalParams
+  ServicesDeleteOptionalParams,
+  MetadataAssignmentEntity,
+  ServicesExportMetadataSchemaOptionalParams,
+  ServicesExportMetadataSchemaResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +34,7 @@ export interface Services {
     options?: ServicesListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<Service>;
   /**
-   * Lists services within a resource group
+   * Returns a collection of services within the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -40,7 +43,7 @@ export interface Services {
     options?: ServicesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Service>;
   /**
-   * Get service
+   * Returns details of the service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName Service name
    * @param options The options parameters.
@@ -51,7 +54,7 @@ export interface Services {
     options?: ServicesGetOptionalParams
   ): Promise<ServicesGetResponse>;
   /**
-   * Create or update service
+   * Creates new or updates existing API.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName Service name
    * @param options The options parameters.
@@ -62,7 +65,7 @@ export interface Services {
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
-   * Update service
+   * Updates existing service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName Service name
    * @param options The options parameters.
@@ -73,7 +76,7 @@ export interface Services {
     options?: ServicesUpdateOptionalParams
   ): Promise<ServicesUpdateResponse>;
   /**
-   * Delete service
+   * Deletes specified service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName Service name
    * @param options The options parameters.
@@ -83,4 +86,17 @@ export interface Services {
     serviceName: string,
     options?: ServicesDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Exports the effective metadata schema.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
+   * @param assignedTo An entity the metadata schema is requested for.
+   * @param options The options parameters.
+   */
+  exportMetadataSchema(
+    resourceGroupName: string,
+    serviceName: string,
+    assignedTo: MetadataAssignmentEntity,
+    options?: ServicesExportMetadataSchemaOptionalParams
+  ): Promise<ServicesExportMetadataSchemaResponse>;
 }
