@@ -42,11 +42,11 @@ import {
   ApiWikisImpl,
   ApiExportImpl,
   ApiVersionSetImpl,
-  AuthorizationServerImpl,
   AuthorizationProviderImpl,
   AuthorizationImpl,
   AuthorizationLoginLinksImpl,
   AuthorizationAccessPolicyImpl,
+  AuthorizationServerImpl,
   BackendImpl,
   CacheImpl,
   CertificateImpl,
@@ -57,6 +57,7 @@ import {
   ApiManagementServiceSkusImpl,
   ApiManagementServiceImpl,
   DiagnosticImpl,
+  DocumentationImpl,
   EmailTemplateImpl,
   GatewayImpl,
   GatewayHostnameConfigurationImpl,
@@ -91,6 +92,8 @@ import {
   ProductPolicyImpl,
   ProductWikiImpl,
   ProductWikisImpl,
+  ProductApiLinkImpl,
+  ProductGroupLinkImpl,
   QuotaByCounterKeysImpl,
   QuotaByPeriodKeysImpl,
   RegionImpl,
@@ -100,6 +103,9 @@ import {
   ApiManagementSkusImpl,
   SubscriptionImpl,
   TagResourceImpl,
+  TagApiLinkImpl,
+  TagOperationLinkImpl,
+  TagProductLinkImpl,
   TenantAccessImpl,
   TenantAccessGitImpl,
   TenantConfigurationImpl,
@@ -108,7 +114,34 @@ import {
   UserSubscriptionImpl,
   UserIdentitiesImpl,
   UserConfirmationPasswordImpl,
-  DocumentationImpl
+  WorkspaceImpl,
+  WorkspacePolicyImpl,
+  WorkspaceNamedValueImpl,
+  WorkspaceGlobalSchemaImpl,
+  WorkspaceNotificationImpl,
+  WorkspaceNotificationRecipientUserImpl,
+  WorkspaceNotificationRecipientEmailImpl,
+  WorkspacePolicyFragmentImpl,
+  WorkspaceGroupImpl,
+  WorkspaceGroupUserImpl,
+  WorkspaceSubscriptionImpl,
+  WorkspaceApiVersionSetImpl,
+  WorkspaceApiImpl,
+  WorkspaceApiRevisionImpl,
+  WorkspaceApiReleaseImpl,
+  WorkspaceApiOperationImpl,
+  WorkspaceApiOperationPolicyImpl,
+  WorkspaceApiPolicyImpl,
+  WorkspaceApiSchemaImpl,
+  WorkspaceProductImpl,
+  WorkspaceProductApiLinkImpl,
+  WorkspaceProductGroupLinkImpl,
+  WorkspaceProductPolicyImpl,
+  WorkspaceTagImpl,
+  WorkspaceTagApiLinkImpl,
+  WorkspaceTagOperationLinkImpl,
+  WorkspaceTagProductLinkImpl,
+  WorkspaceApiExportImpl
 } from "./operations";
 import {
   Api,
@@ -132,11 +165,11 @@ import {
   ApiWikis,
   ApiExport,
   ApiVersionSet,
-  AuthorizationServer,
   AuthorizationProvider,
   Authorization,
   AuthorizationLoginLinks,
   AuthorizationAccessPolicy,
+  AuthorizationServer,
   Backend,
   Cache,
   Certificate,
@@ -147,6 +180,7 @@ import {
   ApiManagementServiceSkus,
   ApiManagementService,
   Diagnostic,
+  Documentation,
   EmailTemplate,
   Gateway,
   GatewayHostnameConfiguration,
@@ -181,6 +215,8 @@ import {
   ProductPolicy,
   ProductWiki,
   ProductWikis,
+  ProductApiLink,
+  ProductGroupLink,
   QuotaByCounterKeys,
   QuotaByPeriodKeys,
   Region,
@@ -190,6 +226,9 @@ import {
   ApiManagementSkus,
   Subscription,
   TagResource,
+  TagApiLink,
+  TagOperationLink,
+  TagProductLink,
   TenantAccess,
   TenantAccessGit,
   TenantConfiguration,
@@ -198,7 +237,34 @@ import {
   UserSubscription,
   UserIdentities,
   UserConfirmationPassword,
-  Documentation
+  Workspace,
+  WorkspacePolicy,
+  WorkspaceNamedValue,
+  WorkspaceGlobalSchema,
+  WorkspaceNotification,
+  WorkspaceNotificationRecipientUser,
+  WorkspaceNotificationRecipientEmail,
+  WorkspacePolicyFragment,
+  WorkspaceGroup,
+  WorkspaceGroupUser,
+  WorkspaceSubscription,
+  WorkspaceApiVersionSet,
+  WorkspaceApi,
+  WorkspaceApiRevision,
+  WorkspaceApiRelease,
+  WorkspaceApiOperation,
+  WorkspaceApiOperationPolicy,
+  WorkspaceApiPolicy,
+  WorkspaceApiSchema,
+  WorkspaceProduct,
+  WorkspaceProductApiLink,
+  WorkspaceProductGroupLink,
+  WorkspaceProductPolicy,
+  WorkspaceTag,
+  WorkspaceTagApiLink,
+  WorkspaceTagOperationLink,
+  WorkspaceTagProductLink,
+  WorkspaceApiExport
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -217,7 +283,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ApiManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -255,7 +321,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/9.1.0`;
+    const packageDetails = `azsdk-js-arm-apimanagement/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -308,7 +374,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01";
+    this.apiVersion = options.apiVersion || "2023-05-01-preview";
     this.api = new ApiImpl(this);
     this.apiRevision = new ApiRevisionImpl(this);
     this.apiRelease = new ApiReleaseImpl(this);
@@ -330,11 +396,11 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiWikis = new ApiWikisImpl(this);
     this.apiExport = new ApiExportImpl(this);
     this.apiVersionSet = new ApiVersionSetImpl(this);
-    this.authorizationServer = new AuthorizationServerImpl(this);
     this.authorizationProvider = new AuthorizationProviderImpl(this);
     this.authorization = new AuthorizationImpl(this);
     this.authorizationLoginLinks = new AuthorizationLoginLinksImpl(this);
     this.authorizationAccessPolicy = new AuthorizationAccessPolicyImpl(this);
+    this.authorizationServer = new AuthorizationServerImpl(this);
     this.backend = new BackendImpl(this);
     this.cache = new CacheImpl(this);
     this.certificate = new CertificateImpl(this);
@@ -345,6 +411,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiManagementServiceSkus = new ApiManagementServiceSkusImpl(this);
     this.apiManagementService = new ApiManagementServiceImpl(this);
     this.diagnostic = new DiagnosticImpl(this);
+    this.documentation = new DocumentationImpl(this);
     this.emailTemplate = new EmailTemplateImpl(this);
     this.gateway = new GatewayImpl(this);
     this.gatewayHostnameConfiguration = new GatewayHostnameConfigurationImpl(
@@ -387,6 +454,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.productPolicy = new ProductPolicyImpl(this);
     this.productWiki = new ProductWikiImpl(this);
     this.productWikis = new ProductWikisImpl(this);
+    this.productApiLink = new ProductApiLinkImpl(this);
+    this.productGroupLink = new ProductGroupLinkImpl(this);
     this.quotaByCounterKeys = new QuotaByCounterKeysImpl(this);
     this.quotaByPeriodKeys = new QuotaByPeriodKeysImpl(this);
     this.region = new RegionImpl(this);
@@ -396,6 +465,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiManagementSkus = new ApiManagementSkusImpl(this);
     this.subscription = new SubscriptionImpl(this);
     this.tagResource = new TagResourceImpl(this);
+    this.tagApiLink = new TagApiLinkImpl(this);
+    this.tagOperationLink = new TagOperationLinkImpl(this);
+    this.tagProductLink = new TagProductLinkImpl(this);
     this.tenantAccess = new TenantAccessImpl(this);
     this.tenantAccessGit = new TenantAccessGitImpl(this);
     this.tenantConfiguration = new TenantConfigurationImpl(this);
@@ -404,7 +476,40 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.userSubscription = new UserSubscriptionImpl(this);
     this.userIdentities = new UserIdentitiesImpl(this);
     this.userConfirmationPassword = new UserConfirmationPasswordImpl(this);
-    this.documentation = new DocumentationImpl(this);
+    this.workspace = new WorkspaceImpl(this);
+    this.workspacePolicy = new WorkspacePolicyImpl(this);
+    this.workspaceNamedValue = new WorkspaceNamedValueImpl(this);
+    this.workspaceGlobalSchema = new WorkspaceGlobalSchemaImpl(this);
+    this.workspaceNotification = new WorkspaceNotificationImpl(this);
+    this.workspaceNotificationRecipientUser = new WorkspaceNotificationRecipientUserImpl(
+      this
+    );
+    this.workspaceNotificationRecipientEmail = new WorkspaceNotificationRecipientEmailImpl(
+      this
+    );
+    this.workspacePolicyFragment = new WorkspacePolicyFragmentImpl(this);
+    this.workspaceGroup = new WorkspaceGroupImpl(this);
+    this.workspaceGroupUser = new WorkspaceGroupUserImpl(this);
+    this.workspaceSubscription = new WorkspaceSubscriptionImpl(this);
+    this.workspaceApiVersionSet = new WorkspaceApiVersionSetImpl(this);
+    this.workspaceApi = new WorkspaceApiImpl(this);
+    this.workspaceApiRevision = new WorkspaceApiRevisionImpl(this);
+    this.workspaceApiRelease = new WorkspaceApiReleaseImpl(this);
+    this.workspaceApiOperation = new WorkspaceApiOperationImpl(this);
+    this.workspaceApiOperationPolicy = new WorkspaceApiOperationPolicyImpl(
+      this
+    );
+    this.workspaceApiPolicy = new WorkspaceApiPolicyImpl(this);
+    this.workspaceApiSchema = new WorkspaceApiSchemaImpl(this);
+    this.workspaceProduct = new WorkspaceProductImpl(this);
+    this.workspaceProductApiLink = new WorkspaceProductApiLinkImpl(this);
+    this.workspaceProductGroupLink = new WorkspaceProductGroupLinkImpl(this);
+    this.workspaceProductPolicy = new WorkspaceProductPolicyImpl(this);
+    this.workspaceTag = new WorkspaceTagImpl(this);
+    this.workspaceTagApiLink = new WorkspaceTagApiLinkImpl(this);
+    this.workspaceTagOperationLink = new WorkspaceTagOperationLinkImpl(this);
+    this.workspaceTagProductLink = new WorkspaceTagProductLinkImpl(this);
+    this.workspaceApiExport = new WorkspaceApiExportImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -560,11 +665,11 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiWikis: ApiWikis;
   apiExport: ApiExport;
   apiVersionSet: ApiVersionSet;
-  authorizationServer: AuthorizationServer;
   authorizationProvider: AuthorizationProvider;
   authorization: Authorization;
   authorizationLoginLinks: AuthorizationLoginLinks;
   authorizationAccessPolicy: AuthorizationAccessPolicy;
+  authorizationServer: AuthorizationServer;
   backend: Backend;
   cache: Cache;
   certificate: Certificate;
@@ -575,6 +680,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiManagementServiceSkus: ApiManagementServiceSkus;
   apiManagementService: ApiManagementService;
   diagnostic: Diagnostic;
+  documentation: Documentation;
   emailTemplate: EmailTemplate;
   gateway: Gateway;
   gatewayHostnameConfiguration: GatewayHostnameConfiguration;
@@ -609,6 +715,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   productPolicy: ProductPolicy;
   productWiki: ProductWiki;
   productWikis: ProductWikis;
+  productApiLink: ProductApiLink;
+  productGroupLink: ProductGroupLink;
   quotaByCounterKeys: QuotaByCounterKeys;
   quotaByPeriodKeys: QuotaByPeriodKeys;
   region: Region;
@@ -618,6 +726,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiManagementSkus: ApiManagementSkus;
   subscription: Subscription;
   tagResource: TagResource;
+  tagApiLink: TagApiLink;
+  tagOperationLink: TagOperationLink;
+  tagProductLink: TagProductLink;
   tenantAccess: TenantAccess;
   tenantAccessGit: TenantAccessGit;
   tenantConfiguration: TenantConfiguration;
@@ -626,7 +737,34 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   userSubscription: UserSubscription;
   userIdentities: UserIdentities;
   userConfirmationPassword: UserConfirmationPassword;
-  documentation: Documentation;
+  workspace: Workspace;
+  workspacePolicy: WorkspacePolicy;
+  workspaceNamedValue: WorkspaceNamedValue;
+  workspaceGlobalSchema: WorkspaceGlobalSchema;
+  workspaceNotification: WorkspaceNotification;
+  workspaceNotificationRecipientUser: WorkspaceNotificationRecipientUser;
+  workspaceNotificationRecipientEmail: WorkspaceNotificationRecipientEmail;
+  workspacePolicyFragment: WorkspacePolicyFragment;
+  workspaceGroup: WorkspaceGroup;
+  workspaceGroupUser: WorkspaceGroupUser;
+  workspaceSubscription: WorkspaceSubscription;
+  workspaceApiVersionSet: WorkspaceApiVersionSet;
+  workspaceApi: WorkspaceApi;
+  workspaceApiRevision: WorkspaceApiRevision;
+  workspaceApiRelease: WorkspaceApiRelease;
+  workspaceApiOperation: WorkspaceApiOperation;
+  workspaceApiOperationPolicy: WorkspaceApiOperationPolicy;
+  workspaceApiPolicy: WorkspaceApiPolicy;
+  workspaceApiSchema: WorkspaceApiSchema;
+  workspaceProduct: WorkspaceProduct;
+  workspaceProductApiLink: WorkspaceProductApiLink;
+  workspaceProductGroupLink: WorkspaceProductGroupLink;
+  workspaceProductPolicy: WorkspaceProductPolicy;
+  workspaceTag: WorkspaceTag;
+  workspaceTagApiLink: WorkspaceTagApiLink;
+  workspaceTagOperationLink: WorkspaceTagOperationLink;
+  workspaceTagProductLink: WorkspaceTagProductLink;
+  workspaceApiExport: WorkspaceApiExport;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

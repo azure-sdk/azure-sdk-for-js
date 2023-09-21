@@ -414,7 +414,7 @@ const deployOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters71,
+  requestBody: Parameters.parameters81,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -448,7 +448,7 @@ const saveOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters72,
+  requestBody: Parameters.parameters82,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -482,7 +482,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters71,
+  requestBody: Parameters.parameters81,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
