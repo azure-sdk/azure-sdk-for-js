@@ -9,6 +9,8 @@
 export * from "./containerAppsAuthConfigs";
 export * from "./availableWorkloadProfiles";
 export * from "./billingMeters";
+export * from "./builders";
+export * from "./builds";
 export * from "./connectedEnvironments";
 export * from "./connectedEnvironmentsCertificates";
 export * from "./connectedEnvironmentsDaprComponents";
@@ -29,3 +31,6 @@ export * from "./namespaces";
 export * from "./daprComponents";
 export * from "./managedEnvironmentsStorages";
 export * from "./containerAppsSourceControls";
+export * from "./usages";
+export * from "./managedEnvironmentUsages";
+export * from "./containerAppsSessionPools";
