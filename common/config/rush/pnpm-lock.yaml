@@ -17066,7 +17066,7 @@ packages:
     dev: false
 
   file:projects/arm-voiceservices.tgz:
-    resolution: {integrity: sha512-1rpjmdFPIgWIfC/BV4lKLwfoX4ZKu9dq8B1m1fmhV1DTci06BVJCQf32DamHT2VsoLIigmpFDSfk66k1ljQWbg==, tarball: file:projects/arm-voiceservices.tgz}
+    resolution: {integrity: sha512-R8SdAbSjb7l+5i7z7MI0LBvlVVl95MnPwUBE1zRWk6GZFyL5q8oPRnsjSDti3jCxT9iklWEMISPrcCRAiUmXWQ==, tarball: file:projects/arm-voiceservices.tgz}
     name: '@rush-temp/arm-voiceservices'
     version: 0.0.0
     dependencies:
@@ -17083,7 +17083,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
