@@ -11359,7 +11359,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-7XtRIwTnicB+FXiVy3fXUtVq5kcpojZfy7o4qOAboQ0TLrCAxFvsLFVrUGwSP6cLGdIaRxcwBz1ROdEqt8Vz8Q==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-a+o/NRfCWQBtbg0BRBl3tm+eppeOTcTfP7fv2NvwnwlDQpjEsUEztSA1GMpj5jPOxKS/GZPbOHCsZ/MlS25tVQ==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -11377,7 +11377,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -11387,6 +11387,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
@@ -17761,7 +17762,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-CawoT9o/i9/uP3BS59/AlRNR4Fh3GNXdY/oVF6lfc6khhbXbY9kKAnx3J0rQyrjgOTnxOZUPkG92ycYu5U/Psg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-PpUQYe2wKI84viko7l1F9SmHZAaL/1JGHIZHsesiDbINN+K1CUQxE2SiHVtZds78IpZimFdhdeMzf9SufVfbQw==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
