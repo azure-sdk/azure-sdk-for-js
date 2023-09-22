@@ -4464,7 +4464,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230921
+      typescript: 5.3.0-dev.20230922
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9184,8 +9184,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230921:
-    resolution: {integrity: sha512-TZnDMkY/mgooSXJv72Zxr71MvXYUKiH05lekDOB9FaScoHLGNDvqw6IrT6qXx/kD6eJFpW2gadIz1eJQeA/URw==}
+  /typescript@5.3.0-dev.20230922:
+    resolution: {integrity: sha512-QmuWGuk9Uk3blOaDo5P9wVLAOw7CfhrHmWoQAD+5UAQeR52S0/W0BjuYgCMGwmxVJJgYK1WCeBdbTi2jLxvoog==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10396,7 +10396,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-0ZITUjON5z9o/en0l4xoJHnKTrOm/4oluoSpo+qFza5p3V20F8tEUVZIOGW+0Q92yDHo+iEIUyT1XNAz8lhLmQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-nwrHfm98kkHuVcyx0K4KEyoWM4s2ZTusCzJQkMxx2ugwsnef+2JHTITbD4WbAMuVnz5G6eT0kwQkrnSrhzlsCg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -13735,7 +13735,7 @@ packages:
     dev: false
 
   file:projects/arm-kubernetesconfiguration.tgz:
-    resolution: {integrity: sha512-0F6suOdAKZ5oj9aoGm3/LPN5GWfCHChasc31cvDK7yJ95M5OlG8jI5ivMYj0dqLo+0a/pNzhIJ1GLtELbk1wzw==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-AVRtxxiVWCz7PRMV1dsEW4cEpXV0g82hMlYMaS8xhxqwnn2UpmbaE9MxhhRgFl11ubjKh0J56ewOAXX9xGTXNg==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
@@ -13752,7 +13752,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
