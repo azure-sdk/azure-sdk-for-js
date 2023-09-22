@@ -13888,7 +13888,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-DeorkWYh4Ehgq6ucn4ynf7nI0FP4WDfkSGXce/PWCJM0w2Ej+ZUZ6PKj5GY4q6/eJyZppR6tHX73KpzbnuiFIA==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-EVH4dESegOK3l8PQ1saqUmfft8r9GbRELcF/yCtzoiyRQUWcGnzEcP83SkPVPN6e07d+FC8SNKsW/ZzDjtMr8g==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -13902,9 +13902,10 @@ packages:
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -13914,6 +13915,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-machinelearningcompute.tgz:
@@ -17761,7 +17763,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-CawoT9o/i9/uP3BS59/AlRNR4Fh3GNXdY/oVF6lfc6khhbXbY9kKAnx3J0rQyrjgOTnxOZUPkG92ycYu5U/Psg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-PpUQYe2wKI84viko7l1F9SmHZAaL/1JGHIZHsesiDbINN+K1CUQxE2SiHVtZds78IpZimFdhdeMzf9SufVfbQw==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
