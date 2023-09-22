@@ -10580,7 +10580,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-je3SSLU2eUaWHWM04nSLEpYnkHBDfN1a2L3LRs0QnmzKgdlPP50e4Bgm6xlNHkiEx1HxrSQpBkT5v/fwtftpnQ==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-0Ttervw/u/VUFqGMOEV7S3XAuDd6XR32jf4GVD1Tuu64DRn8wDOIzdPcXu1YXKctDDOR8AvbM+gH93WHyOYxBw==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -10597,7 +10597,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -10607,6 +10607,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-appcomplianceautomation.tgz:

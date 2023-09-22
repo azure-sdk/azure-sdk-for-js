@@ -6,25 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PortalConfig } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
 import {
+  PortalConfigContract,
+  PortalConfigListByServiceNextOptionalParams,
   PortalConfigListByServiceOptionalParams,
   PortalConfigListByServiceResponse,
   PortalConfigGetEntityTagOptionalParams,
   PortalConfigGetEntityTagResponse,
   PortalConfigGetOptionalParams,
   PortalConfigGetResponse,
-  PortalConfigContract,
   PortalConfigUpdateOptionalParams,
   PortalConfigUpdateResponse,
   PortalConfigCreateOrUpdateOptionalParams,
-  PortalConfigCreateOrUpdateResponse
+  PortalConfigCreateOrUpdateResponse,
+  PortalConfigListByServiceNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing PortalConfig operations. */
 export class PortalConfigImpl implements PortalConfig {
   private readonly client: ApiManagementClient;
@@ -43,7 +48,91 @@ export class PortalConfigImpl implements PortalConfig {
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
-  listByService(
+  public listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PortalConfigListByServiceOptionalParams
+  ): PagedAsyncIterableIterator<PortalConfigContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PortalConfigListByServiceOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<PortalConfigContract[]> {
+    let result: PortalConfigListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PortalConfigListByServiceOptionalParams
+  ): AsyncIterableIterator<PortalConfigContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the developer portal configurations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listByService(
     resourceGroupName: string,
     serviceName: string,
     options?: PortalConfigListByServiceOptionalParams
@@ -153,6 +242,25 @@ export class PortalConfigImpl implements PortalConfig {
       createOrUpdateOperationSpec
     );
   }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: PortalConfigListByServiceNextOptionalParams
+  ): Promise<PortalConfigListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByServiceNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -238,7 +346,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters58,
+  requestBody: Parameters.parameters63,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -267,7 +375,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters58,
+  requestBody: Parameters.parameters63,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -282,5 +390,26 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.ifMatch1
   ],
   mediaType: "json",
+  serializer
+};
+const listByServiceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PortalConfigCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };

@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  PortalConfigContract,
   PortalConfigListByServiceOptionalParams,
-  PortalConfigListByServiceResponse,
   PortalConfigGetEntityTagOptionalParams,
   PortalConfigGetEntityTagResponse,
   PortalConfigGetOptionalParams,
   PortalConfigGetResponse,
-  PortalConfigContract,
   PortalConfigUpdateOptionalParams,
   PortalConfigUpdateResponse,
   PortalConfigCreateOrUpdateOptionalParams,
   PortalConfigCreateOrUpdateResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PortalConfig. */
 export interface PortalConfig {
   /**
@@ -32,7 +33,7 @@ export interface PortalConfig {
     resourceGroupName: string,
     serviceName: string,
     options?: PortalConfigListByServiceOptionalParams
-  ): Promise<PortalConfigListByServiceResponse>;
+  ): PagedAsyncIterableIterator<PortalConfigContract>;
   /**
    * Gets the entity state (Etag) version of the developer portal configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
