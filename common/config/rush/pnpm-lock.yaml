@@ -10396,7 +10396,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-0ZITUjON5z9o/en0l4xoJHnKTrOm/4oluoSpo+qFza5p3V20F8tEUVZIOGW+0Q92yDHo+iEIUyT1XNAz8lhLmQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-nwrHfm98kkHuVcyx0K4KEyoWM4s2ZTusCzJQkMxx2ugwsnef+2JHTITbD4WbAMuVnz5G6eT0kwQkrnSrhzlsCg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -10715,7 +10715,7 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-ea0mAum7KQ0FsdP9GW2OWCoTMiMOcLgw50CpU4ygwLDZRZf9UUsIWXvfB58CfM5aWtFL9fQFK1+hHFwajj0fSg==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-ZgukEGEiyMQdL8ihmE+PtOgqHjn8lrX42wIkZNlHWIUyvRrHbqpmpQebojfeUUgbYg9S5w35uwpFSps8kUEs8Q==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -10732,7 +10732,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
