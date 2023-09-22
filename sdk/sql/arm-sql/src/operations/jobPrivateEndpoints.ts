@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { LedgerDigestUploadsOperations } from "../operationsInterfaces";
+import { JobPrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  LedgerDigestUploads,
-  LedgerDigestUploadsListByDatabaseNextOptionalParams,
-  LedgerDigestUploadsListByDatabaseOptionalParams,
-  LedgerDigestUploadsListByDatabaseResponse,
-  LedgerDigestUploadsName,
-  LedgerDigestUploadsGetOptionalParams,
-  LedgerDigestUploadsGetResponse,
-  LedgerDigestUploadsCreateOrUpdateOptionalParams,
-  LedgerDigestUploadsCreateOrUpdateResponse,
-  LedgerDigestUploadsDisableOptionalParams,
-  LedgerDigestUploadsDisableResponse,
-  LedgerDigestUploadsListByDatabaseNextResponse
+  JobPrivateEndpoint,
+  JobPrivateEndpointsListByAgentNextOptionalParams,
+  JobPrivateEndpointsListByAgentOptionalParams,
+  JobPrivateEndpointsListByAgentResponse,
+  JobPrivateEndpointsGetOptionalParams,
+  JobPrivateEndpointsGetResponse,
+  JobPrivateEndpointsCreateOrUpdateOptionalParams,
+  JobPrivateEndpointsCreateOrUpdateResponse,
+  JobPrivateEndpointsDeleteOptionalParams,
+  JobPrivateEndpointsListByAgentNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing LedgerDigestUploadsOperations operations. */
-export class LedgerDigestUploadsOperationsImpl
-  implements LedgerDigestUploadsOperations {
+/** Class containing JobPrivateEndpoints operations. */
+export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class LedgerDigestUploadsOperations class.
+   * Initialize a new instance of the class JobPrivateEndpoints class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -49,23 +46,23 @@ export class LedgerDigestUploadsOperationsImpl
   }
 
   /**
-   * Gets all ledger digest upload settings on a database.
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
+   * @param jobAgentName The name of the job agent.
    * @param options The options parameters.
    */
-  public listByDatabase(
+  public listByAgent(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams
-  ): PagedAsyncIterableIterator<LedgerDigestUploads> {
-    const iter = this.listByDatabasePagingAll(
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): PagedAsyncIterableIterator<JobPrivateEndpoint> {
+    const iter = this.listByAgentPagingAll(
       resourceGroupName,
       serverName,
-      databaseName,
+      jobAgentName,
       options
     );
     return {
@@ -79,10 +76,10 @@ export class LedgerDigestUploadsOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDatabasePagingPage(
+        return this.listByAgentPagingPage(
           resourceGroupName,
           serverName,
-          databaseName,
+          jobAgentName,
           options,
           settings
         );
@@ -90,20 +87,20 @@ export class LedgerDigestUploadsOperationsImpl
     };
   }
 
-  private async *listByDatabasePagingPage(
+  private async *listByAgentPagingPage(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams,
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<LedgerDigestUploads[]> {
-    let result: LedgerDigestUploadsListByDatabaseResponse;
+  ): AsyncIterableIterator<JobPrivateEndpoint[]> {
+    let result: JobPrivateEndpointsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
+      result = await this._listByAgent(
         resourceGroupName,
         serverName,
-        databaseName,
+        jobAgentName,
         options
       );
       let page = result.value || [];
@@ -112,10 +109,10 @@ export class LedgerDigestUploadsOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByDatabaseNext(
+      result = await this._listByAgentNext(
         resourceGroupName,
         serverName,
-        databaseName,
+        jobAgentName,
         continuationToken,
         options
       );
@@ -126,16 +123,16 @@ export class LedgerDigestUploadsOperationsImpl
     }
   }
 
-  private async *listByDatabasePagingAll(
+  private async *listByAgentPagingAll(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams
-  ): AsyncIterableIterator<LedgerDigestUploads> {
-    for await (const page of this.listByDatabasePagingPage(
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): AsyncIterableIterator<JobPrivateEndpoint> {
+    for await (const page of this.listByAgentPagingPage(
       resourceGroupName,
       serverName,
-      databaseName,
+      jobAgentName,
       options
     )) {
       yield* page;
@@ -143,47 +140,47 @@ export class LedgerDigestUploadsOperationsImpl
   }
 
   /**
-   * Gets all ledger digest upload settings on a database.
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
+   * @param jobAgentName The name of the job agent.
    * @param options The options parameters.
    */
-  private _listByDatabase(
+  private _listByAgent(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams
-  ): Promise<LedgerDigestUploadsListByDatabaseResponse> {
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): Promise<JobPrivateEndpointsListByAgentResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      { resourceGroupName, serverName, jobAgentName, options },
+      listByAgentOperationSpec
     );
   }
 
   /**
-   * Gets the current ledger digest upload configuration for a database.
+   * Gets a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param ledgerDigestUploads
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to get.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsGetOptionalParams
-  ): Promise<LedgerDigestUploadsGetResponse> {
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsGetOptionalParams
+  ): Promise<JobPrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serverName,
-        databaseName,
-        ledgerDigestUploads,
+        jobAgentName,
+        privateEndpointName,
         options
       },
       getOperationSpec
@@ -191,32 +188,32 @@ export class LedgerDigestUploadsOperationsImpl
   }
 
   /**
-   * Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param ledgerDigestUploads
-   * @param parameters Azure SQL Database ledger digest upload settings.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    ledgerDigestUploads: LedgerDigestUploadsName,
-    parameters: LedgerDigestUploads,
-    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
-      LedgerDigestUploadsCreateOrUpdateResponse
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>,
+      JobPrivateEndpointsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LedgerDigestUploadsCreateOrUpdateResponse> => {
+    ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -257,47 +254,48 @@ export class LedgerDigestUploadsOperationsImpl
       args: {
         resourceGroupName,
         serverName,
-        databaseName,
-        ledgerDigestUploads,
+        jobAgentName,
+        privateEndpointName,
         parameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      LedgerDigestUploadsCreateOrUpdateResponse,
-      OperationState<LedgerDigestUploadsCreateOrUpdateResponse>
+      JobPrivateEndpointsCreateOrUpdateResponse,
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param ledgerDigestUploads
-   * @param parameters Azure SQL Database ledger digest upload settings.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    ledgerDigestUploads: LedgerDigestUploadsName,
-    parameters: LedgerDigestUploads,
-    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
-  ): Promise<LedgerDigestUploadsCreateOrUpdateResponse> {
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+  ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
-      databaseName,
-      ledgerDigestUploads,
+      jobAgentName,
+      privateEndpointName,
       parameters,
       options
     );
@@ -305,31 +303,25 @@ export class LedgerDigestUploadsOperationsImpl
   }
 
   /**
-   * Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger
-   * instance.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param ledgerDigestUploads
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
-  async beginDisable(
+  async beginDelete(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsDisableOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<LedgerDigestUploadsDisableResponse>,
-      LedgerDigestUploadsDisableResponse
-    >
-  > {
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LedgerDigestUploadsDisableResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -370,82 +362,79 @@ export class LedgerDigestUploadsOperationsImpl
       args: {
         resourceGroupName,
         serverName,
-        databaseName,
-        ledgerDigestUploads,
+        jobAgentName,
+        privateEndpointName,
         options
       },
-      spec: disableOperationSpec
+      spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      LedgerDigestUploadsDisableResponse,
-      OperationState<LedgerDigestUploadsDisableResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger
-   * instance.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param ledgerDigestUploads
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
-  async beginDisableAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsDisableOptionalParams
-  ): Promise<LedgerDigestUploadsDisableResponse> {
-    const poller = await this.beginDisable(
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
-      databaseName,
-      ledgerDigestUploads,
+      jobAgentName,
+      privateEndpointName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByDatabaseNext
+   * ListByAgentNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param nextLink The nextLink from the previous successful call to the ListByDatabase method.
+   * @param jobAgentName The name of the job agent.
+   * @param nextLink The nextLink from the previous successful call to the ListByAgent method.
    * @param options The options parameters.
    */
-  private _listByDatabaseNext(
+  private _listByAgentNext(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
+    jobAgentName: string,
     nextLink: string,
-    options?: LedgerDigestUploadsListByDatabaseNextOptionalParams
-  ): Promise<LedgerDigestUploadsListByDatabaseNextResponse> {
+    options?: JobPrivateEndpointsListByAgentNextOptionalParams
+  ): Promise<JobPrivateEndpointsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      { resourceGroupName, serverName, jobAgentName, nextLink, options },
+      listByAgentNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+const listByAgentOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LedgerDigestUploadsListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult
     },
     default: {}
   },
@@ -454,19 +443,19 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     default: {}
   },
@@ -475,83 +464,68 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
-    Parameters.ledgerDigestUploads
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     201: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     202: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     204: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     default: {}
   },
-  requestBody: Parameters.parameters43,
+  requestBody: Parameters.parameters39,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
-    Parameters.ledgerDigestUploads
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const disableOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}/disable",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LedgerDigestUploads
-    },
-    201: {
-      bodyMapper: Mappers.LedgerDigestUploads
-    },
-    202: {
-      bodyMapper: Mappers.LedgerDigestUploads
-    },
-    204: {
-      bodyMapper: Mappers.LedgerDigestUploads
-    },
-    default: {}
-  },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
+  httpMethod: "DELETE",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
-    Parameters.ledgerDigestUploads
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
-const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
+const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LedgerDigestUploadsListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult
     },
     default: {}
   },
@@ -559,9 +533,9 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept],
   serializer
