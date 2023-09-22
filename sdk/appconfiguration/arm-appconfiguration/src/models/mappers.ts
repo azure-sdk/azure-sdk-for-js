@@ -1295,6 +1295,388 @@ export const Replica: coreClient.CompositeMapper = {
   }
 };
 
+export const NetworkSecurityPerimeterConfigurationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterConfigurationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkSecurityPerimeterConfiguration"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterConfiguration",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningIssues: {
+        serializedName: "properties.provisioningIssues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkSecurityPerimeterProvisioningIssue"
+            }
+          }
+        }
+      },
+      networkSecurityPerimeter: {
+        serializedName: "properties.networkSecurityPerimeter",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeter"
+        }
+      },
+      resourceAssociation: {
+        serializedName: "properties.resourceAssociation",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeterResourceAssociation"
+        }
+      },
+      profile: {
+        serializedName: "properties.profile",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeterProfile"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityPerimeterProvisioningIssue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterProvisioningIssue",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeterProvisioningIssueProperties"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityPerimeterProvisioningIssueProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterProvisioningIssueProperties",
+    modelProperties: {
+      issueType: {
+        serializedName: "issueType",
+        type: {
+          name: "String"
+        }
+      },
+      severity: {
+        serializedName: "severity",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      suggestedResourceIds: {
+        serializedName: "suggestedResourceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      suggestedAccessRules: {
+        serializedName: "suggestedAccessRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityPerimeter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeter",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      perimeterGuid: {
+        serializedName: "perimeterGuid",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityPerimeterResourceAssociation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterResourceAssociation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      accessMode: {
+        serializedName: "accessMode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityPerimeterProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterProfile",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      accessRulesVersion: {
+        serializedName: "accessRulesVersion",
+        type: {
+          name: "String"
+        }
+      },
+      accessRules: {
+        serializedName: "accessRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkSecurityPerimeterProfileAccessRule"
+            }
+          }
+        }
+      },
+      diagnosticSettingsVersion: {
+        serializedName: "diagnosticSettingsVersion",
+        type: {
+          name: "String"
+        }
+      },
+      enabledLogCategories: {
+        serializedName: "enabledLogCategories",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityPerimeterProfileAccessRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterProfileAccessRule",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeterProfileAccessRuleProperties"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityPerimeterProfileAccessRuleProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterProfileAccessRuleProperties",
+    modelProperties: {
+      direction: {
+        serializedName: "direction",
+        type: {
+          name: "String"
+        }
+      },
+      addressPrefixes: {
+        serializedName: "addressPrefixes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      subscriptions: {
+        serializedName: "subscriptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NspAccessRuleSubscription"
+            }
+          }
+        }
+      },
+      networkSecurityPerimeters: {
+        serializedName: "networkSecurityPerimeters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkSecurityPerimeter"
+            }
+          }
+        }
+      },
+      fullyQualifiedDomainNames: {
+        serializedName: "fullyQualifiedDomainNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      emailAddresses: {
+        serializedName: "emailAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      phoneNumbers: {
+        serializedName: "phoneNumbers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const NspAccessRuleSubscription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NspAccessRuleSubscription",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const KeyValueListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

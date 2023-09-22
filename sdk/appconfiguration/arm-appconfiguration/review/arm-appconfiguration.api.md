@@ -41,6 +41,8 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     keyValues: KeyValues;
     // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
@@ -441,6 +443,151 @@ export interface NameAvailabilityStatus {
     readonly message?: string;
     readonly nameAvailable?: boolean;
     readonly reason?: string;
+}
+
+// @public (undocumented)
+export interface NetworkSecurityPerimeter {
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration {
+    id?: string;
+    name?: string;
+    // (undocumented)
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    // (undocumented)
+    profile?: NetworkSecurityPerimeterProfile;
+    provisioningIssues?: NetworkSecurityPerimeterProvisioningIssue[];
+    provisioningState?: string;
+    // (undocumented)
+    resourceAssociation?: NetworkSecurityPerimeterResourceAssociation;
+    type?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListResult {
+    nextLink?: string;
+    value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    beginReconcile(resourceGroupName: string, configStoreName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
+    beginReconcileAndWait(resourceGroupName: string, configStoreName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
+    get(resourceGroupName: string, configStoreName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
+    listByConfigurationStore(resourceGroupName: string, configStoreName: string, options?: NetworkSecurityPerimeterConfigurationsListByConfigurationStoreOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListByConfigurationStoreNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListByConfigurationStoreNextResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListByConfigurationStoreOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListByConfigurationStoreResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public (undocumented)
+export interface NetworkSecurityPerimeterProfile {
+    // (undocumented)
+    accessRules?: NetworkSecurityPerimeterProfileAccessRule[];
+    // (undocumented)
+    accessRulesVersion?: string;
+    // (undocumented)
+    diagnosticSettingsVersion?: string;
+    // (undocumented)
+    enabledLogCategories?: string[];
+    // (undocumented)
+    name?: string;
+}
+
+// @public (undocumented)
+export interface NetworkSecurityPerimeterProfileAccessRule {
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    properties?: NetworkSecurityPerimeterProfileAccessRuleProperties;
+}
+
+// @public (undocumented)
+export interface NetworkSecurityPerimeterProfileAccessRuleProperties {
+    // (undocumented)
+    addressPrefixes?: string[];
+    // (undocumented)
+    direction?: string;
+    // (undocumented)
+    emailAddresses?: string[];
+    // (undocumented)
+    fullyQualifiedDomainNames?: string[];
+    // (undocumented)
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    // (undocumented)
+    phoneNumbers?: string[];
+    // (undocumented)
+    subscriptions?: NspAccessRuleSubscription[];
+}
+
+// @public (undocumented)
+export interface NetworkSecurityPerimeterProvisioningIssue {
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    properties?: NetworkSecurityPerimeterProvisioningIssueProperties;
+}
+
+// @public (undocumented)
+export interface NetworkSecurityPerimeterProvisioningIssueProperties {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    issueType?: string;
+    // (undocumented)
+    severity?: string;
+    // (undocumented)
+    suggestedAccessRules?: string[];
+    // (undocumented)
+    suggestedResourceIds?: string[];
+}
+
+// @public (undocumented)
+export interface NetworkSecurityPerimeterResourceAssociation {
+    // (undocumented)
+    accessMode?: string;
+    // (undocumented)
+    name?: string;
+}
+
+// @public (undocumented)
+export interface NspAccessRuleSubscription {
+    // (undocumented)
+    id?: string;
 }
 
 // @public

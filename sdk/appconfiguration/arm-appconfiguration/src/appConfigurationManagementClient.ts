@@ -20,7 +20,8 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   KeyValuesImpl,
-  ReplicasImpl
+  ReplicasImpl,
+  NetworkSecurityPerimeterConfigurationsImpl
 } from "./operations";
 import {
   ConfigurationStores,
@@ -28,7 +29,8 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   KeyValues,
-  Replicas
+  Replicas,
+  NetworkSecurityPerimeterConfigurations
 } from "./operationsInterfaces";
 import { AppConfigurationManagementClientOptionalParams } from "./models";
 
@@ -64,7 +66,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appconfiguration/4.0.1`;
+    const packageDetails = `azsdk-js-arm-appconfiguration/4.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,13 +119,16 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01";
+    this.apiVersion = options.apiVersion || "2023-04-01-preview";
     this.configurationStores = new ConfigurationStoresImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.keyValues = new KeyValuesImpl(this);
     this.replicas = new ReplicasImpl(this);
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -161,4 +166,5 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   keyValues: KeyValues;
   replicas: Replicas;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
 }

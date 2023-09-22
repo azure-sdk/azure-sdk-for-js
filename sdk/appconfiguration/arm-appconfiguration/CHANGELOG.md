@@ -1,15 +1,30 @@
 # Release History
+    
+## 4.1.0-beta.1 (2023-09-22)
+    
+**Features**
 
-## 4.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group NetworkSecurityPerimeterConfigurations
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationListResult
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByConfigurationStoreNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByConfigurationStoreOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfile
+  - Added Interface NetworkSecurityPerimeterProfileAccessRule
+  - Added Interface NetworkSecurityPerimeterProfileAccessRuleProperties
+  - Added Interface NetworkSecurityPerimeterProvisioningIssue
+  - Added Interface NetworkSecurityPerimeterProvisioningIssueProperties
+  - Added Interface NetworkSecurityPerimeterResourceAssociation
+  - Added Interface NspAccessRuleSubscription
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListByConfigurationStoreNextResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListByConfigurationStoreResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsReconcileResponse
+    
+    
 ## 4.0.0 (2023-04-06)
     
 **Features**

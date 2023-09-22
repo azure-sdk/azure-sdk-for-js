@@ -608,6 +608,82 @@ export interface Replica {
   readonly provisioningState?: ReplicaProvisioningState;
 }
 
+/** The result of a request to list network security perimeter configurations. */
+export interface NetworkSecurityPerimeterConfigurationListResult {
+  /** The collection value. */
+  value?: NetworkSecurityPerimeterConfiguration[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
+/** Network security perimeter configuration for a configuration store. */
+export interface NetworkSecurityPerimeterConfiguration {
+  /** The resource ID. */
+  id?: string;
+  /** The name of the network security perimeter configuration. */
+  name?: string;
+  /** The type of the resource. */
+  type?: string;
+  /** Provisioning state of network security perimeter configuration. */
+  provisioningState?: string;
+  /** Provisioning issues of network security perimeter configuration. */
+  provisioningIssues?: NetworkSecurityPerimeterProvisioningIssue[];
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  resourceAssociation?: NetworkSecurityPerimeterResourceAssociation;
+  profile?: NetworkSecurityPerimeterProfile;
+}
+
+export interface NetworkSecurityPerimeterProvisioningIssue {
+  name?: string;
+  properties?: NetworkSecurityPerimeterProvisioningIssueProperties;
+}
+
+export interface NetworkSecurityPerimeterProvisioningIssueProperties {
+  issueType?: string;
+  severity?: string;
+  description?: string;
+  suggestedResourceIds?: string[];
+  suggestedAccessRules?: string[];
+}
+
+export interface NetworkSecurityPerimeter {
+  id?: string;
+  perimeterGuid?: string;
+  location?: string;
+}
+
+export interface NetworkSecurityPerimeterResourceAssociation {
+  name?: string;
+  accessMode?: string;
+}
+
+export interface NetworkSecurityPerimeterProfile {
+  name?: string;
+  accessRulesVersion?: string;
+  accessRules?: NetworkSecurityPerimeterProfileAccessRule[];
+  diagnosticSettingsVersion?: string;
+  enabledLogCategories?: string[];
+}
+
+export interface NetworkSecurityPerimeterProfileAccessRule {
+  name?: string;
+  properties?: NetworkSecurityPerimeterProfileAccessRuleProperties;
+}
+
+export interface NetworkSecurityPerimeterProfileAccessRuleProperties {
+  direction?: string;
+  addressPrefixes?: string[];
+  subscriptions?: NspAccessRuleSubscription[];
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  fullyQualifiedDomainNames?: string[];
+  emailAddresses?: string[];
+  phoneNumbers?: string[];
+}
+
+export interface NspAccessRuleSubscription {
+  id?: string;
+}
+
 /** The result of a request to list key-values. */
 export interface KeyValueListResult {
   /** The collection value. */
@@ -1149,6 +1225,39 @@ export interface ReplicasListByConfigurationStoreNextOptionalParams
 
 /** Contains response data for the listByConfigurationStoreNext operation. */
 export type ReplicasListByConfigurationStoreNextResponse = ReplicaListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListByConfigurationStoreOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByConfigurationStore operation. */
+export type NetworkSecurityPerimeterConfigurationsListByConfigurationStoreResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reconcile operation. */
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListByConfigurationStoreNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByConfigurationStoreNext operation. */
+export type NetworkSecurityPerimeterConfigurationsListByConfigurationStoreNextResponse = NetworkSecurityPerimeterConfigurationListResult;
 
 /** Optional parameters. */
 export interface AppConfigurationManagementClientOptionalParams

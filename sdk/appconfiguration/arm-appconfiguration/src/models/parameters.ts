@@ -59,7 +59,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-01",
+    defaultValue: "2023-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -226,6 +226,17 @@ export const replicaName1: OperationURLParameter = {
   parameterPath: "replicaName",
   mapper: {
     serializedName: "replicaName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const nspConfigurationName: OperationURLParameter = {
+  parameterPath: "nspConfigurationName",
+  mapper: {
+    serializedName: "nspConfigurationName",
     required: true,
     type: {
       name: "String"
