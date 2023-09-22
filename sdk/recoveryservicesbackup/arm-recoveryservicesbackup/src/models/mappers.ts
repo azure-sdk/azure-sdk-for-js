@@ -361,6 +361,18 @@ export const BackupStatusResponse: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      protectedItemsCount: {
+        serializedName: "protectedItemsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      acquireStorageAccountLock: {
+        serializedName: "acquireStorageAccountLock",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6770,6 +6782,13 @@ export const IaasVMRecoveryPoint: coreClient.CompositeMapper = {
         serializedName: "isPrivateAccessEnabledOnAnyDisk",
         type: {
           name: "Boolean"
+        }
+      },
+      extendedLocation: {
+        serializedName: "extendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
         }
       }
     }

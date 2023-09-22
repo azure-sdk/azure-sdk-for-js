@@ -353,6 +353,10 @@ export interface BackupStatusResponse {
   policyName?: string;
   /** Container registration status */
   registrationStatus?: string;
+  /** Number of protected items */
+  protectedItemsCount?: number;
+  /** Specifies whether the storage account lock has been acquired or not */
+  acquireStorageAccountLock?: AcquireStorageAccountLock;
 }
 
 /** Base class for feature request */
@@ -2673,6 +2677,11 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
   recoveryPointProperties?: RecoveryPointProperties;
   /** This flag denotes if any of the disks in the VM are using Private access network setting */
   isPrivateAccessEnabledOnAnyDisk?: boolean;
+  /**
+   * Extended location of the VM recovery point,
+   * should be null if VM is in public cloud
+   */
+  extendedLocation?: ExtendedLocation;
 }
 
 /** AzureFileShare Restore Request */
@@ -3977,6 +3986,24 @@ export enum KnownFabricName {
  */
 export type FabricName = string;
 
+/** Known values of {@link AcquireStorageAccountLock} that the service accepts. */
+export enum KnownAcquireStorageAccountLock {
+  /** Acquire */
+  Acquire = "Acquire",
+  /** NotAcquire */
+  NotAcquire = "NotAcquire"
+}
+
+/**
+ * Defines values for AcquireStorageAccountLock. \
+ * {@link KnownAcquireStorageAccountLock} can be used interchangeably with AcquireStorageAccountLock,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Acquire** \
+ * **NotAcquire**
+ */
+export type AcquireStorageAccountLock = string;
+
 /** Known values of {@link SupportStatus} that the service accepts. */
 export enum KnownSupportStatus {
   /** Invalid */
@@ -5179,24 +5206,6 @@ export enum KnownOperationType {
  * **Reregister**
  */
 export type OperationType = string;
-
-/** Known values of {@link AcquireStorageAccountLock} that the service accepts. */
-export enum KnownAcquireStorageAccountLock {
-  /** Acquire */
-  Acquire = "Acquire",
-  /** NotAcquire */
-  NotAcquire = "NotAcquire"
-}
-
-/**
- * Defines values for AcquireStorageAccountLock. \
- * {@link KnownAcquireStorageAccountLock} can be used interchangeably with AcquireStorageAccountLock,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Acquire** \
- * **NotAcquire**
- */
-export type AcquireStorageAccountLock = string;
 
 /** Known values of {@link InquiryStatus} that the service accepts. */
 export enum KnownInquiryStatus {

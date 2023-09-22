@@ -1155,12 +1155,14 @@ export interface BackupStatusRequest {
 
 // @public
 export interface BackupStatusResponse {
+    acquireStorageAccountLock?: AcquireStorageAccountLock;
     containerName?: string;
     errorCode?: string;
     errorMessage?: string;
     fabricName?: FabricName;
     policyName?: string;
     protectedItemName?: string;
+    protectedItemsCount?: number;
     protectionStatus?: ProtectionStatus;
     registrationStatus?: string;
     vaultId?: string;
@@ -1755,6 +1757,7 @@ export type IaaSVMProtectableItemUnion = IaaSVMProtectableItem | AzureIaaSClassi
 
 // @public
 export interface IaasVMRecoveryPoint extends RecoveryPoint {
+    extendedLocation?: ExtendedLocation;
     isInstantIlrSessionActive?: boolean;
     isManagedVirtualMachine?: boolean;
     isPrivateAccessEnabledOnAnyDisk?: boolean;
