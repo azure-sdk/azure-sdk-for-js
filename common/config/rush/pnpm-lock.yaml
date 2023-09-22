@@ -4464,7 +4464,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230921
+      typescript: 5.3.0-dev.20230922
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9184,8 +9184,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230921:
-    resolution: {integrity: sha512-TZnDMkY/mgooSXJv72Zxr71MvXYUKiH05lekDOB9FaScoHLGNDvqw6IrT6qXx/kD6eJFpW2gadIz1eJQeA/URw==}
+  /typescript@5.3.0-dev.20230922:
+    resolution: {integrity: sha512-QmuWGuk9Uk3blOaDo5P9wVLAOw7CfhrHmWoQAD+5UAQeR52S0/W0BjuYgCMGwmxVJJgYK1WCeBdbTi2jLxvoog==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10396,7 +10396,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-0ZITUjON5z9o/en0l4xoJHnKTrOm/4oluoSpo+qFza5p3V20F8tEUVZIOGW+0Q92yDHo+iEIUyT1XNAz8lhLmQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-nwrHfm98kkHuVcyx0K4KEyoWM4s2ZTusCzJQkMxx2ugwsnef+2JHTITbD4WbAMuVnz5G6eT0kwQkrnSrhzlsCg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -13981,7 +13981,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-Xx3JWFcuUoNn3AK9vUwtq92vfEdJPg3ABvtjFQFIwpoa+h/FRhb1EzSHMzFRBJkM0Ghj5kpusFbDXKuFeU3H3w==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-EVH4dESegOK3l8PQ1saqUmfft8r9GbRELcF/yCtzoiyRQUWcGnzEcP83SkPVPN6e07d+FC8SNKsW/ZzDjtMr8g==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -13995,9 +13995,10 @@ packages:
       '@types/node': 14.18.56
       chai: 4.3.8
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -17957,7 +17958,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-8vCinzS91yDMvjxZp6IWJaFw5lxWfX/TN3b1Od44GpHYbWgVzhD1tsoIL9/JCRdD8ueu3dXmqIn/LBCxD5Lh1g==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-5YhlSY44Nin3C+UqwrPqu0SrF3ZJGhXo4T1sdqpIU4BeRZnUALhJIRa/QkhhM7cIa28j58YuRhjXTZdxaBLnXg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -18884,7 +18885,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-r0dWDJjl27ml+k+ZY18oxFPRginr1zI8D/bZmRIrlXKg/E5nXgQtxaICbCt0yAXDO4WDQTe0vDOFLZ8jIL1arg==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-IW5Hedhowvkkj1217rTzeKnw4CRG5yshEb9p7ZbpEPixasXHoUyLSqP7RJkyYfWDgVxT3nRLh5iynSMD82RECQ==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
