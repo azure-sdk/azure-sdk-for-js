@@ -13444,7 +13444,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-2S4lEpeluOIbUAaekUoFuWV6WfMlK6scfUm0lXIkak8BiHjzvUk+Rb/dhg9VHNe9s6owoqdeOmRBeXE7MkIhAg==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-aRHWi+rBwR/TAMQ2E8ZUDT5352tHTD5S2B58x4MmNYujusDqGc+OY8KYub5hH8OVq9N62kC4sFc7GZdlKbj8DA==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -13462,7 +13462,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -13472,6 +13472,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-iotcentral.tgz:

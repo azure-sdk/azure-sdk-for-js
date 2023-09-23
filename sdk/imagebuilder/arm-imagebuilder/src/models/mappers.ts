@@ -215,6 +215,27 @@ export const ImageTemplateDistributor: coreClient.CompositeMapper = {
   }
 };
 
+export const ImageTemplatePropertiesErrorHandling: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageTemplatePropertiesErrorHandling",
+    modelProperties: {
+      onCustomizerError: {
+        serializedName: "onCustomizerError",
+        type: {
+          name: "String"
+        }
+      },
+      onValidationError: {
+        serializedName: "onValidationError",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ProvisioningError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1567,6 +1588,13 @@ export const ImageTemplate: coreClient.CompositeMapper = {
               className: "ImageTemplateDistributor"
             }
           }
+        }
+      },
+      errorHandling: {
+        serializedName: "properties.errorHandling",
+        type: {
+          name: "Composite",
+          className: "ImageTemplatePropertiesErrorHandling"
         }
       },
       provisioningState: {

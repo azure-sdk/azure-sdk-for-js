@@ -77,6 +77,7 @@ export interface ImageTemplate extends TrackedResource {
     buildTimeoutInMinutes?: number;
     customize?: ImageTemplateCustomizerUnion[];
     distribute?: ImageTemplateDistributorUnion[];
+    errorHandling?: ImageTemplatePropertiesErrorHandling;
     readonly exactStagingResourceGroup?: string;
     identity: ImageTemplateIdentity;
     readonly lastRunStatus?: ImageTemplateLastRunStatus;
@@ -205,6 +206,12 @@ export interface ImageTemplatePowerShellValidator extends ImageTemplateInVMValid
 }
 
 // @public
+export interface ImageTemplatePropertiesErrorHandling {
+    onCustomizerError?: OnBuildError;
+    onValidationError?: OnBuildError;
+}
+
+// @public
 export interface ImageTemplatePropertiesOptimize {
     vmBoot?: ImageTemplatePropertiesOptimizeVmBoot;
 }
@@ -234,7 +241,7 @@ export interface ImageTemplateSharedImageDistributor extends ImageTemplateDistri
     excludeFromLatest?: boolean;
     galleryImageId: string;
     replicationRegions?: string[];
-    storageAccountType?: SharedImageStorageAccountType;
+    storageAccountType?: SharedImageStorageAccountTypeBroken;
     targetRegions?: TargetRegion[];
     type: "SharedImage";
     versioning?: DistributeVersionerUnion;
@@ -310,6 +317,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownOnBuildError {
+    Abort = "abort",
+    Cleanup = "cleanup"
+}
+
+// @public
 export enum KnownProvisioningErrorCode {
     BadCustomizerType = "BadCustomizerType",
     BadDistributeType = "BadDistributeType",
@@ -329,11 +342,14 @@ export enum KnownProvisioningErrorCode {
 }
 
 // @public
-export enum KnownSharedImageStorageAccountType {
+export enum KnownSharedImageStorageAccountTypeBroken {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
     StandardZRS = "Standard_ZRS"
 }
+
+// @public
+export type OnBuildError = string;
 
 // @public
 export interface Operation {
@@ -431,7 +447,7 @@ export type RunState = "Running" | "Canceling" | "Succeeded" | "PartiallySucceed
 export type RunSubState = "Queued" | "Building" | "Customizing" | "Optimizing" | "Validating" | "Distributing";
 
 // @public
-export type SharedImageStorageAccountType = string;
+export type SharedImageStorageAccountTypeBroken = string;
 
 // @public
 export interface SourceImageTriggerProperties extends TriggerProperties {
@@ -452,7 +468,7 @@ export interface SystemData {
 export interface TargetRegion {
     name: string;
     replicaCount?: number;
-    storageAccountType?: SharedImageStorageAccountType;
+    storageAccountType?: SharedImageStorageAccountTypeBroken;
 }
 
 // @public

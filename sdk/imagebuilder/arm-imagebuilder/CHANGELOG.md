@@ -1,15 +1,23 @@
 # Release History
+    
+## 4.0.0 (2023-09-23)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
+  - Added Interface ImageTemplatePropertiesErrorHandling
+  - Added Type Alias OnBuildError
+  - Added Type Alias SharedImageStorageAccountTypeBroken
+  - Interface ImageTemplate has a new optional parameter errorHandling
+  - Added Enum KnownOnBuildError
+  - Added Enum KnownSharedImageStorageAccountTypeBroken
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter storageAccountType of interface ImageTemplateSharedImageDistributor is changed from SharedImageStorageAccountType to SharedImageStorageAccountTypeBroken
+  - Type of parameter storageAccountType of interface TargetRegion is changed from SharedImageStorageAccountType to SharedImageStorageAccountTypeBroken
+  - Removed Enum KnownSharedImageStorageAccountType
+    
+    
 ## 3.0.0 (2023-03-24)
     
 **Features**

@@ -100,6 +100,14 @@ export interface ImageTemplateDistributor {
   artifactTags?: { [propertyName: string]: string };
 }
 
+/** Error handling options upon a build failure */
+export interface ImageTemplatePropertiesErrorHandling {
+  /** If there is a customizer error and this field is set to 'cleanup', the build VM and associated network resources will be cleaned up. This is the default behavior. If there is a customizer error and this field is set to 'abort', the build VM will be preserved. */
+  onCustomizerError?: OnBuildError;
+  /** If there is a validation error and this field is set to 'cleanup', the build VM and associated network resources will be cleaned up. This is the default behavior. If there is a validation error and this field is set to 'abort', the build VM will be preserved. */
+  onValidationError?: OnBuildError;
+}
+
 /** Describes the error happened when create or update an image template */
 export interface ProvisioningError {
   /** Error code of the provisioning failure */
@@ -332,7 +340,7 @@ export interface TargetRegion {
   /** The number of replicas of the Image Version to be created in this region. Omit to use the default (1). */
   replicaCount?: number;
   /** Specifies the storage account type to be used to store the image in this region. Omit to use the default (Standard_LRS). */
-  storageAccountType?: SharedImageStorageAccountType;
+  storageAccountType?: SharedImageStorageAccountTypeBroken;
 }
 
 /** Describes how to generate new x.y.z version number for distribution. */
@@ -520,7 +528,7 @@ export interface ImageTemplateSharedImageDistributor
   /** Flag that indicates whether created image version should be excluded from latest. Omit to use the default (false). */
   excludeFromLatest?: boolean;
   /** [Deprecated] Storage account type to be used to store the shared image. Omit to use the default (Standard_LRS). This field can be specified only if replicationRegions is specified. This field is deprecated - use targetRegions instead. */
-  storageAccountType?: SharedImageStorageAccountType;
+  storageAccountType?: SharedImageStorageAccountTypeBroken;
   /** The target regions where the distributed Image Version is going to be replicated to. This object supersedes replicationRegions and can be specified only if replicationRegions is not specified. */
   targetRegions?: TargetRegion[];
   /** Describes how to generate new x.y.z version number for distribution. */
@@ -580,6 +588,8 @@ export interface ImageTemplate extends TrackedResource {
   validate?: ImageTemplatePropertiesValidate;
   /** The distribution targets where the image output needs to go to. */
   distribute?: ImageTemplateDistributorUnion[];
+  /** Error handling options upon a build failure */
+  errorHandling?: ImageTemplatePropertiesErrorHandling;
   /**
    * Provisioning state of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -648,6 +658,24 @@ export interface TriggersDeleteHeaders {
   /** The URI to poll for completion status. */
   location?: string;
 }
+
+/** Known values of {@link OnBuildError} that the service accepts. */
+export enum KnownOnBuildError {
+  /** Cleanup */
+  Cleanup = "cleanup",
+  /** Abort */
+  Abort = "abort"
+}
+
+/**
+ * Defines values for OnBuildError. \
+ * {@link KnownOnBuildError} can be used interchangeably with OnBuildError,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cleanup** \
+ * **abort**
+ */
+export type OnBuildError = string;
 
 /** Known values of {@link ProvisioningErrorCode} that the service accepts. */
 export enum KnownProvisioningErrorCode {
@@ -730,8 +758,8 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link SharedImageStorageAccountType} that the service accepts. */
-export enum KnownSharedImageStorageAccountType {
+/** Known values of {@link SharedImageStorageAccountTypeBroken} that the service accepts. */
+export enum KnownSharedImageStorageAccountTypeBroken {
   /** StandardLRS */
   StandardLRS = "Standard_LRS",
   /** StandardZRS */
@@ -741,15 +769,15 @@ export enum KnownSharedImageStorageAccountType {
 }
 
 /**
- * Defines values for SharedImageStorageAccountType. \
- * {@link KnownSharedImageStorageAccountType} can be used interchangeably with SharedImageStorageAccountType,
+ * Defines values for SharedImageStorageAccountTypeBroken. \
+ * {@link KnownSharedImageStorageAccountTypeBroken} can be used interchangeably with SharedImageStorageAccountTypeBroken,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Standard_LRS** \
  * **Standard_ZRS** \
  * **Premium_LRS**
  */
-export type SharedImageStorageAccountType = string;
+export type SharedImageStorageAccountTypeBroken = string;
 /** Defines values for VMBootOptimizationState. */
 export type VMBootOptimizationState = "Enabled" | "Disabled";
 /** Defines values for ProvisioningState. */
