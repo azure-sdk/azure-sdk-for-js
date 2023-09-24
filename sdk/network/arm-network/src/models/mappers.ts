@@ -2931,6 +2931,26 @@ export const BastionShareableLinkListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const BastionShareableLinkTokenListRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionShareableLinkTokenListRequest",
+    modelProperties: {
+      tokens: {
+        serializedName: "tokens",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const BastionActiveSessionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4787,6 +4807,12 @@ export const FirewallPolicyIntrusionDetection: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      profile: {
+        serializedName: "profile",
+        type: {
+          name: "String"
+        }
+      },
       configuration: {
         serializedName: "configuration",
         type: {
@@ -5243,7 +5269,7 @@ export const SingleQueryResult: coreClient.CompositeMapper = {
         serializedName: "direction",
         type: {
           name: "Enum",
-          allowedValues: [0, 1, 2]
+          allowedValues: [0, 1, 2, 3, 4]
         }
       },
       group: {
