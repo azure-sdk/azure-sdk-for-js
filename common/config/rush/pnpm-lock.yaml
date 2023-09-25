@@ -4487,7 +4487,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230922
+      typescript: 5.3.0-dev.20230925
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9207,8 +9207,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230922:
-    resolution: {integrity: sha512-QmuWGuk9Uk3blOaDo5P9wVLAOw7CfhrHmWoQAD+5UAQeR52S0/W0BjuYgCMGwmxVJJgYK1WCeBdbTi2jLxvoog==}
+  /typescript@5.3.0-dev.20230925:
+    resolution: {integrity: sha512-Q8U1zNAGD0BSaVuaHmjhYB8sM5VyTcp0y6IM4Q3v40uLX3MysM5yLl6qSxzA3PTzXmQmahLy+08aM3cZA0hR5A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14304,7 +14304,7 @@ packages:
     dev: false
 
   file:projects/arm-mobilenetwork.tgz:
-    resolution: {integrity: sha512-BhuThJI8L5ghrtBHqKgGh47QpOLvUBRkEJcjS5plAHXGKjHVpiSJ9Hj+JgChuIkbgwwqoZQhL6m6QE9eSRqRIA==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-lnumI9E4rI04bzuiz6VVkHAyP86S2IzHUJnUeScuCBw6rraBmgrp14XDXnMBF5+BnqK7AFKITh9xD/3IXuuJig==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
@@ -14321,7 +14321,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -14331,6 +14331,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:

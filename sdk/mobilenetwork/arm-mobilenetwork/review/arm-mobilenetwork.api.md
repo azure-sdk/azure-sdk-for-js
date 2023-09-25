@@ -364,6 +364,12 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface EventHubConfiguration {
+    id: string;
+    reportingInterval?: number;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -454,9 +460,15 @@ export enum KnownDiagnosticsPackageStatus {
 
 // @public
 export enum KnownInstallationReason {
+    ControlPlaneAccessInterfaceHasChanged = "ControlPlaneAccessInterfaceHasChanged",
+    ControlPlaneAccessVirtualIpv4AddressesHasChanged = "ControlPlaneAccessVirtualIpv4AddressesHasChanged",
     NoAttachedDataNetworks = "NoAttachedDataNetworks",
     NoPacketCoreDataPlane = "NoPacketCoreDataPlane",
-    NoSlices = "NoSlices"
+    NoSlices = "NoSlices",
+    PublicLandMobileNetworkIdentifierHasChanged = "PublicLandMobileNetworkIdentifierHasChanged",
+    UserPlaneAccessInterfaceHasChanged = "UserPlaneAccessInterfaceHasChanged",
+    UserPlaneAccessVirtualIpv4AddressesHasChanged = "UserPlaneAccessVirtualIpv4AddressesHasChanged",
+    UserPlaneDataInterfaceHasChanged = "UserPlaneDataInterfaceHasChanged"
 }
 
 // @public
@@ -751,6 +763,11 @@ export interface NaptConfiguration {
 export type NaptEnabled = string;
 
 // @public
+export interface NASRerouteConfiguration {
+    macroMmeGroupId: number;
+}
+
+// @public
 export type ObsoleteVersion = string;
 
 // @public
@@ -874,8 +891,10 @@ export type PacketCaptureStatus = string;
 // @public
 export interface PacketCoreControlPlane extends TrackedResource {
     controlPlaneAccessInterface: InterfaceProperties;
+    controlPlaneAccessVirtualIpv4Addresses?: string[];
     coreNetworkTechnology?: CoreNetworkType;
     diagnosticsUpload?: DiagnosticsUploadConfiguration;
+    eventHub?: EventHubConfiguration;
     identity?: ManagedServiceIdentity;
     installation?: Installation;
     readonly installedVersion?: string;
@@ -884,6 +903,7 @@ export interface PacketCoreControlPlane extends TrackedResource {
     platform: PlatformConfiguration;
     readonly provisioningState?: ProvisioningState;
     readonly rollbackVersion?: string;
+    signaling?: SignalingConfiguration;
     sites: SiteResourceId[];
     sku: BillingSku;
     ueMtu?: number;
@@ -1074,6 +1094,7 @@ export type PacketCoreControlPlaneVersionsListResponse = PacketCoreControlPlaneV
 export interface PacketCoreDataPlane extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     userPlaneAccessInterface: InterfaceProperties;
+    userPlaneAccessVirtualIpv4Addresses?: string[];
 }
 
 // @public
@@ -1321,6 +1342,11 @@ export interface ServicesUpdateTagsOptionalParams extends coreClient.OperationOp
 
 // @public
 export type ServicesUpdateTagsResponse = Service;
+
+// @public
+export interface SignalingConfiguration {
+    nasReroute?: NASRerouteConfiguration;
+}
 
 // @public
 export interface Sim extends ProxyResource {
