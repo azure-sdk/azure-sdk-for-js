@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NginxConfiguration,
   ConfigurationsListOptionalParams,
@@ -60,8 +60,8 @@ export interface Configurations {
     configurationName: string,
     options?: ConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsCreateOrUpdateResponse>,
       ConfigurationsCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface Configurations {
     deploymentName: string,
     configurationName: string,
     options?: ConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reset the Nginx configuration of given Nginx deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

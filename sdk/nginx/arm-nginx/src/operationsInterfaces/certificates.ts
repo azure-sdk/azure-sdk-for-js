@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NginxCertificate,
   CertificatesListOptionalParams,
@@ -58,8 +58,8 @@ export interface Certificates {
     certificateName: string,
     options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CertificatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CertificatesCreateOrUpdateResponse>,
       CertificatesCreateOrUpdateResponse
     >
   >;
@@ -88,7 +88,7 @@ export interface Certificates {
     deploymentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a certificate from the nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
