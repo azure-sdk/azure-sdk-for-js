@@ -441,9 +441,9 @@ export interface ForceUnlinkParameters {
   ids: string[];
 }
 
-/** Parameters for a Redis Enterprise active geo-replication flush operation. */
+/** Parameters for a Redis Enterprise active geo-replication flush operation */
 export interface FlushParameters {
-  /** The resource identifiers of all the other database resources in the georeplication group to be flushed */
+  /** The identifiers of all the other database resources in the georeplication group to be flushed. */
   ids?: string[];
 }
 
@@ -483,6 +483,14 @@ export interface Capability {
 export interface SkuDetail {
   /** The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.) */
   name?: SkuName;
+}
+
+/** Parameters body to pass for resource name availability check. */
+export interface CheckNameAvailabilityParameters {
+  /** Resource name. */
+  name: string;
+  /** Resource type. The only legal value of this property for checking redis enterprise cache name availability is 'Microsoft.Cache/redisenterprise'. */
+  type: string;
 }
 
 /** The Private Endpoint Connection resource. */
@@ -594,6 +602,14 @@ export interface Database extends ProxyResource {
 
 /** Defines headers for Databases_flush operation. */
 export interface DatabasesFlushHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
   /** Location URI to poll for result */
   location?: string;
   /** URI to poll for the operation status */
@@ -745,7 +761,11 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  /** Scaling */
+  Scaling = "Scaling",
+  /** ScalingFailed */
+  ScalingFailed = "ScalingFailed"
 }
 
 /**
@@ -758,7 +778,9 @@ export enum KnownProvisioningState {
  * **Canceled** \
  * **Creating** \
  * **Updating** \
- * **Deleting**
+ * **Deleting** \
+ * **Scaling** \
+ * **ScalingFailed**
  */
 export type ProvisioningState = string;
 
@@ -787,7 +809,11 @@ export enum KnownResourceState {
   /** DisableFailed */
   DisableFailed = "DisableFailed",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** Scaling */
+  Scaling = "Scaling",
+  /** ScalingFailed */
+  ScalingFailed = "ScalingFailed"
 }
 
 /**
@@ -806,7 +832,9 @@ export enum KnownResourceState {
  * **EnableFailed** \
  * **Disabling** \
  * **DisableFailed** \
- * **Disabled**
+ * **Disabled** \
+ * **Scaling** \
+ * **ScalingFailed**
  */
 export type ResourceState = string;
 
@@ -1095,6 +1123,10 @@ export interface RedisEnterpriseListOptionalParams
 export type RedisEnterpriseListResponse = ClusterList;
 
 /** Optional parameters. */
+export interface RedisEnterpriseCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface RedisEnterpriseListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1245,7 +1277,12 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByClusterOptionalParams

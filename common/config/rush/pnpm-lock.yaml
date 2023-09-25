@@ -4487,7 +4487,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230922
+      typescript: 5.3.0-dev.20230924
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9207,8 +9207,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230922:
-    resolution: {integrity: sha512-QmuWGuk9Uk3blOaDo5P9wVLAOw7CfhrHmWoQAD+5UAQeR52S0/W0BjuYgCMGwmxVJJgYK1WCeBdbTi2jLxvoog==}
+  /typescript@5.3.0-dev.20230924:
+    resolution: {integrity: sha512-eoURpy2KdMkio8jVtNbZp5BOuoOJV1FEQyaWK8gqq+8EzVoBKWyt50tDsblDeSIcstigCWujQGhVhOPu5bkDbg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15452,7 +15452,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-d/KCZW/oyL5SHZpZ4tjR5OVLNkqkgVWw9HHxmOudHncsyY0IUM7YFzacSUoFVvU6Lr2MBRnmaUemI6w4ut+MPw==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-qyzUS1BqN7svzodFtPRKegttWOAzrP57HDEwS6U+vGQDHoDyIlI+jeYUxVnpy/lU+gOHdtUBLw/VXHkaGDoEVQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -15469,7 +15469,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -15479,6 +15479,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-relay.tgz:
