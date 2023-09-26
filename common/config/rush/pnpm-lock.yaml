@@ -12577,7 +12577,7 @@ packages:
     dev: false
 
   file:projects/arm-dataprotection.tgz:
-    resolution: {integrity: sha512-S7N/EnFNSQ2pfNVjKfr6CVcwpEeBm+lhuNJI+vInSx2uZjw/IpDTwhm5lVV8jY/APnM38rj+eLV9yY2kWMdvkA==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-/hZlWV5LN4oBS2O8JHd/Tlouc4MQVS2FcbnCV9hl7Xu0rF31OHld1de2C56dQAdEQLuj/eVi8pjeYfewUfg0FA==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
@@ -12594,7 +12594,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -12604,6 +12604,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-defendereasm.tgz:
@@ -18927,7 +18928,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-rBFuADWXTPsofV6O2WYzSKOi5L4yNWQzSP68ck4O9zS3ylBqGJPd/Js/faKzqcsGQpqY186iLNo6ki7X3umZuA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-FrhtE/eDNTlpDz/J88Ft4svwmFmzvpZKeFZAA1MougIReSVhrTQpL5muVKyRbb5JAKTGrKrV6791YVG8E3TVFg==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -21405,7 +21406,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-sDTxW6LZDflTlIWKcvR2AY05PhQt/L8jSfDT/9Wf5s9hW06br+jacvOWuHkLzuq6P3t4uNsKMWyqKn3sV6m/NQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-zebeyI9M+2uB3hb+47C0SxnwN8/jcwpk14WKVWzNVcGXIlXHcYV3hIvbPSwZ8iik+OCR1W0thMTLz2JIj5lMig==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
