@@ -1,5 +1,43 @@
 # Release History
+    
+## 3.3.0 (2023-09-26)
+    
+**Features**
 
+  - Added operation group AdvisorScores
+  - Added operation Configurations.createInResourceGroupDuration
+  - Added operation Configurations.createInSubscriptionDuration
+  - Added Interface AdvisorScoreEntity
+  - Added Interface AdvisorScoreEntityProperties
+  - Added Interface AdvisorScoreResponse
+  - Added Interface AdvisorScoresGetOptionalParams
+  - Added Interface AdvisorScoresListOptionalParams
+  - Added Interface ConfigurationsCreateInResourceGroupDurationOptionalParams
+  - Added Interface ConfigurationsCreateInSubscriptionDurationOptionalParams
+  - Added Interface PredictionRequest
+  - Added Interface PredictionResponse
+  - Added Interface PredictOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ScoreEntity
+  - Added Interface SystemData
+  - Added Interface TimeSeriesEntityItem
+  - Added Type Alias AdvisorScoresGetResponse
+  - Added Type Alias AdvisorScoresListResponse
+  - Added Type Alias Aggregated
+  - Added Type Alias ConfigurationsCreateInResourceGroupDurationResponse
+  - Added Type Alias ConfigurationsCreateInSubscriptionDurationResponse
+  - Added Type Alias CreatedByType
+  - Added Type Alias Duration
+  - Added Type Alias PredictionType
+  - Added Type Alias PredictResponse
+  - Interface ConfigData has a new optional parameter duration
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownAggregated
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDuration
+  - Added Enum KnownPredictionType
+  - Enum KnownCpuThreshold has a new value OneHundred
+    
 ## 3.2.0 (2023-08-03)
 
 **Features**

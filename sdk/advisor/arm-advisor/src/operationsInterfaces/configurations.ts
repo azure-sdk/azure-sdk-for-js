@@ -12,8 +12,12 @@ import {
   ConfigurationsListBySubscriptionOptionalParams,
   ConfigurationsListByResourceGroupOptionalParams,
   ConfigurationName,
+  ConfigurationsCreateInSubscriptionDurationOptionalParams,
+  ConfigurationsCreateInSubscriptionDurationResponse,
   ConfigurationsCreateInSubscriptionOptionalParams,
   ConfigurationsCreateInSubscriptionResponse,
+  ConfigurationsCreateInResourceGroupDurationOptionalParams,
+  ConfigurationsCreateInResourceGroupDurationResponse,
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsCreateInResourceGroupResponse
 } from "../models";
@@ -44,11 +48,36 @@ export interface Configurations {
    * @param configContract The Azure Advisor configuration data structure.
    * @param options The options parameters.
    */
+  createInSubscriptionDuration(
+    configurationName: ConfigurationName,
+    configContract: ConfigData,
+    options?: ConfigurationsCreateInSubscriptionDurationOptionalParams
+  ): Promise<ConfigurationsCreateInSubscriptionDurationResponse>;
+  /**
+   * Create/Overwrite Azure Advisor configuration and also delete all configurations of contained
+   * resource groups.
+   * @param configurationName Advisor configuration name. Value must be 'default'
+   * @param configContract The Azure Advisor configuration data structure.
+   * @param options The options parameters.
+   */
   createInSubscription(
     configurationName: ConfigurationName,
     configContract: ConfigData,
     options?: ConfigurationsCreateInSubscriptionOptionalParams
   ): Promise<ConfigurationsCreateInSubscriptionResponse>;
+  /**
+   * Create/Overwrite Azure Advisor configuration.
+   * @param resourceGroup The name of the Azure resource group.
+   * @param configurationName Advisor configuration name. Value must be 'default'
+   * @param configContract The Azure Advisor configuration data structure.
+   * @param options The options parameters.
+   */
+  createInResourceGroupDuration(
+    resourceGroup: string,
+    configurationName: ConfigurationName,
+    configContract: ConfigData,
+    options?: ConfigurationsCreateInResourceGroupDurationOptionalParams
+  ): Promise<ConfigurationsCreateInResourceGroupDurationResponse>;
   /**
    * Create/Overwrite Azure Advisor configuration.
    * @param configurationName Advisor configuration name. Value must be 'default'

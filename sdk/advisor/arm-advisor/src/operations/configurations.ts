@@ -21,8 +21,12 @@ import {
   ConfigurationsListByResourceGroupOptionalParams,
   ConfigurationsListByResourceGroupResponse,
   ConfigurationName,
+  ConfigurationsCreateInSubscriptionDurationOptionalParams,
+  ConfigurationsCreateInSubscriptionDurationResponse,
   ConfigurationsCreateInSubscriptionOptionalParams,
   ConfigurationsCreateInSubscriptionResponse,
+  ConfigurationsCreateInResourceGroupDurationOptionalParams,
+  ConfigurationsCreateInResourceGroupDurationResponse,
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsCreateInResourceGroupResponse,
   ConfigurationsListBySubscriptionNextResponse
@@ -167,6 +171,24 @@ export class ConfigurationsImpl implements Configurations {
    * @param configContract The Azure Advisor configuration data structure.
    * @param options The options parameters.
    */
+  createInSubscriptionDuration(
+    configurationName: ConfigurationName,
+    configContract: ConfigData,
+    options?: ConfigurationsCreateInSubscriptionDurationOptionalParams
+  ): Promise<ConfigurationsCreateInSubscriptionDurationResponse> {
+    return this.client.sendOperationRequest(
+      { configurationName, configContract, options },
+      createInSubscriptionDurationOperationSpec
+    );
+  }
+
+  /**
+   * Create/Overwrite Azure Advisor configuration and also delete all configurations of contained
+   * resource groups.
+   * @param configurationName Advisor configuration name. Value must be 'default'
+   * @param configContract The Azure Advisor configuration data structure.
+   * @param options The options parameters.
+   */
   createInSubscription(
     configurationName: ConfigurationName,
     configContract: ConfigData,
@@ -190,6 +212,25 @@ export class ConfigurationsImpl implements Configurations {
     return this.client.sendOperationRequest(
       { resourceGroup, options },
       listByResourceGroupOperationSpec
+    );
+  }
+
+  /**
+   * Create/Overwrite Azure Advisor configuration.
+   * @param resourceGroup The name of the Azure resource group.
+   * @param configurationName Advisor configuration name. Value must be 'default'
+   * @param configContract The Azure Advisor configuration data structure.
+   * @param options The options parameters.
+   */
+  createInResourceGroupDuration(
+    resourceGroup: string,
+    configurationName: ConfigurationName,
+    configContract: ConfigData,
+    options?: ConfigurationsCreateInResourceGroupDurationOptionalParams
+  ): Promise<ConfigurationsCreateInResourceGroupDurationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroup, configurationName, configContract, options },
+      createInResourceGroupDurationOperationSpec
     );
   }
 
@@ -247,6 +288,29 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const createInSubscriptionDurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/configurations/v2/{configurationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigData
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  requestBody: Parameters.configContract,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.configurationName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/configurations/{configurationName}",
@@ -289,6 +353,30 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroup
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const createInResourceGroupDurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations/v2/{configurationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigData
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  requestBody: Parameters.configContract,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.configurationName,
+    Parameters.resourceGroup
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const createInResourceGroupOperationSpec: coreClient.OperationSpec = {
