@@ -4614,7 +4614,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230925
+      typescript: 5.3.0-dev.20230926
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9440,8 +9440,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20230925:
-    resolution: {integrity: sha512-Q8U1zNAGD0BSaVuaHmjhYB8sM5VyTcp0y6IM4Q3v40uLX3MysM5yLl6qSxzA3PTzXmQmahLy+08aM3cZA0hR5A==}
+  /typescript@5.3.0-dev.20230926:
+    resolution: {integrity: sha512-Di7UazUfEeXHROiWH/D24zvK848YbcJAvO3CKEoQK4d3WSNxkbqWW5ipmr8SF6srpZ1achwisBGUI1HFbttRZQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16072,7 +16072,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-rLnxAZqzyuzoGWfO088U2Mi+Wgw4MigZEJ/1L23DClklxcYEirGtLUvzbEWfyIaNFtTYj2JSBYpEVqcIPCt/uA==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-6EWavZe1A1DTrOsRwVVZ1BKrkOEzyaHCWeUiMjrupVqNjlIs5JdZ91Ee+lndU5nFcKJJm6ELyVwKy0WfgAmoUw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -16089,7 +16089,7 @@ packages:
       dotenv: 16.3.1
       mkdirp: 2.1.6
       mocha: 7.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.1
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.56)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.56)(typescript@5.0.4)
@@ -16099,6 +16099,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-securitydevops.tgz:
@@ -18927,7 +18928,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-rBFuADWXTPsofV6O2WYzSKOi5L4yNWQzSP68ck4O9zS3ylBqGJPd/Js/faKzqcsGQpqY186iLNo6ki7X3umZuA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-FrhtE/eDNTlpDz/J88Ft4svwmFmzvpZKeFZAA1MougIReSVhrTQpL5muVKyRbb5JAKTGrKrV6791YVG8E3TVFg==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -21405,7 +21406,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-sDTxW6LZDflTlIWKcvR2AY05PhQt/L8jSfDT/9Wf5s9hW06br+jacvOWuHkLzuq6P3t4uNsKMWyqKn3sV6m/NQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-zebeyI9M+2uB3hb+47C0SxnwN8/jcwpk14WKVWzNVcGXIlXHcYV3hIvbPSwZ8iik+OCR1W0thMTLz2JIj5lMig==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
