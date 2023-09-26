@@ -1186,7 +1186,6 @@ export type CopyCompletionErrorReason = string;
 // @public
 export interface CreationData {
     createOption: DiskCreateOption;
-    elasticSanResourceId?: string;
     galleryImageReference?: ImageDiskReference;
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
@@ -1518,7 +1517,6 @@ export interface Disk extends Resource {
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGeneration;
-    readonly lastOwnershipUpdateTime?: Date;
     readonly managedBy?: string;
     readonly managedByExtended?: string[];
     maxShares?: number;
@@ -2083,9 +2081,6 @@ export interface DiskUpdate {
 }
 
 // @public
-export type DomainNameLabelScopeTypes = string;
-
-// @public
 export type EdgeZoneStorageAccountType = string;
 
 // @public
@@ -2158,9 +2153,6 @@ export interface Extension {
     name?: string;
     properties?: CloudServiceExtensionProperties;
 }
-
-// @public
-export type FileFormat = string;
 
 // @public
 export interface Galleries {
@@ -2787,7 +2779,6 @@ export interface GrantAccessData {
     // (undocumented)
     access: AccessLevel;
     durationInSeconds: number;
-    fileFormat?: FileFormat;
     getSecureVMGuestStateSAS?: boolean;
 }
 
@@ -3154,7 +3145,6 @@ export enum KnownDiskControllerTypes {
 export enum KnownDiskCreateOption {
     Attach = "Attach",
     Copy = "Copy",
-    CopyFromSanSnapshot = "CopyFromSanSnapshot",
     CopyStart = "CopyStart",
     Empty = "Empty",
     FromImage = "FromImage",
@@ -3230,14 +3220,6 @@ export enum KnownDiskStorageAccountTypes {
 }
 
 // @public
-export enum KnownDomainNameLabelScopeTypes {
-    NoReuse = "NoReuse",
-    ResourceGroupReuse = "ResourceGroupReuse",
-    SubscriptionReuse = "SubscriptionReuse",
-    TenantReuse = "TenantReuse"
-}
-
-// @public
 export enum KnownEdgeZoneStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
@@ -3292,12 +3274,6 @@ export enum KnownExtendedLocationType {
 // @public
 export enum KnownExtendedLocationTypes {
     EdgeZone = "EdgeZone"
-}
-
-// @public
-export enum KnownFileFormat {
-    VHD = "VHD",
-    Vhdx = "VHDX"
 }
 
 // @public
@@ -3395,22 +3371,6 @@ export enum KnownNetworkAccessPolicy {
 // @public
 export enum KnownNetworkApiVersion {
     TwoThousandTwenty1101 = "2020-11-01"
-}
-
-// @public
-export enum KnownNetworkInterfaceAuxiliaryMode {
-    AcceleratedConnections = "AcceleratedConnections",
-    Floating = "Floating",
-    None = "None"
-}
-
-// @public
-export enum KnownNetworkInterfaceAuxiliarySku {
-    A1 = "A1",
-    A2 = "A2",
-    A4 = "A4",
-    A8 = "A8",
-    None = "None"
 }
 
 // @public
@@ -4072,12 +4032,6 @@ export type NetworkAccessPolicy = string;
 
 // @public
 export type NetworkApiVersion = string;
-
-// @public
-export type NetworkInterfaceAuxiliaryMode = string;
-
-// @public
-export type NetworkInterfaceAuxiliarySku = string;
 
 // @public
 export interface NetworkInterfaceReference extends SubResource {
@@ -6233,8 +6187,6 @@ export interface VirtualMachineListResult {
 
 // @public
 export interface VirtualMachineNetworkInterfaceConfiguration {
-    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
-    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
@@ -6292,7 +6244,6 @@ export interface VirtualMachinePublicIPAddressConfiguration {
 // @public
 export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
     domainNameLabel: string;
-    domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 // @public
@@ -6728,8 +6679,6 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 
 // @public
 export interface VirtualMachineScaleSetNetworkConfiguration {
-    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
-    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -6797,7 +6746,6 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
 // @public
 export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
     domainNameLabel: string;
-    domainNameLabelScope?: DomainNameLabelScopeTypes;
 }
 
 // @public
@@ -6893,6 +6841,8 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalPar
 
 // @public
 export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7119,6 +7069,8 @@ export interface VirtualMachineScaleSetsUpdateInstancesOptionalParams extends co
 
 // @public
 export interface VirtualMachineScaleSetsUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7159,8 +7111,6 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration {
 
 // @public
 export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
-    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
-    auxiliarySku?: NetworkInterfaceAuxiliarySku;
     deleteOption?: DeleteOptions;
     disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
@@ -7254,7 +7204,6 @@ export interface VirtualMachineScaleSetVM extends Resource {
     securityProfile?: SecurityProfile;
     readonly sku?: Sku;
     storageProfile?: StorageProfile;
-    readonly timeCreated?: Date;
     userData?: string;
     readonly vmId?: string;
     readonly zones?: string[];
@@ -7633,6 +7582,8 @@ export interface VirtualMachineScaleSetVMsStartOptionalParams extends coreClient
 
 // @public
 export interface VirtualMachineScaleSetVMsUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7657,6 +7608,8 @@ export interface VirtualMachinesConvertToManagedDisksOptionalParams extends core
 
 // @public
 export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7877,6 +7830,8 @@ export interface VirtualMachineStatusCodeCount {
 
 // @public
 export interface VirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }

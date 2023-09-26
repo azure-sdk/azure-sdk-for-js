@@ -1,5 +1,41 @@
 # Release History
     
+## 22.0.0 (2023-09-26)
+    
+**Features**
+
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifNoneMatch
+
+**Breaking Changes**
+
+  - Interface CreationData no longer has parameter elasticSanResourceId
+  - Interface Disk no longer has parameter lastOwnershipUpdateTime
+  - Interface GrantAccessData no longer has parameter fileFormat
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration no longer has parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings no longer has parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineScaleSetVM no longer has parameter timeCreated
+  - Removed Enum KnownDomainNameLabelScopeTypes
+  - Removed Enum KnownFileFormat
+  - Removed Enum KnownNetworkInterfaceAuxiliaryMode
+  - Removed Enum KnownNetworkInterfaceAuxiliarySku
+  - Enum KnownDiskCreateOption no longer has value CopyFromSanSnapshot
+    
+    
 ## 21.2.0 (2023-08-14)
     
 **Features**
