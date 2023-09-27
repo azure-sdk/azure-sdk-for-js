@@ -25,7 +25,7 @@ import {
   NetworkFabricsProvisionResponse,
   NetworkFabricsDeprovisionOptionalParams,
   NetworkFabricsDeprovisionResponse,
-  UpdateVersion,
+  UpgradeNetworkFabricProperties,
   NetworkFabricsUpgradeOptionalParams,
   NetworkFabricsUpgradeResponse,
   NetworkFabricsRefreshConfigurationOptionalParams,
@@ -227,7 +227,7 @@ export interface NetworkFabrics {
   beginUpgrade(
     resourceGroupName: string,
     networkFabricName: string,
-    body: UpdateVersion,
+    body: UpgradeNetworkFabricProperties,
     options?: NetworkFabricsUpgradeOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -245,7 +245,7 @@ export interface NetworkFabrics {
   beginUpgradeAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    body: UpdateVersion,
+    body: UpgradeNetworkFabricProperties,
     options?: NetworkFabricsUpgradeOptionalParams
   ): Promise<NetworkFabricsUpgradeResponse>;
   /**
