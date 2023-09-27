@@ -572,6 +572,7 @@ export interface ApplicationGatewayListener extends SubResource {
     readonly etag?: string;
     frontendIPConfiguration?: SubResource;
     frontendPort?: SubResource;
+    hostNames?: string[];
     name?: string;
     protocol?: ApplicationGatewayProtocol;
     readonly provisioningState?: ProvisioningState;

@@ -1,15 +1,12 @@
 # Release History
+    
+## 32.3.0 (2023-09-27)
+    
+**Features**
 
-## 32.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ApplicationGatewayListener has a new optional parameter hostNames
+    
+    
 ## 32.2.0 (2023-09-07)
     
 **Features**

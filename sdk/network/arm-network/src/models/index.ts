@@ -6978,6 +6978,8 @@ export interface ApplicationGatewayListener extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special wildcard characters as well. */
+  hostNames?: string[];
 }
 
 /** SSL profile of an application gateway. */

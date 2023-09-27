@@ -19343,6 +19343,17 @@ export const ApplicationGatewayListener: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      hostNames: {
+        serializedName: "properties.hostNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
