@@ -8,33 +8,38 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { GuestAgents } from "../operationsInterfaces";
+import { VMInstanceGuestAgents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GuestAgent,
-  GuestAgentsListByVmNextOptionalParams,
-  GuestAgentsListByVmOptionalParams,
-  GuestAgentsListByVmResponse,
-  GuestAgentsCreateOptionalParams,
-  GuestAgentsCreateResponse,
-  GuestAgentsGetOptionalParams,
-  GuestAgentsGetResponse,
-  GuestAgentsDeleteOptionalParams,
-  GuestAgentsListByVmNextResponse
+  VMInstanceGuestAgentsListNextOptionalParams,
+  VMInstanceGuestAgentsListOptionalParams,
+  VMInstanceGuestAgentsListResponse,
+  VMInstanceGuestAgentsCreateOptionalParams,
+  VMInstanceGuestAgentsCreateResponse,
+  VMInstanceGuestAgentsGetOptionalParams,
+  VMInstanceGuestAgentsGetResponse,
+  VMInstanceGuestAgentsDeleteOptionalParams,
+  VMInstanceGuestAgentsDeleteResponse,
+  VMInstanceGuestAgentsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing GuestAgents operations. */
-export class GuestAgentsImpl implements GuestAgents {
+/** Class containing VMInstanceGuestAgents operations. */
+export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
   private readonly client: AzureArcVMwareManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class GuestAgents class.
+   * Initialize a new instance of the class VMInstanceGuestAgents class.
    * @param client Reference to the service client
    */
   constructor(client: AzureArcVMwareManagementServiceAPI) {
@@ -43,20 +48,15 @@ export class GuestAgentsImpl implements GuestAgents {
 
   /**
    * Returns the list of GuestAgent of the given vm.
-   * @param resourceGroupName The Resource Group Name.
-   * @param virtualMachineName Name of the vm.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
-  public listByVm(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+  public list(
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsListOptionalParams
   ): PagedAsyncIterableIterator<GuestAgent> {
-    const iter = this.listByVmPagingAll(
-      resourceGroupName,
-      virtualMachineName,
-      options
-    );
+    const iter = this.listPagingAll(resourceUri, options);
     return {
       next() {
         return iter.next();
@@ -68,42 +68,27 @@ export class GuestAgentsImpl implements GuestAgents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByVmPagingPage(
-          resourceGroupName,
-          virtualMachineName,
-          options,
-          settings
-        );
+        return this.listPagingPage(resourceUri, options, settings);
       }
     };
   }
 
-  private async *listByVmPagingPage(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams,
+  private async *listPagingPage(
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<GuestAgent[]> {
-    let result: GuestAgentsListByVmResponse;
+    let result: VMInstanceGuestAgentsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByVm(
-        resourceGroupName,
-        virtualMachineName,
-        options
-      );
+      result = await this._list(resourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByVmNext(
-        resourceGroupName,
-        virtualMachineName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceUri, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -111,45 +96,37 @@ export class GuestAgentsImpl implements GuestAgents {
     }
   }
 
-  private async *listByVmPagingAll(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
+  private async *listPagingAll(
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsListOptionalParams
   ): AsyncIterableIterator<GuestAgent> {
-    for await (const page of this.listByVmPagingPage(
-      resourceGroupName,
-      virtualMachineName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
     }
   }
 
   /**
    * Create Or Update GuestAgent.
-   * @param resourceGroupName The Resource Group Name.
-   * @param virtualMachineName Name of the vm.
-   * @param name Name of the guestAgents.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
   async beginCreate(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    name: string,
-    options?: GuestAgentsCreateOptionalParams
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GuestAgentsCreateResponse>,
-      GuestAgentsCreateResponse
+    SimplePollerLike<
+      OperationState<VMInstanceGuestAgentsCreateResponse>,
+      VMInstanceGuestAgentsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<GuestAgentsCreateResponse> => {
+    ): Promise<VMInstanceGuestAgentsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -182,15 +159,18 @@ export class GuestAgentsImpl implements GuestAgents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineName, name, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VMInstanceGuestAgentsCreateResponse,
+      OperationState<VMInstanceGuestAgentsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -198,65 +178,56 @@ export class GuestAgentsImpl implements GuestAgents {
 
   /**
    * Create Or Update GuestAgent.
-   * @param resourceGroupName The Resource Group Name.
-   * @param virtualMachineName Name of the vm.
-   * @param name Name of the guestAgents.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    name: string,
-    options?: GuestAgentsCreateOptionalParams
-  ): Promise<GuestAgentsCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      virtualMachineName,
-      name,
-      options
-    );
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsCreateOptionalParams
+  ): Promise<VMInstanceGuestAgentsCreateResponse> {
+    const poller = await this.beginCreate(resourceUri, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Implements GuestAgent GET method.
-   * @param resourceGroupName The Resource Group Name.
-   * @param virtualMachineName Name of the vm.
-   * @param name Name of the GuestAgent.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    name: string,
-    options?: GuestAgentsGetOptionalParams
-  ): Promise<GuestAgentsGetResponse> {
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsGetOptionalParams
+  ): Promise<VMInstanceGuestAgentsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, virtualMachineName, name, options },
+      { resourceUri, options },
       getOperationSpec
     );
   }
 
   /**
    * Implements GuestAgent DELETE method.
-   * @param resourceGroupName The Resource Group Name.
-   * @param virtualMachineName Name of the vm.
-   * @param name Name of the GuestAgent.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    name: string,
-    options?: GuestAgentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VMInstanceGuestAgentsDeleteResponse>,
+      VMInstanceGuestAgentsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<VMInstanceGuestAgentsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -289,13 +260,16 @@ export class GuestAgentsImpl implements GuestAgents {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VMInstanceGuestAgentsDeleteResponse,
+      OperationState<VMInstanceGuestAgentsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -304,59 +278,49 @@ export class GuestAgentsImpl implements GuestAgents {
 
   /**
    * Implements GuestAgent DELETE method.
-   * @param resourceGroupName The Resource Group Name.
-   * @param virtualMachineName Name of the vm.
-   * @param name Name of the GuestAgent.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    name: string,
-    options?: GuestAgentsDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      virtualMachineName,
-      name,
-      options
-    );
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsDeleteOptionalParams
+  ): Promise<VMInstanceGuestAgentsDeleteResponse> {
+    const poller = await this.beginDelete(resourceUri, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Returns the list of GuestAgent of the given vm.
-   * @param resourceGroupName The Resource Group Name.
-   * @param virtualMachineName Name of the vm.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
    * @param options The options parameters.
    */
-  private _listByVm(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    options?: GuestAgentsListByVmOptionalParams
-  ): Promise<GuestAgentsListByVmResponse> {
+  private _list(
+    resourceUri: string,
+    options?: VMInstanceGuestAgentsListOptionalParams
+  ): Promise<VMInstanceGuestAgentsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, virtualMachineName, options },
-      listByVmOperationSpec
+      { resourceUri, options },
+      listOperationSpec
     );
   }
 
   /**
-   * ListByVmNext
-   * @param resourceGroupName The Resource Group Name.
-   * @param virtualMachineName Name of the vm.
-   * @param nextLink The nextLink from the previous successful call to the ListByVm method.
+   * ListNext
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
+   *                    machine resource to be extended.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByVmNext(
-    resourceGroupName: string,
-    virtualMachineName: string,
+  private _listNext(
+    resourceUri: string,
     nextLink: string,
-    options?: GuestAgentsListByVmNextOptionalParams
-  ): Promise<GuestAgentsListByVmNextResponse> {
+    options?: VMInstanceGuestAgentsListNextOptionalParams
+  ): Promise<VMInstanceGuestAgentsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, virtualMachineName, nextLink, options },
-      listByVmNextOperationSpec
+      { resourceUri, nextLink, options },
+      listNextOperationSpec
     );
   }
 }
@@ -365,7 +329,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents/{name}",
+    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -384,22 +348,16 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents/{name}",
+    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "GET",
   responses: {
     200: {
@@ -410,43 +368,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents/{name}",
+    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.virtualMachineName
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByVmOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachines/{virtualMachineName}/guestAgents",
+    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents",
   httpMethod: "GET",
   responses: {
     200: {
@@ -457,16 +411,11 @@ const listByVmOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineName
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByVmNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -480,9 +429,7 @@ const listByVmNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.virtualMachineName
+    Parameters.resourceUri
   ],
   headerParameters: [Parameters.accept],
   serializer
