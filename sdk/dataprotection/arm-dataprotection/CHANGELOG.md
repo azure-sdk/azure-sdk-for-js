@@ -1,15 +1,65 @@
 # Release History
+    
+## 2.0.0-beta.1 (2023-09-27)
+    
+**Features**
 
-## 1.2.1 (Unreleased)
+  - Added operation group BackupInstancesExtensionRouting
+  - Added operation group CrossRegionRestoreJob
+  - Added operation group CrossRegionRestoreJobs
+  - Added operation group SecondaryRPs
+  - Added operation BackupInstances.beginTriggerCrossRegionRestore
+  - Added operation BackupInstances.beginTriggerCrossRegionRestoreAndWait
+  - Added operation BackupInstances.beginValidateCrossRegionRestore
+  - Added operation BackupInstances.beginValidateCrossRegionRestoreAndWait
+  - Added Interface BackupInstancesExtensionRoutingListNextOptionalParams
+  - Added Interface BackupInstancesExtensionRoutingListOptionalParams
+  - Added Interface BackupInstancesTriggerCrossRegionRestoreHeaders
+  - Added Interface BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  - Added Interface BackupInstancesValidateCrossRegionRestoreHeaders
+  - Added Interface BackupInstancesValidateCrossRegionRestoreOptionalParams
+  - Added Interface CmkKekIdentity
+  - Added Interface CmkKeyVaultProperties
+  - Added Interface CrossRegionRestoreDetails
+  - Added Interface CrossRegionRestoreJobGetOptionalParams
+  - Added Interface CrossRegionRestoreJobRequest
+  - Added Interface CrossRegionRestoreJobsListNextOptionalParams
+  - Added Interface CrossRegionRestoreJobsListOptionalParams
+  - Added Interface CrossRegionRestoreJobsRequest
+  - Added Interface CrossRegionRestoreRequestObject
+  - Added Interface DefaultResourceProperties
+  - Added Interface EncryptionSettings
+  - Added Interface FetchSecondaryRPsRequestParameters
+  - Added Interface SecondaryRPsFetchNextOptionalParams
+  - Added Interface SecondaryRPsFetchOptionalParams
+  - Added Interface ValidateCrossRegionRestoreRequestObject
+  - Added Type Alias BackupInstancesExtensionRoutingListNextResponse
+  - Added Type Alias BackupInstancesExtensionRoutingListResponse
+  - Added Type Alias BackupInstancesTriggerCrossRegionRestoreResponse
+  - Added Type Alias BackupInstancesValidateCrossRegionRestoreResponse
+  - Added Type Alias BaseResourcePropertiesUnion
+  - Added Type Alias CrossRegionRestoreJobGetResponse
+  - Added Type Alias CrossRegionRestoreJobsListNextResponse
+  - Added Type Alias CrossRegionRestoreJobsListResponse
+  - Added Type Alias EncryptionState
+  - Added Type Alias IdentityType
+  - Added Type Alias InfrastructureEncryptionState
+  - Added Type Alias ResourcePropertiesObjectType
+  - Added Type Alias SecondaryRPsFetchNextResponse
+  - Added Type Alias SecondaryRPsFetchResponse
+  - Interface SecuritySettings has a new optional parameter encryptionSettings
+  - Added Enum KnownEncryptionState
+  - Added Enum KnownIdentityType
+  - Added Enum KnownInfrastructureEncryptionState
+  - Added Enum KnownResourcePropertiesObjectType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter objectType of interface BaseResourceProperties is changed from "BaseResourceProperties" to "DefaultResourceProperties"
+  - Type of parameter resourceProperties of interface Datasource is changed from BaseResourceProperties to BaseResourcePropertiesUnion
+  - Type of parameter resourceProperties of interface DatasourceSet is changed from BaseResourceProperties to BaseResourcePropertiesUnion
+    
+    
 ## 1.2.0 (2023-07-10)
     
 **Features**
