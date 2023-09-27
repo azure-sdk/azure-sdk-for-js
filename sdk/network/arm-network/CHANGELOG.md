@@ -1,15 +1,18 @@
 # Release History
+    
+## 32.3.0 (2023-09-27)
+    
+**Features**
 
-## 32.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface BastionShareableLinkTokenListRequest
+  - Added Interface DeleteBastionShareableLinkByTokenOptionalParams
+  - Added Type Alias FirewallPolicyIntrusionDetectionProfileType
+  - Interface ApplicationGatewayListener has a new optional parameter hostNames
+  - Interface FirewallPolicyIntrusionDetection has a new optional parameter profile
+  - Added Enum KnownFirewallPolicyIntrusionDetectionProfileType
+  - Enum KnownBastionHostSkuName has a new value Developer
+    
+    
 ## 32.2.0 (2023-09-07)
     
 **Features**
