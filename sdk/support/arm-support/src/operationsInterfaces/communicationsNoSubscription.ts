@@ -6,37 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  CommunicationDetails,
-  CommunicationsListOptionalParams,
   CheckNameAvailabilityInput,
-  CommunicationsCheckNameAvailabilityOptionalParams,
-  CommunicationsCheckNameAvailabilityResponse,
-  CommunicationsGetOptionalParams,
-  CommunicationsGetResponse,
-  CommunicationsCreateOptionalParams,
-  CommunicationsCreateResponse
+  CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams,
+  CommunicationsNoSubscriptionCheckNameAvailabilityResponse,
+  CommunicationsNoSubscriptionGetOptionalParams,
+  CommunicationsNoSubscriptionGetResponse,
+  CommunicationDetails,
+  CommunicationsNoSubscriptionCreateOptionalParams,
+  CommunicationsNoSubscriptionCreateResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a Communications. */
-export interface Communications {
-  /**
-   * Lists all communications (attachments not included) for a support ticket. <br/></br> You can also
-   * filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter
-   * parameter. The only type of communication supported today is _Web_. Output will be a paged result
-   * with _nextLink_, using which you can retrieve the next set of Communication results.
-   * <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was
-   * created more than 18 months ago, a request for data might cause an error.
-   * @param supportTicketName Support ticket name.
-   * @param options The options parameters.
-   */
-  list(
-    supportTicketName: string,
-    options?: CommunicationsListOptionalParams
-  ): PagedAsyncIterableIterator<CommunicationDetails>;
+/** Interface representing a CommunicationsNoSubscription. */
+export interface CommunicationsNoSubscription {
   /**
    * Check the availability of a resource name. This API should be used to check the uniqueness of the
    * name for adding a new communication to the support ticket.
@@ -47,8 +30,8 @@ export interface Communications {
   checkNameAvailability(
     supportTicketName: string,
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: CommunicationsCheckNameAvailabilityOptionalParams
-  ): Promise<CommunicationsCheckNameAvailabilityResponse>;
+    options?: CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams
+  ): Promise<CommunicationsNoSubscriptionCheckNameAvailabilityResponse>;
   /**
    * Returns communication details for a support ticket.
    * @param supportTicketName Support ticket name.
@@ -58,8 +41,8 @@ export interface Communications {
   get(
     supportTicketName: string,
     communicationName: string,
-    options?: CommunicationsGetOptionalParams
-  ): Promise<CommunicationsGetResponse>;
+    options?: CommunicationsNoSubscriptionGetOptionalParams
+  ): Promise<CommunicationsNoSubscriptionGetResponse>;
   /**
    * Adds a new customer communication to an Azure support ticket.
    * @param supportTicketName Support ticket name.
@@ -71,11 +54,11 @@ export interface Communications {
     supportTicketName: string,
     communicationName: string,
     createCommunicationParameters: CommunicationDetails,
-    options?: CommunicationsCreateOptionalParams
+    options?: CommunicationsNoSubscriptionCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<CommunicationsCreateResponse>,
-      CommunicationsCreateResponse
+      OperationState<CommunicationsNoSubscriptionCreateResponse>,
+      CommunicationsNoSubscriptionCreateResponse
     >
   >;
   /**
@@ -89,6 +72,6 @@ export interface Communications {
     supportTicketName: string,
     communicationName: string,
     createCommunicationParameters: CommunicationDetails,
-    options?: CommunicationsCreateOptionalParams
-  ): Promise<CommunicationsCreateResponse>;
+    options?: CommunicationsNoSubscriptionCreateOptionalParams
+  ): Promise<CommunicationsNoSubscriptionCreateResponse>;
 }

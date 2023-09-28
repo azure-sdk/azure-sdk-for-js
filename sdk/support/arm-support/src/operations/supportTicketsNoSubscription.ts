@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SupportTickets } from "../operationsInterfaces";
+import { SupportTicketsNoSubscription } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -21,29 +21,30 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   SupportTicketDetails,
-  SupportTicketsListNextOptionalParams,
-  SupportTicketsListOptionalParams,
-  SupportTicketsListResponse,
+  SupportTicketsNoSubscriptionListNextOptionalParams,
+  SupportTicketsNoSubscriptionListOptionalParams,
+  SupportTicketsNoSubscriptionListResponse,
   CheckNameAvailabilityInput,
-  SupportTicketsCheckNameAvailabilityOptionalParams,
-  SupportTicketsCheckNameAvailabilityResponse,
-  SupportTicketsGetOptionalParams,
-  SupportTicketsGetResponse,
+  SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams,
+  SupportTicketsNoSubscriptionCheckNameAvailabilityResponse,
+  SupportTicketsNoSubscriptionGetOptionalParams,
+  SupportTicketsNoSubscriptionGetResponse,
   UpdateSupportTicket,
-  SupportTicketsUpdateOptionalParams,
-  SupportTicketsUpdateResponse,
-  SupportTicketsCreateOptionalParams,
-  SupportTicketsCreateResponse,
-  SupportTicketsListNextResponse
+  SupportTicketsNoSubscriptionUpdateOptionalParams,
+  SupportTicketsNoSubscriptionUpdateResponse,
+  SupportTicketsNoSubscriptionCreateOptionalParams,
+  SupportTicketsNoSubscriptionCreateResponse,
+  SupportTicketsNoSubscriptionListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SupportTickets operations. */
-export class SupportTicketsImpl implements SupportTickets {
+/** Class containing SupportTicketsNoSubscription operations. */
+export class SupportTicketsNoSubscriptionImpl
+  implements SupportTicketsNoSubscription {
   private readonly client: MicrosoftSupport;
 
   /**
-   * Initialize a new instance of the class SupportTickets class.
+   * Initialize a new instance of the class SupportTicketsNoSubscription class.
    * @param client Reference to the service client
    */
   constructor(client: MicrosoftSupport) {
@@ -51,15 +52,15 @@ export class SupportTicketsImpl implements SupportTickets {
   }
 
   /**
-   * Lists all the support tickets for an Azure subscription. You can also filter the support tickets by
-   * _Status_, _CreatedDate_, _ServiceId_, and _ProblemClassificationId_ using the $filter parameter.
-   * Output will be a paged result with _nextLink_, using which you can retrieve the next set of support
-   * tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket
-   * was created more than 18 months ago, a request for data might cause an error.
+   * Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>,
+   * <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter
+   * parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next
+   * set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket
+   * creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
    * @param options The options parameters.
    */
   public list(
-    options?: SupportTicketsListOptionalParams
+    options?: SupportTicketsNoSubscriptionListOptionalParams
   ): PagedAsyncIterableIterator<SupportTicketDetails> {
     const iter = this.listPagingAll(options);
     return {
@@ -79,10 +80,10 @@ export class SupportTicketsImpl implements SupportTickets {
   }
 
   private async *listPagingPage(
-    options?: SupportTicketsListOptionalParams,
+    options?: SupportTicketsNoSubscriptionListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<SupportTicketDetails[]> {
-    let result: SupportTicketsListResponse;
+    let result: SupportTicketsNoSubscriptionListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -101,7 +102,7 @@ export class SupportTicketsImpl implements SupportTickets {
   }
 
   private async *listPagingAll(
-    options?: SupportTicketsListOptionalParams
+    options?: SupportTicketsNoSubscriptionListOptionalParams
   ): AsyncIterableIterator<SupportTicketDetails> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -116,8 +117,8 @@ export class SupportTicketsImpl implements SupportTickets {
    */
   checkNameAvailability(
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: SupportTicketsCheckNameAvailabilityOptionalParams
-  ): Promise<SupportTicketsCheckNameAvailabilityResponse> {
+    options?: SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { checkNameAvailabilityInput, options },
       checkNameAvailabilityOperationSpec
@@ -125,21 +126,21 @@ export class SupportTicketsImpl implements SupportTickets {
   }
 
   /**
-   * Lists all the support tickets for an Azure subscription. You can also filter the support tickets by
-   * _Status_, _CreatedDate_, _ServiceId_, and _ProblemClassificationId_ using the $filter parameter.
-   * Output will be a paged result with _nextLink_, using which you can retrieve the next set of support
-   * tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket
-   * was created more than 18 months ago, a request for data might cause an error.
+   * Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>,
+   * <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter
+   * parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next
+   * set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket
+   * creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
    * @param options The options parameters.
    */
   private _list(
-    options?: SupportTicketsListOptionalParams
-  ): Promise<SupportTicketsListResponse> {
+    options?: SupportTicketsNoSubscriptionListOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Get ticket details for an Azure subscription. Support ticket data is available for 18 months after
+   * Gets details for a specific support ticket. Support ticket data is available for 18 months after
    * ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an
    * error.
    * @param supportTicketName Support ticket name.
@@ -147,8 +148,8 @@ export class SupportTicketsImpl implements SupportTickets {
    */
   get(
     supportTicketName: string,
-    options?: SupportTicketsGetOptionalParams
-  ): Promise<SupportTicketsGetResponse> {
+    options?: SupportTicketsNoSubscriptionGetOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, options },
       getOperationSpec
@@ -156,11 +157,10 @@ export class SupportTicketsImpl implements SupportTickets {
   }
 
   /**
-   * This API allows you to update the severity level, ticket status, advanced diagnostic consent and
-   * your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed
-   * if a support ticket is actively being worked upon by an Azure support engineer. In such a case,
-   * contact your support engineer to request severity update by adding a new communication using the
-   * Communications API.
+   * This API allows you to update the severity level, ticket status, and your contact information in the
+   * support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively
+   * being worked upon by an Azure support engineer. In such a case, contact your support engineer to
+   * request severity update by adding a new communication using the Communications API.
    * @param supportTicketName Support ticket name.
    * @param updateSupportTicket UpdateSupportTicket object.
    * @param options The options parameters.
@@ -168,8 +168,8 @@ export class SupportTicketsImpl implements SupportTickets {
   update(
     supportTicketName: string,
     updateSupportTicket: UpdateSupportTicket,
-    options?: SupportTicketsUpdateOptionalParams
-  ): Promise<SupportTicketsUpdateResponse> {
+    options?: SupportTicketsNoSubscriptionUpdateOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionUpdateResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, updateSupportTicket, options },
       updateOperationSpec
@@ -177,8 +177,7 @@ export class SupportTicketsImpl implements SupportTickets {
   }
 
   /**
-   * Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and
-   * Subscription Management issues for the specified subscription. Learn the
+   * Creates a new support ticket for Billing, and Subscription Management issues. Learn the
    * [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call
    * the Services and ProblemClassifications API to get the most recent set of services and problem
    * categories required for support ticket creation.<br/><br/>Adding attachments is not currently
@@ -187,13 +186,7 @@ export class SupportTicketsImpl implements SupportTickets {
    * page in the Azure portal, select the support ticket, and use the file upload control to add a new
    * file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not
    * supported via the API. The Azure support engineer working on your ticket will reach out to you for
-   * consent if your issue requires gathering diagnostic information from your Azure
-   * resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include
-   * _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per
-   * [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant).
-   * The primary token will be from the tenant for whom a support ticket is being raised against the
-   * subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from
-   * the Cloud solution provider (CSP) partner tenant.
+   * consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
    * @param supportTicketName Support ticket name.
    * @param createSupportTicketParameters Support ticket request payload.
    * @param options The options parameters.
@@ -201,17 +194,17 @@ export class SupportTicketsImpl implements SupportTickets {
   async beginCreate(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
+    options?: SupportTicketsNoSubscriptionCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<SupportTicketsCreateResponse>,
-      SupportTicketsCreateResponse
+      OperationState<SupportTicketsNoSubscriptionCreateResponse>,
+      SupportTicketsNoSubscriptionCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SupportTicketsCreateResponse> => {
+    ): Promise<SupportTicketsNoSubscriptionCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -253,8 +246,8 @@ export class SupportTicketsImpl implements SupportTickets {
       spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      SupportTicketsCreateResponse,
-      OperationState<SupportTicketsCreateResponse>
+      SupportTicketsNoSubscriptionCreateResponse,
+      OperationState<SupportTicketsNoSubscriptionCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -265,8 +258,7 @@ export class SupportTicketsImpl implements SupportTickets {
   }
 
   /**
-   * Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and
-   * Subscription Management issues for the specified subscription. Learn the
+   * Creates a new support ticket for Billing, and Subscription Management issues. Learn the
    * [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call
    * the Services and ProblemClassifications API to get the most recent set of services and problem
    * categories required for support ticket creation.<br/><br/>Adding attachments is not currently
@@ -275,13 +267,7 @@ export class SupportTicketsImpl implements SupportTickets {
    * page in the Azure portal, select the support ticket, and use the file upload control to add a new
    * file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not
    * supported via the API. The Azure support engineer working on your ticket will reach out to you for
-   * consent if your issue requires gathering diagnostic information from your Azure
-   * resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include
-   * _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per
-   * [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant).
-   * The primary token will be from the tenant for whom a support ticket is being raised against the
-   * subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from
-   * the Cloud solution provider (CSP) partner tenant.
+   * consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
    * @param supportTicketName Support ticket name.
    * @param createSupportTicketParameters Support ticket request payload.
    * @param options The options parameters.
@@ -289,8 +275,8 @@ export class SupportTicketsImpl implements SupportTickets {
   async beginCreateAndWait(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
-  ): Promise<SupportTicketsCreateResponse> {
+    options?: SupportTicketsNoSubscriptionCreateOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionCreateResponse> {
     const poller = await this.beginCreate(
       supportTicketName,
       createSupportTicketParameters,
@@ -306,8 +292,8 @@ export class SupportTicketsImpl implements SupportTickets {
    */
   private _listNext(
     nextLink: string,
-    options?: SupportTicketsListNextOptionalParams
-  ): Promise<SupportTicketsListNextResponse> {
+    options?: SupportTicketsNoSubscriptionListNextOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -318,8 +304,7 @@ export class SupportTicketsImpl implements SupportTickets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/checkNameAvailability",
+  path: "/providers/Microsoft.Support/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
@@ -331,14 +316,13 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.checkNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets",
+  path: "/providers/Microsoft.Support/supportTickets",
   httpMethod: "GET",
   responses: {
     200: {
@@ -349,13 +333,12 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -366,17 +349,12 @@ const getOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.supportTicketName
-  ],
+  urlParameters: [Parameters.$host, Parameters.supportTicketName],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -388,18 +366,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.updateSupportTicket,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.supportTicketName
-  ],
+  urlParameters: [Parameters.$host, Parameters.supportTicketName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}",
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -420,11 +393,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.createSupportTicketParameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.supportTicketName
-  ],
+  urlParameters: [Parameters.$host, Parameters.supportTicketName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
@@ -440,11 +409,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };

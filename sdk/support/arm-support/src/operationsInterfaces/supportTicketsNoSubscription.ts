@@ -10,32 +10,32 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SupportTicketDetails,
-  SupportTicketsListOptionalParams,
+  SupportTicketsNoSubscriptionListOptionalParams,
   CheckNameAvailabilityInput,
-  SupportTicketsCheckNameAvailabilityOptionalParams,
-  SupportTicketsCheckNameAvailabilityResponse,
-  SupportTicketsGetOptionalParams,
-  SupportTicketsGetResponse,
+  SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams,
+  SupportTicketsNoSubscriptionCheckNameAvailabilityResponse,
+  SupportTicketsNoSubscriptionGetOptionalParams,
+  SupportTicketsNoSubscriptionGetResponse,
   UpdateSupportTicket,
-  SupportTicketsUpdateOptionalParams,
-  SupportTicketsUpdateResponse,
-  SupportTicketsCreateOptionalParams,
-  SupportTicketsCreateResponse
+  SupportTicketsNoSubscriptionUpdateOptionalParams,
+  SupportTicketsNoSubscriptionUpdateResponse,
+  SupportTicketsNoSubscriptionCreateOptionalParams,
+  SupportTicketsNoSubscriptionCreateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a SupportTickets. */
-export interface SupportTickets {
+/** Interface representing a SupportTicketsNoSubscription. */
+export interface SupportTicketsNoSubscription {
   /**
-   * Lists all the support tickets for an Azure subscription. You can also filter the support tickets by
-   * _Status_, _CreatedDate_, _ServiceId_, and _ProblemClassificationId_ using the $filter parameter.
-   * Output will be a paged result with _nextLink_, using which you can retrieve the next set of support
-   * tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket
-   * was created more than 18 months ago, a request for data might cause an error.
+   * Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>,
+   * <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter
+   * parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next
+   * set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket
+   * creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
    * @param options The options parameters.
    */
   list(
-    options?: SupportTicketsListOptionalParams
+    options?: SupportTicketsNoSubscriptionListOptionalParams
   ): PagedAsyncIterableIterator<SupportTicketDetails>;
   /**
    * Check the availability of a resource name. This API should be used to check the uniqueness of the
@@ -45,10 +45,10 @@ export interface SupportTickets {
    */
   checkNameAvailability(
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: SupportTicketsCheckNameAvailabilityOptionalParams
-  ): Promise<SupportTicketsCheckNameAvailabilityResponse>;
+    options?: SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionCheckNameAvailabilityResponse>;
   /**
-   * Get ticket details for an Azure subscription. Support ticket data is available for 18 months after
+   * Gets details for a specific support ticket. Support ticket data is available for 18 months after
    * ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an
    * error.
    * @param supportTicketName Support ticket name.
@@ -56,14 +56,13 @@ export interface SupportTickets {
    */
   get(
     supportTicketName: string,
-    options?: SupportTicketsGetOptionalParams
-  ): Promise<SupportTicketsGetResponse>;
+    options?: SupportTicketsNoSubscriptionGetOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionGetResponse>;
   /**
-   * This API allows you to update the severity level, ticket status, advanced diagnostic consent and
-   * your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed
-   * if a support ticket is actively being worked upon by an Azure support engineer. In such a case,
-   * contact your support engineer to request severity update by adding a new communication using the
-   * Communications API.
+   * This API allows you to update the severity level, ticket status, and your contact information in the
+   * support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively
+   * being worked upon by an Azure support engineer. In such a case, contact your support engineer to
+   * request severity update by adding a new communication using the Communications API.
    * @param supportTicketName Support ticket name.
    * @param updateSupportTicket UpdateSupportTicket object.
    * @param options The options parameters.
@@ -71,11 +70,10 @@ export interface SupportTickets {
   update(
     supportTicketName: string,
     updateSupportTicket: UpdateSupportTicket,
-    options?: SupportTicketsUpdateOptionalParams
-  ): Promise<SupportTicketsUpdateResponse>;
+    options?: SupportTicketsNoSubscriptionUpdateOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionUpdateResponse>;
   /**
-   * Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and
-   * Subscription Management issues for the specified subscription. Learn the
+   * Creates a new support ticket for Billing, and Subscription Management issues. Learn the
    * [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call
    * the Services and ProblemClassifications API to get the most recent set of services and problem
    * categories required for support ticket creation.<br/><br/>Adding attachments is not currently
@@ -84,13 +82,7 @@ export interface SupportTickets {
    * page in the Azure portal, select the support ticket, and use the file upload control to add a new
    * file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not
    * supported via the API. The Azure support engineer working on your ticket will reach out to you for
-   * consent if your issue requires gathering diagnostic information from your Azure
-   * resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include
-   * _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per
-   * [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant).
-   * The primary token will be from the tenant for whom a support ticket is being raised against the
-   * subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from
-   * the Cloud solution provider (CSP) partner tenant.
+   * consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
    * @param supportTicketName Support ticket name.
    * @param createSupportTicketParameters Support ticket request payload.
    * @param options The options parameters.
@@ -98,16 +90,15 @@ export interface SupportTickets {
   beginCreate(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
+    options?: SupportTicketsNoSubscriptionCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<SupportTicketsCreateResponse>,
-      SupportTicketsCreateResponse
+      OperationState<SupportTicketsNoSubscriptionCreateResponse>,
+      SupportTicketsNoSubscriptionCreateResponse
     >
   >;
   /**
-   * Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and
-   * Subscription Management issues for the specified subscription. Learn the
+   * Creates a new support ticket for Billing, and Subscription Management issues. Learn the
    * [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call
    * the Services and ProblemClassifications API to get the most recent set of services and problem
    * categories required for support ticket creation.<br/><br/>Adding attachments is not currently
@@ -116,13 +107,7 @@ export interface SupportTickets {
    * page in the Azure portal, select the support ticket, and use the file upload control to add a new
    * file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not
    * supported via the API. The Azure support engineer working on your ticket will reach out to you for
-   * consent if your issue requires gathering diagnostic information from your Azure
-   * resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include
-   * _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per
-   * [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant).
-   * The primary token will be from the tenant for whom a support ticket is being raised against the
-   * subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from
-   * the Cloud solution provider (CSP) partner tenant.
+   * consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
    * @param supportTicketName Support ticket name.
    * @param createSupportTicketParameters Support ticket request payload.
    * @param options The options parameters.
@@ -130,6 +115,6 @@ export interface SupportTickets {
   beginCreateAndWait(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
-  ): Promise<SupportTicketsCreateResponse>;
+    options?: SupportTicketsNoSubscriptionCreateOptionalParams
+  ): Promise<SupportTicketsNoSubscriptionCreateResponse>;
 }
