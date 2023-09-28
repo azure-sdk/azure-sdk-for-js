@@ -20,7 +20,8 @@ import {
   ExperimentsImpl,
   OperationsImpl,
   TargetTypesImpl,
-  TargetsImpl
+  TargetsImpl,
+  OperationStatusesImpl
 } from "./operations";
 import {
   Capabilities,
@@ -28,7 +29,8 @@ import {
   Experiments,
   Operations,
   TargetTypes,
-  Targets
+  Targets,
+  OperationStatuses
 } from "./operationsInterfaces";
 import { ChaosManagementClientOptionalParams } from "./models";
 
@@ -131,13 +133,14 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-04-15-preview";
+    this.apiVersion = options.apiVersion || "2023-10-27-preview";
     this.capabilities = new CapabilitiesImpl(this);
     this.capabilityTypes = new CapabilityTypesImpl(this);
     this.experiments = new ExperimentsImpl(this);
     this.operations = new OperationsImpl(this);
     this.targetTypes = new TargetTypesImpl(this);
     this.targets = new TargetsImpl(this);
+    this.operationStatuses = new OperationStatusesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -175,4 +178,5 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
   operations: Operations;
   targetTypes: TargetTypes;
   targets: Targets;
+  operationStatuses: OperationStatuses;
 }
