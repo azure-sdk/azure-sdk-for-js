@@ -1,5 +1,28 @@
 # Release History
     
+## 22.0.0 (2023-09-28)
+    
+**Breaking Changes**
+
+  - Interface CreationData no longer has parameter elasticSanResourceId
+  - Interface Disk no longer has parameter lastOwnershipUpdateTime
+  - Interface GrantAccessData no longer has parameter fileFormat
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration no longer has parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings no longer has parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineScaleSetVM no longer has parameter timeCreated
+  - Removed Enum KnownDomainNameLabelScopeTypes
+  - Removed Enum KnownFileFormat
+  - Removed Enum KnownNetworkInterfaceAuxiliaryMode
+  - Removed Enum KnownNetworkInterfaceAuxiliarySku
+  - Enum KnownDiskCreateOption no longer has value CopyFromSanSnapshot
+    
+    
 ## 21.2.0 (2023-08-14)
     
 **Features**
@@ -515,4 +538,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
