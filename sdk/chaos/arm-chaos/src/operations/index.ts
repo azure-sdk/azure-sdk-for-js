@@ -10,5 +10,6 @@ export * from "./capabilities";
 export * from "./capabilityTypes";
 export * from "./experiments";
 export * from "./operations";
+export * from "./privateAccesses";
 export * from "./targetTypes";
 export * from "./targets";

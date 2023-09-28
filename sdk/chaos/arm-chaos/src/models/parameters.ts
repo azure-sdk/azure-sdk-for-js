@@ -15,6 +15,9 @@ import {
   Capability as CapabilityMapper,
   Experiment as ExperimentMapper,
   ExperimentUpdate as ExperimentUpdateMapper,
+  PrivateAccessUpdate as PrivateAccessUpdateMapper,
+  PrivateAccess as PrivateAccessMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Target as TargetMapper
 } from "../models/mappers";
 
@@ -45,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-15-preview",
+    defaultValue: "2023-10-27-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -295,6 +298,47 @@ export const executionDetailsId: OperationURLParameter = {
       )
     },
     serializedName: "executionDetailsId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const privateAccessName: OperationURLParameter = {
+  parameterPath: "privateAccessName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^<>%&:?#/\\\\]+$"),
+      MinLength: 1
+    },
+    serializedName: "privateAccessName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PrivateAccessUpdateMapper
+};
+
+export const privateAccess: OperationParameter = {
+  parameterPath: "privateAccess",
+  mapper: PrivateAccessMapper
+};
+
+export const privateEndpointConnection: OperationParameter = {
+  parameterPath: "privateEndpointConnection",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
       name: "String"

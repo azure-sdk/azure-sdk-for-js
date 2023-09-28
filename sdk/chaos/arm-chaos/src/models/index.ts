@@ -578,6 +578,116 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** Model that represents a list of private access resources and a link for pagination. */
+export interface PrivateAccessListResult {
+  /**
+   * List of private access resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PrivateAccess[];
+  /**
+   * URL to retrieve the next page of private access resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The Private Endpoint Connection resource. */
+export interface PrivateEndpointConnection {
+  /**
+   * private endpoint connection Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * private endpoint connection name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * private endpoint connection type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The resource of private end point.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between PrivateAccess and Virtual Network. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** An update to a private access. */
+export interface PrivateAccessUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+}
+
+/** A private link resource */
+export interface PrivateLinkResource {
+  /**
+   * private link resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * private link resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * private link resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+/** A list of private link resources */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+  /** The uri to fetch the next page of snapshots. Call ListNext() with this to fetch the next page of snapshots. */
+  nextLink?: string;
+}
+
 /** Model that represents a list of Target Type resources and a link for pagination. */
 export interface TargetTypeListResult {
   /**
@@ -839,6 +949,22 @@ export interface Experiment extends TrackedResource {
   startOnCreation?: boolean;
 }
 
+/** PrivateAccesses tracked resource. */
+export interface PrivateAccess extends TrackedResource {
+  /**
+   * The system metadata of the private access resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Location of the private access resource. */
+  location?: string;
+  /**
+   * A readonly collection of private endpoint connection. Currently only one endpoint connection is supported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -931,6 +1057,27 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link TargetReferenceType} that the service accepts. */
 export enum KnownTargetReferenceType {
@@ -1140,6 +1287,114 @@ export interface OperationsListAllNextOptionalParams
 
 /** Contains response data for the listAllNext operation. */
 export type OperationsListAllNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListAllOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the listAll operation. */
+export type PrivateAccessesListAllResponse = PrivateAccessListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type PrivateAccessesListResponse = PrivateAccessListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateAccessesGetResponse = PrivateAccess;
+
+/** Optional parameters. */
+export interface PrivateAccessesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PrivateAccessesUpdateResponse = PrivateAccess;
+
+/** Optional parameters. */
+export interface PrivateAccessesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateAccessesCreateOrUpdateResponse = PrivateAccess;
+
+/** Optional parameters. */
+export interface PrivateAccessesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PrivateAccessesGetPrivateLinkResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPrivateLinkResources operation. */
+export type PrivateAccessesGetPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesUpdateAPrivateEndpointConnectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateAPrivateEndpointConnection operation. */
+export type PrivateAccessesUpdateAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateAccessesGetAPrivateEndpointConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAPrivateEndpointConnection operation. */
+export type PrivateAccessesGetAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateAccessesListPrivateEndpointConnectionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrivateEndpointConnections operation. */
+export type PrivateAccessesListPrivateEndpointConnectionsResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type PrivateAccessesListAllNextResponse = PrivateAccessListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateAccessesListNextResponse = PrivateAccessListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListPrivateEndpointConnectionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrivateEndpointConnectionsNext operation. */
+export type PrivateAccessesListPrivateEndpointConnectionsNextResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface TargetTypesListOptionalParams

@@ -19,6 +19,7 @@ import {
   CapabilityTypesImpl,
   ExperimentsImpl,
   OperationsImpl,
+  PrivateAccessesImpl,
   TargetTypesImpl,
   TargetsImpl
 } from "./operations";
@@ -27,6 +28,7 @@ import {
   CapabilityTypes,
   Experiments,
   Operations,
+  PrivateAccesses,
   TargetTypes,
   Targets
 } from "./operationsInterfaces";
@@ -78,7 +80,7 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-chaos/1.0.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-chaos/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,11 +133,12 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-04-15-preview";
+    this.apiVersion = options.apiVersion || "2023-10-27-preview";
     this.capabilities = new CapabilitiesImpl(this);
     this.capabilityTypes = new CapabilityTypesImpl(this);
     this.experiments = new ExperimentsImpl(this);
     this.operations = new OperationsImpl(this);
+    this.privateAccesses = new PrivateAccessesImpl(this);
     this.targetTypes = new TargetTypesImpl(this);
     this.targets = new TargetsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -173,6 +176,7 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
   capabilityTypes: CapabilityTypes;
   experiments: Experiments;
   operations: Operations;
+  privateAccesses: PrivateAccesses;
   targetTypes: TargetTypes;
   targets: Targets;
 }
