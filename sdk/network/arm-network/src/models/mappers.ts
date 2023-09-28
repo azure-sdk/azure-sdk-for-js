@@ -2931,6 +2931,26 @@ export const BastionShareableLinkListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const BastionShareableLinkTokenListRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionShareableLinkTokenListRequest",
+    modelProperties: {
+      tokens: {
+        serializedName: "tokens",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const BastionActiveSessionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4534,6 +4554,70 @@ export const ExpressRouteProviderPortListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const FirewallPolicyDraft: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPolicyDraft",
+    modelProperties: {
+      threatIntelMode: {
+        serializedName: "threatIntelMode",
+        type: {
+          name: "String"
+        }
+      },
+      threatIntelWhitelist: {
+        serializedName: "threatIntelWhitelist",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicyThreatIntelWhitelist"
+        }
+      },
+      insights: {
+        serializedName: "insights",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicyInsights"
+        }
+      },
+      snat: {
+        serializedName: "snat",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicySnat"
+        }
+      },
+      sql: {
+        serializedName: "sql",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicySQL"
+        }
+      },
+      dnsSettings: {
+        serializedName: "dnsSettings",
+        type: {
+          name: "Composite",
+          className: "DnsSettings"
+        }
+      },
+      explicitProxy: {
+        serializedName: "explicitProxy",
+        type: {
+          name: "Composite",
+          className: "ExplicitProxy"
+        }
+      },
+      intrusionDetection: {
+        serializedName: "intrusionDetection",
+        type: {
+          name: "Composite",
+          className: "FirewallPolicyIntrusionDetection"
+        }
+      }
+    }
+  }
+};
+
 export const FirewallPolicyThreatIntelWhitelist: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4787,6 +4871,12 @@ export const FirewallPolicyIntrusionDetection: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      profile: {
+        serializedName: "profile",
+        type: {
+          name: "String"
+        }
+      },
       configuration: {
         serializedName: "configuration",
         type: {
@@ -5026,6 +5116,37 @@ export const FirewallPolicyListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const FirewallPolicyRuleCollectionGroupDraft: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPolicyRuleCollectionGroupDraft",
+    modelProperties: {
+      priority: {
+        constraints: {
+          InclusiveMaximum: 65000,
+          InclusiveMinimum: 100
+        },
+        serializedName: "priority",
+        type: {
+          name: "Number"
+        }
+      },
+      ruleCollections: {
+        serializedName: "ruleCollections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FirewallPolicyRuleCollection"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const FirewallPolicyRuleCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5243,7 +5364,7 @@ export const SingleQueryResult: coreClient.CompositeMapper = {
         serializedName: "direction",
         type: {
           name: "Enum",
-          allowedValues: [0, 1, 2]
+          allowedValues: [0, 1, 2, 3, 4]
         }
       },
       group: {
@@ -30990,6 +31111,21 @@ export const DdosProtectionPlansDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DdosProtectionPlansDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FirewallPoliciesDraftsDeployHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPoliciesDraftsDeployHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

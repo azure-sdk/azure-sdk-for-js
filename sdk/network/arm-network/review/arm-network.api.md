@@ -2129,6 +2129,11 @@ export interface BastionShareableLinkListResult {
 }
 
 // @public
+export interface BastionShareableLinkTokenListRequest {
+    tokens?: string[];
+}
+
+// @public
 export interface BGPCommunity {
     communityName?: string;
     communityPrefixes?: string[];
@@ -3126,6 +3131,12 @@ export interface Delegation extends SubResource {
 export interface DelegationProperties {
     readonly provisioningState?: ProvisioningState;
     serviceName?: string;
+}
+
+// @public
+export interface DeleteBastionShareableLinkByTokenOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -4698,11 +4709,21 @@ export interface FirewallPolicies {
     beginCreateOrUpdateAndWait(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicy, options?: FirewallPoliciesCreateOrUpdateOptionalParams): Promise<FirewallPoliciesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDeleteOptionalParams): Promise<void>;
+    createOrUpdateDraft(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicyDraft, options?: FirewallPoliciesCreateOrUpdateDraftOptionalParams): Promise<FirewallPoliciesCreateOrUpdateDraftResponse>;
+    deleteDraft(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDeleteDraftOptionalParams): Promise<FirewallPoliciesDeleteDraftResponse>;
     get(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesGetOptionalParams): Promise<FirewallPoliciesGetResponse>;
+    getDraft(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesGetDraftOptionalParams): Promise<FirewallPoliciesGetDraftResponse>;
     list(resourceGroupName: string, options?: FirewallPoliciesListOptionalParams): PagedAsyncIterableIterator<FirewallPolicy>;
     listAll(options?: FirewallPoliciesListAllOptionalParams): PagedAsyncIterableIterator<FirewallPolicy>;
     updateTags(resourceGroupName: string, firewallPolicyName: string, parameters: TagsObject, options?: FirewallPoliciesUpdateTagsOptionalParams): Promise<FirewallPoliciesUpdateTagsResponse>;
 }
+
+// @public
+export interface FirewallPoliciesCreateOrUpdateDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPoliciesCreateOrUpdateDraftResponse = FirewallPolicyDraft;
 
 // @public
 export interface FirewallPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -4714,10 +4735,47 @@ export interface FirewallPoliciesCreateOrUpdateOptionalParams extends coreClient
 export type FirewallPoliciesCreateOrUpdateResponse = FirewallPolicy;
 
 // @public
+export interface FirewallPoliciesDeleteDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPoliciesDeleteDraftResponse = {
+    body: any;
+};
+
+// @public
 export interface FirewallPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface FirewallPoliciesDrafts {
+    beginDeploy(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDraftsDeployOptionalParams): Promise<SimplePollerLike<OperationState<FirewallPoliciesDraftsDeployResponse>, FirewallPoliciesDraftsDeployResponse>>;
+    beginDeployAndWait(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPoliciesDraftsDeployOptionalParams): Promise<FirewallPoliciesDraftsDeployResponse>;
+}
+
+// @public
+export interface FirewallPoliciesDraftsDeployHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface FirewallPoliciesDraftsDeployOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FirewallPoliciesDraftsDeployResponse = FirewallPolicyDraft;
+
+// @public
+export interface FirewallPoliciesGetDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPoliciesGetDraftResponse = FirewallPolicyDraft;
 
 // @public
 export interface FirewallPoliciesGetOptionalParams extends coreClient.OperationOptions {
@@ -4791,6 +4849,18 @@ export interface FirewallPolicyCertificateAuthority {
 }
 
 // @public
+export interface FirewallPolicyDraft {
+    dnsSettings?: DnsSettings;
+    explicitProxy?: ExplicitProxy;
+    insights?: FirewallPolicyInsights;
+    intrusionDetection?: FirewallPolicyIntrusionDetection;
+    snat?: FirewallPolicySnat;
+    sql?: FirewallPolicySQL;
+    threatIntelMode?: AzureFirewallThreatIntelMode;
+    threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
+}
+
+// @public
 export interface FirewallPolicyFilterRuleCollection extends FirewallPolicyRuleCollection {
     action?: FirewallPolicyFilterRuleCollectionAction;
     ruleCollectionType: "FirewallPolicyFilterRuleCollection";
@@ -4815,7 +4885,7 @@ export interface FirewallPolicyHttpHeaderToInsert {
 export type FirewallPolicyIdpsQuerySortOrder = string;
 
 // @public
-export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4;
 
 // @public
 export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
@@ -4894,6 +4964,7 @@ export interface FirewallPolicyInsights {
 export interface FirewallPolicyIntrusionDetection {
     configuration?: FirewallPolicyIntrusionDetectionConfiguration;
     mode?: FirewallPolicyIntrusionDetectionStateType;
+    profile?: FirewallPolicyIntrusionDetectionProfileType;
 }
 
 // @public
@@ -4914,6 +4985,9 @@ export interface FirewallPolicyIntrusionDetectionConfiguration {
     privateRanges?: string[];
     signatureOverrides?: FirewallPolicyIntrusionDetectionSignatureSpecification[];
 }
+
+// @public
+export type FirewallPolicyIntrusionDetectionProfileType = string;
 
 // @public
 export type FirewallPolicyIntrusionDetectionProtocol = string;
@@ -4995,6 +5069,12 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResource {
 }
 
 // @public
+export interface FirewallPolicyRuleCollectionGroupDraft {
+    priority?: number;
+    ruleCollections?: FirewallPolicyRuleCollectionUnion[];
+}
+
+// @public
 export interface FirewallPolicyRuleCollectionGroupListResult {
     nextLink?: string;
     value?: FirewallPolicyRuleCollectionGroup[];
@@ -5006,9 +5086,19 @@ export interface FirewallPolicyRuleCollectionGroups {
     beginCreateOrUpdateAndWait(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: FirewallPolicyRuleCollectionGroup, options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupsDeleteOptionalParams): Promise<void>;
+    createOrUpdateDraft(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: FirewallPolicyRuleCollectionGroupDraft, options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse>;
+    deleteDraft(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsDeleteDraftResponse>;
     get(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupsGetOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsGetResponse>;
+    getDraft(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams): Promise<FirewallPolicyRuleCollectionGroupsGetDraftResponse>;
     list(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPolicyRuleCollectionGroupsListOptionalParams): PagedAsyncIterableIterator<FirewallPolicyRuleCollectionGroup>;
 }
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse = FirewallPolicyRuleCollectionGroupDraft;
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -5020,10 +5110,24 @@ export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams 
 export type FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse = FirewallPolicyRuleCollectionGroup;
 
 // @public
+export interface FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyRuleCollectionGroupsDeleteDraftResponse = FirewallPolicyRuleCollectionGroup;
+
+// @public
 export interface FirewallPolicyRuleCollectionGroupsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyRuleCollectionGroupsGetDraftResponse = FirewallPolicyRuleCollectionGroupDraft;
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupsGetOptionalParams extends coreClient.OperationOptions {
@@ -6273,6 +6377,7 @@ export enum KnownBastionConnectProtocol {
 // @public
 export enum KnownBastionHostSkuName {
     Basic = "Basic",
+    Developer = "Developer",
     Standard = "Standard"
 }
 
@@ -6583,6 +6688,14 @@ export enum KnownFirewallPolicyFilterRuleCollectionActionType {
 export enum KnownFirewallPolicyIdpsQuerySortOrder {
     Ascending = "Ascending",
     Descending = "Descending"
+}
+
+// @public
+export enum KnownFirewallPolicyIntrusionDetectionProfileType {
+    Advanced = "Advanced",
+    Basic = "Basic",
+    Extended = "Extended",
+    Standard = "Standard"
 }
 
 // @public
@@ -9010,6 +9123,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     bastionHosts: BastionHosts;
     beginDeleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteBastionShareableLinkAndWait(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<void>;
+    beginDeleteBastionShareableLinkByToken(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteBastionShareableLinkByTokenAndWait(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): Promise<void>;
     beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<SimplePollerLike<OperationState<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>, GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>>;
     beginGeneratevirtualwanvpnserverconfigurationvpnprofileAndWait(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>;
     beginListActiveSessionsAndWait(resourceGroupName: string, bastionHostName: string, options?: GetActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionActiveSession>;
@@ -9064,6 +9179,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     expressRouteServiceProviders: ExpressRouteServiceProviders;
     // (undocumented)
     firewallPolicies: FirewallPolicies;
+    // (undocumented)
+    firewallPoliciesDrafts: FirewallPoliciesDrafts;
     // (undocumented)
     firewallPolicyIdpsSignatures: FirewallPolicyIdpsSignatures;
     // (undocumented)

@@ -11,6 +11,13 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallPolicyRuleCollectionGroup,
   FirewallPolicyRuleCollectionGroupsListOptionalParams,
+  FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams,
+  FirewallPolicyRuleCollectionGroupsGetDraftResponse,
+  FirewallPolicyRuleCollectionGroupDraft,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse,
+  FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams,
+  FirewallPolicyRuleCollectionGroupsDeleteDraftResponse,
   FirewallPolicyRuleCollectionGroupsDeleteOptionalParams,
   FirewallPolicyRuleCollectionGroupsGetOptionalParams,
   FirewallPolicyRuleCollectionGroupsGetResponse,
@@ -32,6 +39,48 @@ export interface FirewallPolicyRuleCollectionGroups {
     firewallPolicyName: string,
     options?: FirewallPolicyRuleCollectionGroupsListOptionalParams
   ): PagedAsyncIterableIterator<FirewallPolicyRuleCollectionGroup>;
+  /**
+   * Get the current draft version of the specified Firewall Policy Rule Collection Group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param ruleCollectionGroupName The name of the FirewallPolicyRuleCollectionGroup.
+   * @param options The options parameters.
+   */
+  getDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options?: FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams
+  ): Promise<FirewallPolicyRuleCollectionGroupsGetDraftResponse>;
+  /**
+   * Creates or updates a new draft version of the specified Firewall Policy Rule Collection Group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param ruleCollectionGroupName The name of the FirewallPolicyRuleCollectionGroup.
+   * @param parameters Parameters supplied to the create or update FirewallPolicyRuleCollectionGroup
+   *                   operation.
+   * @param options The options parameters.
+   */
+  createOrUpdateDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    parameters: FirewallPolicyRuleCollectionGroupDraft,
+    options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams
+  ): Promise<FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse>;
+  /**
+   * Get the current draft version of the specified Firewall Policy Rule Collection Group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param ruleCollectionGroupName The name of the FirewallPolicyRuleCollectionGroup.
+   * @param options The options parameters.
+   */
+  deleteDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options?: FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams
+  ): Promise<FirewallPolicyRuleCollectionGroupsDeleteDraftResponse>;
   /**
    * Deletes the specified FirewallPolicyRuleCollectionGroup.
    * @param resourceGroupName The name of the resource group.

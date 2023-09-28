@@ -24,6 +24,13 @@ import {
   FirewallPolicyRuleCollectionGroupsListNextOptionalParams,
   FirewallPolicyRuleCollectionGroupsListOptionalParams,
   FirewallPolicyRuleCollectionGroupsListResponse,
+  FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams,
+  FirewallPolicyRuleCollectionGroupsGetDraftResponse,
+  FirewallPolicyRuleCollectionGroupDraft,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams,
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse,
+  FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams,
+  FirewallPolicyRuleCollectionGroupsDeleteDraftResponse,
   FirewallPolicyRuleCollectionGroupsDeleteOptionalParams,
   FirewallPolicyRuleCollectionGroupsGetOptionalParams,
   FirewallPolicyRuleCollectionGroupsGetResponse,
@@ -124,6 +131,82 @@ export class FirewallPolicyRuleCollectionGroupsImpl
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Get the current draft version of the specified Firewall Policy Rule Collection Group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param ruleCollectionGroupName The name of the FirewallPolicyRuleCollectionGroup.
+   * @param options The options parameters.
+   */
+  getDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options?: FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams
+  ): Promise<FirewallPolicyRuleCollectionGroupsGetDraftResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        firewallPolicyName,
+        ruleCollectionGroupName,
+        options
+      },
+      getDraftOperationSpec
+    );
+  }
+
+  /**
+   * Creates or updates a new draft version of the specified Firewall Policy Rule Collection Group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param ruleCollectionGroupName The name of the FirewallPolicyRuleCollectionGroup.
+   * @param parameters Parameters supplied to the create or update FirewallPolicyRuleCollectionGroup
+   *                   operation.
+   * @param options The options parameters.
+   */
+  createOrUpdateDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    parameters: FirewallPolicyRuleCollectionGroupDraft,
+    options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams
+  ): Promise<FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        firewallPolicyName,
+        ruleCollectionGroupName,
+        parameters,
+        options
+      },
+      createOrUpdateDraftOperationSpec
+    );
+  }
+
+  /**
+   * Get the current draft version of the specified Firewall Policy Rule Collection Group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param ruleCollectionGroupName The name of the FirewallPolicyRuleCollectionGroup.
+   * @param options The options parameters.
+   */
+  deleteDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options?: FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams
+  ): Promise<FirewallPolicyRuleCollectionGroupsDeleteDraftResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        firewallPolicyName,
+        ruleCollectionGroupName,
+        options
+      },
+      deleteDraftOperationSpec
+    );
   }
 
   /**
@@ -391,6 +474,77 @@ export class FirewallPolicyRuleCollectionGroupsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getDraftOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}/draft/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FirewallPolicyRuleCollectionGroupDraft
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.firewallPolicyName,
+    Parameters.ruleCollectionGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateDraftOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}/draft/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FirewallPolicyRuleCollectionGroupDraft
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters21,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.firewallPolicyName,
+    Parameters.ruleCollectionGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteDraftOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}/draft/default",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FirewallPolicyRuleCollectionGroup
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.firewallPolicyName,
+    Parameters.ruleCollectionGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
@@ -409,8 +563,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName,
-    Parameters.ruleCollectionGroupName
+    Parameters.firewallPolicyName1,
+    Parameters.ruleCollectionGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -432,8 +586,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName,
-    Parameters.ruleCollectionGroupName
+    Parameters.firewallPolicyName1,
+    Parameters.ruleCollectionGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -459,14 +613,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters20,
+  requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName,
-    Parameters.ruleCollectionGroupName
+    Parameters.firewallPolicyName1,
+    Parameters.ruleCollectionGroupName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -489,7 +643,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -510,7 +664,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName1
   ],
   headerParameters: [Parameters.accept],
   serializer

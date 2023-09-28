@@ -12,6 +12,13 @@ import {
   FirewallPolicy,
   FirewallPoliciesListOptionalParams,
   FirewallPoliciesListAllOptionalParams,
+  FirewallPoliciesGetDraftOptionalParams,
+  FirewallPoliciesGetDraftResponse,
+  FirewallPolicyDraft,
+  FirewallPoliciesCreateOrUpdateDraftOptionalParams,
+  FirewallPoliciesCreateOrUpdateDraftResponse,
+  FirewallPoliciesDeleteDraftOptionalParams,
+  FirewallPoliciesDeleteDraftResponse,
   FirewallPoliciesDeleteOptionalParams,
   FirewallPoliciesGetOptionalParams,
   FirewallPoliciesGetResponse,
@@ -41,6 +48,42 @@ export interface FirewallPolicies {
   listAll(
     options?: FirewallPoliciesListAllOptionalParams
   ): PagedAsyncIterableIterator<FirewallPolicy>;
+  /**
+   * Gets the current draft version of the specified Firewall Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  getDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesGetDraftOptionalParams
+  ): Promise<FirewallPoliciesGetDraftResponse>;
+  /**
+   * Creates or updates the draft version of the specified Firewall Policy.
+   * @param resourceGroupName The name of the resource group.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param parameters Parameters supplied to the create or update Firewall Policy operation.
+   * @param options The options parameters.
+   */
+  createOrUpdateDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    parameters: FirewallPolicyDraft,
+    options?: FirewallPoliciesCreateOrUpdateDraftOptionalParams
+  ): Promise<FirewallPoliciesCreateOrUpdateDraftResponse>;
+  /**
+   * Sets the current live Firewall Policy body to the body of the current state of the draft Firewall
+   * Policy
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
+   * @param options The options parameters.
+   */
+  deleteDraft(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDeleteDraftOptionalParams
+  ): Promise<FirewallPoliciesDeleteDraftResponse>;
   /**
    * Deletes the specified Firewall Policy.
    * @param resourceGroupName The name of the resource group.

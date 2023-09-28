@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkManagerCommits } from "../operationsInterfaces";
+import { FirewallPoliciesDrafts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -18,17 +18,16 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  NetworkManagerCommit,
-  NetworkManagerCommitsPostOptionalParams,
-  NetworkManagerCommitsPostResponse
+  FirewallPoliciesDraftsDeployOptionalParams,
+  FirewallPoliciesDraftsDeployResponse
 } from "../models";
 
-/** Class containing NetworkManagerCommits operations. */
-export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
+/** Class containing FirewallPoliciesDrafts operations. */
+export class FirewallPoliciesDraftsImpl implements FirewallPoliciesDrafts {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class NetworkManagerCommits class.
+   * Initialize a new instance of the class FirewallPoliciesDrafts class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -36,27 +35,25 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
   }
 
   /**
-   * Post a Network Manager Commit.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkManagerName The name of the network manager.
-   * @param parameters Parameters supplied to specify which Managed Network commit is.
+   * Deploy the specified Firewall Policy draft to Azure Firewall Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
    * @param options The options parameters.
    */
-  async beginPost(
+  async beginDeploy(
     resourceGroupName: string,
-    networkManagerName: string,
-    parameters: NetworkManagerCommit,
-    options?: NetworkManagerCommitsPostOptionalParams
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDraftsDeployOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkManagerCommitsPostResponse>,
-      NetworkManagerCommitsPostResponse
+      OperationState<FirewallPoliciesDraftsDeployResponse>,
+      FirewallPoliciesDraftsDeployResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NetworkManagerCommitsPostResponse> => {
+    ): Promise<FirewallPoliciesDraftsDeployResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -94,12 +91,12 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, networkManagerName, parameters, options },
-      spec: postOperationSpec
+      args: { resourceGroupName, firewallPolicyName, options },
+      spec: deployOperationSpec
     });
     const poller = await createHttpPoller<
-      NetworkManagerCommitsPostResponse,
-      OperationState<NetworkManagerCommitsPostResponse>
+      FirewallPoliciesDraftsDeployResponse,
+      OperationState<FirewallPoliciesDraftsDeployResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -110,22 +107,19 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
   }
 
   /**
-   * Post a Network Manager Commit.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkManagerName The name of the network manager.
-   * @param parameters Parameters supplied to specify which Managed Network commit is.
+   * Deploy the specified Firewall Policy draft to Azure Firewall Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param firewallPolicyName The name of the Firewall Policy.
    * @param options The options parameters.
    */
-  async beginPostAndWait(
+  async beginDeployAndWait(
     resourceGroupName: string,
-    networkManagerName: string,
-    parameters: NetworkManagerCommit,
-    options?: NetworkManagerCommitsPostOptionalParams
-  ): Promise<NetworkManagerCommitsPostResponse> {
-    const poller = await this.beginPost(
+    firewallPolicyName: string,
+    options?: FirewallPoliciesDraftsDeployOptionalParams
+  ): Promise<FirewallPoliciesDraftsDeployResponse> {
+    const poller = await this.beginDeploy(
       resourceGroupName,
-      networkManagerName,
-      parameters,
+      firewallPolicyName,
       options
     );
     return poller.pollUntilDone();
@@ -134,36 +128,34 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const postOperationSpec: coreClient.OperationSpec = {
+const deployOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/draft/default/deploy",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerCommit
+      bodyMapper: Mappers.FirewallPolicyDraft
     },
     201: {
-      bodyMapper: Mappers.NetworkManagerCommit
+      bodyMapper: Mappers.FirewallPolicyDraft
     },
     202: {
-      bodyMapper: Mappers.NetworkManagerCommit
+      bodyMapper: Mappers.FirewallPolicyDraft
     },
     204: {
-      bodyMapper: Mappers.NetworkManagerCommit
+      bodyMapper: Mappers.FirewallPolicyDraft
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters36,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.resourceGroupName1,
+    Parameters.firewallPolicyName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };

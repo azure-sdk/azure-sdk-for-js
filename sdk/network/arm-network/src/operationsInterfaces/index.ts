@@ -40,6 +40,7 @@ export * from "./expressRoutePorts";
 export * from "./expressRouteLinks";
 export * from "./expressRoutePortAuthorizations";
 export * from "./expressRouteProviderPortsLocation";
+export * from "./firewallPoliciesDrafts";
 export * from "./firewallPolicies";
 export * from "./firewallPolicyRuleCollectionGroups";
 export * from "./firewallPolicyIdpsSignatures";

@@ -31,7 +31,8 @@ export class FirewallPolicyIdpsSignaturesImpl
   }
 
   /**
-   * Retrieves the current status of IDPS signatures for the relevant policy
+   * Retrieves the current status of IDPS signatures for the relevant policy. Maximal amount of returned
+   * signatures is 1000.
    * @param resourceGroupName The name of the resource group.
    * @param firewallPolicyName The name of the Firewall Policy.
    * @param parameters Will describe the query to run against the IDPS signatures DB
@@ -64,13 +65,13 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

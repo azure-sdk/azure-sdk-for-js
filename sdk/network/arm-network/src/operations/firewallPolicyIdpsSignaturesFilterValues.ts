@@ -64,13 +64,13 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters23,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

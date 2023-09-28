@@ -994,7 +994,7 @@ export interface BastionHostListResult {
   nextLink?: string;
 }
 
-/** Post request for all the Bastion Shareable Link endpoints. */
+/** Post request for Create/Delete/Get Bastion Shareable Link endpoints. */
 export interface BastionShareableLinkListRequest {
   /** List of VM references. */
   vms?: BastionShareableLink[];
@@ -1027,6 +1027,12 @@ export interface BastionShareableLinkListResult {
   value?: BastionShareableLink[];
   /** The URL to get the next set of results. */
   nextLink?: string;
+}
+
+/** Post request for Delete Bastion Shareable Link By Token endpoint. */
+export interface BastionShareableLinkTokenListRequest {
+  /** List of Bastion Shareable Link Token. */
+  tokens?: string[];
 }
 
 /** Response for GetActiveSessions. */
@@ -1641,6 +1647,26 @@ export interface ExpressRouteProviderPortListResult {
   readonly nextLink?: string;
 }
 
+/** FirewallPolicy Draft Object */
+export interface FirewallPolicyDraft {
+  /** The operation mode for Threat Intelligence. */
+  threatIntelMode?: AzureFirewallThreatIntelMode;
+  /** ThreatIntel Whitelist for Firewall Policy. */
+  threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
+  /** Insights on Firewall Policy. */
+  insights?: FirewallPolicyInsights;
+  /** The private IP addresses/IP ranges to which traffic will not be SNAT. */
+  snat?: FirewallPolicySnat;
+  /** SQL Settings definition. */
+  sql?: FirewallPolicySQL;
+  /** DNS Proxy Settings definition. */
+  dnsSettings?: DnsSettings;
+  /** Explicit Proxy Settings definition. */
+  explicitProxy?: ExplicitProxy;
+  /** The configuration for Intrusion detection. */
+  intrusionDetection?: FirewallPolicyIntrusionDetection;
+}
+
 /** ThreatIntel Whitelist for Firewall Policy. */
 export interface FirewallPolicyThreatIntelWhitelist {
   /** List of IP addresses for the ThreatIntel Whitelist. */
@@ -1717,8 +1743,10 @@ export interface ExplicitProxy {
 
 /** Configuration for intrusion detection mode and rules. */
 export interface FirewallPolicyIntrusionDetection {
-  /** Intrusion detection general state. */
+  /** Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two. */
   mode?: FirewallPolicyIntrusionDetectionStateType;
+  /** IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy. */
+  profile?: FirewallPolicyIntrusionDetectionProfileType;
   /** Intrusion detection configuration properties. */
   configuration?: FirewallPolicyIntrusionDetectionConfiguration;
 }
@@ -1789,6 +1817,14 @@ export interface FirewallPolicyListResult {
   nextLink?: string;
 }
 
+/** Properties of the rule collection group. */
+export interface FirewallPolicyRuleCollectionGroupDraft {
+  /** Priority of the Firewall Policy Rule Collection Group resource. */
+  priority?: number;
+  /** Group of Firewall Policy rule collections. */
+  ruleCollections?: FirewallPolicyRuleCollectionUnion[];
+}
+
 /** Properties of the rule collection. */
 export interface FirewallPolicyRuleCollection {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1852,9 +1888,9 @@ export interface SingleQueryResult {
   signatureId?: number;
   /** The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny */
   mode?: FirewallPolicyIdpsSignatureMode;
-  /** Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High */
+  /** Describes the severity of signature: 1 - High, 2 - Medium, 3 - Low */
   severity?: FirewallPolicyIdpsSignatureSeverity;
-  /** Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional */
+  /** Describes in which direction signature is being enforced: 0 - OutBound, 1 - InBound, 2 - Any, 3 - Internal, 4 - InternalOutbound */
   direction?: FirewallPolicyIdpsSignatureDirection;
   /** Describes the groups the signature belongs to */
   group?: string;
@@ -11652,6 +11688,11 @@ export interface DdosProtectionPlansDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for FirewallPoliciesDrafts_deploy operation. */
+export interface FirewallPoliciesDraftsDeployHeaders {
+  location?: string;
+}
+
 /** Defines headers for NetworkManagers_delete operation. */
 export interface NetworkManagersDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -12983,7 +13024,9 @@ export enum KnownBastionHostSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
+  /** Developer */
+  Developer = "Developer"
 }
 
 /**
@@ -12992,7 +13035,8 @@ export enum KnownBastionHostSkuName {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Basic** \
- * **Standard**
+ * **Standard** \
+ * **Developer**
  */
 export type BastionHostSkuName = string;
 
@@ -13505,6 +13549,30 @@ export enum KnownFirewallPolicyIntrusionDetectionStateType {
  * **Deny**
  */
 export type FirewallPolicyIntrusionDetectionStateType = string;
+
+/** Known values of {@link FirewallPolicyIntrusionDetectionProfileType} that the service accepts. */
+export enum KnownFirewallPolicyIntrusionDetectionProfileType {
+  /** Basic */
+  Basic = "Basic",
+  /** Standard */
+  Standard = "Standard",
+  /** Advanced */
+  Advanced = "Advanced",
+  /** Extended */
+  Extended = "Extended"
+}
+
+/**
+ * Defines values for FirewallPolicyIntrusionDetectionProfileType. \
+ * {@link KnownFirewallPolicyIntrusionDetectionProfileType} can be used interchangeably with FirewallPolicyIntrusionDetectionProfileType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard** \
+ * **Advanced** \
+ * **Extended**
+ */
+export type FirewallPolicyIntrusionDetectionProfileType = string;
 
 /** Known values of {@link FirewallPolicyIntrusionDetectionProtocol} that the service accepts. */
 export enum KnownFirewallPolicyIntrusionDetectionProtocol {
@@ -16530,7 +16598,7 @@ export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 /** Defines values for FirewallPolicyIdpsSignatureSeverity. */
 export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 /** Defines values for FirewallPolicyIdpsSignatureDirection. */
-export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4;
 /** Defines values for PacketCaptureTargetType. */
 export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
 
@@ -17116,6 +17184,15 @@ export type PutBastionShareableLinkResponse = BastionShareableLinkListResult;
 
 /** Optional parameters. */
 export interface DeleteBastionShareableLinkOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeleteBastionShareableLinkByTokenOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -18424,6 +18501,42 @@ export interface ExpressRouteProviderPortsLocationListOptionalParams
 export type ExpressRouteProviderPortsLocationListResponse = ExpressRouteProviderPortListResult;
 
 /** Optional parameters. */
+export interface FirewallPoliciesDraftsDeployOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deploy operation. */
+export type FirewallPoliciesDraftsDeployResponse = FirewallPolicyDraft;
+
+/** Optional parameters. */
+export interface FirewallPoliciesGetDraftOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDraft operation. */
+export type FirewallPoliciesGetDraftResponse = FirewallPolicyDraft;
+
+/** Optional parameters. */
+export interface FirewallPoliciesCreateOrUpdateDraftOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateDraft operation. */
+export type FirewallPoliciesCreateOrUpdateDraftResponse = FirewallPolicyDraft;
+
+/** Optional parameters. */
+export interface FirewallPoliciesDeleteDraftOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the deleteDraft operation. */
+export type FirewallPoliciesDeleteDraftResponse = {
+  /** The parsed response body. */
+  body: any;
+};
+
+/** Optional parameters. */
 export interface FirewallPoliciesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -18488,6 +18601,27 @@ export interface FirewallPoliciesListAllNextOptionalParams
 
 /** Contains response data for the listAllNext operation. */
 export type FirewallPoliciesListAllNextResponse = FirewallPolicyListResult;
+
+/** Optional parameters. */
+export interface FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDraft operation. */
+export type FirewallPolicyRuleCollectionGroupsGetDraftResponse = FirewallPolicyRuleCollectionGroupDraft;
+
+/** Optional parameters. */
+export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateDraft operation. */
+export type FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse = FirewallPolicyRuleCollectionGroupDraft;
+
+/** Optional parameters. */
+export interface FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the deleteDraft operation. */
+export type FirewallPolicyRuleCollectionGroupsDeleteDraftResponse = FirewallPolicyRuleCollectionGroup;
 
 /** Optional parameters. */
 export interface FirewallPolicyRuleCollectionGroupsDeleteOptionalParams

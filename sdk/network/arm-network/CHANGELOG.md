@@ -1,15 +1,41 @@
 # Release History
+    
+## 32.3.0 (2023-09-28)
+    
+**Features**
 
-## 32.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group FirewallPoliciesDrafts
+  - Added operation FirewallPolicies.createOrUpdateDraft
+  - Added operation FirewallPolicies.deleteDraft
+  - Added operation FirewallPolicies.getDraft
+  - Added operation FirewallPolicyRuleCollectionGroups.createOrUpdateDraft
+  - Added operation FirewallPolicyRuleCollectionGroups.deleteDraft
+  - Added operation FirewallPolicyRuleCollectionGroups.getDraft
+  - Added Interface BastionShareableLinkTokenListRequest
+  - Added Interface DeleteBastionShareableLinkByTokenOptionalParams
+  - Added Interface FirewallPoliciesCreateOrUpdateDraftOptionalParams
+  - Added Interface FirewallPoliciesDeleteDraftOptionalParams
+  - Added Interface FirewallPoliciesDraftsDeployHeaders
+  - Added Interface FirewallPoliciesDraftsDeployOptionalParams
+  - Added Interface FirewallPoliciesGetDraftOptionalParams
+  - Added Interface FirewallPolicyDraft
+  - Added Interface FirewallPolicyRuleCollectionGroupDraft
+  - Added Interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupsDeleteDraftOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupsGetDraftOptionalParams
+  - Added Type Alias FirewallPoliciesCreateOrUpdateDraftResponse
+  - Added Type Alias FirewallPoliciesDeleteDraftResponse
+  - Added Type Alias FirewallPoliciesDraftsDeployResponse
+  - Added Type Alias FirewallPoliciesGetDraftResponse
+  - Added Type Alias FirewallPolicyIntrusionDetectionProfileType
+  - Added Type Alias FirewallPolicyRuleCollectionGroupsCreateOrUpdateDraftResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupsDeleteDraftResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupsGetDraftResponse
+  - Interface FirewallPolicyIntrusionDetection has a new optional parameter profile
+  - Added Enum KnownFirewallPolicyIntrusionDetectionProfileType
+  - Enum KnownBastionHostSkuName has a new value Developer
+    
+    
 ## 32.2.0 (2023-09-07)
     
 **Features**
@@ -901,4 +927,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
