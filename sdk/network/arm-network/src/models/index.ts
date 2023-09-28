@@ -994,7 +994,7 @@ export interface BastionHostListResult {
   nextLink?: string;
 }
 
-/** Post request for all the Bastion Shareable Link endpoints. */
+/** Post request for Create/Delete/Get Bastion Shareable Link endpoints. */
 export interface BastionShareableLinkListRequest {
   /** List of VM references. */
   vms?: BastionShareableLink[];
@@ -1027,6 +1027,12 @@ export interface BastionShareableLinkListResult {
   value?: BastionShareableLink[];
   /** The URL to get the next set of results. */
   nextLink?: string;
+}
+
+/** Post request for Delete Bastion Shareable Link By Token endpoint. */
+export interface BastionShareableLinkTokenListRequest {
+  /** List of Bastion Shareable Link Token. */
+  tokens?: string[];
 }
 
 /** Response for GetActiveSessions. */
@@ -1717,8 +1723,10 @@ export interface ExplicitProxy {
 
 /** Configuration for intrusion detection mode and rules. */
 export interface FirewallPolicyIntrusionDetection {
-  /** Intrusion detection general state. */
+  /** Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two. */
   mode?: FirewallPolicyIntrusionDetectionStateType;
+  /** IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy. */
+  profile?: FirewallPolicyIntrusionDetectionProfileType;
   /** Intrusion detection configuration properties. */
   configuration?: FirewallPolicyIntrusionDetectionConfiguration;
 }
@@ -1852,9 +1860,9 @@ export interface SingleQueryResult {
   signatureId?: number;
   /** The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny */
   mode?: FirewallPolicyIdpsSignatureMode;
-  /** Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High */
+  /** Describes the severity of signature: 1 - High, 2 - Medium, 3 - Low */
   severity?: FirewallPolicyIdpsSignatureSeverity;
-  /** Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional */
+  /** Describes in which direction signature is being enforced: 0 - OutBound, 1 - InBound, 2 - Any, 3 - Internal, 4 - InternalOutbound */
   direction?: FirewallPolicyIdpsSignatureDirection;
   /** Describes the groups the signature belongs to */
   group?: string;
@@ -12983,7 +12991,9 @@ export enum KnownBastionHostSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
+  /** Developer */
+  Developer = "Developer"
 }
 
 /**
@@ -12992,7 +13002,8 @@ export enum KnownBastionHostSkuName {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Basic** \
- * **Standard**
+ * **Standard** \
+ * **Developer**
  */
 export type BastionHostSkuName = string;
 
@@ -13505,6 +13516,30 @@ export enum KnownFirewallPolicyIntrusionDetectionStateType {
  * **Deny**
  */
 export type FirewallPolicyIntrusionDetectionStateType = string;
+
+/** Known values of {@link FirewallPolicyIntrusionDetectionProfileType} that the service accepts. */
+export enum KnownFirewallPolicyIntrusionDetectionProfileType {
+  /** Basic */
+  Basic = "Basic",
+  /** Standard */
+  Standard = "Standard",
+  /** Advanced */
+  Advanced = "Advanced",
+  /** Extended */
+  Extended = "Extended"
+}
+
+/**
+ * Defines values for FirewallPolicyIntrusionDetectionProfileType. \
+ * {@link KnownFirewallPolicyIntrusionDetectionProfileType} can be used interchangeably with FirewallPolicyIntrusionDetectionProfileType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard** \
+ * **Advanced** \
+ * **Extended**
+ */
+export type FirewallPolicyIntrusionDetectionProfileType = string;
 
 /** Known values of {@link FirewallPolicyIntrusionDetectionProtocol} that the service accepts. */
 export enum KnownFirewallPolicyIntrusionDetectionProtocol {
@@ -14933,7 +14968,9 @@ export enum KnownVirtualNetworkGatewaySkuName {
   /** ErGw2AZ */
   ErGw2AZ = "ErGw2AZ",
   /** ErGw3AZ */
-  ErGw3AZ = "ErGw3AZ"
+  ErGw3AZ = "ErGw3AZ",
+  /** ErGwScale */
+  ErGwScale = "ErGwScale"
 }
 
 /**
@@ -14957,7 +14994,8 @@ export enum KnownVirtualNetworkGatewaySkuName {
  * **VpnGw5AZ** \
  * **ErGw1AZ** \
  * **ErGw2AZ** \
- * **ErGw3AZ**
+ * **ErGw3AZ** \
+ * **ErGwScale**
  */
 export type VirtualNetworkGatewaySkuName = string;
 
@@ -14996,7 +15034,9 @@ export enum KnownVirtualNetworkGatewaySkuTier {
   /** ErGw2AZ */
   ErGw2AZ = "ErGw2AZ",
   /** ErGw3AZ */
-  ErGw3AZ = "ErGw3AZ"
+  ErGw3AZ = "ErGw3AZ",
+  /** ErGwScale */
+  ErGwScale = "ErGwScale"
 }
 
 /**
@@ -15020,7 +15060,8 @@ export enum KnownVirtualNetworkGatewaySkuTier {
  * **VpnGw5AZ** \
  * **ErGw1AZ** \
  * **ErGw2AZ** \
- * **ErGw3AZ**
+ * **ErGw3AZ** \
+ * **ErGwScale**
  */
 export type VirtualNetworkGatewaySkuTier = string;
 
@@ -16530,7 +16571,7 @@ export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 /** Defines values for FirewallPolicyIdpsSignatureSeverity. */
 export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 /** Defines values for FirewallPolicyIdpsSignatureDirection. */
-export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4;
 /** Defines values for PacketCaptureTargetType. */
 export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
 
@@ -17116,6 +17157,15 @@ export type PutBastionShareableLinkResponse = BastionShareableLinkListResult;
 
 /** Optional parameters. */
 export interface DeleteBastionShareableLinkOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeleteBastionShareableLinkByTokenOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
