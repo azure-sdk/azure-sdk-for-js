@@ -32,6 +32,12 @@ export interface Capability {
 }
 
 // @public
+export interface CheckNameAvailabilityParameters {
+    name: string;
+    type: string;
+}
+
+// @public
 export interface Cluster extends TrackedResource {
     encryption?: ClusterPropertiesEncryption;
     readonly hostName?: string;
@@ -408,6 +414,8 @@ export enum KnownResourceState {
     EnableFailed = "EnableFailed",
     Enabling = "Enabling",
     Running = "Running",
+    Scaling = "Scaling",
+    ScalingFailed = "ScalingFailed",
     UpdateFailed = "UpdateFailed",
     Updating = "Updating"
 }
@@ -417,6 +425,9 @@ export enum KnownSkuName {
     EnterpriseE10 = "Enterprise_E10",
     EnterpriseE100 = "Enterprise_E100",
     EnterpriseE20 = "Enterprise_E20",
+    EnterpriseE200 = "Enterprise_E200",
+    EnterpriseE400 = "Enterprise_E400",
+    EnterpriseE5 = "Enterprise_E5",
     EnterpriseE50 = "Enterprise_E50",
     EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
     EnterpriseFlashF300 = "EnterpriseFlash_F300",
@@ -562,15 +573,24 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
+    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     beginPut(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsPutResponse>, PrivateEndpointConnectionsPutResponse>>;
     beginPutAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams): Promise<PrivateEndpointConnectionsPutResponse>;
-    delete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
 // @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -651,9 +671,14 @@ export interface RedisEnterprise {
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RedisEnterpriseUpdateResponse>, RedisEnterpriseUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<RedisEnterpriseUpdateResponse>;
+    checkNameAvailability(parameters: CheckNameAvailabilityParameters, options?: RedisEnterpriseCheckNameAvailabilityOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseGetOptionalParams): Promise<RedisEnterpriseGetResponse>;
     list(options?: RedisEnterpriseListOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listByResourceGroup(resourceGroupName: string, options?: RedisEnterpriseListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+}
+
+// @public
+export interface RedisEnterpriseCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
