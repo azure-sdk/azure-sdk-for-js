@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NginxManagementClient } from "../nginxManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NginxDeployment,
   DeploymentsListNextOptionalParams,
@@ -198,8 +202,8 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateResponse>,
       DeploymentsCreateOrUpdateResponse
     >
   > {
@@ -209,7 +213,7 @@ export class DeploymentsImpl implements Deployments {
     ): Promise<DeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -242,15 +246,18 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, deploymentName, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, deploymentName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DeploymentsCreateOrUpdateResponse,
+      OperationState<DeploymentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -286,8 +293,8 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
       DeploymentsUpdateResponse
     >
   > {
@@ -297,7 +304,7 @@ export class DeploymentsImpl implements Deployments {
     ): Promise<DeploymentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -330,13 +337,16 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, deploymentName, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, deploymentName, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DeploymentsUpdateResponse,
+      OperationState<DeploymentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -372,14 +382,14 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -412,13 +422,13 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, deploymentName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, deploymentName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
