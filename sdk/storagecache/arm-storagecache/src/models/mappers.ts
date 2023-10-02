@@ -142,73 +142,6 @@ export const AmlFilesystemHealth: coreClient.CompositeMapper = {
   }
 };
 
-export const AmlFilesystemClientInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AmlFilesystemClientInfo",
-    modelProperties: {
-      mgsAddress: {
-        serializedName: "mgsAddress",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      mountCommand: {
-        serializedName: "mountCommand",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      lustreVersion: {
-        serializedName: "lustreVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      containerStorageInterface: {
-        serializedName: "containerStorageInterface",
-        type: {
-          name: "Composite",
-          className: "AmlFilesystemContainerStorageInterface"
-        }
-      }
-    }
-  }
-};
-
-export const AmlFilesystemContainerStorageInterface: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AmlFilesystemContainerStorageInterface",
-    modelProperties: {
-      persistentVolumeClaim: {
-        serializedName: "persistentVolumeClaim",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      persistentVolume: {
-        serializedName: "persistentVolume",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      storageClass: {
-        serializedName: "storageClass",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AmlFilesystemEncryptionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -429,6 +362,46 @@ export const AmlFilesystemArchiveStatus: coreClient.CompositeMapper = {
   }
 };
 
+export const AmlFilesystemRootSquashSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AmlFilesystemRootSquashSettings",
+    modelProperties: {
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      noSquashNidLists: {
+        serializedName: "noSquashNidLists",
+        type: {
+          name: "String"
+        }
+      },
+      squashUID: {
+        serializedName: "squashUID",
+        type: {
+          name: "Number"
+        }
+      },
+      squashGID: {
+        serializedName: "squashGID",
+        type: {
+          name: "Number"
+        }
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -590,6 +563,13 @@ export const AmlFilesystemUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AmlFilesystemUpdatePropertiesMaintenanceWindow"
+        }
+      },
+      rootSquashSettings: {
+        serializedName: "properties.rootSquashSettings",
+        type: {
+          name: "Composite",
+          className: "AmlFilesystemRootSquashSettings"
         }
       }
     }
@@ -1519,6 +1499,13 @@ export const Cache: coreClient.CompositeMapper = {
       },
       cacheSizeGB: {
         serializedName: "properties.cacheSizeGB",
+        type: {
+          name: "Number"
+        }
+      },
+      scalingFactor: {
+        defaultValue: 1,
+        serializedName: "properties.scalingFactor",
         type: {
           name: "Number"
         }
@@ -2706,11 +2693,25 @@ export const AmlFilesystem: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      clientInfo: {
-        serializedName: "properties.clientInfo",
+      mgsAddress: {
+        serializedName: "properties.mgsAddress",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "AmlFilesystemClientInfo"
+          name: "String"
+        }
+      },
+      mountCommand: {
+        serializedName: "properties.mountCommand",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      lustreVersion: {
+        serializedName: "properties.lustreVersion",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       throughputProvisionedMBps: {
@@ -2739,6 +2740,13 @@ export const AmlFilesystem: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AmlFilesystemPropertiesHsm"
+        }
+      },
+      rootSquashSettings: {
+        serializedName: "properties.rootSquashSettings",
+        type: {
+          name: "Composite",
+          className: "AmlFilesystemRootSquashSettings"
         }
       }
     }

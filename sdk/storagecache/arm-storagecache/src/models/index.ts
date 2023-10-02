@@ -65,49 +65,6 @@ export interface AmlFilesystemHealth {
   statusDescription?: string;
 }
 
-/** AML file system client information */
-export interface AmlFilesystemClientInfo {
-  /**
-   * The IPv4 address used by clients to mount the AML file system's Lustre Management Service (MGS).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mgsAddress?: string;
-  /**
-   * Recommended command to mount the AML file system
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mountCommand?: string;
-  /**
-   * The version of Lustre running in the AML file system
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lustreVersion?: string;
-  /**
-   * Container Storage Interface information for the AML file system.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly containerStorageInterface?: AmlFilesystemContainerStorageInterface;
-}
-
-/** AML file system container storage interface information */
-export interface AmlFilesystemContainerStorageInterface {
-  /**
-   * Recommended AKS Persistent Volume Claim for the CSI driver, in Base64 encoded YAML
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly persistentVolumeClaim?: string;
-  /**
-   * Recommended AKS Persistent Volume for the CSI driver, in Base64 encoded YAML
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly persistentVolume?: string;
-  /**
-   * Recommended AKS Storage Class for the CSI driver, in Base64 encoded YAML
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageClass?: string;
-}
-
 /** AML file system encryption settings. */
 export interface AmlFilesystemEncryptionSettings {
   /** Specifies the location of the encryption key in Key Vault. */
@@ -205,6 +162,23 @@ export interface AmlFilesystemArchiveStatus {
   readonly errorMessage?: string;
 }
 
+/** AML file system squash settings. */
+export interface AmlFilesystemRootSquashSettings {
+  /** Squash mode of the AML file system. */
+  mode?: AmlFilesystemSquashMode;
+  /** Semicolon separated NID IP Address list(s) to be added to the TrustedSystems. */
+  noSquashNidLists?: string;
+  /** User ID to squash to. */
+  squashUID?: number;
+  /** Group ID to squash to. */
+  squashGID?: number;
+  /**
+   * AML file system squash status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -271,6 +245,8 @@ export interface AmlFilesystemUpdate {
   encryptionSettings?: AmlFilesystemEncryptionSettings;
   /** Start time of a 30-minute weekly maintenance window. */
   maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
+  /** Specifies root squash settings of the AML file system. */
+  rootSquashSettings?: AmlFilesystemRootSquashSettings;
 }
 
 /** Start time of a 30-minute weekly maintenance window. */
@@ -608,8 +584,10 @@ export interface Cache {
   readonly systemData?: SystemData;
   /** SKU for the cache. */
   sku?: CacheSku;
-  /** The size of this Cache, in GB. */
+  /** The size of this cache, in GB, when scalingFactor is 1.0. Values depend on the cache SKU - <a href="https://learn.microsoft.com/en-us/rest/api/storagecache/skus/list?tabs=HTTP">List SKUs</a>. */
   cacheSizeGB?: number;
+  /** Multiplier that sets the current storage and throughput capacity of the cache. Values depend on the cache SKU - <a href="https://learn.microsoft.com/en-us/rest/api/storagecache/skus/list?tabs=HTTP">List SKUs</a>. Values above 1.0 increase the cache size and throughput - for example, the scaling factor 1.33 gives a cache that's 33% larger than its base size. */
+  scalingFactor?: number;
   /**
    * Health of the cache.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1072,10 +1050,20 @@ export interface AmlFilesystem extends TrackedResource {
   /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
   filesystemSubnet?: string;
   /**
-   * Client information for the AML file system.
+   * The IPv4 address used by clients to mount the AML file system's Lustre Management Service (MGS).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly clientInfo?: AmlFilesystemClientInfo;
+  readonly mgsAddress?: string;
+  /**
+   * Recommended command to mount the AML file system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mountCommand?: string;
+  /**
+   * The version of Lustre running in the AML file system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lustreVersion?: string;
   /**
    * Throughput provisioned in MB per sec, calculated as storageCapacityTiB * per-unit storage throughput
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1087,6 +1075,8 @@ export interface AmlFilesystem extends TrackedResource {
   maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow;
   /** Hydration and archive settings and status */
   hsm?: AmlFilesystemPropertiesHsm;
+  /** Specifies root squash settings of the AML file system. */
+  rootSquashSettings?: AmlFilesystemRootSquashSettings;
 }
 
 /** Defines headers for AmlFilesystems_delete operation. */
@@ -1355,6 +1345,27 @@ export enum KnownArchiveStatusType {
  * **FSScanInProgress**
  */
 export type ArchiveStatusType = string;
+
+/** Known values of {@link AmlFilesystemSquashMode} that the service accepts. */
+export enum KnownAmlFilesystemSquashMode {
+  /** None */
+  None = "None",
+  /** RootOnly */
+  RootOnly = "RootOnly",
+  /** All */
+  All = "All"
+}
+
+/**
+ * Defines values for AmlFilesystemSquashMode. \
+ * {@link KnownAmlFilesystemSquashMode} can be used interchangeably with AmlFilesystemSquashMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **RootOnly** \
+ * **All**
+ */
+export type AmlFilesystemSquashMode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -1744,14 +1755,14 @@ export type CacheIdentityType =
 
 /** Optional parameters. */
 export interface AmlFilesystemsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AmlFilesystemsListResponse = AmlFilesystemsListResult;
 
 /** Optional parameters. */
 export interface AmlFilesystemsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type AmlFilesystemsListByResourceGroupResponse = AmlFilesystemsListResult;
@@ -1767,7 +1778,7 @@ export interface AmlFilesystemsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface AmlFilesystemsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AmlFilesystemsGetResponse = AmlFilesystem;
@@ -1805,18 +1816,18 @@ export interface AmlFilesystemsArchiveOptionalParams
 
 /** Optional parameters. */
 export interface AmlFilesystemsCancelArchiveOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AmlFilesystemsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AmlFilesystemsListNextResponse = AmlFilesystemsListResult;
 
 /** Optional parameters. */
 export interface AmlFilesystemsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type AmlFilesystemsListByResourceGroupNextResponse = AmlFilesystemsListResult;
@@ -1840,75 +1851,75 @@ export type GetRequiredAmlFSSubnetsSizeResponse = RequiredAmlFilesystemSubnetsSi
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = ApiOperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = ApiOperationListResult;
 
 /** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions { }
+export interface SkusListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SkusListResponse = ResourceSkusResult;
 
 /** Optional parameters. */
 export interface SkusListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SkusListNextResponse = ResourceSkusResult;
 
 /** Optional parameters. */
 export interface UsageModelsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type UsageModelsListResponse = UsageModelsResult;
 
 /** Optional parameters. */
 export interface UsageModelsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsageModelsListNextResponse = UsageModelsResult;
 
 /** Optional parameters. */
 export interface AscOperationsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AscOperationsGetResponse = AscOperation;
 
 /** Optional parameters. */
 export interface AscUsagesListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AscUsagesListResponse = ResourceUsagesListResult;
 
 /** Optional parameters. */
 export interface AscUsagesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AscUsagesListNextResponse = ResourceUsagesListResult;
 
 /** Optional parameters. */
-export interface CachesListOptionalParams extends coreClient.OperationOptions { }
+export interface CachesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CachesListResponse = CachesListResult;
 
 /** Optional parameters. */
 export interface CachesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type CachesListByResourceGroupResponse = CachesListResult;
@@ -1923,7 +1934,7 @@ export interface CachesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface CachesGetOptionalParams extends coreClient.OperationOptions { }
+export interface CachesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CachesGetResponse = Cache;
@@ -2068,14 +2079,14 @@ export type CachesSpaceAllocationResponse = CachesSpaceAllocationHeaders;
 
 /** Optional parameters. */
 export interface CachesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CachesListNextResponse = CachesListResult;
 
 /** Optional parameters. */
 export interface CachesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type CachesListByResourceGroupNextResponse = CachesListResult;
@@ -2091,7 +2102,7 @@ export interface StorageTargetsDnsRefreshOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsListByCacheOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCache operation. */
 export type StorageTargetsListByCacheResponse = StorageTargetsResult;
@@ -2109,7 +2120,7 @@ export interface StorageTargetsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type StorageTargetsGetResponse = StorageTarget;
@@ -2137,7 +2148,7 @@ export interface StorageTargetsRestoreDefaultsOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsListByCacheNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCacheNext operation. */
 export type StorageTargetsListByCacheNextResponse = StorageTargetsResult;

@@ -12,14 +12,17 @@ import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AmlFilesystem extends TrackedResource {
-    readonly clientInfo?: AmlFilesystemClientInfo;
     encryptionSettings?: AmlFilesystemEncryptionSettings;
     filesystemSubnet?: string;
     readonly health?: AmlFilesystemHealth;
     hsm?: AmlFilesystemPropertiesHsm;
     identity?: AmlFilesystemIdentity;
+    readonly lustreVersion?: string;
     maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow;
+    readonly mgsAddress?: string;
+    readonly mountCommand?: string;
     readonly provisioningState?: AmlFilesystemProvisioningStateType;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
     sku?: SkuName;
     storageCapacityTiB?: number;
     readonly throughputProvisionedMBps?: number;
@@ -56,21 +59,6 @@ export interface AmlFilesystemCheckSubnetError {
 export interface AmlFilesystemCheckSubnetErrorFilesystemSubnet {
     message?: string;
     status?: FilesystemSubnetStatusType;
-}
-
-// @public
-export interface AmlFilesystemClientInfo {
-    readonly containerStorageInterface?: AmlFilesystemContainerStorageInterface;
-    readonly lustreVersion?: string;
-    readonly mgsAddress?: string;
-    readonly mountCommand?: string;
-}
-
-// @public
-export interface AmlFilesystemContainerStorageInterface {
-    readonly persistentVolume?: string;
-    readonly persistentVolumeClaim?: string;
-    readonly storageClass?: string;
 }
 
 // @public
@@ -122,6 +110,15 @@ export interface AmlFilesystemPropertiesMaintenanceWindow {
 
 // @public
 export type AmlFilesystemProvisioningStateType = string;
+
+// @public
+export interface AmlFilesystemRootSquashSettings {
+    mode?: AmlFilesystemSquashMode;
+    noSquashNidLists?: string;
+    squashGID?: number;
+    squashUID?: number;
+    readonly status?: string;
+}
 
 // @public
 export interface AmlFilesystems {
@@ -215,6 +212,9 @@ export interface AmlFilesystemsListResult {
 }
 
 // @public
+export type AmlFilesystemSquashMode = string;
+
+// @public
 export interface AmlFilesystemSubnetInfo {
     filesystemSubnet?: string;
     location?: string;
@@ -241,6 +241,7 @@ export type AmlFilesystemsUpdateResponse = AmlFilesystem;
 export interface AmlFilesystemUpdate {
     encryptionSettings?: AmlFilesystemEncryptionSettings;
     maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
     tags?: {
         [propertyName: string]: string;
     };
@@ -350,6 +351,7 @@ interface Cache_2 {
     networkSettings?: CacheNetworkSettings;
     readonly primingJobs?: PrimingJob[];
     readonly provisioningState?: ProvisioningStateType;
+    scalingFactor?: number;
     securitySettings?: CacheSecuritySettings;
     sku?: CacheSku;
     readonly spaceAllocation?: StorageTargetSpaceAllocation[];
@@ -810,6 +812,13 @@ export enum KnownAmlFilesystemProvisioningStateType {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownAmlFilesystemSquashMode {
+    All = "All",
+    None = "None",
+    RootOnly = "RootOnly"
 }
 
 // @public

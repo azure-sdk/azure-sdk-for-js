@@ -1,15 +1,24 @@
 # Release History
+    
+## 8.0.0-beta.1 (2023-10-02)
+    
+**Features**
 
-## 7.0.1 (Unreleased)
+  - Added Interface AmlFilesystemRootSquashSettings
+  - Added Type Alias AmlFilesystemSquashMode
+  - Interface AmlFilesystem has a new optional parameter lustreVersion
+  - Interface AmlFilesystem has a new optional parameter mgsAddress
+  - Interface AmlFilesystem has a new optional parameter mountCommand
+  - Interface AmlFilesystem has a new optional parameter rootSquashSettings
+  - Interface AmlFilesystemUpdate has a new optional parameter rootSquashSettings
+  - Interface Cache_2 has a new optional parameter scalingFactor
+  - Added Enum KnownAmlFilesystemSquashMode
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AmlFilesystem no longer has parameter clientInfo
+    
+    
 ## 7.0.0 (2023-06-09)
     
 **Features**
@@ -202,4 +211,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
