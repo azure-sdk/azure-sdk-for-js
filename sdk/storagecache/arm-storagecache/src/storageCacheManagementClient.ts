@@ -130,7 +130,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.apiVersion = options.apiVersion || "2023-11-01-preview";
     this.amlFilesystems = new AmlFilesystemsImpl(this);
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
