@@ -6,13 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-
-// @public
-export interface Action {
-    name: string;
-    type: "delay" | "discrete" | "continuous";
-}
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface ActionStatus {
@@ -26,15 +22,6 @@ export interface ActionStatus {
 
 // @public
 export type ActionType = string;
-
-// @public (undocumented)
-export type ActionUnion = Action | DelayAction | DiscreteAction | ContinuousAction;
-
-// @public
-export interface Branch {
-    actions: ActionUnion[];
-    name: string;
-}
 
 // @public
 export interface BranchStatus {
@@ -156,6 +143,27 @@ export interface CapabilityTypesListOptionalParams extends coreClient.OperationO
 // @public
 export type CapabilityTypesListResponse = CapabilityTypeListResult;
 
+// @public
+export interface ChaosExperimentAction {
+    name: string;
+    type: "delay" | "discrete" | "continuous";
+}
+
+// @public (undocumented)
+export type ChaosExperimentActionUnion = ChaosExperimentAction | DelayAction | DiscreteAction | ContinuousAction;
+
+// @public
+export interface ChaosExperimentBranch {
+    actions: ChaosExperimentActionUnion[];
+    name: string;
+}
+
+// @public
+export interface ChaosExperimentStep {
+    branches: ChaosExperimentBranch[];
+    name: string;
+}
+
 // @public (undocumented)
 export class ChaosManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -173,6 +181,8 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    operationStatuses: OperationStatuses;
+    // (undocumented)
     subscriptionId?: string;
     // (undocumented)
     targets: Targets;
@@ -188,7 +198,50 @@ export interface ChaosManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
-export interface ContinuousAction extends Action {
+export interface ChaosTargetFilter {
+    type: "Simple";
+}
+
+// @public (undocumented)
+export type ChaosTargetFilterUnion = ChaosTargetFilter | ChaosTargetSimpleFilter;
+
+// @public
+export interface ChaosTargetListSelector extends ChaosTargetSelector {
+    targets: TargetReference[];
+    type: "List";
+}
+
+// @public
+export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
+    queryString: string;
+    subscriptionIds: string[];
+    type: "Query";
+}
+
+// @public
+export interface ChaosTargetSelector {
+    [property: string]: any;
+    filter?: ChaosTargetFilterUnion;
+    id: string;
+    type: "List" | "Query";
+}
+
+// @public (undocumented)
+export type ChaosTargetSelectorUnion = ChaosTargetSelector | ChaosTargetListSelector | ChaosTargetQuerySelector;
+
+// @public
+export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
+    parameters?: ChaosTargetSimpleFilterParameters;
+    type: "Simple";
+}
+
+// @public
+export interface ChaosTargetSimpleFilterParameters {
+    zones?: string[];
+}
+
+// @public
+export interface ContinuousAction extends ChaosExperimentAction {
     duration: string;
     parameters: KeyValuePair[];
     selectorId: string;
@@ -199,13 +252,13 @@ export interface ContinuousAction extends Action {
 export type CreatedByType = string;
 
 // @public
-export interface DelayAction extends Action {
+export interface DelayAction extends ChaosExperimentAction {
     duration: string;
     type: "delay";
 }
 
 // @public
-export interface DiscreteAction extends Action {
+export interface DiscreteAction extends ChaosExperimentAction {
     parameters: KeyValuePair[];
     selectorId: string;
     type: "discrete";
@@ -234,16 +287,10 @@ export interface ErrorResponse {
 // @public
 export interface Experiment extends TrackedResource {
     identity?: ResourceIdentity;
-    selectors: SelectorUnion[];
-    startOnCreation?: boolean;
-    steps: Step[];
+    readonly provisioningState?: ProvisioningState;
+    selectors: ChaosTargetSelectorUnion[];
+    steps: ChaosExperimentStep[];
     readonly systemData?: SystemData;
-}
-
-// @public
-export interface ExperimentCancelOperationResult {
-    readonly name?: string;
-    readonly statusUrl?: string;
 }
 
 // @public
@@ -295,9 +342,16 @@ export interface ExperimentListResult {
 
 // @public
 export interface Experiments {
-    cancel(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<ExperimentsCancelResponse>;
-    createOrUpdate(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
+    beginCancel(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCancelAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
+    beginStart(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStartAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
     get(resourceGroupName: string, experimentName: string, options?: ExperimentsGetOptionalParams): Promise<ExperimentsGetResponse>;
     getExecutionDetails(resourceGroupName: string, experimentName: string, executionDetailsId: string, options?: ExperimentsGetExecutionDetailsOptionalParams): Promise<ExperimentsGetExecutionDetailsResponse>;
     getStatus(resourceGroupName: string, experimentName: string, statusId: string, options?: ExperimentsGetStatusOptionalParams): Promise<ExperimentsGetStatusResponse>;
@@ -305,19 +359,18 @@ export interface Experiments {
     listAll(options?: ExperimentsListAllOptionalParams): PagedAsyncIterableIterator<Experiment>;
     listAllStatuses(resourceGroupName: string, experimentName: string, options?: ExperimentsListAllStatusesOptionalParams): PagedAsyncIterableIterator<ExperimentStatus>;
     listExecutionDetails(resourceGroupName: string, experimentName: string, options?: ExperimentsListExecutionDetailsOptionalParams): PagedAsyncIterableIterator<ExperimentExecutionDetails>;
-    start(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<ExperimentsStartResponse>;
-    update(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
 }
 
 // @public
 export interface ExperimentsCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type ExperimentsCancelResponse = ExperimentCancelOperationResult;
-
-// @public
 export interface ExperimentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -325,6 +378,8 @@ export type ExperimentsCreateOrUpdateResponse = Experiment;
 
 // @public
 export interface ExperimentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -410,15 +465,8 @@ export type ExperimentsListResponse = ExperimentListResult;
 
 // @public
 export interface ExperimentsStartOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExperimentsStartResponse = ExperimentStartOperationResult;
-
-// @public
-export interface ExperimentStartOperationResult {
-    readonly name?: string;
-    readonly statusUrl?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -439,6 +487,8 @@ export interface ExperimentStatusListResult {
 
 // @public
 export interface ExperimentsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -450,15 +500,7 @@ export interface ExperimentUpdate {
 }
 
 // @public
-export interface Filter {
-    type: "Simple";
-}
-
-// @public
 export type FilterType = string;
-
-// @public (undocumented)
-export type FilterUnion = Filter | SimpleFilter;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -495,6 +537,16 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownSelectorType {
     List = "List",
     Query = "Query"
@@ -503,12 +555,6 @@ export enum KnownSelectorType {
 // @public
 export enum KnownTargetReferenceType {
     ChaosTarget = "ChaosTarget"
-}
-
-// @public
-export interface ListSelector extends Selector {
-    targets: TargetReference[];
-    type: "List";
 }
 
 // @public
@@ -554,14 +600,32 @@ export interface OperationsListAllOptionalParams extends coreClient.OperationOpt
 export type OperationsListAllResponse = OperationListResult;
 
 // @public
+export interface OperationStatus {
+    endTime?: string;
+    error?: ErrorResponse;
+    id?: string;
+    name?: string;
+    startTime?: string;
+    status?: string;
+}
+
+// @public
+export interface OperationStatuses {
+    get(location: string, asyncOperationId: string, options?: OperationStatusesGetOptionalParams): Promise<OperationStatusesGetResponse>;
+}
+
+// @public
+export interface OperationStatusesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationStatusesGetResponse = OperationStatus;
+
+// @public
 export type Origin = string;
 
 // @public
-export interface QuerySelector extends Selector {
-    queryString: string;
-    subscriptionIds: string[];
-    type: "Query";
-}
+export type ProvisioningState = string;
 
 // @public
 export interface Resource {
@@ -584,35 +648,7 @@ export interface ResourceIdentity {
 export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 // @public
-export interface Selector {
-    [property: string]: any;
-    filter?: FilterUnion;
-    id: string;
-    type: "List" | "Query";
-}
-
-// @public
 export type SelectorType = string;
-
-// @public (undocumented)
-export type SelectorUnion = Selector | ListSelector | QuerySelector;
-
-// @public
-export interface SimpleFilter extends Filter {
-    parameters?: SimpleFilterParameters;
-    type: "Simple";
-}
-
-// @public
-export interface SimpleFilterParameters {
-    zones?: string[];
-}
-
-// @public
-export interface Step {
-    branches: Branch[];
-    name: string;
-}
 
 // @public
 export interface StepStatus {
