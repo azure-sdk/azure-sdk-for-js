@@ -326,6 +326,8 @@ export interface AgentPoolUpgradeSettings {
   maxSurge?: string;
   /** The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
   drainTimeoutInMinutes?: number;
+  /** The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes. */
+  nodeSoakDurationInMinutes?: number;
 }
 
 /** See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
@@ -794,8 +796,16 @@ export interface UpgradeOverrideSettings {
 export interface ManagedClusterPropertiesAutoScalerProfile {
   /** Valid values are 'true' and 'false' */
   balanceSimilarNodeGroups?: string;
-  /** If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information. */
+  /** If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted. */
+  daemonsetEvictionForEmptyNodes?: boolean;
+  /** If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted. */
+  daemonsetEvictionForOccupiedNodes?: boolean;
+  /** If set to true, the resources used by daemonset will be taken into account when making scaling down decisions. */
+  ignoreDaemonsetsUtilization?: boolean;
+  /** Available values are: 'least-waste', 'most-pods', 'priority', 'random'. */
   expander?: Expander;
+  /** Available values are: 'least-waste', 'most-pods', 'priority', 'random'. If multiple expanders are configured, they will be considered in the order in which they are listed, with the first one being considered first. */
+  expanders?: Expander[];
   /** The default is 10. */
   maxEmptyBulkDelete?: string;
   /** The default is 600. */
@@ -1023,8 +1033,10 @@ export interface ManagedClusterWorkloadAutoScalerProfileKeda {
 }
 
 export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
-  /** Whether to enable VPA. Default value is false. */
+  /** Whether to enable VPA add-on in cluster. Default value is false. */
   enabled: boolean;
+  /** Whether VPA add-on is enabled and configured to scale AKS-managed add-ons. */
+  addonAutoscaling?: AddonAutoscaling;
 }
 
 /** Prometheus addon profile for the container service cluster */
@@ -1126,6 +1138,8 @@ export interface IstioServiceMesh {
 export interface IstioComponents {
   /** Istio ingress gateways. */
   ingressGateways?: IstioIngressGateway[];
+  /** Istio egress gateways. */
+  egressGateways?: IstioEgressGateway[];
 }
 
 /** Istio ingress gateway configuration. For now, we support up to one external ingress gateway named `aks-istio-ingressgateway-external` and one internal ingress gateway named `aks-istio-ingressgateway-internal`. */
@@ -1134,6 +1148,14 @@ export interface IstioIngressGateway {
   mode: IstioIngressGatewayMode;
   /** Whether to enable the ingress gateway. */
   enabled: boolean;
+}
+
+/** Istio egress gateway configuration. */
+export interface IstioEgressGateway {
+  /** Whether to enable the egress gateway. */
+  enabled: boolean;
+  /** NodeSelector for scheduling the egress gateway. */
+  nodeSelector?: { [propertyName: string]: string };
 }
 
 /** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
@@ -1782,6 +1804,55 @@ export interface TrustedAccessRoleBindingListResult {
   readonly nextLink?: string;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** Whether the version is default or not and support info. */
 export interface GuardrailsAvailableVersionsProperties {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
@@ -1847,14 +1918,6 @@ export interface MeshUpgradeProfileList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Istio egress gateway configuration. */
-export interface IstioEgressGateway {
-  /** Whether to enable the egress gateway. */
-  enabled: boolean;
-  /** NodeSelector for scheduling the egress gateway. */
-  nodeSelector?: { [propertyName: string]: string };
 }
 
 /** Profile for the container service agent pool. */
@@ -2307,6 +2370,12 @@ export interface AgentPoolsUpgradeNodeImageVersionHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for TrustedAccessRoleBindings_delete operation. */
+export interface TrustedAccessRoleBindingsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
 /** Known values of {@link KubernetesSupportPlan} that the service accepts. */
 export enum KnownKubernetesSupportPlan {
   /** Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. */
@@ -2756,6 +2825,8 @@ export type NetworkPluginMode = string;
 
 /** Known values of {@link NetworkPolicy} that the service accepts. */
 export enum KnownNetworkPolicy {
+  /** Network policies will not be enforced. This is the default value when NetworkPolicy is not specified. */
+  None = "none",
   /** Use Calico network policies. See [differences between Azure and Calico policies](https:\//docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. */
   Calico = "calico",
   /** Use Azure network policies. See [differences between Azure and Calico policies](https:\//docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. */
@@ -2769,6 +2840,7 @@ export enum KnownNetworkPolicy {
  * {@link KnownNetworkPolicy} can be used interchangeably with NetworkPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **none**: Network policies will not be enforced. This is the default value when NetworkPolicy is not specified. \
  * **calico**: Use Calico network policies. See [differences between Azure and Calico policies](https:\/\/docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. \
  * **azure**: Use Azure network policies. See [differences between Azure and Calico policies](https:\/\/docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. \
  * **cilium**: Use Cilium to enforce network policies. This requires networkDataplane to be 'cilium'.
@@ -3038,6 +3110,24 @@ export enum KnownPublicNetworkAccess {
  * **SecuredByPerimeter**: Inbound\/Outbound traffic is managed by Microsoft.Network\/NetworkSecurityPerimeters.
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link AddonAutoscaling} that the service accepts. */
+export enum KnownAddonAutoscaling {
+  /** Feature to autoscale AKS-managed add-ons is enabled. The default VPA update mode is Initial mode. */
+  Enabled = "Enabled",
+  /** Feature to autoscale AKS-managed add-ons is disabled. */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AddonAutoscaling. \
+ * {@link KnownAddonAutoscaling} can be used interchangeably with AddonAutoscaling,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Feature to autoscale AKS-managed add-ons is enabled. The default VPA update mode is Initial mode. \
+ * **Disabled**: Feature to autoscale AKS-managed add-ons is disabled.
+ */
+export type AddonAutoscaling = string;
 
 /** Known values of {@link Level} that the service accepts. */
 export enum KnownLevel {
@@ -3946,14 +4036,27 @@ export type TrustedAccessRoleBindingsGetResponse = TrustedAccessRoleBinding;
 
 /** Optional parameters. */
 export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
 
 /** Optional parameters. */
 export interface TrustedAccessRoleBindingsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type TrustedAccessRoleBindingsDeleteResponse = TrustedAccessRoleBindingsDeleteHeaders;
 
 /** Optional parameters. */
 export interface TrustedAccessRoleBindingsListNextOptionalParams

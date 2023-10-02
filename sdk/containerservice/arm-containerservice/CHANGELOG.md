@@ -1,6 +1,6 @@
 # Release History
     
-## 19.4.0-beta.1 (2023-09-01)
+## 19.4.0-beta.2 (2023-10-02)
     
 **Features**
 
@@ -20,6 +20,9 @@
   - Added Interface CompatibleVersions
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfig
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
   - Added Interface GuardrailsAvailableVersion
   - Added Interface GuardrailsAvailableVersionsList
   - Added Interface GuardrailsAvailableVersionsProperties
@@ -87,6 +90,7 @@
   - Added Interface TrustedAccessRoleBinding
   - Added Interface TrustedAccessRoleBindingListResult
   - Added Interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  - Added Interface TrustedAccessRoleBindingsDeleteHeaders
   - Added Interface TrustedAccessRoleBindingsDeleteOptionalParams
   - Added Interface TrustedAccessRoleBindingsGetOptionalParams
   - Added Interface TrustedAccessRoleBindingsListNextOptionalParams
@@ -95,6 +99,7 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias AddonAutoscaling
   - Added Type Alias AgentPoolSSHAccess
   - Added Type Alias BackendPoolType
   - Added Type Alias GuardrailsSupport
@@ -126,6 +131,7 @@
   - Added Type Alias ServiceMeshMode
   - Added Type Alias TrustedAccessRoleBindingProvisioningState
   - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
+  - Added Type Alias TrustedAccessRoleBindingsDeleteResponse
   - Added Type Alias TrustedAccessRoleBindingsGetResponse
   - Added Type Alias TrustedAccessRoleBindingsListNextResponse
   - Added Type Alias TrustedAccessRoleBindingsListResponse
@@ -138,6 +144,7 @@
   - Interface AgentPool has a new optional parameter securityProfile
   - Interface AgentPool has a new optional parameter windowsProfile
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface AgentPoolUpgradeSettings has a new optional parameter nodeSoakDurationInMinutes
   - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
   - Interface ContainerServiceNetworkProfile has a new optional parameter monitoring
   - Interface ManagedCluster has a new optional parameter creationData
@@ -160,11 +167,17 @@
   - Interface ManagedClusterAzureMonitorProfileMetrics has a new optional parameter appMonitoringOpenTelemetryMetrics
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
   - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter daemonsetEvictionForEmptyNodes
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter daemonsetEvictionForOccupiedNodes
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter expanders
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter ignoreDaemonsetsUtilization
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ManagedClusterSecurityProfile has a new optional parameter customCATrustCertificates
   - Interface ManagedClusterSecurityProfile has a new optional parameter imageIntegrity
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
+  - Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler has a new optional parameter addonAutoscaling
+  - Added Enum KnownAddonAutoscaling
   - Added Enum KnownAgentPoolSSHAccess
   - Added Enum KnownBackendPoolType
   - Added Enum KnownGuardrailsSupport
@@ -176,6 +189,7 @@
   - Added Enum KnownRestrictionLevel
   - Added Enum KnownServiceMeshMode
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+  - Enum KnownNetworkPolicy has a new value None
   - Enum KnownNodeOSUpgradeChannel has a new value SecurityPatch
   - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
@@ -423,4 +437,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
