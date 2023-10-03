@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ComponentVersion,
   ComponentVersionsListOptionalParams,
@@ -14,7 +15,9 @@ import {
   ComponentVersionsGetOptionalParams,
   ComponentVersionsGetResponse,
   ComponentVersionsCreateOrUpdateOptionalParams,
-  ComponentVersionsCreateOrUpdateResponse
+  ComponentVersionsCreateOrUpdateResponse,
+  DestinationAsset,
+  ComponentVersionsPublishOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,4 +83,38 @@ export interface ComponentVersions {
     body: ComponentVersion,
     options?: ComponentVersionsCreateOrUpdateOptionalParams
   ): Promise<ComponentVersionsCreateOrUpdateResponse>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublish(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ComponentVersionsPublishOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublishAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ComponentVersionsPublishOptionalParams
+  ): Promise<void>;
 }
