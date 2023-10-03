@@ -33,6 +33,13 @@ import {
   ManagedCCFCreateOptionalParams,
   ManagedCCFCreateResponse,
   ManagedCCFUpdateOptionalParams,
+  ManagedCCFUpdateResponse,
+  ManagedCCFBackup,
+  ManagedCCFBackupOptionalParams,
+  ManagedCCFBackupOperationResponse,
+  ManagedCCFRestore,
+  ManagedCCFRestoreOptionalParams,
+  ManagedCCFRestoreOperationResponse,
   ManagedCCFListByResourceGroupNextResponse,
   ManagedCCFListBySubscriptionNextResponse
 } from "../models";
@@ -376,11 +383,16 @@ export class ManagedCCFOperationsImpl implements ManagedCCFOperations {
     appName: string,
     managedCCF: ManagedCCF,
     options?: ManagedCCFUpdateOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedCCFUpdateResponse>,
+      ManagedCCFUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedCCFUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -421,7 +433,10 @@ export class ManagedCCFOperationsImpl implements ManagedCCFOperations {
       args: { resourceGroupName, appName, managedCCF, options },
       spec: updateOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ManagedCCFUpdateResponse,
+      OperationState<ManagedCCFUpdateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -441,7 +456,7 @@ export class ManagedCCFOperationsImpl implements ManagedCCFOperations {
     appName: string,
     managedCCF: ManagedCCF,
     options?: ManagedCCFUpdateOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedCCFUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       appName,
@@ -477,6 +492,196 @@ export class ManagedCCFOperationsImpl implements ManagedCCFOperations {
       { options },
       listBySubscriptionOperationSpec
     );
+  }
+
+  /**
+   * Backs up a Managed CCF Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Backup Request Body
+   * @param options The options parameters.
+   */
+  async beginBackup(
+    resourceGroupName: string,
+    appName: string,
+    managedCCF: ManagedCCFBackup,
+    options?: ManagedCCFBackupOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedCCFBackupOperationResponse>,
+      ManagedCCFBackupOperationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ManagedCCFBackupOperationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, appName, managedCCF, options },
+      spec: backupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedCCFBackupOperationResponse,
+      OperationState<ManagedCCFBackupOperationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Backs up a Managed CCF Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Backup Request Body
+   * @param options The options parameters.
+   */
+  async beginBackupAndWait(
+    resourceGroupName: string,
+    appName: string,
+    managedCCF: ManagedCCFBackup,
+    options?: ManagedCCFBackupOptionalParams
+  ): Promise<ManagedCCFBackupOperationResponse> {
+    const poller = await this.beginBackup(
+      resourceGroupName,
+      appName,
+      managedCCF,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Restores a Managed CCF Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Restore Request Body
+   * @param options The options parameters.
+   */
+  async beginRestore(
+    resourceGroupName: string,
+    appName: string,
+    managedCCF: ManagedCCFRestore,
+    options?: ManagedCCFRestoreOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedCCFRestoreOperationResponse>,
+      ManagedCCFRestoreOperationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ManagedCCFRestoreOperationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, appName, managedCCF, options },
+      spec: restoreOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedCCFRestoreOperationResponse,
+      OperationState<ManagedCCFRestoreOperationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restores a Managed CCF Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appName Name of the Managed CCF
+   * @param managedCCF Managed CCF Restore Request Body
+   * @param options The options parameters.
+   */
+  async beginRestoreAndWait(
+    resourceGroupName: string,
+    appName: string,
+    managedCCF: ManagedCCFRestore,
+    options?: ManagedCCFRestoreOptionalParams
+  ): Promise<ManagedCCFRestoreOperationResponse> {
+    const poller = await this.beginRestore(
+      resourceGroupName,
+      appName,
+      managedCCF,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -597,10 +802,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/managedCCFs/{appName}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.ManagedCCF
+    },
+    201: {
+      bodyMapper: Mappers.ManagedCCF
+    },
+    202: {
+      bodyMapper: Mappers.ManagedCCF
+    },
+    204: {
+      bodyMapper: Mappers.ManagedCCF
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -653,6 +866,72 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const backupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/managedCCFs/{appName}/backup",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedCCFBackupResponse
+    },
+    201: {
+      bodyMapper: Mappers.ManagedCCFBackupResponse
+    },
+    202: {
+      bodyMapper: Mappers.ManagedCCFBackupResponse
+    },
+    204: {
+      bodyMapper: Mappers.ManagedCCFBackupResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.managedCCF1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.appName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const restoreOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/managedCCFs/{appName}/restore",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedCCFRestoreResponse
+    },
+    201: {
+      bodyMapper: Mappers.ManagedCCFRestoreResponse
+    },
+    202: {
+      bodyMapper: Mappers.ManagedCCFRestoreResponse
+    },
+    204: {
+      bodyMapper: Mappers.ManagedCCFRestoreResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.managedCCF2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.appName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
