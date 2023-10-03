@@ -529,6 +529,33 @@ export const Filter: coreClient.CompositeMapper = {
   }
 };
 
+export const CustomerDataStorageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomerDataStorageProperties",
+    modelProperties: {
+      storageAccountResourceId: {
+        serializedName: "storageAccountResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      blobContainerName: {
+        constraints: {
+          Pattern: new RegExp("^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$"),
+          MaxLength: 63,
+          MinLength: 3
+        },
+        serializedName: "blobContainerName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ExperimentUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -539,58 +566,6 @@ export const ExperimentUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResourceIdentity"
-        }
-      }
-    }
-  }
-};
-
-export const ExperimentCancelOperationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExperimentCancelOperationResult",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusUrl: {
-        constraints: {
-          MaxLength: 2048
-        },
-        serializedName: "statusUrl",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ExperimentStartOperationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExperimentStartOperationResult",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusUrl: {
-        constraints: {
-          MaxLength: 2048
-        },
-        serializedName: "statusUrl",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -1029,6 +1004,52 @@ export const ExperimentExecutionActionTargetDetailsError: coreClient.CompositeMa
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "String"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
         }
       }
     }
@@ -1772,6 +1793,13 @@ export const Experiment: coreClient.CompositeMapper = {
           className: "ResourceIdentity"
         }
       },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       steps: {
         constraints: {
           MinItems: 1
@@ -1804,11 +1832,11 @@ export const Experiment: coreClient.CompositeMapper = {
           }
         }
       },
-      startOnCreation: {
-        serializedName: "properties.startOnCreation",
-        nullable: true,
+      customerDataStorage: {
+        serializedName: "properties.customerDataStorage",
         type: {
-          name: "Boolean"
+          name: "Composite",
+          className: "CustomerDataStorageProperties"
         }
       }
     }

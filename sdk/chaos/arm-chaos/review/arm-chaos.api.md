@@ -6,7 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Action {
@@ -173,6 +175,8 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    operationStatuses: OperationStatuses;
+    // (undocumented)
     subscriptionId?: string;
     // (undocumented)
     targets: Targets;
@@ -197,6 +201,12 @@ export interface ContinuousAction extends Action {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CustomerDataStorageProperties {
+    blobContainerName?: string;
+    storageAccountResourceId?: string;
+}
 
 // @public
 export interface DelayAction extends Action {
@@ -233,17 +243,12 @@ export interface ErrorResponse {
 
 // @public
 export interface Experiment extends TrackedResource {
+    customerDataStorage?: CustomerDataStorageProperties;
     identity?: ResourceIdentity;
+    readonly provisioningState?: ProvisioningState;
     selectors: SelectorUnion[];
-    startOnCreation?: boolean;
     steps: Step[];
     readonly systemData?: SystemData;
-}
-
-// @public
-export interface ExperimentCancelOperationResult {
-    readonly name?: string;
-    readonly statusUrl?: string;
 }
 
 // @public
@@ -295,9 +300,16 @@ export interface ExperimentListResult {
 
 // @public
 export interface Experiments {
-    cancel(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<ExperimentsCancelResponse>;
-    createOrUpdate(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
+    beginCancel(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCancelAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
+    beginStart(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStartAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
     get(resourceGroupName: string, experimentName: string, options?: ExperimentsGetOptionalParams): Promise<ExperimentsGetResponse>;
     getExecutionDetails(resourceGroupName: string, experimentName: string, executionDetailsId: string, options?: ExperimentsGetExecutionDetailsOptionalParams): Promise<ExperimentsGetExecutionDetailsResponse>;
     getStatus(resourceGroupName: string, experimentName: string, statusId: string, options?: ExperimentsGetStatusOptionalParams): Promise<ExperimentsGetStatusResponse>;
@@ -305,19 +317,18 @@ export interface Experiments {
     listAll(options?: ExperimentsListAllOptionalParams): PagedAsyncIterableIterator<Experiment>;
     listAllStatuses(resourceGroupName: string, experimentName: string, options?: ExperimentsListAllStatusesOptionalParams): PagedAsyncIterableIterator<ExperimentStatus>;
     listExecutionDetails(resourceGroupName: string, experimentName: string, options?: ExperimentsListExecutionDetailsOptionalParams): PagedAsyncIterableIterator<ExperimentExecutionDetails>;
-    start(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<ExperimentsStartResponse>;
-    update(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
 }
 
 // @public
 export interface ExperimentsCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type ExperimentsCancelResponse = ExperimentCancelOperationResult;
-
-// @public
 export interface ExperimentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -325,6 +336,8 @@ export type ExperimentsCreateOrUpdateResponse = Experiment;
 
 // @public
 export interface ExperimentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -410,15 +423,8 @@ export type ExperimentsListResponse = ExperimentListResult;
 
 // @public
 export interface ExperimentsStartOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExperimentsStartResponse = ExperimentStartOperationResult;
-
-// @public
-export interface ExperimentStartOperationResult {
-    readonly name?: string;
-    readonly statusUrl?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -439,6 +445,8 @@ export interface ExperimentStatusListResult {
 
 // @public
 export interface ExperimentsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -492,6 +500,16 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -554,7 +572,32 @@ export interface OperationsListAllOptionalParams extends coreClient.OperationOpt
 export type OperationsListAllResponse = OperationListResult;
 
 // @public
+export interface OperationStatus {
+    endTime?: string;
+    error?: ErrorResponse;
+    id?: string;
+    name?: string;
+    startTime?: string;
+    status?: string;
+}
+
+// @public
+export interface OperationStatuses {
+    get(location: string, asyncOperationId: string, options?: OperationStatusesGetOptionalParams): Promise<OperationStatusesGetResponse>;
+}
+
+// @public
+export interface OperationStatusesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationStatusesGetResponse = OperationStatus;
+
+// @public
 export type Origin = string;
+
+// @public
+export type ProvisioningState = string;
 
 // @public
 export interface QuerySelector extends Selector {

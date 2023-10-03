@@ -1,15 +1,49 @@
 # Release History
+    
+## 1.0.0-beta.5 (2023-10-02)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
+  - Added operation group OperationStatuses
+  - Added operation Experiments.beginCancel
+  - Added operation Experiments.beginCancelAndWait
+  - Added operation Experiments.beginCreateOrUpdate
+  - Added operation Experiments.beginCreateOrUpdateAndWait
+  - Added operation Experiments.beginDelete
+  - Added operation Experiments.beginDeleteAndWait
+  - Added operation Experiments.beginStart
+  - Added operation Experiments.beginStartAndWait
+  - Added operation Experiments.beginUpdate
+  - Added operation Experiments.beginUpdateAndWait
+  - Added Interface CustomerDataStorageProperties
+  - Added Interface OperationStatus
+  - Added Interface OperationStatusesGetOptionalParams
+  - Added Type Alias OperationStatusesGetResponse
+  - Added Type Alias ProvisioningState
+  - Interface Experiment has a new optional parameter customerDataStorage
+  - Interface Experiment has a new optional parameter provisioningState
+  - Interface ExperimentsCancelOptionalParams has a new optional parameter resumeFrom
+  - Interface ExperimentsCancelOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ExperimentsCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ExperimentsCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ExperimentsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ExperimentsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ExperimentsStartOptionalParams has a new optional parameter resumeFrom
+  - Interface ExperimentsStartOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ExperimentsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ExperimentsUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownProvisioningState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Experiments.cancel
+  - Removed operation Experiments.createOrUpdate
+  - Removed operation Experiments.delete
+  - Removed operation Experiments.start
+  - Removed operation Experiments.update
+  - Interface Experiment no longer has parameter startOnCreation
+    
+    
 ## 1.0.0-beta.4 (2023-08-04)
     
 **Features**
@@ -67,4 +101,4 @@
     
 ## 1.0.0-beta.1 (2022-09-13)
 
-The package of @azure/arm-chaos is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-chaos is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
