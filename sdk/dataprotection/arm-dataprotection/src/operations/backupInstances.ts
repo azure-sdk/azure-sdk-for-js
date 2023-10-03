@@ -35,8 +35,16 @@ import {
   ValidateForBackupRequest,
   BackupInstancesValidateForBackupOptionalParams,
   BackupInstancesValidateForBackupResponse,
+  ValidateForModifyBackupRequest,
+  BackupInstancesValidateForModifyBackupOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultResponse,
+  CrossRegionRestoreRequestObject,
+  BackupInstancesTriggerCrossRegionRestoreOptionalParams,
+  BackupInstancesTriggerCrossRegionRestoreResponse,
+  ValidateCrossRegionRestoreRequestObject,
+  BackupInstancesValidateCrossRegionRestoreOptionalParams,
+  BackupInstancesValidateCrossRegionRestoreResponse,
   AzureBackupRehydrationRequest,
   BackupInstancesTriggerRehydrateOptionalParams,
   BackupInstancesTriggerRehydrateResponse,
@@ -448,7 +456,8 @@ export class BackupInstancesImpl implements BackupInstances {
       OperationState<BackupInstancesAdhocBackupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -546,7 +555,8 @@ export class BackupInstancesImpl implements BackupInstances {
       OperationState<BackupInstancesValidateForBackupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -568,6 +578,105 @@ export class BackupInstancesImpl implements BackupInstances {
     const poller = await this.beginValidateForBackup(
       resourceGroupName,
       vaultName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Validate whether update for backup instance will be successful or not
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param backupInstanceName The name of the backup instance.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginValidateForModifyBackup(
+    resourceGroupName: string,
+    vaultName: string,
+    backupInstanceName: string,
+    parameters: ValidateForModifyBackupRequest,
+    options?: BackupInstancesValidateForModifyBackupOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        backupInstanceName,
+        parameters,
+        options
+      },
+      spec: validateForModifyBackupOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validate whether update for backup instance will be successful or not
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param backupInstanceName The name of the backup instance.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginValidateForModifyBackupAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    backupInstanceName: string,
+    parameters: ValidateForModifyBackupRequest,
+    options?: BackupInstancesValidateForModifyBackupOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginValidateForModifyBackup(
+      resourceGroupName,
+      vaultName,
+      backupInstanceName,
       parameters,
       options
     );
@@ -599,6 +708,194 @@ export class BackupInstancesImpl implements BackupInstances {
       },
       getBackupInstanceOperationResultOperationSpec
     );
+  }
+
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for trigger CRR operation
+   * @param options The options parameters.
+   */
+  async beginTriggerCrossRegionRestore(
+    resourceGroupName: string,
+    location: string,
+    parameters: CrossRegionRestoreRequestObject,
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesTriggerCrossRegionRestoreResponse>,
+      BackupInstancesTriggerCrossRegionRestoreResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<BackupInstancesTriggerCrossRegionRestoreResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, location, parameters, options },
+      spec: triggerCrossRegionRestoreOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesTriggerCrossRegionRestoreResponse,
+      OperationState<BackupInstancesTriggerCrossRegionRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for trigger CRR operation
+   * @param options The options parameters.
+   */
+  async beginTriggerCrossRegionRestoreAndWait(
+    resourceGroupName: string,
+    location: string,
+    parameters: CrossRegionRestoreRequestObject,
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  ): Promise<BackupInstancesTriggerCrossRegionRestoreResponse> {
+    const poller = await this.beginTriggerCrossRegionRestore(
+      resourceGroupName,
+      location,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginValidateCrossRegionRestore(
+    resourceGroupName: string,
+    location: string,
+    parameters: ValidateCrossRegionRestoreRequestObject,
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateCrossRegionRestoreResponse>,
+      BackupInstancesValidateCrossRegionRestoreResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<BackupInstancesValidateCrossRegionRestoreResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, location, parameters, options },
+      spec: validateCrossRegionRestoreOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesValidateCrossRegionRestoreResponse,
+      OperationState<BackupInstancesValidateCrossRegionRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginValidateCrossRegionRestoreAndWait(
+    resourceGroupName: string,
+    location: string,
+    parameters: ValidateCrossRegionRestoreRequestObject,
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams
+  ): Promise<BackupInstancesValidateCrossRegionRestoreResponse> {
+    const poller = await this.beginValidateCrossRegionRestore(
+      resourceGroupName,
+      location,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -782,7 +1079,8 @@ export class BackupInstancesImpl implements BackupInstances {
       OperationState<BackupInstancesTriggerRestoreResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1338,7 +1636,8 @@ export class BackupInstancesImpl implements BackupInstances {
       OperationState<BackupInstancesValidateForRestoreResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1561,6 +1860,32 @@ const validateForBackupOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const validateForModifyBackupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/validateForModifyBackup",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters8,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const getBackupInstanceOperationResultOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/operationResults/{operationId}",
@@ -1586,6 +1911,72 @@ const getBackupInstanceOperationResultOperationSpec: coreClient.OperationSpec = 
   headerParameters: [Parameters.accept],
   serializer
 };
+const triggerCrossRegionRestoreOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/crossRegionRestore",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationJobExtendedInfo
+    },
+    201: {
+      bodyMapper: Mappers.OperationJobExtendedInfo
+    },
+    202: {
+      bodyMapper: Mappers.OperationJobExtendedInfo
+    },
+    204: {
+      bodyMapper: Mappers.OperationJobExtendedInfo
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters9,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const validateCrossRegionRestoreOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/validateCrossRegionRestore",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationJobExtendedInfo
+    },
+    201: {
+      bodyMapper: Mappers.OperationJobExtendedInfo
+    },
+    202: {
+      bodyMapper: Mappers.OperationJobExtendedInfo
+    },
+    204: {
+      bodyMapper: Mappers.OperationJobExtendedInfo
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const triggerRehydrateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/rehydrate",
@@ -1607,7 +1998,7 @@ const triggerRehydrateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1641,7 +2032,7 @@ const triggerRestoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1763,7 +2154,7 @@ const syncBackupInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1797,7 +2188,7 @@ const validateForRestoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
