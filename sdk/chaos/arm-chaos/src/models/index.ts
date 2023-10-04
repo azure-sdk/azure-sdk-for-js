@@ -8,13 +8,18 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type ActionUnion =
-  | Action
+export type ChaosExperimentActionUnion =
+  | ChaosExperimentAction
   | DelayAction
   | DiscreteAction
   | ContinuousAction;
-export type SelectorUnion = Selector | ListSelector | QuerySelector;
-export type FilterUnion = Filter | SimpleFilter;
+export type ChaosTargetSelectorUnion =
+  | ChaosTargetSelector
+  | ChaosTargetListSelector
+  | ChaosTargetQuerySelector;
+export type ChaosTargetFilterUnion =
+  | ChaosTargetFilter
+  | ChaosTargetSimpleFilter;
 
 /** Model that represents a list of Capability resources and a link for pagination. */
 export interface CapabilityListResult {
@@ -184,23 +189,23 @@ export interface UserAssignedIdentity {
 }
 
 /** Model that represents a step in the Experiment resource. */
-export interface Step {
+export interface ChaosExperimentStep {
   /** String of the step name. */
   name: string;
   /** List of branches. */
-  branches: Branch[];
+  branches: ChaosExperimentBranch[];
 }
 
 /** Model that represents a branch in the step. */
-export interface Branch {
+export interface ChaosExperimentBranch {
   /** String of the branch name. */
   name: string;
   /** List of actions. */
-  actions: ActionUnion[];
+  actions: ChaosExperimentActionUnion[];
 }
 
 /** Model that represents the base action model. */
-export interface Action {
+export interface ChaosExperimentAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "delay" | "discrete" | "continuous";
   /** String that represents a Capability URN. */
@@ -208,7 +213,7 @@ export interface Action {
 }
 
 /** Model that represents a selector in the Experiment resource. */
-export interface Selector {
+export interface ChaosTargetSelector {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "List" | "Query";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -216,47 +221,27 @@ export interface Selector {
   /** String of the selector ID. */
   id: string;
   /** Model that represents available filter types that can be applied to a targets list. */
-  filter?: FilterUnion;
+  filter?: ChaosTargetFilterUnion;
 }
 
 /** Model that represents available filter types that can be applied to a targets list. */
-export interface Filter {
+export interface ChaosTargetFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Simple";
+}
+
+/** Model that represents the Customer Managed Storage for an Experiment. */
+export interface CustomerDataStorageProperties {
+  /** ARM Resource ID of the Storage account to use for Customer Data storage. */
+  storageAccountResourceId?: string;
+  /** Name of the Azure Blob Storage container to use or create. */
+  blobContainerName?: string;
 }
 
 /** Describes an experiment update. */
 export interface ExperimentUpdate {
   /** The identity of the experiment resource. */
   identity?: ResourceIdentity;
-}
-
-/** Model that represents the result of a cancel Experiment operation. */
-export interface ExperimentCancelOperationResult {
-  /**
-   * String of the Experiment name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * URL to retrieve the Experiment status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusUrl?: string;
-}
-
-/** Model that represents the result of a start Experiment operation. */
-export interface ExperimentStartOperationResult {
-  /**
-   * String of the Experiment name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * URL to retrieve the Experiment status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusUrl?: string;
 }
 
 /** Model that represents a list of Experiment statuses and a link for pagination. */
@@ -514,6 +499,22 @@ export interface ExperimentExecutionActionTargetDetailsError {
   readonly message?: string;
 }
 
+/** The status of operation. */
+export interface OperationStatus {
+  /** The operation Id. */
+  id?: string;
+  /** The operation name. */
+  name?: string;
+  /** The start time of the operation. */
+  startTime?: string;
+  /** The end time of the operation. */
+  endTime?: string;
+  /** The status of the operation. */
+  status?: string;
+  /** The error detail of the operation if any. */
+  error?: ErrorResponse;
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -623,7 +624,7 @@ export interface TargetReference {
 }
 
 /** Model that represents the Simple filter parameters. */
-export interface SimpleFilterParameters {
+export interface ChaosTargetSimpleFilterParameters {
   /** List of Azure availability zones to filter targets by. */
   zones?: string[];
 }
@@ -767,7 +768,7 @@ export interface Target extends Resource {
 }
 
 /** Model that represents a delay action. */
-export interface DelayAction extends Action {
+export interface DelayAction extends ChaosExperimentAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "delay";
   /** ISO8601 formatted string that represents a duration. */
@@ -775,7 +776,7 @@ export interface DelayAction extends Action {
 }
 
 /** Model that represents a discrete action. */
-export interface DiscreteAction extends Action {
+export interface DiscreteAction extends ChaosExperimentAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "discrete";
   /** List of key value pairs. */
@@ -785,7 +786,7 @@ export interface DiscreteAction extends Action {
 }
 
 /** Model that represents a continuous action. */
-export interface ContinuousAction extends Action {
+export interface ContinuousAction extends ChaosExperimentAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "continuous";
   /** ISO8601 formatted string that represents a duration. */
@@ -797,7 +798,7 @@ export interface ContinuousAction extends Action {
 }
 
 /** Model that represents a list selector. */
-export interface ListSelector extends Selector {
+export interface ChaosTargetListSelector extends ChaosTargetSelector {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "List";
   /** List of Target references. */
@@ -805,7 +806,7 @@ export interface ListSelector extends Selector {
 }
 
 /** Model that represents a query selector. */
-export interface QuerySelector extends Selector {
+export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Query";
   /** Azure Resource Graph (ARG) Query Language query for target resources. */
@@ -815,11 +816,11 @@ export interface QuerySelector extends Selector {
 }
 
 /** Model that represents a simple target filter. */
-export interface SimpleFilter extends Filter {
+export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Simple";
   /** Model that represents the Simple filter parameters. */
-  parameters?: SimpleFilterParameters;
+  parameters?: ChaosTargetSimpleFilterParameters;
 }
 
 /** Model that represents a Experiment resource. */
@@ -831,12 +832,17 @@ export interface Experiment extends TrackedResource {
   readonly systemData?: SystemData;
   /** The identity of the experiment resource. */
   identity?: ResourceIdentity;
+  /**
+   * Most recent provisioning state for the given experiment resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /** List of steps. */
-  steps: Step[];
+  steps: ChaosExperimentStep[];
   /** List of selectors. */
-  selectors: SelectorUnion[];
-  /** A boolean value that indicates if experiment should be started on creation or not. */
-  startOnCreation?: boolean;
+  selectors: ChaosTargetSelectorUnion[];
+  /** Optional customer-managed Storage account where Experiment schema will be stored. */
+  customerDataStorage?: CustomerDataStorageProperties;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -862,6 +868,36 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting**
+ */
+export type ProvisioningState = string;
 
 /** Known values of {@link SelectorType} that the service accepts. */
 export enum KnownSelectorType {
@@ -1034,7 +1070,12 @@ export type ExperimentsListResponse = ExperimentListResult;
 
 /** Optional parameters. */
 export interface ExperimentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ExperimentsGetOptionalParams
@@ -1045,31 +1086,45 @@ export type ExperimentsGetResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ExperimentsCreateOrUpdateResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type ExperimentsUpdateResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsCancelOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the cancel operation. */
-export type ExperimentsCancelResponse = ExperimentCancelOperationResult;
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ExperimentsStartOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the start operation. */
-export type ExperimentsStartResponse = ExperimentStartOperationResult;
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ExperimentsListAllStatusesOptionalParams
@@ -1126,6 +1181,13 @@ export interface ExperimentsListExecutionDetailsNextOptionalParams
 
 /** Contains response data for the listExecutionDetailsNext operation. */
 export type ExperimentsListExecutionDetailsNextResponse = ExperimentExecutionDetailsListResult;
+
+/** Optional parameters. */
+export interface OperationStatusesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationStatusesGetResponse = OperationStatus;
 
 /** Optional parameters. */
 export interface OperationsListAllOptionalParams
