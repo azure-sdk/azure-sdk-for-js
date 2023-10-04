@@ -1,7 +1,7 @@
 # Release History
-
-## 11.0.0-beta.2 (2023-09-20)
-
+    
+## 11.0.0-beta.3 (2023-10-04)
+    
 **Features**
 
   - Added operation group Archives
@@ -173,6 +173,7 @@
   - Added Type Alias ImportPipelinesListNextResponse
   - Added Type Alias ImportPipelinesListResponse
   - Added Type Alias LogLevel
+  - Added Type Alias MetadataSearch
   - Added Type Alias PackageSourceType
   - Added Type Alias PipelineOptions
   - Added Type Alias PipelineRunsCreateResponse
@@ -186,7 +187,9 @@
   - Interface Policies has a new optional parameter azureADAuthenticationAsArmPolicy
   - Interface Policies has a new optional parameter softDeletePolicy
   - Interface Registry has a new optional parameter anonymousPullEnabled
+  - Interface Registry has a new optional parameter metadataSearch
   - Interface RegistryUpdateParameters has a new optional parameter anonymousPullEnabled
+  - Interface RegistryUpdateParameters has a new optional parameter metadataSearch
   - Added Enum KnownActivationStatus
   - Added Enum KnownAuditLogStatus
   - Added Enum KnownAzureADAuthenticationAsArmPolicyStatus
@@ -196,6 +199,7 @@
   - Added Enum KnownCredentialHealthStatus
   - Added Enum KnownCredentialName
   - Added Enum KnownLogLevel
+  - Added Enum KnownMetadataSearch
   - Added Enum KnownPackageSourceType
   - Added Enum KnownPipelineOptions
   - Added Enum KnownPipelineRunSourceType
@@ -206,65 +210,10 @@
 **Breaking Changes**
 
   - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
-
-## 11.0.0-beta.1 (2023-09-07)
-
-**Features**
-
-  - Added operation group CacheRules
-  - Added operation group CredentialSets
-  - Added Interface AuthCredential
-  - Added Interface CacheRule
-  - Added Interface CacheRulesCreateHeaders
-  - Added Interface CacheRulesCreateOptionalParams
-  - Added Interface CacheRulesDeleteHeaders
-  - Added Interface CacheRulesDeleteOptionalParams
-  - Added Interface CacheRulesGetOptionalParams
-  - Added Interface CacheRulesListNextOptionalParams
-  - Added Interface CacheRulesListOptionalParams
-  - Added Interface CacheRulesListResult
-  - Added Interface CacheRulesUpdateHeaders
-  - Added Interface CacheRulesUpdateOptionalParams
-  - Added Interface CacheRuleUpdateParameters
-  - Added Interface CredentialHealth
-  - Added Interface CredentialSet
-  - Added Interface CredentialSetListResult
-  - Added Interface CredentialSetsCreateHeaders
-  - Added Interface CredentialSetsCreateOptionalParams
-  - Added Interface CredentialSetsDeleteHeaders
-  - Added Interface CredentialSetsDeleteOptionalParams
-  - Added Interface CredentialSetsGetOptionalParams
-  - Added Interface CredentialSetsListNextOptionalParams
-  - Added Interface CredentialSetsListOptionalParams
-  - Added Interface CredentialSetsUpdateHeaders
-  - Added Interface CredentialSetsUpdateOptionalParams
-  - Added Interface CredentialSetUpdateParameters
-  - Added Interface ErrorAdditionalInfo
-  - Added Interface ErrorDetail
-  - Added Interface ErrorResponseForContainerRegistry
-  - Added Type Alias CacheRulesCreateResponse
-  - Added Type Alias CacheRulesDeleteResponse
-  - Added Type Alias CacheRulesGetResponse
-  - Added Type Alias CacheRulesListNextResponse
-  - Added Type Alias CacheRulesListResponse
-  - Added Type Alias CacheRulesUpdateResponse
-  - Added Type Alias CredentialHealthStatus
-  - Added Type Alias CredentialName
-  - Added Type Alias CredentialSetsCreateResponse
-  - Added Type Alias CredentialSetsDeleteResponse
-  - Added Type Alias CredentialSetsGetResponse
-  - Added Type Alias CredentialSetsListNextResponse
-  - Added Type Alias CredentialSetsListResponse
-  - Added Type Alias CredentialSetsUpdateResponse
-  - Added Enum KnownCredentialHealthStatus
-  - Added Enum KnownCredentialName
-
-**Breaking Changes**
-
-  - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
-
+    
+    
 ## 10.1.0 (2023-03-21)
-
+    
 **Features**
 
   - Added operation group ScopeMaps
@@ -354,7 +303,8 @@
   - Added function getContinuationToken
   - Interface RunsListNextOptionalParams no longer has parameter filter
   - Interface RunsListNextOptionalParams no longer has parameter top
-
+    
+    
 ## 10.0.0 (2021-12-28)
 
 The package of @azure/arm-containerregistry is using our next generation design principles since version 10.0.0, which contains breaking changes.
@@ -363,4 +313,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
