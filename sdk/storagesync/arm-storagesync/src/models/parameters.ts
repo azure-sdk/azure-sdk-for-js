@@ -26,6 +26,7 @@ import {
   ServerEndpointUpdateParameters as ServerEndpointUpdateParametersMapper,
   RecallActionParameters as RecallActionParametersMapper,
   RegisteredServerCreateParameters as RegisteredServerCreateParametersMapper,
+  RegisteredServerUpdateParameters as RegisteredServerUpdateParametersMapper,
   TriggerRolloverRequest as TriggerRolloverRequestMapper
 } from "../models/mappers";
 
@@ -56,7 +57,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-09-01",
+    defaultValue: "2022-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -266,6 +267,11 @@ export const parameters12: OperationParameter = {
 };
 
 export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RegisteredServerUpdateParametersMapper
+};
+
+export const parameters14: OperationParameter = {
   parameterPath: "parameters",
   mapper: TriggerRolloverRequestMapper
 };

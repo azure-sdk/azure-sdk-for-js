@@ -64,8 +64,12 @@ export interface OperationResourceMetricSpecification {
   unit?: string;
   /** Aggregation type for the metric. */
   aggregationType?: string;
+  /** Supported aggregation types for the metric. */
+  supportedAggregationTypes?: string[];
   /** Fill gaps in the metric with zero. */
   fillGapWithZero?: boolean;
+  /** Lock Aggregation type for the metric. */
+  lockAggregationType?: string;
   /** Dimensions for the metric specification. */
   dimensions?: OperationResourceMetricSpecificationDimension[];
 }
@@ -99,7 +103,7 @@ export interface StorageSyncApiError {
   /** Error details of the given entry. */
   details?: StorageSyncErrorDetails;
   /** Inner error details of the given entry. */
-  innerError?: StorageSyncInnerErrorDetails;
+  innererror?: StorageSyncInnerErrorDetails;
 }
 
 /** Error Details object. */
@@ -167,8 +171,44 @@ export interface StorageSyncServiceCreateParameters {
   location: string;
   /** Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters. */
   tags?: { [propertyName: string]: string };
+  /** managed identities for the Container App to interact with other Azure services without maintaining any secrets or credentials in code. */
+  identity?: ManagedServiceIdentity;
   /** Incoming Traffic Policy */
   incomingTrafficPolicy?: IncomingTrafficPolicy;
+  /** Use Identity authorization when customer have finished setup RBAC permissions. */
+  useIdentity?: boolean;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** The Private Endpoint resource. */
@@ -207,14 +247,39 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Parameters for updating an Storage sync service. */
 export interface StorageSyncServiceUpdateParameters {
   /** The user-specified tags associated with the storage sync service. */
   tags?: { [propertyName: string]: string };
+  /** managed identities for the Container App to interact with other Azure services without maintaining any secrets or credentials in code. */
+  identity?: ManagedServiceIdentity;
   /** Incoming Traffic Policy */
   incomingTrafficPolicy?: IncomingTrafficPolicy;
+  /** Use Identity authorization when customer have finished setup RBAC permissions. */
+  useIdentity?: boolean;
 }
 
 /** Array of StorageSyncServices */
@@ -442,6 +507,20 @@ export interface TriggerChangeDetectionParameters {
   changeDetectionMode?: ChangeDetectionMode;
   /** Array of relative paths on the Azure File share to be included in the change detection. Can be files and directories. */
   paths?: string[];
+}
+
+/** Cloud endpoint AFS file share metadata signing certificate public keys. */
+export interface CloudEndpointAfsShareMetadataCertificatePublicKeys {
+  /**
+   * The first public key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firstKey?: string;
+  /**
+   * The second public key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondKey?: string;
 }
 
 /** Server Endpoint sync status */
@@ -691,6 +770,11 @@ export interface ServerEndpointCloudTieringStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly datePolicyStatus?: CloudTieringDatePolicyStatus;
+  /**
+   * Information regarding the low disk mode state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lowDiskMode?: CloudTieringLowDiskMode;
 }
 
 /** Server endpoint cloud tiering status object. */
@@ -817,6 +901,20 @@ export interface CloudTieringDatePolicyStatus {
   readonly tieredFilesMostRecentAccessTimestamp?: Date;
 }
 
+/** Information regarding the low disk mode state */
+export interface CloudTieringLowDiskMode {
+  /**
+   * Last updated timestamp
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Low disk mode state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: CloudTieringLowDiskModeState;
+}
+
 /** Server endpoint recall status object. */
 export interface ServerEndpointRecallStatus {
   /**
@@ -848,6 +946,69 @@ export interface ServerEndpointRecallError {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly count?: number;
+}
+
+/** Server endpoint provisioning status information */
+export interface ServerEndpointProvisioningStatus {
+  /**
+   * Server Endpoint provisioning status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatus?: ServerProvisioningStatus;
+  /**
+   * Server Endpoint provisioning type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningType?: string;
+  /**
+   * Provisioning Step status information for each step in the provisioning process
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStepStatuses?: ServerEndpointProvisioningStepStatus[];
+}
+
+/** Server endpoint provisioning step status object. */
+export interface ServerEndpointProvisioningStepStatus {
+  /**
+   * Name of the provisioning step
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the provisioning step
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Start time of the provisioning step
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Estimated completion time of the provisioning step in minutes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minutesLeft?: number;
+  /**
+   * Estimated progress percentage
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly progressPercentage?: number;
+  /**
+   * End time of the provisioning step
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * Error code (HResult) for the provisioning step
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCode?: number;
+  /**
+   * Additional information for the provisioning step
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInformation?: { [propertyName: string]: string };
 }
 
 /** Parameters for updating an Server Endpoint. */
@@ -1041,6 +1202,8 @@ export interface ProxyResource extends Resource {}
 
 /** Storage Sync Service object. */
 export interface StorageSyncService extends TrackedResource {
+  /** managed identities for the Container App to interact with other Azure services without maintaining any secrets or credentials in code. */
+  identity?: ManagedServiceIdentity;
   /** Incoming Traffic Policy */
   incomingTrafficPolicy?: IncomingTrafficPolicy;
   /**
@@ -1058,6 +1221,11 @@ export interface StorageSyncService extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+  /**
+   * Use Identity authorization when customer have finished setup RBAC permissions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly useIdentity?: boolean;
   /**
    * StorageSyncService lastWorkflowId
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1232,6 +1400,8 @@ export interface ServerEndpoint extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serverName?: string;
+  /** Server Endpoint provisioning status */
+  serverEndpointProvisioningStatus?: ServerEndpointProvisioningStatus;
 }
 
 /** Registered Server resource. */
@@ -1291,6 +1461,15 @@ export interface RegisteredServer extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serverName?: string;
+  /** Server Application Id */
+  applicationId?: string;
+  /** Latest Server Application Id discovered from the server. It is not yet applied. */
+  latestApplicationId?: string;
+  /**
+   * Server auth type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activeAuthType?: ServerAuthType;
 }
 
 /** The parameters used when creating a registered server. */
@@ -1313,6 +1492,14 @@ export interface RegisteredServerCreateParameters extends ProxyResource {
   serverId?: string;
   /** Friendly Name */
   friendlyName?: string;
+  /** Server ServicePrincipal Id */
+  applicationId?: string;
+}
+
+/** The parameters used when updating a registered server. */
+export interface RegisteredServerUpdateParameters extends ProxyResource {
+  /** Apply server with newly discovered ApplicationId if available. */
+  identity?: boolean;
 }
 
 /** Workflow resource. */
@@ -1572,6 +1759,14 @@ export interface CloudEndpointsTriggerChangeDetectionHeaders {
   xMsCorrelationRequestId?: string;
 }
 
+/** Defines headers for CloudEndpoints_afsShareMetadataCertificatePublicKeys operation. */
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders {
+  /** request id. */
+  xMsRequestId?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+}
+
 /** Defines headers for ServerEndpoints_create operation. */
 export interface ServerEndpointsCreateHeaders {
   /** request id. */
@@ -1646,6 +1841,14 @@ export interface RegisteredServersCreateHeaders {
   xMsCorrelationRequestId?: string;
 }
 
+/** Defines headers for RegisteredServers_update operation. */
+export interface RegisteredServersUpdateHeaders {
+  /** request id. */
+  xMsRequestId?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+}
+
 /** Defines headers for RegisteredServers_delete operation. */
 export interface RegisteredServersDeleteHeaders {
   /** request id. */
@@ -1701,6 +1904,30 @@ export interface MicrosoftStorageSyncLocationOperationStatusHeaders {
   /** correlation request id. */
   xMsCorrelationRequestId?: string;
 }
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link IncomingTrafficPolicy} that the service accepts. */
 export enum KnownIncomingTrafficPolicy {
@@ -1764,6 +1991,30 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link CloudEndpointChangeEnumerationActivityState} that the service accepts. */
 export enum KnownCloudEndpointChangeEnumerationActivityState {
@@ -1987,6 +2238,51 @@ export enum KnownServerEndpointOfflineDataTransferState {
  */
 export type ServerEndpointOfflineDataTransferState = string;
 
+/** Known values of {@link CloudTieringLowDiskModeState} that the service accepts. */
+export enum KnownCloudTieringLowDiskModeState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for CloudTieringLowDiskModeState. \
+ * {@link KnownCloudTieringLowDiskModeState} can be used interchangeably with CloudTieringLowDiskModeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type CloudTieringLowDiskModeState = string;
+
+/** Known values of {@link ServerProvisioningStatus} that the service accepts. */
+export enum KnownServerProvisioningStatus {
+  /** NotStarted */
+  NotStarted = "NotStarted",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** ReadySyncNotFunctional */
+  ReadySyncNotFunctional = "Ready_SyncNotFunctional",
+  /** ReadySyncFunctional */
+  ReadySyncFunctional = "Ready_SyncFunctional",
+  /** Error */
+  Error = "Error"
+}
+
+/**
+ * Defines values for ServerProvisioningStatus. \
+ * {@link KnownServerProvisioningStatus} can be used interchangeably with ServerProvisioningStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **InProgress** \
+ * **Ready_SyncNotFunctional** \
+ * **Ready_SyncFunctional** \
+ * **Error**
+ */
+export type ServerProvisioningStatus = string;
+
 /** Known values of {@link RegisteredServerAgentVersionStatus} that the service accepts. */
 export enum KnownRegisteredServerAgentVersionStatus {
   /** Ok */
@@ -2010,6 +2306,24 @@ export enum KnownRegisteredServerAgentVersionStatus {
  * **Blocked**
  */
 export type RegisteredServerAgentVersionStatus = string;
+
+/** Known values of {@link ServerAuthType} that the service accepts. */
+export enum KnownServerAuthType {
+  /** Certificate */
+  Certificate = "certificate",
+  /** Managedidentity */
+  Managedidentity = "managedidentity"
+}
+
+/**
+ * Defines values for ServerAuthType. \
+ * {@link KnownServerAuthType} can be used interchangeably with ServerAuthType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **certificate** \
+ * **managedidentity**
+ */
+export type ServerAuthType = string;
 
 /** Known values of {@link WorkflowStatus} that the service accepts. */
 export enum KnownWorkflowStatus {
@@ -2374,6 +2688,14 @@ export interface CloudEndpointsTriggerChangeDetectionOptionalParams
 }
 
 /** Optional parameters. */
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the afsShareMetadataCertificatePublicKeys operation. */
+export type CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse = CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders &
+  CloudEndpointAfsShareMetadataCertificatePublicKeys;
+
+/** Optional parameters. */
 export interface ServerEndpointsCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -2468,6 +2790,19 @@ export interface RegisteredServersCreateOptionalParams
 
 /** Contains response data for the create operation. */
 export type RegisteredServersCreateResponse = RegisteredServersCreateHeaders &
+  RegisteredServer;
+
+/** Optional parameters. */
+export interface RegisteredServersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type RegisteredServersUpdateResponse = RegisteredServersUpdateHeaders &
   RegisteredServer;
 
 /** Optional parameters. */
