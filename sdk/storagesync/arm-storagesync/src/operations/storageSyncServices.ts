@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   StorageSyncService,
   StorageSyncServicesListByResourceGroupOptionalParams,
@@ -170,8 +174,8 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
     parameters: StorageSyncServiceCreateParameters,
     options?: StorageSyncServicesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesCreateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesCreateResponse>,
       StorageSyncServicesCreateResponse
     >
   > {
@@ -181,7 +185,7 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
     ): Promise<StorageSyncServicesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -214,13 +218,16 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSyncServiceName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSyncServiceName, parameters, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageSyncServicesCreateResponse,
+      OperationState<StorageSyncServicesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -277,8 +284,8 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
     storageSyncServiceName: string,
     options?: StorageSyncServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesUpdateResponse>,
       StorageSyncServicesUpdateResponse
     >
   > {
@@ -288,7 +295,7 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
     ): Promise<StorageSyncServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -321,13 +328,16 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSyncServiceName, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSyncServiceName, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageSyncServicesUpdateResponse,
+      OperationState<StorageSyncServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -364,8 +374,8 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
     storageSyncServiceName: string,
     options?: StorageSyncServicesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesDeleteResponse>,
       StorageSyncServicesDeleteResponse
     >
   > {
@@ -375,7 +385,7 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
     ): Promise<StorageSyncServicesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -408,13 +418,16 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSyncServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSyncServiceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      StorageSyncServicesDeleteResponse,
+      OperationState<StorageSyncServicesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
