@@ -7,6 +7,7 @@
  */
 
 export * from "./operations";
+export * from "./usages";
 export * from "./managedClusters";
 export * from "./maintenanceConfigurations";
 export * from "./agentPools";

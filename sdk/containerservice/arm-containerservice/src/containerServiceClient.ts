@@ -16,6 +16,7 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
+  UsagesImpl,
   ManagedClustersImpl,
   MaintenanceConfigurationsImpl,
   AgentPoolsImpl,
@@ -30,6 +31,7 @@ import {
 } from "./operations";
 import {
   Operations,
+  Usages,
   ManagedClusters,
   MaintenanceConfigurations,
   AgentPools,
@@ -76,7 +78,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/19.4.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-containerservice/19.4.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -129,8 +131,9 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-07-02-preview";
+    this.apiVersion = options.apiVersion || "2023-09-02-preview";
     this.operations = new OperationsImpl(this);
+    this.usages = new UsagesImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
     this.agentPools = new AgentPoolsImpl(this);
@@ -176,6 +179,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
+  usages: Usages;
   managedClusters: ManagedClusters;
   maintenanceConfigurations: MaintenanceConfigurations;
   agentPools: AgentPools;
