@@ -1,15 +1,53 @@
 # Release History
+    
+## 32.3.0 (2023-10-05)
+    
+**Features**
 
-## 32.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ConfigurationPolicyGroupsDeleteHeaders
+  - Added Interface ExpressRouteConnectionsDeleteHeaders
+  - Added Interface ExpressRouteGatewaysDeleteHeaders
+  - Added Interface ExpressRouteGatewaysUpdateTagsHeaders
+  - Added Interface HubRouteTablesDeleteHeaders
+  - Added Interface HubVirtualNetworkConnectionsDeleteHeaders
+  - Added Interface NatRulesDeleteHeaders
+  - Added Interface NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileHeaders
+  - Added Interface P2SVpnGatewaysDeleteHeaders
+  - Added Interface P2SVpnGatewaysDisconnectP2SVpnConnectionsHeaders
+  - Added Interface P2SVpnGatewaysGenerateVpnProfileHeaders
+  - Added Interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedHeaders
+  - Added Interface P2SVpnGatewaysGetP2SVpnConnectionHealthHeaders
+  - Added Interface P2SVpnGatewaysResetHeaders
+  - Added Interface P2SVpnGatewaysUpdateTagsHeaders
+  - Added Interface RouteMapsDeleteHeaders
+  - Added Interface RoutingIntentDeleteHeaders
+  - Added Interface VirtualHubBgpConnectionDeleteHeaders
+  - Added Interface VirtualHubBgpConnectionsListAdvertisedRoutesHeaders
+  - Added Interface VirtualHubBgpConnectionsListLearnedRoutesHeaders
+  - Added Interface VirtualHubIpConfigurationDeleteHeaders
+  - Added Interface VirtualHubRouteTableV2SDeleteHeaders
+  - Added Interface VirtualHubsDeleteHeaders
+  - Added Interface VirtualHubsGetEffectiveVirtualHubRoutesHeaders
+  - Added Interface VirtualHubsGetInboundRoutesHeaders
+  - Added Interface VirtualHubsGetOutboundRoutesHeaders
+  - Added Interface VirtualWansDeleteHeaders
+  - Added Interface VpnConnectionsDeleteHeaders
+  - Added Interface VpnConnectionsStartPacketCaptureHeaders
+  - Added Interface VpnConnectionsStopPacketCaptureHeaders
+  - Added Interface VpnGatewaysDeleteHeaders
+  - Added Interface VpnGatewaysResetHeaders
+  - Added Interface VpnGatewaysStartPacketCaptureHeaders
+  - Added Interface VpnGatewaysStopPacketCaptureHeaders
+  - Added Interface VpnGatewaysUpdateTagsHeaders
+  - Added Interface VpnLinkConnectionsGetIkeSasHeaders
+  - Added Interface VpnLinkConnectionsResetConnectionHeaders
+  - Added Interface VpnServerConfigurationsAssociatedWithVirtualWanListHeaders
+  - Added Interface VpnServerConfigurationsDeleteHeaders
+  - Added Interface VpnSitesConfigurationDownloadHeaders
+  - Added Interface VpnSitesDeleteHeaders
+  - Added Type Alias VpnLinkConnectionsResetConnectionResponse
+    
+    
 ## 32.2.0 (2023-09-07)
     
 **Features**
@@ -901,4 +939,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

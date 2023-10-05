@@ -25,6 +25,7 @@ import {
   VpnLinkConnectionsListByVpnConnectionOptionalParams,
   VpnLinkConnectionsListByVpnConnectionResponse,
   VpnLinkConnectionsResetConnectionOptionalParams,
+  VpnLinkConnectionsResetConnectionResponse,
   VpnLinkConnectionsGetIkeSasOptionalParams,
   VpnLinkConnectionsGetIkeSasResponse,
   VpnLinkConnectionsListByVpnConnectionNextResponse
@@ -150,11 +151,16 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsResetConnectionOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VpnLinkConnectionsResetConnectionResponse>,
+      VpnLinkConnectionsResetConnectionResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<VpnLinkConnectionsResetConnectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -201,7 +207,10 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
       },
       spec: resetConnectionOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VpnLinkConnectionsResetConnectionResponse,
+      OperationState<VpnLinkConnectionsResetConnectionResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -224,7 +233,7 @@ export class VpnLinkConnectionsImpl implements VpnLinkConnections {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsResetConnectionOptionalParams
-  ): Promise<void> {
+  ): Promise<VpnLinkConnectionsResetConnectionResponse> {
     const poller = await this.beginResetConnection(
       resourceGroupName,
       gatewayName,
@@ -390,10 +399,18 @@ const resetConnectionOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VpnLinkConnectionsResetConnectionHeaders
+    },
+    201: {
+      headersMapper: Mappers.VpnLinkConnectionsResetConnectionHeaders
+    },
+    202: {
+      headersMapper: Mappers.VpnLinkConnectionsResetConnectionHeaders
+    },
+    204: {
+      headersMapper: Mappers.VpnLinkConnectionsResetConnectionHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

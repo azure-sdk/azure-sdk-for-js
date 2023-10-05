@@ -30956,6 +30956,22 @@ export const AzureFirewallsPacketCaptureHeaders: coreClient.CompositeMapper = {
   }
 };
 
+export const NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PublicIPAddressesDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -31151,10 +31167,610 @@ export const NetworkVirtualAppliancesCreateOrUpdateHeaders: coreClient.Composite
   }
 };
 
+export const VirtualWansDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualWansDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnSitesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnSitesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnSitesConfigurationDownloadHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnSitesConfigurationDownloadHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnServerConfigurationsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnServerConfigurationsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfigurationPolicyGroupsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationPolicyGroupsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubsGetEffectiveVirtualHubRoutesHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubsGetEffectiveVirtualHubRoutesHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubsGetInboundRoutesHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubsGetInboundRoutesHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubsGetOutboundRoutesHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubsGetOutboundRoutesHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RouteMapsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RouteMapsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HubVirtualNetworkConnectionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HubVirtualNetworkConnectionsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnGatewaysUpdateTagsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnGatewaysUpdateTagsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnGatewaysDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnGatewaysDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnGatewaysResetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnGatewaysResetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnGatewaysStartPacketCaptureHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnGatewaysStartPacketCaptureHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnGatewaysStopPacketCaptureHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnGatewaysStopPacketCaptureHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnLinkConnectionsResetConnectionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnLinkConnectionsResetConnectionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnLinkConnectionsGetIkeSasHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnLinkConnectionsGetIkeSasHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnConnectionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnConnectionsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnConnectionsStartPacketCaptureHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnConnectionsStartPacketCaptureHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnConnectionsStopPacketCaptureHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnConnectionsStopPacketCaptureHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NatRulesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NatRulesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const P2SVpnGatewaysUpdateTagsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "P2SVpnGatewaysUpdateTagsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const P2SVpnGatewaysDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "P2SVpnGatewaysDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const P2SVpnGatewaysResetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "P2SVpnGatewaysResetHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const P2SVpnGatewaysGenerateVpnProfileHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "P2SVpnGatewaysGenerateVpnProfileHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const P2SVpnGatewaysGetP2SVpnConnectionHealthHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "P2SVpnGatewaysGetP2SVpnConnectionHealthHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const P2SVpnGatewaysDisconnectP2SVpnConnectionsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "P2SVpnGatewaysDisconnectP2SVpnConnectionsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VpnServerConfigurationsAssociatedWithVirtualWanListHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VpnServerConfigurationsAssociatedWithVirtualWanListHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubRouteTableV2SDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubRouteTableV2SDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExpressRouteGatewaysUpdateTagsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressRouteGatewaysUpdateTagsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExpressRouteGatewaysDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressRouteGatewaysDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExpressRouteConnectionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressRouteConnectionsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NetworkVirtualApplianceConnectionsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NetworkVirtualApplianceConnectionsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubBgpConnectionDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubBgpConnectionDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubBgpConnectionsListLearnedRoutesHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubBgpConnectionsListLearnedRoutesHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubBgpConnectionsListAdvertisedRoutesHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubBgpConnectionsListAdvertisedRoutesHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualHubIpConfigurationDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualHubIpConfigurationDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HubRouteTablesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HubRouteTablesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoutingIntentDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoutingIntentDeleteHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

@@ -2289,6 +2289,11 @@ export interface ConfigurationPolicyGroupsCreateOrUpdateOptionalParams extends c
 export type ConfigurationPolicyGroupsCreateOrUpdateResponse = VpnServerConfigurationPolicyGroup;
 
 // @public
+export interface ConfigurationPolicyGroupsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface ConfigurationPolicyGroupsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3990,6 +3995,11 @@ export interface ExpressRouteConnectionsCreateOrUpdateOptionalParams extends cor
 export type ExpressRouteConnectionsCreateOrUpdateResponse = ExpressRouteConnection;
 
 // @public
+export interface ExpressRouteConnectionsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface ExpressRouteConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -4260,6 +4270,11 @@ export interface ExpressRouteGatewaysCreateOrUpdateOptionalParams extends coreCl
 export type ExpressRouteGatewaysCreateOrUpdateResponse = ExpressRouteGateway;
 
 // @public
+export interface ExpressRouteGatewaysDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface ExpressRouteGatewaysDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -4285,6 +4300,11 @@ export interface ExpressRouteGatewaysListBySubscriptionOptionalParams extends co
 
 // @public
 export type ExpressRouteGatewaysListBySubscriptionResponse = ExpressRouteGatewayList;
+
+// @public
+export interface ExpressRouteGatewaysUpdateTagsHeaders {
+    location?: string;
+}
 
 // @public
 export interface ExpressRouteGatewaysUpdateTagsOptionalParams extends coreClient.OperationOptions {
@@ -5437,6 +5457,11 @@ export interface HubRouteTablesCreateOrUpdateOptionalParams extends coreClient.O
 export type HubRouteTablesCreateOrUpdateResponse = HubRouteTable;
 
 // @public
+export interface HubRouteTablesDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface HubRouteTablesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -5496,6 +5521,11 @@ export interface HubVirtualNetworkConnectionsCreateOrUpdateOptionalParams extend
 
 // @public
 export type HubVirtualNetworkConnectionsCreateOrUpdateResponse = HubVirtualNetworkConnection;
+
+// @public
+export interface HubVirtualNetworkConnectionsDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface HubVirtualNetworkConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -8429,6 +8459,11 @@ export interface NatRulesCreateOrUpdateOptionalParams extends coreClient.Operati
 export type NatRulesCreateOrUpdateResponse = VpnGatewayNatRule;
 
 // @public
+export interface NatRulesDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface NatRulesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -9257,6 +9292,11 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     webApplicationFirewallPolicies: WebApplicationFirewallPolicies;
     // (undocumented)
     webCategories: WebCategories;
+}
+
+// @public
+export interface NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileHeaders {
+    location?: string;
 }
 
 // @public
@@ -10260,15 +10300,30 @@ export interface P2SVpnGatewaysCreateOrUpdateOptionalParams extends coreClient.O
 export type P2SVpnGatewaysCreateOrUpdateResponse = P2SVpnGateway;
 
 // @public
+export interface P2SVpnGatewaysDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface P2SVpnGatewaysDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface P2SVpnGatewaysDisconnectP2SVpnConnectionsHeaders {
+    location?: string;
+}
+
+// @public
 export interface P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface P2SVpnGatewaysGenerateVpnProfileHeaders {
+    location?: string;
 }
 
 // @public
@@ -10285,6 +10340,11 @@ export interface P2SVpnGatewaysGetOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
+export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedHeaders {
+    location?: string;
+}
+
+// @public
 export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -10292,6 +10352,11 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedOptionalParams e
 
 // @public
 export type P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedResponse = P2SVpnConnectionHealth;
+
+// @public
+export interface P2SVpnGatewaysGetP2SVpnConnectionHealthHeaders {
+    location?: string;
+}
 
 // @public
 export interface P2SVpnGatewaysGetP2SVpnConnectionHealthOptionalParams extends coreClient.OperationOptions {
@@ -10334,6 +10399,11 @@ export interface P2SVpnGatewaysListOptionalParams extends coreClient.OperationOp
 export type P2SVpnGatewaysListResponse = ListP2SVpnGatewaysResult;
 
 // @public
+export interface P2SVpnGatewaysResetHeaders {
+    location?: string;
+}
+
+// @public
 export interface P2SVpnGatewaysResetOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -10341,6 +10411,11 @@ export interface P2SVpnGatewaysResetOptionalParams extends coreClient.OperationO
 
 // @public
 export type P2SVpnGatewaysResetResponse = P2SVpnGateway;
+
+// @public
+export interface P2SVpnGatewaysUpdateTagsHeaders {
+    location?: string;
+}
 
 // @public
 export interface P2SVpnGatewaysUpdateTagsOptionalParams extends coreClient.OperationOptions {
@@ -11781,6 +11856,11 @@ export interface RouteMapsCreateOrUpdateOptionalParams extends coreClient.Operat
 export type RouteMapsCreateOrUpdateResponse = RouteMap;
 
 // @public
+export interface RouteMapsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface RouteMapsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -11981,6 +12061,11 @@ export interface RoutingIntentCreateOrUpdateOptionalParams extends coreClient.Op
 
 // @public
 export type RoutingIntentCreateOrUpdateResponse = RoutingIntent;
+
+// @public
+export interface RoutingIntentDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface RoutingIntentDeleteOptionalParams extends coreClient.OperationOptions {
@@ -13305,6 +13390,11 @@ export interface VirtualHubBgpConnectionCreateOrUpdateOptionalParams extends cor
 export type VirtualHubBgpConnectionCreateOrUpdateResponse = BgpConnection;
 
 // @public
+export interface VirtualHubBgpConnectionDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface VirtualHubBgpConnectionDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -13327,6 +13417,11 @@ export interface VirtualHubBgpConnections {
 }
 
 // @public
+export interface VirtualHubBgpConnectionsListAdvertisedRoutesHeaders {
+    location?: string;
+}
+
+// @public
 export interface VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -13336,6 +13431,11 @@ export interface VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams exte
 export type VirtualHubBgpConnectionsListAdvertisedRoutesResponse = {
     [propertyName: string]: PeerRoute[];
 };
+
+// @public
+export interface VirtualHubBgpConnectionsListLearnedRoutesHeaders {
+    location?: string;
+}
 
 // @public
 export interface VirtualHubBgpConnectionsListLearnedRoutesOptionalParams extends coreClient.OperationOptions {
@@ -13399,6 +13499,11 @@ export interface VirtualHubIpConfigurationCreateOrUpdateOptionalParams extends c
 
 // @public
 export type VirtualHubIpConfigurationCreateOrUpdateResponse = HubIpConfiguration;
+
+// @public
+export interface VirtualHubIpConfigurationDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface VirtualHubIpConfigurationDeleteOptionalParams extends coreClient.OperationOptions {
@@ -13467,6 +13572,11 @@ export interface VirtualHubRouteTableV2SCreateOrUpdateOptionalParams extends cor
 export type VirtualHubRouteTableV2SCreateOrUpdateResponse = VirtualHubRouteTableV2;
 
 // @public
+export interface VirtualHubRouteTableV2SDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface VirtualHubRouteTableV2SDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -13529,9 +13639,19 @@ export interface VirtualHubsCreateOrUpdateOptionalParams extends coreClient.Oper
 export type VirtualHubsCreateOrUpdateResponse = VirtualHub;
 
 // @public
+export interface VirtualHubsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface VirtualHubsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualHubsGetEffectiveVirtualHubRoutesHeaders {
+    location?: string;
 }
 
 // @public
@@ -13545,6 +13665,11 @@ export interface VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams extends c
 export type VirtualHubsGetEffectiveVirtualHubRoutesResponse = VirtualHubEffectiveRouteList;
 
 // @public
+export interface VirtualHubsGetInboundRoutesHeaders {
+    location?: string;
+}
+
+// @public
 export interface VirtualHubsGetInboundRoutesOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -13555,6 +13680,11 @@ export type VirtualHubsGetInboundRoutesResponse = EffectiveRouteMapRouteList;
 
 // @public
 export interface VirtualHubsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface VirtualHubsGetOutboundRoutesHeaders {
+    location?: string;
 }
 
 // @public
@@ -14766,6 +14896,11 @@ export interface VirtualWansCreateOrUpdateOptionalParams extends coreClient.Oper
 export type VirtualWansCreateOrUpdateResponse = VirtualWAN;
 
 // @public
+export interface VirtualWansDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface VirtualWansDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -15006,6 +15141,11 @@ export interface VpnConnectionsCreateOrUpdateOptionalParams extends coreClient.O
 export type VpnConnectionsCreateOrUpdateResponse = VpnConnection;
 
 // @public
+export interface VpnConnectionsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface VpnConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -15033,6 +15173,11 @@ export interface VpnConnectionsListByVpnGatewayOptionalParams extends coreClient
 export type VpnConnectionsListByVpnGatewayResponse = ListVpnConnectionsResult;
 
 // @public
+export interface VpnConnectionsStartPacketCaptureHeaders {
+    location?: string;
+}
+
+// @public
 export interface VpnConnectionsStartPacketCaptureOptionalParams extends coreClient.OperationOptions {
     parameters?: VpnConnectionPacketCaptureStartParameters;
     resumeFrom?: string;
@@ -15043,6 +15188,11 @@ export interface VpnConnectionsStartPacketCaptureOptionalParams extends coreClie
 export type VpnConnectionsStartPacketCaptureResponse = {
     body: string;
 };
+
+// @public
+export interface VpnConnectionsStopPacketCaptureHeaders {
+    location?: string;
+}
 
 // @public
 export interface VpnConnectionsStopPacketCaptureOptionalParams extends coreClient.OperationOptions {
@@ -15144,6 +15294,11 @@ export interface VpnGatewaysCreateOrUpdateOptionalParams extends coreClient.Oper
 export type VpnGatewaysCreateOrUpdateResponse = VpnGateway;
 
 // @public
+export interface VpnGatewaysDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface VpnGatewaysDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -15185,6 +15340,11 @@ export interface VpnGatewaysListOptionalParams extends coreClient.OperationOptio
 export type VpnGatewaysListResponse = ListVpnGatewaysResult;
 
 // @public
+export interface VpnGatewaysResetHeaders {
+    location?: string;
+}
+
+// @public
 export interface VpnGatewaysResetOptionalParams extends coreClient.OperationOptions {
     ipConfigurationId?: string;
     resumeFrom?: string;
@@ -15193,6 +15353,11 @@ export interface VpnGatewaysResetOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type VpnGatewaysResetResponse = VpnGateway;
+
+// @public
+export interface VpnGatewaysStartPacketCaptureHeaders {
+    location?: string;
+}
 
 // @public
 export interface VpnGatewaysStartPacketCaptureOptionalParams extends coreClient.OperationOptions {
@@ -15207,6 +15372,11 @@ export type VpnGatewaysStartPacketCaptureResponse = {
 };
 
 // @public
+export interface VpnGatewaysStopPacketCaptureHeaders {
+    location?: string;
+}
+
+// @public
 export interface VpnGatewaysStopPacketCaptureOptionalParams extends coreClient.OperationOptions {
     parameters?: VpnGatewayPacketCaptureStopParameters;
     resumeFrom?: string;
@@ -15217,6 +15387,11 @@ export interface VpnGatewaysStopPacketCaptureOptionalParams extends coreClient.O
 export type VpnGatewaysStopPacketCaptureResponse = {
     body: string;
 };
+
+// @public
+export interface VpnGatewaysUpdateTagsHeaders {
+    location?: string;
+}
 
 // @public
 export interface VpnGatewaysUpdateTagsOptionalParams extends coreClient.OperationOptions {
@@ -15243,9 +15418,14 @@ export type VpnLinkConnectionMode = string;
 export interface VpnLinkConnections {
     beginGetIkeSas(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams): Promise<SimplePollerLike<OperationState<VpnLinkConnectionsGetIkeSasResponse>, VpnLinkConnectionsGetIkeSasResponse>>;
     beginGetIkeSasAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams): Promise<VpnLinkConnectionsGetIkeSasResponse>;
-    beginResetConnection(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginResetConnectionAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams): Promise<void>;
+    beginResetConnection(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams): Promise<SimplePollerLike<OperationState<VpnLinkConnectionsResetConnectionResponse>, VpnLinkConnectionsResetConnectionResponse>>;
+    beginResetConnectionAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams): Promise<VpnLinkConnectionsResetConnectionResponse>;
     listByVpnConnection(resourceGroupName: string, gatewayName: string, connectionName: string, options?: VpnLinkConnectionsListByVpnConnectionOptionalParams): PagedAsyncIterableIterator<VpnSiteLinkConnection>;
+}
+
+// @public
+export interface VpnLinkConnectionsGetIkeSasHeaders {
+    location?: string;
 }
 
 // @public
@@ -15274,10 +15454,18 @@ export interface VpnLinkConnectionsListByVpnConnectionOptionalParams extends cor
 export type VpnLinkConnectionsListByVpnConnectionResponse = ListVpnSiteLinkConnectionsResult;
 
 // @public
+export interface VpnLinkConnectionsResetConnectionHeaders {
+    location?: string;
+}
+
+// @public
 export interface VpnLinkConnectionsResetConnectionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type VpnLinkConnectionsResetConnectionResponse = VpnLinkConnectionsResetConnectionHeaders;
 
 // @public
 export interface VpnLinkProviderProperties {
@@ -15386,6 +15574,11 @@ export interface VpnServerConfigurationsAssociatedWithVirtualWan {
 }
 
 // @public
+export interface VpnServerConfigurationsAssociatedWithVirtualWanListHeaders {
+    location?: string;
+}
+
+// @public
 export interface VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -15402,6 +15595,11 @@ export interface VpnServerConfigurationsCreateOrUpdateOptionalParams extends cor
 
 // @public
 export type VpnServerConfigurationsCreateOrUpdateResponse = VpnServerConfiguration;
+
+// @public
+export interface VpnServerConfigurationsDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface VpnServerConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -15583,6 +15781,11 @@ export interface VpnSitesConfiguration {
 }
 
 // @public
+export interface VpnSitesConfigurationDownloadHeaders {
+    location?: string;
+}
+
+// @public
 export interface VpnSitesConfigurationDownloadOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -15596,6 +15799,11 @@ export interface VpnSitesCreateOrUpdateOptionalParams extends coreClient.Operati
 
 // @public
 export type VpnSitesCreateOrUpdateResponse = VpnSite;
+
+// @public
+export interface VpnSitesDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface VpnSitesDeleteOptionalParams extends coreClient.OperationOptions {

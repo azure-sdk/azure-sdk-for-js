@@ -11634,6 +11634,12 @@ export interface AzureFirewallsPacketCaptureHeaders {
   location?: string;
 }
 
+/** Defines headers for NetworkManagementClient_generatevirtualwanvpnserverconfigurationvpnprofile operation. */
+export interface NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
 /** Defines headers for PublicIPAddresses_delete operation. */
 export interface PublicIPAddressesDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -11712,9 +11718,249 @@ export interface NetworkVirtualAppliancesCreateOrUpdateHeaders {
   location?: string;
 }
 
+/** Defines headers for VirtualWans_delete operation. */
+export interface VirtualWansDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnSites_delete operation. */
+export interface VpnSitesDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnSitesConfiguration_download operation. */
+export interface VpnSitesConfigurationDownloadHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnServerConfigurations_delete operation. */
+export interface VpnServerConfigurationsDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for ConfigurationPolicyGroups_delete operation. */
+export interface ConfigurationPolicyGroupsDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubs_delete operation. */
+export interface VirtualHubsDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubs_getEffectiveVirtualHubRoutes operation. */
+export interface VirtualHubsGetEffectiveVirtualHubRoutesHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubs_getInboundRoutes operation. */
+export interface VirtualHubsGetInboundRoutesHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubs_getOutboundRoutes operation. */
+export interface VirtualHubsGetOutboundRoutesHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for RouteMaps_delete operation. */
+export interface RouteMapsDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for HubVirtualNetworkConnections_delete operation. */
+export interface HubVirtualNetworkConnectionsDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnGateways_updateTags operation. */
+export interface VpnGatewaysUpdateTagsHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnGateways_delete operation. */
+export interface VpnGatewaysDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnGateways_reset operation. */
+export interface VpnGatewaysResetHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnGateways_startPacketCapture operation. */
+export interface VpnGatewaysStartPacketCaptureHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnGateways_stopPacketCapture operation. */
+export interface VpnGatewaysStopPacketCaptureHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnLinkConnections_resetConnection operation. */
+export interface VpnLinkConnectionsResetConnectionHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnLinkConnections_getIkeSas operation. */
+export interface VpnLinkConnectionsGetIkeSasHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnConnections_delete operation. */
+export interface VpnConnectionsDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnConnections_startPacketCapture operation. */
+export interface VpnConnectionsStartPacketCaptureHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnConnections_stopPacketCapture operation. */
+export interface VpnConnectionsStopPacketCaptureHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for NatRules_delete operation. */
+export interface NatRulesDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for P2SVpnGateways_updateTags operation. */
+export interface P2SVpnGatewaysUpdateTagsHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for P2SVpnGateways_delete operation. */
+export interface P2SVpnGatewaysDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for P2SVpnGateways_reset operation. */
+export interface P2SVpnGatewaysResetHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for P2SVpnGateways_generateVpnProfile operation. */
+export interface P2SVpnGatewaysGenerateVpnProfileHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for P2SVpnGateways_getP2SVpnConnectionHealth operation. */
+export interface P2SVpnGatewaysGetP2SVpnConnectionHealthHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for P2SVpnGateways_getP2SVpnConnectionHealthDetailed operation. */
+export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for P2SVpnGateways_disconnectP2SVpnConnections operation. */
+export interface P2SVpnGatewaysDisconnectP2SVpnConnectionsHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VpnServerConfigurationsAssociatedWithVirtualWan_list operation. */
+export interface VpnServerConfigurationsAssociatedWithVirtualWanListHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubRouteTableV2S_delete operation. */
+export interface VirtualHubRouteTableV2SDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for ExpressRouteGateways_updateTags operation. */
+export interface ExpressRouteGatewaysUpdateTagsHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for ExpressRouteGateways_delete operation. */
+export interface ExpressRouteGatewaysDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for ExpressRouteConnections_delete operation. */
+export interface ExpressRouteConnectionsDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
 /** Defines headers for NetworkVirtualApplianceConnections_delete operation. */
 export interface NetworkVirtualApplianceConnectionsDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubBgpConnection_delete operation. */
+export interface VirtualHubBgpConnectionDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubBgpConnections_listLearnedRoutes operation. */
+export interface VirtualHubBgpConnectionsListLearnedRoutesHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubBgpConnections_listAdvertisedRoutes operation. */
+export interface VirtualHubBgpConnectionsListAdvertisedRoutesHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for VirtualHubIpConfiguration_delete operation. */
+export interface VirtualHubIpConfigurationDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for HubRouteTables_delete operation. */
+export interface HubRouteTablesDeleteHeaders {
+  /** Operation URL. */
+  location?: string;
+}
+
+/** Defines headers for RoutingIntent_delete operation. */
+export interface RoutingIntentDeleteHeaders {
+  /** Operation URL. */
   location?: string;
 }
 
@@ -22551,6 +22797,9 @@ export interface VpnLinkConnectionsResetConnectionOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the resetConnection operation. */
+export type VpnLinkConnectionsResetConnectionResponse = VpnLinkConnectionsResetConnectionHeaders;
 
 /** Optional parameters. */
 export interface VpnLinkConnectionsGetIkeSasOptionalParams

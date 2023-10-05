@@ -12,6 +12,7 @@ import {
   VpnSiteLinkConnection,
   VpnLinkConnectionsListByVpnConnectionOptionalParams,
   VpnLinkConnectionsResetConnectionOptionalParams,
+  VpnLinkConnectionsResetConnectionResponse,
   VpnLinkConnectionsGetIkeSasOptionalParams,
   VpnLinkConnectionsGetIkeSasResponse
 } from "../models";
@@ -46,7 +47,12 @@ export interface VpnLinkConnections {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsResetConnectionOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VpnLinkConnectionsResetConnectionResponse>,
+      VpnLinkConnectionsResetConnectionResponse
+    >
+  >;
   /**
    * Resets the VpnLink connection specified.
    * @param resourceGroupName The name of the resource group.
@@ -61,7 +67,7 @@ export interface VpnLinkConnections {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsResetConnectionOptionalParams
-  ): Promise<void>;
+  ): Promise<VpnLinkConnectionsResetConnectionResponse>;
   /**
    * Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group.
    * @param resourceGroupName The name of the resource group.
