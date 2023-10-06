@@ -19,7 +19,9 @@ import {
   RedisEnterpriseUpdateResponse,
   RedisEnterpriseDeleteOptionalParams,
   RedisEnterpriseGetOptionalParams,
-  RedisEnterpriseGetResponse
+  RedisEnterpriseGetResponse,
+  CheckNameAvailabilityParameters,
+  RedisEnterpriseCheckNameAvailabilityOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -136,4 +138,14 @@ export interface RedisEnterprise {
     clusterName: string,
     options?: RedisEnterpriseGetOptionalParams
   ): Promise<RedisEnterpriseGetResponse>;
+  /**
+   * Checks that the Redis Enterprise cache name is valid and is not already in use.
+   * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only
+   *                   supported resource type is 'Microsoft.Cache/redisenterprise'
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    parameters: CheckNameAvailabilityParameters,
+    options?: RedisEnterpriseCheckNameAvailabilityOptionalParams
+  ): Promise<void>;
 }
