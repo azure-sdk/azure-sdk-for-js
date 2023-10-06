@@ -1,15 +1,21 @@
 # Release History
+    
+## 3.0.0 (2023-10-06)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
+  - Added Type Alias MoveType
+  - Interface MoveCollectionProperties has a new optional parameter moveRegion
+  - Interface MoveCollectionProperties has a new optional parameter moveType
+  - Interface MoveCollectionProperties has a new optional parameter version
+  - Interface ResourceSettings has a new optional parameter targetResourceGroupName
+  - Added Enum KnownMoveType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class ResourceMoverServiceAPI has a new signature
+    
+    
 ## 2.1.0 (2022-12-12)
     
 **Features**
@@ -55,4 +61,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
