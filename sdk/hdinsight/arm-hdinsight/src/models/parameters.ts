@@ -89,7 +89,7 @@ export const clusterName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-15-preview",
+    defaultValue: "2023-08-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

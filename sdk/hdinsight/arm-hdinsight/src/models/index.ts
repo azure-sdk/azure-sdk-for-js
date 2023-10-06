@@ -526,6 +526,8 @@ export interface EncryptionInTransitProperties {
 
 /** The network properties. */
 export interface NetworkProperties {
+  /** A value to describe how the outbound dependencies of a HDInsight cluster are managed. 'Managed' means that the outbound dependencies are managed by the HDInsight service. 'External' means that the outbound dependencies are managed by a customer specific solution. */
+  outboundDependenciesManagedType?: OutboundDependenciesManagedType;
   /** The direction for the resource provider connection. */
   resourceProviderConnection?: ResourceProviderConnection;
   /** Indicates whether or not private link is enabled. */
@@ -1612,6 +1614,24 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
  * **RSA1_5**
  */
 export type JsonWebKeyEncryptionAlgorithm = string;
+
+/** Known values of {@link OutboundDependenciesManagedType} that the service accepts. */
+export enum KnownOutboundDependenciesManagedType {
+  /** Managed */
+  Managed = "Managed",
+  /** External */
+  External = "External"
+}
+
+/**
+ * Defines values for OutboundDependenciesManagedType. \
+ * {@link KnownOutboundDependenciesManagedType} can be used interchangeably with OutboundDependenciesManagedType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Managed** \
+ * **External**
+ */
+export type OutboundDependenciesManagedType = string;
 
 /** Known values of {@link ResourceProviderConnection} that the service accepts. */
 export enum KnownResourceProviderConnection {

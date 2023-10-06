@@ -1447,6 +1447,12 @@ export const NetworkProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "NetworkProperties",
     modelProperties: {
+      outboundDependenciesManagedType: {
+        serializedName: "outboundDependenciesManagedType",
+        type: {
+          name: "String"
+        }
+      },
       resourceProviderConnection: {
         serializedName: "resourceProviderConnection",
         type: {
