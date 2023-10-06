@@ -1,16 +1,6 @@
 # Release History
-
-## 14.2.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 14.2.0-beta.1 (2023-05-18)
+    
+## 15.0.0-beta.1 (2023-10-06)
     
 **Features**
 
@@ -324,6 +314,10 @@
   - Enum KnownChannelType has a new value PartnerDestination
   - Enum KnownEndpointType has a new value PartnerDestination
   - Enum KnownPrivateEndpointConnectionsParentType has a new value Namespaces
+
+**Breaking Changes**
+
+  - Class EventGridManagementClient has a new signature
     
     
 ## 14.1.0 (2023-01-10)
@@ -712,4 +706,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
