@@ -45,7 +45,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-15-preview",
+    defaultValue: "2023-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -305,4 +305,26 @@ export const executionDetailsId: OperationURLParameter = {
 export const target: OperationParameter = {
   parameterPath: "target",
   mapper: TargetMapper
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const asyncOperationId: OperationURLParameter = {
+  parameterPath: "asyncOperationId",
+  mapper: {
+    serializedName: "asyncOperationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
