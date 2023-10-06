@@ -1,15 +1,22 @@
 # Release History
+    
+## 12.0.0 (2023-10-06)
+    
+**Features**
 
-## 11.0.1 (Unreleased)
+  - Added operation ProtectionContainers.beginRegister
+  - Added operation ProtectionContainers.beginRegisterAndWait
+  - Interface BackupStatusResponse has a new optional parameter acquireStorageAccountLock
+  - Interface BackupStatusResponse has a new optional parameter protectedItemsCount
+  - Interface IaasVMRecoveryPoint has a new optional parameter extendedLocation
+  - Interface ProtectionContainersRegisterOptionalParams has a new optional parameter resumeFrom
+  - Interface ProtectionContainersRegisterOptionalParams has a new optional parameter updateIntervalInMs
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation ProtectionContainers.register
+    
+    
 ## 11.0.0 (2023-09-01)
     
 **Features**
@@ -323,4 +330,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
