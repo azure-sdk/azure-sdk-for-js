@@ -43,6 +43,12 @@ export const AccessControlListPatchableProperties: coreClient.CompositeMapper = 
           name: "String"
         }
       },
+      defaultAction: {
+        serializedName: "defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       matchConfigurations: {
         constraints: {
           MinItems: 1
@@ -3598,6 +3604,12 @@ export const RoutePolicyPatchableProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "RoutePolicyPatchableProperties",
     modelProperties: {
+      defaultAction: {
+        serializedName: "defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       statements: {
         serializedName: "statements",
         type: {
@@ -5587,6 +5599,12 @@ export const AccessControlListPatch: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       matchConfigurations: {
         constraints: {
           MinItems: 1
@@ -6083,6 +6101,12 @@ export const RoutePolicyPatch: coreClient.CompositeMapper = {
     className: "RoutePolicyPatch",
     modelProperties: {
       ...TagsUpdate.type.modelProperties,
+      defaultAction: {
+        serializedName: "properties.defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       statements: {
         serializedName: "properties.statements",
         type: {
@@ -6252,6 +6276,22 @@ export const OptionBLayer3Configuration: coreClient.CompositeMapper = {
   }
 };
 
+export const UpgradeNetworkFabricProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpgradeNetworkFabricProperties",
+    modelProperties: {
+      ...UpdateVersion.type.modelProperties,
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NetworkTapPropertiesDestinationsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6353,6 +6393,12 @@ export const AccessControlList: coreClient.CompositeMapper = {
           MinLength: 1
         },
         serializedName: "properties.aclsUrl",
+        type: {
+          name: "String"
+        }
+      },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
         type: {
           name: "String"
         }
@@ -7566,6 +7612,12 @@ export const RoutePolicy: coreClient.CompositeMapper = {
       ...TrackedResource.type.modelProperties,
       annotation: {
         serializedName: "properties.annotation",
+        type: {
+          name: "String"
+        }
+      },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
         type: {
           name: "String"
         }
