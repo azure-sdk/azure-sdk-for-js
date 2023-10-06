@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ComputeResource,
   ComputeListOptionalParams,
@@ -22,11 +22,15 @@ import {
   ComputeUpdateResponse,
   UnderlyingResourceAction,
   ComputeDeleteOptionalParams,
+  CustomService,
+  ComputeUpdateCustomServicesOptionalParams,
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
-  ComputeRestartOptionalParams
+  ComputeRestartOptionalParams,
+  IdleShutdownSetting,
+  ComputeUpdateIdleShutdownSettingOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -87,8 +91,8 @@ export interface ComputeOperations {
     parameters: ComputeResource,
     options?: ComputeCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ComputeCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ComputeCreateOrUpdateResponse>,
       ComputeCreateOrUpdateResponse
     >
   >;
@@ -125,7 +129,10 @@ export interface ComputeOperations {
     parameters: ClusterUpdateParameters,
     options?: ComputeUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ComputeUpdateResponse>, ComputeUpdateResponse>
+    SimplePollerLike<
+      OperationState<ComputeUpdateResponse>,
+      ComputeUpdateResponse
+    >
   >;
   /**
    * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
@@ -158,7 +165,7 @@ export interface ComputeOperations {
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
     options?: ComputeDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes specified Machine Learning compute.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -174,6 +181,21 @@ export interface ComputeOperations {
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
     options?: ComputeDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Updates the custom services list. The list of custom services provided shall be overwritten
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param customServices New list of Custom Services.
+   * @param options The options parameters.
+   */
+  updateCustomServices(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    customServices: CustomService[],
+    options?: ComputeUpdateCustomServicesOptionalParams
   ): Promise<void>;
   /**
    * Gets secrets related to Machine Learning compute (storage keys, service credentials, etc).
@@ -200,7 +222,7 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Posts a start action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -226,7 +248,7 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Posts a stop action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -252,7 +274,7 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Posts a restart action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -265,5 +287,20 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
+  ): Promise<void>;
+  /**
+   * Updates the idle shutdown setting of a compute instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating idle shutdown setting of specified ComputeInstance.
+   * @param options The options parameters.
+   */
+  updateIdleShutdownSetting(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: IdleShutdownSetting,
+    options?: ComputeUpdateIdleShutdownSettingOptionalParams
   ): Promise<void>;
 }
