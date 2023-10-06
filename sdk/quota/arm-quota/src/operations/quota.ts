@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CurrentQuotaLimitBase,
   QuotaListNextOptionalParams,
@@ -156,8 +160,8 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<QuotaCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<QuotaCreateOrUpdateResponse>,
       QuotaCreateOrUpdateResponse
     >
   > {
@@ -167,7 +171,7 @@ export class QuotaImpl implements Quota {
     ): Promise<QuotaCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -200,15 +204,18 @@ export class QuotaImpl implements Quota {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, scope, createQuotaRequest, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, scope, createQuotaRequest, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      QuotaCreateOrUpdateResponse,
+      OperationState<QuotaCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -274,7 +281,7 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
+    SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -282,7 +289,7 @@ export class QuotaImpl implements Quota {
     ): Promise<QuotaUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -315,15 +322,18 @@ export class QuotaImpl implements Quota {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, scope, createQuotaRequest, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, scope, createQuotaRequest, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      QuotaUpdateResponse,
+      OperationState<QuotaUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -419,8 +429,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExceptionResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceName, Parameters.scope],
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.resourceName1, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -445,9 +455,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.createQuotaRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceName, Parameters.scope],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.resourceName1, Parameters.scope],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -472,9 +482,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.createQuotaRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceName, Parameters.scope],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.resourceName1, Parameters.scope],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -490,7 +500,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExceptionResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -507,8 +517,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExceptionResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };
