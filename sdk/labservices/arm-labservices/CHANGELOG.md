@@ -1,15 +1,21 @@
 # Release History
+    
+## 3.2.0 (2023-10-06)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ResourceOperationError
+  - Interface Lab has a new optional parameter resourceOperationError
+  - Interface LabPlan has a new optional parameter resourceOperationError
+  - Interface LabPlanProperties has a new optional parameter resourceOperationError
+  - Interface LabProperties has a new optional parameter resourceOperationError
+  - Interface Schedule has a new optional parameter resourceOperationError
+  - Interface ScheduleProperties has a new optional parameter resourceOperationError
+  - Interface User has a new optional parameter resourceOperationError
+  - Interface UserProperties has a new optional parameter resourceOperationError
+  - Interface VirtualMachine has a new optional parameter resourceOperationError
+    
+    
 ## 3.1.0 (2023-01-17)
     
 **Features**
@@ -34,4 +40,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
