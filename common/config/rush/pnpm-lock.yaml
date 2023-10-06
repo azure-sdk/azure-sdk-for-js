@@ -4214,7 +4214,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231005
+      typescript: 5.3.0-dev.20231006
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8963,8 +8963,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231005:
-    resolution: {integrity: sha512-Twm3wBauTO94CSWbjXFMpsHsbaOUVssreq6pUo4wr8YsaIp0jim8EeCa9LfawFetQ+P4PODMmiM+uBhhWRVX0Q==}
+  /typescript@5.3.0-dev.20231006:
+    resolution: {integrity: sha512-jD5wAzdZhl5Emk89dTMb7EqlUmO+n+U/uldQsSMxYh1HQG9J5Ti63B6em7Ob7DgoT7pvbqFUBn3X7UxaBba1Tg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10900,10 +10900,11 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-/mrsMEP7/gKJhf5DG5HjCfFa3Id+Xbur80N7CrHKvQdJltyPc7qsVSuyxTAQLcaxRRQLMOfFi5v+vNvHt0iDuQ==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-c6NHH9KAI0obVJVDYUYSq3mHRuuE1+jSJYG1MdnWiI9RiqQQnrT8fzGw5/V9BszrRMxfNciGDr4cwJmuFf8I/w==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -10915,8 +10916,8 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
-      mocha: 10.2.0
-      rimraf: 3.0.2
+      mocha: 7.2.0
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
@@ -10926,6 +10927,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-billing.tgz:
