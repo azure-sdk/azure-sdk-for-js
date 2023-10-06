@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BandwidthSchedule,
   BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
@@ -60,8 +60,8 @@ export interface BandwidthSchedules {
     parameters: BandwidthSchedule,
     options?: BandwidthSchedulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BandwidthSchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BandwidthSchedulesCreateOrUpdateResponse>,
       BandwidthSchedulesCreateOrUpdateResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface BandwidthSchedules {
     name: string,
     resourceGroupName: string,
     options?: BandwidthSchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified bandwidth schedule.
    * @param deviceName The device name.

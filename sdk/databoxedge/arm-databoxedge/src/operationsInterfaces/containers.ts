@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Container,
   ContainersListByStorageAccountOptionalParams,
@@ -67,8 +67,8 @@ export interface Containers {
     container: Container,
     options?: ContainersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainersCreateOrUpdateResponse>,
       ContainersCreateOrUpdateResponse
     >
   >;
@@ -103,7 +103,7 @@ export interface Containers {
     containerName: string,
     resourceGroupName: string,
     options?: ContainersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the container on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -133,7 +133,7 @@ export interface Containers {
     containerName: string,
     resourceGroupName: string,
     options?: ContainersRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refreshes the container metadata with the data from the cloud.
    * @param deviceName The device name.
