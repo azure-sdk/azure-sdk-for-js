@@ -12,7 +12,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
+import { NotificationHubsRPClient } from "../notificationHubsRPClient";
 import {
   Operation,
   OperationsListNextOptionalParams,
@@ -24,18 +24,18 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: NotificationHubsManagementClient;
+  private readonly client: NotificationHubsRPClient;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: NotificationHubsManagementClient) {
+  constructor(client: NotificationHubsRPClient) {
     this.client = client;
   }
 
   /**
-   * Lists all of the available NotificationHubs REST API operations.
+   * Lists all available Notification Hubs operations.
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available NotificationHubs REST API operations.
+   * Lists all available Notification Hubs operations.
    * @param options The options parameters.
    */
   private _list(
@@ -143,7 +143,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
