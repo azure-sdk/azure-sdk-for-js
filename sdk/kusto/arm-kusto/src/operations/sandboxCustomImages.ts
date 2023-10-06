@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Scripts } from "../operationsInterfaces";
+import { SandboxCustomImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -19,28 +19,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Script,
-  ScriptsListByDatabaseOptionalParams,
-  ScriptsListByDatabaseResponse,
-  ScriptsGetOptionalParams,
-  ScriptsGetResponse,
-  ScriptsCreateOrUpdateOptionalParams,
-  ScriptsCreateOrUpdateResponse,
-  ScriptsUpdateOptionalParams,
-  ScriptsUpdateResponse,
-  ScriptsDeleteOptionalParams,
-  ScriptCheckNameRequest,
-  ScriptsCheckNameAvailabilityOptionalParams,
-  ScriptsCheckNameAvailabilityResponse
+  SandboxCustomImage,
+  SandboxCustomImagesListByClusterOptionalParams,
+  SandboxCustomImagesListByClusterResponse,
+  SandboxCustomImagesGetOptionalParams,
+  SandboxCustomImagesGetResponse,
+  SandboxCustomImagesCreateOrUpdateOptionalParams,
+  SandboxCustomImagesCreateOrUpdateResponse,
+  SandboxCustomImagesUpdateOptionalParams,
+  SandboxCustomImagesUpdateResponse,
+  SandboxCustomImagesDeleteOptionalParams,
+  SandboxCustomImagesCheckNameRequest,
+  SandboxCustomImagesCheckNameAvailabilityOptionalParams,
+  SandboxCustomImagesCheckNameAvailabilityResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Scripts operations. */
-export class ScriptsImpl implements Scripts {
+/** Class containing SandboxCustomImages operations. */
+export class SandboxCustomImagesImpl implements SandboxCustomImages {
   private readonly client: KustoManagementClient;
 
   /**
-   * Initialize a new instance of the class Scripts class.
+   * Initialize a new instance of the class SandboxCustomImages class.
    * @param client Reference to the service client
    */
   constructor(client: KustoManagementClient) {
@@ -48,22 +48,19 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Returns the list of database scripts for given database.
+   * Returns the list of the existing sandbox custom images of the given Kusto cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
    */
-  public listByDatabase(
+  public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
-  ): PagedAsyncIterableIterator<Script> {
-    const iter = this.listByDatabasePagingAll(
+    options?: SandboxCustomImagesListByClusterOptionalParams
+  ): PagedAsyncIterableIterator<SandboxCustomImage> {
+    const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      databaseName,
       options
     );
     return {
@@ -77,10 +74,9 @@ export class ScriptsImpl implements Scripts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDatabasePagingPage(
+        return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
-          databaseName,
           options,
           settings
         );
@@ -88,33 +84,25 @@ export class ScriptsImpl implements Scripts {
     };
   }
 
-  private async *listByDatabasePagingPage(
+  private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams,
+    options?: SandboxCustomImagesListByClusterOptionalParams,
     _settings?: PageSettings
-  ): AsyncIterableIterator<Script[]> {
-    let result: ScriptsListByDatabaseResponse;
-    result = await this._listByDatabase(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options
-    );
+  ): AsyncIterableIterator<SandboxCustomImage[]> {
+    let result: SandboxCustomImagesListByClusterResponse;
+    result = await this._listByCluster(resourceGroupName, clusterName, options);
     yield result.value || [];
   }
 
-  private async *listByDatabasePagingAll(
+  private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
-  ): AsyncIterableIterator<Script> {
-    for await (const page of this.listByDatabasePagingPage(
+    options?: SandboxCustomImagesListByClusterOptionalParams
+  ): AsyncIterableIterator<SandboxCustomImage> {
+    for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      databaseName,
       options
     )) {
       yield* page;
@@ -122,71 +110,65 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Returns the list of database scripts for given database.
+   * Returns the list of the existing sandbox custom images of the given Kusto cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
    */
-  private _listByDatabase(
+  private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
-  ): Promise<ScriptsListByDatabaseResponse> {
+    options?: SandboxCustomImagesListByClusterOptionalParams
+  ): Promise<SandboxCustomImagesListByClusterResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, databaseName, options },
-      listByDatabaseOperationSpec
+      { resourceGroupName, clusterName, options },
+      listByClusterOperationSpec
     );
   }
 
   /**
-   * Gets a Kusto cluster database script.
+   * Returns a sandbox custom image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
+   * @param sandboxCustomImageName The name of the sandbox custom image.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    options?: ScriptsGetOptionalParams
-  ): Promise<ScriptsGetResponse> {
+    sandboxCustomImageName: string,
+    options?: SandboxCustomImagesGetOptionalParams
+  ): Promise<SandboxCustomImagesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, databaseName, scriptName, options },
+      { resourceGroupName, clusterName, sandboxCustomImageName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a Kusto database script.
+   * Creates or updates a sandbox custom image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
-   * @param parameters The Kusto Script parameters contains the KQL to run.
+   * @param sandboxCustomImageName The name of the sandbox custom image.
+   * @param parameters The sandbox custom image parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    parameters: Script,
-    options?: ScriptsCreateOrUpdateOptionalParams
+    sandboxCustomImageName: string,
+    parameters: SandboxCustomImage,
+    options?: SandboxCustomImagesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ScriptsCreateOrUpdateResponse>,
-      ScriptsCreateOrUpdateResponse
+      OperationState<SandboxCustomImagesCreateOrUpdateResponse>,
+      SandboxCustomImagesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ScriptsCreateOrUpdateResponse> => {
+    ): Promise<SandboxCustomImagesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -227,16 +209,15 @@ export class ScriptsImpl implements Scripts {
       args: {
         resourceGroupName,
         clusterName,
-        databaseName,
-        scriptName,
+        sandboxCustomImageName,
         parameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ScriptsCreateOrUpdateResponse,
-      OperationState<ScriptsCreateOrUpdateResponse>
+      SandboxCustomImagesCreateOrUpdateResponse,
+      OperationState<SandboxCustomImagesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -246,27 +227,24 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Creates a Kusto database script.
+   * Creates or updates a sandbox custom image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
-   * @param parameters The Kusto Script parameters contains the KQL to run.
+   * @param sandboxCustomImageName The name of the sandbox custom image.
+   * @param parameters The sandbox custom image parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    parameters: Script,
-    options?: ScriptsCreateOrUpdateOptionalParams
-  ): Promise<ScriptsCreateOrUpdateResponse> {
+    sandboxCustomImageName: string,
+    parameters: SandboxCustomImage,
+    options?: SandboxCustomImagesCreateOrUpdateOptionalParams
+  ): Promise<SandboxCustomImagesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
-      databaseName,
-      scriptName,
+      sandboxCustomImageName,
       parameters,
       options
     );
@@ -274,31 +252,29 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Updates a database script.
+   * Updates a sandbox custom image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
-   * @param parameters The Kusto Script parameters contains to the KQL to run.
+   * @param sandboxCustomImageName The name of the sandbox custom image.
+   * @param parameters The sandbox custom image parameters.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    parameters: Script,
-    options?: ScriptsUpdateOptionalParams
+    sandboxCustomImageName: string,
+    parameters: SandboxCustomImage,
+    options?: SandboxCustomImagesUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ScriptsUpdateResponse>,
-      ScriptsUpdateResponse
+      OperationState<SandboxCustomImagesUpdateResponse>,
+      SandboxCustomImagesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ScriptsUpdateResponse> => {
+    ): Promise<SandboxCustomImagesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -339,16 +315,15 @@ export class ScriptsImpl implements Scripts {
       args: {
         resourceGroupName,
         clusterName,
-        databaseName,
-        scriptName,
+        sandboxCustomImageName,
         parameters,
         options
       },
       spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
-      ScriptsUpdateResponse,
-      OperationState<ScriptsUpdateResponse>
+      SandboxCustomImagesUpdateResponse,
+      OperationState<SandboxCustomImagesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -358,27 +333,24 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Updates a database script.
+   * Updates a sandbox custom image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
-   * @param parameters The Kusto Script parameters contains to the KQL to run.
+   * @param sandboxCustomImageName The name of the sandbox custom image.
+   * @param parameters The sandbox custom image parameters.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    parameters: Script,
-    options?: ScriptsUpdateOptionalParams
-  ): Promise<ScriptsUpdateResponse> {
+    sandboxCustomImageName: string,
+    parameters: SandboxCustomImage,
+    options?: SandboxCustomImagesUpdateOptionalParams
+  ): Promise<SandboxCustomImagesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
-      databaseName,
-      scriptName,
+      sandboxCustomImageName,
       parameters,
       options
     );
@@ -386,19 +358,17 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Deletes a Kusto database script.
+   * Deletes a sandbox custom image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
+   * @param sandboxCustomImageName The name of the sandbox custom image.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    options?: ScriptsDeleteOptionalParams
+    sandboxCustomImageName: string,
+    options?: SandboxCustomImagesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -441,13 +411,7 @@ export class ScriptsImpl implements Scripts {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        clusterName,
-        databaseName,
-        scriptName,
-        options
-      },
+      args: { resourceGroupName, clusterName, sandboxCustomImageName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -459,47 +423,42 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Deletes a Kusto database script.
+   * Deletes a sandbox custom image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
+   * @param sandboxCustomImageName The name of the sandbox custom image.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    options?: ScriptsDeleteOptionalParams
+    sandboxCustomImageName: string,
+    options?: SandboxCustomImagesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
-      databaseName,
-      scriptName,
+      sandboxCustomImageName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Checks that the script name is valid and is not already in use.
+   * Checks that the sandbox custom image resource name is valid and is not already in use.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the script.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   checkNameAvailability(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: ScriptCheckNameRequest,
-    options?: ScriptsCheckNameAvailabilityOptionalParams
-  ): Promise<ScriptsCheckNameAvailabilityResponse> {
+    resourceName: SandboxCustomImagesCheckNameRequest,
+    options?: SandboxCustomImagesCheckNameAvailabilityOptionalParams
+  ): Promise<SandboxCustomImagesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, databaseName, scriptName, options },
+      { resourceGroupName, clusterName, resourceName, options },
       checkNameAvailabilityOperationSpec
     );
   }
@@ -507,13 +466,13 @@ export class ScriptsImpl implements Scripts {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+const listByClusterOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptListResult
+      bodyMapper: Mappers.SandboxCustomImagesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -524,19 +483,18 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId,
-    Parameters.databaseName
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -548,42 +506,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.sandboxCustomImageName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     201: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     202: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     204: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.sandboxCustomImageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -591,34 +547,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     201: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     202: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     204: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.SandboxCustomImage
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.sandboxCustomImageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -626,7 +581,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImages/{sandboxCustomImageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -643,15 +598,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.sandboxCustomImageName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/sandboxCustomImagesCheckNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
@@ -661,14 +615,13 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.scriptName1,
+  requestBody: Parameters.resourceName3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId,
-    Parameters.databaseName
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
