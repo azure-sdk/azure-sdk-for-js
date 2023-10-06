@@ -1126,6 +1126,21 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@azure/arm-network@32.2.0:
+    resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -4214,7 +4229,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231005
+      typescript: 5.3.0-dev.20231006
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8963,8 +8978,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231005:
-    resolution: {integrity: sha512-Twm3wBauTO94CSWbjXFMpsHsbaOUVssreq6pUo4wr8YsaIp0jim8EeCa9LfawFetQ+P4PODMmiM+uBhhWRVX0Q==}
+  /typescript@5.3.0-dev.20231006:
+    resolution: {integrity: sha512-jD5wAzdZhl5Emk89dTMb7EqlUmO+n+U/uldQsSMxYh1HQG9J5Ti63B6em7Ob7DgoT7pvbqFUBn3X7UxaBba1Tg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11270,10 +11285,11 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-715WIz2O2ovr8TXZQxXLBG0KI/4BKW/CMn5pQEB0ME3yXOFD3rT11Nwr3su7/LZLu/l9Gu3LmJXlZg+7dvrgBg==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-uZBSLnL70GbwxC4xi/LCXCb2IdKo8sWa7aZbjsM0BVoOy3Lmr1xw/DLcmME3EOB0e8HbJ3CrsKS6XI1pGp2m9Q==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -11296,6 +11312,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-compute-profile-2020-09-01-hybrid.tgz:
@@ -11328,10 +11345,11 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-Nk2Y04m6cz9oWBo2ByC0YJeTnXuDs9RhRX98xSqsw8Z5hDKua+gx8n9xXSCxC87fCa18yiIsHVSSiENGiiBHOQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-M1ki4sroGE4cVvJ49TeOzDXA7Gn8Mj64lszs+buDxYFu6DRGjRUu03NdkSX3vBF2+I+2txFs1RNVdmJM/6Wt3w==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.6
       '@types/node': 14.18.63
@@ -12649,10 +12667,11 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-z5U7/QBK40lGFEcupN2MDSoEpYsksbkgMCnGKxGvTrsfP+mvLI2OXRnUVB/3AJJBbbSZAfOYd1DVLDCJ8mD44Q==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-7igJUQ8QDhAUZPp6434ZiyRG1bK/ZMfzBgna76ShM8uUWfpLSyH7imubZ+leYUAq7Aklfo0eWJxOEVtjWRe6EA==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -12675,6 +12694,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
@@ -14137,10 +14157,11 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-x4X9N9FMtsgo2Tb8OZKH+NH2YOGRIe2g90trDsNBss6Glzh0PiDUF0GWkLvGjYkEgxFhLR+cCaWf1tvduXk/lw==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-Y3udiumT06uyq1tvLNW/UhxItdJYF7tL21wGN7NtbxumY5lMtsg5A4IPNAjz8hKrPG08mBL6unRZrdz66npZpw==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -14152,8 +14173,8 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
-      mocha: 10.2.0
-      rimraf: 3.0.2
+      mocha: 7.2.0
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
@@ -14163,6 +14184,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-network-profile-2020-09-01-hybrid.tgz:
@@ -15043,10 +15065,11 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-ugIqr3sIG9240K7/TqzmyYCCAP8xnnfOb3E8oOMsvtmvrhUtgtO/CzQyYmhJ4ZFSbza663xspXdyJJzFb8MA/A==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-U+35Sx1CI86/vk0kJk+JoSwVtqJc/TPgpxoTc9FIO2NpuHTRXOJmwpZCYK0zqpReTIEwfnO0CHqs9uKkyPfcKQ==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -15069,6 +15092,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
