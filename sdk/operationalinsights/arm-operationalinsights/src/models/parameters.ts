@@ -422,7 +422,7 @@ export const purgeId: OperationURLParameter = {
 export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2022-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -471,7 +471,7 @@ export const parameters7: OperationParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01",
+    defaultValue: "2023-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
