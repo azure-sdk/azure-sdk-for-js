@@ -1,15 +1,25 @@
 # Release History
+    
+## 3.1.0 (2023-10-09)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface EventHubConfiguration
+  - Added Interface NASRerouteConfiguration
+  - Added Interface SignalingConfiguration
+  - Interface PacketCapture has a new optional parameter outputFiles
+  - Interface PacketCoreControlPlane has a new optional parameter controlPlaneAccessVirtualIpv4Addresses
+  - Interface PacketCoreControlPlane has a new optional parameter eventHub
+  - Interface PacketCoreControlPlane has a new optional parameter signaling
+  - Interface PacketCoreDataPlane has a new optional parameter userPlaneAccessVirtualIpv4Addresses
+  - Enum KnownInstallationReason has a new value ControlPlaneAccessInterfaceHasChanged
+  - Enum KnownInstallationReason has a new value ControlPlaneAccessVirtualIpv4AddressesHasChanged
+  - Enum KnownInstallationReason has a new value PublicLandMobileNetworkIdentifierHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneAccessInterfaceHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneAccessVirtualIpv4AddressesHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneDataInterfaceHasChanged
+    
+    
 ## 3.0.0 (2023-07-05)
     
 **Features**
@@ -123,4 +133,4 @@
     
 ## 1.0.0 (2022-12-15)
 
-The package of @azure/arm-mobilenetwork is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-mobilenetwork is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
