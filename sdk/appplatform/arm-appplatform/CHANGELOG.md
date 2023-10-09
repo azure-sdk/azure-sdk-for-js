@@ -1,26 +1,18 @@
 # Release History
-
-## 3.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 3.0.0-beta.1 (2023-03-28)
+    
+## 3.0.0-beta.2 (2023-10-09)
     
 **Features**
 
   - Added operation group ApiPortalCustomDomains
   - Added operation group ApiPortals
+  - Added operation group Apms
   - Added operation group ApplicationAccelerators
   - Added operation group ApplicationLiveViews
   - Added operation group ContainerRegistries
   - Added operation group CustomizedAccelerators
   - Added operation group DevToolPortals
+  - Added operation group EurekaServers
   - Added operation group GatewayCustomDomains
   - Added operation group GatewayRouteConfigs
   - Added operation group Gateways
@@ -32,15 +24,26 @@
   - Added operation BuildServiceOperations.beginCreateOrUpdateAndWait
   - Added operation BuildServiceOperations.beginDeleteBuild
   - Added operation BuildServiceOperations.beginDeleteBuildAndWait
+  - Added operation ConfigurationServices.beginValidateResource
+  - Added operation ConfigurationServices.beginValidateResourceAndWait
   - Added operation Deployments.beginDisableRemoteDebugging
   - Added operation Deployments.beginDisableRemoteDebuggingAndWait
   - Added operation Deployments.beginEnableRemoteDebugging
   - Added operation Deployments.beginEnableRemoteDebuggingAndWait
   - Added operation Deployments.getRemoteDebuggingConfig
+  - Added operation Services.beginDisableApmGlobally
+  - Added operation Services.beginDisableApmGloballyAndWait
+  - Added operation Services.beginEnableApmGlobally
+  - Added operation Services.beginEnableApmGloballyAndWait
+  - Added operation Services.beginFlushVnetDnsSetting
+  - Added operation Services.beginFlushVnetDnsSettingAndWait
   - Added operation Services.beginStart
   - Added operation Services.beginStartAndWait
   - Added operation Services.beginStop
   - Added operation Services.beginStopAndWait
+  - Added operation Services.listGloballyEnabledApms
+  - Added operation Services.listSupportedApmTypes
+  - Added operation Services.listSupportedServerVersions
   - Added Interface AcceleratorAuthSetting
   - Added Interface AcceleratorBasicAuthSetting
   - Added Interface AcceleratorGitRepository
@@ -65,6 +68,18 @@
   - Added Interface ApiPortalsListNextOptionalParams
   - Added Interface ApiPortalsListOptionalParams
   - Added Interface ApiPortalsValidateDomainOptionalParams
+  - Added Interface ApmProperties
+  - Added Interface ApmReference
+  - Added Interface ApmResource
+  - Added Interface ApmResourceCollection
+  - Added Interface ApmsCreateOrUpdateOptionalParams
+  - Added Interface ApmsDeleteHeaders
+  - Added Interface ApmsDeleteOptionalParams
+  - Added Interface ApmSecretKeys
+  - Added Interface ApmsGetOptionalParams
+  - Added Interface ApmsListNextOptionalParams
+  - Added Interface ApmsListOptionalParams
+  - Added Interface ApmsListSecretKeysOptionalParams
   - Added Interface ApplicationAcceleratorComponent
   - Added Interface ApplicationAcceleratorInstance
   - Added Interface ApplicationAcceleratorProperties
@@ -105,19 +120,27 @@
   - Added Interface BuildServiceCreateOrUpdateOptionalParams
   - Added Interface BuildServiceDeleteBuildHeaders
   - Added Interface BuildServiceDeleteBuildOptionalParams
+  - Added Interface CertificateReference
   - Added Interface CertificateResource
   - Added Interface ConfigServerResource
   - Added Interface ConfigurationServiceResource
+  - Added Interface ConfigurationServicesValidateResourceHeaders
+  - Added Interface ConfigurationServicesValidateResourceOptionalParams
   - Added Interface ContainerProbeSettings
   - Added Interface ContainerRegistriesCreateOrUpdateOptionalParams
+  - Added Interface ContainerRegistriesDeleteHeaders
+  - Added Interface ContainerRegistriesDeleteOptionalParams
   - Added Interface ContainerRegistriesGetOptionalParams
   - Added Interface ContainerRegistriesListNextOptionalParams
   - Added Interface ContainerRegistriesListOptionalParams
+  - Added Interface ContainerRegistriesValidateHeaders
+  - Added Interface ContainerRegistriesValidateOptionalParams
   - Added Interface ContainerRegistryBasicCredentials
   - Added Interface ContainerRegistryCredentials
   - Added Interface ContainerRegistryProperties
   - Added Interface ContainerRegistryResource
   - Added Interface ContainerRegistryResourceCollection
+  - Added Interface ContainerRegistryValidateResult
   - Added Interface ContentCertificateProperties
   - Added Interface CustomContainer
   - Added Interface CustomContainerUserSourceInfo
@@ -140,6 +163,7 @@
   - Added Interface DeploymentsDisableRemoteDebuggingOptionalParams
   - Added Interface DeploymentsEnableRemoteDebuggingOptionalParams
   - Added Interface DeploymentsGetRemoteDebuggingConfigOptionalParams
+  - Added Interface DevToolPortalComponent
   - Added Interface DevToolPortalFeatureDetail
   - Added Interface DevToolPortalFeatureSettings
   - Added Interface DevToolPortalInstance
@@ -153,6 +177,15 @@
   - Added Interface DevToolPortalsListNextOptionalParams
   - Added Interface DevToolPortalsListOptionalParams
   - Added Interface DevToolPortalSsoProperties
+  - Added Interface EurekaServerProperties
+  - Added Interface EurekaServerResource
+  - Added Interface EurekaServerResourceCollection
+  - Added Interface EurekaServersGetOptionalParams
+  - Added Interface EurekaServersListOptionalParams
+  - Added Interface EurekaServersUpdatePatchHeaders
+  - Added Interface EurekaServersUpdatePatchOptionalParams
+  - Added Interface EurekaServersUpdatePutHeaders
+  - Added Interface EurekaServersUpdatePutOptionalParams
   - Added Interface ExecAction
   - Added Interface GatewayApiMetadataProperties
   - Added Interface GatewayApiRoute
@@ -194,6 +227,7 @@
   - Added Interface GatewaysUpdateCapacityHeaders
   - Added Interface GatewaysUpdateCapacityOptionalParams
   - Added Interface GatewaysValidateDomainOptionalParams
+  - Added Interface GloballyEnabledApms
   - Added Interface HttpGetAction
   - Added Interface HttpScaleRule
   - Added Interface ImageRegistryCredential
@@ -202,6 +236,7 @@
   - Added Interface IngressSettingsClientAuth
   - Added Interface JarUploadedUserSourceInfo
   - Added Interface KeyVaultCertificateProperties
+  - Added Interface MaintenanceScheduleConfiguration
   - Added Interface MarketplaceResource
   - Added Interface MonitoringSettingResource
   - Added Interface NetCoreZipUploadedUserSourceInfo
@@ -225,6 +260,17 @@
   - Added Interface Secret
   - Added Interface ServiceRegistryResource
   - Added Interface ServiceResource
+  - Added Interface ServicesDisableApmGloballyHeaders
+  - Added Interface ServicesDisableApmGloballyOptionalParams
+  - Added Interface ServicesEnableApmGloballyHeaders
+  - Added Interface ServicesEnableApmGloballyOptionalParams
+  - Added Interface ServicesFlushVnetDnsSettingHeaders
+  - Added Interface ServicesFlushVnetDnsSettingOptionalParams
+  - Added Interface ServicesListGloballyEnabledApmsOptionalParams
+  - Added Interface ServicesListSupportedApmTypesNextOptionalParams
+  - Added Interface ServicesListSupportedApmTypesOptionalParams
+  - Added Interface ServicesListSupportedServerVersionsNextOptionalParams
+  - Added Interface ServicesListSupportedServerVersionsOptionalParams
   - Added Interface ServicesStartOptionalParams
   - Added Interface ServicesStopOptionalParams
   - Added Interface ServiceVNetAddons
@@ -240,13 +286,19 @@
   - Added Interface StoragesGetOptionalParams
   - Added Interface StoragesListNextOptionalParams
   - Added Interface StoragesListOptionalParams
+  - Added Interface SupportedApmType
+  - Added Interface SupportedApmTypes
   - Added Interface SupportedBuildpackResource
+  - Added Interface SupportedServerVersion
+  - Added Interface SupportedServerVersions
   - Added Interface SupportedStackResource
   - Added Interface TcpScaleRule
   - Added Interface TCPSocketAction
   - Added Interface TrackedResource
   - Added Interface UploadedUserSourceInfo
   - Added Interface UserAssignedManagedIdentity
+  - Added Interface WarUploadedUserSourceInfo
+  - Added Interface WeeklyMaintenanceScheduleConfiguration
   - Added Type Alias AcceleratorAuthSettingUnion
   - Added Type Alias ApiPortalCustomDomainsCreateOrUpdateResponse
   - Added Type Alias ApiPortalCustomDomainsGetResponse
@@ -258,6 +310,12 @@
   - Added Type Alias ApiPortalsListNextResponse
   - Added Type Alias ApiPortalsListResponse
   - Added Type Alias ApiPortalsValidateDomainResponse
+  - Added Type Alias ApmProvisioningState
+  - Added Type Alias ApmsCreateOrUpdateResponse
+  - Added Type Alias ApmsGetResponse
+  - Added Type Alias ApmsListNextResponse
+  - Added Type Alias ApmsListResponse
+  - Added Type Alias ApmsListSecretKeysResponse
   - Added Type Alias ApmType
   - Added Type Alias ApplicationAcceleratorProvisioningState
   - Added Type Alias ApplicationAcceleratorsCreateOrUpdateResponse
@@ -275,10 +333,14 @@
   - Added Type Alias BuildServiceBuilderListDeploymentsResponse
   - Added Type Alias BuildServiceCreateOrUpdateResponse
   - Added Type Alias CertificateResourceProvisioningState
+  - Added Type Alias ConfigServerEnabledState
+  - Added Type Alias ConfigurationServiceGeneration
+  - Added Type Alias ConfigurationServicesValidateResourceResponse
   - Added Type Alias ContainerRegistriesCreateOrUpdateResponse
   - Added Type Alias ContainerRegistriesGetResponse
   - Added Type Alias ContainerRegistriesListNextResponse
   - Added Type Alias ContainerRegistriesListResponse
+  - Added Type Alias ContainerRegistriesValidateResponse
   - Added Type Alias ContainerRegistryCredentialsUnion
   - Added Type Alias ContainerRegistryProvisioningState
   - Added Type Alias CustomDomainResourceProvisioningState
@@ -288,6 +350,7 @@
   - Added Type Alias CustomizedAcceleratorsListNextResponse
   - Added Type Alias CustomizedAcceleratorsListResponse
   - Added Type Alias CustomizedAcceleratorsValidateResponse
+  - Added Type Alias CustomizedAcceleratorType
   - Added Type Alias CustomizedAcceleratorValidateResultState
   - Added Type Alias CustomPersistentDiskPropertiesUnion
   - Added Type Alias DeploymentsDisableRemoteDebuggingResponse
@@ -299,6 +362,13 @@
   - Added Type Alias DevToolPortalsGetResponse
   - Added Type Alias DevToolPortalsListNextResponse
   - Added Type Alias DevToolPortalsListResponse
+  - Added Type Alias EurekaServerEnabledState
+  - Added Type Alias EurekaServersGetResponse
+  - Added Type Alias EurekaServersListResponse
+  - Added Type Alias EurekaServerState
+  - Added Type Alias EurekaServersUpdatePatchResponse
+  - Added Type Alias EurekaServersUpdatePutResponse
+  - Added Type Alias Frequency
   - Added Type Alias GatewayCertificateVerification
   - Added Type Alias GatewayCustomDomainsCreateOrUpdateResponse
   - Added Type Alias GatewayCustomDomainsGetResponse
@@ -317,7 +387,10 @@
   - Added Type Alias GatewaysListResponse
   - Added Type Alias GatewaysUpdateCapacityResponse
   - Added Type Alias GatewaysValidateDomainResponse
+  - Added Type Alias GitImplementation
   - Added Type Alias HttpSchemeType
+  - Added Type Alias KeyVaultCertificateAutoSync
+  - Added Type Alias MaintenanceScheduleConfigurationUnion
   - Added Type Alias PowerState
   - Added Type Alias PredefinedAcceleratorProvisioningState
   - Added Type Alias PredefinedAcceleratorsGetResponse
@@ -326,6 +399,11 @@
   - Added Type Alias PredefinedAcceleratorState
   - Added Type Alias ProbeActionType
   - Added Type Alias ProbeActionUnion
+  - Added Type Alias ServicesListGloballyEnabledApmsResponse
+  - Added Type Alias ServicesListSupportedApmTypesNextResponse
+  - Added Type Alias ServicesListSupportedApmTypesResponse
+  - Added Type Alias ServicesListSupportedServerVersionsNextResponse
+  - Added Type Alias ServicesListSupportedServerVersionsResponse
   - Added Type Alias SessionAffinity
   - Added Type Alias StoragePropertiesUnion
   - Added Type Alias StoragesCreateOrUpdateResponse
@@ -334,10 +412,14 @@
   - Added Type Alias StoragesListResponse
   - Added Type Alias StorageType
   - Added Type Alias Type
+  - Added Type Alias WeekDay
   - Interface AppResourceProperties has a new optional parameter customPersistentDisks
   - Interface AppResourceProperties has a new optional parameter ingressSettings
   - Interface AppResourceProperties has a new optional parameter secrets
   - Interface AppResourceProperties has a new optional parameter vnetAddons
+  - Interface AppResourceProperties has a new optional parameter workloadProfileName
+  - Interface BuildProperties has a new optional parameter apms
+  - Interface BuildProperties has a new optional parameter certificates
   - Interface BuildProperties has a new optional parameter resourceRequests
   - Interface BuildResultProperties has a new optional parameter error
   - Interface BuildResultProperties has a new optional parameter image
@@ -346,37 +428,54 @@
   - Interface BuildStageProperties has a new optional parameter reason
   - Interface CertificateProperties has a new optional parameter provisioningState
   - Interface ClusterResourceProperties has a new optional parameter infraResourceGroup
+  - Interface ClusterResourceProperties has a new optional parameter maintenanceScheduleConfiguration
   - Interface ClusterResourceProperties has a new optional parameter managedEnvironmentId
   - Interface ClusterResourceProperties has a new optional parameter marketplaceResource
   - Interface ClusterResourceProperties has a new optional parameter powerState
   - Interface ClusterResourceProperties has a new optional parameter vnetAddons
+  - Interface ConfigServerProperties has a new optional parameter enabledState
+  - Interface ConfigurationServiceGitRepository has a new optional parameter caCertResourceId
+  - Interface ConfigurationServiceGitRepository has a new optional parameter gitImplementation
+  - Interface ConfigurationServiceProperties has a new optional parameter generation
   - Interface CustomDomainProperties has a new optional parameter provisioningState
+  - Interface DeploymentSettings has a new optional parameter apms
   - Interface DeploymentSettings has a new optional parameter containerProbeSettings
   - Interface DeploymentSettings has a new optional parameter livenessProbe
   - Interface DeploymentSettings has a new optional parameter readinessProbe
   - Interface DeploymentSettings has a new optional parameter scale
   - Interface DeploymentSettings has a new optional parameter startupProbe
   - Interface DeploymentSettings has a new optional parameter terminationGracePeriodSeconds
+  - Interface DeploymentsListForClusterOptionalParams has a new optional parameter expand
+  - Interface DeploymentsListOptionalParams has a new optional parameter expand
   - Interface ManagedIdentityProperties has a new optional parameter userAssignedIdentities
   - Interface NetworkProfile has a new optional parameter ingressConfig
   - Interface NetworkProfile has a new optional parameter outboundType
-  - Type of parameter type of interface UserSourceInfo is changed from "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" to "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" | "Container"
+  - Type of parameter type of interface UserSourceInfo is changed from "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" to "UploadedUserSourceInfo" | "Jar" | "War" | "Source" | "NetCoreZip" | "BuildResult" | "Container"
   - Added Enum KnownApiPortalProvisioningState
+  - Added Enum KnownApmProvisioningState
   - Added Enum KnownApmType
   - Added Enum KnownApplicationAcceleratorProvisioningState
   - Added Enum KnownApplicationLiveViewProvisioningState
   - Added Enum KnownBackendProtocol
   - Added Enum KnownCertificateResourceProvisioningState
+  - Added Enum KnownConfigServerEnabledState
+  - Added Enum KnownConfigurationServiceGeneration
   - Added Enum KnownContainerRegistryProvisioningState
   - Added Enum KnownCustomDomainResourceProvisioningState
   - Added Enum KnownCustomizedAcceleratorProvisioningState
+  - Added Enum KnownCustomizedAcceleratorType
   - Added Enum KnownCustomizedAcceleratorValidateResultState
   - Added Enum KnownDevToolPortalFeatureState
   - Added Enum KnownDevToolPortalProvisioningState
+  - Added Enum KnownEurekaServerEnabledState
+  - Added Enum KnownEurekaServerState
+  - Added Enum KnownFrequency
   - Added Enum KnownGatewayCertificateVerification
   - Added Enum KnownGatewayProvisioningState
   - Added Enum KnownGatewayRouteConfigProtocol
+  - Added Enum KnownGitImplementation
   - Added Enum KnownHttpSchemeType
+  - Added Enum KnownKeyVaultCertificateAutoSync
   - Added Enum KnownPowerState
   - Added Enum KnownPredefinedAcceleratorProvisioningState
   - Added Enum KnownPredefinedAcceleratorState
@@ -384,13 +483,15 @@
   - Added Enum KnownSessionAffinity
   - Added Enum KnownStorageType
   - Added Enum KnownType
+  - Added Enum KnownWeekDay
   - Enum KnownBindingType has a new value CACertificates
   - Added function getContinuationToken
-  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
-  - Interface DeploymentsListNextOptionalParams no longer has parameter version
 
 **Breaking Changes**
 
+  - Class AppPlatformManagementClient has a new signature
+  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
+  - Interface DeploymentsListNextOptionalParams no longer has parameter version
   - Type of parameter addonConfigs of interface AppResourceProperties is changed from {
         [propertyName: string]: {
             [propertyName: string]: Record<string, unknown>;
@@ -420,4 +521,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
