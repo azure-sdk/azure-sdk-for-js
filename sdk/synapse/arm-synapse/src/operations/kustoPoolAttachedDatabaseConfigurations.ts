@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AttachedDatabaseConfiguration,
   KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams,
@@ -176,8 +180,8 @@ export class KustoPoolAttachedDatabaseConfigurationsImpl
     parameters: AttachedDatabaseConfiguration,
     options?: KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse
       >,
       KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse
@@ -189,7 +193,7 @@ export class KustoPoolAttachedDatabaseConfigurationsImpl
     ): Promise<KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -222,9 +226,9 @@ export class KustoPoolAttachedDatabaseConfigurationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         workspaceName,
         kustoPoolName,
         attachedDatabaseConfigurationName,
@@ -232,10 +236,15 @@ export class KustoPoolAttachedDatabaseConfigurationsImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse,
+      OperationState<
+        KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -284,14 +293,14 @@ export class KustoPoolAttachedDatabaseConfigurationsImpl
     attachedDatabaseConfigurationName: string,
     resourceGroupName: string,
     options?: KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -324,19 +333,19 @@ export class KustoPoolAttachedDatabaseConfigurationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         workspaceName,
         kustoPoolName,
         attachedDatabaseConfigurationName,
         resourceGroupName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -439,7 +448,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EncryptionProtector,
   WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams,
@@ -61,8 +61,8 @@ export interface WorkspaceManagedSqlServerEncryptionProtector {
     parameters: EncryptionProtector,
     options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse
       >,
       WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse
@@ -97,7 +97,7 @@ export interface WorkspaceManagedSqlServerEncryptionProtector {
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revalidates workspace managed sql server's existing encryption protector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

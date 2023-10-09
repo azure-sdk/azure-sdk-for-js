@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkspaceManagedIdentitySqlControlSettingsGetOptionalParams,
   WorkspaceManagedIdentitySqlControlSettingsGetResponse,
@@ -41,8 +41,8 @@ export interface WorkspaceManagedIdentitySqlControlSettings {
     managedIdentitySqlControlSettings: ManagedIdentitySqlControlSettingsModel,
     options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse
       >,
       WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse

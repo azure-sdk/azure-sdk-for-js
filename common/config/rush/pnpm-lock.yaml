@@ -3962,7 +3962,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug@3.2.7:
@@ -5222,7 +5222,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.4
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: false
@@ -16263,10 +16263,11 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-GHHKyBRaLjgKcDRI4Rm30BvvEnmOJbPuMVoO9OdvO+ZYWZ+FgEyKdHS2LH8rhG08/60OeaO6T0480szF/CX0sQ==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-Gh4Gqp9cygdQsTSbTpBGkg/plUBycGvYRmkStSALrdOb0qQi3llrcFhT+AAUA0FHOHKeki9UJzmI9ct8h6og7A==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
@@ -16276,10 +16277,10 @@ packages:
       '@types/node': 14.18.63
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
@@ -16289,6 +16290,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-templatespecs.tgz:
