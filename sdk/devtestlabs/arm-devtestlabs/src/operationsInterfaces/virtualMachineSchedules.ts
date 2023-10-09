@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   VirtualMachineSchedulesListOptionalParams,
@@ -27,7 +27,7 @@ import {
 export interface VirtualMachineSchedules {
   /**
    * List schedules in a given virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param options The options parameters.
@@ -40,7 +40,7 @@ export interface VirtualMachineSchedules {
   ): PagedAsyncIterableIterator<Schedule>;
   /**
    * Get schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -55,7 +55,7 @@ export interface VirtualMachineSchedules {
   ): Promise<VirtualMachineSchedulesGetResponse>;
   /**
    * Create or replace an existing schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -72,7 +72,7 @@ export interface VirtualMachineSchedules {
   ): Promise<VirtualMachineSchedulesCreateOrUpdateResponse>;
   /**
    * Delete schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -87,11 +87,11 @@ export interface VirtualMachineSchedules {
   ): Promise<void>;
   /**
    * Allows modifying tags of schedules. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -104,7 +104,7 @@ export interface VirtualMachineSchedules {
   ): Promise<VirtualMachineSchedulesUpdateResponse>;
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -116,10 +116,10 @@ export interface VirtualMachineSchedules {
     virtualMachineName: string,
     name: string,
     options?: VirtualMachineSchedulesExecuteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.

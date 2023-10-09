@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   SchedulesListOptionalParams,
@@ -28,7 +28,7 @@ import {
 export interface Schedules {
   /**
    * List schedules in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -39,7 +39,7 @@ export interface Schedules {
   ): PagedAsyncIterableIterator<Schedule>;
   /**
    * Lists all applicable schedules
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param options The options parameters.
@@ -52,7 +52,7 @@ export interface Schedules {
   ): PagedAsyncIterableIterator<Schedule>;
   /**
    * Get schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param options The options parameters.
@@ -65,7 +65,7 @@ export interface Schedules {
   ): Promise<SchedulesGetResponse>;
   /**
    * Create or replace an existing schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param schedule A schedule.
@@ -80,7 +80,7 @@ export interface Schedules {
   ): Promise<SchedulesCreateOrUpdateResponse>;
   /**
    * Delete schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param options The options parameters.
@@ -93,10 +93,10 @@ export interface Schedules {
   ): Promise<void>;
   /**
    * Allows modifying tags of schedules. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -108,7 +108,7 @@ export interface Schedules {
   ): Promise<SchedulesUpdateResponse>;
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param options The options parameters.
@@ -118,10 +118,10 @@ export interface Schedules {
     labName: string,
     name: string,
     options?: SchedulesExecuteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param options The options parameters.

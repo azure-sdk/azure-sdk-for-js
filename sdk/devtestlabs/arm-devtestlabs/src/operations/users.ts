@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   User,
   UsersListNextOptionalParams,
@@ -46,7 +50,7 @@ export class UsersImpl implements Users {
 
   /**
    * List user profiles in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -122,7 +126,7 @@ export class UsersImpl implements Users {
 
   /**
    * List user profiles in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -139,7 +143,7 @@ export class UsersImpl implements Users {
 
   /**
    * Get user profile.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
    * @param options The options parameters.
@@ -158,21 +162,19 @@ export class UsersImpl implements Users {
 
   /**
    * Create or replace an existing user profile. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<UsersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<UsersCreateOrUpdateResponse>,
       UsersCreateOrUpdateResponse
     >
   > {
@@ -182,7 +184,7 @@ export class UsersImpl implements Users {
     ): Promise<UsersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -215,14 +217,18 @@ export class UsersImpl implements Users {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, user, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      UsersCreateOrUpdateResponse,
+      OperationState<UsersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -230,24 +236,21 @@ export class UsersImpl implements Users {
 
   /**
    * Create or replace an existing user profile. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<UsersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       labName,
       name,
-      user,
       options
     );
     return poller.pollUntilDone();
@@ -255,7 +258,7 @@ export class UsersImpl implements Users {
 
   /**
    * Delete user profile. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
    * @param options The options parameters.
@@ -265,14 +268,14 @@ export class UsersImpl implements Users {
     labName: string,
     name: string,
     options?: UsersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,14 +308,15 @@ export class UsersImpl implements Users {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -320,7 +324,7 @@ export class UsersImpl implements Users {
 
   /**
    * Delete user profile. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
    * @param options The options parameters.
@@ -342,10 +346,10 @@ export class UsersImpl implements Users {
 
   /**
    * Allows modifying tags of user profiles. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
+   * @param user Allows modifying tags of user profiles. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -363,7 +367,7 @@ export class UsersImpl implements Users {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -528,13 +532,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

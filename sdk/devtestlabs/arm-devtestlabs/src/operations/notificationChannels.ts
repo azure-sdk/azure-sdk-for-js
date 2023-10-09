@@ -46,7 +46,7 @@ export class NotificationChannelsImpl implements NotificationChannels {
 
   /**
    * List notification channels in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -122,7 +122,7 @@ export class NotificationChannelsImpl implements NotificationChannels {
 
   /**
    * List notification channels in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -139,7 +139,7 @@ export class NotificationChannelsImpl implements NotificationChannels {
 
   /**
    * Get notification channel.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
    * @param options The options parameters.
@@ -157,8 +157,8 @@ export class NotificationChannelsImpl implements NotificationChannels {
   }
 
   /**
-   * Create or replace an existing notification channel.
-   * @param resourceGroupName The name of the resource group.
+   * Create or replace an existing Notification Channel.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
    * @param notificationChannel A notification.
@@ -179,7 +179,7 @@ export class NotificationChannelsImpl implements NotificationChannels {
 
   /**
    * Delete notification channel.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
    * @param options The options parameters.
@@ -198,10 +198,11 @@ export class NotificationChannelsImpl implements NotificationChannels {
 
   /**
    * Allows modifying tags of notification channels. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
-   * @param notificationChannel A notification.
+   * @param notificationChannel Allows modifying tags of notification channels. All other properties will
+   *                            be ignored.
    * @param options The options parameters.
    */
   update(
@@ -219,7 +220,7 @@ export class NotificationChannelsImpl implements NotificationChannels {
 
   /**
    * Send notification to provided channel.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
    * @param notifyParameters Properties for generating a Notification.
@@ -240,7 +241,7 @@ export class NotificationChannelsImpl implements NotificationChannels {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -420,13 +421,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

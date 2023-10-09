@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Secret,
   SecretsListNextOptionalParams,
@@ -46,7 +50,7 @@ export class SecretsImpl implements Secrets {
 
   /**
    * List secrets in a given user profile.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param options The options parameters.
@@ -134,7 +138,7 @@ export class SecretsImpl implements Secrets {
 
   /**
    * List secrets in a given user profile.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param options The options parameters.
@@ -153,7 +157,7 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Get secret.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
@@ -174,7 +178,7 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Create or replace an existing secret. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
@@ -189,8 +193,8 @@ export class SecretsImpl implements Secrets {
     secret: Secret,
     options?: SecretsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SecretsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SecretsCreateOrUpdateResponse>,
       SecretsCreateOrUpdateResponse
     >
   > {
@@ -200,7 +204,7 @@ export class SecretsImpl implements Secrets {
     ): Promise<SecretsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -233,14 +237,18 @@ export class SecretsImpl implements Secrets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, secret, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, name, secret, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SecretsCreateOrUpdateResponse,
+      OperationState<SecretsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -248,7 +256,7 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Create or replace an existing secret. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
@@ -276,7 +284,7 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Delete secret.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
@@ -297,11 +305,11 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Allows modifying tags of secrets. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
-   * @param secret A secret.
+   * @param secret Allows modifying tags of secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -320,7 +328,7 @@ export class SecretsImpl implements Secrets {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -416,7 +424,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.secret,
+  requestBody: Parameters.secret1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -465,7 +473,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.secret1,
+  requestBody: Parameters.secret,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -490,13 +498,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

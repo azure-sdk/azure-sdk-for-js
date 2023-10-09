@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Lab,
   LabsListBySubscriptionOptionalParams,
@@ -25,6 +25,7 @@ import {
   LabsClaimAnyVmOptionalParams,
   LabVirtualMachineCreationParameter,
   LabsCreateEnvironmentOptionalParams,
+  LabsEnsureCurrentUserProfileOptionalParams,
   ExportResourceUsageParameters,
   LabsExportResourceUsageOptionalParams,
   GenerateUploadUriParameter,
@@ -46,7 +47,7 @@ export interface Labs {
   ): PagedAsyncIterableIterator<Lab>;
   /**
    * List labs in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -55,7 +56,7 @@ export interface Labs {
   ): PagedAsyncIterableIterator<Lab>;
   /**
    * List disk images available for custom image creation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param options The options parameters.
    */
@@ -66,7 +67,7 @@ export interface Labs {
   ): PagedAsyncIterableIterator<LabVhd>;
   /**
    * Get lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param options The options parameters.
    */
@@ -77,7 +78,7 @@ export interface Labs {
   ): Promise<LabsGetResponse>;
   /**
    * Create or replace an existing lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param lab A lab.
    * @param options The options parameters.
@@ -88,14 +89,14 @@ export interface Labs {
     lab: Lab,
     options?: LabsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LabsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LabsCreateOrUpdateResponse>,
       LabsCreateOrUpdateResponse
     >
   >;
   /**
    * Create or replace an existing lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param lab A lab.
    * @param options The options parameters.
@@ -108,7 +109,7 @@ export interface Labs {
   ): Promise<LabsCreateOrUpdateResponse>;
   /**
    * Delete lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param options The options parameters.
    */
@@ -116,10 +117,10 @@ export interface Labs {
     resourceGroupName: string,
     name: string,
     options?: LabsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param options The options parameters.
    */
@@ -130,9 +131,9 @@ export interface Labs {
   ): Promise<void>;
   /**
    * Allows modifying tags of labs. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
-   * @param lab A lab.
+   * @param lab Allows modifying tags of labs. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -143,7 +144,7 @@ export interface Labs {
   ): Promise<LabsUpdateResponse>;
   /**
    * Claim a random claimable virtual machine in the lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param options The options parameters.
    */
@@ -151,10 +152,10 @@ export interface Labs {
     resourceGroupName: string,
     name: string,
     options?: LabsClaimAnyVmOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Claim a random claimable virtual machine in the lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param options The options parameters.
    */
@@ -165,7 +166,7 @@ export interface Labs {
   ): Promise<void>;
   /**
    * Create virtual machines in a lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param labVirtualMachineCreationParameter Properties for creating a virtual machine.
    * @param options The options parameters.
@@ -175,10 +176,10 @@ export interface Labs {
     name: string,
     labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter,
     options?: LabsCreateEnvironmentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Create virtual machines in a lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param labVirtualMachineCreationParameter Properties for creating a virtual machine.
    * @param options The options parameters.
@@ -190,8 +191,19 @@ export interface Labs {
     options?: LabsCreateEnvironmentOptionalParams
   ): Promise<void>;
   /**
+   * Ensure the current user has a valid profile in the lab.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the lab.
+   * @param options The options parameters.
+   */
+  ensureCurrentUserProfile(
+    resourceGroupName: string,
+    name: string,
+    options?: LabsEnsureCurrentUserProfileOptionalParams
+  ): Promise<void>;
+  /**
    * Exports the lab resource usage into a storage account This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param exportResourceUsageParameters The parameters of the export operation.
    * @param options The options parameters.
@@ -201,10 +213,10 @@ export interface Labs {
     name: string,
     exportResourceUsageParameters: ExportResourceUsageParameters,
     options?: LabsExportResourceUsageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Exports the lab resource usage into a storage account This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param exportResourceUsageParameters The parameters of the export operation.
    * @param options The options parameters.
@@ -217,7 +229,7 @@ export interface Labs {
   ): Promise<void>;
   /**
    * Generate a URI for uploading custom disk images to a Lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param generateUploadUriParameter Properties for generating an upload URI.
    * @param options The options parameters.
@@ -230,7 +242,7 @@ export interface Labs {
   ): Promise<LabsGenerateUploadUriResponse>;
   /**
    * Import a virtual machine into a different lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param importLabVirtualMachineRequest This represents the payload required to import a virtual
    *                                       machine from a different lab into the current one
@@ -241,10 +253,10 @@ export interface Labs {
     name: string,
     importLabVirtualMachineRequest: ImportLabVirtualMachineRequest,
     options?: LabsImportVirtualMachineOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Import a virtual machine into a different lab. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the lab.
    * @param importLabVirtualMachineRequest This represents the payload required to import a virtual
    *                                       machine from a different lab into the current one

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   ServiceFabricSchedulesListOptionalParams,
@@ -27,7 +27,7 @@ import {
 export interface ServiceFabricSchedules {
   /**
    * List schedules in a given service fabric.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.
@@ -42,7 +42,7 @@ export interface ServiceFabricSchedules {
   ): PagedAsyncIterableIterator<Schedule>;
   /**
    * Get schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.
@@ -59,7 +59,7 @@ export interface ServiceFabricSchedules {
   ): Promise<ServiceFabricSchedulesGetResponse>;
   /**
    * Create or replace an existing schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.
@@ -78,7 +78,7 @@ export interface ServiceFabricSchedules {
   ): Promise<ServiceFabricSchedulesCreateOrUpdateResponse>;
   /**
    * Delete schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.
@@ -95,12 +95,12 @@ export interface ServiceFabricSchedules {
   ): Promise<void>;
   /**
    * Allows modifying tags of schedules. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -114,7 +114,7 @@ export interface ServiceFabricSchedules {
   ): Promise<ServiceFabricSchedulesUpdateResponse>;
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.
@@ -128,10 +128,10 @@ export interface ServiceFabricSchedules {
     serviceFabricName: string,
     name: string,
     options?: ServiceFabricSchedulesExecuteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.

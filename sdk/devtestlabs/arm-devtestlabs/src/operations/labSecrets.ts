@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { VirtualNetworks } from "../operationsInterfaces";
+import { LabSecrets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  VirtualNetwork,
-  VirtualNetworksListNextOptionalParams,
-  VirtualNetworksListOptionalParams,
-  VirtualNetworksListResponse,
-  VirtualNetworksGetOptionalParams,
-  VirtualNetworksGetResponse,
-  VirtualNetworksCreateOrUpdateOptionalParams,
-  VirtualNetworksCreateOrUpdateResponse,
-  VirtualNetworksDeleteOptionalParams,
-  VirtualNetworkFragment,
-  VirtualNetworksUpdateOptionalParams,
-  VirtualNetworksUpdateResponse,
-  VirtualNetworksListNextResponse
+  LabSecret,
+  LabSecretsListNextOptionalParams,
+  LabSecretsListOptionalParams,
+  LabSecretsListResponse,
+  LabSecretsGetOptionalParams,
+  LabSecretsGetResponse,
+  LabSecretsCreateOrUpdateOptionalParams,
+  LabSecretsCreateOrUpdateResponse,
+  LabSecretsDeleteOptionalParams,
+  SecretFragment,
+  LabSecretsUpdateOptionalParams,
+  LabSecretsUpdateResponse,
+  LabSecretsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing VirtualNetworks operations. */
-export class VirtualNetworksImpl implements VirtualNetworks {
+/** Class containing LabSecrets operations. */
+export class LabSecretsImpl implements LabSecrets {
   private readonly client: DevTestLabsClient;
 
   /**
-   * Initialize a new instance of the class VirtualNetworks class.
+   * Initialize a new instance of the class LabSecrets class.
    * @param client Reference to the service client
    */
   constructor(client: DevTestLabsClient) {
@@ -49,7 +49,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * List virtual networks in a given lab.
+   * List lab secrets in a given lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -57,8 +57,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   public list(
     resourceGroupName: string,
     labName: string,
-    options?: VirtualNetworksListOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetwork> {
+    options?: LabSecretsListOptionalParams
+  ): PagedAsyncIterableIterator<LabSecret> {
     const iter = this.listPagingAll(resourceGroupName, labName, options);
     return {
       next() {
@@ -84,10 +84,10 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: VirtualNetworksListOptionalParams,
+    options?: LabSecretsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<VirtualNetwork[]> {
-    let result: VirtualNetworksListResponse;
+  ): AsyncIterableIterator<LabSecret[]> {
+    let result: LabSecretsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, labName, options);
@@ -113,8 +113,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   private async *listPagingAll(
     resourceGroupName: string,
     labName: string,
-    options?: VirtualNetworksListOptionalParams
-  ): AsyncIterableIterator<VirtualNetwork> {
+    options?: LabSecretsListOptionalParams
+  ): AsyncIterableIterator<LabSecret> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       labName,
@@ -125,7 +125,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * List virtual networks in a given lab.
+   * List lab secrets in a given lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -133,8 +133,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   private _list(
     resourceGroupName: string,
     labName: string,
-    options?: VirtualNetworksListOptionalParams
-  ): Promise<VirtualNetworksListResponse> {
+    options?: LabSecretsListOptionalParams
+  ): Promise<LabSecretsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, options },
       listOperationSpec
@@ -142,18 +142,18 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Get virtual network.
+   * Get lab secret.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: VirtualNetworksGetOptionalParams
-  ): Promise<VirtualNetworksGetResponse> {
+    options?: LabSecretsGetOptionalParams
+  ): Promise<LabSecretsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, name, options },
       getOperationSpec
@@ -161,29 +161,29 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Create or replace an existing virtual network. This operation can take a while to complete.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
-   * @param virtualNetwork A virtual network.
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    virtualNetwork: VirtualNetwork,
-    options?: VirtualNetworksCreateOrUpdateOptionalParams
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<VirtualNetworksCreateOrUpdateResponse>,
-      VirtualNetworksCreateOrUpdateResponse
+      OperationState<LabSecretsCreateOrUpdateResponse>,
+      LabSecretsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<VirtualNetworksCreateOrUpdateResponse> => {
+    ): Promise<LabSecretsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -221,12 +221,12 @@ export class VirtualNetworksImpl implements VirtualNetworks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, labName, name, virtualNetwork, options },
+      args: { resourceGroupName, labName, name, labSecret, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      VirtualNetworksCreateOrUpdateResponse,
-      OperationState<VirtualNetworksCreateOrUpdateResponse>
+      LabSecretsCreateOrUpdateResponse,
+      OperationState<LabSecretsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -237,42 +237,42 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Create or replace an existing virtual network. This operation can take a while to complete.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
-   * @param virtualNetwork A virtual network.
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    virtualNetwork: VirtualNetwork,
-    options?: VirtualNetworksCreateOrUpdateOptionalParams
-  ): Promise<VirtualNetworksCreateOrUpdateResponse> {
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
+  ): Promise<LabSecretsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       labName,
       name,
-      virtualNetwork,
+      labSecret,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete virtual network. This operation can take a while to complete.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: VirtualNetworksDeleteOptionalParams
+    options?: LabSecretsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -328,17 +328,17 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Delete virtual network. This operation can take a while to complete.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: VirtualNetworksDeleteOptionalParams
+    options?: LabSecretsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -350,25 +350,104 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Allows modifying tags of virtual networks. All other properties will be ignored.
+   * Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
-   * @param virtualNetwork Allows modifying tags of virtual networks. All other properties will be
-   *                       ignored.
+   * @param name The name of the lab secret.
+   * @param secret Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    virtualNetwork: VirtualNetworkFragment,
-    options?: VirtualNetworksUpdateOptionalParams
-  ): Promise<VirtualNetworksUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, virtualNetwork, options },
-      updateOperationSpec
+    secret: SecretFragment,
+    options?: LabSecretsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LabSecretsUpdateResponse>,
+      LabSecretsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LabSecretsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, secret, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LabSecretsUpdateResponse,
+      OperationState<LabSecretsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Allows modifying tags of lab secrets. All other properties will be ignored.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab.
+   * @param name The name of the lab secret.
+   * @param secret Allows modifying tags of lab secrets. All other properties will be ignored.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    secret: SecretFragment,
+    options?: LabSecretsUpdateOptionalParams
+  ): Promise<LabSecretsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      labName,
+      name,
+      secret,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -382,8 +461,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     resourceGroupName: string,
     labName: string,
     nextLink: string,
-    options?: VirtualNetworksListNextOptionalParams
-  ): Promise<VirtualNetworksListNextResponse> {
+    options?: LabSecretsListNextOptionalParams
+  ): Promise<LabSecretsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, nextLink, options },
       listNextOperationSpec
@@ -395,11 +474,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworkList
+      bodyMapper: Mappers.LabSecretList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -407,7 +486,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -423,17 +501,17 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetwork
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -446,26 +524,26 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetwork
+      bodyMapper: Mappers.LabSecret
     },
     201: {
-      bodyMapper: Mappers.VirtualNetwork
+      bodyMapper: Mappers.LabSecret
     },
     202: {
-      bodyMapper: Mappers.VirtualNetwork
+      bodyMapper: Mappers.LabSecret
     },
     204: {
-      bodyMapper: Mappers.VirtualNetwork
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.virtualNetwork,
+  requestBody: Parameters.labSecret,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -480,7 +558,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -504,17 +582,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetwork
+      bodyMapper: Mappers.LabSecret
+    },
+    201: {
+      bodyMapper: Mappers.LabSecret
+    },
+    202: {
+      bodyMapper: Mappers.LabSecret
+    },
+    204: {
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.virtualNetwork1,
+  requestBody: Parameters.secret,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -532,7 +619,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworkList
+      bodyMapper: Mappers.LabSecretList
     },
     default: {
       bodyMapper: Mappers.CloudError

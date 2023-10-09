@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Secret,
   SecretsListOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface Secrets {
   /**
    * List secrets in a given user profile.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param options The options parameters.
@@ -39,7 +39,7 @@ export interface Secrets {
   ): PagedAsyncIterableIterator<Secret>;
   /**
    * Get secret.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
@@ -54,7 +54,7 @@ export interface Secrets {
   ): Promise<SecretsGetResponse>;
   /**
    * Create or replace an existing secret. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
@@ -69,14 +69,14 @@ export interface Secrets {
     secret: Secret,
     options?: SecretsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SecretsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SecretsCreateOrUpdateResponse>,
       SecretsCreateOrUpdateResponse
     >
   >;
   /**
    * Create or replace an existing secret. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
@@ -93,7 +93,7 @@ export interface Secrets {
   ): Promise<SecretsCreateOrUpdateResponse>;
   /**
    * Delete secret.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
@@ -108,11 +108,11 @@ export interface Secrets {
   ): Promise<void>;
   /**
    * Allows modifying tags of secrets. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
-   * @param secret A secret.
+   * @param secret Allows modifying tags of secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

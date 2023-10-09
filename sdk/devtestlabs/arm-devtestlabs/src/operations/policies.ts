@@ -44,7 +44,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * List policies in a given policy set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param options The options parameters.
@@ -137,7 +137,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * List policies in a given policy set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param options The options parameters.
@@ -156,7 +156,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Get policy.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
@@ -177,7 +177,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Create or replace an existing policy.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
@@ -200,7 +200,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Delete policy.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
@@ -221,11 +221,11 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Allows modifying tags of policies. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
-   * @param policy A Policy.
+   * @param policy Allows modifying tags of policies. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -244,7 +244,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -408,13 +408,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

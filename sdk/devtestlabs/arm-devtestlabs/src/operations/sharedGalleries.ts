@@ -8,34 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ArtifactSources } from "../operationsInterfaces";
+import { SharedGalleries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
 import {
-  ArtifactSource,
-  ArtifactSourcesListNextOptionalParams,
-  ArtifactSourcesListOptionalParams,
-  ArtifactSourcesListResponse,
-  ArtifactSourcesGetOptionalParams,
-  ArtifactSourcesGetResponse,
-  ArtifactSourcesCreateOrUpdateOptionalParams,
-  ArtifactSourcesCreateOrUpdateResponse,
-  ArtifactSourcesDeleteOptionalParams,
-  ArtifactSourceFragment,
-  ArtifactSourcesUpdateOptionalParams,
-  ArtifactSourcesUpdateResponse,
-  ArtifactSourcesListNextResponse
+  SharedGallery,
+  SharedGalleriesListNextOptionalParams,
+  SharedGalleriesListOptionalParams,
+  SharedGalleriesListResponse,
+  SharedGalleriesGetOptionalParams,
+  SharedGalleriesGetResponse,
+  SharedGalleriesCreateOrUpdateOptionalParams,
+  SharedGalleriesCreateOrUpdateResponse,
+  SharedGalleriesDeleteOptionalParams,
+  SharedGalleryFragment,
+  SharedGalleriesUpdateOptionalParams,
+  SharedGalleriesUpdateResponse,
+  SharedGalleriesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ArtifactSources operations. */
-export class ArtifactSourcesImpl implements ArtifactSources {
+/** Class containing SharedGalleries operations. */
+export class SharedGalleriesImpl implements SharedGalleries {
   private readonly client: DevTestLabsClient;
 
   /**
-   * Initialize a new instance of the class ArtifactSources class.
+   * Initialize a new instance of the class SharedGalleries class.
    * @param client Reference to the service client
    */
   constructor(client: DevTestLabsClient) {
@@ -43,7 +43,7 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   }
 
   /**
-   * List artifact sources in a given lab.
+   * List shared galleries in a given lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -51,8 +51,8 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   public list(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams
-  ): PagedAsyncIterableIterator<ArtifactSource> {
+    options?: SharedGalleriesListOptionalParams
+  ): PagedAsyncIterableIterator<SharedGallery> {
     const iter = this.listPagingAll(resourceGroupName, labName, options);
     return {
       next() {
@@ -78,10 +78,10 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams,
+    options?: SharedGalleriesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ArtifactSource[]> {
-    let result: ArtifactSourcesListResponse;
+  ): AsyncIterableIterator<SharedGallery[]> {
+    let result: SharedGalleriesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, labName, options);
@@ -107,8 +107,8 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   private async *listPagingAll(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams
-  ): AsyncIterableIterator<ArtifactSource> {
+    options?: SharedGalleriesListOptionalParams
+  ): AsyncIterableIterator<SharedGallery> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       labName,
@@ -119,7 +119,7 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   }
 
   /**
-   * List artifact sources in a given lab.
+   * List shared galleries in a given lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -127,8 +127,8 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   private _list(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams
-  ): Promise<ArtifactSourcesListResponse> {
+    options?: SharedGalleriesListOptionalParams
+  ): Promise<SharedGalleriesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, options },
       listOperationSpec
@@ -136,18 +136,18 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   }
 
   /**
-   * Get artifact source.
+   * Get shared gallery.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
+   * @param name The name of the shared gallery.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: ArtifactSourcesGetOptionalParams
-  ): Promise<ArtifactSourcesGetResponse> {
+    options?: SharedGalleriesGetOptionalParams
+  ): Promise<SharedGalleriesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, name, options },
       getOperationSpec
@@ -155,38 +155,38 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   }
 
   /**
-   * Create or replace an existing artifact source.
+   * Create or replace an existing Shared Gallery.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
-   * @param artifactSource Properties of an artifact source.
+   * @param name The name of the shared gallery.
+   * @param sharedGallery Properties of a shared gallery
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    artifactSource: ArtifactSource,
-    options?: ArtifactSourcesCreateOrUpdateOptionalParams
-  ): Promise<ArtifactSourcesCreateOrUpdateResponse> {
+    sharedGallery: SharedGallery,
+    options?: SharedGalleriesCreateOrUpdateOptionalParams
+  ): Promise<SharedGalleriesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, artifactSource, options },
+      { resourceGroupName, labName, name, sharedGallery, options },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Delete artifact source.
+   * Delete shared gallery.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
+   * @param name The name of the shared gallery.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: ArtifactSourcesDeleteOptionalParams
+    options?: SharedGalleriesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, name, options },
@@ -195,23 +195,23 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   }
 
   /**
-   * Allows modifying tags of artifact sources. All other properties will be ignored.
+   * Allows modifying tags of shared galleries. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
-   * @param artifactSource Allows modifying tags of artifact sources. All other properties will be
-   *                       ignored.
+   * @param name The name of the shared gallery.
+   * @param sharedGallery Allows modifying tags of shared galleries. All other properties will be
+   *                      ignored.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     labName: string,
     name: string,
-    artifactSource: ArtifactSourceFragment,
-    options?: ArtifactSourcesUpdateOptionalParams
-  ): Promise<ArtifactSourcesUpdateResponse> {
+    sharedGallery: SharedGalleryFragment,
+    options?: SharedGalleriesUpdateOptionalParams
+  ): Promise<SharedGalleriesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, artifactSource, options },
+      { resourceGroupName, labName, name, sharedGallery, options },
       updateOperationSpec
     );
   }
@@ -227,8 +227,8 @@ export class ArtifactSourcesImpl implements ArtifactSources {
     resourceGroupName: string,
     labName: string,
     nextLink: string,
-    options?: ArtifactSourcesListNextOptionalParams
-  ): Promise<ArtifactSourcesListNextResponse> {
+    options?: SharedGalleriesListNextOptionalParams
+  ): Promise<SharedGalleriesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, nextLink, options },
       listNextOperationSpec
@@ -240,11 +240,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSourceList
+      bodyMapper: Mappers.SharedGalleryList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -268,11 +268,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.SharedGallery
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -291,20 +291,20 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.SharedGallery
     },
     201: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.SharedGallery
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.artifactSource,
+  requestBody: Parameters.sharedGallery,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -319,7 +319,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -341,17 +341,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.SharedGallery
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.artifactSource1,
+  requestBody: Parameters.sharedGallery1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -369,7 +369,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSourceList
+      bodyMapper: Mappers.SharedGalleryList
     },
     default: {
       bodyMapper: Mappers.CloudError

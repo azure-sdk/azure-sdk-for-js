@@ -8,23 +8,23 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ArtifactSource,
-  ArtifactSourcesListOptionalParams,
-  ArtifactSourcesGetOptionalParams,
-  ArtifactSourcesGetResponse,
-  ArtifactSourcesCreateOrUpdateOptionalParams,
-  ArtifactSourcesCreateOrUpdateResponse,
-  ArtifactSourcesDeleteOptionalParams,
-  ArtifactSourceFragment,
-  ArtifactSourcesUpdateOptionalParams,
-  ArtifactSourcesUpdateResponse
+  SharedGallery,
+  SharedGalleriesListOptionalParams,
+  SharedGalleriesGetOptionalParams,
+  SharedGalleriesGetResponse,
+  SharedGalleriesCreateOrUpdateOptionalParams,
+  SharedGalleriesCreateOrUpdateResponse,
+  SharedGalleriesDeleteOptionalParams,
+  SharedGalleryFragment,
+  SharedGalleriesUpdateOptionalParams,
+  SharedGalleriesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ArtifactSources. */
-export interface ArtifactSources {
+/** Interface representing a SharedGalleries. */
+export interface SharedGalleries {
   /**
-   * List artifact sources in a given lab.
+   * List shared galleries in a given lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -32,63 +32,63 @@ export interface ArtifactSources {
   list(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams
-  ): PagedAsyncIterableIterator<ArtifactSource>;
+    options?: SharedGalleriesListOptionalParams
+  ): PagedAsyncIterableIterator<SharedGallery>;
   /**
-   * Get artifact source.
+   * Get shared gallery.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
+   * @param name The name of the shared gallery.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: ArtifactSourcesGetOptionalParams
-  ): Promise<ArtifactSourcesGetResponse>;
+    options?: SharedGalleriesGetOptionalParams
+  ): Promise<SharedGalleriesGetResponse>;
   /**
-   * Create or replace an existing artifact source.
+   * Create or replace an existing Shared Gallery.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
-   * @param artifactSource Properties of an artifact source.
+   * @param name The name of the shared gallery.
+   * @param sharedGallery Properties of a shared gallery
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    artifactSource: ArtifactSource,
-    options?: ArtifactSourcesCreateOrUpdateOptionalParams
-  ): Promise<ArtifactSourcesCreateOrUpdateResponse>;
+    sharedGallery: SharedGallery,
+    options?: SharedGalleriesCreateOrUpdateOptionalParams
+  ): Promise<SharedGalleriesCreateOrUpdateResponse>;
   /**
-   * Delete artifact source.
+   * Delete shared gallery.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
+   * @param name The name of the shared gallery.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: ArtifactSourcesDeleteOptionalParams
+    options?: SharedGalleriesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Allows modifying tags of artifact sources. All other properties will be ignored.
+   * Allows modifying tags of shared galleries. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
-   * @param artifactSource Allows modifying tags of artifact sources. All other properties will be
-   *                       ignored.
+   * @param name The name of the shared gallery.
+   * @param sharedGallery Allows modifying tags of shared galleries. All other properties will be
+   *                      ignored.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     labName: string,
     name: string,
-    artifactSource: ArtifactSourceFragment,
-    options?: ArtifactSourcesUpdateOptionalParams
-  ): Promise<ArtifactSourcesUpdateResponse>;
+    sharedGallery: SharedGalleryFragment,
+    options?: SharedGalleriesUpdateOptionalParams
+  ): Promise<SharedGalleriesUpdateResponse>;
 }

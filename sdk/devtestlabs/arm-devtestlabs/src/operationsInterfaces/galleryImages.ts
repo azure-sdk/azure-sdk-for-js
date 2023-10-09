@@ -7,14 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GalleryImage, GalleryImagesListOptionalParams } from "../models";
+import {
+  GalleryImage,
+  GalleryImagesListOptionalParams,
+  GalleryImagesGetOptionalParams,
+  GalleryImagesGetResponse
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GalleryImages. */
 export interface GalleryImages {
   /**
    * List gallery images in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -23,4 +28,17 @@ export interface GalleryImages {
     labName: string,
     options?: GalleryImagesListOptionalParams
   ): PagedAsyncIterableIterator<GalleryImage>;
+  /**
+   * Get gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab.
+   * @param name The name of the gallery image.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: GalleryImagesGetOptionalParams
+  ): Promise<GalleryImagesGetResponse>;
 }

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Disk,
   DisksListNextOptionalParams,
@@ -50,7 +54,7 @@ export class DisksImpl implements Disks {
 
   /**
    * List disks in a given user profile.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param options The options parameters.
@@ -138,7 +142,7 @@ export class DisksImpl implements Disks {
 
   /**
    * List disks in a given user profile.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param options The options parameters.
@@ -157,7 +161,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Get disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -178,7 +182,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Create or replace an existing disk. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -193,8 +197,8 @@ export class DisksImpl implements Disks {
     disk: Disk,
     options?: DisksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DisksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DisksCreateOrUpdateResponse>,
       DisksCreateOrUpdateResponse
     >
   > {
@@ -204,7 +208,7 @@ export class DisksImpl implements Disks {
     ): Promise<DisksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -237,13 +241,16 @@ export class DisksImpl implements Disks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, disk, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, name, disk, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DisksCreateOrUpdateResponse,
+      OperationState<DisksCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -252,7 +259,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Create or replace an existing disk. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -280,7 +287,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Delete disk. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -292,14 +299,14 @@ export class DisksImpl implements Disks {
     userName: string,
     name: string,
     options?: DisksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -332,14 +339,15 @@ export class DisksImpl implements Disks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, userName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, userName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -347,7 +355,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Delete disk. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -372,11 +380,11 @@ export class DisksImpl implements Disks {
 
   /**
    * Allows modifying tags of disks. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
-   * @param disk A Disk.
+   * @param disk Allows modifying tags of disks. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -396,7 +404,7 @@ export class DisksImpl implements Disks {
   /**
    * Attach and create the lease of the disk to the virtual machine. This operation can take a while to
    * complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -410,14 +418,14 @@ export class DisksImpl implements Disks {
     name: string,
     attachDiskProperties: AttachDiskProperties,
     options?: DisksAttachOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -450,9 +458,9 @@ export class DisksImpl implements Disks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         labName,
         userName,
@@ -460,11 +468,12 @@ export class DisksImpl implements Disks {
         attachDiskProperties,
         options
       },
-      attachOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: attachOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -473,7 +482,7 @@ export class DisksImpl implements Disks {
   /**
    * Attach and create the lease of the disk to the virtual machine. This operation can take a while to
    * complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -502,7 +511,7 @@ export class DisksImpl implements Disks {
   /**
    * Detach and break the lease of the disk attached to the virtual machine. This operation can take a
    * while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -516,14 +525,14 @@ export class DisksImpl implements Disks {
     name: string,
     detachDiskProperties: DetachDiskProperties,
     options?: DisksDetachOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -556,9 +565,9 @@ export class DisksImpl implements Disks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         labName,
         userName,
@@ -566,11 +575,12 @@ export class DisksImpl implements Disks {
         detachDiskProperties,
         options
       },
-      detachOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: detachOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -579,7 +589,7 @@ export class DisksImpl implements Disks {
   /**
    * Detach and break the lease of the disk attached to the virtual machine. This operation can take a
    * while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
@@ -607,7 +617,7 @@ export class DisksImpl implements Disks {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -833,13 +843,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

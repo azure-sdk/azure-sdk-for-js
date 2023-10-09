@@ -18,6 +18,8 @@ import {
   GalleryImagesListNextOptionalParams,
   GalleryImagesListOptionalParams,
   GalleryImagesListResponse,
+  GalleryImagesGetOptionalParams,
+  GalleryImagesGetResponse,
   GalleryImagesListNextResponse
 } from "../models";
 
@@ -36,7 +38,7 @@ export class GalleryImagesImpl implements GalleryImages {
 
   /**
    * List gallery images in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -112,7 +114,7 @@ export class GalleryImagesImpl implements GalleryImages {
 
   /**
    * List gallery images in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -128,8 +130,27 @@ export class GalleryImagesImpl implements GalleryImages {
   }
 
   /**
+   * Get gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab.
+   * @param name The name of the gallery image.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: GalleryImagesGetOptionalParams
+  ): Promise<GalleryImagesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, labName, name, options },
+      getOperationSpec
+    );
+  }
+
+  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -177,6 +198,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/galleryimages/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImage
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.labName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -188,13 +232,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

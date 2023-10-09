@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Schedule,
   VirtualMachineSchedulesListNextOptionalParams,
@@ -47,7 +51,7 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * List schedules in a given virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param options The options parameters.
@@ -140,7 +144,7 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * List schedules in a given virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param options The options parameters.
@@ -159,7 +163,7 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * Get schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -180,7 +184,7 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * Create or replace an existing schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -210,7 +214,7 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * Delete schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -231,11 +235,11 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * Allows modifying tags of schedules. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -261,7 +265,7 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -273,14 +277,14 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
     virtualMachineName: string,
     name: string,
     options?: VirtualMachineSchedulesExecuteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -313,14 +317,15 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, virtualMachineName, name, options },
-      executeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, virtualMachineName, name, options },
+      spec: executeOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -328,7 +333,7 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
@@ -353,7 +358,7 @@ export class VirtualMachineSchedulesImpl implements VirtualMachineSchedules {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -542,13 +547,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

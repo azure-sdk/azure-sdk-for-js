@@ -41,7 +41,7 @@ export class ArtifactsImpl implements Artifacts {
 
   /**
    * List artifacts in a given artifact source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param options The options parameters.
@@ -134,7 +134,7 @@ export class ArtifactsImpl implements Artifacts {
 
   /**
    * List artifacts in a given artifact source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param options The options parameters.
@@ -153,7 +153,7 @@ export class ArtifactsImpl implements Artifacts {
 
   /**
    * Get artifact.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param name The name of the artifact.
@@ -175,7 +175,7 @@ export class ArtifactsImpl implements Artifacts {
   /**
    * Generates an ARM template for the given artifact, uploads the required files to a storage account,
    * and validates the generated artifact.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param name The name of the artifact.
@@ -205,7 +205,7 @@ export class ArtifactsImpl implements Artifacts {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -317,13 +317,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

@@ -27,7 +27,7 @@ import {
 export interface NotificationChannels {
   /**
    * List notification channels in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -38,7 +38,7 @@ export interface NotificationChannels {
   ): PagedAsyncIterableIterator<NotificationChannel>;
   /**
    * Get notification channel.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
    * @param options The options parameters.
@@ -50,8 +50,8 @@ export interface NotificationChannels {
     options?: NotificationChannelsGetOptionalParams
   ): Promise<NotificationChannelsGetResponse>;
   /**
-   * Create or replace an existing notification channel.
-   * @param resourceGroupName The name of the resource group.
+   * Create or replace an existing Notification Channel.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
    * @param notificationChannel A notification.
@@ -66,7 +66,7 @@ export interface NotificationChannels {
   ): Promise<NotificationChannelsCreateOrUpdateResponse>;
   /**
    * Delete notification channel.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
    * @param options The options parameters.
@@ -79,10 +79,11 @@ export interface NotificationChannels {
   ): Promise<void>;
   /**
    * Allows modifying tags of notification channels. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
-   * @param notificationChannel A notification.
+   * @param notificationChannel Allows modifying tags of notification channels. All other properties will
+   *                            be ignored.
    * @param options The options parameters.
    */
   update(
@@ -94,7 +95,7 @@ export interface NotificationChannels {
   ): Promise<NotificationChannelsUpdateResponse>;
   /**
    * Send notification to provided channel.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the notification channel.
    * @param notifyParameters Properties for generating a Notification.

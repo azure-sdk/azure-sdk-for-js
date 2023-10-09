@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomImage,
   CustomImagesListOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface CustomImages {
   /**
    * List custom images in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface CustomImages {
   ): PagedAsyncIterableIterator<CustomImage>;
   /**
    * Get custom image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the custom image.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface CustomImages {
   ): Promise<CustomImagesGetResponse>;
   /**
    * Create or replace an existing custom image. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the custom image.
    * @param customImage A custom image.
@@ -63,14 +63,14 @@ export interface CustomImages {
     customImage: CustomImage,
     options?: CustomImagesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomImagesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomImagesCreateOrUpdateResponse>,
       CustomImagesCreateOrUpdateResponse
     >
   >;
   /**
    * Create or replace an existing custom image. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the custom image.
    * @param customImage A custom image.
@@ -85,7 +85,7 @@ export interface CustomImages {
   ): Promise<CustomImagesCreateOrUpdateResponse>;
   /**
    * Delete custom image. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the custom image.
    * @param options The options parameters.
@@ -95,10 +95,10 @@ export interface CustomImages {
     labName: string,
     name: string,
     options?: CustomImagesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete custom image. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the custom image.
    * @param options The options parameters.
@@ -111,10 +111,10 @@ export interface CustomImages {
   ): Promise<void>;
   /**
    * Allows modifying tags of custom images. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the custom image.
-   * @param customImage A custom image.
+   * @param customImage Allows modifying tags of custom images. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

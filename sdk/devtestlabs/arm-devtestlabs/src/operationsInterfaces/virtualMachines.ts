@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LabVirtualMachine,
   VirtualMachinesListOptionalParams,
@@ -24,6 +24,7 @@ import {
   ApplyArtifactsRequest,
   VirtualMachinesApplyArtifactsOptionalParams,
   VirtualMachinesClaimOptionalParams,
+  VirtualMachinesClearArtifactResultsOptionalParams,
   DetachDataDiskProperties,
   VirtualMachinesDetachDataDiskOptionalParams,
   VirtualMachinesGetRdpFileContentsOptionalParams,
@@ -45,7 +46,7 @@ import {
 export interface VirtualMachines {
   /**
    * List virtual machines in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -56,7 +57,7 @@ export interface VirtualMachines {
   ): PagedAsyncIterableIterator<LabVirtualMachine>;
   /**
    * Get virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -68,8 +69,8 @@ export interface VirtualMachines {
     options?: VirtualMachinesGetOptionalParams
   ): Promise<VirtualMachinesGetResponse>;
   /**
-   * Create or replace an existing virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * Create or replace an existing Virtual machine. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param labVirtualMachine A virtual machine.
@@ -82,14 +83,14 @@ export interface VirtualMachines {
     labVirtualMachine: LabVirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesCreateOrUpdateResponse>,
       VirtualMachinesCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or replace an existing virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * Create or replace an existing Virtual machine. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param labVirtualMachine A virtual machine.
@@ -104,7 +105,7 @@ export interface VirtualMachines {
   ): Promise<VirtualMachinesCreateOrUpdateResponse>;
   /**
    * Delete virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -114,10 +115,10 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -130,10 +131,11 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Allows modifying tags of virtual machines. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
-   * @param labVirtualMachine A virtual machine.
+   * @param labVirtualMachine Allows modifying tags of virtual machines. All other properties will be
+   *                          ignored.
    * @param options The options parameters.
    */
   update(
@@ -145,7 +147,7 @@ export interface VirtualMachines {
   ): Promise<VirtualMachinesUpdateResponse>;
   /**
    * Attach a new or existing data disk to virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param dataDiskProperties Request body for adding a new or existing data disk to a virtual machine.
@@ -157,10 +159,10 @@ export interface VirtualMachines {
     name: string,
     dataDiskProperties: DataDiskProperties,
     options?: VirtualMachinesAddDataDiskOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Attach a new or existing data disk to virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param dataDiskProperties Request body for adding a new or existing data disk to a virtual machine.
@@ -175,7 +177,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Apply artifacts to virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param applyArtifactsRequest Request body for applying artifacts to a virtual machine.
@@ -187,10 +189,10 @@ export interface VirtualMachines {
     name: string,
     applyArtifactsRequest: ApplyArtifactsRequest,
     options?: VirtualMachinesApplyArtifactsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Apply artifacts to virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param applyArtifactsRequest Request body for applying artifacts to a virtual machine.
@@ -205,7 +207,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Take ownership of an existing virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -215,10 +217,10 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesClaimOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Take ownership of an existing virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -230,8 +232,21 @@ export interface VirtualMachines {
     options?: VirtualMachinesClaimOptionalParams
   ): Promise<void>;
   /**
+   * Clears the artifact results of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  clearArtifactResults(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: VirtualMachinesClearArtifactResultsOptionalParams
+  ): Promise<void>;
+  /**
    * Detach the specified disk from the virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param detachDataDiskProperties Request body for detaching data disk from a virtual machine.
@@ -243,10 +258,10 @@ export interface VirtualMachines {
     name: string,
     detachDataDiskProperties: DetachDataDiskProperties,
     options?: VirtualMachinesDetachDataDiskOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Detach the specified disk from the virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param detachDataDiskProperties Request body for detaching data disk from a virtual machine.
@@ -261,7 +276,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Gets a string that represents the contents of the RDP file for the virtual machine
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -274,7 +289,7 @@ export interface VirtualMachines {
   ): Promise<VirtualMachinesGetRdpFileContentsResponse>;
   /**
    * Lists the applicable start/stop schedules, if any.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -287,7 +302,7 @@ export interface VirtualMachines {
   ): Promise<VirtualMachinesListApplicableSchedulesResponse>;
   /**
    * Redeploy a virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -297,10 +312,10 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesRedeployOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Redeploy a virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -313,7 +328,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Resize Virtual Machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param resizeLabVirtualMachineProperties Request body for resizing a virtual machine.
@@ -325,10 +340,10 @@ export interface VirtualMachines {
     name: string,
     resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties,
     options?: VirtualMachinesResizeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resize Virtual Machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param resizeLabVirtualMachineProperties Request body for resizing a virtual machine.
@@ -343,7 +358,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Restart a virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -353,10 +368,10 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restart a virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -369,7 +384,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Start a virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -379,10 +394,10 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start a virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -395,7 +410,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Stop a virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -405,10 +420,10 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop a virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -422,7 +437,7 @@ export interface VirtualMachines {
   /**
    * Transfers all data disks attached to the virtual machine to be owned by the current user. This
    * operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -432,11 +447,11 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesTransferDisksOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Transfers all data disks attached to the virtual machine to be owned by the current user. This
    * operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -449,7 +464,7 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * Release ownership of an existing virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -459,10 +474,10 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesUnClaimOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Release ownership of an existing virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.

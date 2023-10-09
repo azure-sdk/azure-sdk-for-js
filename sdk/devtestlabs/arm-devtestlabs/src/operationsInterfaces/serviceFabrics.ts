@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServiceFabric,
   ServiceFabricsListOptionalParams,
@@ -30,7 +30,7 @@ import {
 export interface ServiceFabrics {
   /**
    * List service fabrics in a given user profile.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param options The options parameters.
@@ -43,7 +43,7 @@ export interface ServiceFabrics {
   ): PagedAsyncIterableIterator<ServiceFabric>;
   /**
    * Get service fabric.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -57,8 +57,8 @@ export interface ServiceFabrics {
     options?: ServiceFabricsGetOptionalParams
   ): Promise<ServiceFabricsGetResponse>;
   /**
-   * Create or replace an existing service fabric. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * Create or replace an existing Service Fabric. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -73,14 +73,14 @@ export interface ServiceFabrics {
     serviceFabric: ServiceFabric,
     options?: ServiceFabricsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServiceFabricsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServiceFabricsCreateOrUpdateResponse>,
       ServiceFabricsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or replace an existing service fabric. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * Create or replace an existing Service Fabric. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -97,7 +97,7 @@ export interface ServiceFabrics {
   ): Promise<ServiceFabricsCreateOrUpdateResponse>;
   /**
    * Delete service fabric. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -109,10 +109,10 @@ export interface ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete service fabric. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -127,11 +127,11 @@ export interface ServiceFabrics {
   ): Promise<void>;
   /**
    * Allows modifying tags of service fabrics. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
-   * @param serviceFabric A Service Fabric.
+   * @param serviceFabric Allows modifying tags of service fabrics. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -144,7 +144,7 @@ export interface ServiceFabrics {
   ): Promise<ServiceFabricsUpdateResponse>;
   /**
    * Lists the applicable start/stop schedules, if any.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -159,7 +159,7 @@ export interface ServiceFabrics {
   ): Promise<ServiceFabricsListApplicableSchedulesResponse>;
   /**
    * Start a service fabric. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -171,10 +171,10 @@ export interface ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start a service fabric. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -189,7 +189,7 @@ export interface ServiceFabrics {
   ): Promise<void>;
   /**
    * Stop a service fabric This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
@@ -201,10 +201,10 @@ export interface ServiceFabrics {
     userName: string,
     name: string,
     options?: ServiceFabricsStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop a service fabric This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.

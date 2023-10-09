@@ -25,7 +25,7 @@ import {
 export interface Policies {
   /**
    * List policies in a given policy set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param options The options parameters.
@@ -38,7 +38,7 @@ export interface Policies {
   ): PagedAsyncIterableIterator<Policy>;
   /**
    * Get policy.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
@@ -53,7 +53,7 @@ export interface Policies {
   ): Promise<PoliciesGetResponse>;
   /**
    * Create or replace an existing policy.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
@@ -70,7 +70,7 @@ export interface Policies {
   ): Promise<PoliciesCreateOrUpdateResponse>;
   /**
    * Delete policy.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
@@ -85,11 +85,11 @@ export interface Policies {
   ): Promise<void>;
   /**
    * Allows modifying tags of policies. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
-   * @param policy A Policy.
+   * @param policy Allows modifying tags of policies. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

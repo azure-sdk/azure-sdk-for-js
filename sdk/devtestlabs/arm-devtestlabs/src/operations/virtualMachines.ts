@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LabVirtualMachine,
   VirtualMachinesListNextOptionalParams,
@@ -33,6 +37,7 @@ import {
   ApplyArtifactsRequest,
   VirtualMachinesApplyArtifactsOptionalParams,
   VirtualMachinesClaimOptionalParams,
+  VirtualMachinesClearArtifactResultsOptionalParams,
   DetachDataDiskProperties,
   VirtualMachinesDetachDataDiskOptionalParams,
   VirtualMachinesGetRdpFileContentsOptionalParams,
@@ -65,7 +70,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * List virtual machines in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -141,7 +146,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * List virtual machines in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -158,7 +163,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Get virtual machine.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -176,8 +181,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * Create or replace an existing virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * Create or replace an existing Virtual machine. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param labVirtualMachine A virtual machine.
@@ -190,8 +195,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labVirtualMachine: LabVirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachinesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachinesCreateOrUpdateResponse>,
       VirtualMachinesCreateOrUpdateResponse
     >
   > {
@@ -201,7 +206,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     ): Promise<VirtualMachinesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -234,22 +239,26 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, labVirtualMachine, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, labVirtualMachine, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachinesCreateOrUpdateResponse,
+      OperationState<VirtualMachinesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or replace an existing virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * Create or replace an existing Virtual machine. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param labVirtualMachine A virtual machine.
@@ -274,7 +283,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Delete virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -284,14 +293,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -324,14 +333,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -339,7 +349,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Delete virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -361,10 +371,11 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Allows modifying tags of virtual machines. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
-   * @param labVirtualMachine A virtual machine.
+   * @param labVirtualMachine Allows modifying tags of virtual machines. All other properties will be
+   *                          ignored.
    * @param options The options parameters.
    */
   update(
@@ -382,7 +393,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Attach a new or existing data disk to virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param dataDiskProperties Request body for adding a new or existing data disk to a virtual machine.
@@ -394,14 +405,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     name: string,
     dataDiskProperties: DataDiskProperties,
     options?: VirtualMachinesAddDataDiskOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -434,14 +445,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, dataDiskProperties, options },
-      addDataDiskOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, dataDiskProperties, options },
+      spec: addDataDiskOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -449,7 +461,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Attach a new or existing data disk to virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param dataDiskProperties Request body for adding a new or existing data disk to a virtual machine.
@@ -474,7 +486,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Apply artifacts to virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param applyArtifactsRequest Request body for applying artifacts to a virtual machine.
@@ -486,14 +498,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     name: string,
     applyArtifactsRequest: ApplyArtifactsRequest,
     options?: VirtualMachinesApplyArtifactsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -526,14 +538,21 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, applyArtifactsRequest, options },
-      applyArtifactsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        labName,
+        name,
+        applyArtifactsRequest,
+        options
+      },
+      spec: applyArtifactsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -541,7 +560,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Apply artifacts to virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param applyArtifactsRequest Request body for applying artifacts to a virtual machine.
@@ -566,7 +585,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Take ownership of an existing virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -576,14 +595,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesClaimOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -616,14 +635,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      claimOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: claimOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -631,7 +651,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Take ownership of an existing virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -652,8 +672,27 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
+   * Clears the artifact results of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  clearArtifactResults(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: VirtualMachinesClearArtifactResultsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, labName, name, options },
+      clearArtifactResultsOperationSpec
+    );
+  }
+
+  /**
    * Detach the specified disk from the virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param detachDataDiskProperties Request body for detaching data disk from a virtual machine.
@@ -665,14 +704,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     name: string,
     detachDataDiskProperties: DetachDataDiskProperties,
     options?: VirtualMachinesDetachDataDiskOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -705,14 +744,21 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, detachDataDiskProperties, options },
-      detachDataDiskOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        labName,
+        name,
+        detachDataDiskProperties,
+        options
+      },
+      spec: detachDataDiskOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -720,7 +766,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Detach the specified disk from the virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param detachDataDiskProperties Request body for detaching data disk from a virtual machine.
@@ -745,7 +791,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Gets a string that represents the contents of the RDP file for the virtual machine
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -764,7 +810,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Lists the applicable start/stop schedules, if any.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -783,7 +829,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Redeploy a virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -793,14 +839,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesRedeployOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -833,14 +879,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      redeployOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: redeployOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -848,7 +895,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Redeploy a virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -870,7 +917,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Resize Virtual Machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param resizeLabVirtualMachineProperties Request body for resizing a virtual machine.
@@ -882,14 +929,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     name: string,
     resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties,
     options?: VirtualMachinesResizeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -922,20 +969,21 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         labName,
         name,
         resizeLabVirtualMachineProperties,
         options
       },
-      resizeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: resizeOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -943,7 +991,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Resize Virtual Machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param resizeLabVirtualMachineProperties Request body for resizing a virtual machine.
@@ -968,7 +1016,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Restart a virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -978,14 +1026,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1018,14 +1066,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: restartOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -1033,7 +1082,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Restart a virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1055,7 +1104,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Start a virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1065,14 +1114,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1105,14 +1154,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -1120,7 +1170,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Start a virtual machine. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1142,7 +1192,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Stop a virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1152,14 +1202,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1192,14 +1242,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -1207,7 +1258,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Stop a virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1230,7 +1281,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Transfers all data disks attached to the virtual machine to be owned by the current user. This
    * operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1240,14 +1291,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesTransferDisksOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1280,14 +1331,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      transferDisksOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: transferDisksOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -1296,7 +1348,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   /**
    * Transfers all data disks attached to the virtual machine to be owned by the current user. This
    * operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1318,7 +1370,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Release ownership of an existing virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1328,14 +1380,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesUnClaimOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1368,14 +1420,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, name, options },
-      unClaimOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, labName, name, options },
+      spec: unClaimOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -1383,7 +1436,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * Release ownership of an existing virtual machine This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
    * @param options The options parameters.
@@ -1405,7 +1458,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1620,6 +1673,27 @@ const claimOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.labName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const clearArtifactResultsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/clearArtifactResults",
+  httpMethod: "POST",
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1888,13 +1962,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

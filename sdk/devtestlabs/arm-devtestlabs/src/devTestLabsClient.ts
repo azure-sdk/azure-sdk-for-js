@@ -22,7 +22,6 @@ import {
   ArtifactSourcesImpl,
   ArmTemplatesImpl,
   ArtifactsImpl,
-  CostsImpl,
   CustomImagesImpl,
   FormulasImpl,
   GalleryImagesImpl,
@@ -30,7 +29,10 @@ import {
   PolicySetsImpl,
   PoliciesImpl,
   SchedulesImpl,
+  LabSecretsImpl,
   ServiceRunnersImpl,
+  SharedGalleriesImpl,
+  SharedImagesImpl,
   UsersImpl,
   DisksImpl,
   EnvironmentsImpl,
@@ -39,7 +41,8 @@ import {
   ServiceFabricSchedulesImpl,
   VirtualMachinesImpl,
   VirtualMachineSchedulesImpl,
-  VirtualNetworksImpl
+  VirtualNetworksImpl,
+  BastionHostsImpl
 } from "./operations";
 import {
   ProviderOperations,
@@ -49,7 +52,6 @@ import {
   ArtifactSources,
   ArmTemplates,
   Artifacts,
-  Costs,
   CustomImages,
   Formulas,
   GalleryImages,
@@ -57,7 +59,10 @@ import {
   PolicySets,
   Policies,
   Schedules,
+  LabSecrets,
   ServiceRunners,
+  SharedGalleries,
+  SharedImages,
   Users,
   Disks,
   Environments,
@@ -66,31 +71,46 @@ import {
   ServiceFabricSchedules,
   VirtualMachines,
   VirtualMachineSchedules,
-  VirtualNetworks
+  VirtualNetworks,
+  BastionHosts
 } from "./operationsInterfaces";
 import { DevTestLabsClientOptionalParams } from "./models";
 
 export class DevTestLabsClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the DevTestLabsClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The subscription ID.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: DevTestLabsClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: DevTestLabsClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: DevTestLabsClientOptionalParams | string,
+    options?: DevTestLabsClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -102,7 +122,7 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-devtestlabs/4.1.1`;
+    const packageDetails = `azsdk-js-arm-devtestlabs/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -155,7 +175,7 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2018-09-15";
+    this.apiVersion = options.apiVersion || "2021-09-01";
     this.providerOperations = new ProviderOperationsImpl(this);
     this.labs = new LabsImpl(this);
     this.operations = new OperationsImpl(this);
@@ -163,7 +183,6 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     this.artifactSources = new ArtifactSourcesImpl(this);
     this.armTemplates = new ArmTemplatesImpl(this);
     this.artifacts = new ArtifactsImpl(this);
-    this.costs = new CostsImpl(this);
     this.customImages = new CustomImagesImpl(this);
     this.formulas = new FormulasImpl(this);
     this.galleryImages = new GalleryImagesImpl(this);
@@ -171,7 +190,10 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     this.policySets = new PolicySetsImpl(this);
     this.policies = new PoliciesImpl(this);
     this.schedules = new SchedulesImpl(this);
+    this.labSecrets = new LabSecretsImpl(this);
     this.serviceRunners = new ServiceRunnersImpl(this);
+    this.sharedGalleries = new SharedGalleriesImpl(this);
+    this.sharedImages = new SharedImagesImpl(this);
     this.users = new UsersImpl(this);
     this.disks = new DisksImpl(this);
     this.environments = new EnvironmentsImpl(this);
@@ -181,6 +203,7 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     this.virtualMachines = new VirtualMachinesImpl(this);
     this.virtualMachineSchedules = new VirtualMachineSchedulesImpl(this);
     this.virtualNetworks = new VirtualNetworksImpl(this);
+    this.bastionHosts = new BastionHostsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -219,7 +242,6 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
   artifactSources: ArtifactSources;
   armTemplates: ArmTemplates;
   artifacts: Artifacts;
-  costs: Costs;
   customImages: CustomImages;
   formulas: Formulas;
   galleryImages: GalleryImages;
@@ -227,7 +249,10 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
   policySets: PolicySets;
   policies: Policies;
   schedules: Schedules;
+  labSecrets: LabSecrets;
   serviceRunners: ServiceRunners;
+  sharedGalleries: SharedGalleries;
+  sharedImages: SharedImages;
   users: Users;
   disks: Disks;
   environments: Environments;
@@ -237,4 +262,5 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
   virtualMachines: VirtualMachines;
   virtualMachineSchedules: VirtualMachineSchedules;
   virtualNetworks: VirtualNetworks;
+  bastionHosts: BastionHosts;
 }

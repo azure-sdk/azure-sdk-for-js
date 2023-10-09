@@ -19,7 +19,7 @@ import {
 export interface ArmTemplates {
   /**
    * List azure resource manager templates in a given artifact source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param options The options parameters.
@@ -32,7 +32,7 @@ export interface ArmTemplates {
   ): PagedAsyncIterableIterator<ArmTemplate>;
   /**
    * Get azure resource manager template.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param name The name of the azure resource manager template.

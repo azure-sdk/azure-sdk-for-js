@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetwork,
   VirtualNetworksListOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface VirtualNetworks {
   /**
    * List virtual networks in a given lab.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface VirtualNetworks {
   ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
    * Get virtual network.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual network.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface VirtualNetworks {
   ): Promise<VirtualNetworksGetResponse>;
   /**
    * Create or replace an existing virtual network. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual network.
    * @param virtualNetwork A virtual network.
@@ -63,14 +63,14 @@ export interface VirtualNetworks {
     virtualNetwork: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
       VirtualNetworksCreateOrUpdateResponse
     >
   >;
   /**
    * Create or replace an existing virtual network. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual network.
    * @param virtualNetwork A virtual network.
@@ -85,7 +85,7 @@ export interface VirtualNetworks {
   ): Promise<VirtualNetworksCreateOrUpdateResponse>;
   /**
    * Delete virtual network. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual network.
    * @param options The options parameters.
@@ -95,10 +95,10 @@ export interface VirtualNetworks {
     labName: string,
     name: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete virtual network. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual network.
    * @param options The options parameters.
@@ -111,10 +111,11 @@ export interface VirtualNetworks {
   ): Promise<void>;
   /**
    * Allows modifying tags of virtual networks. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param name The name of the virtual network.
-   * @param virtualNetwork A virtual network.
+   * @param virtualNetwork Allows modifying tags of virtual networks. All other properties will be
+   *                       ignored.
    * @param options The options parameters.
    */
   update(

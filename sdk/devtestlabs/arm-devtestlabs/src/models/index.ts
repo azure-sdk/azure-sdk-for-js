@@ -57,67 +57,65 @@ export interface CloudErrorBody {
   details?: CloudErrorBody[];
 }
 
-/** The response of a list operation. */
+/** Contains a list of labs and their properties */
 export interface LabList {
-  /** Results of the list operation. */
+  /** List of labs and their properties */
   value?: Lab[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
-/** Properties of a lab's announcement banner */
-export interface LabAnnouncementProperties {
-  /** The plain text title for the lab announcement */
-  title?: string;
-  /** The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown. */
-  markdown?: string;
-  /** Is the lab announcement active/enabled at this time? */
-  enabled?: EnableStatus;
-  /** The time at which the announcement expires (null for never) */
-  expirationDate?: Date;
-  /** Has this announcement expired? */
-  expired?: boolean;
-  /**
-   * The provisioning status of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The unique immutable identifier of a resource (Guid).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uniqueIdentifier?: string;
+/** Properties of a managed identity */
+export interface IdentityProperties {
+  /** Type of identity (SystemAssigned, UserAssigned, None) */
+  type?: ManagedIdentityType;
+  /** The principal id of resource identity. */
+  principalId?: string;
+  /** The tenant identifier of resource. */
+  tenantId?: string;
+  /** The client secret URL of the identity. */
+  clientSecretUrl?: string;
+  /** If Type is 'UserAssigned': List of user assigned identities. */
+  userAssignedIdentities?: { [propertyName: string]: Record<string, unknown> };
 }
 
-/** Properties of a lab's support banner */
-export interface LabSupportProperties {
-  /** Is the lab support banner active/enabled at this time? */
-  enabled?: EnableStatus;
-  /** The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown. */
-  markdown?: string;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
-/** An Azure resource. */
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * The identifier of the resource.
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The name of the resource.
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource.
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** The location of the resource. */
-  location?: string;
-  /** The tags of the resource. */
+  /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
 /** An Operation Result */
@@ -126,73 +124,33 @@ export interface OperationResult {
   status?: string;
   /** The status code for the operation. */
   statusCode?: HttpStatusCode;
-  /** Error details for the operation in case of a failure. */
-  error?: OperationError;
-}
-
-/** Error details for the operation in case of a failure. */
-export interface OperationError {
   /** The error code of the operation error. */
   code?: string;
   /** The error message of the operation error. */
   message?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of schedules and their properties */
 export interface ScheduleList {
-  /** Results of the list operation. */
+  /** List of schedules and their properties */
   value?: Schedule[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
-/** Properties of a weekly schedule. */
-export interface WeekDetails {
-  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
-  weekdays?: string[];
-  /** The time of the day the schedule will occur. */
-  time?: string;
-}
-
-/** Properties of a daily schedule. */
-export interface DayDetails {
-  /** The time of day the schedule will occur. */
-  time?: string;
-}
-
-/** Properties of an hourly schedule. */
-export interface HourDetails {
-  /** Minutes of the hour the schedule will run. */
-  minute?: number;
-}
-
-/** Notification settings for a schedule. */
-export interface NotificationSettings {
-  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
-  status?: EnableStatus;
-  /** Time in minutes before event at which notification will be sent. */
-  timeInMinutes?: number;
-  /** The webhook URL to which the notification will be sent. */
-  webhookUrl?: string;
-  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
-  emailRecipient?: string;
-  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
-  notificationLocale?: string;
-}
-
-/** The response of a list operation. */
+/** Contains a list of artifactSources and their properties */
 export interface ArtifactSourceList {
-  /** Results of the list operation. */
+  /** List of artifactSources and their properties */
   value?: ArtifactSource[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of armTemplates and their properties */
 export interface ArmTemplateList {
-  /** Results of the list operation. */
+  /** List of armTemplates and their properties */
   value?: ArmTemplate[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
@@ -204,11 +162,11 @@ export interface ParametersValueFileInfo {
   parametersValueInfo?: Record<string, unknown>;
 }
 
-/** The response of a list operation. */
+/** Contains a list of artifacts and their properties */
 export interface ArtifactList {
-  /** Results of the list operation. */
+  /** List of artifacts and their properties */
   value?: Artifact[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
@@ -244,120 +202,16 @@ export interface ArmTemplateInfo {
 export interface UpdateResource {
   /** The tags of the resource. */
   tags?: { [propertyName: string]: string };
+  /** The identity of the resource. */
+  identity?: IdentityProperties;
 }
 
-/** Properties of a cost target. */
-export interface TargetCostProperties {
-  /** Target cost status */
-  status?: TargetCostStatus;
-  /** Lab target cost */
-  target?: number;
-  /** Cost thresholds. */
-  costThresholds?: CostThresholdProperties[];
-  /** Reporting cycle start date. */
-  cycleStartDateTime?: Date;
-  /** Reporting cycle end date. */
-  cycleEndDateTime?: Date;
-  /** Reporting cycle type. */
-  cycleType?: ReportingCycleType;
-}
-
-/** Properties of a cost threshold item. */
-export interface CostThresholdProperties {
-  /** The ID of the cost threshold item. */
-  thresholdId?: string;
-  /** The value of the percentage cost threshold. */
-  percentageThreshold?: PercentageCostThresholdProperties;
-  /** Indicates whether this threshold will be displayed on cost charts. */
-  displayOnChart?: CostThresholdStatus;
-  /** Indicates whether notifications will be sent when this threshold is exceeded. */
-  sendNotificationWhenExceeded?: CostThresholdStatus;
-  /** Indicates the datetime when notifications were last sent for this threshold. */
-  notificationSent?: string;
-}
-
-/** Properties of a percentage cost threshold. */
-export interface PercentageCostThresholdProperties {
-  /** The cost threshold value. */
-  thresholdValue?: number;
-}
-
-/** The properties of the cost summary. */
-export interface LabCostSummaryProperties {
-  /** The cost component of the cost item. */
-  estimatedLabCost?: number;
-}
-
-/** The properties of a lab cost item. */
-export interface LabCostDetailsProperties {
-  /** The date of the cost item. */
-  date?: Date;
-  /** The cost component of the cost item. */
-  cost?: number;
-  /** The type of the cost. */
-  costType?: CostType;
-}
-
-/** The properties of a resource cost item. */
-export interface LabResourceCostProperties {
-  /** The name of the resource. */
-  resourcename?: string;
-  /** The unique identifier of the resource. */
-  resourceUId?: string;
-  /** The cost component of the resource cost item. */
-  resourceCost?: number;
-  /** The logical resource type (ex. virtualmachine, storageaccount) */
-  resourceType?: string;
-  /** The owner of the resource (ex. janedoe@microsoft.com) */
-  resourceOwner?: string;
-  /** The category of the resource (ex. Premium_LRS, Standard_DS1) */
-  resourcePricingTier?: string;
-  /** The status of the resource (ex. Active) */
-  resourceStatus?: string;
-  /** The ID of the resource */
-  resourceId?: string;
-  /** The ID of the external resource */
-  externalResourceId?: string;
-}
-
-/** The response of a list operation. */
+/** Contains a list of customImages and their properties */
 export interface CustomImageList {
-  /** Results of the list operation. */
+  /** List of customImages and their properties */
   value?: CustomImage[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
-}
-
-/** Properties for creating a custom image from a virtual machine. */
-export interface CustomImagePropertiesFromVm {
-  /** The source vm identifier. */
-  sourceVmId?: string;
-  /** The Windows OS information of the VM. */
-  windowsOsInfo?: WindowsOsInfo;
-  /** The Linux OS information of the VM. */
-  linuxOsInfo?: LinuxOsInfo;
-}
-
-/** Information about a Windows OS. */
-export interface WindowsOsInfo {
-  /** The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied). */
-  windowsOsState?: WindowsOsState;
-}
-
-/** Information about a Linux OS. */
-export interface LinuxOsInfo {
-  /** The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied). */
-  linuxOsState?: LinuxOsState;
-}
-
-/** Properties for creating a custom image from a VHD. */
-export interface CustomImagePropertiesCustom {
-  /** The image name. */
-  imageName?: string;
-  /** Indicates whether sysprep has been run on the VHD. */
-  sysPrep?: boolean;
-  /** The OS type of the custom image (i.e. Windows, Linux) */
-  osType: CustomImageOsType;
 }
 
 /** Storage information about the data disks present in the custom image */
@@ -368,21 +222,11 @@ export interface DataDiskStorageTypeInfo {
   storageType?: StorageType;
 }
 
-/** Properties for plan on a custom image. */
-export interface CustomImagePropertiesFromPlan {
-  /** The id of the plan, equivalent to name of the plan */
-  id?: string;
-  /** The publisher for the plan from the marketplace image the custom image is derived from */
-  publisher?: string;
-  /** The offer for the plan from the marketplace image the custom image is derived from */
-  offer?: string;
-}
-
-/** The response of a list operation. */
+/** Contains a list of formulas and their properties */
 export interface FormulaList {
-  /** Results of the list operation. */
+  /** List of formulas and their properties */
   value?: Formula[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
@@ -394,18 +238,42 @@ export interface LabVirtualMachineCreationParameter {
   location?: string;
   /** The tags of the resource. */
   tags?: { [propertyName: string]: string };
-  /** The number of virtual machine instances to create. */
-  bulkCreationParameters?: BulkCreationParameters;
   /** The notes of the virtual machine. */
   notes?: string;
   /** The object identifier of the owner of the virtual machine. */
   ownerObjectId?: string;
   /** The user principal name of the virtual machine owner. */
   ownerUserPrincipalName?: string;
+  /**
+   * The object identifier of the creator of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdByUserId?: string;
+  /**
+   * The email address of creator of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdByUser?: string;
   /** The creation date of the virtual machine. */
-  createdDate?: Date;
+  createdDatePropertiesCreatedDate?: Date;
+  /**
+   * The resource identifier (Microsoft.Compute) of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computeId?: string;
   /** The custom image identifier of the virtual machine. */
   customImageId?: string;
+  /** The shared gallery image version resource identifier of the virtual machine. */
+  galleryImageVersionId?: string;
+  /** The shared image resource identifier of the virtual machine. */
+  sharedImageId?: string;
+  /** The shared image version for the specified shared image Id. Will use latest if not specified. */
+  sharedImageVersion?: string;
+  /**
+   * The OS type of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osTypePropertiesOsType?: string;
   /** The size of the virtual machine. */
   size?: string;
   /** The user name of the virtual machine. */
@@ -416,6 +284,11 @@ export interface LabVirtualMachineCreationParameter {
   sshKey?: string;
   /** Indicates whether this virtual machine uses an SSH key for authentication. */
   isAuthenticationWithSshKey?: boolean;
+  /**
+   * The fully-qualified domain name of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
   /** The lab subnet name of the virtual machine. */
   labSubnetName?: string;
   /** The lab virtual network identifier of the virtual machine. */
@@ -424,28 +297,255 @@ export interface LabVirtualMachineCreationParameter {
   disallowPublicIpAddress?: boolean;
   /** The artifacts to be installed on the virtual machine. */
   artifacts?: ArtifactInstallProperties[];
-  /** The Microsoft Azure Marketplace image reference of the virtual machine. */
-  galleryImageReference?: GalleryImageReference;
   /** The id of the plan associated with the virtual machine image */
   planId?: string;
-  /** The network interface properties. */
-  networkInterface?: NetworkInterfaceProperties;
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. */
+  osDiskSizeGb?: number;
   /** The expiration date for VM. */
   expirationDate?: Date;
   /** Indicates whether another user can take ownership of the virtual machine */
   allowClaim?: boolean;
-  /** Storage type to use for virtual machine (i.e. Standard, Premium). */
-  storageType?: string;
+  /** Storage type to use for virtual machine (i.e. Standard, Premium, StandardSSD). */
+  storageType?: StorageType;
+  /**
+   * Tells source of creation of lab virtual machine. Output property only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
   /** The resource ID of the environment that contains this virtual machine, if any. */
   environmentId?: string;
   /** New or existing data disks to attach to the virtual machine after creation */
   dataDiskParameters?: DataDiskProperties[];
   /** Virtual Machine schedules to be created */
   scheduleParameters?: ScheduleCreationParameter[];
-}
-
-/** Parameters for creating multiple virtual machines as a single action. */
-export interface BulkCreationParameters {
+  /**
+   * Last known compute power state captured in DTL
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastKnownPowerState?: string;
+  /**
+   * Flag to determine if apply artifacts can be triggered at the time of fetching the document.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canApplyArtifacts?: boolean;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+  /** Option to apply more security protection for VMs. */
+  securityProfile?: SecurityProfile;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableScheduleId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableScheduleName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableScheduleType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableScheduleTags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableScheduleLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+  /** The resource ID of the virtual network. */
+  virtualNetworkId?: string;
+  /** The resource ID of the sub net. */
+  subnetId?: string;
+  /** The resource ID of the public IP address. */
+  publicIpAddressId?: string;
+  /** The public IP address. */
+  publicIpAddress?: string;
+  /** The private IP address. */
+  privateIpAddress?: string;
+  /** The DNS name. */
+  dnsName?: string;
+  /** The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol). */
+  rdpAuthority?: string;
+  /** The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH. */
+  sshAuthority?: string;
+  /** The incoming NAT rules */
+  inboundNatRules?: InboundNatRule[];
+  /** Gets the statuses of the virtual machine. */
+  statuses?: ComputeVmInstanceViewStatus[];
+  /** Gets the OS type of the virtual machine. */
+  osTypePropertiesComputeVmOsType?: string;
+  /** Gets the size of the virtual machine. */
+  vmSize?: string;
+  /** Gets the network interface ID of the virtual machine. */
+  networkInterfaceId?: string;
+  /** Gets OS disk blob uri for the virtual machine. */
+  osDiskId?: string;
+  /** Gets data disks blob uri for the virtual machine. */
+  dataDiskIds?: string[];
+  /** Gets all data disks attached to the virtual machine. */
+  dataDisks?: ComputeDataDisk[];
+  /** The offer of the gallery image. */
+  offer?: string;
+  /** The publisher of the gallery image. */
+  publisher?: string;
+  /** The SKU of the gallery image. */
+  sku?: string;
+  /** The OS type of the gallery image. */
+  osTypePropertiesGalleryImageReferenceOsType?: string;
+  /** The version of the gallery image. */
+  version?: string;
+  /** The deployment status of the artifact. */
+  deploymentStatus?: string;
+  /** The total count of the artifacts that were successfully applied. */
+  artifactsApplied?: number;
+  /** The total count of the artifacts that were tentatively applied. */
+  totalArtifacts?: number;
   /** The number of virtual machine instances to create. */
   instanceCount?: number;
 }
@@ -476,46 +576,26 @@ export interface ArtifactParameterProperties {
   value?: string;
 }
 
-/** The reference information for an Azure Marketplace image. */
-export interface GalleryImageReference {
-  /** The offer of the gallery image. */
-  offer?: string;
-  /** The publisher of the gallery image. */
-  publisher?: string;
-  /** The SKU of the gallery image. */
-  sku?: string;
-  /** The OS type of the gallery image. */
-  osType?: string;
-  /** The version of the gallery image. */
-  version?: string;
+/** Status information about a virtual machine. */
+export interface ComputeVmInstanceViewStatus {
+  /** Gets the status Code. */
+  code?: string;
+  /** Gets the short localizable label for the status. */
+  displayStatus?: string;
+  /** Gets the message associated with the status. */
+  message?: string;
 }
 
-/** Properties of a network interface. */
-export interface NetworkInterfaceProperties {
-  /** The resource ID of the virtual network. */
-  virtualNetworkId?: string;
-  /** The resource ID of the sub net. */
-  subnetId?: string;
-  /** The resource ID of the public IP address. */
-  publicIpAddressId?: string;
-  /** The public IP address. */
-  publicIpAddress?: string;
-  /** The private IP address. */
-  privateIpAddress?: string;
-  /** The DNS name. */
-  dnsName?: string;
-  /** The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol). */
-  rdpAuthority?: string;
-  /** The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH. */
-  sshAuthority?: string;
-  /** The configuration for sharing a public IP address across multiple virtual machines. */
-  sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfiguration;
-}
-
-/** Properties of a virtual machine that determine how it is connected to a load balancer. */
-export interface SharedPublicIpAddressConfiguration {
-  /** The incoming NAT rules */
-  inboundNatRules?: InboundNatRule[];
+/** A data disks attached to a virtual machine. */
+export interface ComputeDataDisk {
+  /** Gets data disk name. */
+  name?: string;
+  /** When backed by a blob, the URI of underlying blob. */
+  diskUri?: string;
+  /** When backed by managed disk, this is the ID of the compute disk resource. */
+  managedDiskId?: string;
+  /** Gets data disk size in GiB. */
+  diskSizeGiB?: number;
 }
 
 /** A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load balancer. */
@@ -530,16 +610,10 @@ export interface InboundNatRule {
 
 /** Request body for adding a new or existing data disk to a virtual machine. */
 export interface DataDiskProperties {
-  /** Specifies options to attach a new disk to the virtual machine. */
-  attachNewDataDiskOptions?: AttachNewDataDiskOptions;
   /** Specifies the existing lab disk id to attach to virtual machine. */
   existingLabDiskId?: string;
   /** Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). */
   hostCaching?: HostCachingOptions;
-}
-
-/** Properties to attach new disk to the Virtual Machine. */
-export interface AttachNewDataDiskOptions {
   /** Size of the disk to be attached in Gibibytes. */
   diskSizeGiB?: number;
   /** The name of the disk to be attached. */
@@ -560,57 +634,103 @@ export interface ScheduleCreationParameter {
   /** The tags of the resource. */
   tags?: { [propertyName: string]: string };
   /** The status of the schedule (i.e. Enabled, Disabled) */
-  status?: EnableStatus;
+  statusPropertiesStatus?: EnableStatus;
   /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
   taskType?: string;
-  /** If the schedule will occur only some days of the week, specify the weekly recurrence. */
-  weeklyRecurrence?: WeekDetails;
-  /** If the schedule will occur once each day of the week, specify the daily recurrence. */
-  dailyRecurrence?: DayDetails;
-  /** If the schedule will occur multiple times a day, specify the hourly recurrence. */
-  hourlyRecurrence?: HourDetails;
   /** The time zone ID (e.g. Pacific Standard time). */
   timeZoneId?: string;
-  /** Notification settings. */
-  notificationSettings?: NotificationSettings;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDate?: Date;
   /** The resource ID to which the schedule belongs */
   targetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesWeeklyRecurrenceTime?: string;
 }
 
-/** Information about a VM from which a formula is to be created. */
-export interface FormulaPropertiesFromVm {
-  /** The identifier of the VM from which a formula is to be created. */
-  labVmId?: string;
+/** The security profile settings for a virtual machine. */
+export interface SecurityProfile {
+  /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set. */
+  securityType?: SecurityTypes;
+  /** Security settings like secure boot and vTPM. Structure must be null if SecurityType string is null. */
+  uefiSettings?: UefiSettings;
 }
 
-/** The response of a list operation. */
+/** Security settings like secure boot and vTPM. */
+export interface UefiSettings {
+  /** Flag to enable or disable secure boot. */
+  secureBootEnabled?: boolean;
+  /** Flag to enable or disable vTPM (virtual Trusted Platform Module). */
+  vTpmEnabled?: boolean;
+}
+
+/** Contains a list of galleryImages and their properties */
 export interface GalleryImageList {
-  /** Results of the list operation. */
+  /** List of galleryImages and their properties */
   value?: GalleryImage[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of notificationChannels and their properties */
 export interface NotificationChannelList {
-  /** Results of the list operation. */
+  /** List of notificationChannels and their properties */
   value?: NotificationChannel[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
 /** An event to be notified for. */
 export interface Event {
-  /** The event type for which this notification is enabled (i.e. AutoShutdown, Cost) */
+  /** The event type for which this notification is enabled (i.e. AutoShutdown) */
   eventName?: NotificationChannelEventType;
 }
 
 /** Properties for generating a Notification. */
 export interface NotifyParameters {
-  /** The type of event (i.e. AutoShutdown, Cost) */
+  /** The type of event (i.e. AutoShutdown) */
   eventName?: NotificationChannelEventType;
   /** Properties for the notification in json format. */
   jsonPayload?: string;
+}
+
+/** Contains a list of policySets and their properties */
+export interface PolicySetList {
+  /**
+   * List of policySets and their properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PolicySet[];
+  /** URL to get the next set of operation list results if there are any */
+  nextLink?: string;
 }
 
 /** Request body for evaluating a policy set. */
@@ -653,61 +773,65 @@ export interface PolicyViolation {
   message?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of policies and their properties */
 export interface PolicyList {
-  /** Results of the list operation. */
+  /** List of policies and their properties */
   value?: Policy[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
-/** Properties of a managed identity */
-export interface IdentityProperties {
-  /** Managed identity. */
-  type?: ManagedIdentityType;
-  /** The principal id of resource identity. */
-  principalId?: string;
-  /** The tenant identifier of resource. */
-  tenantId?: string;
-  /** The client secret URL of the identity. */
-  clientSecretUrl?: string;
+/** Contains a list of secrets and their properties */
+export interface LabSecretList {
+  /** List of secrets and their properties */
+  value?: LabSecret[];
+  /** URL to get the next set of operation list results if there are any */
+  nextLink?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of serviceRunners and their properties */
+export interface ServiceRunnerList {
+  /** List of serviceRunners and their properties */
+  value?: ServiceRunner[];
+  /** URL to get the next set of operation list results if there are any */
+  nextLink?: string;
+}
+
+/** Contains a list of sharedGalleries and their properties */
+export interface SharedGalleryList {
+  /** List of sharedGalleries and their properties */
+  value?: SharedGallery[];
+  /** URL to get the next set of operation list results if there are any */
+  nextLink?: string;
+}
+
+/** Contains a list of sharedImages and their properties */
+export interface SharedImageList {
+  /** List of sharedImages and their properties */
+  value?: SharedImage[];
+  /** URL to get the next set of operation list results if there are any */
+  nextLink?: string;
+}
+
+/** Properties for a shared image version. */
+export interface ImageVersionProperties {
+  /** Image version name */
+  name?: string;
+}
+
+/** Contains a list of users and their properties */
 export interface UserList {
-  /** Results of the list operation. */
+  /** List of users and their properties */
   value?: User[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
-/** Identity attributes of a lab user. */
-export interface UserIdentity {
-  /** Set to the principal name / UPN of the client JWT making the request. */
-  principalName?: string;
-  /** Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id. */
-  principalId?: string;
-  /** Set to the tenant ID of the client JWT making the request. */
-  tenantId?: string;
-  /** Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available. */
-  objectId?: string;
-  /** Set to the app Id of the client JWT making the request. */
-  appId?: string;
-}
-
-/** Properties of a user's secret store. */
-export interface UserSecretStore {
-  /** The URI of the user's Key vault. */
-  keyVaultUri?: string;
-  /** The ID of the user's Key vault. */
-  keyVaultId?: string;
-}
-
-/** The response of a list operation. */
+/** Contains a list of disks and their properties */
 export interface DiskList {
-  /** Results of the list operation. */
+  /** List of disks and their properties */
   value?: Disk[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
@@ -723,20 +847,12 @@ export interface DetachDiskProperties {
   leasedByLabVmId?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of environments and their properties */
 export interface DtlEnvironmentList {
-  /** Results of the list operation. */
+  /** List of environments and their properties */
   value?: DtlEnvironment[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
-}
-
-/** Properties of an environment deployment. */
-export interface EnvironmentDeploymentProperties {
-  /** The Azure Resource Manager template's identifier. */
-  armTemplateId?: string;
-  /** The parameters of the Azure Resource Manager template. */
-  parameters?: ArmTemplateParameterProperties[];
 }
 
 /** Properties of an Azure Resource Manager template parameter. */
@@ -747,78 +863,28 @@ export interface ArmTemplateParameterProperties {
   value?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of secrets and their properties */
 export interface SecretList {
-  /** Results of the list operation. */
+  /** List of secrets and their properties */
   value?: Secret[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of serviceFabrics and their properties */
 export interface ServiceFabricList {
-  /** Results of the list operation. */
+  /** List of serviceFabrics and their properties */
   value?: ServiceFabric[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of virtualMachines and their properties */
 export interface LabVirtualMachineList {
-  /** Results of the list operation. */
+  /** List of virtualMachines and their properties */
   value?: LabVirtualMachine[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
-}
-
-/** Properties of an artifact deployment. */
-export interface ArtifactDeploymentStatusProperties {
-  /** The deployment status of the artifact. */
-  deploymentStatus?: string;
-  /** The total count of the artifacts that were successfully applied. */
-  artifactsApplied?: number;
-  /** The total count of the artifacts that were tentatively applied. */
-  totalArtifacts?: number;
-}
-
-/** Properties of a virtual machine returned by the Microsoft.Compute API. */
-export interface ComputeVmProperties {
-  /** Gets the statuses of the virtual machine. */
-  statuses?: ComputeVmInstanceViewStatus[];
-  /** Gets the OS type of the virtual machine. */
-  osType?: string;
-  /** Gets the size of the virtual machine. */
-  vmSize?: string;
-  /** Gets the network interface ID of the virtual machine. */
-  networkInterfaceId?: string;
-  /** Gets OS disk blob uri for the virtual machine. */
-  osDiskId?: string;
-  /** Gets data disks blob uri for the virtual machine. */
-  dataDiskIds?: string[];
-  /** Gets all data disks attached to the virtual machine. */
-  dataDisks?: ComputeDataDisk[];
-}
-
-/** Status information about a virtual machine. */
-export interface ComputeVmInstanceViewStatus {
-  /** Gets the status Code. */
-  code?: string;
-  /** Gets the short localizable label for the status. */
-  displayStatus?: string;
-  /** Gets the message associated with the status. */
-  message?: string;
-}
-
-/** A data disks attached to a virtual machine. */
-export interface ComputeDataDisk {
-  /** Gets data disk name. */
-  name?: string;
-  /** When backed by a blob, the URI of underlying blob. */
-  diskUri?: string;
-  /** When backed by managed disk, this is the ID of the compute disk resource. */
-  managedDiskId?: string;
-  /** Gets data disk size in GiB. */
-  diskSizeGiB?: number;
 }
 
 /** Request body for applying artifacts to a virtual machine. */
@@ -845,11 +911,11 @@ export interface ResizeLabVirtualMachineProperties {
   size?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of virtualNetworks and their properties */
 export interface VirtualNetworkList {
-  /** Results of the list operation. */
+  /** List of virtualNetworks and their properties */
   value?: VirtualNetwork[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
@@ -881,14 +947,8 @@ export interface SubnetOverride {
   useInVmCreationPermission?: UsagePermissionType;
   /** Indicates whether public IP addresses can be assigned to virtual machines on this subnet (i.e. Allow, Deny). */
   usePublicIpAddressPermission?: UsagePermissionType;
-  /** Properties that virtual machines on this subnet will share. */
-  sharedPublicIpAddressConfiguration?: SubnetSharedPublicIpAddressConfiguration;
   /** The virtual network pool associated with this subnet. */
   virtualNetworkPoolName?: string;
-}
-
-/** Configuration for public IP address sharing. */
-export interface SubnetSharedPublicIpAddressConfiguration {
   /** Backend ports that virtual machines on this subnet are allowed to expose */
   allowedPorts?: Port[];
 }
@@ -899,6 +959,14 @@ export interface Port {
   transportProtocol?: TransportProtocol;
   /** Backend port of the target virtual machine. */
   backendPort?: number;
+}
+
+/** Contains a list of bastionHosts and their properties */
+export interface BastionHostList {
+  /** List of bastionHosts and their properties */
+  value?: BastionHost[];
+  /** URL to get the next set of operation list results if there are any */
+  nextLink?: string;
 }
 
 /** The parameters of the export operation. */
@@ -929,11 +997,11 @@ export interface ImportLabVirtualMachineRequest {
   destinationVirtualMachineName?: string;
 }
 
-/** The response of a list operation. */
+/** Contains a list of Lab Vhd and their properties */
 export interface LabVhdList {
-  /** Results of the list operation. */
+  /** List of Lab Vhd and their properties */
   value?: LabVhd[];
-  /** Link for next set of results. */
+  /** URL to get the next set of operation list results if there are any */
   nextLink?: string;
 }
 
@@ -951,46 +1019,41 @@ export interface RetargetScheduleProperties {
   targetResourceId?: string;
 }
 
-/** The response of a list operation. */
-export interface ServiceRunnerList {
-  /** Results of the list operation. */
-  value?: ServiceRunner[];
-  /** Link for next set of results. */
-  nextLink?: string;
+/** Properties for plan on a custom image. */
+export interface CustomImagePropertiesFromPlanFragment {
+  /** The id of the plan, equivalent to name of the plan */
+  id?: string;
+  /** The publisher for the plan from the marketplace image the custom image is derived from */
+  publisher?: string;
+  /** The offer for the plan from the marketplace image the custom image is derived from */
+  offer?: string;
 }
 
-/** The contents of a shutdown notification. Webhooks can use this type to deserialize the request body when they get notified of an imminent shutdown. */
-export interface ShutdownNotificationContent {
-  /** The URL to skip auto-shutdown. */
-  skipUrl?: string;
-  /** The URL to delay shutdown by 60 minutes. */
-  delayUrl60?: string;
-  /** The URL to delay shutdown by 2 hours. */
-  delayUrl120?: string;
-  /** The virtual machine to be shut down. */
-  vmName?: string;
-  /** The GUID for the virtual machine to be shut down. */
-  guid?: string;
-  /** The owner of the virtual machine. */
-  owner?: string;
-  /** The URL of the virtual machine. */
-  vmUrl?: string;
-  /** Minutes remaining until shutdown */
-  minutesUntilShutdown?: string;
-  /** The event for which a notification will be sent. */
-  eventType?: string;
-  /** The text for the notification. */
-  text?: string;
-  /** The subscription ID for the schedule. */
-  subscriptionId?: string;
-  /** The resource group name for the schedule. */
-  resourceGroupName?: string;
-  /** The lab for the schedule. */
-  labName?: string;
+/** Properties of a weekly schedule. */
+export interface WeekDetailsFragment {
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  time?: string;
 }
 
 /** A lab. */
 export interface Lab extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Type of identity (SystemAssigned, UserAssigned, None) */
+  typeIdentityType?: ManagedIdentityType;
+  /** The principal id of resource identity. */
+  principalId?: string;
+  /** The tenant identifier of resource. */
+  tenantId?: string;
+  /** The client secret URL of the identity. */
+  clientSecretUrl?: string;
+  /** If Type is 'UserAssigned': List of user assigned identities. */
+  userAssignedIdentities?: { [propertyName: string]: Record<string, unknown> };
   /**
    * The lab's default storage account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1035,12 +1098,8 @@ export interface Lab extends Resource {
   premiumDataDisks?: PremiumDataDisk;
   /** The access rights to be granted to the user when provisioning an environment */
   environmentPermission?: EnvironmentPermission;
-  /** The properties of any lab announcement associated with this lab */
-  announcement?: LabAnnouncementProperties;
-  /** The properties of any lab support message associated with this lab */
-  support?: LabSupportProperties;
   /**
-   * The resource group in which all new lab virtual machines will be created. To let DevTest Labs manage resource group creation, set this value to null.
+   * The resource group ID in which all new lab virtual machines will be created. Ex: /subscriptions/subId/resourceGroups/rgName To let DevTest Labs manage resource group creation, set this value to null.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmCreationResourceGroup?: string;
@@ -1061,34 +1120,69 @@ export interface Lab extends Resource {
   readonly networkSecurityGroupId?: string;
   /** Extended properties of the lab used for experimental features */
   extendedProperties?: { [propertyName: string]: string };
+  /** Is browser connect enabled for the lab */
+  browserConnect?: EnableStatus;
+  /** Is auto upgrade of CSE disabled for the lab? */
+  disableAutoUpgradeCseMinorVersion?: boolean;
+  /** List of identities which can be used for management of resources. */
+  managementIdentities?: { [propertyName: string]: Record<string, unknown> };
+  /** Indicates whether to create Lab resources (e.g. Storage accounts and Key Vaults) in network isolation. */
+  isolateLabResources?: EnableStatus;
+  /** Default secret for creating virtual machines. */
+  defaultSecretName?: string;
   /**
    * The provisioning status of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningStatePropertiesProvisioningState?: string;
   /**
    * The unique immutable identifier of a resource (Guid).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly uniqueIdentifier?: string;
+  readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+  /** Gets or sets resourceId of the disk encryption set to use for enabling encryption at rest. */
+  diskEncryptionSetId?: string;
+  /** Gets or sets the type of key used to encrypt the data of the disk. Possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey' */
+  typePropertiesEncryptionType?: EncryptionType;
+  /** Is the lab support banner active/enabled at this time? */
+  enabledPropertiesSupportEnabled?: EnableStatus;
+  /** The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown. */
+  markdownPropertiesSupportMarkdown?: string;
+  /** The plain text title for the lab announcement */
+  title?: string;
+  /** The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown. */
+  markdownPropertiesAnnouncementMarkdown?: string;
+  /** Is the lab announcement active/enabled at this time? */
+  enabledPropertiesAnnouncementEnabled?: EnableStatus;
+  /** The time at which the announcement expires (null for never) */
+  expirationDate?: Date;
+  /** Has this announcement expired? */
+  expired?: boolean;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesAnnouncementProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesAnnouncementUniqueIdentifier?: string;
 }
 
 /** A schedule. */
 export interface Schedule extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The status of the schedule (i.e. Enabled, Disabled) */
-  status?: EnableStatus;
+  statusPropertiesStatus?: EnableStatus;
   /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
   taskType?: string;
-  /** If the schedule will occur only some days of the week, specify the weekly recurrence. */
-  weeklyRecurrence?: WeekDetails;
-  /** If the schedule will occur once each day of the week, specify the daily recurrence. */
-  dailyRecurrence?: DayDetails;
-  /** If the schedule will occur multiple times a day, specify the hourly recurrence. */
-  hourlyRecurrence?: HourDetails;
   /** The time zone ID (e.g. Pacific Standard time). */
   timeZoneId?: string;
-  /** Notification settings. */
-  notificationSettings?: NotificationSettings;
   /**
    * The creation date of the schedule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1106,10 +1200,33 @@ export interface Schedule extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesWeeklyRecurrenceTime?: string;
 }
 
 /** Properties of an artifact source. */
 export interface ArtifactSource extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The artifact source's display name. */
   displayName?: string;
   /** The artifact source's URI. */
@@ -1145,6 +1262,11 @@ export interface ArtifactSource extends Resource {
 
 /** An Azure Resource Manager template. */
 export interface ArmTemplate extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * The display name of the ARM template.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1190,6 +1312,11 @@ export interface ArmTemplate extends Resource {
 /** An artifact. */
 export interface Artifact extends Resource {
   /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
    * The artifact's title.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1231,51 +1358,13 @@ export interface Artifact extends Resource {
   readonly createdDate?: Date;
 }
 
-/** A cost item. */
-export interface LabCost extends Resource {
-  /** The target cost properties */
-  targetCost?: TargetCostProperties;
-  /**
-   * The lab cost summary component of the cost data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly labCostSummary?: LabCostSummaryProperties;
-  /**
-   * The lab cost details component of the cost data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly labCostDetails?: LabCostDetailsProperties[];
-  /**
-   * The resource cost component of the cost data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceCosts?: LabResourceCostProperties[];
-  /** The currency code of the cost. */
-  currencyCode?: string;
-  /** The start time of the cost data. */
-  startDateTime?: Date;
-  /** The end time of the cost data. */
-  endDateTime?: Date;
-  /** The creation date of the cost. */
-  createdDate?: Date;
-  /**
-   * The provisioning status of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The unique immutable identifier of a resource (Guid).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uniqueIdentifier?: string;
-}
-
 /** A custom image. */
 export interface CustomImage extends Resource {
-  /** The virtual machine from which the image is to be created. */
-  vm?: CustomImagePropertiesFromVm;
-  /** The VHD from which the image is to be created. */
-  vhd?: CustomImagePropertiesCustom;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The description of the custom image. */
   description?: string;
   /** The author of the custom image. */
@@ -1291,8 +1380,6 @@ export interface CustomImage extends Resource {
   managedSnapshotId?: string;
   /** Storage information about the data disks present in the custom image */
   dataDiskStorageInfo?: DataDiskStorageTypeInfo[];
-  /** Storage information about the plan related to this custom image */
-  customImagePlan?: CustomImagePropertiesFromPlan;
   /** Whether or not the custom images underlying offer/plan has been enabled for programmatic deployment */
   isPlanAuthorized?: boolean;
   /**
@@ -1305,10 +1392,172 @@ export interface CustomImage extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
+  /** The id of the plan, equivalent to name of the plan */
+  idPropertiesCustomImagePlanId?: string;
+  /** The publisher for the plan from the marketplace image the custom image is derived from */
+  publisher?: string;
+  /** The offer for the plan from the marketplace image the custom image is derived from */
+  offer?: string;
+  /** The image name. */
+  imageName?: string;
+  /** Indicates whether sysprep has been run on the VHD. */
+  sysPrep?: boolean;
+  /** The OS type of the custom image (i.e. Windows, Linux) */
+  osType?: CustomImageOsType;
+  /** The source vm identifier. */
+  sourceVmId?: string;
+  /** The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied). */
+  linuxOsState?: LinuxOsState;
+  /** The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied). */
+  windowsOsState?: WindowsOsState;
+}
+
+/** Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level. */
+export interface ApplicableSchedule extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesLabVmsStartupId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesLabVmsStartupName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesLabVmsStartupType?: string;
+  /** Resource tags. */
+  tagsPropertiesLabVmsStartupTags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  locationPropertiesLabVmsStartupLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesLabVmsStartupSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesLabVmsStartupPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesLabVmsShutdownId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesLabVmsShutdownName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesLabVmsShutdownType?: string;
+  /** Resource tags. */
+  tagsPropertiesLabVmsShutdownTags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  locationPropertiesLabVmsShutdownLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesLabVmsShutdownSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesLabVmsShutdownPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
 }
 
 /** A formula for creating a VM, specifying an image base and other parameters */
 export interface Formula extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The description of the formula. */
   description?: string;
   /**
@@ -1317,30 +1566,351 @@ export interface Formula extends Resource {
    */
   readonly author?: string;
   /** The OS type of the formula. */
-  osType?: string;
+  osTypePropertiesOsType?: string;
   /**
    * The creation date of the formula.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creationDate?: Date;
-  /** The content of the formula. */
-  formulaContent?: LabVirtualMachineCreationParameter;
-  /** Information about a VM from which a formula is to be created. */
-  vm?: FormulaPropertiesFromVm;
   /**
    * The provisioning status of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningStatePropertiesProvisioningState?: string;
   /**
    * The unique immutable identifier of a resource (Guid).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly uniqueIdentifier?: string;
+  readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+  /** The identifier of the VM from which a formula is to be created. */
+  labVmId?: string;
+  /** The name of the virtual machine or environment */
+  namePropertiesFormulaContentName?: string;
+  /** The location of the new virtual machine or environment */
+  locationPropertiesFormulaContentLocation?: string;
+  /** The tags of the resource. */
+  tagsPropertiesFormulaContentTags?: { [propertyName: string]: string };
+  /** The notes of the virtual machine. */
+  notes?: string;
+  /** The object identifier of the owner of the virtual machine. */
+  ownerObjectId?: string;
+  /** The user principal name of the virtual machine owner. */
+  ownerUserPrincipalName?: string;
+  /**
+   * The object identifier of the creator of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdByUserId?: string;
+  /**
+   * The email address of creator of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdByUser?: string;
+  /** The creation date of the virtual machine. */
+  createdDatePropertiesFormulaContentPropertiesCreatedDate?: Date;
+  /**
+   * The resource identifier (Microsoft.Compute) of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computeId?: string;
+  /** The custom image identifier of the virtual machine. */
+  customImageId?: string;
+  /** The shared gallery image version resource identifier of the virtual machine. */
+  galleryImageVersionId?: string;
+  /** The shared image resource identifier of the virtual machine. */
+  sharedImageId?: string;
+  /** The shared image version for the specified shared image Id. Will use latest if not specified. */
+  sharedImageVersion?: string;
+  /**
+   * The OS type of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osTypePropertiesFormulaContentPropertiesOsType?: string;
+  /** The size of the virtual machine. */
+  size?: string;
+  /** The user name of the virtual machine. */
+  userName?: string;
+  /** The password of the virtual machine administrator. */
+  password?: string;
+  /** The SSH key of the virtual machine administrator. */
+  sshKey?: string;
+  /** Indicates whether this virtual machine uses an SSH key for authentication. */
+  isAuthenticationWithSshKey?: boolean;
+  /**
+   * The fully-qualified domain name of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /** The lab subnet name of the virtual machine. */
+  labSubnetName?: string;
+  /** The lab virtual network identifier of the virtual machine. */
+  labVirtualNetworkId?: string;
+  /** Indicates whether the virtual machine is to be created without a public IP address. */
+  disallowPublicIpAddress?: boolean;
+  /** The artifacts to be installed on the virtual machine. */
+  artifacts?: ArtifactInstallProperties[];
+  /** The id of the plan associated with the virtual machine image */
+  planId?: string;
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. */
+  osDiskSizeGb?: number;
+  /** The expiration date for VM. */
+  expirationDate?: Date;
+  /** Indicates whether another user can take ownership of the virtual machine */
+  allowClaim?: boolean;
+  /** Storage type to use for virtual machine (i.e. Standard, Premium, StandardSSD). */
+  storageType?: StorageType;
+  /**
+   * Tells source of creation of lab virtual machine. Output property only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
+  /** The resource ID of the environment that contains this virtual machine, if any. */
+  environmentId?: string;
+  /** New or existing data disks to attach to the virtual machine after creation */
+  dataDiskParameters?: DataDiskProperties[];
+  /** Virtual Machine schedules to be created */
+  scheduleParameters?: ScheduleCreationParameter[];
+  /**
+   * Last known compute power state captured in DTL
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastKnownPowerState?: string;
+  /**
+   * Flag to determine if apply artifacts can be triggered at the time of fetching the document.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canApplyArtifacts?: boolean;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesFormulaContentPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesFormulaContentPropertiesUniqueIdentifier?: string;
+  /** Option to apply more security protection for VMs. */
+  securityProfile?: SecurityProfile;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesFormulaContentPropertiesApplicableScheduleId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesFormulaContentPropertiesApplicableScheduleName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesFormulaContentPropertiesApplicableScheduleType?: string;
+  /** Resource tags. */
+  tagsPropertiesFormulaContentPropertiesApplicableScheduleTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesFormulaContentPropertiesApplicableScheduleLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesFormulaContentPropertiesApplicableScheduleSystemData?: SystemData;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+  /** Resource tags. */
+  tagsPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+  /** Resource tags. */
+  tagsPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+  /** The resource ID of the virtual network. */
+  virtualNetworkId?: string;
+  /** The resource ID of the sub net. */
+  subnetId?: string;
+  /** The resource ID of the public IP address. */
+  publicIpAddressId?: string;
+  /** The public IP address. */
+  publicIpAddress?: string;
+  /** The private IP address. */
+  privateIpAddress?: string;
+  /** The DNS name. */
+  dnsName?: string;
+  /** The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol). */
+  rdpAuthority?: string;
+  /** The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH. */
+  sshAuthority?: string;
+  /** The incoming NAT rules */
+  inboundNatRules?: InboundNatRule[];
+  /** Gets the statuses of the virtual machine. */
+  statuses?: ComputeVmInstanceViewStatus[];
+  /** Gets the OS type of the virtual machine. */
+  osTypePropertiesFormulaContentPropertiesComputeVmOsType?: string;
+  /** Gets the size of the virtual machine. */
+  vmSize?: string;
+  /** Gets the network interface ID of the virtual machine. */
+  networkInterfaceId?: string;
+  /** Gets OS disk blob uri for the virtual machine. */
+  osDiskId?: string;
+  /** Gets data disks blob uri for the virtual machine. */
+  dataDiskIds?: string[];
+  /** Gets all data disks attached to the virtual machine. */
+  dataDisks?: ComputeDataDisk[];
+  /** The offer of the gallery image. */
+  offer?: string;
+  /** The publisher of the gallery image. */
+  publisher?: string;
+  /** The SKU of the gallery image. */
+  sku?: string;
+  /** The OS type of the gallery image. */
+  osTypePropertiesFormulaContentPropertiesGalleryImageReferenceOsType?: string;
+  /** The version of the gallery image. */
+  version?: string;
+  /** The deployment status of the artifact. */
+  deploymentStatus?: string;
+  /** The total count of the artifacts that were successfully applied. */
+  artifactsApplied?: number;
+  /** The total count of the artifacts that were tentatively applied. */
+  totalArtifacts?: number;
+  /** The number of virtual machine instances to create. */
+  instanceCount?: number;
 }
 
 /** A gallery image. */
 export interface GalleryImage extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The author of the gallery image. */
   author?: string;
   /**
@@ -1350,8 +1920,6 @@ export interface GalleryImage extends Resource {
   readonly createdDate?: Date;
   /** The description of the gallery image. */
   description?: string;
-  /** The image reference of the gallery image. */
-  imageReference?: GalleryImageReference;
   /** The icon of the gallery image. */
   icon?: string;
   /** Indicates whether this gallery image is enabled. */
@@ -1360,10 +1928,25 @@ export interface GalleryImage extends Resource {
   planId?: string;
   /** Indicates if the plan has been authorized for programmatic deployment. */
   isPlanAuthorized?: boolean;
+  /** The offer of the gallery image. */
+  offer?: string;
+  /** The publisher of the gallery image. */
+  publisher?: string;
+  /** The SKU of the gallery image. */
+  sku?: string;
+  /** The OS type of the gallery image. */
+  osType?: string;
+  /** The version of the gallery image. */
+  version?: string;
 }
 
 /** A notification. */
 export interface NotificationChannel extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The webhook URL to send notifications to. */
   webHookUrl?: string;
   /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
@@ -1391,8 +1974,32 @@ export interface NotificationChannel extends Resource {
   readonly uniqueIdentifier?: string;
 }
 
+/** A PolicySet. */
+export interface PolicySet extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifier?: string;
+}
+
 /** A Policy. */
 export interface Policy extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The description of the policy. */
   description?: string;
   /** The status of the policy. */
@@ -1422,18 +2029,122 @@ export interface Policy extends Resource {
   readonly uniqueIdentifier?: string;
 }
 
+/** A shared secret in a lab. */
+export interface LabSecret extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The value of the secret for secret creation. */
+  value?: string;
+  /**
+   * The name of the entry in the lab KeyVault.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyVaultEntry?: string;
+  /** Is the secret enabled for use with artifacts? */
+  enabledForArtifacts?: boolean;
+  /** Is the secret enabled for use with creation of VMs? */
+  enabledForVmCreation?: boolean;
+  /** Is the secret enabled for use with ARM environments? */
+  enabledForArmEnvironments?: boolean;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifier?: string;
+}
+
 /** A container for a managed identity to execute DevTest lab services. */
 export interface ServiceRunner extends Resource {
   /** The identity of the resource. */
   identity?: IdentityProperties;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The purpose of bringing the identity to the lab. Ex: To use during Environment creation or to deploy on the VMs. */
+  identityUsageType?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifier?: string;
+}
+
+/** Properties of a shared gallery */
+export interface SharedGallery extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The shared image gallery resource Id */
+  galleryId?: string;
+  /** Enables all images in the gallery to be available in the lab for VM creation. This will override the EnableState on shared images */
+  allowAllImages?: EnableState;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifier?: string;
+}
+
+/** Properties of a shared image */
+export interface SharedImage extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Shared Image definition name in shared image gallery */
+  definitionName?: string;
+  /** The operating system of the image */
+  osType?: OsType;
+  /** The type of image in the gallery (generalized or specialized) */
+  imageType?: ImageType;
+  /** Whether or not the image is enabled. */
+  enableState?: EnableState;
+  /** Display name of the image */
+  displayName?: string;
+  /** List of image versions in definition */
+  versions?: ImageVersionProperties[];
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifier?: string;
 }
 
 /** Profile of a lab user. */
 export interface User extends Resource {
-  /** The identity of the user. */
-  identity?: UserIdentity;
-  /** The secret store of the user. */
-  secretStore?: UserSecretStore;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * The creation date of the user profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1449,10 +2160,29 @@ export interface User extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
+  /** The URI of the user's Key vault. */
+  keyVaultUri?: string;
+  /** The ID of the user's Key vault. */
+  keyVaultId?: string;
+  /** Set to the principal name / UPN of the client JWT making the request. */
+  principalName?: string;
+  /** Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id. */
+  principalId?: string;
+  /** Set to the tenant ID of the client JWT making the request. */
+  tenantId?: string;
+  /** Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available. */
+  objectId?: string;
+  /** Set to the app Id of the client JWT making the request. */
+  appId?: string;
 }
 
 /** A Disk. */
 export interface Disk extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The storage type for the disk (i.e. Standard, Premium). */
   diskType?: StorageType;
   /** The size of the disk in Gibibytes. */
@@ -1488,8 +2218,11 @@ export interface Disk extends Resource {
 
 /** An environment, which is essentially an ARM template deployment. */
 export interface DtlEnvironment extends Resource {
-  /** The deployment properties of the environment. */
-  deploymentProperties?: EnvironmentDeploymentProperties;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The display name of the Azure Resource Manager template that produced the environment. */
   armTemplateDisplayName?: string;
   /**
@@ -1512,10 +2245,19 @@ export interface DtlEnvironment extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueIdentifier?: string;
+  /** The Azure Resource Manager template's identifier. */
+  armTemplateId?: string;
+  /** The parameters of the Azure Resource Manager template. */
+  parameters?: ArmTemplateParameterProperties[];
 }
 
 /** A secret. */
 export interface Secret extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The value of the secret for secret creation. */
   value?: string;
   /**
@@ -1530,39 +2272,194 @@ export interface Secret extends Resource {
   readonly uniqueIdentifier?: string;
 }
 
-/** Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level. */
-export interface ApplicableSchedule extends Resource {
-  /** The auto-shutdown schedule, if one has been set at the lab or lab resource level. */
-  labVmsShutdown?: Schedule;
-  /** The auto-startup schedule, if one has been set at the lab or lab resource level. */
-  labVmsStartup?: Schedule;
-}
-
 /** A Service Fabric. */
 export interface ServiceFabric extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The backing service fabric resource's id */
   externalServiceFabricId?: string;
   /** The resource id of the environment under which the service fabric resource is present */
   environmentId?: string;
   /**
-   * The applicable schedule for the virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly applicableSchedule?: ApplicableSchedule;
-  /**
    * The provisioning status of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningStatePropertiesProvisioningState?: string;
   /**
    * The unique immutable identifier of a resource (Guid).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly uniqueIdentifier?: string;
+  readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableScheduleId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableScheduleName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableScheduleType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableScheduleTags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableScheduleLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
 }
 
 /** A virtual machine. */
 export interface LabVirtualMachine extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The notes of the virtual machine. */
   notes?: string;
   /** The object identifier of the owner of the virtual machine. */
@@ -1580,7 +2477,7 @@ export interface LabVirtualMachine extends Resource {
    */
   readonly createdByUser?: string;
   /** The creation date of the virtual machine. */
-  createdDate?: Date;
+  createdDatePropertiesCreatedDate?: Date;
   /**
    * The resource identifier (Microsoft.Compute) of the virtual machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1588,11 +2485,17 @@ export interface LabVirtualMachine extends Resource {
   readonly computeId?: string;
   /** The custom image identifier of the virtual machine. */
   customImageId?: string;
+  /** The shared gallery image version resource identifier of the virtual machine. */
+  galleryImageVersionId?: string;
+  /** The shared image resource identifier of the virtual machine. */
+  sharedImageId?: string;
+  /** The shared image version for the specified shared image Id. Will use latest if not specified. */
+  sharedImageVersion?: string;
   /**
    * The OS type of the virtual machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly osType?: string;
+  readonly osTypePropertiesOsType?: string;
   /** The size of the virtual machine. */
   size?: string;
   /** The user name of the virtual machine. */
@@ -1616,33 +2519,16 @@ export interface LabVirtualMachine extends Resource {
   disallowPublicIpAddress?: boolean;
   /** The artifacts to be installed on the virtual machine. */
   artifacts?: ArtifactInstallProperties[];
-  /**
-   * The artifact deployment status for the virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
-  /** The Microsoft Azure Marketplace image reference of the virtual machine. */
-  galleryImageReference?: GalleryImageReference;
   /** The id of the plan associated with the virtual machine image */
   planId?: string;
-  /**
-   * The compute virtual machine properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly computeVm?: ComputeVmProperties;
-  /** The network interface properties. */
-  networkInterface?: NetworkInterfaceProperties;
-  /**
-   * The applicable schedule for the virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly applicableSchedule?: ApplicableSchedule;
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. */
+  osDiskSizeGb?: number;
   /** The expiration date for VM. */
   expirationDate?: Date;
   /** Indicates whether another user can take ownership of the virtual machine */
   allowClaim?: boolean;
-  /** Storage type to use for virtual machine (i.e. Standard, Premium). */
-  storageType?: string;
+  /** Storage type to use for virtual machine (i.e. Standard, Premium, StandardSSD). */
+  storageType?: StorageTypes;
   /**
    * Tells source of creation of lab virtual machine. Output property only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1660,19 +2546,237 @@ export interface LabVirtualMachine extends Resource {
    */
   readonly lastKnownPowerState?: string;
   /**
+   * Flag to determine if apply artifacts can be triggered at the time of fetching the document.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canApplyArtifacts?: boolean;
+  /** Option to apply more security protection for VMs. */
+  securityProfile?: SecurityProfile;
+  /**
    * The provisioning status of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningStatePropertiesProvisioningState?: string;
   /**
    * The unique immutable identifier of a resource (Guid).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly uniqueIdentifier?: string;
+  readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableScheduleId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableScheduleName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableScheduleType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableScheduleTags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableScheduleLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+  /** Resource tags. */
+  tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+    [propertyName: string]: string;
+  };
+  /** The geo-location where the resource lives */
+  locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+  /** The status of the schedule (i.e. Enabled, Disabled) */
+  statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+  /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
+  taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+  /** The time zone ID (e.g. Pacific Standard time). */
+  timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+  /**
+   * The creation date of the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+  /** The resource ID to which the schedule belongs */
+  targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+  /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
+  statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+  /** Time in minutes before event at which notification will be sent. */
+  timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+  /** The webhook URL to which the notification will be sent. */
+  webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+  /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
+  emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+  /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
+  notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+  /** Minutes of the hour the schedule will run. */
+  minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+  /** The time of day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+  /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
+  weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+  /** The time of the day the schedule will occur. */
+  timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+  /** The resource ID of the virtual network. */
+  virtualNetworkId?: string;
+  /** The resource ID of the sub net. */
+  subnetId?: string;
+  /** The resource ID of the public IP address. */
+  publicIpAddressId?: string;
+  /** The public IP address. */
+  publicIpAddress?: string;
+  /** The private IP address. */
+  privateIpAddress?: string;
+  /** The DNS name. */
+  dnsName?: string;
+  /** The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol). */
+  rdpAuthority?: string;
+  /** The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH. */
+  sshAuthority?: string;
+  /** The incoming NAT rules */
+  inboundNatRules?: InboundNatRule[];
+  /** Gets the statuses of the virtual machine. */
+  statuses?: ComputeVmInstanceViewStatus[];
+  /** Gets the OS type of the virtual machine. */
+  osTypePropertiesComputeVmOsType?: string;
+  /** Gets the size of the virtual machine. */
+  vmSize?: string;
+  /** Gets the network interface ID of the virtual machine. */
+  networkInterfaceId?: string;
+  /** Gets OS disk blob uri for the virtual machine. */
+  osDiskId?: string;
+  /** Gets data disks blob uri for the virtual machine. */
+  dataDiskIds?: string[];
+  /** Gets all data disks attached to the virtual machine. */
+  dataDisks?: ComputeDataDisk[];
+  /** The offer of the gallery image. */
+  offer?: string;
+  /** The publisher of the gallery image. */
+  publisher?: string;
+  /** The SKU of the gallery image. */
+  sku?: string;
+  /** The OS type of the gallery image. */
+  osTypePropertiesGalleryImageReferenceOsType?: string;
+  /** The version of the gallery image. */
+  version?: string;
+  /** The deployment status of the artifact. */
+  deploymentStatus?: string;
+  /** The total count of the artifacts that were successfully applied. */
+  artifactsApplied?: number;
+  /** The total count of the artifacts that were tentatively applied. */
+  totalArtifacts?: number;
 }
 
 /** A virtual network. */
 export interface VirtualNetwork extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The allowed subnets of the virtual network. */
   allowedSubnets?: Subnet[];
   /** The description of the virtual network. */
@@ -1703,50 +2807,309 @@ export interface VirtualNetwork extends Resource {
   readonly uniqueIdentifier?: string;
 }
 
-/** Properties of an artifact source. */
+/** Profile of a Bastion Host */
+export interface BastionHost extends Resource {
+  /**
+   * The system metadata relating to this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The ID of the external BastionHost resource that corresponds to this DTL BastionHost
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly externalBastionHostId?: string;
+  /**
+   * The ID of the PublicIpAddress resource that is created by and paired with this BastionHost
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddressId?: string;
+  /**
+   * The provisioning status of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique immutable identifier of a resource (Guid).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uniqueIdentifier?: string;
+}
+
+/** Patch */
 export interface ArtifactSourceFragment extends UpdateResource {}
 
-/** A custom image. */
+/** Patch */
 export interface CustomImageFragment extends UpdateResource {}
 
-/** A formula for creating a VM, specifying an image base and other parameters */
+/** Patch */
 export interface FormulaFragment extends UpdateResource {}
 
-/** A notification. */
+/** Patch */
 export interface NotificationChannelFragment extends UpdateResource {}
 
-/** A Policy. */
+/** Patch */
 export interface PolicyFragment extends UpdateResource {}
 
-/** A schedule. */
+/** Patch */
 export interface ScheduleFragment extends UpdateResource {}
 
-/** Profile of a lab user. */
-export interface UserFragment extends UpdateResource {}
-
-/** A Disk. */
-export interface DiskFragment extends UpdateResource {}
-
-/** An environment, which is essentially an ARM template deployment. */
-export interface DtlEnvironmentFragment extends UpdateResource {}
-
-/** A secret. */
+/** Patch */
 export interface SecretFragment extends UpdateResource {}
 
-/** A Service Fabric. */
+/** Patch */
+export interface SharedGalleryFragment extends UpdateResource {}
+
+/** Patch */
+export interface SharedImageFragment extends UpdateResource {}
+
+/** Patch */
+export interface UserFragment extends UpdateResource {}
+
+/** Patch */
+export interface DiskFragment extends UpdateResource {}
+
+/** Patch */
+export interface DtlEnvironmentFragment extends UpdateResource {}
+
+/** Patch */
 export interface ServiceFabricFragment extends UpdateResource {}
 
-/** A virtual machine. */
+/** Patch */
 export interface LabVirtualMachineFragment extends UpdateResource {}
 
-/** A virtual network. */
+/** Patch */
 export interface VirtualNetworkFragment extends UpdateResource {}
 
-/** A lab. */
+/** Patch */
+export interface BastionHostFragment extends UpdateResource {}
+
+/** Patch */
 export interface LabFragment extends UpdateResource {}
 
-/** Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level. */
-export interface ApplicableScheduleFragment extends UpdateResource {}
+/** Patch */
+export interface LabSecretFragment extends UpdateResource {}
+
+/** Defines headers for Labs_delete operation. */
+export interface LabsDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Labs_claimAnyVm operation. */
+export interface LabsClaimAnyVmHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Labs_createEnvironment operation. */
+export interface LabsCreateEnvironmentHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Labs_exportResourceUsage operation. */
+export interface LabsExportResourceUsageHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Labs_importVirtualMachine operation. */
+export interface LabsImportVirtualMachineHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Operations_get operation. */
+export interface OperationsGetHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GlobalSchedules_execute operation. */
+export interface GlobalSchedulesExecuteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GlobalSchedules_retarget operation. */
+export interface GlobalSchedulesRetargetHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for CustomImages_delete operation. */
+export interface CustomImagesDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Schedules_execute operation. */
+export interface SchedulesExecuteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for LabSecrets_delete operation. */
+export interface LabSecretsDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for LabSecrets_update operation. */
+export interface LabSecretsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for ServiceRunners_delete operation. */
+export interface ServiceRunnersDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Users_delete operation. */
+export interface UsersDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Disks_delete operation. */
+export interface DisksDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Disks_attach operation. */
+export interface DisksAttachHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Disks_detach operation. */
+export interface DisksDetachHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Environments_delete operation. */
+export interface EnvironmentsDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ServiceFabrics_delete operation. */
+export interface ServiceFabricsDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ServiceFabrics_start operation. */
+export interface ServiceFabricsStartHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ServiceFabrics_stop operation. */
+export interface ServiceFabricsStopHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ServiceFabricSchedules_execute operation. */
+export interface ServiceFabricSchedulesExecuteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_delete operation. */
+export interface VirtualMachinesDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_addDataDisk operation. */
+export interface VirtualMachinesAddDataDiskHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_applyArtifacts operation. */
+export interface VirtualMachinesApplyArtifactsHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_claim operation. */
+export interface VirtualMachinesClaimHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_detachDataDisk operation. */
+export interface VirtualMachinesDetachDataDiskHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_redeploy operation. */
+export interface VirtualMachinesRedeployHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_resize operation. */
+export interface VirtualMachinesResizeHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_restart operation. */
+export interface VirtualMachinesRestartHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_start operation. */
+export interface VirtualMachinesStartHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_stop operation. */
+export interface VirtualMachinesStopHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_transferDisks operation. */
+export interface VirtualMachinesTransferDisksHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachines_unClaim operation. */
+export interface VirtualMachinesUnClaimHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualMachineSchedules_execute operation. */
+export interface VirtualMachineSchedulesExecuteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualNetworks_delete operation. */
+export interface VirtualNetworksDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for BastionHosts_delete operation. */
+export interface BastionHostsDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link StorageType} that the service accepts. */
 export enum KnownStorageType {
@@ -1823,12 +3186,82 @@ export enum KnownEnableStatus {
  */
 export type EnableStatus = string;
 
+/** Known values of {@link EncryptionType} that the service accepts. */
+export enum KnownEncryptionType {
+  /** EncryptionAtRestWithPlatformKey */
+  EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey",
+  /** EncryptionAtRestWithCustomerKey */
+  EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey"
+}
+
+/**
+ * Defines values for EncryptionType. \
+ * {@link KnownEncryptionType} can be used interchangeably with EncryptionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EncryptionAtRestWithPlatformKey** \
+ * **EncryptionAtRestWithCustomerKey**
+ */
+export type EncryptionType = string;
+
+/** Known values of {@link ManagedIdentityType} that the service accepts. */
+export enum KnownManagedIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedIdentityType. \
+ * {@link KnownManagedIdentityType} can be used interchangeably with ManagedIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedIdentityType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link HttpStatusCode} that the service accepts. */
 export enum KnownHttpStatusCode {
   /** Continue */
   Continue = "Continue",
   /** SwitchingProtocols */
   SwitchingProtocols = "SwitchingProtocols",
+  /** Processing */
+  Processing = "Processing",
+  /** EarlyHints */
+  EarlyHints = "EarlyHints",
   /** OK */
   OK = "OK",
   /** Created */
@@ -1843,6 +3276,12 @@ export enum KnownHttpStatusCode {
   ResetContent = "ResetContent",
   /** PartialContent */
   PartialContent = "PartialContent",
+  /** MultiStatus */
+  MultiStatus = "MultiStatus",
+  /** AlreadyReported */
+  AlreadyReported = "AlreadyReported",
+  /** IMUsed */
+  IMUsed = "IMUsed",
   /** MultipleChoices */
   MultipleChoices = "MultipleChoices",
   /** Ambiguous */
@@ -1869,6 +3308,8 @@ export enum KnownHttpStatusCode {
   TemporaryRedirect = "TemporaryRedirect",
   /** RedirectKeepVerb */
   RedirectKeepVerb = "RedirectKeepVerb",
+  /** PermanentRedirect */
+  PermanentRedirect = "PermanentRedirect",
   /** BadRequest */
   BadRequest = "BadRequest",
   /** Unauthorized */
@@ -1905,8 +3346,24 @@ export enum KnownHttpStatusCode {
   RequestedRangeNotSatisfiable = "RequestedRangeNotSatisfiable",
   /** ExpectationFailed */
   ExpectationFailed = "ExpectationFailed",
+  /** MisdirectedRequest */
+  MisdirectedRequest = "MisdirectedRequest",
+  /** UnprocessableEntity */
+  UnprocessableEntity = "UnprocessableEntity",
+  /** Locked */
+  Locked = "Locked",
+  /** FailedDependency */
+  FailedDependency = "FailedDependency",
   /** UpgradeRequired */
   UpgradeRequired = "UpgradeRequired",
+  /** PreconditionRequired */
+  PreconditionRequired = "PreconditionRequired",
+  /** TooManyRequests */
+  TooManyRequests = "TooManyRequests",
+  /** RequestHeaderFieldsTooLarge */
+  RequestHeaderFieldsTooLarge = "RequestHeaderFieldsTooLarge",
+  /** UnavailableForLegalReasons */
+  UnavailableForLegalReasons = "UnavailableForLegalReasons",
   /** InternalServerError */
   InternalServerError = "InternalServerError",
   /** NotImplemented */
@@ -1918,7 +3375,17 @@ export enum KnownHttpStatusCode {
   /** GatewayTimeout */
   GatewayTimeout = "GatewayTimeout",
   /** HttpVersionNotSupported */
-  HttpVersionNotSupported = "HttpVersionNotSupported"
+  HttpVersionNotSupported = "HttpVersionNotSupported",
+  /** VariantAlsoNegotiates */
+  VariantAlsoNegotiates = "VariantAlsoNegotiates",
+  /** InsufficientStorage */
+  InsufficientStorage = "InsufficientStorage",
+  /** LoopDetected */
+  LoopDetected = "LoopDetected",
+  /** NotExtended */
+  NotExtended = "NotExtended",
+  /** NetworkAuthenticationRequired */
+  NetworkAuthenticationRequired = "NetworkAuthenticationRequired"
 }
 
 /**
@@ -1928,6 +3395,8 @@ export enum KnownHttpStatusCode {
  * ### Known values supported by the service
  * **Continue** \
  * **SwitchingProtocols** \
+ * **Processing** \
+ * **EarlyHints** \
  * **OK** \
  * **Created** \
  * **Accepted** \
@@ -1935,6 +3404,9 @@ export enum KnownHttpStatusCode {
  * **NoContent** \
  * **ResetContent** \
  * **PartialContent** \
+ * **MultiStatus** \
+ * **AlreadyReported** \
+ * **IMUsed** \
  * **MultipleChoices** \
  * **Ambiguous** \
  * **MovedPermanently** \
@@ -1948,6 +3420,7 @@ export enum KnownHttpStatusCode {
  * **Unused** \
  * **TemporaryRedirect** \
  * **RedirectKeepVerb** \
+ * **PermanentRedirect** \
  * **BadRequest** \
  * **Unauthorized** \
  * **PaymentRequired** \
@@ -1966,13 +3439,26 @@ export enum KnownHttpStatusCode {
  * **UnsupportedMediaType** \
  * **RequestedRangeNotSatisfiable** \
  * **ExpectationFailed** \
+ * **MisdirectedRequest** \
+ * **UnprocessableEntity** \
+ * **Locked** \
+ * **FailedDependency** \
  * **UpgradeRequired** \
+ * **PreconditionRequired** \
+ * **TooManyRequests** \
+ * **RequestHeaderFieldsTooLarge** \
+ * **UnavailableForLegalReasons** \
  * **InternalServerError** \
  * **NotImplemented** \
  * **BadGateway** \
  * **ServiceUnavailable** \
  * **GatewayTimeout** \
- * **HttpVersionNotSupported**
+ * **HttpVersionNotSupported** \
+ * **VariantAlsoNegotiates** \
+ * **InsufficientStorage** \
+ * **LoopDetected** \
+ * **NotExtended** \
+ * **NetworkAuthenticationRequired**
  */
 export type HttpStatusCode = string;
 
@@ -2014,81 +3500,6 @@ export enum KnownFileUploadOptions {
  * **None**
  */
 export type FileUploadOptions = string;
-
-/** Known values of {@link TargetCostStatus} that the service accepts. */
-export enum KnownTargetCostStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for TargetCostStatus. \
- * {@link KnownTargetCostStatus} can be used interchangeably with TargetCostStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type TargetCostStatus = string;
-
-/** Known values of {@link CostThresholdStatus} that the service accepts. */
-export enum KnownCostThresholdStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for CostThresholdStatus. \
- * {@link KnownCostThresholdStatus} can be used interchangeably with CostThresholdStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type CostThresholdStatus = string;
-
-/** Known values of {@link ReportingCycleType} that the service accepts. */
-export enum KnownReportingCycleType {
-  /** CalendarMonth */
-  CalendarMonth = "CalendarMonth",
-  /** Custom */
-  Custom = "Custom"
-}
-
-/**
- * Defines values for ReportingCycleType. \
- * {@link KnownReportingCycleType} can be used interchangeably with ReportingCycleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CalendarMonth** \
- * **Custom**
- */
-export type ReportingCycleType = string;
-
-/** Known values of {@link CostType} that the service accepts. */
-export enum KnownCostType {
-  /** Unavailable */
-  Unavailable = "Unavailable",
-  /** Reported */
-  Reported = "Reported",
-  /** Projected */
-  Projected = "Projected"
-}
-
-/**
- * Defines values for CostType. \
- * {@link KnownCostType} can be used interchangeably with CostType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unavailable** \
- * **Reported** \
- * **Projected**
- */
-export type CostType = string;
 
 /** Known values of {@link WindowsOsState} that the service accepts. */
 export enum KnownWindowsOsState {
@@ -2171,6 +3582,27 @@ export enum KnownTransportProtocol {
  */
 export type TransportProtocol = string;
 
+/** Known values of {@link VirtualMachineCreationSource} that the service accepts. */
+export enum KnownVirtualMachineCreationSource {
+  /** FromCustomImage */
+  FromCustomImage = "FromCustomImage",
+  /** FromGalleryImage */
+  FromGalleryImage = "FromGalleryImage",
+  /** FromSharedGalleryImage */
+  FromSharedGalleryImage = "FromSharedGalleryImage"
+}
+
+/**
+ * Defines values for VirtualMachineCreationSource. \
+ * {@link KnownVirtualMachineCreationSource} can be used interchangeably with VirtualMachineCreationSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FromCustomImage** \
+ * **FromGalleryImage** \
+ * **FromSharedGalleryImage**
+ */
+export type VirtualMachineCreationSource = string;
+
 /** Known values of {@link HostCachingOptions} that the service accepts. */
 export enum KnownHostCachingOptions {
   /** None */
@@ -2192,12 +3624,28 @@ export enum KnownHostCachingOptions {
  */
 export type HostCachingOptions = string;
 
+/** Known values of {@link SecurityTypes} that the service accepts. */
+export enum KnownSecurityTypes {
+  /** TrustedLaunch */
+  TrustedLaunch = "TrustedLaunch",
+  /** ConfidentialVM */
+  ConfidentialVM = "ConfidentialVM"
+}
+
+/**
+ * Defines values for SecurityTypes. \
+ * {@link KnownSecurityTypes} can be used interchangeably with SecurityTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TrustedLaunch** \
+ * **ConfidentialVM**
+ */
+export type SecurityTypes = string;
+
 /** Known values of {@link NotificationChannelEventType} that the service accepts. */
 export enum KnownNotificationChannelEventType {
   /** AutoShutdown */
-  AutoShutdown = "AutoShutdown",
-  /** Cost */
-  Cost = "Cost"
+  AutoShutdown = "AutoShutdown"
 }
 
 /**
@@ -2205,8 +3653,7 @@ export enum KnownNotificationChannelEventType {
  * {@link KnownNotificationChannelEventType} can be used interchangeably with NotificationChannelEventType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AutoShutdown** \
- * **Cost**
+ * **AutoShutdown**
  */
 export type NotificationChannelEventType = string;
 
@@ -2244,8 +3691,6 @@ export enum KnownPolicyFactName {
   GalleryImage = "GalleryImage",
   /** UserOwnedLabVmCountInSubnet */
   UserOwnedLabVmCountInSubnet = "UserOwnedLabVmCountInSubnet",
-  /** LabTargetCost */
-  LabTargetCost = "LabTargetCost",
   /** EnvironmentTemplate */
   EnvironmentTemplate = "EnvironmentTemplate",
   /** ScheduleEditPermission */
@@ -2264,7 +3709,6 @@ export enum KnownPolicyFactName {
  * **LabVmSize** \
  * **GalleryImage** \
  * **UserOwnedLabVmCountInSubnet** \
- * **LabTargetCost** \
  * **EnvironmentTemplate** \
  * **ScheduleEditPermission**
  */
@@ -2288,50 +3732,80 @@ export enum KnownPolicyEvaluatorType {
  */
 export type PolicyEvaluatorType = string;
 
-/** Known values of {@link ManagedIdentityType} that the service accepts. */
-export enum KnownManagedIdentityType {
-  /** None */
-  None = "None",
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+/** Known values of {@link EnableState} that the service accepts. */
+export enum KnownEnableState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
 }
 
 /**
- * Defines values for ManagedIdentityType. \
- * {@link KnownManagedIdentityType} can be used interchangeably with ManagedIdentityType,
+ * Defines values for EnableState. \
+ * {@link KnownEnableState} can be used interchangeably with EnableState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned,UserAssigned**
+ * **Disabled** \
+ * **Enabled**
  */
-export type ManagedIdentityType = string;
+export type EnableState = string;
 
-/** Known values of {@link VirtualMachineCreationSource} that the service accepts. */
-export enum KnownVirtualMachineCreationSource {
-  /** FromCustomImage */
-  FromCustomImage = "FromCustomImage",
-  /** FromGalleryImage */
-  FromGalleryImage = "FromGalleryImage",
-  /** FromSharedGalleryImage */
-  FromSharedGalleryImage = "FromSharedGalleryImage"
+/** Known values of {@link OsType} that the service accepts. */
+export enum KnownOsType {
+  /** Windows */
+  Windows = "Windows",
+  /** Linux */
+  Linux = "Linux"
 }
 
 /**
- * Defines values for VirtualMachineCreationSource. \
- * {@link KnownVirtualMachineCreationSource} can be used interchangeably with VirtualMachineCreationSource,
+ * Defines values for OsType. \
+ * {@link KnownOsType} can be used interchangeably with OsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **FromCustomImage** \
- * **FromGalleryImage** \
- * **FromSharedGalleryImage**
+ * **Windows** \
+ * **Linux**
  */
-export type VirtualMachineCreationSource = string;
+export type OsType = string;
+
+/** Known values of {@link ImageType} that the service accepts. */
+export enum KnownImageType {
+  /** Generalized */
+  Generalized = "Generalized",
+  /** Specialized */
+  Specialized = "Specialized"
+}
+
+/**
+ * Defines values for ImageType. \
+ * {@link KnownImageType} can be used interchangeably with ImageType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Generalized** \
+ * **Specialized**
+ */
+export type ImageType = string;
+
+/** Known values of {@link StorageTypes} that the service accepts. */
+export enum KnownStorageTypes {
+  /** Standard */
+  Standard = "Standard",
+  /** Premium */
+  Premium = "Premium",
+  /** StandardSSD */
+  StandardSSD = "StandardSSD"
+}
+
+/**
+ * Defines values for StorageTypes. \
+ * {@link KnownStorageTypes} can be used interchangeably with StorageTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard** \
+ * **Premium** \
+ * **StandardSSD**
+ */
+export type StorageTypes = string;
 
 /** Known values of {@link UsagePermissionType} that the service accepts. */
 export enum KnownUsagePermissionType {
@@ -2373,7 +3847,7 @@ export interface LabsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2389,7 +3863,7 @@ export interface LabsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2454,6 +3928,10 @@ export interface LabsCreateEnvironmentOptionalParams
 }
 
 /** Optional parameters. */
+export interface LabsEnsureCurrentUserProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface LabsExportResourceUsageOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -2487,32 +3965,14 @@ export type LabsListVhdsResponse = LabVhdList;
 
 /** Optional parameters. */
 export interface LabsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type LabsListBySubscriptionNextResponse = LabList;
 
 /** Optional parameters. */
 export interface LabsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type LabsListByResourceGroupNextResponse = LabList;
@@ -2536,7 +3996,7 @@ export interface GlobalSchedulesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=status)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2552,7 +4012,7 @@ export interface GlobalSchedulesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=status)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2611,32 +4071,14 @@ export interface GlobalSchedulesRetargetOptionalParams
 
 /** Optional parameters. */
 export interface GlobalSchedulesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type GlobalSchedulesListBySubscriptionNextResponse = ScheduleList;
 
 /** Optional parameters. */
 export interface GlobalSchedulesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type GlobalSchedulesListByResourceGroupNextResponse = ScheduleList;
@@ -2646,7 +4088,7 @@ export interface ArtifactSourcesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=displayName)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2687,16 +4129,7 @@ export type ArtifactSourcesUpdateResponse = ArtifactSource;
 
 /** Optional parameters. */
 export interface ArtifactSourcesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ArtifactSourcesListNextResponse = ArtifactSourceList;
@@ -2706,7 +4139,7 @@ export interface ArmTemplatesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=displayName)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2729,16 +4162,7 @@ export type ArmTemplatesGetResponse = ArmTemplate;
 
 /** Optional parameters. */
 export interface ArmTemplatesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ArmTemplatesListNextResponse = ArmTemplateList;
@@ -2748,7 +4172,7 @@ export interface ArtifactsListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=title)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2778,42 +4202,17 @@ export type ArtifactsGenerateArmTemplateResponse = ArmTemplateInfo;
 
 /** Optional parameters. */
 export interface ArtifactsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=title)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ArtifactsListNextResponse = ArtifactList;
-
-/** Optional parameters. */
-export interface CostsGetOptionalParams extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($expand=labCostDetails)' */
-  expand?: string;
-}
-
-/** Contains response data for the get operation. */
-export type CostsGetResponse = LabCost;
-
-/** Optional parameters. */
-export interface CostsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type CostsCreateOrUpdateResponse = LabCost;
 
 /** Optional parameters. */
 export interface CustomImagesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=vm)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2864,16 +4263,7 @@ export type CustomImagesUpdateResponse = CustomImage;
 
 /** Optional parameters. */
 export interface CustomImagesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=vm)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CustomImagesListNextResponse = CustomImageList;
@@ -2883,7 +4273,7 @@ export interface FormulasListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=description)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2928,16 +4318,7 @@ export type FormulasUpdateResponse = Formula;
 
 /** Optional parameters. */
 export interface FormulasListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=description)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FormulasListNextResponse = FormulaList;
@@ -2947,7 +4328,7 @@ export interface GalleryImagesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=author)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -2959,17 +4340,15 @@ export interface GalleryImagesListOptionalParams
 export type GalleryImagesListResponse = GalleryImageList;
 
 /** Optional parameters. */
+export interface GalleryImagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GalleryImagesGetResponse = GalleryImage;
+
+/** Optional parameters. */
 export interface GalleryImagesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=author)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GalleryImagesListNextResponse = GalleryImageList;
@@ -2979,7 +4358,7 @@ export interface NotificationChannelsListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=webHookUrl)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3024,10 +4403,15 @@ export interface NotificationChannelsNotifyOptionalParams
 
 /** Optional parameters. */
 export interface NotificationChannelsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type NotificationChannelsListNextResponse = NotificationChannelList;
+
+/** Optional parameters. */
+export interface PolicySetsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=webHookUrl)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3035,8 +4419,8 @@ export interface NotificationChannelsListNextOptionalParams
   orderby?: string;
 }
 
-/** Contains response data for the listNext operation. */
-export type NotificationChannelsListNextResponse = NotificationChannelList;
+/** Contains response data for the list operation. */
+export type PolicySetsListResponse = PolicySetList;
 
 /** Optional parameters. */
 export interface PolicySetsEvaluatePoliciesOptionalParams
@@ -3046,11 +4430,18 @@ export interface PolicySetsEvaluatePoliciesOptionalParams
 export type PolicySetsEvaluatePoliciesResponse = EvaluatePoliciesResponse;
 
 /** Optional parameters. */
+export interface PolicySetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PolicySetsListNextResponse = PolicySetList;
+
+/** Optional parameters. */
 export interface PoliciesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=description)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3090,16 +4481,7 @@ export type PoliciesUpdateResponse = Policy;
 
 /** Optional parameters. */
 export interface PoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=description)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PoliciesListNextResponse = PolicyList;
@@ -3109,7 +4491,7 @@ export interface SchedulesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=status)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3166,16 +4548,7 @@ export type SchedulesListApplicableResponse = ScheduleList;
 
 /** Optional parameters. */
 export interface SchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SchedulesListNextResponse = ScheduleList;
@@ -3186,6 +4559,81 @@ export interface SchedulesListApplicableNextOptionalParams
 
 /** Contains response data for the listApplicableNext operation. */
 export type SchedulesListApplicableNextResponse = ScheduleList;
+
+/** Optional parameters. */
+export interface LabSecretsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
+  filter?: string;
+  /** The maximum number of resources to return from the operation. Example: '$top=10' */
+  top?: number;
+  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
+  orderby?: string;
+}
+
+/** Contains response data for the list operation. */
+export type LabSecretsListResponse = LabSecretList;
+
+/** Optional parameters. */
+export interface LabSecretsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LabSecretsGetResponse = LabSecret;
+
+/** Optional parameters. */
+export interface LabSecretsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type LabSecretsCreateOrUpdateResponse = LabSecret;
+
+/** Optional parameters. */
+export interface LabSecretsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface LabSecretsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type LabSecretsUpdateResponse = LabSecret;
+
+/** Optional parameters. */
+export interface LabSecretsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type LabSecretsListNextResponse = LabSecretList;
+
+/** Optional parameters. */
+export interface ServiceRunnersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
+  filter?: string;
+  /** The maximum number of resources to return from the operation. Example: '$top=10' */
+  top?: number;
+  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
+  orderby?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ServiceRunnersListResponse = ServiceRunnerList;
 
 /** Optional parameters. */
 export interface ServiceRunnersGetOptionalParams
@@ -3203,13 +4651,127 @@ export type ServiceRunnersCreateOrUpdateResponse = ServiceRunner;
 
 /** Optional parameters. */
 export interface ServiceRunnersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServiceRunnersListNextOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ServiceRunnersListNextResponse = ServiceRunnerList;
+
+/** Optional parameters. */
+export interface SharedGalleriesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify the $expand query. Example: 'properties($select=identity)' */
+  expand?: string;
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
+  filter?: string;
+  /** The maximum number of resources to return from the operation. Example: '$top=10' */
+  top?: number;
+  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
+  orderby?: string;
+}
+
+/** Contains response data for the list operation. */
+export type SharedGalleriesListResponse = SharedGalleryList;
+
+/** Optional parameters. */
+export interface SharedGalleriesGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify the $expand query. Example: 'properties($select=identity)' */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type SharedGalleriesGetResponse = SharedGallery;
+
+/** Optional parameters. */
+export interface SharedGalleriesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SharedGalleriesCreateOrUpdateResponse = SharedGallery;
+
+/** Optional parameters. */
+export interface SharedGalleriesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SharedGalleriesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SharedGalleriesUpdateResponse = SharedGallery;
+
+/** Optional parameters. */
+export interface SharedGalleriesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SharedGalleriesListNextResponse = SharedGalleryList;
+
+/** Optional parameters. */
+export interface SharedImagesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify the $expand query. Example: 'properties($expand=versions)' */
+  expand?: string;
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
+  filter?: string;
+  /** The maximum number of resources to return from the operation. Example: '$top=10' */
+  top?: number;
+  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
+  orderby?: string;
+}
+
+/** Contains response data for the list operation. */
+export type SharedImagesListResponse = SharedImageList;
+
+/** Optional parameters. */
+export interface SharedImagesGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify the $expand query. Example: 'properties($expand=versions)' */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type SharedImagesGetResponse = SharedImage;
+
+/** Optional parameters. */
+export interface SharedImagesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SharedImagesCreateOrUpdateResponse = SharedImage;
+
+/** Optional parameters. */
+export interface SharedImagesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SharedImagesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SharedImagesUpdateResponse = SharedImage;
+
+/** Optional parameters. */
+export interface SharedImagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SharedImagesListNextResponse = SharedImageList;
 
 /** Optional parameters. */
 export interface UsersListOptionalParams extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=identity)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3232,6 +4794,8 @@ export type UsersGetResponse = User;
 /** Optional parameters. */
 export interface UsersCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  /** Profile of a lab user. */
+  user?: User;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3258,16 +4822,7 @@ export type UsersUpdateResponse = User;
 
 /** Optional parameters. */
 export interface UsersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=identity)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsersListNextResponse = UserList;
@@ -3276,7 +4831,7 @@ export type UsersListNextResponse = UserList;
 export interface DisksListOptionalParams extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=diskType)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3341,16 +4896,7 @@ export interface DisksDetachOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface DisksListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=diskType)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DisksListNextResponse = DiskList;
@@ -3360,7 +4906,7 @@ export interface EnvironmentsListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=deploymentProperties)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3411,16 +4957,7 @@ export type EnvironmentsUpdateResponse = DtlEnvironment;
 
 /** Optional parameters. */
 export interface EnvironmentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=deploymentProperties)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EnvironmentsListNextResponse = DtlEnvironmentList;
@@ -3429,7 +4966,7 @@ export type EnvironmentsListNextResponse = DtlEnvironmentList;
 export interface SecretsListOptionalParams extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=value)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3474,16 +5011,7 @@ export type SecretsUpdateResponse = Secret;
 
 /** Optional parameters. */
 export interface SecretsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=value)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecretsListNextResponse = SecretList;
@@ -3493,7 +5021,7 @@ export interface ServiceFabricsListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($expand=applicableSchedule)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3569,16 +5097,7 @@ export interface ServiceFabricsStopOptionalParams
 
 /** Optional parameters. */
 export interface ServiceFabricsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($expand=applicableSchedule)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServiceFabricsListNextResponse = ServiceFabricList;
@@ -3588,7 +5107,7 @@ export interface ServiceFabricSchedulesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=status)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3638,16 +5157,7 @@ export interface ServiceFabricSchedulesExecuteOptionalParams
 
 /** Optional parameters. */
 export interface ServiceFabricSchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServiceFabricSchedulesListNextResponse = ScheduleList;
@@ -3657,7 +5167,7 @@ export interface VirtualMachinesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($expand=artifacts,computeVm,networkInterface,applicableSchedule)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3732,6 +5242,10 @@ export interface VirtualMachinesClaimOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface VirtualMachinesClearArtifactResultsOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface VirtualMachinesDetachDataDiskOptionalParams
@@ -3821,16 +5335,7 @@ export interface VirtualMachinesUnClaimOptionalParams
 
 /** Optional parameters. */
 export interface VirtualMachinesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($expand=artifacts,computeVm,networkInterface,applicableSchedule)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachinesListNextResponse = LabVirtualMachineList;
@@ -3840,7 +5345,7 @@ export interface VirtualMachineSchedulesListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($select=status)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3890,16 +5395,7 @@ export interface VirtualMachineSchedulesExecuteOptionalParams
 
 /** Optional parameters. */
 export interface VirtualMachineSchedulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($select=status)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  filter?: string;
-  /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  top?: number;
-  /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachineSchedulesListNextResponse = ScheduleList;
@@ -3909,7 +5405,7 @@ export interface VirtualNetworksListOptionalParams
   extends coreClient.OperationOptions {
   /** Specify the $expand query. Example: 'properties($expand=externalSubnets)' */
   expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3960,10 +5456,15 @@ export type VirtualNetworksUpdateResponse = VirtualNetwork;
 
 /** Optional parameters. */
 export interface VirtualNetworksListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VirtualNetworksListNextResponse = VirtualNetworkList;
+
+/** Optional parameters. */
+export interface BastionHostsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Specify the $expand query. Example: 'properties($expand=externalSubnets)' */
-  expand?: string;
-  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
+  /** The filter to apply to the operation. Example: '$filter=contains(name,'myName')' */
   filter?: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
   top?: number;
@@ -3971,8 +5472,50 @@ export interface VirtualNetworksListNextOptionalParams
   orderby?: string;
 }
 
+/** Contains response data for the list operation. */
+export type BastionHostsListResponse = BastionHostList;
+
+/** Optional parameters. */
+export interface BastionHostsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BastionHostsGetResponse = BastionHost;
+
+/** Optional parameters. */
+export interface BastionHostsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BastionHostsCreateOrUpdateResponse = BastionHost;
+
+/** Optional parameters. */
+export interface BastionHostsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface BastionHostsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type BastionHostsUpdateResponse = BastionHost;
+
+/** Optional parameters. */
+export interface BastionHostsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listNext operation. */
-export type VirtualNetworksListNextResponse = VirtualNetworkList;
+export type BastionHostsListNextResponse = BastionHostList;
 
 /** Optional parameters. */
 export interface DevTestLabsClientOptionalParams

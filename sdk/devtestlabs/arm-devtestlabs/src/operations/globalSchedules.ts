@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Schedule,
   GlobalSchedulesListBySubscriptionNextOptionalParams,
@@ -107,7 +111,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * List schedules in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -189,7 +193,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * List schedules in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -204,7 +208,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * Get schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the schedule.
    * @param options The options parameters.
    */
@@ -221,7 +225,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * Create or replace an existing schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param options The options parameters.
@@ -240,7 +244,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * Delete schedule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the schedule.
    * @param options The options parameters.
    */
@@ -257,9 +261,9 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * Allows modifying tags of schedules. All other properties will be ignored.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -276,7 +280,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the schedule.
    * @param options The options parameters.
    */
@@ -284,14 +288,14 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
     resourceGroupName: string,
     name: string,
     options?: GlobalSchedulesExecuteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -324,14 +328,15 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, options },
-      executeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: executeOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -339,7 +344,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the schedule.
    * @param options The options parameters.
    */
@@ -354,7 +359,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * Updates a schedule's target resource Id. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the schedule.
    * @param retargetScheduleProperties Properties for retargeting a virtual machine schedule.
    * @param options The options parameters.
@@ -364,14 +369,14 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
     name: string,
     retargetScheduleProperties: RetargetScheduleProperties,
     options?: GlobalSchedulesRetargetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -404,14 +409,15 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, retargetScheduleProperties, options },
-      retargetOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, retargetScheduleProperties, options },
+      spec: retargetOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;
@@ -419,7 +425,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * Updates a schedule's target resource Id. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the schedule.
    * @param retargetScheduleProperties Properties for retargeting a virtual machine schedule.
    * @param options The options parameters.
@@ -456,7 +462,7 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -677,13 +683,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -703,13 +702,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

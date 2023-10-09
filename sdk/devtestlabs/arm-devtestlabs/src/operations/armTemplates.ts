@@ -38,7 +38,7 @@ export class ArmTemplatesImpl implements ArmTemplates {
 
   /**
    * List azure resource manager templates in a given artifact source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param options The options parameters.
@@ -131,7 +131,7 @@ export class ArmTemplatesImpl implements ArmTemplates {
 
   /**
    * List azure resource manager templates in a given artifact source.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param options The options parameters.
@@ -150,7 +150,7 @@ export class ArmTemplatesImpl implements ArmTemplates {
 
   /**
    * Get azure resource manager template.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param name The name of the azure resource manager template.
@@ -171,7 +171,7 @@ export class ArmTemplatesImpl implements ArmTemplates {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab.
    * @param artifactSourceName The name of the artifact source.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -257,13 +257,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

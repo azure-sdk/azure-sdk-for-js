@@ -6,18 +6,61 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface ApplicableSchedule extends Resource {
-    labVmsShutdown?: Schedule;
-    labVmsStartup?: Schedule;
-}
-
-// @public
-export interface ApplicableScheduleFragment extends UpdateResource {
+    readonly createdDatePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    emailRecipientPropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+    readonly idPropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesLabVmsStartupId?: string;
+    locationPropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesLabVmsStartupLocation?: string;
+    minutePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+    readonly namePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesLabVmsStartupName?: string;
+    notificationLocalePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    readonly provisioningStatePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    statusPropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesLabVmsStartupSystemData?: SystemData;
+    tagsPropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    readonly typePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesLabVmsStartupType?: string;
+    readonly uniqueIdentifierPropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    webhookUrlPropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
 }
 
 // @public
@@ -35,6 +78,7 @@ export interface ArmTemplate extends Resource {
     readonly icon?: string;
     readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
     readonly publisher?: string;
+    readonly systemData?: SystemData;
 }
 
 // @public
@@ -71,10 +115,6 @@ export type ArmTemplatesGetResponse = ArmTemplate;
 
 // @public
 export interface ArmTemplatesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -99,15 +139,9 @@ export interface Artifact extends Resource {
     readonly icon?: string;
     readonly parameters?: Record<string, unknown>;
     readonly publisher?: string;
+    readonly systemData?: SystemData;
     readonly targetOsType?: string;
     readonly title?: string;
-}
-
-// @public
-export interface ArtifactDeploymentStatusProperties {
-    artifactsApplied?: number;
-    deploymentStatus?: string;
-    totalArtifacts?: number;
 }
 
 // @public
@@ -157,10 +191,6 @@ export type ArtifactsGetResponse = Artifact;
 
 // @public
 export interface ArtifactsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -188,6 +218,7 @@ export interface ArtifactSource extends Resource {
     securityToken?: string;
     sourceType?: SourceControlType;
     status?: EnableStatus;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
     uri?: string;
 }
@@ -232,10 +263,6 @@ export type ArtifactSourcesGetResponse = ArtifactSource;
 
 // @public
 export interface ArtifactSourcesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -265,16 +292,88 @@ export interface AttachDiskProperties {
 }
 
 // @public
-export interface AttachNewDataDiskOptions {
-    diskName?: string;
-    diskSizeGiB?: number;
-    diskType?: StorageType;
+export interface BastionHost extends Resource {
+    readonly externalBastionHostId?: string;
+    readonly ipAddressId?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
 }
 
 // @public
-export interface BulkCreationParameters {
-    instanceCount?: number;
+export interface BastionHostFragment extends UpdateResource {
 }
+
+// @public
+export interface BastionHostList {
+    nextLink?: string;
+    value?: BastionHost[];
+}
+
+// @public
+export interface BastionHosts {
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, bastionHost: BastionHost, options?: BastionHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BastionHostsCreateOrUpdateResponse>, BastionHostsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, bastionHost: BastionHost, options?: BastionHostsCreateOrUpdateOptionalParams): Promise<BastionHostsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, options?: BastionHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, options?: BastionHostsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, options?: BastionHostsGetOptionalParams): Promise<BastionHostsGetResponse>;
+    list(resourceGroupName: string, labName: string, virtualNetworkName: string, options?: BastionHostsListOptionalParams): PagedAsyncIterableIterator<BastionHost>;
+    update(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, bastionHost: BastionHostFragment, options?: BastionHostsUpdateOptionalParams): Promise<BastionHostsUpdateResponse>;
+}
+
+// @public
+export interface BastionHostsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BastionHostsCreateOrUpdateResponse = BastionHost;
+
+// @public
+export interface BastionHostsDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BastionHostsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BastionHostsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BastionHostsGetResponse = BastionHost;
+
+// @public
+export interface BastionHostsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BastionHostsListNextResponse = BastionHostList;
+
+// @public
+export interface BastionHostsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type BastionHostsListResponse = BastionHostList;
+
+// @public
+export interface BastionHostsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BastionHostsUpdateResponse = BastionHost;
 
 // @public
 export interface CloudError {
@@ -305,66 +404,29 @@ export interface ComputeVmInstanceViewStatus {
 }
 
 // @public
-export interface ComputeVmProperties {
-    dataDiskIds?: string[];
-    dataDisks?: ComputeDataDisk[];
-    networkInterfaceId?: string;
-    osDiskId?: string;
-    osType?: string;
-    statuses?: ComputeVmInstanceViewStatus[];
-    vmSize?: string;
-}
-
-// @public
-export interface Costs {
-    createOrUpdate(resourceGroupName: string, labName: string, name: string, labCost: LabCost, options?: CostsCreateOrUpdateOptionalParams): Promise<CostsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, labName: string, name: string, options?: CostsGetOptionalParams): Promise<CostsGetResponse>;
-}
-
-// @public
-export interface CostsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CostsCreateOrUpdateResponse = LabCost;
-
-// @public
-export interface CostsGetOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-}
-
-// @public
-export type CostsGetResponse = LabCost;
-
-// @public
-export interface CostThresholdProperties {
-    displayOnChart?: CostThresholdStatus;
-    notificationSent?: string;
-    percentageThreshold?: PercentageCostThresholdProperties;
-    sendNotificationWhenExceeded?: CostThresholdStatus;
-    thresholdId?: string;
-}
-
-// @public
-export type CostThresholdStatus = string;
-
-// @public
-export type CostType = string;
+export type CreatedByType = string;
 
 // @public
 export interface CustomImage extends Resource {
     author?: string;
     readonly creationDate?: Date;
-    customImagePlan?: CustomImagePropertiesFromPlan;
     dataDiskStorageInfo?: DataDiskStorageTypeInfo[];
     description?: string;
+    idPropertiesCustomImagePlanId?: string;
+    imageName?: string;
     isPlanAuthorized?: boolean;
+    linuxOsState?: LinuxOsState;
     managedImageId?: string;
     managedSnapshotId?: string;
+    offer?: string;
+    osType?: CustomImageOsType;
     readonly provisioningState?: string;
+    publisher?: string;
+    sourceVmId?: string;
+    sysPrep?: boolean;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
-    vhd?: CustomImagePropertiesCustom;
-    vm?: CustomImagePropertiesFromVm;
+    windowsOsState?: WindowsOsState;
 }
 
 // @public
@@ -381,31 +443,17 @@ export interface CustomImageList {
 export type CustomImageOsType = string;
 
 // @public
-export interface CustomImagePropertiesCustom {
-    imageName?: string;
-    osType: CustomImageOsType;
-    sysPrep?: boolean;
-}
-
-// @public
-export interface CustomImagePropertiesFromPlan {
+export interface CustomImagePropertiesFromPlanFragment {
     id?: string;
     offer?: string;
     publisher?: string;
 }
 
 // @public
-export interface CustomImagePropertiesFromVm {
-    linuxOsInfo?: LinuxOsInfo;
-    sourceVmId?: string;
-    windowsOsInfo?: WindowsOsInfo;
-}
-
-// @public
 export interface CustomImages {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, customImage: CustomImage, options?: CustomImagesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CustomImagesCreateOrUpdateResponse>, CustomImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, customImage: CustomImage, options?: CustomImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CustomImagesCreateOrUpdateResponse>, CustomImagesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, customImage: CustomImage, options?: CustomImagesCreateOrUpdateOptionalParams): Promise<CustomImagesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, name: string, options?: CustomImagesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: CustomImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: CustomImagesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: CustomImagesGetOptionalParams): Promise<CustomImagesGetResponse>;
     list(resourceGroupName: string, labName: string, options?: CustomImagesListOptionalParams): PagedAsyncIterableIterator<CustomImage>;
@@ -420,6 +468,14 @@ export interface CustomImagesCreateOrUpdateOptionalParams extends coreClient.Ope
 
 // @public
 export type CustomImagesCreateOrUpdateResponse = CustomImage;
+
+// @public
+export interface CustomImagesDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface CustomImagesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -437,10 +493,6 @@ export type CustomImagesGetResponse = CustomImage;
 
 // @public
 export interface CustomImagesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -466,7 +518,9 @@ export type CustomImagesUpdateResponse = CustomImage;
 
 // @public
 export interface DataDiskProperties {
-    attachNewDataDiskOptions?: AttachNewDataDiskOptions;
+    diskName?: string;
+    diskSizeGiB?: number;
+    diskType?: StorageType;
     existingLabDiskId?: string;
     hostCaching?: HostCachingOptions;
 }
@@ -475,11 +529,6 @@ export interface DataDiskProperties {
 export interface DataDiskStorageTypeInfo {
     lun?: string;
     storageType?: StorageType;
-}
-
-// @public
-export interface DayDetails {
-    time?: string;
 }
 
 // @public
@@ -497,6 +546,7 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DevTestLabsClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: DevTestLabsClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -506,7 +556,7 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     // (undocumented)
     artifactSources: ArtifactSources;
     // (undocumented)
-    costs: Costs;
+    bastionHosts: BastionHosts;
     // (undocumented)
     customImages: CustomImages;
     // (undocumented)
@@ -521,6 +571,8 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     globalSchedules: GlobalSchedules;
     // (undocumented)
     labs: Labs;
+    // (undocumented)
+    labSecrets: LabSecrets;
     // (undocumented)
     notificationChannels: NotificationChannels;
     // (undocumented)
@@ -542,7 +594,11 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     // (undocumented)
     serviceRunners: ServiceRunners;
     // (undocumented)
-    subscriptionId: string;
+    sharedGalleries: SharedGalleries;
+    // (undocumented)
+    sharedImages: SharedImages;
+    // (undocumented)
+    subscriptionId?: string;
     // (undocumented)
     users: Users;
     // (undocumented)
@@ -572,6 +628,7 @@ export interface Disk extends Resource {
     managedDiskId?: string;
     readonly provisioningState?: string;
     storageAccountId?: string;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
 }
 
@@ -587,17 +644,25 @@ export interface DiskList {
 
 // @public
 export interface Disks {
-    beginAttach(resourceGroupName: string, labName: string, userName: string, name: string, attachDiskProperties: AttachDiskProperties, options?: DisksAttachOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginAttach(resourceGroupName: string, labName: string, userName: string, name: string, attachDiskProperties: AttachDiskProperties, options?: DisksAttachOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginAttachAndWait(resourceGroupName: string, labName: string, userName: string, name: string, attachDiskProperties: AttachDiskProperties, options?: DisksAttachOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DisksCreateOrUpdateResponse>, DisksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DisksCreateOrUpdateResponse>, DisksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, name: string, disk: Disk, options?: DisksCreateOrUpdateOptionalParams): Promise<DisksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: DisksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: DisksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: DisksDeleteOptionalParams): Promise<void>;
-    beginDetach(resourceGroupName: string, labName: string, userName: string, name: string, detachDiskProperties: DetachDiskProperties, options?: DisksDetachOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDetach(resourceGroupName: string, labName: string, userName: string, name: string, detachDiskProperties: DetachDiskProperties, options?: DisksDetachOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDetachAndWait(resourceGroupName: string, labName: string, userName: string, name: string, detachDiskProperties: DetachDiskProperties, options?: DisksDetachOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, userName: string, name: string, options?: DisksGetOptionalParams): Promise<DisksGetResponse>;
     list(resourceGroupName: string, labName: string, userName: string, options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
     update(resourceGroupName: string, labName: string, userName: string, name: string, disk: DiskFragment, options?: DisksUpdateOptionalParams): Promise<DisksUpdateResponse>;
+}
+
+// @public
+export interface DisksAttachHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -616,9 +681,25 @@ export interface DisksCreateOrUpdateOptionalParams extends coreClient.OperationO
 export type DisksCreateOrUpdateResponse = Disk;
 
 // @public
+export interface DisksDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface DisksDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface DisksDetachHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -637,10 +718,6 @@ export type DisksGetResponse = Disk;
 
 // @public
 export interface DisksListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -667,10 +744,12 @@ export type DisksUpdateResponse = Disk;
 // @public
 export interface DtlEnvironment extends Resource {
     armTemplateDisplayName?: string;
+    armTemplateId?: string;
     readonly createdByUser?: string;
-    deploymentProperties?: EnvironmentDeploymentProperties;
+    parameters?: ArmTemplateParameterProperties[];
     readonly provisioningState?: string;
     readonly resourceGroupId?: string;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
 }
 
@@ -685,22 +764,22 @@ export interface DtlEnvironmentList {
 }
 
 // @public
+export type EnableState = string;
+
+// @public
 export type EnableStatus = string;
 
 // @public
-export interface EnvironmentDeploymentProperties {
-    armTemplateId?: string;
-    parameters?: ArmTemplateParameterProperties[];
-}
+export type EncryptionType = string;
 
 // @public
 export type EnvironmentPermission = string;
 
 // @public
 export interface Environments {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: DtlEnvironment, options?: EnvironmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<EnvironmentsCreateOrUpdateResponse>, EnvironmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: DtlEnvironment, options?: EnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EnvironmentsCreateOrUpdateResponse>, EnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, name: string, dtlEnvironment: DtlEnvironment, options?: EnvironmentsCreateOrUpdateOptionalParams): Promise<EnvironmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: EnvironmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: EnvironmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: EnvironmentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, userName: string, name: string, options?: EnvironmentsGetOptionalParams): Promise<EnvironmentsGetResponse>;
     list(resourceGroupName: string, labName: string, userName: string, options?: EnvironmentsListOptionalParams): PagedAsyncIterableIterator<DtlEnvironment>;
@@ -715,6 +794,14 @@ export interface EnvironmentsCreateOrUpdateOptionalParams extends coreClient.Ope
 
 // @public
 export type EnvironmentsCreateOrUpdateResponse = DtlEnvironment;
+
+// @public
+export interface EnvironmentsDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface EnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -732,10 +819,6 @@ export type EnvironmentsGetResponse = DtlEnvironment;
 
 // @public
 export interface EnvironmentsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -800,14 +883,136 @@ export type FileUploadOptions = string;
 
 // @public
 export interface Formula extends Resource {
+    allowClaim?: boolean;
+    artifacts?: ArtifactInstallProperties[];
+    artifactsApplied?: number;
     readonly author?: string;
+    readonly canApplyArtifacts?: boolean;
+    readonly computeId?: string;
+    readonly createdByUser?: string;
+    readonly createdByUserId?: string;
+    readonly createdDatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    createdDatePropertiesFormulaContentPropertiesCreatedDate?: Date;
     readonly creationDate?: Date;
+    customImageId?: string;
+    dataDiskIds?: string[];
+    dataDiskParameters?: DataDiskProperties[];
+    dataDisks?: ComputeDataDisk[];
+    deploymentStatus?: string;
     description?: string;
-    formulaContent?: LabVirtualMachineCreationParameter;
-    osType?: string;
-    readonly provisioningState?: string;
-    readonly uniqueIdentifier?: string;
-    vm?: FormulaPropertiesFromVm;
+    disallowPublicIpAddress?: boolean;
+    dnsName?: string;
+    emailRecipientPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+    environmentId?: string;
+    expirationDate?: Date;
+    readonly fqdn?: string;
+    galleryImageVersionId?: string;
+    readonly idPropertiesFormulaContentPropertiesApplicableScheduleId?: string;
+    readonly idPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+    inboundNatRules?: InboundNatRule[];
+    instanceCount?: number;
+    isAuthenticationWithSshKey?: boolean;
+    labSubnetName?: string;
+    labVirtualNetworkId?: string;
+    labVmId?: string;
+    readonly lastKnownPowerState?: string;
+    locationPropertiesFormulaContentLocation?: string;
+    locationPropertiesFormulaContentPropertiesApplicableScheduleLocation?: string;
+    locationPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+    minutePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+    namePropertiesFormulaContentName?: string;
+    readonly namePropertiesFormulaContentPropertiesApplicableScheduleName?: string;
+    readonly namePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+    networkInterfaceId?: string;
+    notes?: string;
+    notificationLocalePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    offer?: string;
+    osDiskId?: string;
+    osDiskSizeGb?: number;
+    osTypePropertiesFormulaContentPropertiesComputeVmOsType?: string;
+    osTypePropertiesFormulaContentPropertiesGalleryImageReferenceOsType?: string;
+    readonly osTypePropertiesFormulaContentPropertiesOsType?: string;
+    osTypePropertiesOsType?: string;
+    ownerObjectId?: string;
+    ownerUserPrincipalName?: string;
+    password?: string;
+    planId?: string;
+    privateIpAddress?: string;
+    readonly provisioningStatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesFormulaContentPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    publicIpAddress?: string;
+    publicIpAddressId?: string;
+    publisher?: string;
+    rdpAuthority?: string;
+    scheduleParameters?: ScheduleCreationParameter[];
+    securityProfile?: SecurityProfile;
+    sharedImageId?: string;
+    sharedImageVersion?: string;
+    size?: string;
+    sku?: string;
+    sshAuthority?: string;
+    sshKey?: string;
+    statuses?: ComputeVmInstanceViewStatus[];
+    statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    storageType?: StorageType;
+    subnetId?: string;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+    readonly systemDataPropertiesFormulaContentPropertiesApplicableScheduleSystemData?: SystemData;
+    tagsPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesFormulaContentPropertiesApplicableScheduleTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesFormulaContentTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    totalArtifacts?: number;
+    readonly typePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+    readonly typePropertiesFormulaContentPropertiesApplicableScheduleType?: string;
+    readonly uniqueIdentifierPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesFormulaContentPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+    userName?: string;
+    version?: string;
+    readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
+    virtualNetworkId?: string;
+    vmSize?: string;
+    webhookUrlPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
 }
 
 // @public
@@ -821,13 +1026,8 @@ export interface FormulaList {
 }
 
 // @public
-export interface FormulaPropertiesFromVm {
-    labVmId?: string;
-}
-
-// @public
 export interface Formulas {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, formula: Formula, options?: FormulasCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FormulasCreateOrUpdateResponse>, FormulasCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, formula: Formula, options?: FormulasCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FormulasCreateOrUpdateResponse>, FormulasCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, formula: Formula, options?: FormulasCreateOrUpdateOptionalParams): Promise<FormulasCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, name: string, options?: FormulasDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: FormulasGetOptionalParams): Promise<FormulasGetResponse>;
@@ -858,10 +1058,6 @@ export type FormulasGetResponse = Formula;
 
 // @public
 export interface FormulasListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -892,9 +1088,14 @@ export interface GalleryImage extends Resource {
     description?: string;
     enabled?: boolean;
     icon?: string;
-    imageReference?: GalleryImageReference;
     isPlanAuthorized?: boolean;
+    offer?: string;
+    osType?: string;
     planId?: string;
+    publisher?: string;
+    sku?: string;
+    readonly systemData?: SystemData;
+    version?: string;
 }
 
 // @public
@@ -904,25 +1105,20 @@ export interface GalleryImageList {
 }
 
 // @public
-export interface GalleryImageReference {
-    offer?: string;
-    osType?: string;
-    publisher?: string;
-    sku?: string;
-    version?: string;
-}
-
-// @public
 export interface GalleryImages {
+    get(resourceGroupName: string, labName: string, name: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImagesGetResponse>;
     list(resourceGroupName: string, labName: string, options?: GalleryImagesListOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
 }
 
 // @public
+export interface GalleryImagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryImagesGetResponse = GalleryImage;
+
+// @public
 export interface GalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -962,9 +1158,9 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GlobalSchedules {
-    beginExecute(resourceGroupName: string, name: string, options?: GlobalSchedulesExecuteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecute(resourceGroupName: string, name: string, options?: GlobalSchedulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteAndWait(resourceGroupName: string, name: string, options?: GlobalSchedulesExecuteOptionalParams): Promise<void>;
-    beginRetarget(resourceGroupName: string, name: string, retargetScheduleProperties: RetargetScheduleProperties, options?: GlobalSchedulesRetargetOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRetarget(resourceGroupName: string, name: string, retargetScheduleProperties: RetargetScheduleProperties, options?: GlobalSchedulesRetargetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRetargetAndWait(resourceGroupName: string, name: string, retargetScheduleProperties: RetargetScheduleProperties, options?: GlobalSchedulesRetargetOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, name: string, schedule: Schedule, options?: GlobalSchedulesCreateOrUpdateOptionalParams): Promise<GlobalSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, name: string, options?: GlobalSchedulesDeleteOptionalParams): Promise<void>;
@@ -986,6 +1182,14 @@ export interface GlobalSchedulesDeleteOptionalParams extends coreClient.Operatio
 }
 
 // @public
+export interface GlobalSchedulesExecuteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface GlobalSchedulesExecuteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1001,10 +1205,6 @@ export type GlobalSchedulesGetResponse = Schedule;
 
 // @public
 export interface GlobalSchedulesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1023,10 +1223,6 @@ export type GlobalSchedulesListByResourceGroupResponse = ScheduleList;
 
 // @public
 export interface GlobalSchedulesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1042,6 +1238,14 @@ export interface GlobalSchedulesListBySubscriptionOptionalParams extends coreCli
 
 // @public
 export type GlobalSchedulesListBySubscriptionResponse = ScheduleList;
+
+// @public
+export interface GlobalSchedulesRetargetHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface GlobalSchedulesRetargetOptionalParams extends coreClient.OperationOptions {
@@ -1060,11 +1264,6 @@ export type GlobalSchedulesUpdateResponse = Schedule;
 export type HostCachingOptions = string;
 
 // @public
-export interface HourDetails {
-    minute?: number;
-}
-
-// @public
 export type HttpStatusCode = string;
 
 // @public
@@ -1073,6 +1272,17 @@ export interface IdentityProperties {
     principalId?: string;
     tenantId?: string;
     type?: ManagedIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+}
+
+// @public
+export type ImageType = string;
+
+// @public
+export interface ImageVersionProperties {
+    name?: string;
 }
 
 // @public
@@ -1089,16 +1299,11 @@ export interface InboundNatRule {
 }
 
 // @public
-export enum KnownCostThresholdStatus {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownCostType {
-    Projected = "Projected",
-    Reported = "Reported",
-    Unavailable = "Unavailable"
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -1109,9 +1314,21 @@ export enum KnownCustomImageOsType {
 }
 
 // @public
+export enum KnownEnableState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownEnableStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEncryptionType {
+    EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
+    EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey"
 }
 
 // @public
@@ -1136,40 +1353,55 @@ export enum KnownHostCachingOptions {
 // @public
 export enum KnownHttpStatusCode {
     Accepted = "Accepted",
+    AlreadyReported = "AlreadyReported",
     Ambiguous = "Ambiguous",
     BadGateway = "BadGateway",
     BadRequest = "BadRequest",
     Conflict = "Conflict",
     Continue = "Continue",
     Created = "Created",
+    EarlyHints = "EarlyHints",
     ExpectationFailed = "ExpectationFailed",
+    FailedDependency = "FailedDependency",
     Forbidden = "Forbidden",
     Found = "Found",
     GatewayTimeout = "GatewayTimeout",
     Gone = "Gone",
     HttpVersionNotSupported = "HttpVersionNotSupported",
+    IMUsed = "IMUsed",
+    InsufficientStorage = "InsufficientStorage",
     InternalServerError = "InternalServerError",
     LengthRequired = "LengthRequired",
+    Locked = "Locked",
+    LoopDetected = "LoopDetected",
     MethodNotAllowed = "MethodNotAllowed",
+    MisdirectedRequest = "MisdirectedRequest",
     Moved = "Moved",
     MovedPermanently = "MovedPermanently",
     MultipleChoices = "MultipleChoices",
+    MultiStatus = "MultiStatus",
+    NetworkAuthenticationRequired = "NetworkAuthenticationRequired",
     NoContent = "NoContent",
     NonAuthoritativeInformation = "NonAuthoritativeInformation",
     NotAcceptable = "NotAcceptable",
+    NotExtended = "NotExtended",
     NotFound = "NotFound",
     NotImplemented = "NotImplemented",
     NotModified = "NotModified",
     OK = "OK",
     PartialContent = "PartialContent",
     PaymentRequired = "PaymentRequired",
+    PermanentRedirect = "PermanentRedirect",
     PreconditionFailed = "PreconditionFailed",
+    PreconditionRequired = "PreconditionRequired",
+    Processing = "Processing",
     ProxyAuthenticationRequired = "ProxyAuthenticationRequired",
     Redirect = "Redirect",
     RedirectKeepVerb = "RedirectKeepVerb",
     RedirectMethod = "RedirectMethod",
     RequestedRangeNotSatisfiable = "RequestedRangeNotSatisfiable",
     RequestEntityTooLarge = "RequestEntityTooLarge",
+    RequestHeaderFieldsTooLarge = "RequestHeaderFieldsTooLarge",
     RequestTimeout = "RequestTimeout",
     RequestUriTooLong = "RequestUriTooLong",
     ResetContent = "ResetContent",
@@ -1177,11 +1409,21 @@ export enum KnownHttpStatusCode {
     ServiceUnavailable = "ServiceUnavailable",
     SwitchingProtocols = "SwitchingProtocols",
     TemporaryRedirect = "TemporaryRedirect",
+    TooManyRequests = "TooManyRequests",
     Unauthorized = "Unauthorized",
+    UnavailableForLegalReasons = "UnavailableForLegalReasons",
+    UnprocessableEntity = "UnprocessableEntity",
     UnsupportedMediaType = "UnsupportedMediaType",
     Unused = "Unused",
     UpgradeRequired = "UpgradeRequired",
-    UseProxy = "UseProxy"
+    UseProxy = "UseProxy",
+    VariantAlsoNegotiates = "VariantAlsoNegotiates"
+}
+
+// @public
+export enum KnownImageType {
+    Generalized = "Generalized",
+    Specialized = "Specialized"
 }
 
 // @public
@@ -1201,8 +1443,13 @@ export enum KnownManagedIdentityType {
 
 // @public
 export enum KnownNotificationChannelEventType {
-    AutoShutdown = "AutoShutdown",
-    Cost = "Cost"
+    AutoShutdown = "AutoShutdown"
+}
+
+// @public
+export enum KnownOsType {
+    Linux = "Linux",
+    Windows = "Windows"
 }
 
 // @public
@@ -1216,7 +1463,6 @@ export enum KnownPolicyFactName {
     EnvironmentTemplate = "EnvironmentTemplate",
     GalleryImage = "GalleryImage",
     LabPremiumVmCount = "LabPremiumVmCount",
-    LabTargetCost = "LabTargetCost",
     LabVmCount = "LabVmCount",
     LabVmSize = "LabVmSize",
     ScheduleEditPermission = "ScheduleEditPermission",
@@ -1238,9 +1484,9 @@ export enum KnownPremiumDataDisk {
 }
 
 // @public
-export enum KnownReportingCycleType {
-    CalendarMonth = "CalendarMonth",
-    Custom = "Custom"
+export enum KnownSecurityTypes {
+    ConfidentialVM = "ConfidentialVM",
+    TrustedLaunch = "TrustedLaunch"
 }
 
 // @public
@@ -1258,9 +1504,10 @@ export enum KnownStorageType {
 }
 
 // @public
-export enum KnownTargetCostStatus {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
+export enum KnownStorageTypes {
+    Premium = "Premium",
+    Standard = "Standard",
+    StandardSSD = "StandardSSD"
 }
 
 // @public
@@ -1292,65 +1539,52 @@ export enum KnownWindowsOsState {
 
 // @public
 export interface Lab extends Resource {
-    announcement?: LabAnnouncementProperties;
     readonly artifactsStorageAccount?: string;
+    browserConnect?: EnableStatus;
+    clientSecretUrl?: string;
     readonly createdDate?: Date;
     readonly defaultPremiumStorageAccount?: string;
+    defaultSecretName?: string;
     readonly defaultStorageAccount?: string;
+    disableAutoUpgradeCseMinorVersion?: boolean;
+    diskEncryptionSetId?: string;
+    enabledPropertiesAnnouncementEnabled?: EnableStatus;
+    enabledPropertiesSupportEnabled?: EnableStatus;
     environmentPermission?: EnvironmentPermission;
+    expirationDate?: Date;
+    expired?: boolean;
     extendedProperties?: {
         [propertyName: string]: string;
     };
+    isolateLabResources?: EnableStatus;
     labStorageType?: StorageType;
     readonly loadBalancerId?: string;
+    managementIdentities?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
     mandatoryArtifactsResourceIdsLinux?: string[];
     mandatoryArtifactsResourceIdsWindows?: string[];
+    markdownPropertiesAnnouncementMarkdown?: string;
+    markdownPropertiesSupportMarkdown?: string;
     readonly networkSecurityGroupId?: string;
     premiumDataDisks?: PremiumDataDisk;
     readonly premiumDataDiskStorageAccount?: string;
-    readonly provisioningState?: string;
+    principalId?: string;
+    readonly provisioningStatePropertiesAnnouncementProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
     readonly publicIpId?: string;
-    support?: LabSupportProperties;
-    readonly uniqueIdentifier?: string;
+    readonly systemData?: SystemData;
+    tenantId?: string;
+    title?: string;
+    typeIdentityType?: ManagedIdentityType;
+    typePropertiesEncryptionType?: EncryptionType;
+    readonly uniqueIdentifierPropertiesAnnouncementUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+    userAssignedIdentities?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
     readonly vaultName?: string;
     readonly vmCreationResourceGroup?: string;
-}
-
-// @public
-export interface LabAnnouncementProperties {
-    enabled?: EnableStatus;
-    expirationDate?: Date;
-    expired?: boolean;
-    markdown?: string;
-    readonly provisioningState?: string;
-    title?: string;
-    readonly uniqueIdentifier?: string;
-}
-
-// @public
-export interface LabCost extends Resource {
-    createdDate?: Date;
-    currencyCode?: string;
-    endDateTime?: Date;
-    readonly labCostDetails?: LabCostDetailsProperties[];
-    readonly labCostSummary?: LabCostSummaryProperties;
-    readonly provisioningState?: string;
-    readonly resourceCosts?: LabResourceCostProperties[];
-    startDateTime?: Date;
-    targetCost?: TargetCostProperties;
-    readonly uniqueIdentifier?: string;
-}
-
-// @public
-export interface LabCostDetailsProperties {
-    cost?: number;
-    costType?: CostType;
-    date?: Date;
-}
-
-// @public
-export interface LabCostSummaryProperties {
-    estimatedLabCost?: number;
 }
 
 // @public
@@ -1364,32 +1598,20 @@ export interface LabList {
 }
 
 // @public
-export interface LabResourceCostProperties {
-    externalResourceId?: string;
-    resourceCost?: number;
-    resourceId?: string;
-    resourcename?: string;
-    resourceOwner?: string;
-    resourcePricingTier?: string;
-    resourceStatus?: string;
-    resourceType?: string;
-    resourceUId?: string;
-}
-
-// @public
 export interface Labs {
-    beginClaimAnyVm(resourceGroupName: string, name: string, options?: LabsClaimAnyVmOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginClaimAnyVm(resourceGroupName: string, name: string, options?: LabsClaimAnyVmOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginClaimAnyVmAndWait(resourceGroupName: string, name: string, options?: LabsClaimAnyVmOptionalParams): Promise<void>;
-    beginCreateEnvironment(resourceGroupName: string, name: string, labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter, options?: LabsCreateEnvironmentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateEnvironment(resourceGroupName: string, name: string, labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter, options?: LabsCreateEnvironmentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateEnvironmentAndWait(resourceGroupName: string, name: string, labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter, options?: LabsCreateEnvironmentOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, name: string, lab: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LabsCreateOrUpdateResponse>, LabsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, name: string, lab: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LabsCreateOrUpdateResponse>, LabsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, lab: Lab, options?: LabsCreateOrUpdateOptionalParams): Promise<LabsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, name: string, options?: LabsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, name: string, options?: LabsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, name: string, options?: LabsDeleteOptionalParams): Promise<void>;
-    beginExportResourceUsage(resourceGroupName: string, name: string, exportResourceUsageParameters: ExportResourceUsageParameters, options?: LabsExportResourceUsageOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExportResourceUsage(resourceGroupName: string, name: string, exportResourceUsageParameters: ExportResourceUsageParameters, options?: LabsExportResourceUsageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExportResourceUsageAndWait(resourceGroupName: string, name: string, exportResourceUsageParameters: ExportResourceUsageParameters, options?: LabsExportResourceUsageOptionalParams): Promise<void>;
-    beginImportVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: ImportLabVirtualMachineRequest, options?: LabsImportVirtualMachineOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginImportVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: ImportLabVirtualMachineRequest, options?: LabsImportVirtualMachineOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginImportVirtualMachineAndWait(resourceGroupName: string, name: string, importLabVirtualMachineRequest: ImportLabVirtualMachineRequest, options?: LabsImportVirtualMachineOptionalParams): Promise<void>;
+    ensureCurrentUserProfile(resourceGroupName: string, name: string, options?: LabsEnsureCurrentUserProfileOptionalParams): Promise<void>;
     generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: GenerateUploadUriParameter, options?: LabsGenerateUploadUriOptionalParams): Promise<LabsGenerateUploadUriResponse>;
     get(resourceGroupName: string, name: string, options?: LabsGetOptionalParams): Promise<LabsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LabsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Lab>;
@@ -1399,9 +1621,25 @@ export interface Labs {
 }
 
 // @public
+export interface LabsClaimAnyVmHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface LabsClaimAnyVmOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface LabsCreateEnvironmentHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -1420,9 +1658,125 @@ export interface LabsCreateOrUpdateOptionalParams extends coreClient.OperationOp
 export type LabsCreateOrUpdateResponse = Lab;
 
 // @public
+export interface LabsDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface LabsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface LabSecret extends Resource {
+    enabledForArmEnvironments?: boolean;
+    enabledForArtifacts?: boolean;
+    enabledForVmCreation?: boolean;
+    readonly keyVaultEntry?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+    value?: string;
+}
+
+// @public
+export interface LabSecretFragment extends UpdateResource {
+}
+
+// @public
+export interface LabSecretList {
+    nextLink?: string;
+    value?: LabSecret[];
+}
+
+// @public
+export interface LabSecrets {
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, labSecret: LabSecret, options?: LabSecretsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LabSecretsCreateOrUpdateResponse>, LabSecretsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, labSecret: LabSecret, options?: LabSecretsCreateOrUpdateOptionalParams): Promise<LabSecretsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: LabSecretsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: LabSecretsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, labName: string, name: string, secret: SecretFragment, options?: LabSecretsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LabSecretsUpdateResponse>, LabSecretsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, labName: string, name: string, secret: SecretFragment, options?: LabSecretsUpdateOptionalParams): Promise<LabSecretsUpdateResponse>;
+    get(resourceGroupName: string, labName: string, name: string, options?: LabSecretsGetOptionalParams): Promise<LabSecretsGetResponse>;
+    list(resourceGroupName: string, labName: string, options?: LabSecretsListOptionalParams): PagedAsyncIterableIterator<LabSecret>;
+}
+
+// @public
+export interface LabSecretsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LabSecretsCreateOrUpdateResponse = LabSecret;
+
+// @public
+export interface LabSecretsDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface LabSecretsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LabSecretsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LabSecretsGetResponse = LabSecret;
+
+// @public
+export interface LabSecretsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LabSecretsListNextResponse = LabSecretList;
+
+// @public
+export interface LabSecretsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type LabSecretsListResponse = LabSecretList;
+
+// @public
+export interface LabSecretsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface LabSecretsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LabSecretsUpdateResponse = LabSecret;
+
+// @public
+export interface LabsEnsureCurrentUserProfileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface LabsExportResourceUsageHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -1447,6 +1801,14 @@ export interface LabsGetOptionalParams extends coreClient.OperationOptions {
 export type LabsGetResponse = Lab;
 
 // @public
+export interface LabsImportVirtualMachineHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface LabsImportVirtualMachineOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1454,10 +1816,6 @@ export interface LabsImportVirtualMachineOptionalParams extends coreClient.Opera
 
 // @public
 export interface LabsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1476,10 +1834,6 @@ export type LabsListByResourceGroupResponse = LabList;
 
 // @public
 export interface LabsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1518,12 +1872,6 @@ export interface LabsUpdateOptionalParams extends coreClient.OperationOptions {
 export type LabsUpdateResponse = Lab;
 
 // @public
-export interface LabSupportProperties {
-    enabled?: EnableStatus;
-    markdown?: string;
-}
-
-// @public
 export interface LabVhd {
     id?: string;
 }
@@ -1537,73 +1885,248 @@ export interface LabVhdList {
 // @public
 export interface LabVirtualMachine extends Resource {
     allowClaim?: boolean;
-    readonly applicableSchedule?: ApplicableSchedule;
-    readonly artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
     artifacts?: ArtifactInstallProperties[];
+    artifactsApplied?: number;
+    readonly canApplyArtifacts?: boolean;
     readonly computeId?: string;
-    readonly computeVm?: ComputeVmProperties;
     readonly createdByUser?: string;
     readonly createdByUserId?: string;
-    createdDate?: Date;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    createdDatePropertiesCreatedDate?: Date;
     customImageId?: string;
+    dataDiskIds?: string[];
     dataDiskParameters?: DataDiskProperties[];
+    dataDisks?: ComputeDataDisk[];
+    deploymentStatus?: string;
     disallowPublicIpAddress?: boolean;
+    dnsName?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
     environmentId?: string;
     expirationDate?: Date;
     readonly fqdn?: string;
-    galleryImageReference?: GalleryImageReference;
+    galleryImageVersionId?: string;
+    readonly idPropertiesApplicableScheduleId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+    inboundNatRules?: InboundNatRule[];
     isAuthenticationWithSshKey?: boolean;
     labSubnetName?: string;
     labVirtualNetworkId?: string;
     readonly lastKnownPowerState?: string;
-    networkInterface?: NetworkInterfaceProperties;
+    locationPropertiesApplicableScheduleLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+    minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+    readonly namePropertiesApplicableScheduleName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+    networkInterfaceId?: string;
     notes?: string;
-    readonly osType?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    offer?: string;
+    osDiskId?: string;
+    osDiskSizeGb?: number;
+    osTypePropertiesComputeVmOsType?: string;
+    osTypePropertiesGalleryImageReferenceOsType?: string;
+    readonly osTypePropertiesOsType?: string;
     ownerObjectId?: string;
     ownerUserPrincipalName?: string;
     password?: string;
     planId?: string;
-    readonly provisioningState?: string;
+    privateIpAddress?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    publicIpAddress?: string;
+    publicIpAddressId?: string;
+    publisher?: string;
+    rdpAuthority?: string;
     scheduleParameters?: ScheduleCreationParameter[];
+    securityProfile?: SecurityProfile;
+    sharedImageId?: string;
+    sharedImageVersion?: string;
     size?: string;
+    sku?: string;
+    sshAuthority?: string;
     sshKey?: string;
-    storageType?: string;
-    readonly uniqueIdentifier?: string;
+    statuses?: ComputeVmInstanceViewStatus[];
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    storageType?: StorageTypes;
+    subnetId?: string;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
+    tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableScheduleTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    totalArtifacts?: number;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+    readonly typePropertiesApplicableScheduleType?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
     userName?: string;
+    version?: string;
     readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
+    virtualNetworkId?: string;
+    vmSize?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
 }
 
 // @public
 export interface LabVirtualMachineCreationParameter {
     allowClaim?: boolean;
     artifacts?: ArtifactInstallProperties[];
-    bulkCreationParameters?: BulkCreationParameters;
-    createdDate?: Date;
+    artifactsApplied?: number;
+    readonly canApplyArtifacts?: boolean;
+    readonly computeId?: string;
+    readonly createdByUser?: string;
+    readonly createdByUserId?: string;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    createdDatePropertiesCreatedDate?: Date;
     customImageId?: string;
+    dataDiskIds?: string[];
     dataDiskParameters?: DataDiskProperties[];
+    dataDisks?: ComputeDataDisk[];
+    deploymentStatus?: string;
     disallowPublicIpAddress?: boolean;
+    dnsName?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
     environmentId?: string;
     expirationDate?: Date;
-    galleryImageReference?: GalleryImageReference;
+    readonly fqdn?: string;
+    galleryImageVersionId?: string;
+    readonly idPropertiesApplicableScheduleId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+    inboundNatRules?: InboundNatRule[];
+    instanceCount?: number;
     isAuthenticationWithSshKey?: boolean;
     labSubnetName?: string;
     labVirtualNetworkId?: string;
+    readonly lastKnownPowerState?: string;
     location?: string;
+    locationPropertiesApplicableScheduleLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+    minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
     name?: string;
-    networkInterface?: NetworkInterfaceProperties;
+    readonly namePropertiesApplicableScheduleName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+    networkInterfaceId?: string;
     notes?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    offer?: string;
+    osDiskId?: string;
+    osDiskSizeGb?: number;
+    osTypePropertiesComputeVmOsType?: string;
+    osTypePropertiesGalleryImageReferenceOsType?: string;
+    readonly osTypePropertiesOsType?: string;
     ownerObjectId?: string;
     ownerUserPrincipalName?: string;
     password?: string;
     planId?: string;
+    privateIpAddress?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    publicIpAddress?: string;
+    publicIpAddressId?: string;
+    publisher?: string;
+    rdpAuthority?: string;
     scheduleParameters?: ScheduleCreationParameter[];
+    securityProfile?: SecurityProfile;
+    sharedImageId?: string;
+    sharedImageVersion?: string;
     size?: string;
+    sku?: string;
+    sshAuthority?: string;
     sshKey?: string;
-    storageType?: string;
+    statuses?: ComputeVmInstanceViewStatus[];
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    storageType?: StorageType;
+    subnetId?: string;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
+    tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableScheduleTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    totalArtifacts?: number;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+    readonly typePropertiesApplicableScheduleType?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
     userName?: string;
+    version?: string;
+    readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
+    virtualNetworkId?: string;
+    vmSize?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
 }
 
 // @public
@@ -1617,28 +2140,10 @@ export interface LabVirtualMachineList {
 }
 
 // @public
-export interface LinuxOsInfo {
-    linuxOsState?: LinuxOsState;
-}
-
-// @public
 export type LinuxOsState = string;
 
 // @public
 export type ManagedIdentityType = string;
-
-// @public
-export interface NetworkInterfaceProperties {
-    dnsName?: string;
-    privateIpAddress?: string;
-    publicIpAddress?: string;
-    publicIpAddressId?: string;
-    rdpAuthority?: string;
-    sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfiguration;
-    sshAuthority?: string;
-    subnetId?: string;
-    virtualNetworkId?: string;
-}
 
 // @public
 export interface NotificationChannel extends Resource {
@@ -1648,6 +2153,7 @@ export interface NotificationChannel extends Resource {
     events?: Event_2[];
     notificationLocale?: string;
     readonly provisioningState?: string;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
     webHookUrl?: string;
 }
@@ -1696,10 +2202,6 @@ export type NotificationChannelsGetResponse = NotificationChannel;
 
 // @public
 export interface NotificationChannelsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1728,24 +2230,9 @@ export interface NotificationChannelsUpdateOptionalParams extends coreClient.Ope
 export type NotificationChannelsUpdateResponse = NotificationChannel;
 
 // @public
-export interface NotificationSettings {
-    emailRecipient?: string;
-    notificationLocale?: string;
-    status?: EnableStatus;
-    timeInMinutes?: number;
-    webhookUrl?: string;
-}
-
-// @public
 export interface NotifyParameters {
     eventName?: NotificationChannelEventType;
     jsonPayload?: string;
-}
-
-// @public
-export interface OperationError {
-    code?: string;
-    message?: string;
 }
 
 // @public
@@ -1764,7 +2251,8 @@ export interface OperationMetadataDisplay {
 
 // @public
 export interface OperationResult {
-    error?: OperationError;
+    code?: string;
+    message?: string;
     status?: string;
     statusCode?: HttpStatusCode;
 }
@@ -1775,11 +2263,22 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsGetHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface OperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type OperationsGetResponse = OperationResult;
+
+// @public
+export type OsType = string;
 
 // @public
 export interface ParameterInfo {
@@ -1791,11 +2290,6 @@ export interface ParameterInfo {
 export interface ParametersValueFileInfo {
     fileName?: string;
     parametersValueInfo?: Record<string, unknown>;
-}
-
-// @public
-export interface PercentageCostThresholdProperties {
-    thresholdValue?: number;
 }
 
 // @public
@@ -1828,10 +2322,6 @@ export type PoliciesGetResponse = Policy;
 
 // @public
 export interface PoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -1864,6 +2354,7 @@ export interface Policy extends Resource {
     factName?: PolicyFactName;
     readonly provisioningState?: string;
     status?: PolicyStatus;
+    readonly systemData?: SystemData;
     threshold?: string;
     readonly uniqueIdentifier?: string;
 }
@@ -1885,6 +2376,19 @@ export interface PolicyList {
 }
 
 // @public
+export interface PolicySet extends Resource {
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+}
+
+// @public
+export interface PolicySetList {
+    nextLink?: string;
+    readonly value?: PolicySet[];
+}
+
+// @public
 export interface PolicySetResult {
     hasError?: boolean;
     policyViolations?: PolicyViolation[];
@@ -1893,6 +2397,7 @@ export interface PolicySetResult {
 // @public
 export interface PolicySets {
     evaluatePolicies(resourceGroupName: string, labName: string, name: string, evaluatePoliciesRequest: EvaluatePoliciesRequest, options?: PolicySetsEvaluatePoliciesOptionalParams): Promise<PolicySetsEvaluatePoliciesResponse>;
+    list(resourceGroupName: string, labName: string, options?: PolicySetsListOptionalParams): PagedAsyncIterableIterator<PolicySet>;
 }
 
 // @public
@@ -1901,6 +2406,23 @@ export interface PolicySetsEvaluatePoliciesOptionalParams extends coreClient.Ope
 
 // @public
 export type PolicySetsEvaluatePoliciesResponse = EvaluatePoliciesResponse;
+
+// @public
+export interface PolicySetsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetsListNextResponse = PolicySetList;
+
+// @public
+export interface PolicySetsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type PolicySetsListResponse = PolicySetList;
 
 // @public
 export type PolicyStatus = string;
@@ -1951,9 +2473,6 @@ export interface RdpConnection {
 }
 
 // @public
-export type ReportingCycleType = string;
-
-// @public
 export interface ResizeLabVirtualMachineProperties {
     size?: string;
 }
@@ -1961,7 +2480,7 @@ export interface ResizeLabVirtualMachineProperties {
 // @public
 export interface Resource {
     readonly id?: string;
-    location?: string;
+    location: string;
     readonly name?: string;
     tags?: {
         [propertyName: string]: string;
@@ -1978,33 +2497,47 @@ export interface RetargetScheduleProperties {
 // @public
 export interface Schedule extends Resource {
     readonly createdDate?: Date;
-    dailyRecurrence?: DayDetails;
-    hourlyRecurrence?: HourDetails;
-    notificationSettings?: NotificationSettings;
+    emailRecipient?: string;
+    minute?: number;
+    notificationLocale?: string;
     readonly provisioningState?: string;
-    status?: EnableStatus;
+    statusPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesStatus?: EnableStatus;
+    readonly systemData?: SystemData;
     targetResourceId?: string;
     taskType?: string;
+    timeInMinutes?: number;
+    timePropertiesDailyRecurrenceTime?: string;
+    timePropertiesWeeklyRecurrenceTime?: string;
     timeZoneId?: string;
     readonly uniqueIdentifier?: string;
-    weeklyRecurrence?: WeekDetails;
+    webhookUrl?: string;
+    weekdays?: string[];
 }
 
 // @public
 export interface ScheduleCreationParameter {
-    dailyRecurrence?: DayDetails;
-    hourlyRecurrence?: HourDetails;
+    readonly createdDate?: Date;
+    emailRecipient?: string;
     readonly location?: string;
+    minute?: number;
     name?: string;
-    notificationSettings?: NotificationSettings;
-    status?: EnableStatus;
+    notificationLocale?: string;
+    readonly provisioningState?: string;
+    statusPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesStatus?: EnableStatus;
     tags?: {
         [propertyName: string]: string;
     };
     targetResourceId?: string;
     taskType?: string;
+    timeInMinutes?: number;
+    timePropertiesDailyRecurrenceTime?: string;
+    timePropertiesWeeklyRecurrenceTime?: string;
     timeZoneId?: string;
-    weeklyRecurrence?: WeekDetails;
+    readonly uniqueIdentifier?: string;
+    webhookUrl?: string;
+    weekdays?: string[];
 }
 
 // @public
@@ -2019,7 +2552,7 @@ export interface ScheduleList {
 
 // @public
 export interface Schedules {
-    beginExecute(resourceGroupName: string, labName: string, name: string, options?: SchedulesExecuteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecute(resourceGroupName: string, labName: string, name: string, options?: SchedulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteAndWait(resourceGroupName: string, labName: string, name: string, options?: SchedulesExecuteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, labName: string, name: string, schedule: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<void>;
@@ -2038,6 +2571,14 @@ export type SchedulesCreateOrUpdateResponse = Schedule;
 
 // @public
 export interface SchedulesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SchedulesExecuteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -2070,10 +2611,6 @@ export type SchedulesListApplicableResponse = ScheduleList;
 
 // @public
 export interface SchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2100,6 +2637,7 @@ export type SchedulesUpdateResponse = Schedule;
 // @public
 export interface Secret extends Resource {
     readonly provisioningState?: string;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
     value?: string;
 }
@@ -2116,7 +2654,7 @@ export interface SecretList {
 
 // @public
 export interface Secrets {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Secret, options?: SecretsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SecretsCreateOrUpdateResponse>, SecretsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, secret: Secret, options?: SecretsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SecretsCreateOrUpdateResponse>, SecretsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, name: string, secret: Secret, options?: SecretsCreateOrUpdateOptionalParams): Promise<SecretsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, userName: string, name: string, options?: SecretsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, userName: string, name: string, options?: SecretsGetOptionalParams): Promise<SecretsGetResponse>;
@@ -2147,10 +2685,6 @@ export type SecretsGetResponse = Secret;
 
 // @public
 export interface SecretsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2175,12 +2709,77 @@ export interface SecretsUpdateOptionalParams extends coreClient.OperationOptions
 export type SecretsUpdateResponse = Secret;
 
 // @public
+export interface SecurityProfile {
+    securityType?: SecurityTypes;
+    uefiSettings?: UefiSettings;
+}
+
+// @public
+export type SecurityTypes = string;
+
+// @public
 export interface ServiceFabric extends Resource {
-    readonly applicableSchedule?: ApplicableSchedule;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
     environmentId?: string;
     externalServiceFabricId?: string;
-    readonly provisioningState?: string;
-    readonly uniqueIdentifier?: string;
+    readonly idPropertiesApplicableScheduleId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+    locationPropertiesApplicableScheduleLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+    minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+    readonly namePropertiesApplicableScheduleName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
+    tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableScheduleTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+    readonly typePropertiesApplicableScheduleType?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
 }
 
 // @public
@@ -2195,13 +2794,13 @@ export interface ServiceFabricList {
 
 // @public
 export interface ServiceFabrics {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: ServiceFabric, options?: ServiceFabricsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServiceFabricsCreateOrUpdateResponse>, ServiceFabricsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: ServiceFabric, options?: ServiceFabricsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServiceFabricsCreateOrUpdateResponse>, ServiceFabricsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: ServiceFabric, options?: ServiceFabricsCreateOrUpdateOptionalParams): Promise<ServiceFabricsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsDeleteOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsStopOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, userName: string, name: string, options?: ServiceFabricsGetOptionalParams): Promise<ServiceFabricsGetResponse>;
     list(resourceGroupName: string, labName: string, userName: string, options?: ServiceFabricsListOptionalParams): PagedAsyncIterableIterator<ServiceFabric>;
@@ -2211,7 +2810,7 @@ export interface ServiceFabrics {
 
 // @public
 export interface ServiceFabricSchedules {
-    beginExecute(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: ServiceFabricSchedulesExecuteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecute(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: ServiceFabricSchedulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteAndWait(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: ServiceFabricSchedulesExecuteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, schedule: Schedule, options?: ServiceFabricSchedulesCreateOrUpdateOptionalParams): Promise<ServiceFabricSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, userName: string, serviceFabricName: string, name: string, options?: ServiceFabricSchedulesDeleteOptionalParams): Promise<void>;
@@ -2232,6 +2831,14 @@ export interface ServiceFabricSchedulesDeleteOptionalParams extends coreClient.O
 }
 
 // @public
+export interface ServiceFabricSchedulesExecuteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ServiceFabricSchedulesExecuteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2247,10 +2854,6 @@ export type ServiceFabricSchedulesGetResponse = Schedule;
 
 // @public
 export interface ServiceFabricSchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2284,6 +2887,14 @@ export interface ServiceFabricsCreateOrUpdateOptionalParams extends coreClient.O
 export type ServiceFabricsCreateOrUpdateResponse = ServiceFabric;
 
 // @public
+export interface ServiceFabricsDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ServiceFabricsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2306,10 +2917,6 @@ export type ServiceFabricsListApplicableSchedulesResponse = ApplicableSchedule;
 
 // @public
 export interface ServiceFabricsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2327,9 +2934,25 @@ export interface ServiceFabricsListOptionalParams extends coreClient.OperationOp
 export type ServiceFabricsListResponse = ServiceFabricList;
 
 // @public
+export interface ServiceFabricsStartHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ServiceFabricsStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ServiceFabricsStopHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -2348,6 +2971,10 @@ export type ServiceFabricsUpdateResponse = ServiceFabric;
 // @public
 export interface ServiceRunner extends Resource {
     identity?: IdentityProperties;
+    identityUsageType?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
 }
 
 // @public
@@ -2358,9 +2985,11 @@ export interface ServiceRunnerList {
 
 // @public
 export interface ServiceRunners {
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: ServiceRunnersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: ServiceRunnersDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: ServiceRunner, options?: ServiceRunnersCreateOrUpdateOptionalParams): Promise<ServiceRunnersCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, labName: string, name: string, options?: ServiceRunnersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: ServiceRunnersGetOptionalParams): Promise<ServiceRunnersGetResponse>;
+    list(resourceGroupName: string, labName: string, options?: ServiceRunnersListOptionalParams): PagedAsyncIterableIterator<ServiceRunner>;
 }
 
 // @public
@@ -2371,7 +3000,17 @@ export interface ServiceRunnersCreateOrUpdateOptionalParams extends coreClient.O
 export type ServiceRunnersCreateOrUpdateResponse = ServiceRunner;
 
 // @public
+export interface ServiceRunnersDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ServiceRunnersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2382,32 +3021,178 @@ export interface ServiceRunnersGetOptionalParams extends coreClient.OperationOpt
 export type ServiceRunnersGetResponse = ServiceRunner;
 
 // @public
-export interface SharedPublicIpAddressConfiguration {
-    inboundNatRules?: InboundNatRule[];
+export interface ServiceRunnersListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ShutdownNotificationContent {
-    delayUrl120?: string;
-    delayUrl60?: string;
-    eventType?: string;
-    guid?: string;
-    labName?: string;
-    minutesUntilShutdown?: string;
-    owner?: string;
-    resourceGroupName?: string;
-    skipUrl?: string;
-    subscriptionId?: string;
-    text?: string;
-    vmName?: string;
-    vmUrl?: string;
+export type ServiceRunnersListNextResponse = ServiceRunnerList;
+
+// @public
+export interface ServiceRunnersListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
 }
+
+// @public
+export type ServiceRunnersListResponse = ServiceRunnerList;
+
+// @public
+export interface SharedGalleries {
+    createOrUpdate(resourceGroupName: string, labName: string, name: string, sharedGallery: SharedGallery, options?: SharedGalleriesCreateOrUpdateOptionalParams): Promise<SharedGalleriesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, labName: string, name: string, options?: SharedGalleriesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, labName: string, name: string, options?: SharedGalleriesGetOptionalParams): Promise<SharedGalleriesGetResponse>;
+    list(resourceGroupName: string, labName: string, options?: SharedGalleriesListOptionalParams): PagedAsyncIterableIterator<SharedGallery>;
+    update(resourceGroupName: string, labName: string, name: string, sharedGallery: SharedGalleryFragment, options?: SharedGalleriesUpdateOptionalParams): Promise<SharedGalleriesUpdateResponse>;
+}
+
+// @public
+export interface SharedGalleriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedGalleriesCreateOrUpdateResponse = SharedGallery;
+
+// @public
+export interface SharedGalleriesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SharedGalleriesGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type SharedGalleriesGetResponse = SharedGallery;
+
+// @public
+export interface SharedGalleriesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedGalleriesListNextResponse = SharedGalleryList;
+
+// @public
+export interface SharedGalleriesListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type SharedGalleriesListResponse = SharedGalleryList;
+
+// @public
+export interface SharedGalleriesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedGalleriesUpdateResponse = SharedGallery;
+
+// @public
+export interface SharedGallery extends Resource {
+    allowAllImages?: EnableState;
+    galleryId?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+}
+
+// @public
+export interface SharedGalleryFragment extends UpdateResource {
+}
+
+// @public
+export interface SharedGalleryList {
+    nextLink?: string;
+    value?: SharedGallery[];
+}
+
+// @public
+export interface SharedImage extends Resource {
+    definitionName?: string;
+    displayName?: string;
+    enableState?: EnableState;
+    imageType?: ImageType;
+    osType?: OsType;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+    versions?: ImageVersionProperties[];
+}
+
+// @public
+export interface SharedImageFragment extends UpdateResource {
+}
+
+// @public
+export interface SharedImageList {
+    nextLink?: string;
+    value?: SharedImage[];
+}
+
+// @public
+export interface SharedImages {
+    createOrUpdate(resourceGroupName: string, labName: string, sharedGalleryName: string, name: string, sharedImage: SharedImage, options?: SharedImagesCreateOrUpdateOptionalParams): Promise<SharedImagesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, labName: string, sharedGalleryName: string, name: string, options?: SharedImagesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, labName: string, sharedGalleryName: string, name: string, options?: SharedImagesGetOptionalParams): Promise<SharedImagesGetResponse>;
+    list(resourceGroupName: string, labName: string, sharedGalleryName: string, options?: SharedImagesListOptionalParams): PagedAsyncIterableIterator<SharedImage>;
+    update(resourceGroupName: string, labName: string, sharedGalleryName: string, name: string, sharedImage: SharedImageFragment, options?: SharedImagesUpdateOptionalParams): Promise<SharedImagesUpdateResponse>;
+}
+
+// @public
+export interface SharedImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedImagesCreateOrUpdateResponse = SharedImage;
+
+// @public
+export interface SharedImagesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SharedImagesGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type SharedImagesGetResponse = SharedImage;
+
+// @public
+export interface SharedImagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedImagesListNextResponse = SharedImageList;
+
+// @public
+export interface SharedImagesListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type SharedImagesListResponse = SharedImageList;
+
+// @public
+export interface SharedImagesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedImagesUpdateResponse = SharedImage;
 
 // @public
 export type SourceControlType = string;
 
 // @public
 export type StorageType = string;
+
+// @public
+export type StorageTypes = string;
 
 // @public
 export interface Subnet {
@@ -2418,37 +3203,36 @@ export interface Subnet {
 
 // @public
 export interface SubnetOverride {
+    allowedPorts?: Port[];
     labSubnetName?: string;
     resourceId?: string;
-    sharedPublicIpAddressConfiguration?: SubnetSharedPublicIpAddressConfiguration;
     useInVmCreationPermission?: UsagePermissionType;
     usePublicIpAddressPermission?: UsagePermissionType;
     virtualNetworkPoolName?: string;
 }
 
 // @public
-export interface SubnetSharedPublicIpAddressConfiguration {
-    allowedPorts?: Port[];
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
-
-// @public
-export interface TargetCostProperties {
-    costThresholds?: CostThresholdProperties[];
-    cycleEndDateTime?: Date;
-    cycleStartDateTime?: Date;
-    cycleType?: ReportingCycleType;
-    status?: TargetCostStatus;
-    target?: number;
-}
-
-// @public
-export type TargetCostStatus = string;
 
 // @public
 export type TransportProtocol = string;
 
 // @public
+export interface UefiSettings {
+    secureBootEnabled?: boolean;
+    vTpmEnabled?: boolean;
+}
+
+// @public
 export interface UpdateResource {
+    identity?: IdentityProperties;
     tags?: {
         [propertyName: string]: string;
     };
@@ -2459,24 +3243,21 @@ export type UsagePermissionType = string;
 
 // @public
 export interface User extends Resource {
+    appId?: string;
     readonly createdDate?: Date;
-    identity?: UserIdentity;
+    keyVaultId?: string;
+    keyVaultUri?: string;
+    objectId?: string;
+    principalId?: string;
+    principalName?: string;
     readonly provisioningState?: string;
-    secretStore?: UserSecretStore;
+    readonly systemData?: SystemData;
+    tenantId?: string;
     readonly uniqueIdentifier?: string;
 }
 
 // @public
 export interface UserFragment extends UpdateResource {
-}
-
-// @public
-export interface UserIdentity {
-    appId?: string;
-    objectId?: string;
-    principalId?: string;
-    principalName?: string;
-    tenantId?: string;
 }
 
 // @public
@@ -2487,9 +3268,9 @@ export interface UserList {
 
 // @public
 export interface Users {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<UsersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, name: string, options?: UsersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, options?: UsersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, options?: UsersCreateOrUpdateOptionalParams): Promise<UsersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: UsersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: UsersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: UsersGetOptionalParams): Promise<UsersGetResponse>;
     list(resourceGroupName: string, labName: string, options?: UsersListOptionalParams): PagedAsyncIterableIterator<User>;
@@ -2500,21 +3281,24 @@ export interface Users {
 export interface UsersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    user?: User;
 }
 
 // @public
 export type UsersCreateOrUpdateResponse = User;
 
 // @public
-export interface UsersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface UsersDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
-export interface UserSecretStore {
-    keyVaultId?: string;
-    keyVaultUri?: string;
+export interface UsersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2527,10 +3311,6 @@ export type UsersGetResponse = User;
 
 // @public
 export interface UsersListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2559,32 +3339,33 @@ export type VirtualMachineCreationSource = string;
 
 // @public
 export interface VirtualMachines {
-    beginAddDataDisk(resourceGroupName: string, labName: string, name: string, dataDiskProperties: DataDiskProperties, options?: VirtualMachinesAddDataDiskOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginAddDataDisk(resourceGroupName: string, labName: string, name: string, dataDiskProperties: DataDiskProperties, options?: VirtualMachinesAddDataDiskOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginAddDataDiskAndWait(resourceGroupName: string, labName: string, name: string, dataDiskProperties: DataDiskProperties, options?: VirtualMachinesAddDataDiskOptionalParams): Promise<void>;
-    beginApplyArtifacts(resourceGroupName: string, labName: string, name: string, applyArtifactsRequest: ApplyArtifactsRequest, options?: VirtualMachinesApplyArtifactsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginApplyArtifacts(resourceGroupName: string, labName: string, name: string, applyArtifactsRequest: ApplyArtifactsRequest, options?: VirtualMachinesApplyArtifactsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginApplyArtifactsAndWait(resourceGroupName: string, labName: string, name: string, applyArtifactsRequest: ApplyArtifactsRequest, options?: VirtualMachinesApplyArtifactsOptionalParams): Promise<void>;
-    beginClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesClaimOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesClaimOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginClaimAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesClaimOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, labVirtualMachine: LabVirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, labVirtualMachine: LabVirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, labVirtualMachine: LabVirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
-    beginDetachDataDisk(resourceGroupName: string, labName: string, name: string, detachDataDiskProperties: DetachDataDiskProperties, options?: VirtualMachinesDetachDataDiskOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDetachDataDisk(resourceGroupName: string, labName: string, name: string, detachDataDiskProperties: DetachDataDiskProperties, options?: VirtualMachinesDetachDataDiskOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDetachDataDiskAndWait(resourceGroupName: string, labName: string, name: string, detachDataDiskProperties: DetachDataDiskProperties, options?: VirtualMachinesDetachDataDiskOptionalParams): Promise<void>;
-    beginRedeploy(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRedeployOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRedeploy(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRedeployOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRedeployAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRedeployOptionalParams): Promise<void>;
-    beginResize(resourceGroupName: string, labName: string, name: string, resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties, options?: VirtualMachinesResizeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResize(resourceGroupName: string, labName: string, name: string, resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties, options?: VirtualMachinesResizeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResizeAndWait(resourceGroupName: string, labName: string, name: string, resizeLabVirtualMachineProperties: ResizeLabVirtualMachineProperties, options?: VirtualMachinesResizeOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesStopOptionalParams): Promise<void>;
-    beginTransferDisks(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesTransferDisksOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTransferDisks(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesTransferDisksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTransferDisksAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesTransferDisksOptionalParams): Promise<void>;
-    beginUnClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesUnClaimOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUnClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesUnClaimOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUnClaimAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesUnClaimOptionalParams): Promise<void>;
+    clearArtifactResults(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesClearArtifactResultsOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
     getRdpFileContents(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesGetRdpFileContentsOptionalParams): Promise<VirtualMachinesGetRdpFileContentsResponse>;
     list(resourceGroupName: string, labName: string, options?: VirtualMachinesListOptionalParams): PagedAsyncIterableIterator<LabVirtualMachine>;
@@ -2593,9 +3374,25 @@ export interface VirtualMachines {
 }
 
 // @public
+export interface VirtualMachinesAddDataDiskHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VirtualMachinesAddDataDiskOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesApplyArtifactsHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -2606,7 +3403,7 @@ export interface VirtualMachinesApplyArtifactsOptionalParams extends coreClient.
 
 // @public
 export interface VirtualMachineSchedules {
-    beginExecute(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: VirtualMachineSchedulesExecuteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecute(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: VirtualMachineSchedulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteAndWait(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: VirtualMachineSchedulesExecuteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Schedule, options?: VirtualMachineSchedulesCreateOrUpdateOptionalParams): Promise<VirtualMachineSchedulesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: VirtualMachineSchedulesDeleteOptionalParams): Promise<void>;
@@ -2627,6 +3424,14 @@ export interface VirtualMachineSchedulesDeleteOptionalParams extends coreClient.
 }
 
 // @public
+export interface VirtualMachineSchedulesExecuteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VirtualMachineSchedulesExecuteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2642,10 +3447,6 @@ export type VirtualMachineSchedulesGetResponse = Schedule;
 
 // @public
 export interface VirtualMachineSchedulesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2670,9 +3471,21 @@ export interface VirtualMachineSchedulesUpdateOptionalParams extends coreClient.
 export type VirtualMachineSchedulesUpdateResponse = Schedule;
 
 // @public
+export interface VirtualMachinesClaimHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VirtualMachinesClaimOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesClearArtifactResultsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -2685,9 +3498,25 @@ export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.
 export type VirtualMachinesCreateOrUpdateResponse = LabVirtualMachine;
 
 // @public
+export interface VirtualMachinesDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VirtualMachinesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesDetachDataDiskHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -2720,10 +3549,6 @@ export type VirtualMachinesListApplicableSchedulesResponse = ApplicableSchedule;
 
 // @public
 export interface VirtualMachinesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2741,9 +3566,25 @@ export interface VirtualMachinesListOptionalParams extends coreClient.OperationO
 export type VirtualMachinesListResponse = LabVirtualMachineList;
 
 // @public
+export interface VirtualMachinesRedeployHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VirtualMachinesRedeployOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesResizeHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -2753,9 +3594,25 @@ export interface VirtualMachinesResizeOptionalParams extends coreClient.Operatio
 }
 
 // @public
+export interface VirtualMachinesRestartHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VirtualMachinesRestartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesStartHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -2765,15 +3622,39 @@ export interface VirtualMachinesStartOptionalParams extends coreClient.Operation
 }
 
 // @public
+export interface VirtualMachinesStopHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VirtualMachinesStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface VirtualMachinesTransferDisksHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VirtualMachinesTransferDisksOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesUnClaimHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -2798,6 +3679,7 @@ export interface VirtualNetwork extends Resource {
     readonly externalSubnets?: ExternalSubnet[];
     readonly provisioningState?: string;
     subnetOverrides?: SubnetOverride[];
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
 }
 
@@ -2813,9 +3695,9 @@ export interface VirtualNetworkList {
 
 // @public
 export interface VirtualNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, virtualNetwork: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualNetworksCreateOrUpdateResponse>, VirtualNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, virtualNetwork: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworksCreateOrUpdateResponse>, VirtualNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, virtualNetwork: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams): Promise<VirtualNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, labName: string, name: string, options?: VirtualNetworksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: VirtualNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualNetworksDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: VirtualNetworksGetOptionalParams): Promise<VirtualNetworksGetResponse>;
     list(resourceGroupName: string, labName: string, options?: VirtualNetworksListOptionalParams): PagedAsyncIterableIterator<VirtualNetwork>;
@@ -2830,6 +3712,14 @@ export interface VirtualNetworksCreateOrUpdateOptionalParams extends coreClient.
 
 // @public
 export type VirtualNetworksCreateOrUpdateResponse = VirtualNetwork;
+
+// @public
+export interface VirtualNetworksDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface VirtualNetworksDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2847,10 +3737,6 @@ export type VirtualNetworksGetResponse = VirtualNetwork;
 
 // @public
 export interface VirtualNetworksListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -2875,14 +3761,9 @@ export interface VirtualNetworksUpdateOptionalParams extends coreClient.Operatio
 export type VirtualNetworksUpdateResponse = VirtualNetwork;
 
 // @public
-export interface WeekDetails {
+export interface WeekDetailsFragment {
     time?: string;
     weekdays?: string[];
-}
-
-// @public
-export interface WindowsOsInfo {
-    windowsOsState?: WindowsOsState;
 }
 
 // @public
