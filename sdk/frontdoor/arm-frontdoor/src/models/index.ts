@@ -1548,7 +1548,9 @@ export enum KnownActionType {
   /** Redirect */
   Redirect = "Redirect",
   /** AnomalyScoring */
-  AnomalyScoring = "AnomalyScoring"
+  AnomalyScoring = "AnomalyScoring",
+  /** JSChallenge */
+  JSChallenge = "JSChallenge"
 }
 
 /**
@@ -1560,7 +1562,8 @@ export enum KnownActionType {
  * **Block** \
  * **Log** \
  * **Redirect** \
- * **AnomalyScoring**
+ * **AnomalyScoring** \
+ * **JSChallenge**
  */
 export type ActionType = string;
 
