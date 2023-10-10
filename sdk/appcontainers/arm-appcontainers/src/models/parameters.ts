@@ -13,6 +13,9 @@ import {
 } from "@azure/core-client";
 import {
   AuthConfig as AuthConfigMapper,
+  BuilderResource as BuilderResourceMapper,
+  BuilderResourceUpdate as BuilderResourceUpdateMapper,
+  BuildResource as BuildResourceMapper,
   ConnectedEnvironment as ConnectedEnvironmentMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   Certificate as CertificateMapper,
@@ -26,6 +29,7 @@ import {
   ManagedEnvironment as ManagedEnvironmentMapper,
   ManagedCertificate as ManagedCertificateMapper,
   ManagedCertificatePatch as ManagedCertificatePatchMapper,
+  DaprSubscription as DaprSubscriptionMapper,
   ManagedEnvironmentStorage as ManagedEnvironmentStorageMapper,
   SourceControl as SourceControlMapper
 } from "../models/mappers";
@@ -97,7 +101,7 @@ export const containerAppName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01",
+    defaultValue: "2023-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -158,6 +162,53 @@ export const location: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const builderName: OperationURLParameter = {
+  parameterPath: "builderName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 32,
+      MinLength: 2
+    },
+    serializedName: "builderName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const builderEnvelope: OperationParameter = {
+  parameterPath: "builderEnvelope",
+  mapper: BuilderResourceMapper
+};
+
+export const builderEnvelope1: OperationParameter = {
+  parameterPath: "builderEnvelope",
+  mapper: BuilderResourceUpdateMapper
+};
+
+export const buildName: OperationURLParameter = {
+  parameterPath: "buildName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 64,
+      MinLength: 2
+    },
+    serializedName: "buildName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildEnvelope: OperationParameter = {
+  parameterPath: "buildEnvelope",
+  mapper: BuildResourceMapper
 };
 
 export const connectedEnvironmentName: OperationURLParameter = {
@@ -386,9 +437,52 @@ export const managedCertificateEnvelope1: OperationParameter = {
   mapper: ManagedCertificatePatchMapper
 };
 
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const daprSubscriptionEnvelope: OperationParameter = {
+  parameterPath: "daprSubscriptionEnvelope",
+  mapper: DaprSubscriptionMapper
+};
+
 export const storageEnvelope1: OperationParameter = {
   parameterPath: "storageEnvelope",
   mapper: ManagedEnvironmentStorageMapper
+};
+
+export const patchName: OperationURLParameter = {
+  parameterPath: "patchName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 64,
+      MinLength: 2
+    },
+    serializedName: "patchName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const patchSkipConfig: OperationParameter = {
+  parameterPath: "patchSkipConfig",
+  mapper: {
+    serializedName: "patchSkipConfig",
+    required: true,
+    type: {
+      name: "Boolean"
+    }
+  }
 };
 
 export const sourceControlName: OperationURLParameter = {
@@ -405,4 +499,32 @@ export const sourceControlName: OperationURLParameter = {
 export const sourceControlEnvelope: OperationParameter = {
   parameterPath: "sourceControlEnvelope",
   mapper: SourceControlMapper
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const environmentName1: OperationURLParameter = {
+  parameterPath: "environmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
+    serializedName: "environmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
