@@ -17,7 +17,11 @@ export interface AbsoluteMonthlySchedule {
 }
 
 // @public
+export type AddonAutoscaling = string;
+
+// @public
 export interface AgentPool extends SubResource {
+    artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
     count?: number;
@@ -30,6 +34,7 @@ export interface AgentPool extends SubResource {
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
     gpuInstanceProfile?: GPUInstanceProfile;
+    gpuProfile?: AgentPoolGPUProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
@@ -71,6 +76,11 @@ export interface AgentPool extends SubResource {
     workloadRuntime?: WorkloadRuntime;
 }
 
+// @public (undocumented)
+export interface AgentPoolArtifactStreamingProfile {
+    enabled?: boolean;
+}
+
 // @public
 export interface AgentPoolAvailableVersions {
     agentPoolVersions?: AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem[];
@@ -84,6 +94,11 @@ export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
     default?: boolean;
     isPreview?: boolean;
     kubernetesVersion?: string;
+}
+
+// @public (undocumented)
+export interface AgentPoolGPUProfile {
+    installGPUDriver?: boolean;
 }
 
 // @public
@@ -235,6 +250,7 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 export interface AgentPoolUpgradeSettings {
     drainTimeoutInMinutes?: number;
     maxSurge?: string;
+    nodeSoakDurationInMinutes?: number;
 }
 
 // @public
@@ -430,6 +446,26 @@ export interface EndpointDetail {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type Expander = string;
 
 // @public
@@ -497,6 +533,7 @@ export interface IstioCertificateAuthority {
 
 // @public
 export interface IstioComponents {
+    egressGateways?: IstioEgressGateway[];
     ingressGateways?: IstioIngressGateway[];
 }
 
@@ -537,6 +574,12 @@ export interface IstioServiceMesh {
 export type KeyVaultNetworkAccessTypes = string;
 
 // @public
+export enum KnownAddonAutoscaling {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownAgentPoolMode {
     System = "System",
     User = "User"
@@ -551,6 +594,7 @@ export enum KnownAgentPoolSSHAccess {
 // @public
 export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
+    VirtualMachines = "VirtualMachines",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
 }
 
@@ -727,7 +771,8 @@ export enum KnownNetworkPluginMode {
 export enum KnownNetworkPolicy {
     Azure = "azure",
     Calico = "calico",
-    Cilium = "cilium"
+    Cilium = "cilium",
+    None = "none"
 }
 
 // @public
@@ -736,6 +781,12 @@ export enum KnownNodeOSUpgradeChannel {
     None = "None",
     SecurityPatch = "SecurityPatch",
     Unmanaged = "Unmanaged"
+}
+
+// @public
+export enum KnownNodeProvisioningMode {
+    Auto = "Auto",
+    Manual = "Manual"
 }
 
 // @public
@@ -751,7 +802,8 @@ export enum KnownOssku {
     Mariner = "Mariner",
     Ubuntu = "Ubuntu",
     Windows2019 = "Windows2019",
-    Windows2022 = "Windows2022"
+    Windows2022 = "Windows2022",
+    WindowsAnnual = "WindowsAnnual"
 }
 
 // @public
@@ -1061,6 +1113,7 @@ export interface ManagedCluster extends TrackedResource {
         [propertyName: string]: ManagedClusterAddonProfile;
     };
     agentPoolProfiles?: ManagedClusterAgentPoolProfile[];
+    aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
     apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
     autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
@@ -1089,6 +1142,7 @@ export interface ManagedCluster extends TrackedResource {
     readonly maxAgentPools?: number;
     metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
+    nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
     nodeResourceGroup?: string;
     nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
@@ -1146,6 +1200,7 @@ export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolP
 
 // @public
 export interface ManagedClusterAgentPoolProfileProperties {
+    artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
     count?: number;
@@ -1158,6 +1213,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
     gpuInstanceProfile?: GPUInstanceProfile;
+    gpuProfile?: AgentPoolGPUProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
@@ -1197,6 +1253,11 @@ export interface ManagedClusterAgentPoolProfileProperties {
     vnetSubnetID?: string;
     windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
+}
+
+// @public
+export interface ManagedClusterAIToolchainOperatorProfile {
+    enabled?: boolean;
 }
 
 // @public
@@ -1353,6 +1414,11 @@ export interface ManagedClusterNATGatewayProfile {
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
 }
 
+// @public (undocumented)
+export interface ManagedClusterNodeProvisioningProfile {
+    mode?: NodeProvisioningMode;
+}
+
 // @public
 export interface ManagedClusterNodeResourceGroupProfile {
     restrictionLevel?: RestrictionLevel;
@@ -1429,7 +1495,11 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
 // @public
 export interface ManagedClusterPropertiesAutoScalerProfile {
     balanceSimilarNodeGroups?: string;
+    daemonsetEvictionForEmptyNodes?: boolean;
+    daemonsetEvictionForOccupiedNodes?: boolean;
     expander?: Expander;
+    expanders?: Expander[];
+    ignoreDaemonsetsUtilization?: boolean;
     maxEmptyBulkDelete?: string;
     maxGracefulTerminationSec?: string;
     maxNodeProvisionTime?: string;
@@ -2015,6 +2085,7 @@ export interface ManagedClusterWorkloadAutoScalerProfileKeda {
 
 // @public (undocumented)
 export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
+    addonAutoscaling?: AddonAutoscaling;
     enabled: boolean;
 }
 
@@ -2097,6 +2168,9 @@ export interface NetworkProfileForSnapshot {
 
 // @public
 export type NodeOSUpgradeChannel = string;
+
+// @public
+export type NodeProvisioningMode = string;
 
 // @public
 export interface OperationListResult {
@@ -2544,22 +2618,36 @@ export type TrustedAccessRoleBindingProvisioningState = string;
 
 // @public
 export interface TrustedAccessRoleBindings {
-    createOrUpdate(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>, TrustedAccessRoleBindingsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TrustedAccessRoleBindingsDeleteResponse>, TrustedAccessRoleBindingsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<TrustedAccessRoleBindingsDeleteResponse>;
     get(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsGetOptionalParams): Promise<TrustedAccessRoleBindingsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: TrustedAccessRoleBindingsListOptionalParams): PagedAsyncIterableIterator<TrustedAccessRoleBinding>;
 }
 
 // @public
 export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
 
 // @public
-export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TrustedAccessRoleBindingsDeleteHeaders {
+    location?: string;
 }
+
+// @public
+export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TrustedAccessRoleBindingsDeleteResponse = TrustedAccessRoleBindingsDeleteHeaders;
 
 // @public
 export interface TrustedAccessRoleBindingsGetOptionalParams extends coreClient.OperationOptions {
