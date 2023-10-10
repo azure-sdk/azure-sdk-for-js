@@ -12,3 +12,4 @@ export * from "./experiments";
 export * from "./operations";
 export * from "./targetTypes";
 export * from "./targets";
+export * from "./operationStatuses";
