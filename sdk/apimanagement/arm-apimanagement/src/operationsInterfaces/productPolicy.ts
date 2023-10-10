@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  PolicyContract,
   ProductPolicyListByProductOptionalParams,
-  ProductPolicyListByProductResponse,
   PolicyIdName,
   ProductPolicyGetEntityTagOptionalParams,
   ProductPolicyGetEntityTagResponse,
   ProductPolicyGetOptionalParams,
   ProductPolicyGetResponse,
-  PolicyContract,
   ProductPolicyCreateOrUpdateOptionalParams,
   ProductPolicyCreateOrUpdateResponse,
   ProductPolicyDeleteOptionalParams
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProductPolicy. */
 export interface ProductPolicy {
   /**
@@ -34,7 +35,7 @@ export interface ProductPolicy {
     serviceName: string,
     productId: string,
     options?: ProductPolicyListByProductOptionalParams
-  ): Promise<ProductPolicyListByProductResponse>;
+  ): PagedAsyncIterableIterator<PolicyContract>;
   /**
    * Get the ETag of the policy configuration at the Product level.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
