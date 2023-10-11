@@ -7,80 +7,84 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  InvoiceSection,
-  InvoiceSectionsListByBillingProfileOptionalParams,
-  InvoiceSectionsGetOptionalParams,
-  InvoiceSectionsGetResponse,
-  InvoiceSectionsCreateOrUpdateOptionalParams,
-  InvoiceSectionsCreateOrUpdateResponse
+  TransferDetails,
+  TransfersListOptionalParams,
+  TransfersGetOptionalParams,
+  TransfersGetResponse,
+  InitiateTransferRequest,
+  TransfersInitiateOptionalParams,
+  TransfersInitiateResponse,
+  TransfersCancelOptionalParams,
+  TransfersCancelResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a InvoiceSections. */
-export interface InvoiceSections {
+/** Interface representing a Transfers. */
+export interface Transfers {
   /**
-   * Lists the invoice sections that a user has access to. The operation is supported only for billing
+   * Lists the transfer requests for an invoice section. The operation is supported only for billing
    * accounts with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
-  listByBillingProfile(
+  list(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InvoiceSectionsListByBillingProfileOptionalParams
-  ): PagedAsyncIterableIterator<InvoiceSection>;
+    invoiceSectionName: string,
+    options?: TransfersListOptionalParams
+  ): PagedAsyncIterableIterator<TransferDetails>;
   /**
-   * Gets an invoice section by its ID. The operation is supported only for billing accounts with
-   * agreement type Microsoft Customer Agreement.
+   * Gets a transfer request by ID. The operation is supported only for billing accounts with agreement
+   * type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param transferName The ID that uniquely identifies a transfer request.
    * @param options The options parameters.
    */
   get(
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: InvoiceSectionsGetOptionalParams
-  ): Promise<InvoiceSectionsGetResponse>;
+    transferName: string,
+    options?: TransfersGetOptionalParams
+  ): Promise<TransfersGetResponse>;
   /**
-   * Creates or updates an invoice section. The operation is supported only for billing accounts with
-   * agreement type Microsoft Customer Agreement.
+   * Sends a request to a user in another billing account to transfer billing ownership of their
+   * subscriptions. The operation is supported only for billing accounts with agreement type Microsoft
+   * Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param parameters The new or updated invoice section.
+   * @param transferName The ID that uniquely identifies a transfer request.
+   * @param parameters Request parameters that are provided to the initiate transfer operation.
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
+  initiate(
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    parameters: InvoiceSection,
-    options?: InvoiceSectionsCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<InvoiceSectionsCreateOrUpdateResponse>,
-      InvoiceSectionsCreateOrUpdateResponse
-    >
-  >;
+    transferName: string,
+    parameters: InitiateTransferRequest,
+    options?: TransfersInitiateOptionalParams
+  ): Promise<TransfersInitiateResponse>;
   /**
-   * Creates or updates an invoice section. The operation is supported only for billing accounts with
-   * agreement type Microsoft Customer Agreement.
+   * Cancels a transfer request. The operation is supported only for billing accounts with agreement type
+   * Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param parameters The new or updated invoice section.
+   * @param transferName The ID that uniquely identifies a transfer request.
    * @param options The options parameters.
    */
-  beginCreateOrUpdateAndWait(
+  cancel(
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    parameters: InvoiceSection,
-    options?: InvoiceSectionsCreateOrUpdateOptionalParams
-  ): Promise<InvoiceSectionsCreateOrUpdateResponse>;
+    transferName: string,
+    options?: TransfersCancelOptionalParams
+  ): Promise<TransfersCancelResponse>;
 }
