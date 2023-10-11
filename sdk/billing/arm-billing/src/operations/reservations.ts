@@ -15,14 +15,18 @@ import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
   Reservation,
-  ReservationsListByBillingAccountNextOptionalParams,
-  ReservationsListByBillingAccountOptionalParams,
-  ReservationsListByBillingAccountResponse,
+  ReservationsListAllByBillingAccountNextOptionalParams,
+  ReservationsListAllByBillingAccountOptionalParams,
+  ReservationsListAllByBillingAccountResponse,
   ReservationsListByBillingProfileNextOptionalParams,
   ReservationsListByBillingProfileOptionalParams,
   ReservationsListByBillingProfileResponse,
-  ReservationsListByBillingAccountNextResponse,
-  ReservationsListByBillingProfileNextResponse
+  ReservationsListByBillingAccountNextOptionalParams,
+  ReservationsListByBillingAccountOptionalParams,
+  ReservationsListByBillingAccountResponse,
+  ReservationsListAllByBillingAccountNextResponse,
+  ReservationsListByBillingProfileNextResponse,
+  ReservationsListByBillingAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,16 +43,16 @@ export class ReservationsImpl implements Reservations {
   }
 
   /**
-   * Lists the reservations for a billing account and the roll up counts of reservations group by
+   * Lists the reservations in the billing account and the roll up counts of reservations group by
    * provisioning states.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param options The options parameters.
    */
-  public listByBillingAccount(
+  public listAllByBillingAccount(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams
+    options?: ReservationsListAllByBillingAccountOptionalParams
   ): PagedAsyncIterableIterator<Reservation> {
-    const iter = this.listByBillingAccountPagingAll(
+    const iter = this.listAllByBillingAccountPagingAll(
       billingAccountName,
       options
     );
@@ -63,7 +67,7 @@ export class ReservationsImpl implements Reservations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
+        return this.listAllByBillingAccountPagingPage(
           billingAccountName,
           options,
           settings
@@ -72,22 +76,22 @@ export class ReservationsImpl implements Reservations {
     };
   }
 
-  private async *listByBillingAccountPagingPage(
+  private async *listAllByBillingAccountPagingPage(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams,
+    options?: ReservationsListAllByBillingAccountOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Reservation[]> {
-    let result: ReservationsListByBillingAccountResponse;
+    let result: ReservationsListAllByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingAccount(billingAccountName, options);
+      result = await this._listAllByBillingAccount(billingAccountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
+      result = await this._listAllByBillingAccountNext(
         billingAccountName,
         continuationToken,
         options
@@ -99,11 +103,11 @@ export class ReservationsImpl implements Reservations {
     }
   }
 
-  private async *listByBillingAccountPagingAll(
+  private async *listAllByBillingAccountPagingAll(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams
+    options?: ReservationsListAllByBillingAccountOptionalParams
   ): AsyncIterableIterator<Reservation> {
-    for await (const page of this.listByBillingAccountPagingPage(
+    for await (const page of this.listAllByBillingAccountPagingPage(
       billingAccountName,
       options
     )) {
@@ -197,18 +201,102 @@ export class ReservationsImpl implements Reservations {
   }
 
   /**
-   * Lists the reservations for a billing account and the roll up counts of reservations group by
+   * List Reservations within a single ReservationOrder in the billing account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param reservationOrderId Order Id of the reservation
+   * @param options The options parameters.
+   */
+  public listByBillingAccount(
+    billingAccountName: string,
+    reservationOrderId: string,
+    options?: ReservationsListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<Reservation> {
+    const iter = this.listByBillingAccountPagingAll(
+      billingAccountName,
+      reservationOrderId,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountName,
+          reservationOrderId,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByBillingAccountPagingPage(
+    billingAccountName: string,
+    reservationOrderId: string,
+    options?: ReservationsListByBillingAccountOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Reservation[]> {
+    let result: ReservationsListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(
+        billingAccountName,
+        reservationOrderId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByBillingAccountNext(
+        billingAccountName,
+        reservationOrderId,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByBillingAccountPagingAll(
+    billingAccountName: string,
+    reservationOrderId: string,
+    options?: ReservationsListByBillingAccountOptionalParams
+  ): AsyncIterableIterator<Reservation> {
+    for await (const page of this.listByBillingAccountPagingPage(
+      billingAccountName,
+      reservationOrderId,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the reservations in the billing account and the roll up counts of reservations group by
    * provisioning states.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param options The options parameters.
    */
-  private _listByBillingAccount(
+  private _listAllByBillingAccount(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams
-  ): Promise<ReservationsListByBillingAccountResponse> {
+    options?: ReservationsListAllByBillingAccountOptionalParams
+  ): Promise<ReservationsListAllByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, options },
-      listByBillingAccountOperationSpec
+      listAllByBillingAccountOperationSpec
     );
   }
 
@@ -231,19 +319,37 @@ export class ReservationsImpl implements Reservations {
   }
 
   /**
-   * ListByBillingAccountNext
+   * List Reservations within a single ReservationOrder in the billing account.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
+   * @param reservationOrderId Order Id of the reservation
    * @param options The options parameters.
    */
-  private _listByBillingAccountNext(
+  private _listByBillingAccount(
+    billingAccountName: string,
+    reservationOrderId: string,
+    options?: ReservationsListByBillingAccountOptionalParams
+  ): Promise<ReservationsListByBillingAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, reservationOrderId, options },
+      listByBillingAccountOperationSpec
+    );
+  }
+
+  /**
+   * ListAllByBillingAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param nextLink The nextLink from the previous successful call to the ListAllByBillingAccount
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listAllByBillingAccountNext(
     billingAccountName: string,
     nextLink: string,
-    options?: ReservationsListByBillingAccountNextOptionalParams
-  ): Promise<ReservationsListByBillingAccountNextResponse> {
+    options?: ReservationsListAllByBillingAccountNextOptionalParams
+  ): Promise<ReservationsListAllByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      listAllByBillingAccountNextOperationSpec
     );
   }
 
@@ -265,11 +371,30 @@ export class ReservationsImpl implements Reservations {
       listByBillingProfileNextOperationSpec
     );
   }
+
+  /**
+   * ListByBillingAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param reservationOrderId Order Id of the reservation
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccountNext(
+    billingAccountName: string,
+    reservationOrderId: string,
+    nextLink: string,
+    options?: ReservationsListByBillingAccountNextOptionalParams
+  ): Promise<ReservationsListByBillingAccountNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, reservationOrderId, nextLink, options },
+      listByBillingAccountNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
+const listAllByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path:
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservations",
   httpMethod: "GET",
@@ -283,10 +408,12 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
+    Parameters.filter1,
+    Parameters.orderBy,
+    Parameters.skiptoken,
     Parameters.refreshSummary,
-    Parameters.selectedState
+    Parameters.selectedState,
+    Parameters.take
   ],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
@@ -306,10 +433,12 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
+    Parameters.filter1,
+    Parameters.orderBy,
+    Parameters.skiptoken,
     Parameters.refreshSummary,
-    Parameters.selectedState
+    Parameters.selectedState,
+    Parameters.take
   ],
   urlParameters: [
     Parameters.$host,
@@ -319,7 +448,28 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
+const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservationOrders/{reservationOrderId}/reservations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReservationList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.reservationOrderId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAllByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -330,13 +480,6 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.refreshSummary,
-    Parameters.selectedState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -356,18 +499,31 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.refreshSummary,
-    Parameters.selectedState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
     Parameters.billingProfileName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReservationList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.reservationOrderId
   ],
   headerParameters: [Parameters.accept],
   serializer

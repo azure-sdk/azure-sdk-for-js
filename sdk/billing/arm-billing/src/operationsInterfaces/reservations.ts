@@ -9,22 +9,23 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Reservation,
-  ReservationsListByBillingAccountOptionalParams,
-  ReservationsListByBillingProfileOptionalParams
+  ReservationsListAllByBillingAccountOptionalParams,
+  ReservationsListByBillingProfileOptionalParams,
+  ReservationsListByBillingAccountOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Reservations. */
 export interface Reservations {
   /**
-   * Lists the reservations for a billing account and the roll up counts of reservations group by
+   * Lists the reservations in the billing account and the roll up counts of reservations group by
    * provisioning states.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param options The options parameters.
    */
-  listByBillingAccount(
+  listAllByBillingAccount(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams
+    options?: ReservationsListAllByBillingAccountOptionalParams
   ): PagedAsyncIterableIterator<Reservation>;
   /**
    * Lists the reservations for a billing profile and the roll up counts of reservations group by
@@ -37,5 +38,16 @@ export interface Reservations {
     billingAccountName: string,
     billingProfileName: string,
     options?: ReservationsListByBillingProfileOptionalParams
+  ): PagedAsyncIterableIterator<Reservation>;
+  /**
+   * List Reservations within a single ReservationOrder in the billing account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param reservationOrderId Order Id of the reservation
+   * @param options The options parameters.
+   */
+  listByBillingAccount(
+    billingAccountName: string,
+    reservationOrderId: string,
+    options?: ReservationsListByBillingAccountOptionalParams
   ): PagedAsyncIterableIterator<Reservation>;
 }

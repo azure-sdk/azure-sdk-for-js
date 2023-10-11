@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Transactions } from "../operationsInterfaces";
+import { ReservationOrders } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
-  Transaction,
-  TransactionsListByInvoiceNextOptionalParams,
-  TransactionsListByInvoiceOptionalParams,
-  TransactionsListByInvoiceResponse,
-  TransactionsListByInvoiceNextResponse
+  ReservationOrder,
+  ReservationOrdersListByBillingAccountNextOptionalParams,
+  ReservationOrdersListByBillingAccountOptionalParams,
+  ReservationOrdersListByBillingAccountResponse,
+  ReservationOrdersListByBillingAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Transactions operations. */
-export class TransactionsImpl implements Transactions {
+/** Class containing ReservationOrders operations. */
+export class ReservationOrdersImpl implements ReservationOrders {
   private readonly client: BillingManagementClient;
 
   /**
-   * Initialize a new instance of the class Transactions class.
+   * Initialize a new instance of the class ReservationOrders class.
    * @param client Reference to the service client
    */
   constructor(client: BillingManagementClient) {
@@ -35,20 +35,16 @@ export class TransactionsImpl implements Transactions {
   }
 
   /**
-   * Lists the transactions for an invoice. Transactions include purchases, refunds and Azure usage
-   * charges.
+   * List all the `ReservationOrders in the billing account.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param invoiceName The ID that uniquely identifies an invoice.
    * @param options The options parameters.
    */
-  public listByInvoice(
+  public listByBillingAccount(
     billingAccountName: string,
-    invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams
-  ): PagedAsyncIterableIterator<Transaction> {
-    const iter = this.listByInvoicePagingAll(
+    options?: ReservationOrdersListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<ReservationOrder> {
+    const iter = this.listByBillingAccountPagingAll(
       billingAccountName,
-      invoiceName,
       options
     );
     return {
@@ -62,9 +58,8 @@ export class TransactionsImpl implements Transactions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByInvoicePagingPage(
+        return this.listByBillingAccountPagingPage(
           billingAccountName,
-          invoiceName,
           options,
           settings
         );
@@ -72,29 +67,23 @@ export class TransactionsImpl implements Transactions {
     };
   }
 
-  private async *listByInvoicePagingPage(
+  private async *listByBillingAccountPagingPage(
     billingAccountName: string,
-    invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams,
+    options?: ReservationOrdersListByBillingAccountOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Transaction[]> {
-    let result: TransactionsListByInvoiceResponse;
+  ): AsyncIterableIterator<ReservationOrder[]> {
+    let result: ReservationOrdersListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInvoice(
-        billingAccountName,
-        invoiceName,
-        options
-      );
+      result = await this._listByBillingAccount(billingAccountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByInvoiceNext(
+      result = await this._listByBillingAccountNext(
         billingAccountName,
-        invoiceName,
         continuationToken,
         options
       );
@@ -105,14 +94,12 @@ export class TransactionsImpl implements Transactions {
     }
   }
 
-  private async *listByInvoicePagingAll(
+  private async *listByBillingAccountPagingAll(
     billingAccountName: string,
-    invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams
-  ): AsyncIterableIterator<Transaction> {
-    for await (const page of this.listByInvoicePagingPage(
+    options?: ReservationOrdersListByBillingAccountOptionalParams
+  ): AsyncIterableIterator<ReservationOrder> {
+    for await (const page of this.listByBillingAccountPagingPage(
       billingAccountName,
-      invoiceName,
       options
     )) {
       yield* page;
@@ -120,82 +107,77 @@ export class TransactionsImpl implements Transactions {
   }
 
   /**
-   * Lists the transactions for an invoice. Transactions include purchases, refunds and Azure usage
-   * charges.
+   * List all the `ReservationOrders in the billing account.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param invoiceName The ID that uniquely identifies an invoice.
    * @param options The options parameters.
    */
-  private _listByInvoice(
+  private _listByBillingAccount(
     billingAccountName: string,
-    invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams
-  ): Promise<TransactionsListByInvoiceResponse> {
+    options?: ReservationOrdersListByBillingAccountOptionalParams
+  ): Promise<ReservationOrdersListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, invoiceName, options },
-      listByInvoiceOperationSpec
+      { billingAccountName, options },
+      listByBillingAccountOperationSpec
     );
   }
 
   /**
-   * ListByInvoiceNext
+   * ListByBillingAccountNext
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param invoiceName The ID that uniquely identifies an invoice.
-   * @param nextLink The nextLink from the previous successful call to the ListByInvoice method.
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
    * @param options The options parameters.
    */
-  private _listByInvoiceNext(
+  private _listByBillingAccountNext(
     billingAccountName: string,
-    invoiceName: string,
     nextLink: string,
-    options?: TransactionsListByInvoiceNextOptionalParams
-  ): Promise<TransactionsListByInvoiceNextResponse> {
+    options?: ReservationOrdersListByBillingAccountNextOptionalParams
+  ): Promise<ReservationOrdersListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, invoiceName, nextLink, options },
-      listByInvoiceNextOperationSpec
+      { billingAccountName, nextLink, options },
+      listByBillingAccountNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByInvoiceOperationSpec: coreClient.OperationSpec = {
+const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/transactions",
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservationOrders",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TransactionListResult
+      bodyMapper: Mappers.ReservationOrderList
     },
     default: {
-      bodyMapper: Mappers.ArmError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter1,
+    Parameters.orderBy,
+    Parameters.skiptoken
   ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByInvoiceNextOperationSpec: coreClient.OperationSpec = {
+const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TransactionListResult
+      bodyMapper: Mappers.ReservationOrderList
     },
     default: {
-      bodyMapper: Mappers.ArmError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.nextLink,
-    Parameters.invoiceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -6,22 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AvailableBalances } from "../operationsInterfaces";
+import { ReservationOrderOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
-  AvailableBalancesGetOptionalParams,
-  AvailableBalancesGetResponse
+  ReservationOrderGetByBillingAccountOptionalParams,
+  ReservationOrderGetByBillingAccountResponse
 } from "../models";
 
-/** Class containing AvailableBalances operations. */
-export class AvailableBalancesImpl implements AvailableBalances {
+/** Class containing ReservationOrderOperations operations. */
+export class ReservationOrderOperationsImpl
+  implements ReservationOrderOperations {
   private readonly client: BillingManagementClient;
 
   /**
-   * Initialize a new instance of the class AvailableBalances class.
+   * Initialize a new instance of the class ReservationOrderOperations class.
    * @param client Reference to the service client
    */
   constructor(client: BillingManagementClient) {
@@ -29,44 +30,42 @@ export class AvailableBalancesImpl implements AvailableBalances {
   }
 
   /**
-   * The available credit balance for a billing profile. This is the balance that can be used for pay now
-   * to settle due or past due invoices. The operation is supported only for billing accounts with
-   * agreement type Microsoft Customer Agreement.
+   * Get the details of the ReservationOrder in the billing account.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param reservationOrderId Order Id of the reservation
    * @param options The options parameters.
    */
-  get(
+  getByBillingAccount(
     billingAccountName: string,
-    billingProfileName: string,
-    options?: AvailableBalancesGetOptionalParams
-  ): Promise<AvailableBalancesGetResponse> {
+    reservationOrderId: string,
+    options?: ReservationOrderGetByBillingAccountOptionalParams
+  ): Promise<ReservationOrderGetByBillingAccountResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, options },
-      getOperationSpec
+      { billingAccountName, reservationOrderId, options },
+      getByBillingAccountOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/default",
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservationOrders/{reservationOrderId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableBalance
+      bodyMapper: Mappers.ReservationOrder
     },
     default: {
-      bodyMapper: Mappers.ArmError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.reservationOrderId
   ],
   headerParameters: [Parameters.accept],
   serializer

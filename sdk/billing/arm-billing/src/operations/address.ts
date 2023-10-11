@@ -56,7 +56,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ValidateAddressResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   requestBody: Parameters.address,
