@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageSyncService,
   StorageSyncServicesListByResourceGroupOptionalParams,
@@ -69,8 +69,8 @@ export interface StorageSyncServices {
     parameters: StorageSyncServiceCreateParameters,
     options?: StorageSyncServicesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesCreateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesCreateResponse>,
       StorageSyncServicesCreateResponse
     >
   >;
@@ -109,8 +109,8 @@ export interface StorageSyncServices {
     storageSyncServiceName: string,
     options?: StorageSyncServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesUpdateResponse>,
       StorageSyncServicesUpdateResponse
     >
   >;
@@ -136,8 +136,8 @@ export interface StorageSyncServices {
     storageSyncServiceName: string,
     options?: StorageSyncServicesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesDeleteResponse>,
       StorageSyncServicesDeleteResponse
     >
   >;

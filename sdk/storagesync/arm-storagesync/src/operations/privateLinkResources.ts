@@ -56,6 +56,9 @@ const listByStorageSyncServiceOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourceListResult
+    },
+    default: {
+      bodyMapper: Mappers.StorageSyncError
     }
   },
   queryParameters: [Parameters.apiVersion],
