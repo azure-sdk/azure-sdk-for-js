@@ -545,58 +545,6 @@ export const ExperimentUpdate: coreClient.CompositeMapper = {
   }
 };
 
-export const ExperimentCancelOperationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExperimentCancelOperationResult",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusUrl: {
-        constraints: {
-          MaxLength: 2048
-        },
-        serializedName: "statusUrl",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ExperimentStartOperationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExperimentStartOperationResult",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusUrl: {
-        constraints: {
-          MaxLength: 2048
-        },
-        serializedName: "statusUrl",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ExperimentStatusListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1029,6 +977,52 @@ export const ExperimentExecutionActionTargetDetailsError: coreClient.CompositeMa
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "String"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
         }
       }
     }
@@ -1772,6 +1766,13 @@ export const Experiment: coreClient.CompositeMapper = {
           className: "ResourceIdentity"
         }
       },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       steps: {
         constraints: {
           MinItems: 1
@@ -1802,13 +1803,6 @@ export const Experiment: coreClient.CompositeMapper = {
               className: "Selector"
             }
           }
-        }
-      },
-      startOnCreation: {
-        serializedName: "properties.startOnCreation",
-        nullable: true,
-        type: {
-          name: "Boolean"
         }
       }
     }
