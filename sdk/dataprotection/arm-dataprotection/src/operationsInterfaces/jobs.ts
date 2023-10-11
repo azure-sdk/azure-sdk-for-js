@@ -7,11 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AzureBackupJobResource,
   JobsListOptionalParams,
   JobsGetOptionalParams,
-  JobsGetResponse
+  JobsGetResponse,
+  JobsTriggerCancelOptionalParams,
+  JobsTriggerCancelResponse,
+  JobsGenerateProgressUrlOptionalParams,
+  JobsGenerateProgressUrlResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,4 +47,51 @@ export interface Jobs {
     jobId: string,
     options?: JobsGetOptionalParams
   ): Promise<JobsGetResponse>;
+  /**
+   * Triggers cancellation of Job and returns an OperationID to track.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param jobId The Job ID. This is a GUID-formatted string (e.g.
+   *              00000000-0000-0000-0000-000000000000).
+   * @param options The options parameters.
+   */
+  beginTriggerCancel(
+    resourceGroupName: string,
+    vaultName: string,
+    jobId: string,
+    options?: JobsTriggerCancelOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobsTriggerCancelResponse>,
+      JobsTriggerCancelResponse
+    >
+  >;
+  /**
+   * Triggers cancellation of Job and returns an OperationID to track.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param jobId The Job ID. This is a GUID-formatted string (e.g.
+   *              00000000-0000-0000-0000-000000000000).
+   * @param options The options parameters.
+   */
+  beginTriggerCancelAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    jobId: string,
+    options?: JobsTriggerCancelOptionalParams
+  ): Promise<JobsTriggerCancelResponse>;
+  /**
+   * Generates read SAS URL for a blob from which current job progress can be read.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param jobId The Job ID. This is a GUID-formatted string (e.g.
+   *              00000000-0000-0000-0000-000000000000).
+   * @param options The options parameters.
+   */
+  generateProgressUrl(
+    resourceGroupName: string,
+    vaultName: string,
+    jobId: string,
+    options?: JobsGenerateProgressUrlOptionalParams
+  ): Promise<JobsGenerateProgressUrlResponse>;
 }
