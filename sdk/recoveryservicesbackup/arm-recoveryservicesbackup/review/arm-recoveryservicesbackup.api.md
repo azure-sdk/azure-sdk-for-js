@@ -1155,12 +1155,14 @@ export interface BackupStatusRequest {
 
 // @public
 export interface BackupStatusResponse {
+    acquireStorageAccountLock?: AcquireStorageAccountLock;
     containerName?: string;
     errorCode?: string;
     errorMessage?: string;
     fabricName?: FabricName;
     policyName?: string;
     protectedItemName?: string;
+    protectedItemsCount?: number;
     protectionStatus?: ProtectionStatus;
     registrationStatus?: string;
     vaultId?: string;
@@ -1755,6 +1757,7 @@ export type IaaSVMProtectableItemUnion = IaaSVMProtectableItem | AzureIaaSClassi
 
 // @public
 export interface IaasVMRecoveryPoint extends RecoveryPoint {
+    extendedLocation?: ExtendedLocation;
     isInstantIlrSessionActive?: boolean;
     isManagedVirtualMachine?: boolean;
     isPrivateAccessEnabledOnAnyDisk?: boolean;
@@ -3170,10 +3173,11 @@ export interface ProtectionContainerResourceList extends ResourceList {
 
 // @public
 export interface ProtectionContainers {
+    beginRegister(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: ProtectionContainerResource, options?: ProtectionContainersRegisterOptionalParams): Promise<SimplePollerLike<OperationState<ProtectionContainersRegisterResponse>, ProtectionContainersRegisterResponse>>;
+    beginRegisterAndWait(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: ProtectionContainerResource, options?: ProtectionContainersRegisterOptionalParams): Promise<ProtectionContainersRegisterResponse>;
     get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: ProtectionContainersGetOptionalParams): Promise<ProtectionContainersGetResponse>;
     inquire(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: ProtectionContainersInquireOptionalParams): Promise<void>;
     refresh(vaultName: string, resourceGroupName: string, fabricName: string, options?: ProtectionContainersRefreshOptionalParams): Promise<void>;
-    register(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: ProtectionContainerResource, options?: ProtectionContainersRegisterOptionalParams): Promise<ProtectionContainersRegisterResponse>;
     unregister(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: ProtectionContainersUnregisterOptionalParams): Promise<void>;
 }
 
@@ -3196,6 +3200,8 @@ export interface ProtectionContainersRefreshOptionalParams extends coreClient.Op
 
 // @public
 export interface ProtectionContainersRegisterOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
