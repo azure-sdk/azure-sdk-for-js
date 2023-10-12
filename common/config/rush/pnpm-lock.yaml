@@ -1145,6 +1145,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@32.2.0:
+    resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -1807,12 +1822,42 @@ packages:
       lodash: 4.17.21
     dev: false
 
+  /@microsoft/api-extractor-model@7.28.2(@types/node@14.18.63):
+    resolution: {integrity: sha512-vkojrM2fo3q4n4oPh4uUZdjJ2DxQ2+RnDQL/xhTWSRUNPF6P4QyrvY357HBxbnltKcYu+nNNolVqc6TIGQ73Ig==}
+    dependencies:
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.61.0(@types/node@14.18.63)
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
   /@microsoft/api-extractor-model@7.28.2(@types/node@16.18.55):
     resolution: {integrity: sha512-vkojrM2fo3q4n4oPh4uUZdjJ2DxQ2+RnDQL/xhTWSRUNPF6P4QyrvY357HBxbnltKcYu+nNNolVqc6TIGQ73Ig==}
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
       '@rushstack/node-core-library': 3.61.0(@types/node@16.18.55)
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  /@microsoft/api-extractor@7.38.0(@types/node@14.18.63):
+    resolution: {integrity: sha512-e1LhZYnfw+JEebuY2bzhw0imDCl1nwjSThTrQqBXl40hrVo6xm3j/1EpUr89QyzgjqmAwek2ZkIVZbrhaR+cqg==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.28.2(@types/node@14.18.63)
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.61.0(@types/node@14.18.63)
+      '@rushstack/rig-package': 0.5.1
+      '@rushstack/ts-command-line': 4.16.1
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.22.6
+      semver: 7.5.4
+      source-map: 0.6.1
+      typescript: 5.0.4
     transitivePeerDependencies:
       - '@types/node'
     dev: false
@@ -2463,6 +2508,24 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 3.29.4
+    dev: false
+
+  /@rushstack/node-core-library@3.61.0(@types/node@14.18.63):
+    resolution: {integrity: sha512-tdOjdErme+/YOu4gPed3sFS72GhtWCgNV9oDsHDnoLY5oDfwjKUc9Z+JOZZ37uAxcm/OCahDHfuu2ugqrfWAVQ==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@types/node': 14.18.63
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.22.6
+      semver: 7.5.4
+      z-schema: 5.0.5
     dev: false
 
   /@rushstack/node-core-library@3.61.0(@types/node@16.18.55):
@@ -3997,7 +4060,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug@3.2.7:
@@ -8820,6 +8883,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node@10.9.1(@types/node@14.18.63)(typescript@5.0.4):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 14.18.63
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.0.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.0.4):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -11301,10 +11395,11 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-HdAUZ0igdogSmW2ZMJFPJErjY6yUTvx9ZpL6D0Ti/0T/jfz48QrjuNAh6IJUq2AYVlnSWIS1wW064v9nYhTtYg==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-5/2YjNKzgHD8u29E2c58uZ5PHbi3JcATAX9DodSh2YBkXpU7uSVE+NUZbwX73JyaYGSpsAM1j7fwxVFW5D7HTg==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -11327,6 +11422,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-compute-profile-2020-09-01-hybrid.tgz:
@@ -11359,10 +11455,11 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-2378AXQ5Z/8ct0C3m7aosYnj+ukc3Y/0cKKkGbxVQ8wUKi1qTKXV941DiCD4+zEdk7Wrri2ngRccj3f5P080YQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-cSnE7bsCn63sGxQTJlz+oIAs/7UectzTr7v9z0beZSdJ6lrggwTD/IJRAsg51NJKcHMg2KSpyqdbjZvEvA/9Eg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@types/chai': 4.3.6
       '@types/node': 16.18.55
@@ -12680,10 +12777,11 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-yjrUEC6kNjEyYBpVXiVOHJjAv2XBR7Z8gQMsBWPAbMywmmFGlurlZEa3UL3vNfLeOc+Tx0h5aH9W63/n3NcnQg==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-Ov2nXLlFuNU2ZVreGziahQBkWUdj277UlPmmSOZRZ5s6FtTzw40ayHQKUUomBHRKG7iK9PhUC9NFN8OL60/Srg==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -12706,6 +12804,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
@@ -14168,32 +14267,34 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-FlooLGFBIOvJIgGC+P8Uh+ZxnYCPhd7qaNDkpGhJNWCjEu/pK3aXMv8lf50Alu8UoeN891mlZC+bBBDUYbVUmQ==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-Y3udiumT06uyq1tvLNW/UhxItdJYF7tL21wGN7NtbxumY5lMtsg5A4IPNAjz8hKrPG08mBL6unRZrdz66npZpw==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
       '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@types/chai': 4.3.6
-      '@types/node': 16.18.55
+      '@types/node': 14.18.63
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
-      mocha: 10.2.0
-      rimraf: 3.0.2
+      mocha: 7.2.0
+      rimraf: 5.0.5
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.55)(rollup@2.79.1)
-      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
+      rollup-plugin-sourcemaps: 0.6.3(@types/node@14.18.63)(rollup@2.79.1)
+      ts-node: 10.9.1(@types/node@14.18.63)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-network-profile-2020-09-01-hybrid.tgz:
@@ -15074,10 +15175,11 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-RQq2/6hACz1JJA6kEBh7Sdm4A1mzkWcfRUf2JAZucBeRQqjMpNvVjspMwVfyy5WnlbkjgRQB+HbNa0h22d1UiQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-IsmjFWnqyRIBtiHD7HdcKzPn5tRFJqVd/pz19cnVYCO6Rd00VYKWJ1S8Mi1HLGXYGLtXhqe9SsXhvuvBV/RURg==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -15100,6 +15202,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
