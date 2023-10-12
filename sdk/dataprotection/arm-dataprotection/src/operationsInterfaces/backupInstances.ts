@@ -22,8 +22,17 @@ import {
   ValidateForBackupRequest,
   BackupInstancesValidateForBackupOptionalParams,
   BackupInstancesValidateForBackupResponse,
+  ValidateForModifyBackupRequest,
+  BackupInstancesValidateForModifyBackupOptionalParams,
+  BackupInstancesValidateForModifyBackupResponse,
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultResponse,
+  CrossRegionRestoreRequestObject,
+  BackupInstancesTriggerCrossRegionRestoreOptionalParams,
+  BackupInstancesTriggerCrossRegionRestoreResponse,
+  ValidateCrossRegionRestoreRequestObject,
+  BackupInstancesValidateCrossRegionRestoreOptionalParams,
+  BackupInstancesValidateCrossRegionRestoreResponse,
   AzureBackupRehydrationRequest,
   BackupInstancesTriggerRehydrateOptionalParams,
   BackupInstancesTriggerRehydrateResponse,
@@ -196,6 +205,41 @@ export interface BackupInstances {
     options?: BackupInstancesValidateForBackupOptionalParams
   ): Promise<BackupInstancesValidateForBackupResponse>;
   /**
+   * Validate whether update for backup instance will be successful or not
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param backupInstanceName The name of the backup instance.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  beginValidateForModifyBackup(
+    resourceGroupName: string,
+    vaultName: string,
+    backupInstanceName: string,
+    parameters: ValidateForModifyBackupRequest,
+    options?: BackupInstancesValidateForModifyBackupOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateForModifyBackupResponse>,
+      BackupInstancesValidateForModifyBackupResponse
+    >
+  >;
+  /**
+   * Validate whether update for backup instance will be successful or not
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param backupInstanceName The name of the backup instance.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  beginValidateForModifyBackupAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    backupInstanceName: string,
+    parameters: ValidateForModifyBackupRequest,
+    options?: BackupInstancesValidateForModifyBackupOptionalParams
+  ): Promise<BackupInstancesValidateForModifyBackupResponse>;
+  /**
    * Get result of backup instance creation operation
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the backup vault.
@@ -210,6 +254,64 @@ export interface BackupInstances {
     operationId: string,
     options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams
   ): Promise<BackupInstancesGetBackupInstanceOperationResultResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for trigger CRR operation
+   * @param options The options parameters.
+   */
+  beginTriggerCrossRegionRestore(
+    resourceGroupName: string,
+    location: string,
+    parameters: CrossRegionRestoreRequestObject,
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesTriggerCrossRegionRestoreResponse>,
+      BackupInstancesTriggerCrossRegionRestoreResponse
+    >
+  >;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for trigger CRR operation
+   * @param options The options parameters.
+   */
+  beginTriggerCrossRegionRestoreAndWait(
+    resourceGroupName: string,
+    location: string,
+    parameters: CrossRegionRestoreRequestObject,
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  ): Promise<BackupInstancesTriggerCrossRegionRestoreResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  beginValidateCrossRegionRestore(
+    resourceGroupName: string,
+    location: string,
+    parameters: ValidateCrossRegionRestoreRequestObject,
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateCrossRegionRestoreResponse>,
+      BackupInstancesValidateCrossRegionRestoreResponse
+    >
+  >;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  beginValidateCrossRegionRestoreAndWait(
+    resourceGroupName: string,
+    location: string,
+    parameters: ValidateCrossRegionRestoreRequestObject,
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams
+  ): Promise<BackupInstancesValidateCrossRegionRestoreResponse>;
   /**
    * rehydrate recovery point for restore for a BackupInstance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
