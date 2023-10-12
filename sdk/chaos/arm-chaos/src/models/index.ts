@@ -231,98 +231,22 @@ export interface ExperimentUpdate {
   identity?: ResourceIdentity;
 }
 
-/** Model that represents the result of a cancel Experiment operation. */
-export interface ExperimentCancelOperationResult {
+/** Model that represents a list of Experiment executions and a link for pagination. */
+export interface ExperimentExecutionListResult {
   /**
-   * String of the Experiment name.
+   * List of Experiment executions.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly value?: ExperimentExecution[];
   /**
-   * URL to retrieve the Experiment status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusUrl?: string;
-}
-
-/** Model that represents the result of a start Experiment operation. */
-export interface ExperimentStartOperationResult {
-  /**
-   * String of the Experiment name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * URL to retrieve the Experiment status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusUrl?: string;
-}
-
-/** Model that represents a list of Experiment statuses and a link for pagination. */
-export interface ExperimentStatusListResult {
-  /**
-   * List of Experiment statuses.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ExperimentStatus[];
-  /**
-   * URL to retrieve the next page of Experiment statuses.
+   * URL to retrieve the next page of Experiment executions.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/** Model that represents the status of a Experiment. */
-export interface ExperimentStatus {
-  /**
-   * String of the resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * String of the fully qualified resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * String of the resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * String that represents the status of a Experiment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * String that represents the created date time of a Experiment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDateUtc?: Date;
-  /**
-   * String that represents the end date time of a Experiment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endDateUtc?: Date;
-}
-
-/** Model that represents a list of Experiment execution details and a link for pagination. */
-export interface ExperimentExecutionDetailsListResult {
-  /**
-   * List of Experiment execution details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ExperimentExecutionDetails[];
-  /**
-   * URL to retrieve the next page of Experiment execution details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Model that represents the execution details of a Experiment. */
-export interface ExperimentExecutionDetails {
+/** Model that represents the execution of a Experiment. */
+export interface ExperimentExecution {
   /**
    * String of the resource type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -344,174 +268,36 @@ export interface ExperimentExecutionDetails {
    */
   readonly experimentId?: string;
   /**
-   * The value of the status of the experiment execution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * The reason why the execution failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failureReason?: string;
-  /**
-   * String that represents the created date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDateTime?: Date;
-  /**
-   * String that represents the last action date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastActionDateTime?: Date;
-  /**
-   * String that represents the start date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startDateTime?: Date;
-  /**
-   * String that represents the stop date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stopDateTime?: Date;
-  /**
-   * The information of the experiment run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runInformation?: ExperimentExecutionDetailsPropertiesRunInformation;
-}
-
-/** The information of the experiment run. */
-export interface ExperimentExecutionDetailsPropertiesRunInformation {
-  /**
-   * The steps of the experiment run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly steps?: StepStatus[];
-}
-
-/** Model that represents the a list of branches and branch statuses. */
-export interface StepStatus {
-  /**
-   * The name of the step.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stepName?: string;
-  /**
-   * The id of the step.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stepId?: string;
-  /**
-   * The value of the status of the step.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * The array of branches.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly branches?: BranchStatus[];
-}
-
-/** Model that represents the a list of actions and action statuses. */
-export interface BranchStatus {
-  /**
-   * The name of the branch status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly branchName?: string;
-  /**
-   * The id of the branch status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly branchId?: string;
-  /**
-   * The status of the branch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * The array of actions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actions?: ActionStatus[];
-}
-
-/** Model that represents the an action and its status. */
-export interface ActionStatus {
-  /**
-   * The name of the action status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionName?: string;
-  /**
-   * The id of the action status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionId?: string;
-  /**
-   * The status of the action.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * String that represents the start time of the action.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * String that represents the end time of the action.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-  /**
-   * The array of targets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targets?: ExperimentExecutionActionTargetDetailsProperties[];
-}
-
-/** Model that represents the Experiment action target details properties model. */
-export interface ExperimentExecutionActionTargetDetailsProperties {
-  /**
    * The status of the execution.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
   /**
-   * The target for the action.
+   * String that represents the start date time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly target?: string;
+  readonly startedAt?: Date;
   /**
-   * String that represents the failed date time.
+   * String that represents the stop date time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly targetFailedTime?: Date;
-  /**
-   * String that represents the completed date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetCompletedTime?: Date;
-  /**
-   * The error of the action.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ExperimentExecutionActionTargetDetailsError;
+  readonly stoppedAt?: Date;
 }
 
-/** Model that represents the Experiment action target details error model. */
-export interface ExperimentExecutionActionTargetDetailsError {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
+/** The status of operation. */
+export interface OperationStatus {
+  /** The operation Id. */
+  id?: string;
+  /** The operation name. */
+  name?: string;
+  /** The start time of the operation. */
+  startTime?: string;
+  /** The end time of the operation. */
+  endTime?: string;
+  /** The status of the operation. */
+  status?: string;
+  /** The error detail of the operation if any. */
+  error?: ErrorResponse;
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -831,12 +617,15 @@ export interface Experiment extends TrackedResource {
   readonly systemData?: SystemData;
   /** The identity of the experiment resource. */
   identity?: ResourceIdentity;
+  /**
+   * Most recent provisioning state for the given experiment resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /** List of steps. */
   steps: Step[];
   /** List of selectors. */
   selectors: SelectorUnion[];
-  /** A boolean value that indicates if experiment should be started on creation or not. */
-  startOnCreation?: boolean;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -862,6 +651,36 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting**
+ */
+export type ProvisioningState = string;
 
 /** Known values of {@link SelectorType} that the service accepts. */
 export enum KnownSelectorType {
@@ -1034,7 +853,12 @@ export type ExperimentsListResponse = ExperimentListResult;
 
 /** Optional parameters. */
 export interface ExperimentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ExperimentsGetOptionalParams
@@ -1045,59 +869,59 @@ export type ExperimentsGetResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ExperimentsCreateOrUpdateResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type ExperimentsUpdateResponse = Experiment;
 
 /** Optional parameters. */
 export interface ExperimentsCancelOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the cancel operation. */
-export type ExperimentsCancelResponse = ExperimentCancelOperationResult;
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ExperimentsStartOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the start operation. */
-export type ExperimentsStartResponse = ExperimentStartOperationResult;
-
-/** Optional parameters. */
-export interface ExperimentsListAllStatusesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAllStatuses operation. */
-export type ExperimentsListAllStatusesResponse = ExperimentStatusListResult;
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
-export interface ExperimentsGetStatusOptionalParams
+export interface ExperimentsListAllExecutionsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getStatus operation. */
-export type ExperimentsGetStatusResponse = ExperimentStatus;
+/** Contains response data for the listAllExecutions operation. */
+export type ExperimentsListAllExecutionsResponse = ExperimentExecutionListResult;
 
 /** Optional parameters. */
-export interface ExperimentsListExecutionDetailsOptionalParams
+export interface ExperimentsGetExecutionOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listExecutionDetails operation. */
-export type ExperimentsListExecutionDetailsResponse = ExperimentExecutionDetailsListResult;
-
-/** Optional parameters. */
-export interface ExperimentsGetExecutionDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getExecutionDetails operation. */
-export type ExperimentsGetExecutionDetailsResponse = ExperimentExecutionDetails;
+/** Contains response data for the getExecution operation. */
+export type ExperimentsGetExecutionResponse = ExperimentExecution;
 
 /** Optional parameters. */
 export interface ExperimentsListAllNextOptionalParams
@@ -1114,18 +938,18 @@ export interface ExperimentsListNextOptionalParams
 export type ExperimentsListNextResponse = ExperimentListResult;
 
 /** Optional parameters. */
-export interface ExperimentsListAllStatusesNextOptionalParams
+export interface ExperimentsListAllExecutionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAllStatusesNext operation. */
-export type ExperimentsListAllStatusesNextResponse = ExperimentStatusListResult;
+/** Contains response data for the listAllExecutionsNext operation. */
+export type ExperimentsListAllExecutionsNextResponse = ExperimentExecutionListResult;
 
 /** Optional parameters. */
-export interface ExperimentsListExecutionDetailsNextOptionalParams
+export interface OperationStatusesGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listExecutionDetailsNext operation. */
-export type ExperimentsListExecutionDetailsNextResponse = ExperimentExecutionDetailsListResult;
+/** Contains response data for the get operation. */
+export type OperationStatusesGetResponse = OperationStatus;
 
 /** Optional parameters. */
 export interface OperationsListAllOptionalParams
@@ -1205,6 +1029,8 @@ export interface ChaosManagementClientOptionalParams
   $host?: string;
   /** Api Version */
   apiVersion?: string;
+  /** The expand expression to apply on the operation. */
+  expand?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
