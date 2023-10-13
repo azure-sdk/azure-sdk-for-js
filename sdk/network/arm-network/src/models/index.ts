@@ -11646,6 +11646,12 @@ export interface PublicIPAddressesDdosProtectionStatusHeaders {
   location?: string;
 }
 
+/** Defines headers for DdosCustomPolicies_delete operation. */
+export interface DdosCustomPoliciesDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
 /** Defines headers for DdosProtectionPlans_delete operation. */
 export interface DdosProtectionPlansDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */

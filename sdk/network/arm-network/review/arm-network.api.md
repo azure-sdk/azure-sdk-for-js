@@ -2937,6 +2937,11 @@ export interface DdosCustomPoliciesCreateOrUpdateOptionalParams extends coreClie
 export type DdosCustomPoliciesCreateOrUpdateResponse = DdosCustomPolicy;
 
 // @public
+export interface DdosCustomPoliciesDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface DdosCustomPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;

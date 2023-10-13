@@ -30986,6 +30986,21 @@ export const PublicIPAddressesDdosProtectionStatusHeaders: coreClient.CompositeM
   }
 };
 
+export const DdosCustomPoliciesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DdosCustomPoliciesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DdosProtectionPlansDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
