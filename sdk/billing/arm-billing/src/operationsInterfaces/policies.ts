@@ -6,21 +6,71 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  PoliciesGetByBillingProfileOptionalParams,
-  PoliciesGetByBillingProfileResponse,
-  Policy,
-  PoliciesUpdateOptionalParams,
-  PoliciesUpdateResponse,
   PoliciesGetByCustomerOptionalParams,
   PoliciesGetByCustomerResponse,
-  CustomerPolicy,
-  PoliciesUpdateCustomerOptionalParams,
-  PoliciesUpdateCustomerResponse
+  PoliciesCreateOrUpdateByCustomerOptionalParams,
+  PoliciesCreateOrUpdateByCustomerResponse,
+  PoliciesGetByBillingProfileOptionalParams,
+  PoliciesGetByBillingProfileResponse,
+  PoliciesCreateOrUpdateByBillingProfileOptionalParams,
+  PoliciesCreateOrUpdateByBillingProfileResponse,
+  PoliciesGetByBillingAccountOptionalParams,
+  PoliciesGetByBillingAccountResponse,
+  PoliciesCreateOrUpdateByBillingAccountOptionalParams,
+  PoliciesCreateOrUpdateByBillingAccountResponse
 } from "../models";
 
 /** Interface representing a Policies. */
 export interface Policies {
+  /**
+   * Lists the policies for a customer. This operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  getByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: PoliciesGetByCustomerOptionalParams
+  ): Promise<PoliciesGetByCustomerResponse>;
+  /**
+   * Updates the policies for a customer. This operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: PoliciesCreateOrUpdateByCustomerOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateByCustomerResponse>,
+      PoliciesCreateOrUpdateByCustomerResponse
+    >
+  >;
+  /**
+   * Updates the policies for a customer. This operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByCustomerAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: PoliciesCreateOrUpdateByCustomerOptionalParams
+  ): Promise<PoliciesCreateOrUpdateByCustomerResponse>;
   /**
    * Lists the policies for a billing profile. This operation is supported only for billing accounts with
    * agreement type Microsoft Customer Agreement.
@@ -38,39 +88,60 @@ export interface Policies {
    * with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param parameters Request parameters that are provided to the update policies operation.
    * @param options The options parameters.
    */
-  update(
+  beginCreateOrUpdateByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    parameters: Policy,
-    options?: PoliciesUpdateOptionalParams
-  ): Promise<PoliciesUpdateResponse>;
+    options?: PoliciesCreateOrUpdateByBillingProfileOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateByBillingProfileResponse>,
+      PoliciesCreateOrUpdateByBillingProfileResponse
+    >
+  >;
   /**
-   * Lists the policies for a customer. This operation is supported only for billing accounts with
-   * agreement type Microsoft Partner Agreement.
+   * Updates the policies for a billing profile. This operation is supported only for billing accounts
+   * with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
-  getByCustomer(
+  beginCreateOrUpdateByBillingProfileAndWait(
     billingAccountName: string,
-    customerName: string,
-    options?: PoliciesGetByCustomerOptionalParams
-  ): Promise<PoliciesGetByCustomerResponse>;
+    billingProfileName: string,
+    options?: PoliciesCreateOrUpdateByBillingProfileOptionalParams
+  ): Promise<PoliciesCreateOrUpdateByBillingProfileResponse>;
   /**
-   * Updates the policies for a customer. This operation is supported only for billing accounts with
-   * agreement type Microsoft Partner Agreement.
+   * Get the policies for a billing account of Enterprise Agreement type.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param parameters Request parameters that are provided to the update policies operation.
    * @param options The options parameters.
    */
-  updateCustomer(
+  getByBillingAccount(
     billingAccountName: string,
-    customerName: string,
-    parameters: CustomerPolicy,
-    options?: PoliciesUpdateCustomerOptionalParams
-  ): Promise<PoliciesUpdateCustomerResponse>;
+    options?: PoliciesGetByBillingAccountOptionalParams
+  ): Promise<PoliciesGetByBillingAccountResponse>;
+  /**
+   * Update the policies for a billing account of Enterprise Agreement type.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByBillingAccount(
+    billingAccountName: string,
+    options?: PoliciesCreateOrUpdateByBillingAccountOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateByBillingAccountResponse>,
+      PoliciesCreateOrUpdateByBillingAccountResponse
+    >
+  >;
+  /**
+   * Update the policies for a billing account of Enterprise Agreement type.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByBillingAccountAndWait(
+    billingAccountName: string,
+    options?: PoliciesCreateOrUpdateByBillingAccountOptionalParams
+  ): Promise<PoliciesCreateOrUpdateByBillingAccountResponse>;
 }

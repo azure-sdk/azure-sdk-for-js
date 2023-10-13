@@ -15,24 +15,24 @@ import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
   BillingRoleDefinition,
-  BillingRoleDefinitionsListByBillingAccountNextOptionalParams,
-  BillingRoleDefinitionsListByBillingAccountOptionalParams,
-  BillingRoleDefinitionsListByBillingAccountResponse,
-  BillingRoleDefinitionsListByInvoiceSectionNextOptionalParams,
-  BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
-  BillingRoleDefinitionsListByInvoiceSectionResponse,
   BillingRoleDefinitionsListByBillingProfileNextOptionalParams,
   BillingRoleDefinitionsListByBillingProfileOptionalParams,
   BillingRoleDefinitionsListByBillingProfileResponse,
-  BillingRoleDefinitionsGetByBillingAccountOptionalParams,
-  BillingRoleDefinitionsGetByBillingAccountResponse,
-  BillingRoleDefinitionsGetByInvoiceSectionOptionalParams,
-  BillingRoleDefinitionsGetByInvoiceSectionResponse,
+  BillingRoleDefinitionsListByInvoiceSectionNextOptionalParams,
+  BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
+  BillingRoleDefinitionsListByInvoiceSectionResponse,
+  BillingRoleDefinitionsListByBillingAccountNextOptionalParams,
+  BillingRoleDefinitionsListByBillingAccountOptionalParams,
+  BillingRoleDefinitionsListByBillingAccountResponse,
   BillingRoleDefinitionsGetByBillingProfileOptionalParams,
   BillingRoleDefinitionsGetByBillingProfileResponse,
-  BillingRoleDefinitionsListByBillingAccountNextResponse,
+  BillingRoleDefinitionsGetByInvoiceSectionOptionalParams,
+  BillingRoleDefinitionsGetByInvoiceSectionResponse,
+  BillingRoleDefinitionsGetByBillingAccountOptionalParams,
+  BillingRoleDefinitionsGetByBillingAccountResponse,
+  BillingRoleDefinitionsListByBillingProfileNextResponse,
   BillingRoleDefinitionsListByInvoiceSectionNextResponse,
-  BillingRoleDefinitionsListByBillingProfileNextResponse
+  BillingRoleDefinitionsListByBillingAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,17 +49,20 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   }
 
   /**
-   * Lists the role definitions for a billing account. The operation is supported for billing accounts
+   * Lists the role definitions for a billing profile. The operation is supported for billing accounts
    * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
-  public listByBillingAccount(
+  public listByBillingProfile(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+    billingProfileName: string,
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
   ): PagedAsyncIterableIterator<BillingRoleDefinition> {
-    const iter = this.listByBillingAccountPagingAll(
+    const iter = this.listByBillingProfilePagingAll(
       billingAccountName,
+      billingProfileName,
       options
     );
     return {
@@ -73,8 +76,9 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
+        return this.listByBillingProfilePagingPage(
           billingAccountName,
+          billingProfileName,
           options,
           settings
         );
@@ -82,23 +86,29 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     };
   }
 
-  private async *listByBillingAccountPagingPage(
+  private async *listByBillingProfilePagingPage(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams,
+    billingProfileName: string,
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<BillingRoleDefinition[]> {
-    let result: BillingRoleDefinitionsListByBillingAccountResponse;
+    let result: BillingRoleDefinitionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingAccount(billingAccountName, options);
+      result = await this._listByBillingProfile(
+        billingAccountName,
+        billingProfileName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
+      result = await this._listByBillingProfileNext(
         billingAccountName,
+        billingProfileName,
         continuationToken,
         options
       );
@@ -109,12 +119,14 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     }
   }
 
-  private async *listByBillingAccountPagingAll(
+  private async *listByBillingProfilePagingAll(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+    billingProfileName: string,
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
   ): AsyncIterableIterator<BillingRoleDefinition> {
-    for await (const page of this.listByBillingAccountPagingPage(
+    for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
+      billingProfileName,
       options
     )) {
       yield* page;
@@ -216,20 +228,17 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   }
 
   /**
-   * Lists the role definitions for a billing profile. The operation is supported for billing accounts
+   * Lists the role definitions for a billing account. The operation is supported for billing accounts
    * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
-  public listByBillingProfile(
+  public listByBillingAccount(
     billingAccountName: string,
-    billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
   ): PagedAsyncIterableIterator<BillingRoleDefinition> {
-    const iter = this.listByBillingProfilePagingAll(
+    const iter = this.listByBillingAccountPagingAll(
       billingAccountName,
-      billingProfileName,
       options
     );
     return {
@@ -243,9 +252,8 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingProfilePagingPage(
+        return this.listByBillingAccountPagingPage(
           billingAccountName,
-          billingProfileName,
           options,
           settings
         );
@@ -253,29 +261,23 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     };
   }
 
-  private async *listByBillingProfilePagingPage(
+  private async *listByBillingAccountPagingPage(
     billingAccountName: string,
-    billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams,
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<BillingRoleDefinition[]> {
-    let result: BillingRoleDefinitionsListByBillingProfileResponse;
+    let result: BillingRoleDefinitionsListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options
-      );
+      result = await this._listByBillingAccount(billingAccountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingProfileNext(
+      result = await this._listByBillingAccountNext(
         billingAccountName,
-        billingProfileName,
         continuationToken,
         options
       );
@@ -286,14 +288,12 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     }
   }
 
-  private async *listByBillingProfilePagingAll(
+  private async *listByBillingAccountPagingAll(
     billingAccountName: string,
-    billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
   ): AsyncIterableIterator<BillingRoleDefinition> {
-    for await (const page of this.listByBillingProfilePagingPage(
+    for await (const page of this.listByBillingAccountPagingPage(
       billingAccountName,
-      billingProfileName,
       options
     )) {
       yield* page;
@@ -301,20 +301,65 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   }
 
   /**
-   * Gets the definition for a role on a billing account. The operation is supported for billing accounts
+   * Lists the role definitions for a billing profile. The operation is supported for billing accounts
    * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  private _listByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
+  ): Promise<BillingRoleDefinitionsListByBillingProfileResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, options },
+      listByBillingProfileOperationSpec
+    );
+  }
+
+  /**
+   * Gets the definition for a role on a billing profile. The operation is supported for billing accounts
+   * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param billingRoleDefinitionName The ID that uniquely identifies a role definition.
    * @param options The options parameters.
    */
-  getByBillingAccount(
+  getByBillingProfile(
     billingAccountName: string,
+    billingProfileName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByBillingAccountOptionalParams
-  ): Promise<BillingRoleDefinitionsGetByBillingAccountResponse> {
+    options?: BillingRoleDefinitionsGetByBillingProfileOptionalParams
+  ): Promise<BillingRoleDefinitionsGetByBillingProfileResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, billingRoleDefinitionName, options },
-      getByBillingAccountOperationSpec
+      {
+        billingAccountName,
+        billingProfileName,
+        billingRoleDefinitionName,
+        options
+      },
+      getByBillingProfileOperationSpec
+    );
+  }
+
+  /**
+   * Lists the role definitions for an invoice section. The operation is supported for billing accounts
+   * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  private _listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams
+  ): Promise<BillingRoleDefinitionsListByInvoiceSectionResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, invoiceSectionName, options },
+      listByInvoiceSectionOperationSpec
     );
   }
 
@@ -347,31 +392,6 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   }
 
   /**
-   * Gets the definition for a role on a billing profile. The operation is supported for billing accounts
-   * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param billingRoleDefinitionName The ID that uniquely identifies a role definition.
-   * @param options The options parameters.
-   */
-  getByBillingProfile(
-    billingAccountName: string,
-    billingProfileName: string,
-    billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByBillingProfileOptionalParams
-  ): Promise<BillingRoleDefinitionsGetByBillingProfileResponse> {
-    return this.client.sendOperationRequest(
-      {
-        billingAccountName,
-        billingProfileName,
-        billingRoleDefinitionName,
-        options
-      },
-      getByBillingProfileOperationSpec
-    );
-  }
-
-  /**
    * Lists the role definitions for a billing account. The operation is supported for billing accounts
    * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -388,57 +408,39 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   }
 
   /**
-   * Lists the role definitions for an invoice section. The operation is supported for billing accounts
+   * Gets the definition for a role on a billing account. The operation is supported for billing accounts
    * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param billingRoleDefinitionName The ID that uniquely identifies a role definition.
    * @param options The options parameters.
    */
-  private _listByInvoiceSection(
+  getByBillingAccount(
     billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams
-  ): Promise<BillingRoleDefinitionsListByInvoiceSectionResponse> {
+    billingRoleDefinitionName: string,
+    options?: BillingRoleDefinitionsGetByBillingAccountOptionalParams
+  ): Promise<BillingRoleDefinitionsGetByBillingAccountResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, invoiceSectionName, options },
-      listByInvoiceSectionOperationSpec
+      { billingAccountName, billingRoleDefinitionName, options },
+      getByBillingAccountOperationSpec
     );
   }
 
   /**
-   * Lists the role definitions for a billing profile. The operation is supported for billing accounts
-   * with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * ListByBillingProfileNext
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingProfile method.
    * @param options The options parameters.
    */
-  private _listByBillingProfile(
+  private _listByBillingProfileNext(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
-  ): Promise<BillingRoleDefinitionsListByBillingProfileResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
-    );
-  }
-
-  /**
-   * ListByBillingAccountNext
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
-   * @param options The options parameters.
-   */
-  private _listByBillingAccountNext(
-    billingAccountName: string,
     nextLink: string,
-    options?: BillingRoleDefinitionsListByBillingAccountNextOptionalParams
-  ): Promise<BillingRoleDefinitionsListByBillingAccountNextResponse> {
+    options?: BillingRoleDefinitionsListByBillingProfileNextOptionalParams
+  ): Promise<BillingRoleDefinitionsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      { billingAccountName, billingProfileName, nextLink, options },
+      listByBillingProfileNextOperationSpec
     );
   }
 
@@ -470,67 +472,42 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   }
 
   /**
-   * ListByBillingProfileNext
+   * ListByBillingAccountNext
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param nextLink The nextLink from the previous successful call to the ListByBillingProfile method.
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
    * @param options The options parameters.
    */
-  private _listByBillingProfileNext(
+  private _listByBillingAccountNext(
     billingAccountName: string,
-    billingProfileName: string,
     nextLink: string,
-    options?: BillingRoleDefinitionsListByBillingProfileNextOptionalParams
-  ): Promise<BillingRoleDefinitionsListByBillingProfileNextResponse> {
+    options?: BillingRoleDefinitionsListByBillingAccountNextOptionalParams
+  ): Promise<BillingRoleDefinitionsListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      { billingAccountName, nextLink, options },
+      listByBillingAccountNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
+const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions/{billingRoleDefinitionName}",
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinition
+      bodyMapper: Mappers.BillingRoleDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingRoleDefinitionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions/{billingRoleDefinitionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingRoleDefinition
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-    Parameters.invoiceSectionName,
-    Parameters.billingRoleDefinitionName
+    Parameters.billingProfileName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -544,7 +521,7 @@ const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingRoleDefinition
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -552,6 +529,51 @@ const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
+    Parameters.billingRoleDefinitionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingRoleDefinitionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions/{billingRoleDefinitionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingRoleDefinition
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName,
     Parameters.billingRoleDefinitionName
   ],
   headerParameters: [Parameters.accept],
@@ -566,7 +588,7 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingRoleDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -574,87 +596,23 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
+const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions",
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions/{billingRoleDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
+      bodyMapper: Mappers.BillingRoleDefinition
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName,
-    Parameters.invoiceSectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleDefinitions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-    Parameters.billingProfileName,
-    Parameters.invoiceSectionName
+    Parameters.billingRoleDefinitionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -667,15 +625,54 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingRoleDefinitionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
     Parameters.billingProfileName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingRoleDefinitionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingRoleDefinitionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

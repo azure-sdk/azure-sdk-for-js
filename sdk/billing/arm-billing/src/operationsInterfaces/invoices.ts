@@ -7,48 +7,31 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Invoice,
-  InvoicesListByBillingAccountOptionalParams,
   InvoicesListByBillingProfileOptionalParams,
+  InvoicesListByBillingAccountOptionalParams,
   InvoicesListByBillingSubscriptionOptionalParams,
-  InvoicesGetOptionalParams,
-  InvoicesGetResponse,
-  InvoicesGetByIdOptionalParams,
-  InvoicesGetByIdResponse,
-  InvoicesDownloadInvoiceOptionalParams,
-  InvoicesDownloadInvoiceResponse,
   InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams,
   InvoicesDownloadMultipleBillingProfileInvoicesResponse,
+  InvoicesGetOptionalParams,
+  InvoicesGetResponse,
+  InvoicesDownloadInvoiceOptionalParams,
+  InvoicesDownloadInvoiceResponse,
+  InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams,
+  InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse,
   InvoicesGetBySubscriptionAndInvoiceIdOptionalParams,
   InvoicesGetBySubscriptionAndInvoiceIdResponse,
   InvoicesDownloadBillingSubscriptionInvoiceOptionalParams,
   InvoicesDownloadBillingSubscriptionInvoiceResponse,
-  InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams,
-  InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
+  InvoicesGetByIdOptionalParams,
+  InvoicesGetByIdResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Invoices. */
 export interface Invoices {
-  /**
-   * Lists the invoices for a billing account for a given start date and end date. The operation is
-   * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer
-   * Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
-   *                        MM-DD-YYYY format.
-   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
-   *                      format.
-   * @param options The options parameters.
-   */
-  listByBillingAccount(
-    billingAccountName: string,
-    periodStartDate: string,
-    periodEndDate: string,
-    options?: InvoicesListByBillingAccountOptionalParams
-  ): PagedAsyncIterableIterator<Invoice>;
   /**
    * Lists the invoices for a billing profile for a given start date and end date. The operation is
    * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer
@@ -69,16 +52,66 @@ export interface Invoices {
     options?: InvoicesListByBillingProfileOptionalParams
   ): PagedAsyncIterableIterator<Invoice>;
   /**
+   * Lists the invoices for a billing account for a given start date and end date. The operation is
+   * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer
+   * Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in MM-DD-YYYY
+   *                      format.
+   * @param options The options parameters.
+   */
+  listByBillingAccount(
+    billingAccountName: string,
+    periodStartDate: string,
+    periodEndDate: string,
+    options?: InvoicesListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<Invoice>;
+  /**
    * Lists the invoices for a subscription.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
    * @param periodStartDate Invoice period start date.
    * @param periodEndDate Invoice period end date.
    * @param options The options parameters.
    */
   listByBillingSubscription(
+    subscriptionId: string,
     periodStartDate: string,
     periodEndDate: string,
     options?: InvoicesListByBillingSubscriptionOptionalParams
   ): PagedAsyncIterableIterator<Invoice>;
+  /**
+   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
+   * file. The operation is supported for billing accounts with agreement type Microsoft Partner
+   * Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param downloadUrls An array of download urls for individual documents
+   * @param options The options parameters.
+   */
+  beginDownloadMultipleBillingProfileInvoices(
+    billingAccountName: string,
+    downloadUrls: string[],
+    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>,
+      InvoicesDownloadMultipleBillingProfileInvoicesResponse
+    >
+  >;
+  /**
+   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
+   * file. The operation is supported for billing accounts with agreement type Microsoft Partner
+   * Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param downloadUrls An array of download urls for individual documents
+   * @param options The options parameters.
+   */
+  beginDownloadMultipleBillingProfileInvoicesAndWait(
+    billingAccountName: string,
+    downloadUrls: string[],
+    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
+  ): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse>;
   /**
    * Gets an invoice by billing account name and ID. The operation is supported for billing accounts with
    * agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
@@ -91,16 +124,6 @@ export interface Invoices {
     invoiceName: string,
     options?: InvoicesGetOptionalParams
   ): Promise<InvoicesGetResponse>;
-  /**
-   * Gets an invoice by ID. The operation is supported for billing accounts with agreement type Microsoft
-   * Partner Agreement or Microsoft Customer Agreement.
-   * @param invoiceName The ID that uniquely identifies an invoice.
-   * @param options The options parameters.
-   */
-  getById(
-    invoiceName: string,
-    options?: InvoicesGetByIdOptionalParams
-  ): Promise<InvoicesGetByIdResponse>;
   /**
    * Gets a URL to download an invoice. The operation is supported for billing accounts with agreement
    * type Microsoft Partner Agreement or Microsoft Customer Agreement.
@@ -115,8 +138,8 @@ export interface Invoices {
     downloadToken: string,
     options?: InvoicesDownloadInvoiceOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoicesDownloadInvoiceResponse>,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadInvoiceResponse>,
       InvoicesDownloadInvoiceResponse
     >
   >;
@@ -136,85 +159,18 @@ export interface Invoices {
   ): Promise<InvoicesDownloadInvoiceResponse>;
   /**
    * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
-   * file. The operation is supported for billing accounts with agreement type Microsoft Partner
-   * Agreement or Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param downloadUrls An array of download urls for individual documents
-   * @param options The options parameters.
-   */
-  beginDownloadMultipleBillingProfileInvoices(
-    billingAccountName: string,
-    downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        InvoicesDownloadMultipleBillingProfileInvoicesResponse
-      >,
-      InvoicesDownloadMultipleBillingProfileInvoicesResponse
-    >
-  >;
-  /**
-   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
-   * file. The operation is supported for billing accounts with agreement type Microsoft Partner
-   * Agreement or Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param downloadUrls An array of download urls for individual documents
-   * @param options The options parameters.
-   */
-  beginDownloadMultipleBillingProfileInvoicesAndWait(
-    billingAccountName: string,
-    downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
-  ): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse>;
-  /**
-   * Gets an invoice by subscription ID and invoice ID.
-   * @param invoiceName The ID that uniquely identifies an invoice.
-   * @param options The options parameters.
-   */
-  getBySubscriptionAndInvoiceId(
-    invoiceName: string,
-    options?: InvoicesGetBySubscriptionAndInvoiceIdOptionalParams
-  ): Promise<InvoicesGetBySubscriptionAndInvoiceIdResponse>;
-  /**
-   * Gets a URL to download an invoice.
-   * @param invoiceName The ID that uniquely identifies an invoice.
-   * @param downloadToken Download token with document source and document ID.
-   * @param options The options parameters.
-   */
-  beginDownloadBillingSubscriptionInvoice(
-    invoiceName: string,
-    downloadToken: string,
-    options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>,
-      InvoicesDownloadBillingSubscriptionInvoiceResponse
-    >
-  >;
-  /**
-   * Gets a URL to download an invoice.
-   * @param invoiceName The ID that uniquely identifies an invoice.
-   * @param downloadToken Download token with document source and document ID.
-   * @param options The options parameters.
-   */
-  beginDownloadBillingSubscriptionInvoiceAndWait(
-    invoiceName: string,
-    downloadToken: string,
-    options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
-  ): Promise<InvoicesDownloadBillingSubscriptionInvoiceResponse>;
-  /**
-   * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
    * file.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
    * @param downloadUrls An array of download urls for individual documents
    * @param options The options parameters.
    */
   beginDownloadMultipleBillingSubscriptionInvoices(
+    subscriptionId: string,
     downloadUrls: string[],
     options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
       >,
       InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
@@ -223,11 +179,65 @@ export interface Invoices {
   /**
    * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
    * file.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
    * @param downloadUrls An array of download urls for individual documents
    * @param options The options parameters.
    */
   beginDownloadMultipleBillingSubscriptionInvoicesAndWait(
+    subscriptionId: string,
     downloadUrls: string[],
     options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
   ): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>;
+  /**
+   * Gets an invoice by subscription ID and invoice ID.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The options parameters.
+   */
+  getBySubscriptionAndInvoiceId(
+    subscriptionId: string,
+    invoiceName: string,
+    options?: InvoicesGetBySubscriptionAndInvoiceIdOptionalParams
+  ): Promise<InvoicesGetBySubscriptionAndInvoiceIdResponse>;
+  /**
+   * Gets a URL to download an invoice.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param downloadToken Download token with document source and document ID.
+   * @param options The options parameters.
+   */
+  beginDownloadBillingSubscriptionInvoice(
+    subscriptionId: string,
+    invoiceName: string,
+    downloadToken: string,
+    options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>,
+      InvoicesDownloadBillingSubscriptionInvoiceResponse
+    >
+  >;
+  /**
+   * Gets a URL to download an invoice.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param downloadToken Download token with document source and document ID.
+   * @param options The options parameters.
+   */
+  beginDownloadBillingSubscriptionInvoiceAndWait(
+    subscriptionId: string,
+    invoiceName: string,
+    downloadToken: string,
+    options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
+  ): Promise<InvoicesDownloadBillingSubscriptionInvoiceResponse>;
+  /**
+   * Gets an invoice by ID. The operation is supported for billing accounts with agreement type Microsoft
+   * Partner Agreement or Microsoft Customer Agreement.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The options parameters.
+   */
+  getById(
+    invoiceName: string,
+    options?: InvoicesGetByIdOptionalParams
+  ): Promise<InvoicesGetByIdResponse>;
 }

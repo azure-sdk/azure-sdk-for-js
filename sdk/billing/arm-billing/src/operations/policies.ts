@@ -12,16 +12,24 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
-  PoliciesGetByBillingProfileOptionalParams,
-  PoliciesGetByBillingProfileResponse,
-  Policy,
-  PoliciesUpdateOptionalParams,
-  PoliciesUpdateResponse,
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   PoliciesGetByCustomerOptionalParams,
   PoliciesGetByCustomerResponse,
-  CustomerPolicy,
-  PoliciesUpdateCustomerOptionalParams,
-  PoliciesUpdateCustomerResponse
+  PoliciesCreateOrUpdateByCustomerOptionalParams,
+  PoliciesCreateOrUpdateByCustomerResponse,
+  PoliciesGetByBillingProfileOptionalParams,
+  PoliciesGetByBillingProfileResponse,
+  PoliciesCreateOrUpdateByBillingProfileOptionalParams,
+  PoliciesCreateOrUpdateByBillingProfileResponse,
+  PoliciesGetByBillingAccountOptionalParams,
+  PoliciesGetByBillingAccountResponse,
+  PoliciesCreateOrUpdateByBillingAccountOptionalParams,
+  PoliciesCreateOrUpdateByBillingAccountResponse
 } from "../models";
 
 /** Class containing Policies operations. */
@@ -34,6 +42,123 @@ export class PoliciesImpl implements Policies {
    */
   constructor(client: BillingManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Lists the policies for a customer. This operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  getByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: PoliciesGetByCustomerOptionalParams
+  ): Promise<PoliciesGetByCustomerResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, customerName, options },
+      getByCustomerOperationSpec
+    );
+  }
+
+  /**
+   * Updates the policies for a customer. This operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: PoliciesCreateOrUpdateByCustomerOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateByCustomerResponse>,
+      PoliciesCreateOrUpdateByCustomerResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PoliciesCreateOrUpdateByCustomerResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, billingProfileName, customerName, options },
+      spec: createOrUpdateByCustomerOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PoliciesCreateOrUpdateByCustomerResponse,
+      OperationState<PoliciesCreateOrUpdateByCustomerResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the policies for a customer. This operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateByCustomerAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: PoliciesCreateOrUpdateByCustomerOptionalParams
+  ): Promise<PoliciesCreateOrUpdateByCustomerResponse> {
+    const poller = await this.beginCreateOrUpdateByCustomer(
+      billingAccountName,
+      billingProfileName,
+      customerName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -59,72 +184,261 @@ export class PoliciesImpl implements Policies {
    * with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param parameters Request parameters that are provided to the update policies operation.
    * @param options The options parameters.
    */
-  update(
+  async beginCreateOrUpdateByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    parameters: Policy,
-    options?: PoliciesUpdateOptionalParams
-  ): Promise<PoliciesUpdateResponse> {
+    options?: PoliciesCreateOrUpdateByBillingProfileOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateByBillingProfileResponse>,
+      PoliciesCreateOrUpdateByBillingProfileResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PoliciesCreateOrUpdateByBillingProfileResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, billingProfileName, options },
+      spec: createOrUpdateByBillingProfileOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PoliciesCreateOrUpdateByBillingProfileResponse,
+      OperationState<PoliciesCreateOrUpdateByBillingProfileResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the policies for a billing profile. This operation is supported only for billing accounts
+   * with agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateByBillingProfileAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: PoliciesCreateOrUpdateByBillingProfileOptionalParams
+  ): Promise<PoliciesCreateOrUpdateByBillingProfileResponse> {
+    const poller = await this.beginCreateOrUpdateByBillingProfile(
+      billingAccountName,
+      billingProfileName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get the policies for a billing account of Enterprise Agreement type.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  getByBillingAccount(
+    billingAccountName: string,
+    options?: PoliciesGetByBillingAccountOptionalParams
+  ): Promise<PoliciesGetByBillingAccountResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, parameters, options },
-      updateOperationSpec
+      { billingAccountName, options },
+      getByBillingAccountOperationSpec
     );
   }
 
   /**
-   * Lists the policies for a customer. This operation is supported only for billing accounts with
-   * agreement type Microsoft Partner Agreement.
+   * Update the policies for a billing account of Enterprise Agreement type.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
    * @param options The options parameters.
    */
-  getByCustomer(
+  async beginCreateOrUpdateByBillingAccount(
     billingAccountName: string,
-    customerName: string,
-    options?: PoliciesGetByCustomerOptionalParams
-  ): Promise<PoliciesGetByCustomerResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, customerName, options },
-      getByCustomerOperationSpec
-    );
+    options?: PoliciesCreateOrUpdateByBillingAccountOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateByBillingAccountResponse>,
+      PoliciesCreateOrUpdateByBillingAccountResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PoliciesCreateOrUpdateByBillingAccountResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, options },
+      spec: createOrUpdateByBillingAccountOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PoliciesCreateOrUpdateByBillingAccountResponse,
+      OperationState<PoliciesCreateOrUpdateByBillingAccountResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Updates the policies for a customer. This operation is supported only for billing accounts with
-   * agreement type Microsoft Partner Agreement.
+   * Update the policies for a billing account of Enterprise Agreement type.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param parameters Request parameters that are provided to the update policies operation.
    * @param options The options parameters.
    */
-  updateCustomer(
+  async beginCreateOrUpdateByBillingAccountAndWait(
     billingAccountName: string,
-    customerName: string,
-    parameters: CustomerPolicy,
-    options?: PoliciesUpdateCustomerOptionalParams
-  ): Promise<PoliciesUpdateCustomerResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, customerName, parameters, options },
-      updateCustomerOperationSpec
+    options?: PoliciesCreateOrUpdateByBillingAccountOptionalParams
+  ): Promise<PoliciesCreateOrUpdateByBillingAccountResponse> {
+    const poller = await this.beginCreateOrUpdateByBillingAccount(
+      billingAccountName,
+      options
     );
+    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getByCustomerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/policies/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomerPolicy
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.customerName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateByCustomerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/policies/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomerPolicy
+    },
+    201: {
+      bodyMapper: Mappers.CustomerPolicy
+    },
+    202: {
+      bodyMapper: Mappers.CustomerPolicy
+    },
+    204: {
+      bodyMapper: Mappers.CustomerPolicy
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.customerName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
   path:
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.BillingProfilePolicy
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -136,19 +450,28 @@ const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateByBillingProfileOperationSpec: coreClient.OperationSpec = {
   path:
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.BillingProfilePolicy
+    },
+    201: {
+      bodyMapper: Mappers.BillingProfilePolicy
+    },
+    202: {
+      bodyMapper: Mappers.BillingProfilePolicy
+    },
+    204: {
+      bodyMapper: Mappers.BillingProfilePolicy
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -159,46 +482,47 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getByCustomerOperationSpec: coreClient.OperationSpec = {
+const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default",
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/policies/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomerPolicy
+      bodyMapper: Mappers.BillingAccountPolicy
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.customerName
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateCustomerOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default",
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/policies/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomerPolicy
+      bodyMapper: Mappers.BillingAccountPolicy
+    },
+    201: {
+      bodyMapper: Mappers.BillingAccountPolicy
+    },
+    202: {
+      bodyMapper: Mappers.BillingAccountPolicy
+    },
+    204: {
+      bodyMapper: Mappers.BillingAccountPolicy
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.customerName
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
