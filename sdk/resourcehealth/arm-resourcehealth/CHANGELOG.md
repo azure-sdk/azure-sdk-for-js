@@ -1,15 +1,26 @@
 # Release History
+    
+## 5.0.0-beta.1 (2023-10-16)
+    
+**Features**
 
-## 4.0.1 (Unreleased)
+  - Added Type Alias EventSubTypeValues
+  - Interface Event_2 has a new optional parameter argQuery
+  - Interface Event_2 has a new optional parameter eventSubType
+  - Interface Event_2 has a new optional parameter maintenanceId
+  - Interface Event_2 has a new optional parameter maintenanceType
+  - Interface EventImpactedResource has a new optional parameter maintenanceEndTime
+  - Interface EventImpactedResource has a new optional parameter maintenanceStartTime
+  - Interface EventImpactedResource has a new optional parameter resourceGroup
+  - Interface EventImpactedResource has a new optional parameter resourceName
+  - Interface EventImpactedResource has a new optional parameter status
+  - Added Enum KnownEventSubTypeValues
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class MicrosoftResourceHealth has a new signature
+    
+    
 ## 4.0.0 (2023-05-12)
     
 **Features**
@@ -159,4 +170,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
