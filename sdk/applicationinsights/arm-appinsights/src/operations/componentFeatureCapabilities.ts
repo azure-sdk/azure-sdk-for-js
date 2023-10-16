@@ -58,11 +58,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApplicationInsightsComponentFeatureCapabilities
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
