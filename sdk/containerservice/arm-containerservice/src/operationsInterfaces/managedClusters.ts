@@ -103,7 +103,7 @@ export interface ManagedClusters {
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
    * Contains list of Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listGuardrailsVersions(
@@ -113,7 +113,7 @@ export interface ManagedClusters {
   /**
    * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
    * available upgrades
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listMeshRevisionProfiles(
@@ -133,7 +133,7 @@ export interface ManagedClusters {
   ): PagedAsyncIterableIterator<MeshUpgradeProfile>;
   /**
    * Gets supported OS options in the specified subscription.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   getOSOptions(
@@ -143,7 +143,7 @@ export interface ManagedClusters {
   /**
    * Contains extra metadata on the version, including supported patch versions, capabilities, available
    * upgrades, and details on preview status of the version
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listKubernetesVersions(
@@ -566,7 +566,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersGetCommandResultResponse>;
   /**
    * Contains Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param version Guardrails version
    * @param options The options parameters.
    */
@@ -578,7 +578,7 @@ export interface ManagedClusters {
   /**
    * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
    * available upgrades
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param mode The mode of the mesh.
    * @param options The options parameters.
    */

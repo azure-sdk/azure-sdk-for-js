@@ -322,7 +322,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Contains list of Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public listGuardrailsVersions(
@@ -392,7 +392,7 @@ export class ManagedClustersImpl implements ManagedClusters {
   /**
    * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
    * available upgrades
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public listMeshRevisionProfiles(
@@ -545,7 +545,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Gets supported OS options in the specified subscription.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   getOSOptions(
@@ -561,7 +561,7 @@ export class ManagedClustersImpl implements ManagedClusters {
   /**
    * Contains extra metadata on the version, including supported patch versions, capabilities, available
    * upgrades, and details on preview status of the version
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listKubernetesVersions(
@@ -1775,7 +1775,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Contains Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param version Guardrails version
    * @param options The options parameters.
    */
@@ -1792,7 +1792,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Contains list of Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _listGuardrailsVersions(
@@ -1808,7 +1808,7 @@ export class ManagedClustersImpl implements ManagedClusters {
   /**
    * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
    * available upgrades
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _listMeshRevisionProfiles(
@@ -1824,7 +1824,7 @@ export class ManagedClustersImpl implements ManagedClusters {
   /**
    * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
    * available upgrades
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param mode The mode of the mesh.
    * @param options The options parameters.
    */
@@ -1931,7 +1931,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * ListGuardrailsVersionsNext
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param nextLink The nextLink from the previous successful call to the ListGuardrailsVersions method.
    * @param options The options parameters.
    */
@@ -1948,7 +1948,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * ListMeshRevisionProfilesNext
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param nextLink The nextLink from the previous successful call to the ListMeshRevisionProfiles
    *                 method.
    * @param options The options parameters.
