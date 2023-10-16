@@ -6,9 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./appResiliencyOperations";
 export * from "./containerAppsAuthConfigs";
 export * from "./availableWorkloadProfiles";
 export * from "./billingMeters";
+export * from "./builders";
+export * from "./builds";
 export * from "./connectedEnvironments";
 export * from "./connectedEnvironmentsCertificates";
 export * from "./connectedEnvironmentsDaprComponents";
@@ -27,5 +30,10 @@ export * from "./certificates";
 export * from "./managedCertificates";
 export * from "./namespaces";
 export * from "./daprComponents";
+export * from "./daprComponentResiliencyPolicies";
+export * from "./daprSubscriptions";
 export * from "./managedEnvironmentsStorages";
+export * from "./patches";
 export * from "./containerAppsSourceControls";
+export * from "./usages";
+export * from "./managedEnvironmentUsages";
