@@ -41,6 +41,8 @@ export interface CommunicationsGateway extends TrackedResource {
     connectivity?: Connectivity;
     e911Type?: E911Type;
     emergencyDialStrings?: string[];
+    identity?: ManagedServiceIdentity;
+    integratedMcpEnabled?: boolean;
     onPremMcpEnabled?: boolean;
     platforms?: CommunicationsPlatform[];
     readonly provisioningState?: ProvisioningState;
@@ -136,6 +138,7 @@ export type CommunicationsGatewaysUpdateResponse = CommunicationsGateway;
 
 // @public
 export interface CommunicationsGatewayUpdate {
+    identity?: ManagedServiceIdentity;
     tags?: {
         [propertyName: string]: string;
     };
@@ -221,6 +224,14 @@ export enum KnownE911Type {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -255,6 +266,19 @@ export enum KnownTestLinePurpose {
     Automated = "Automated",
     Manual = "Manual"
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public (undocumented)
 export class MicrosoftVoiceServices extends coreClient.ServiceClient {
@@ -473,6 +497,12 @@ export interface TrackedResource extends Resource {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
