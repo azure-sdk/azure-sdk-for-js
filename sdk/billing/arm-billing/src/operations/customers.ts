@@ -199,6 +199,26 @@ export class CustomersImpl implements Customers {
   }
 
   /**
+   * Gets a customer by its ID. The operation is supported only for billing accounts with agreement type
+   * Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  get(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: CustomersGetOptionalParams
+  ): Promise<CustomersGetResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, customerName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
    * Lists the customers that are billed to a billing profile. The operation is supported only for
    * billing accounts with agreement type Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -229,24 +249,6 @@ export class CustomersImpl implements Customers {
     return this.client.sendOperationRequest(
       { billingAccountName, options },
       listByBillingAccountOperationSpec
-    );
-  }
-
-  /**
-   * Gets a customer by its ID. The operation is supported only for billing accounts with agreement type
-   * Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param options The options parameters.
-   */
-  get(
-    billingAccountName: string,
-    customerName: string,
-    options?: CustomersGetOptionalParams
-  ): Promise<CustomersGetResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, customerName, options },
-      getOperationSpec
     );
   }
 
@@ -289,6 +291,28 @@ export class CustomersImpl implements Customers {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Customer
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.customerName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
   path:
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers",
@@ -298,13 +322,18 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
   queryParameters: [
     Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.expand1,
+    Parameters.top,
+    Parameters.skip,
     Parameters.search,
-    Parameters.filter
+    Parameters.orderBy,
+    Parameters.count
   ],
   urlParameters: [
     Parameters.$host,
@@ -323,36 +352,20 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
   queryParameters: [
     Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.expand1,
+    Parameters.top,
+    Parameters.skip,
     Parameters.search,
-    Parameters.filter
+    Parameters.orderBy,
+    Parameters.count
   ],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Customer
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.customerName
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -364,14 +377,9 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.search,
-    Parameters.filter
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -389,14 +397,9 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CustomerListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.search,
-    Parameters.filter
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

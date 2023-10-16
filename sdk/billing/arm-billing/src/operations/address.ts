@@ -12,7 +12,6 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
-  AddressDetails,
   AddressValidateOptionalParams,
   AddressValidateResponse
 } from "../models";
@@ -32,17 +31,12 @@ export class AddressImpl implements Address {
   /**
    * Validates an address. Use the operation to validate an address before using it as soldTo or a billTo
    * address.
-   * @param address Address details.
    * @param options The options parameters.
    */
   validate(
-    address: AddressDetails,
     options?: AddressValidateOptionalParams
   ): Promise<AddressValidateResponse> {
-    return this.client.sendOperationRequest(
-      { address, options },
-      validateOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, validateOperationSpec);
   }
 }
 // Operation Specifications
@@ -53,13 +47,13 @@ const validateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateAddressResponse
+      bodyMapper: Mappers.AddressValidationResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  requestBody: Parameters.address,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],

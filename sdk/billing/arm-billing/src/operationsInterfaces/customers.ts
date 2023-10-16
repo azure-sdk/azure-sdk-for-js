@@ -44,11 +44,13 @@ export interface Customers {
    * Gets a customer by its ID. The operation is supported only for billing accounts with agreement type
    * Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param customerName The ID that uniquely identifies a customer.
    * @param options The options parameters.
    */
   get(
     billingAccountName: string,
+    billingProfileName: string,
     customerName: string,
     options?: CustomersGetOptionalParams
   ): Promise<CustomersGetResponse>;

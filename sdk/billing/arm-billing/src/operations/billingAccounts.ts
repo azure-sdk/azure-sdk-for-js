@@ -13,24 +13,24 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BillingAccount,
   BillingAccountsListNextOptionalParams,
   BillingAccountsListOptionalParams,
   BillingAccountsListResponse,
-  InvoiceSectionWithCreateSubPermission,
-  BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionNextOptionalParams,
-  BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams,
-  BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResponse,
+  BillingAccountsConfirmTransitionOptionalParams,
+  BillingAccountsConfirmTransitionResponse,
   BillingAccountsGetOptionalParams,
   BillingAccountsGetResponse,
-  BillingAccountUpdateRequest,
   BillingAccountsUpdateOptionalParams,
   BillingAccountsUpdateResponse,
-  BillingAccountsListNextResponse,
-  BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionNextResponse
+  BillingAccountsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -101,89 +101,19 @@ export class BillingAccountsImpl implements BillingAccounts {
   }
 
   /**
-   * Lists the invoice sections for which the user has permission to create Azure subscriptions. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+   * Gets the transition details for a billing account that has transitioned from agreement type
+   * Microsoft Online Services Program to agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param options The options parameters.
    */
-  public listInvoiceSectionsByCreateSubscriptionPermission(
+  confirmTransition(
     billingAccountName: string,
-    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams
-  ): PagedAsyncIterableIterator<InvoiceSectionWithCreateSubPermission> {
-    const iter = this.listInvoiceSectionsByCreateSubscriptionPermissionPagingAll(
-      billingAccountName,
-      options
+    options?: BillingAccountsConfirmTransitionOptionalParams
+  ): Promise<BillingAccountsConfirmTransitionResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, options },
+      confirmTransitionOperationSpec
     );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listInvoiceSectionsByCreateSubscriptionPermissionPagingPage(
-          billingAccountName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listInvoiceSectionsByCreateSubscriptionPermissionPagingPage(
-    billingAccountName: string,
-    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<InvoiceSectionWithCreateSubPermission[]> {
-    let result: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listInvoiceSectionsByCreateSubscriptionPermission(
-        billingAccountName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listInvoiceSectionsByCreateSubscriptionPermissionNext(
-        billingAccountName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listInvoiceSectionsByCreateSubscriptionPermissionPagingAll(
-    billingAccountName: string,
-    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams
-  ): AsyncIterableIterator<InvoiceSectionWithCreateSubPermission> {
-    for await (const page of this.listInvoiceSectionsByCreateSubscriptionPermissionPagingPage(
-      billingAccountName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists the billing accounts that a user has access to.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: BillingAccountsListOptionalParams
-  ): Promise<BillingAccountsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -202,19 +132,20 @@ export class BillingAccountsImpl implements BillingAccounts {
   }
 
   /**
-   * Updates the properties of a billing account. Currently, displayName and address can be updated. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+   * Updates the properties of a billing account. Currently, displayName and address can be updated for
+   * billing accounts with agreement type Microsoft Customer Agreement. Currently address and
+   * notification email address can be updated for billing accounts with agreement type Microsoft Online
+   * Services Agreement. Currently, purchase order number can be edited for billing accounts with
+   * agreement type Enterprise Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the update billing account operation.
    * @param options The options parameters.
    */
   async beginUpdate(
     billingAccountName: string,
-    parameters: BillingAccountUpdateRequest,
     options?: BillingAccountsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingAccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BillingAccountsUpdateResponse>,
       BillingAccountsUpdateResponse
     >
   > {
@@ -224,7 +155,7 @@ export class BillingAccountsImpl implements BillingAccounts {
     ): Promise<BillingAccountsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -257,56 +188,48 @@ export class BillingAccountsImpl implements BillingAccounts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { billingAccountName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BillingAccountsUpdateResponse,
+      OperationState<BillingAccountsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Updates the properties of a billing account. Currently, displayName and address can be updated. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+   * Updates the properties of a billing account. Currently, displayName and address can be updated for
+   * billing accounts with agreement type Microsoft Customer Agreement. Currently address and
+   * notification email address can be updated for billing accounts with agreement type Microsoft Online
+   * Services Agreement. Currently, purchase order number can be edited for billing accounts with
+   * agreement type Enterprise Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the update billing account operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     billingAccountName: string,
-    parameters: BillingAccountUpdateRequest,
     options?: BillingAccountsUpdateOptionalParams
   ): Promise<BillingAccountsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      billingAccountName,
-      parameters,
-      options
-    );
+    const poller = await this.beginUpdate(billingAccountName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists the invoice sections for which the user has permission to create Azure subscriptions. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * Lists the billing accounts that a user has access to.
    * @param options The options parameters.
    */
-  private _listInvoiceSectionsByCreateSubscriptionPermission(
-    billingAccountName: string,
-    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams
-  ): Promise<
-    BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResponse
-  > {
-    return this.client.sendOperationRequest(
-      { billingAccountName, options },
-      listInvoiceSectionsByCreateSubscriptionPermissionOperationSpec
-    );
+  private _list(
+    options?: BillingAccountsListOptionalParams
+  ): Promise<BillingAccountsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -323,43 +246,24 @@ export class BillingAccountsImpl implements BillingAccounts {
       listNextOperationSpec
     );
   }
-
-  /**
-   * ListInvoiceSectionsByCreateSubscriptionPermissionNext
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListInvoiceSectionsByCreateSubscriptionPermission method.
-   * @param options The options parameters.
-   */
-  private _listInvoiceSectionsByCreateSubscriptionPermissionNext(
-    billingAccountName: string,
-    nextLink: string,
-    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionNextOptionalParams
-  ): Promise<
-    BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionNextResponse
-  > {
-    return this.client.sendOperationRequest(
-      { billingAccountName, nextLink, options },
-      listInvoiceSectionsByCreateSubscriptionPermissionNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Billing/billingAccounts",
-  httpMethod: "GET",
+const confirmTransitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/confirmTransition",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingAccountListResult
+      bodyMapper: Mappers.TransitionDetails
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [Parameters.$host],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -371,10 +275,10 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
   serializer
@@ -396,30 +300,41 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listInvoiceSectionsByCreateSubscriptionPermissionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/listInvoiceSectionsWithCreateSubscriptionPermission",
-  httpMethod: "POST",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InvoiceSectionListWithCreateSubPermissionResult
+      bodyMapper: Mappers.BillingAccountListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.includeAll,
+    Parameters.includeAllWithoutBillingProfiles,
+    Parameters.includeDeleted,
+    Parameters.legalOwnerTID,
+    Parameters.legalOwnerOID,
+    Parameters.filter,
+    Parameters.expand1,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.search
+  ],
+  urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -431,31 +346,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BillingAccountListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listInvoiceSectionsByCreateSubscriptionPermissionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InvoiceSectionListWithCreateSubPermissionResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
