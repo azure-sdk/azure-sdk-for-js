@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationServiceEnvironmentManagedApi,
   IntegrationServiceEnvironmentManagedApisListOptionalParams,
@@ -60,8 +60,8 @@ export interface IntegrationServiceEnvironmentManagedApis {
     integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi,
     options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentManagedApisPutResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentManagedApisPutResponse>,
       IntegrationServiceEnvironmentManagedApisPutResponse
     >
   >;
@@ -92,7 +92,7 @@ export interface IntegrationServiceEnvironmentManagedApis {
     integrationServiceEnvironmentName: string,
     apiName: string,
     options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the integration service environment managed Api.
    * @param resourceGroup The resource group.

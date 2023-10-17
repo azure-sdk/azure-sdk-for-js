@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AgreementContent {
@@ -1344,9 +1344,9 @@ export interface IntegrationServiceEnvironmentManagedApiProperties extends ApiRe
 
 // @public
 export interface IntegrationServiceEnvironmentManagedApis {
-    beginDelete(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<void>;
-    beginPut(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentManagedApisPutResponse>, IntegrationServiceEnvironmentManagedApisPutResponse>>;
+    beginPut(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentManagedApisPutResponse>, IntegrationServiceEnvironmentManagedApisPutResponse>>;
     beginPutAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisPutResponse>;
     get(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisGetResponse>;
     list(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentManagedApisListOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironmentManagedApi>;
@@ -1443,9 +1443,9 @@ export interface IntegrationServiceEnvironmentProperties {
 
 // @public
 export interface IntegrationServiceEnvironments {
-    beginCreateOrUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>, IntegrationServiceEnvironmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>, IntegrationServiceEnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<IntegrationServiceEnvironmentsCreateOrUpdateResponse>;
-    beginUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentsUpdateResponse>, IntegrationServiceEnvironmentsUpdateResponse>>;
+    beginUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentsUpdateResponse>, IntegrationServiceEnvironmentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<IntegrationServiceEnvironmentsUpdateResponse>;
     delete(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsDeleteOptionalParams): Promise<void>;
     get(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsGetOptionalParams): Promise<IntegrationServiceEnvironmentsGetResponse>;
@@ -2886,7 +2886,7 @@ export interface WorkflowRunTrigger {
 
 // @public
 export interface Workflows {
-    beginMove(resourceGroupName: string, workflowName: string, move: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginMove(resourceGroupName: string, workflowName: string, move: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginMoveAndWait(resourceGroupName: string, workflowName: string, move: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workflowName: string, workflow: Workflow, options?: WorkflowsCreateOrUpdateOptionalParams): Promise<WorkflowsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workflowName: string, options?: WorkflowsDeleteOptionalParams): Promise<void>;
