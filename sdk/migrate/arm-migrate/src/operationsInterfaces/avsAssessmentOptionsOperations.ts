@@ -8,17 +8,17 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  PrivateLinkResource,
-  PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams,
-  PrivateLinkResourceOperationsGetOptionalParams,
-  PrivateLinkResourceOperationsGetResponse
+  AvsAssessmentOptions,
+  AvsAssessmentOptionsOperationsListByAssessmentProjectOptionalParams,
+  AvsAssessmentOptionsOperationsGetOptionalParams,
+  AvsAssessmentOptionsOperationsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a PrivateLinkResourceOperations. */
-export interface PrivateLinkResourceOperations {
+/** Interface representing a AvsAssessmentOptionsOperations. */
+export interface AvsAssessmentOptionsOperations {
   /**
-   * List PrivateLinkResource resources by AssessmentProject
+   * List AvsAssessmentOptions resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -26,19 +26,19 @@ export interface PrivateLinkResourceOperations {
   listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+    options?: AvsAssessmentOptionsOperationsListByAssessmentProjectOptionalParams
+  ): PagedAsyncIterableIterator<AvsAssessmentOptions>;
   /**
-   * Get a PrivateLinkResource
+   * Get a AvsAssessmentOptions
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateLinkResourceName Private link resource ARM name
+   * @param avsAssessmentOptionsName AVS Assessment options ARM name. Accepted value is 'default'
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    privateLinkResourceName: string,
-    options?: PrivateLinkResourceOperationsGetOptionalParams
-  ): Promise<PrivateLinkResourceOperationsGetResponse>;
+    avsAssessmentOptionsName: string,
+    options?: AvsAssessmentOptionsOperationsGetOptionalParams
+  ): Promise<AvsAssessmentOptionsOperationsGetResponse>;
 }
