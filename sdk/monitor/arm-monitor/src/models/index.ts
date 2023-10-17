@@ -28,6 +28,659 @@ export type MultiMetricCriteriaUnion =
   | MetricCriteria
   | DynamicMetricCriteria;
 
+/** A list of REST API operations supported by the Microsoft.Insights Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /** List of operations supported by the Microsoft.Insights provider. */
+  value?: Operation[];
+  /** URL to get the next set of operation list results (if there are any). */
+  nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Microsoft.Insights Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Insights/components/write", "Microsoft.Insights/metrics/read" */
+  name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
+  isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+  /** One property of operation, include metric specifications. */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /** The publisher of this operation. */
+  publisher?: string;
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Azure Monitor". */
+  provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Application insights components" or "Log Definitions". */
+  resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Reading an application insights component configuration", "Application Insights component metrics read". */
+  operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  description?: string;
+}
+
+/** One property of operation, include log specifications. */
+export interface ServiceSpecification {
+  /** Log specifications of operation. */
+  logSpecifications?: LogSpecification[];
+  /** Metric specifications of operation. */
+  metricSpecifications?: MetricSpecification[];
+  /** Legacy Metric specifications for operation. Deprecated, do not use. */
+  legacyMetricSpecifications?: Record<string, unknown>;
+}
+
+/** Log specification of operation. */
+export interface LogSpecification {
+  /** Name of log specification. */
+  name?: string;
+  /** Display name of log specification. */
+  displayName?: string;
+  /** Blob duration of specification. */
+  blobDuration?: string;
+}
+
+/** Metric specification of operation. */
+export interface MetricSpecification {
+  /** The name of the metric. */
+  name?: string;
+  /** Display name of the metric. */
+  displayName?: string;
+  /** Display description of the metric. */
+  displayDescription?: string;
+  /** The metric unit. Possible values include: Count,Bytes,Seconds,Percent,CountPerSecond,BytesPerSecond,MilliSeconds,ByteSeconds,Unspecified,BitsPerSecond,Cores,MilliCores,NanoCores */
+  unit?: string;
+  /** The default metric aggregation type. Possible values include: Total,Average,Maximum,Minimum,Count */
+  aggregationType?: string;
+  /** The supported aggregation types for the metrics. */
+  supportedAggregationTypes?: string[];
+  /** The supported time grain types for the metrics. */
+  supportedTimeGrainTypes?: string[];
+  /** The supported time grain types for the metrics. */
+  availabilities?: string[];
+  /** The metric lock aggregation type. */
+  lockAggregationType?: string;
+  /** Category or type of metric. */
+  category?: string;
+  /** The dimensions of metric. */
+  dimensions?: DimensionProperties[];
+  /** Property to specify whether to fill empty gaps with zero. */
+  fillGapWithZero?: boolean;
+  /** The internal metric name. */
+  internalMetricName?: string;
+}
+
+/** Type of operation: get, read, delete, etc. */
+export interface DimensionProperties {
+  /** Name of dimension. */
+  name?: string;
+  /** Display name of dimension. */
+  displayName?: string;
+  /** Legacy usage, should not set. */
+  toBeExportedForShoebox?: boolean;
+  /** When set, the dimension is hidden from the customer, used in conjunction with the defaultDimensionValues field below */
+  isHidden?: boolean;
+  /** Default dimension value to be sent down for the hidden dimension during query */
+  defaultDimensionValues?: Record<string, unknown>;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorContract {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The response to a subscription scope metrics query. */
+export interface SubscriptionScopeMetricResponse {
+  /** The integer value representing the relative cost of the query. */
+  cost?: number;
+  /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
+  timespan: string;
+  /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
+  interval?: string;
+  /** The namespace of the metrics being queried */
+  namespace?: string;
+  /** The region of the resource being queried for metrics. */
+  resourceregion?: string;
+  /** the value of the collection. */
+  value: SubscriptionScopeMetric[];
+}
+
+/** The result data of a query. */
+export interface SubscriptionScopeMetric {
+  /** the metric Id. */
+  id: string;
+  /** the resource type of the metric resource. */
+  type: string;
+  /** the name and the display name of the metric, i.e. it is localizable string. */
+  name: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** 'Success' or the error details on query failures for this metric. */
+  errorCode?: string;
+  /** Error message encountered querying this specific metric. */
+  errorMessage?: string;
+  /** The unit of the metric. */
+  unit: MetricUnit;
+  /** the time series returned when a data query is performed. */
+  timeseries: TimeSeriesElement[];
+}
+
+/** The localizable string class. */
+export interface LocalizableString {
+  /** The invariant value. */
+  value: string;
+  /** The display name. */
+  localizedValue?: string;
+}
+
+/** A time series result type. The discriminator value is always TimeSeries in this case. */
+export interface TimeSeriesElement {
+  /** The metadata values returned if filter was specified in the call. */
+  metadatavalues?: MetadataValue[];
+  /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
+  data?: MetricValue[];
+}
+
+/** Represents a metric metadata value. */
+export interface MetadataValue {
+  /** the name of the metadata. */
+  name?: LocalizableString;
+  /** the value of the metadata. */
+  value?: string;
+}
+
+/** Represents a metric value. */
+export interface MetricValue {
+  /** the timestamp for the metric value in ISO 8601 format. */
+  timeStamp: Date;
+  /** the average value in the time range. */
+  average?: number;
+  /** the least value in the time range. */
+  minimum?: number;
+  /** the greatest value in the time range. */
+  maximum?: number;
+  /** the sum of all of the values in the time range. */
+  total?: number;
+  /** the number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
+  count?: number;
+}
+
+/** Query parameters can also be specified in the body, specifying the same parameter in both the body and query parameters will result in an error. */
+export interface SubscriptionScopeMetricsRequestBodyParameters {
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /** The interval (i.e. timegrain) of the query. */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricNames?: string;
+  /** The list of aggregation types (comma separated) to retrieve. */
+  aggregation?: string;
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /**
+   * The maximum number of records to retrieve.
+   * Valid only if $filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * Examples: sum asc.
+   */
+  orderBy?: string;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollUpBy?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
+  metricNamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+}
+
+/** The response to a metrics query. */
+export interface Response {
+  /** The integer value representing the relative cost of the query. */
+  cost?: number;
+  /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
+  timespan: string;
+  /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
+  interval?: string;
+  /** The namespace of the metrics being queried */
+  namespace?: string;
+  /** The region of the resource being queried for metrics. */
+  resourceregion?: string;
+  /** the value of the collection. */
+  value: Metric[];
+}
+
+/** The result data of a query. */
+export interface Metric {
+  /** the metric Id. */
+  id: string;
+  /** the resource type of the metric resource. */
+  type: string;
+  /** the name and the display name of the metric, i.e. it is localizable string. */
+  name: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** 'Success' or the error details on query failures for this metric. */
+  errorCode?: string;
+  /** Error message encountered querying this specific metric. */
+  errorMessage?: string;
+  /** The unit of the metric. */
+  unit: Unit;
+  /** the time series returned when a data query is performed. */
+  timeseries: TimeSeriesElement[];
+}
+
+/** Represents collection of metric definitions. */
+export interface SubscriptionScopeMetricDefinitionCollection {
+  /** The values for the metric definitions. */
+  value: SubscriptionScopeMetricDefinition[];
+  /**
+   * URL to get the next set of metric definitions (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Metric definition class specifies the metadata for a metric. */
+export interface SubscriptionScopeMetricDefinition {
+  /** Flag to indicate whether the dimension is required. */
+  isDimensionRequired?: boolean;
+  /** the resource identifier of the resource that emitted the metric. */
+  resourceId?: string;
+  /** the namespace the metric belongs to. */
+  namespace?: string;
+  /** the name and the display name of the metric, i.e. it is a localizable string. */
+  name?: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** Custom category name for this metric. */
+  category?: string;
+  /** The class of the metric. */
+  metricClass?: MetricClass;
+  /** the unit of the metric. */
+  unit?: MetricUnit;
+  /** the primary aggregation type value defining how to use the values for display. */
+  primaryAggregationType?: MetricAggregationType;
+  /** the collection of what aggregation types are supported. */
+  supportedAggregationTypes?: MetricAggregationType[];
+  /** the collection of what aggregation intervals are available to be queried. */
+  metricAvailabilities?: MetricAvailability[];
+  /** the resource identifier of the metric definition. */
+  id?: string;
+  /** the name and the display name of the dimension, i.e. it is a localizable string. */
+  dimensions?: LocalizableString[];
+}
+
+/** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
+export interface MetricAvailability {
+  /** the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc. */
+  timeGrain?: string;
+  /** the retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc. */
+  retention?: string;
+}
+
+/** Represents collection of metric definitions. */
+export interface MetricDefinitionCollection {
+  /** the values for the metric definitions. */
+  value: MetricDefinition[];
+  /**
+   * URL to get the next set of metric definitions (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Metric definition class specifies the metadata for a metric. */
+export interface MetricDefinition {
+  /** Flag to indicate whether the dimension is required. */
+  isDimensionRequired?: boolean;
+  /** the resource identifier of the resource that emitted the metric. */
+  resourceId?: string;
+  /** the namespace the metric belongs to. */
+  namespace?: string;
+  /** the name and the display name of the metric, i.e. it is a localizable string. */
+  name?: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** Custom category name for this metric. */
+  category?: string;
+  /** The class of the metric. */
+  metricClass?: MetricClass;
+  /** the unit of the metric. */
+  unit?: MetricUnit;
+  /** the primary aggregation type value defining how to use the values for display. */
+  primaryAggregationType?: AggregationType;
+  /** the collection of what aggregation types are supported. */
+  supportedAggregationTypes?: AggregationType[];
+  /** the collection of what aggregation intervals are available to be queried. */
+  metricAvailabilities?: MetricAvailability[];
+  /** the resource identifier of the metric definition. */
+  id?: string;
+  /** the name and the display name of the dimension, i.e. it is a localizable string. */
+  dimensions?: LocalizableString[];
+}
+
+/** A pageable list of resources */
+export interface AzureMonitorWorkspaceResourceListResult {
+  /** A list of resources */
+  value: AzureMonitorWorkspaceResource[];
+  /** The URL to use for getting the next set of results */
+  nextLink?: string;
+}
+
+/** Properties of an Azure Monitor Workspace */
+export interface AzureMonitorWorkspace {
+  /**
+   * The immutable Id of the Azure Monitor Workspace. This property is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * Properties related to the metrics container in the Azure Monitor Workspace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metrics?: AzureMonitorWorkspaceMetrics;
+  /**
+   * The provisioning state of the Azure Monitor Workspace. Set to Succeeded if everything is healthy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The Data Collection Rule and Endpoint used for ingestion by default.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
+  /**
+   * List of private endpoint connections
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Gets or sets allow or disallow public network access to Azure Monitor Workspace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicNetworkAccess?: PublicNetworkAccess;
+}
+
+/** Properties related to the metrics container in the Azure Monitor Workspace */
+export interface Metrics {
+  /**
+   * The Prometheus query endpoint for the Azure Monitor Workspace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly prometheusQueryEndpoint?: string;
+  /**
+   * An internal identifier for the metrics container. Only to be used by the system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly internalId?: string;
+}
+
+/** Settings for data ingestion */
+export interface IngestionSettings {
+  /**
+   * The Azure resource Id of the default data collection rule for this Azure Monitor Workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataCollectionRuleResourceId?: string;
+  /**
+   * The Azure resource Id of the default data collection endpoint for this Azure Monitor Workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataCollectionEndpointResourceId?: string;
+}
+
+/** The private endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceAutoGenerated {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetailAutoGenerated;
+}
+
+/** The error detail. */
+export interface ErrorDetailAutoGenerated {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetailAutoGenerated[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** Definition of ARM tracked top level resource properties for the Update operation */
+export interface AzureMonitorWorkspaceResourceForUpdate {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResultAutoGenerated {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: OperationAutoGenerated[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface OperationAutoGenerated {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplayAutoGenerated;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplayAutoGenerated {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
 /** Represents a collection of autoscale setting resources. */
 export interface AutoscaleSettingResourceCollection {
   /** the values for the autoscale setting resources. */
@@ -185,7 +838,7 @@ export interface PredictiveAutoscalePolicy {
 }
 
 /** The autoscale setting resource. */
-export interface Resource {
+export interface ResourceAutoGenerated2 {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -210,22 +863,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** Describes the format of Error response. */
@@ -293,32 +930,6 @@ export interface PredictiveValue {
   value: number;
 }
 
-/** Result of the request to list Microsoft.Insights operations. It contains a list of operations and a URL link to get the next set of results. */
-export interface OperationListResult {
-  /** List of operations supported by the Microsoft.Insights provider. */
-  value?: Operation[];
-  /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
-}
-
-/** Microsoft Insights API operation definition. */
-export interface Operation {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
-}
-
-/** Display metadata associated with the operation. */
-export interface OperationDisplay {
-  /** Service provider: Microsoft.Insights */
-  provider?: string;
-  /** Resource on which the operation is performed: AlertRules, Autoscale, etc. */
-  resource?: string;
-  /** Operation type: Read, write, delete, etc. */
-  operation?: string;
-}
-
 /** An alert incident indicates the activation status of an alert rule. */
 export interface Incident {
   /**
@@ -349,7 +960,7 @@ export interface Incident {
 }
 
 /** Describes the format of Error response. */
-export interface ErrorResponse {
+export interface ErrorResponseAutoGenerated {
   /** Error code */
   code?: string;
   /** Error message indicating why the operation failed. */
@@ -398,7 +1009,7 @@ export interface RuleAction {
 }
 
 /** An azure resource object */
-export interface ResourceAutoGenerated {
+export interface ResourceAutoGenerated3 {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -460,7 +1071,7 @@ export interface RetentionPolicy {
 }
 
 /** An azure resource object */
-export interface ResourceAutoGenerated2 {
+export interface ResourceAutoGenerated4 {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -529,7 +1140,7 @@ export interface LogSettings {
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface ResourceAutoGenerated3 {
+export interface ResourceAutoGenerated5 {
   /**
    * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -820,6 +1431,169 @@ export interface EnableRequest {
   receiverName: string;
 }
 
+/** An email receiver. */
+export interface EmailReceiverAutoGenerated {
+  /** The name of the email receiver. Names must be unique across all receivers within a tenant action group. */
+  name: string;
+  /** The email address of this receiver. */
+  emailAddress: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /**
+   * The receiver status of the e-mail.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ReceiverStatus;
+}
+
+/** An SMS receiver. */
+export interface SmsReceiverAutoGenerated {
+  /** The name of the SMS receiver. Names must be unique across all receivers within a tenant action group. */
+  name: string;
+  /** The country code of the SMS receiver. */
+  countryCode: string;
+  /** The phone number of the SMS receiver. */
+  phoneNumber: string;
+  /**
+   * The status of the receiver.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ReceiverStatus;
+}
+
+/** A webhook receiver. */
+export interface WebhookReceiverAutoGenerated {
+  /** The name of the webhook receiver. Names must be unique across all receivers within a tenant action group. */
+  name: string;
+  /** The URI where webhooks should be sent. */
+  serviceUri: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /** Indicates whether or not use AAD authentication. */
+  useAadAuth?: boolean;
+  /** Indicates the webhook app object Id for aad auth. */
+  objectId?: string;
+  /** Indicates the identifier uri for aad auth. */
+  identifierUri?: string;
+  /** Indicates the tenant id for aad auth. */
+  tenantId?: string;
+}
+
+/** The Azure mobile App push notification receiver. */
+export interface AzureAppPushReceiverAutoGenerated {
+  /** The name of the Azure mobile app push receiver. Names must be unique across all receivers within a tenant action group. */
+  name: string;
+  /** The email address registered for the Azure mobile app. */
+  emailAddress: string;
+}
+
+/** A voice receiver. */
+export interface VoiceReceiverAutoGenerated {
+  /** The name of the voice receiver. Names must be unique across all receivers within a tenant action group. */
+  name: string;
+  /** The country code of the voice receiver. */
+  countryCode: string;
+  /** The phone number of the voice receiver. */
+  phoneNumber: string;
+}
+
+/** A tenant action group object for the body of patch operations. */
+export interface ActionGroupPatchBodyAutoGenerated {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** Indicates whether this tenant action group is enabled. If a tenant action group is not enabled, then none of its actions will be activated. */
+  enabled?: boolean;
+}
+
+/** A list of tenant action groups. */
+export interface TenantActionGroupList {
+  /** The list of tenant action groups. */
+  value?: TenantActionGroupResource[];
+  /** Provides the link to retrieve the next set of elements. */
+  nextLink?: string;
+}
+
+/** The request body which contain contact detail metadata */
+export interface TenantNotificationRequestBody {
+  /** The value of the supported alert type. Supported alert type value is: servicehealth */
+  alertType: string;
+  /** The list of email receivers that are part of this action group. */
+  emailReceivers?: EmailReceiverAutoGenerated[];
+  /** The list of SMS receivers that are part of this action group. */
+  smsReceivers?: SmsReceiverAutoGenerated[];
+  /** The list of webhook receivers that are part of this action group. */
+  webhookReceivers?: WebhookReceiverAutoGenerated[];
+  /** The list of AzureAppPush receivers that are part of this action group. */
+  azureAppPushReceivers?: AzureAppPushReceiverAutoGenerated[];
+  /** The list of voice receivers that are part of this action group. */
+  voiceReceivers?: VoiceReceiverAutoGenerated[];
+}
+
+/** The details of the test notification results. */
+export interface TestNotificationDetailsResponseAutoGenerated {
+  /** The context info */
+  context?: Context;
+  /** The overall state */
+  state: string;
+  /** The completed time */
+  completedTime?: string;
+  /** The created time */
+  createdTime?: string;
+  /** The list of action detail */
+  actionDetails?: ActionDetailAutoGenerated[];
+}
+
+/** The action detail */
+export interface ActionDetailAutoGenerated {
+  /** The mechanism type */
+  mechanismType?: string;
+  /** The name of the action */
+  name?: string;
+  /** The status of the action */
+  status?: string;
+  /** The substatus of the action */
+  subState?: string;
+  /** The send time */
+  sendTime?: string;
+  /** The detail of the friendly error message */
+  message?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated2 {
+  /** The error object. */
+  error?: ErrorDetailAutoGenerated2;
+}
+
+/** The error detail. */
+export interface ErrorDetailAutoGenerated2 {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetailAutoGenerated2[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
 /** Represents collection of events. */
 export interface EventDataCollection {
   /** this list that includes the Azure audit logs. */
@@ -869,12 +1643,12 @@ export interface EventData {
    * the event name. This value should not be confused with OperationName. For practical purposes, OperationName might be more appealing to end users.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly eventName?: LocalizableString;
+  readonly eventName?: LocalizableStringAutoGenerated;
   /**
    * the event category.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly category?: LocalizableString;
+  readonly category?: LocalizableStringAutoGenerated;
   /**
    * the HTTP request info. Usually includes the 'clientRequestId', 'clientIpAddress' (IP address of the user who initiated the event) and 'method' (HTTP method e.g. PUT).
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -894,7 +1668,7 @@ export interface EventData {
    * the resource provider name of the impacted resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceProviderName?: LocalizableString;
+  readonly resourceProviderName?: LocalizableStringAutoGenerated;
   /**
    * the resource uri that uniquely identifies the resource that caused this event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -904,7 +1678,7 @@ export interface EventData {
    * the resource type
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceType?: LocalizableString;
+  readonly resourceType?: LocalizableStringAutoGenerated;
   /**
    * It is usually a GUID shared among the events corresponding to single operation. This value should not be confused with EventName.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -914,7 +1688,7 @@ export interface EventData {
    * the operation name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operationName?: LocalizableString;
+  readonly operationName?: LocalizableStringAutoGenerated;
   /**
    * the set of <Key, Value> pairs (usually a Dictionary<String, String>) that includes details about the event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -924,12 +1698,12 @@ export interface EventData {
    * a string describing the status of the operation. Some typical values are: Started, In progress, Succeeded, Failed, Resolved.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: LocalizableString;
+  readonly status?: LocalizableStringAutoGenerated;
   /**
    * the event sub status. Most of the time, when included, this captures the HTTP status code of the REST call. Common values are: OK (HTTP Status Code: 200), Created (HTTP Status Code: 201), Accepted (HTTP Status Code: 202), No Content (HTTP Status Code: 204), Bad Request(HTTP Status Code: 400), Not Found (HTTP Status Code: 404), Conflict (HTTP Status Code: 409), Internal Server Error (HTTP Status Code: 500), Service Unavailable (HTTP Status Code:503), Gateway Timeout (HTTP Status Code: 504)
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly subStatus?: LocalizableString;
+  readonly subStatus?: LocalizableStringAutoGenerated;
   /**
    * the timestamp of when the event was generated by the Azure service processing the request corresponding the event. It in ISO 8601 format.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -963,7 +1737,7 @@ export interface SenderAuthorization {
 }
 
 /** The localizable string class. */
-export interface LocalizableString {
+export interface LocalizableStringAutoGenerated {
   /** the invariant value. */
   value: string;
   /** the locale specific value. */
@@ -985,119 +1759,7 @@ export interface HttpRequestInfo {
 /** A collection of event categories. Currently possible values are: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy. */
 export interface EventCategoryCollection {
   /** the list that includes the Azure event categories. */
-  value: LocalizableString[];
-}
-
-/** Represents collection of metric definitions. */
-export interface MetricDefinitionCollection {
-  /** the values for the metric definitions. */
-  value: MetricDefinition[];
-}
-
-/** Metric definition class specifies the metadata for a metric. */
-export interface MetricDefinition {
-  /** Flag to indicate whether the dimension is required. */
-  isDimensionRequired?: boolean;
-  /** the resource identifier of the resource that emitted the metric. */
-  resourceId?: string;
-  /** the namespace the metric belongs to. */
-  namespace?: string;
-  /** the name and the display name of the metric, i.e. it is a localizable string. */
-  name?: LocalizableString;
-  /** Detailed description of this metric. */
-  displayDescription?: string;
-  /** Custom category name for this metric. */
-  category?: string;
-  /** The class of the metric. */
-  metricClass?: MetricClass;
-  /** The unit of the metric. */
-  unit?: MetricUnit;
-  /** the primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: AggregationType;
-  /** the collection of what aggregation types are supported. */
-  supportedAggregationTypes?: AggregationType[];
-  /** the collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MetricAvailability[];
-  /** the resource identifier of the metric definition. */
-  id?: string;
-  /** the name and the display name of the dimension, i.e. it is a localizable string. */
-  dimensions?: LocalizableString[];
-}
-
-/** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
-export interface MetricAvailability {
-  /** the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc. */
-  timeGrain?: string;
-  /** the retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc. */
-  retention?: string;
-}
-
-/** The response to a metrics query. */
-export interface Response {
-  /** The integer value representing the relative cost of the query. */
-  cost?: number;
-  /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
-  timespan: string;
-  /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
-  interval?: string;
-  /** The namespace of the metrics being queried */
-  namespace?: string;
-  /** The region of the resource being queried for metrics. */
-  resourceregion?: string;
-  /** the value of the collection. */
-  value: Metric[];
-}
-
-/** The result data of a query. */
-export interface Metric {
-  /** the metric Id. */
-  id: string;
-  /** the resource type of the metric resource. */
-  type: string;
-  /** the name and the display name of the metric, i.e. it is localizable string. */
-  name: LocalizableString;
-  /** Detailed description of this metric. */
-  displayDescription?: string;
-  /** 'Success' or the error details on query failures for this metric. */
-  errorCode?: string;
-  /** Error message encountered querying this specific metric. */
-  errorMessage?: string;
-  /** The unit of the metric. */
-  unit: MetricUnit;
-  /** the time series returned when a data query is performed. */
-  timeseries: TimeSeriesElement[];
-}
-
-/** A time series result type. The discriminator value is always TimeSeries in this case. */
-export interface TimeSeriesElement {
-  /** the metadata values returned if $filter was specified in the call. */
-  metadatavalues?: MetadataValue[];
-  /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
-  data?: MetricValue[];
-}
-
-/** Represents a metric metadata value. */
-export interface MetadataValue {
-  /** the name of the metadata. */
-  name?: LocalizableString;
-  /** the value of the metadata. */
-  value?: string;
-}
-
-/** Represents a metric value. */
-export interface MetricValue {
-  /** the timestamp for the metric value in ISO 8601 format. */
-  timeStamp: Date;
-  /** the average value in the time range. */
-  average?: number;
-  /** the least value in the time range. */
-  minimum?: number;
-  /** the greatest value in the time range. */
-  maximum?: number;
-  /** the sum of all of the values in the time range. */
-  total?: number;
-  /** the number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
-  count?: number;
+  value: LocalizableStringAutoGenerated[];
 }
 
 /** A list of metric baselines. */
@@ -1190,7 +1852,7 @@ export interface MetricAlertAction {
 }
 
 /** An azure resource object */
-export interface ResourceAutoGenerated4 {
+export interface ResourceAutoGenerated6 {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1470,7 +2132,7 @@ export interface RuleResolveConfiguration {
 }
 
 /** Describes the format of Error response. */
-export interface ErrorContract {
+export interface ErrorContractAutoGenerated {
   /** The error details. */
   error?: ErrorResponseDetails;
 }
@@ -1659,22 +2321,12 @@ export interface AzureMonitorPrivateLinkScopeListResult {
 }
 
 /** The Private Endpoint resource. */
-export interface PrivateEndpoint {
+export interface PrivateEndpointAutoGenerated {
   /**
    * The ARM identifier for Private Endpoint
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
 }
 
 /** Properties that define the scope private link mode settings. */
@@ -1700,50 +2352,7 @@ export interface AccessModeSettingsExclusion {
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface DefaultErrorResponse {
   /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
+  error?: ErrorDetailAutoGenerated2;
 }
 
 /** A container holding only the Tags for a resource, allowing the user to update the tags on a PrivateLinkScope instance. */
@@ -1765,7 +2374,7 @@ export interface OperationStatus {
   /** The status of the operation. */
   status?: string;
   /** The error detail of the operation if any. */
-  error?: ErrorDetail;
+  error?: ErrorDetailAutoGenerated2;
 }
 
 /** A list of private link resources */
@@ -1777,7 +2386,7 @@ export interface PrivateLinkResourceListResult {
 /** List of private endpoint connection associated with the specified storage account */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnection[];
+  value?: PrivateEndpointConnectionAutoGenerated[];
 }
 
 /** A list of scoped resources in a private link scope. */
@@ -1854,7 +2463,7 @@ export interface AzureResourceAutoGenerated {
 }
 
 /** The error response. */
-export interface ErrorResponseAutoGenerated {
+export interface ErrorResponseAutoGenerated3 {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1899,6 +2508,8 @@ export interface DataCollectionEndpointResource {
   tags?: { [propertyName: string]: string };
   /** The kind of the resource. */
   kind?: KnownDataCollectionEndpointResourceKind;
+  /** Managed service identity of the resource. */
+  identity?: DataCollectionEndpointResourceIdentity;
   /**
    * Fully qualified ID of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1932,6 +2543,8 @@ export interface DataCollectionEndpointResource {
   configurationAccess?: DataCollectionEndpointConfigurationAccess;
   /** The endpoint used by clients to ingest logs. */
   logsIngestion?: DataCollectionEndpointLogsIngestion;
+  /** The endpoint used by clients to ingest metrics. */
+  metricsIngestion?: DataCollectionEndpointMetricsIngestion;
   /** Network access control rules for the endpoints. */
   networkAcls?: DataCollectionEndpointNetworkAcls;
   /**
@@ -1939,6 +2552,21 @@ export interface DataCollectionEndpointResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
+  /**
+   * List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+  /**
+   * Failover configuration on this endpoint. This property is READ-ONLY.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
+  /**
+   * Metadata for the resource. This property is READ-ONLY.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: DataCollectionEndpointMetadata;
 }
 
 /** Definition of data collection endpoint. */
@@ -1951,6 +2579,8 @@ export interface DataCollectionEndpoint {
   configurationAccess?: DataCollectionEndpointConfigurationAccess;
   /** The endpoint used by clients to ingest logs. */
   logsIngestion?: DataCollectionEndpointLogsIngestion;
+  /** The endpoint used by clients to ingest metrics. */
+  metricsIngestion?: DataCollectionEndpointMetricsIngestion;
   /** Network access control rules for the endpoints. */
   networkAcls?: DataCollectionEndpointNetworkAcls;
   /**
@@ -1958,6 +2588,21 @@ export interface DataCollectionEndpoint {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
+  /**
+   * List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+  /**
+   * Failover configuration on this endpoint. This property is READ-ONLY.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
+  /**
+   * Metadata for the resource. This property is READ-ONLY.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: DataCollectionEndpointMetadata;
 }
 
 /** Definition of the endpoint used for accessing configuration. */
@@ -1978,22 +2623,102 @@ export interface LogsIngestionEndpointSpec {
   readonly endpoint?: string;
 }
 
+/** Definition of the endpoint used for ingesting metrics. */
+export interface MetricsIngestionEndpointSpec {
+  /**
+   * The endpoint. This property is READ-ONLY.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+}
+
 /** Definition of the network rules. */
 export interface NetworkRuleSet {
   /** The configuration to set whether network access from public internet to the endpoints are allowed. */
   publicNetworkAccess?: KnownPublicNetworkAccessOptions;
 }
 
+export interface PrivateLinkScopedResource {
+  /** The resourceId of the Azure Monitor Private Link Scope Scoped Resource through which this DCE is associated with a Azure Monitor Private Link Scope. */
+  resourceId?: string;
+  /** The immutableId of the Azure Monitor Private Link Scope Resource to which the association is. */
+  scopeId?: string;
+}
+
+export interface FailoverConfigurationSpec {
+  /** Active location where data flow will occur. */
+  activeLocation?: string;
+  /** Locations that are configured for failover. */
+  locations?: LocationSpec[];
+}
+
+export interface LocationSpec {
+  /** Name of location. */
+  location?: string;
+  /** The resource provisioning state in this location. */
+  provisioningStatus?: KnownLocationSpecProvisioningStatus;
+}
+
+/** Metadata about the resource */
+export interface Metadata {
+  /**
+   * Azure offering managing this resource on-behalf-of customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedBy?: string;
+  /**
+   * Resource Id of azure offering managing this resource on-behalf-of customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedByResourceId?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponseCommonV2 {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetailAutoGenerated2;
 }
 
 /** Definition of ARM tracked top level resource properties for update operation. */
 export interface ResourceForUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** Managed Service Identity. */
+  identity?: ResourceForUpdateIdentity;
 }
 
 /** A pageable list of resources. */
@@ -2069,15 +2794,6 @@ export interface DataCollectionRuleAssociation {
   readonly metadata?: DataCollectionRuleAssociationMetadata;
 }
 
-/** Metadata about the resource */
-export interface Metadata {
-  /**
-   * Azure offering managing this resource on-behalf-of customer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisionedBy?: string;
-}
-
 /** A pageable list of resources. */
 export interface DataCollectionRuleResourceListResult {
   /** A list of resources. */
@@ -2094,6 +2810,8 @@ export interface DataCollectionRuleResource {
   tags?: { [propertyName: string]: string };
   /** The kind of the resource. */
   kind?: KnownDataCollectionRuleResourceKind;
+  /** Managed service identity of the resource. */
+  identity?: DataCollectionRuleResourceIdentity;
   /**
    * Fully qualified ID of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2213,6 +2931,14 @@ export interface DataSourcesSpec {
   logFiles?: LogFilesDataSource[];
   /** The list of IIS logs source configurations. */
   iisLogs?: IisLogsDataSource[];
+  /** The list of Windows Firewall logs source configurations. */
+  windowsFirewallLogs?: WindowsFirewallLogsDataSource[];
+  /** The list of Prometheus forwarder data source configurations. */
+  prometheusForwarder?: PrometheusForwarderDataSource[];
+  /** The list of platform telemetry configurations */
+  platformTelemetry?: PlatformTelemetryDataSource[];
+  /** Specifications of pull based data sources */
+  dataImports?: DataSourcesSpecDataImports;
 }
 
 /**
@@ -2348,12 +3074,80 @@ export interface IisLogsDataSource {
   name?: string;
 }
 
+/** Enables Firewall logs to be collected by this data collection rule. */
+export interface WindowsFirewallLogsDataSource {
+  /** Firewall logs streams */
+  streams: string[];
+  /**
+   * A friendly name for the data source.
+   * This name should be unique across all data sources (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+/** Definition of Prometheus metrics forwarding configuration. */
+export interface PrometheusForwarderDataSource {
+  /** List of streams that this data source will be sent to. */
+  streams?: KnownPrometheusForwarderDataSourceStreams[];
+  /**
+   * The list of label inclusion filters in the form of label "name-value" pairs.
+   * Currently only one label is supported: 'microsoft_metrics_include_label'.
+   * Label values are matched case-insensitively.
+   */
+  labelIncludeFilter?: { [propertyName: string]: string };
+  /**
+   * A friendly name for the data source.
+   * This name should be unique across all data sources (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+/** Definition of platform telemetry data source configuration */
+export interface PlatformTelemetryDataSource {
+  /** List of platform telemetry streams to collect */
+  streams: string[];
+  /**
+   * A friendly name for the data source.
+   * This name should be unique across all data sources (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+export interface DataImportSources {
+  /** Definition of Event Hub configuration. */
+  eventHub?: DataImportSourcesEventHub;
+}
+
+export interface EventHubDataSource {
+  /**
+   * A friendly name for the data source.
+   * This name should be unique across all data sources (regardless of type) within the data collection rule.
+   */
+  name?: string;
+  /** Event Hub consumer group name */
+  consumerGroup?: string;
+  /** The stream to collect from EventHub */
+  stream?: string;
+}
+
 /** Specification of destinations that can be used in data flows. */
 export interface DestinationsSpec {
   /** List of Log Analytics destinations. */
   logAnalytics?: LogAnalyticsDestination[];
+  /** List of monitoring account destinations. */
+  monitoringAccounts?: MonitoringAccountDestination[];
   /** Azure Monitor Metrics destination. */
   azureMonitorMetrics?: DestinationsSpecAzureMonitorMetrics;
+  /** List of Event Hubs destinations. */
+  eventHubs?: EventHubDestination[];
+  /** List of Event Hubs Direct destinations. */
+  eventHubsDirect?: EventHubDirectDestination[];
+  /** List of Storage Blob Direct destinations. To be used only for sending data directly to store from the agent. */
+  storageBlobsDirect?: StorageBlobDestination[];
+  /** List of Storage Table Direct destinations. */
+  storageTablesDirect?: StorageTableDestination[];
+  /** List of storage accounts destinations. */
+  storageAccounts?: StorageBlobDestination[];
 }
 
 /** Log Analytics destination. */
@@ -2372,8 +3166,68 @@ export interface LogAnalyticsDestination {
   name?: string;
 }
 
+/** Monitoring account destination. */
+export interface MonitoringAccountDestination {
+  /** The resource ID of the monitoring account. */
+  accountResourceId?: string;
+  /**
+   * The immutable ID  of the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
 /** Azure Monitor Metrics destination. */
 export interface AzureMonitorMetricsDestination {
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+export interface EventHubDestination {
+  /** The resource ID of the event hub. */
+  eventHubResourceId?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+export interface EventHubDirectDestination {
+  /** The resource ID of the event hub. */
+  eventHubResourceId?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+export interface StorageBlobDestination {
+  /** The container name of the Storage Blob. */
+  containerName?: string;
+  /** The resource ID of the storage account. */
+  storageAccountResourceId?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+export interface StorageTableDestination {
+  /** The name of the Storage Table. */
+  tableName?: string;
+  /** The resource ID of the storage account. */
+  storageAccountResourceId?: string;
   /**
    * A friendly name for the destination.
    * This name should be unique across all destinations (regardless of type) within the data collection rule.
@@ -2391,195 +3245,8 @@ export interface DataFlow {
   transformKql?: string;
   /** The output stream of the transform. Only required if the transform changes data to a different stream. */
   outputStream?: string;
-}
-
-/** A pageable list of resources */
-export interface AzureMonitorWorkspaceResourceListResult {
-  /** A list of resources */
-  value: AzureMonitorWorkspaceResource[];
-  /** The URL to use for getting the next set of results */
-  nextLink?: string;
-}
-
-/** Properties of an Azure Monitor workspace */
-export interface AzureMonitorWorkspace {
-  /**
-   * The immutable ID of the Azure Monitor workspace. This property is read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountId?: string;
-  /**
-   * Information about metrics for the Azure Monitor workspace
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metrics?: AzureMonitorWorkspaceMetrics;
-  /**
-   * The provisioning state of the Azure Monitor workspace. Set to Succeeded if everything is healthy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The Data Collection Rule and Endpoint used for ingestion by default.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
-}
-
-/** Information about metrics for the workspace */
-export interface Metrics {
-  /**
-   * The Prometheus query endpoint for the workspace
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly prometheusQueryEndpoint?: string;
-  /**
-   * An internal identifier for the metrics container. Only to be used by the system
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly internalId?: string;
-}
-
-/** Settings for data ingestion */
-export interface IngestionSettings {
-  /**
-   * The Azure resource Id of the default data collection rule for this workspace.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataCollectionRuleResourceId?: string;
-  /**
-   * The Azure resource Id of the default data collection endpoint for this workspace.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataCollectionEndpointResourceId?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface ResourceAutoGenerated5 {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponseAutoGenerated2 {
-  /** The error object. */
-  error?: ErrorDetailAutoGenerated;
-}
-
-/** The error detail. */
-export interface ErrorDetailAutoGenerated {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetailAutoGenerated[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** Definition of ARM tracked top level resource properties for update operation */
-export interface AzureMonitorWorkspaceResourceForUpdate {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface OperationListResultAutoGenerated {
-  /**
-   * List of operations supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: OperationAutoGenerated[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface OperationAutoGenerated {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplayAutoGenerated;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: ActionType;
-}
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplayAutoGenerated {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
+  /** The builtIn transform to transform stream data */
+  builtInTransform?: string;
 }
 
 /** The claims for a rule management event data source. */
@@ -2636,8 +3303,52 @@ export interface DynamicThresholdFailingPeriods {
   minFailingPeriodsToAlert: number;
 }
 
+/** Resource properties */
+export interface AzureMonitorWorkspaceResourceProperties
+  extends AzureMonitorWorkspace {}
+
+/** Properties related to the metrics container in the Azure Monitor Workspace */
+export interface AzureMonitorWorkspaceMetrics extends Metrics {}
+
+/** The Data Collection Rule and Endpoint used for ingestion by default. */
+export interface AzureMonitorWorkspaceDefaultIngestionSettings
+  extends IngestionSettings {}
+
+/** The private endpoint connection resource. */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * The group ids for the private endpoint resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** The provisioning state of the private endpoint connection resource. */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface DataCollectionEndpointResourceSystemData extends SystemData {}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface DataCollectionRuleAssociationProxyOnlyResourceSystemData
+  extends SystemData {}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface DataCollectionRuleResourceSystemData extends SystemData {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends ResourceAutoGenerated {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
 /** The autoscale setting resource. */
-export interface AutoscaleSettingResource extends Resource {
+export interface AutoscaleSettingResource extends ResourceAutoGenerated2 {
   /** the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. */
   profiles: AutoscaleProfile[];
   /** the collection of notifications. */
@@ -2653,16 +3364,6 @@ export interface AutoscaleSettingResource extends Resource {
   /** the location of the resource that the autoscale setting should be added to. */
   targetResourceLocation?: string;
 }
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionEndpointResourceSystemData extends SystemData {}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionRuleAssociationProxyOnlyResourceSystemData
-  extends SystemData {}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionRuleResourceSystemData extends SystemData {}
 
 /** A rule condition based on a metric crossing a threshold. */
 export interface ThresholdRuleCondition extends RuleCondition {
@@ -2749,7 +3450,7 @@ export interface RuleWebhookAction extends RuleAction {
 }
 
 /** The alert rule resource. */
-export interface AlertRuleResource extends ResourceAutoGenerated {
+export interface AlertRuleResource extends ResourceAutoGenerated3 {
   /** the name of the alert rule. */
   namePropertiesName: string;
   /** the description of the alert rule that will be included in the alert email. */
@@ -2772,7 +3473,7 @@ export interface AlertRuleResource extends ResourceAutoGenerated {
 }
 
 /** The log profile resource. */
-export interface LogProfileResource extends ResourceAutoGenerated2 {
+export interface LogProfileResource extends ResourceAutoGenerated4 {
   /** the resource id of the storage account to which you would like to send the Activity Log. */
   storageAccountId?: string;
   /** The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'. */
@@ -2786,7 +3487,7 @@ export interface LogProfileResource extends ResourceAutoGenerated2 {
 }
 
 /** The diagnostic setting resource. */
-export interface DiagnosticSettingsResource extends ResourceAutoGenerated3 {
+export interface DiagnosticSettingsResource extends ResourceAutoGenerated5 {
   /**
    * The system metadata related to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2814,7 +3515,7 @@ export interface DiagnosticSettingsResource extends ResourceAutoGenerated3 {
 
 /** The diagnostic settings category resource. */
 export interface DiagnosticSettingsCategoryResource
-  extends ResourceAutoGenerated3 {
+  extends ResourceAutoGenerated5 {
   /**
    * The system metadata related to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2827,20 +3528,18 @@ export interface DiagnosticSettingsCategoryResource
 }
 
 /** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnection extends ResourceAutoGenerated3 {
+export interface PrivateEndpointConnectionAutoGenerated
+  extends ResourceAutoGenerated5 {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpointAutoGenerated;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+  /** The provisioning state of the private endpoint connection resource. */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends ResourceAutoGenerated3 {
+export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated5 {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
@@ -2848,7 +3547,7 @@ export interface TrackedResource extends ResourceAutoGenerated3 {
 }
 
 /** A private link resource */
-export interface PrivateLinkResource extends ResourceAutoGenerated3 {
+export interface PrivateLinkResource extends ResourceAutoGenerated5 {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2864,7 +3563,7 @@ export interface PrivateLinkResource extends ResourceAutoGenerated3 {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated3 {}
+export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated5 {}
 
 /** An action group resource. */
 export interface ActionGroupResource extends AzureResource {
@@ -2894,6 +3593,24 @@ export interface ActionGroupResource extends AzureResource {
   armRoleReceivers?: ArmRoleReceiver[];
   /** The list of event hub receivers that are part of this action group. */
   eventHubReceivers?: EventHubReceiver[];
+}
+
+/** A tenant action group resource. */
+export interface TenantActionGroupResource extends AzureResource {
+  /** The short name of the action group. This will be used in SMS messages. */
+  groupShortName?: string;
+  /** Indicates whether this tenant action group is enabled. If a tenant action group is not enabled, then none of its receivers will receive communications. */
+  enabled?: boolean;
+  /** The list of email receivers that are part of this tenant action group. */
+  emailReceivers?: EmailReceiverAutoGenerated[];
+  /** The list of SMS receivers that are part of this tenant action group. */
+  smsReceivers?: SmsReceiverAutoGenerated[];
+  /** The list of webhook receivers that are part of this tenant action group. */
+  webhookReceivers?: WebhookReceiverAutoGenerated[];
+  /** The list of AzureAppPush receivers that are part of this tenant action group. */
+  azureAppPushReceivers?: AzureAppPushReceiverAutoGenerated[];
+  /** The list of voice receivers that are part of this tenant action group. */
+  voiceReceivers?: VoiceReceiverAutoGenerated[];
 }
 
 /** Specifies the metric alert criteria for a single resource that has multiple metric criteria. */
@@ -2928,7 +3645,7 @@ export interface MetricAlertMultipleResourceMultipleMetricCriteria
 }
 
 /** The metric alert resource. */
-export interface MetricAlertResource extends ResourceAutoGenerated4 {
+export interface MetricAlertResource extends ResourceAutoGenerated6 {
   /** the description of the metric alert that will be included in the alert email. */
   description?: string;
   /** Alert severity {0, 1, 2, 3, 4} */
@@ -3016,18 +3733,40 @@ export interface DataCollectionEndpointConfigurationAccess
 export interface DataCollectionEndpointLogsIngestion
   extends LogsIngestionEndpointSpec {}
 
+/** The endpoint used by clients to ingest metrics. */
+export interface DataCollectionEndpointMetricsIngestion
+  extends MetricsIngestionEndpointSpec {}
+
 /** Network access control rules for the endpoints. */
 export interface DataCollectionEndpointNetworkAcls extends NetworkRuleSet {}
 
-/** Resource properties. */
-export interface DataCollectionRuleAssociationProxyOnlyResourceProperties
-  extends DataCollectionRuleAssociation {}
+/** Failover configuration on this endpoint. This property is READ-ONLY. */
+export interface DataCollectionEndpointFailoverConfiguration
+  extends FailoverConfigurationSpec {}
+
+/** Metadata for the resource. This property is READ-ONLY. */
+export interface DataCollectionEndpointMetadata extends Metadata {}
 
 /** Metadata about the resource */
 export interface DataCollectionRuleAssociationMetadata extends Metadata {}
 
 /** Metadata about the resource */
 export interface DataCollectionRuleMetadata extends Metadata {}
+
+/** Managed service identity of the resource. */
+export interface DataCollectionEndpointResourceIdentity
+  extends ManagedServiceIdentity {}
+
+/** Managed Service Identity. */
+export interface ResourceForUpdateIdentity extends ManagedServiceIdentity {}
+
+/** Managed service identity of the resource. */
+export interface DataCollectionRuleResourceIdentity
+  extends ManagedServiceIdentity {}
+
+/** Resource properties. */
+export interface DataCollectionRuleAssociationProxyOnlyResourceProperties
+  extends DataCollectionRuleAssociation {}
 
 /** Resource properties. */
 export interface DataCollectionRuleResourceProperties
@@ -3045,31 +3784,18 @@ export interface LogFilesDataSourceSettings extends LogFileSettings {}
 /** Text settings */
 export interface LogFileSettingsText extends LogFileTextSettings {}
 
+/** Specifications of pull based data sources */
+export interface DataSourcesSpecDataImports extends DataImportSources {}
+
+/** Definition of Event Hub configuration. */
+export interface DataImportSourcesEventHub extends EventHubDataSource {}
+
 /** The specification of destinations. */
 export interface DataCollectionRuleDestinations extends DestinationsSpec {}
 
 /** Azure Monitor Metrics destination. */
 export interface DestinationsSpecAzureMonitorMetrics
   extends AzureMonitorMetricsDestination {}
-
-/** Resource properties */
-export interface AzureMonitorWorkspaceResourceProperties
-  extends AzureMonitorWorkspace {}
-
-/** Information about metrics for the Azure Monitor workspace */
-export interface AzureMonitorWorkspaceMetrics extends Metrics {}
-
-/** The Data Collection Rule and Endpoint used for ingestion by default. */
-export interface AzureMonitorWorkspaceDefaultIngestionSettings
-  extends IngestionSettings {}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated5 {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
 
 /** Criterion to filter metrics. */
 export interface MetricCriteria extends MultiMetricCriteria {
@@ -3095,8 +3821,48 @@ export interface DynamicMetricCriteria extends MultiMetricCriteria {
   ignoreDataBefore?: Date;
 }
 
+/** An Azure Monitor Workspace definition */
+export interface AzureMonitorWorkspaceResource extends TrackedResource {
+  /**
+   * Resource entity tag (ETag)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The immutable Id of the Azure Monitor Workspace. This property is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * Properties related to the metrics container in the Azure Monitor Workspace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metrics?: AzureMonitorWorkspaceMetrics;
+  /**
+   * The provisioning state of the Azure Monitor Workspace. Set to Succeeded if everything is healthy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The Data Collection Rule and Endpoint used for ingestion by default.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
+  /**
+   * List of private endpoint connections
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Gets or sets allow or disallow public network access to Azure Monitor Workspace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicNetworkAccess?: PublicNetworkAccess;
+}
+
 /** An Azure Monitor PrivateLinkScope definition. */
-export interface AzureMonitorPrivateLinkScope extends TrackedResource {
+export interface AzureMonitorPrivateLinkScope
+  extends TrackedResourceAutoGenerated {
   /**
    * System data
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3111,7 +3877,7 @@ export interface AzureMonitorPrivateLinkScope extends TrackedResource {
    * List of private endpoint connections.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  readonly privateEndpointConnections?: PrivateEndpointConnectionAutoGenerated[];
   /** Access mode settings */
   accessModeSettings: AccessModeSettings;
 }
@@ -3132,45 +3898,9 @@ export interface ScopedResource extends ProxyResourceAutoGenerated {
   readonly provisioningState?: string;
 }
 
-/** An Azure Monitor Workspace definition */
-export interface AzureMonitorWorkspaceResource
-  extends TrackedResourceAutoGenerated {
-  /**
-   * Resource entity tag (ETag)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The immutable ID of the Azure Monitor workspace. This property is read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountId?: string;
-  /**
-   * Information about metrics for the Azure Monitor workspace
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metrics?: AzureMonitorWorkspaceMetrics;
-  /**
-   * The provisioning state of the Azure Monitor workspace. Set to Succeeded if everything is healthy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The Data Collection Rule and Endpoint used for ingestion by default.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
-}
-
-/** Defines headers for ActionGroups_postTestNotifications operation. */
-export interface ActionGroupsPostTestNotificationsHeaders {
-  /** The location header that has the polling uri. */
-  location?: string;
-}
-
-/** Defines headers for ActionGroups_createNotificationsAtResourceGroupLevel operation. */
-export interface ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders {
-  /** The location header that has the polling uri. */
+/** Defines headers for AzureMonitorWorkspaces_delete operation. */
+export interface AzureMonitorWorkspacesDeleteHeaders {
+  azureAsyncOperation?: string;
   location?: string;
 }
 
@@ -3180,65 +3910,116 @@ export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeader
   location?: string;
 }
 
-/** Known values of {@link ScaleRuleMetricDimensionOperationType} that the service accepts. */
-export enum KnownScaleRuleMetricDimensionOperationType {
-  /** Equals */
-  Equals = "Equals",
-  /** NotEquals */
-  NotEquals = "NotEquals"
+/** Defines headers for MonitorClient_createNotificationsAtTenantActionGroupResourceLevel operation. */
+export interface MonitorClientCreateNotificationsAtTenantActionGroupResourceLevelHeaders {
+  /** The location header that has the polling uri. */
+  location?: string;
 }
 
-/**
- * Defines values for ScaleRuleMetricDimensionOperationType. \
- * {@link KnownScaleRuleMetricDimensionOperationType} can be used interchangeably with ScaleRuleMetricDimensionOperationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Equals** \
- * **NotEquals**
- */
-export type ScaleRuleMetricDimensionOperationType = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
   /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system"
 }
 
 /**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export type CreatedByType = string;
+export type Origin = string;
 
-/** Known values of {@link CategoryType} that the service accepts. */
-export enum KnownCategoryType {
-  /** Metrics */
-  Metrics = "Metrics",
-  /** Logs */
-  Logs = "Logs"
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal"
 }
 
 /**
- * Defines values for CategoryType. \
- * {@link KnownCategoryType} can be used interchangeably with CategoryType,
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Metrics** \
- * **Logs**
+ * **Internal**
  */
-export type CategoryType = string;
+export type ActionType = string;
+
+/** Known values of {@link MetricResultType} that the service accepts. */
+export enum KnownMetricResultType {
+  /** Data */
+  Data = "Data",
+  /** Metadata */
+  Metadata = "Metadata"
+}
+
+/**
+ * Defines values for MetricResultType. \
+ * {@link KnownMetricResultType} can be used interchangeably with MetricResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Data** \
+ * **Metadata**
+ */
+export type MetricResultType = string;
+
+/** Known values of {@link MetricUnit} that the service accepts. */
+export enum KnownMetricUnit {
+  /** Unit of raw quantity. */
+  Count = "Count",
+  /** Unit of memory in bytes. */
+  Bytes = "Bytes",
+  /** Unit of time in seconds. */
+  Seconds = "Seconds",
+  /** Rate unit of raw quantity per second. */
+  CountPerSecond = "CountPerSecond",
+  /** Rate unit of memory in bytes per second. */
+  BytesPerSecond = "BytesPerSecond",
+  /** Percentage unit. */
+  Percent = "Percent",
+  /** Unit of time in 1\/1000th of a second. */
+  MilliSeconds = "MilliSeconds",
+  /** Unit of data transfer or storage. It is the size of the data in bytes multiplied by the time it takes to transfer or store the data in seconds. */
+  ByteSeconds = "ByteSeconds",
+  /** No specified unit. */
+  Unspecified = "Unspecified",
+  /** Unit of processing power. */
+  Cores = "Cores",
+  /** Unit of processing power in 1\/1000th of a CPU core. */
+  MilliCores = "MilliCores",
+  /** Unit of processing power in one billionth of a CPU core. */
+  NanoCores = "NanoCores",
+  /** Rate unit of binary digits per second. */
+  BitsPerSecond = "BitsPerSecond"
+}
+
+/**
+ * Defines values for MetricUnit. \
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count**: Unit of raw quantity. \
+ * **Bytes**: Unit of memory in bytes. \
+ * **Seconds**: Unit of time in seconds. \
+ * **CountPerSecond**: Rate unit of raw quantity per second. \
+ * **BytesPerSecond**: Rate unit of memory in bytes per second. \
+ * **Percent**: Percentage unit. \
+ * **MilliSeconds**: Unit of time in 1\/1000th of a second. \
+ * **ByteSeconds**: Unit of data transfer or storage. It is the size of the data in bytes multiplied by the time it takes to transfer or store the data in seconds. \
+ * **Unspecified**: No specified unit. \
+ * **Cores**: Unit of processing power. \
+ * **MilliCores**: Unit of processing power in 1\/1000th of a CPU core. \
+ * **NanoCores**: Unit of processing power in one billionth of a CPU core. \
+ * **BitsPerSecond**: Rate unit of binary digits per second.
+ */
+export type MetricUnit = string;
 
 /** Known values of {@link MetricClass} that the service accepts. */
 export enum KnownMetricClass {
@@ -3267,56 +4048,188 @@ export enum KnownMetricClass {
  */
 export type MetricClass = string;
 
-/** Known values of {@link MetricUnit} that the service accepts. */
-export enum KnownMetricUnit {
+/** Known values of {@link MetricAggregationType} that the service accepts. */
+export enum KnownMetricAggregationType {
+  /** None */
+  None = "None",
+  /** Average */
+  Average = "Average",
   /** Count */
   Count = "Count",
-  /** Bytes */
-  Bytes = "Bytes",
-  /** Seconds */
-  Seconds = "Seconds",
-  /** CountPerSecond */
-  CountPerSecond = "CountPerSecond",
-  /** BytesPerSecond */
-  BytesPerSecond = "BytesPerSecond",
-  /** Percent */
-  Percent = "Percent",
-  /** MilliSeconds */
-  MilliSeconds = "MilliSeconds",
-  /** ByteSeconds */
-  ByteSeconds = "ByteSeconds",
-  /** Unspecified */
-  Unspecified = "Unspecified",
-  /** Cores */
-  Cores = "Cores",
-  /** MilliCores */
-  MilliCores = "MilliCores",
-  /** NanoCores */
-  NanoCores = "NanoCores",
-  /** BitsPerSecond */
-  BitsPerSecond = "BitsPerSecond"
+  /** Minimum */
+  Minimum = "Minimum",
+  /** Maximum */
+  Maximum = "Maximum",
+  /** Total */
+  Total = "Total"
 }
 
 /**
- * Defines values for MetricUnit. \
- * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
+ * Defines values for MetricAggregationType. \
+ * {@link KnownMetricAggregationType} can be used interchangeably with MetricAggregationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **None** \
+ * **Average** \
  * **Count** \
- * **Bytes** \
- * **Seconds** \
- * **CountPerSecond** \
- * **BytesPerSecond** \
- * **Percent** \
- * **MilliSeconds** \
- * **ByteSeconds** \
- * **Unspecified** \
- * **Cores** \
- * **MilliCores** \
- * **NanoCores** \
- * **BitsPerSecond**
+ * **Minimum** \
+ * **Maximum** \
+ * **Total**
  */
-export type MetricUnit = string;
+export type MetricAggregationType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **SecuredByPerimeter**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link ScaleRuleMetricDimensionOperationType} that the service accepts. */
+export enum KnownScaleRuleMetricDimensionOperationType {
+  /** Equals */
+  Equals = "Equals",
+  /** NotEquals */
+  NotEquals = "NotEquals"
+}
+
+/**
+ * Defines values for ScaleRuleMetricDimensionOperationType. \
+ * {@link KnownScaleRuleMetricDimensionOperationType} can be used interchangeably with ScaleRuleMetricDimensionOperationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **NotEquals**
+ */
+export type ScaleRuleMetricDimensionOperationType = string;
+
+/** Known values of {@link CategoryType} that the service accepts. */
+export enum KnownCategoryType {
+  /** Metrics */
+  Metrics = "Metrics",
+  /** Logs */
+  Logs = "Logs"
+}
+
+/**
+ * Defines values for CategoryType. \
+ * {@link KnownCategoryType} can be used interchangeably with CategoryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Metrics** \
+ * **Logs**
+ */
+export type CategoryType = string;
 
 /** Known values of {@link BaselineSensitivity} that the service accepts. */
 export enum KnownBaselineSensitivity {
@@ -3404,27 +4317,6 @@ export enum KnownAlertSeverity {
  * **4**
  */
 export type AlertSeverity = number;
-
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
-export enum KnownPublicNetworkAccess {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-  /** SecuredByPerimeter */
-  SecuredByPerimeter = "SecuredByPerimeter"
-}
-
-/**
- * Defines values for PublicNetworkAccess. \
- * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled** \
- * **SecuredByPerimeter**
- */
-export type PublicNetworkAccess = string;
 
 /** Known values of {@link TimeAggregation} that the service accepts. */
 export enum KnownTimeAggregation {
@@ -3531,51 +4423,6 @@ export enum KnownDataStatus {
  */
 export type DataStatus = string;
 
-/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
-export enum KnownPrivateEndpointServiceConnectionStatus {
-  /** Pending */
-  Pending = "Pending",
-  /** Approved */
-  Approved = "Approved",
-  /** Rejected */
-  Rejected = "Rejected"
-}
-
-/**
- * Defines values for PrivateEndpointServiceConnectionStatus. \
- * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending** \
- * **Approved** \
- * **Rejected**
- */
-export type PrivateEndpointServiceConnectionStatus = string;
-
-/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
-export enum KnownPrivateEndpointConnectionProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Failed */
-  Failed = "Failed"
-}
-
-/**
- * Defines values for PrivateEndpointConnectionProvisioningState. \
- * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Deleting** \
- * **Failed**
- */
-export type PrivateEndpointConnectionProvisioningState = string;
-
 /** Known values of {@link AccessMode} that the service accepts. */
 export enum KnownAccessMode {
   /** Open */
@@ -3599,7 +4446,9 @@ export enum KnownKnownPublicNetworkAccessOptions {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 /**
@@ -3608,7 +4457,8 @@ export enum KnownKnownPublicNetworkAccessOptions {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **SecuredByPerimeter**
  */
 export type KnownPublicNetworkAccessOptions = string;
 
@@ -3622,6 +4472,8 @@ export enum KnownKnownDataCollectionEndpointProvisioningState {
   Deleting = "Deleting",
   /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
   /** Failed */
   Failed = "Failed"
 }
@@ -3635,9 +4487,40 @@ export enum KnownKnownDataCollectionEndpointProvisioningState {
  * **Updating** \
  * **Deleting** \
  * **Succeeded** \
+ * **Canceled** \
  * **Failed**
  */
 export type KnownDataCollectionEndpointProvisioningState = string;
+
+/** Known values of {@link KnownLocationSpecProvisioningStatus} that the service accepts. */
+export enum KnownKnownLocationSpecProvisioningStatus {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for KnownLocationSpecProvisioningStatus. \
+ * {@link KnownKnownLocationSpecProvisioningStatus} can be used interchangeably with KnownLocationSpecProvisioningStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type KnownLocationSpecProvisioningStatus = string;
 
 /** Known values of {@link KnownDataCollectionEndpointResourceKind} that the service accepts. */
 export enum KnownKnownDataCollectionEndpointResourceKind {
@@ -3657,6 +4540,30 @@ export enum KnownKnownDataCollectionEndpointResourceKind {
  */
 export type KnownDataCollectionEndpointResourceKind = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link KnownDataCollectionRuleAssociationProvisioningState} that the service accepts. */
 export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
   /** Creating */
@@ -3667,6 +4574,8 @@ export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
   Deleting = "Deleting",
   /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
   /** Failed */
   Failed = "Failed"
 }
@@ -3680,6 +4589,7 @@ export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
  * **Updating** \
  * **Deleting** \
  * **Succeeded** \
+ * **Canceled** \
  * **Failed**
  */
 export type KnownDataCollectionRuleAssociationProvisioningState = string;
@@ -3963,6 +4873,21 @@ export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
  */
 export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
 
+/** Known values of {@link KnownPrometheusForwarderDataSourceStreams} that the service accepts. */
+export enum KnownKnownPrometheusForwarderDataSourceStreams {
+  /** MicrosoftPrometheusMetrics */
+  MicrosoftPrometheusMetrics = "Microsoft-PrometheusMetrics"
+}
+
+/**
+ * Defines values for KnownPrometheusForwarderDataSourceStreams. \
+ * {@link KnownKnownPrometheusForwarderDataSourceStreams} can be used interchangeably with KnownPrometheusForwarderDataSourceStreams,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft-PrometheusMetrics**
+ */
+export type KnownPrometheusForwarderDataSourceStreams = string;
+
 /** Known values of {@link KnownDataFlowStreams} that the service accepts. */
 export enum KnownKnownDataFlowStreams {
   /** MicrosoftEvent */
@@ -4000,6 +4925,8 @@ export enum KnownKnownDataCollectionRuleProvisioningState {
   Deleting = "Deleting",
   /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
   /** Failed */
   Failed = "Failed"
 }
@@ -4013,6 +4940,7 @@ export enum KnownKnownDataCollectionRuleProvisioningState {
  * **Updating** \
  * **Deleting** \
  * **Succeeded** \
+ * **Canceled** \
  * **Failed**
  */
 export type KnownDataCollectionRuleProvisioningState = string;
@@ -4034,69 +4962,6 @@ export enum KnownKnownDataCollectionRuleResourceKind {
  * **Windows**
  */
 export type KnownDataCollectionRuleResourceKind = string;
-
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Creating */
-  Creating = "Creating",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled"
-}
-
-/**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Succeeded** \
- * **Deleting** \
- * **Failed** \
- * **Canceled**
- */
-export type ProvisioningState = string;
-
-/** Known values of {@link Origin} that the service accepts. */
-export enum KnownOrigin {
-  /** User */
-  User = "user",
-  /** System */
-  System = "system",
-  /** UserSystem */
-  UserSystem = "user,system"
-}
-
-/**
- * Defines values for Origin. \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
- */
-export type Origin = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** Internal */
-  Internal = "Internal"
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**
- */
-export type ActionType = string;
 
 /** Known values of {@link Operator} that the service accepts. */
 export enum KnownOperator {
@@ -4211,6 +5076,31 @@ export enum KnownDynamicThresholdSensitivity {
  * **High**
  */
 export type DynamicThresholdSensitivity = string;
+/** Defines values for ResultType. */
+export type ResultType = "Data" | "Metadata";
+/** Defines values for Unit. */
+export type Unit =
+  | "Count"
+  | "Bytes"
+  | "Seconds"
+  | "CountPerSecond"
+  | "BytesPerSecond"
+  | "Percent"
+  | "MilliSeconds"
+  | "ByteSeconds"
+  | "Unspecified"
+  | "Cores"
+  | "MilliCores"
+  | "NanoCores"
+  | "BitsPerSecond";
+/** Defines values for AggregationType. */
+export type AggregationType =
+  | "None"
+  | "Average"
+  | "Count"
+  | "Minimum"
+  | "Maximum"
+  | "Total";
 /** Defines values for MetricStatisticType. */
 export type MetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
 /** Defines values for TimeAggregationType. */
@@ -4261,16 +5151,6 @@ export type EventLevel =
   | "Warning"
   | "Informational"
   | "Verbose";
-/** Defines values for AggregationType. */
-export type AggregationType =
-  | "None"
-  | "Average"
-  | "Count"
-  | "Minimum"
-  | "Maximum"
-  | "Total";
-/** Defines values for ResultType. */
-export type ResultType = "Data" | "Metadata";
 /** Defines values for IdentityType. */
 export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
 /** Defines values for ConditionOperator. */
@@ -4287,6 +5167,248 @@ export type TimeAggregationOperator =
   | "Maximum"
   | "Total"
   | "Last";
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface MetricsListAtSubscriptionScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /**
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D*, FULL
+   */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricnames?: string;
+  /**
+   * The list of aggregation types (comma separated) to retrieve.
+   * *Examples: average, minimum, maximum*
+   */
+  aggregation?: string;
+  /**
+   * The maximum number of records to retrieve.
+   * Valid only if a filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * *Examples: sum asc*
+   */
+  orderby?: string;
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollupby?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+}
+
+/** Contains response data for the listAtSubscriptionScope operation. */
+export type MetricsListAtSubscriptionScopeResponse = SubscriptionScopeMetricResponse;
+
+/** Optional parameters. */
+export interface MetricsListAtSubscriptionScopePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /**
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D*, FULL
+   */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricnames?: string;
+  /**
+   * The list of aggregation types (comma separated) to retrieve.
+   * *Examples: average, minimum, maximum*
+   */
+  aggregation?: string;
+  /**
+   * The maximum number of records to retrieve.
+   * Valid only if a filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * *Examples: sum asc*
+   */
+  orderby?: string;
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+  /** Parameters serialized in the body */
+  body?: SubscriptionScopeMetricsRequestBodyParameters;
+}
+
+/** Contains response data for the listAtSubscriptionScopePost operation. */
+export type MetricsListAtSubscriptionScopePostResponse = SubscriptionScopeMetricResponse;
+
+/** Optional parameters. */
+export interface MetricsListOptionalParams extends coreClient.OperationOptions {
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /**
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D*, FULL
+   */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricnames?: string;
+  /**
+   * The list of aggregation types (comma separated) to retrieve.
+   * *Examples: average, minimum, maximum*
+   */
+  aggregation?: string;
+  /**
+   * The maximum number of records to retrieve.
+   * Valid only if a filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * *Examples: sum asc*
+   */
+  orderby?: string;
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollupby?: string;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: ResultType;
+}
+
+/** Contains response data for the list operation. */
+export type MetricsListResponse = Response;
+
+/** Optional parameters. */
+export interface MetricDefinitionsListAtSubscriptionScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+}
+
+/** Contains response data for the listAtSubscriptionScope operation. */
+export type MetricDefinitionsListAtSubscriptionScopeResponse = SubscriptionScopeMetricDefinitionCollection;
+
+/** Optional parameters. */
+export interface MetricDefinitionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+}
+
+/** Contains response data for the list operation. */
+export type MetricDefinitionsListResponse = MetricDefinitionCollection;
+
+/** Optional parameters. */
+export interface AzureMonitorWorkspacesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AzureMonitorWorkspacesListByResourceGroupResponse = AzureMonitorWorkspaceResourceListResult;
+
+/** Optional parameters. */
+export interface AzureMonitorWorkspacesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type AzureMonitorWorkspacesListBySubscriptionResponse = AzureMonitorWorkspaceResourceListResult;
+
+/** Optional parameters. */
+export interface AzureMonitorWorkspacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AzureMonitorWorkspacesGetResponse = AzureMonitorWorkspaceResource;
+
+/** Optional parameters. */
+export interface AzureMonitorWorkspacesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type AzureMonitorWorkspacesCreateResponse = AzureMonitorWorkspaceResource;
+
+/** Optional parameters. */
+export interface AzureMonitorWorkspacesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The payload */
+  azureMonitorWorkspaceProperties?: AzureMonitorWorkspaceResourceForUpdate;
+}
+
+/** Contains response data for the update operation. */
+export type AzureMonitorWorkspacesUpdateResponse = AzureMonitorWorkspaceResource;
+
+/** Optional parameters. */
+export interface AzureMonitorWorkspacesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type AzureMonitorWorkspacesDeleteResponse = AzureMonitorWorkspacesDeleteHeaders;
+
+/** Optional parameters. */
+export interface AzureMonitorWorkspacesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AzureMonitorWorkspacesListByResourceGroupNextResponse = AzureMonitorWorkspaceResourceListResult;
+
+/** Optional parameters. */
+export interface AzureMonitorWorkspacesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AzureMonitorWorkspacesListBySubscriptionNextResponse = AzureMonitorWorkspaceResourceListResult;
+
+/** Optional parameters. */
+export interface MonitorOperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MonitorOperationsListResponse = OperationListResultAutoGenerated;
+
+/** Optional parameters. */
+export interface MonitorOperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MonitorOperationsListNextResponse = OperationListResultAutoGenerated;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsListByResourceGroupOptionalParams
@@ -4347,13 +5469,6 @@ export interface PredictiveMetricGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type PredictiveMetricGetResponse = PredictiveResponse;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface AlertRuleIncidentsGetOptionalParams
@@ -4505,30 +5620,6 @@ export interface ActionGroupsUpdateOptionalParams
 export type ActionGroupsUpdateResponse = ActionGroupResource;
 
 /** Optional parameters. */
-export interface ActionGroupsPostTestNotificationsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the postTestNotifications operation. */
-export type ActionGroupsPostTestNotificationsResponse = TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createNotificationsAtResourceGroupLevel operation. */
-export type ActionGroupsCreateNotificationsAtResourceGroupLevelResponse = TestNotificationDetailsResponse;
-
-/** Optional parameters. */
 export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -4539,20 +5630,6 @@ export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOption
 
 /** Contains response data for the createNotificationsAtActionGroupResourceLevel operation. */
 export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse = TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsGetTestNotificationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getTestNotifications operation. */
-export type ActionGroupsGetTestNotificationsResponse = TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getTestNotificationsAtResourceGroupLevel operation. */
-export type ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse = TestNotificationDetailsResponse;
 
 /** Optional parameters. */
 export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
@@ -4578,6 +5655,57 @@ export type ActionGroupsListByResourceGroupResponse = ActionGroupList;
 /** Optional parameters. */
 export interface ActionGroupsEnableReceiverOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TenantActionGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TenantActionGroupsCreateOrUpdateResponse = TenantActionGroupResource;
+
+/** Optional parameters. */
+export interface TenantActionGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TenantActionGroupsGetResponse = TenantActionGroupResource;
+
+/** Optional parameters. */
+export interface TenantActionGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TenantActionGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type TenantActionGroupsUpdateResponse = TenantActionGroupResource;
+
+/** Optional parameters. */
+export interface TenantActionGroupsListByManagementGroupIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagementGroupId operation. */
+export type TenantActionGroupsListByManagementGroupIdResponse = TenantActionGroupList;
+
+/** Optional parameters. */
+export interface CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createNotificationsAtTenantActionGroupResourceLevel operation. */
+export type CreateNotificationsAtTenantActionGroupResourceLevelResponse = TestNotificationDetailsResponseAutoGenerated;
+
+/** Optional parameters. */
+export interface GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTestNotificationsAtTenantActionGroupResourceLevel operation. */
+export type GetTestNotificationsAtTenantActionGroupResourceLevelResponse = TestNotificationDetailsResponseAutoGenerated;
 
 /** Optional parameters. */
 export interface ActivityLogsListOptionalParams
@@ -4606,10 +5734,10 @@ export type EventCategoriesListResponse = EventCategoryCollection;
 /** Optional parameters. */
 export interface TenantActivityLogsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Used to fetch events with only the given properties.<br>The **$select** argument is a comma separated list of property names to be returned. Possible values are: *authorization*, *claims*, *correlationId*, *description*, *eventDataId*, *eventName*, *eventTimestamp*, *httpRequest*, *level*, *operationId*, *operationName*, *properties*, *resourceGroupName*, *resourceProviderName*, *resourceId*, *status*, *submissionTimestamp*, *subStatus*, *subscriptionId* */
-  select?: string;
   /** Reduces the set of data collected. <br>The **$filter** is very restricted and allows only the following patterns.<br>- List events for a resource group: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceGroupName eq '<ResourceGroupName>'.<br>- List events for resource: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceUri eq '<ResourceURI>'.<br>- List events for a subscription: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation'.<br>- List events for a resource provider: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceProvider eq '<ResourceProviderName>'.<br>- List events for a correlation Id: api-version=2014-04-01&$filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and eventChannels eq 'Admin, Operation' and correlationId eq '<CorrelationID>'.<br>**NOTE**: No other syntax is allowed. */
   filter?: string;
+  /** Used to fetch events with only the given properties.<br>The **$select** argument is a comma separated list of property names to be returned. Possible values are: *authorization*, *claims*, *correlationId*, *description*, *eventDataId*, *eventName*, *eventTimestamp*, *httpRequest*, *level*, *operationId*, *operationName*, *properties*, *resourceGroupName*, *resourceProviderName*, *resourceId*, *status*, *submissionTimestamp*, *subStatus*, *subscriptionId* */
+  select?: string;
 }
 
 /** Contains response data for the list operation. */
@@ -4623,65 +5751,22 @@ export interface TenantActivityLogsListNextOptionalParams
 export type TenantActivityLogsListNextResponse = EventDataCollection;
 
 /** Optional parameters. */
-export interface MetricDefinitionsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Metric namespace to query metric definitions for. */
-  metricnamespace?: string;
-}
-
-/** Contains response data for the list operation. */
-export type MetricDefinitionsListResponse = MetricDefinitionCollection;
-
-/** Optional parameters. */
-export interface MetricsListOptionalParams extends coreClient.OperationOptions {
-  /** The **$filter** is used to reduce the set of metric data returned. Example: Metric contains metadata A, B and C. - Return all time series of C where A = a1 and B = b1 or b2 **$filter=A eq 'a1' and B eq 'b1' or B eq 'b2' and C eq '*'** - Invalid variant: **$filter=A eq 'a1' and B eq 'b1' and C eq '*' or B = 'b2'** This is invalid because the logical or operator cannot separate two different metadata names. - Return all time series where A = a1, B = b1 and C = c1: **$filter=A eq 'a1' and B eq 'b1' and C eq 'c1'** - Return all time series where A = a1 **$filter=A eq 'a1' and B eq '*' and C eq '*'**. Special case: When dimension name or dimension value uses round brackets. Eg: When dimension name is **dim (test) 1** Instead of using $filter= "dim (test) 1 eq '*' " use **$filter= "dim %2528test%2529 1 eq '*' "** When dimension name is **dim (test) 3** and dimension value is **dim3 (test) val** Instead of using $filter= "dim (test) 3 eq 'dim3 (test) val' " use **$filter= "dim %2528test%2529 3 eq 'dim3 %2528test%2529 val' "** */
-  filter?: string;
-  /** Metric namespace to query metric definitions for. */
-  metricnamespace?: string;
-  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
-  timespan?: string;
-  /** The interval (i.e. timegrain) of the query. */
-  interval?: string;
-  /** The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'** */
-  metricnames?: string;
-  /** The list of aggregation types (comma separated) to retrieve. */
-  aggregation?: string;
-  /**
-   * The maximum number of records to retrieve.
-   * Valid only if $filter is specified.
-   * Defaults to 10.
-   */
-  top?: number;
-  /**
-   * The aggregation to use for sorting results and the direction of the sort.
-   * Only one order can be specified.
-   * Examples: sum asc.
-   */
-  orderby?: string;
-  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
-  resultType?: ResultType;
-}
-
-/** Contains response data for the list operation. */
-export type MetricsListResponse = Response;
-
-/** Optional parameters. */
 export interface BaselinesListOptionalParams
   extends coreClient.OperationOptions {
-  /** The **$filter** is used to reduce the set of metric data returned. Example: Metric contains metadata A, B and C. - Return all time series of C where A = a1 and B = b1 or b2 **$filter=A eq 'a1' and B eq 'b1' or B eq 'b2' and C eq '*'** - Invalid variant: **$filter=A eq 'a1' and B eq 'b1' and C eq '*' or B = 'b2'** This is invalid because the logical or operator cannot separate two different metadata names. - Return all time series where A = a1, B = b1 and C = c1: **$filter=A eq 'a1' and B eq 'b1' and C eq 'c1'** - Return all time series where A = a1 **$filter=A eq 'a1' and B eq '*' and C eq '*'**. Special case: When dimension name or dimension value uses round brackets. Eg: When dimension name is **dim (test) 1** Instead of using $filter= "dim (test) 1 eq '*' " use **$filter= "dim %2528test%2529 1 eq '*' "** When dimension name is **dim (test) 3** and dimension value is **dim3 (test) val** Instead of using $filter= "dim (test) 3 eq 'dim3 (test) val' " use **$filter= "dim %2528test%2529 3 eq 'dim3 %2528test%2529 val' "** */
-  filter?: string;
-  /** Metric namespace to query metric definitions for. */
-  metricnamespace?: string;
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
-  /** The interval (i.e. timegrain) of the query. */
-  interval?: string;
   /** The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'** */
   metricnames?: string;
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregation?: string;
+  /** The **$filter** is used to reduce the set of metric data returned. Example: Metric contains metadata A, B and C. - Return all time series of C where A = a1 and B = b1 or b2 **$filter=A eq 'a1' and B eq 'b1' or B eq 'b2' and C eq '*'** - Invalid variant: **$filter=A eq 'a1' and B eq 'b1' and C eq '*' or B = 'b2'** This is invalid because the logical or operator cannot separate two different metadata names. - Return all time series where A = a1, B = b1 and C = c1: **$filter=A eq 'a1' and B eq 'b1' and C eq 'c1'** - Return all time series where A = a1 **$filter=A eq 'a1' and B eq '*' and C eq '*'**. Special case: When dimension name or dimension value uses round brackets. Eg: When dimension name is **dim (test) 1** Instead of using $filter= "dim (test) 1 eq '*' " use **$filter= "dim %2528test%2529 1 eq '*' "** When dimension name is **dim (test) 3** and dimension value is **dim3 (test) val** Instead of using $filter= "dim (test) 3 eq 'dim3 (test) val' " use **$filter= "dim %2528test%2529 3 eq 'dim3 %2528test%2529 val' "** */
+  filter?: string;
+  /** Metric namespace to query metric definitions for. */
+  metricnamespace?: string;
   /** Allows retrieving only metadata of the baseline. On data request all information is retrieved. */
   resultType?: ResultType;
+  /** The interval (i.e. timegrain) of the query. */
+  interval?: string;
   /** The list of sensitivities (comma separated) to retrieve. */
   sensitivities?: string;
 }
@@ -4896,7 +5981,7 @@ export interface PrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionAutoGenerated;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
@@ -4908,7 +5993,7 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnectionAutoGenerated;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -5201,76 +6286,6 @@ export interface DataCollectionRulesListBySubscriptionNextOptionalParams
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DataCollectionRulesListBySubscriptionNextResponse = DataCollectionRuleResourceListResult;
-
-/** Optional parameters. */
-export interface AzureMonitorWorkspacesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type AzureMonitorWorkspacesListByResourceGroupResponse = AzureMonitorWorkspaceResourceListResult;
-
-/** Optional parameters. */
-export interface AzureMonitorWorkspacesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type AzureMonitorWorkspacesListBySubscriptionResponse = AzureMonitorWorkspaceResourceListResult;
-
-/** Optional parameters. */
-export interface AzureMonitorWorkspacesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AzureMonitorWorkspacesGetResponse = AzureMonitorWorkspaceResource;
-
-/** Optional parameters. */
-export interface AzureMonitorWorkspacesCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type AzureMonitorWorkspacesCreateResponse = AzureMonitorWorkspaceResource;
-
-/** Optional parameters. */
-export interface AzureMonitorWorkspacesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The payload */
-  azureMonitorWorkspaceProperties?: AzureMonitorWorkspaceResourceForUpdate;
-}
-
-/** Contains response data for the update operation. */
-export type AzureMonitorWorkspacesUpdateResponse = AzureMonitorWorkspaceResource;
-
-/** Optional parameters. */
-export interface AzureMonitorWorkspacesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AzureMonitorWorkspacesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type AzureMonitorWorkspacesListByResourceGroupNextResponse = AzureMonitorWorkspaceResourceListResult;
-
-/** Optional parameters. */
-export interface AzureMonitorWorkspacesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type AzureMonitorWorkspacesListBySubscriptionNextResponse = AzureMonitorWorkspaceResourceListResult;
-
-/** Optional parameters. */
-export interface MonitorOperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type MonitorOperationsListResponse = OperationListResultAutoGenerated;
-
-/** Optional parameters. */
-export interface MonitorOperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type MonitorOperationsListNextResponse = OperationListResultAutoGenerated;
 
 /** Optional parameters. */
 export interface MonitorClientOptionalParams

@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AzureMonitorWorkspaceResource,
   AzureMonitorWorkspacesListByResourceGroupOptionalParams,
@@ -17,14 +18,15 @@ import {
   AzureMonitorWorkspacesCreateResponse,
   AzureMonitorWorkspacesUpdateOptionalParams,
   AzureMonitorWorkspacesUpdateResponse,
-  AzureMonitorWorkspacesDeleteOptionalParams
+  AzureMonitorWorkspacesDeleteOptionalParams,
+  AzureMonitorWorkspacesDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AzureMonitorWorkspaces. */
 export interface AzureMonitorWorkspaces {
   /**
-   * Lists all workspaces in the specified resource group
+   * Lists all Azure Monitor Workspaces in the specified resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -33,16 +35,16 @@ export interface AzureMonitorWorkspaces {
     options?: AzureMonitorWorkspacesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<AzureMonitorWorkspaceResource>;
   /**
-   * Lists all workspaces in the specified subscription
+   * Lists all Azure Monitor Workspaces in the specified subscription
    * @param options The options parameters.
    */
   listBySubscription(
     options?: AzureMonitorWorkspacesListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<AzureMonitorWorkspaceResource>;
   /**
-   * Returns the specific Azure Monitor workspace
+   * Returns the specified Azure Monitor Workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param azureMonitorWorkspaceName The name of the Azure Monitor workspace.  The name is case
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
    *                                  insensitive
    * @param options The options parameters.
    */
@@ -52,12 +54,12 @@ export interface AzureMonitorWorkspaces {
     options?: AzureMonitorWorkspacesGetOptionalParams
   ): Promise<AzureMonitorWorkspacesGetResponse>;
   /**
-   * Create or update a workspace
+   * Creates or updates an Azure Monitor Workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param azureMonitorWorkspaceName The name of the Azure Monitor workspace.  The name is case
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
    *                                  insensitive
-   * @param azureMonitorWorkspaceProperties Properties that need to be specified to create a new
-   *                                        workspace
+   * @param azureMonitorWorkspaceProperties Properties that need to be specified to create a new Azure
+   *                                        Monitor Workspace
    * @param options The options parameters.
    */
   create(
@@ -67,9 +69,9 @@ export interface AzureMonitorWorkspaces {
     options?: AzureMonitorWorkspacesCreateOptionalParams
   ): Promise<AzureMonitorWorkspacesCreateResponse>;
   /**
-   * Updates part of a workspace
+   * Updates part of an Azure Monitor Workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param azureMonitorWorkspaceName The name of the Azure Monitor workspace.  The name is case
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
    *                                  insensitive
    * @param options The options parameters.
    */
@@ -79,15 +81,32 @@ export interface AzureMonitorWorkspaces {
     options?: AzureMonitorWorkspacesUpdateOptionalParams
   ): Promise<AzureMonitorWorkspacesUpdateResponse>;
   /**
-   * Delete a workspace
+   * Deletes an Azure Monitor Workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param azureMonitorWorkspaceName The name of the Azure Monitor workspace.  The name is case
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
    *                                  insensitive
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
     options?: AzureMonitorWorkspacesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AzureMonitorWorkspacesDeleteResponse>,
+      AzureMonitorWorkspacesDeleteResponse
+    >
+  >;
+  /**
+   * Deletes an Azure Monitor Workspace
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
+   *                                  insensitive
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    azureMonitorWorkspaceName: string,
+    options?: AzureMonitorWorkspacesDeleteOptionalParams
+  ): Promise<AzureMonitorWorkspacesDeleteResponse>;
 }

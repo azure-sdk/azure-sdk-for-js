@@ -11,7 +11,14 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
-import { MetricsListOptionalParams, MetricsListResponse } from "../models";
+import {
+  MetricsListAtSubscriptionScopeOptionalParams,
+  MetricsListAtSubscriptionScopeResponse,
+  MetricsListAtSubscriptionScopePostOptionalParams,
+  MetricsListAtSubscriptionScopePostResponse,
+  MetricsListOptionalParams,
+  MetricsListResponse
+} from "../models";
 
 /** Class containing MetricsOperations operations. */
 export class MetricsOperationsImpl implements MetricsOperations {
@@ -23,6 +30,37 @@ export class MetricsOperationsImpl implements MetricsOperations {
    */
   constructor(client: MonitorClient) {
     this.client = client;
+  }
+
+  /**
+   * **Lists the metric data for a subscription**.
+   * @param region The region where the metrics you want reside. For example: eastus, westeurope, etc
+   * @param options The options parameters.
+   */
+  listAtSubscriptionScope(
+    region: string,
+    options?: MetricsListAtSubscriptionScopeOptionalParams
+  ): Promise<MetricsListAtSubscriptionScopeResponse> {
+    return this.client.sendOperationRequest(
+      { region, options },
+      listAtSubscriptionScopeOperationSpec
+    );
+  }
+
+  /**
+   * **Lists the metric data for a subscription**. Parameters can be specified on either query params or
+   * the body.
+   * @param region The region where the metrics you want reside. For example: eastus, westeurope, etc
+   * @param options The options parameters.
+   */
+  listAtSubscriptionScopePost(
+    region: string,
+    options?: MetricsListAtSubscriptionScopePostOptionalParams
+  ): Promise<MetricsListAtSubscriptionScopePostResponse> {
+    return this.client.sendOperationRequest(
+      { region, options },
+      listAtSubscriptionScopePostOperationSpec
+    );
   }
 
   /**
@@ -43,6 +81,69 @@ export class MetricsOperationsImpl implements MetricsOperations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listAtSubscriptionScopeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/metrics",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionScopeMetricResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.region,
+    Parameters.timespan,
+    Parameters.interval,
+    Parameters.metricnames,
+    Parameters.aggregation,
+    Parameters.top,
+    Parameters.orderby,
+    Parameters.filter,
+    Parameters.rollupby,
+    Parameters.resultType,
+    Parameters.metricnamespace,
+    Parameters.autoAdjustTimegrain,
+    Parameters.validateDimensions
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAtSubscriptionScopePostOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/metrics",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionScopeMetricResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  requestBody: Parameters.body,
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.region,
+    Parameters.timespan,
+    Parameters.interval,
+    Parameters.metricnames,
+    Parameters.aggregation,
+    Parameters.top,
+    Parameters.orderby,
+    Parameters.filter,
+    Parameters.resultType,
+    Parameters.metricnamespace,
+    Parameters.autoAdjustTimegrain,
+    Parameters.validateDimensions
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.Insights/metrics",
   httpMethod: "GET",
@@ -51,20 +152,23 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Response
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorDetail
     }
   },
   queryParameters: [
-    Parameters.filter1,
-    Parameters.apiVersion5,
-    Parameters.metricnamespace,
-    Parameters.timespan1,
-    Parameters.interval1,
+    Parameters.apiVersion,
+    Parameters.timespan,
+    Parameters.interval,
     Parameters.metricnames,
-    Parameters.aggregation1,
+    Parameters.aggregation,
     Parameters.top,
     Parameters.orderby,
-    Parameters.resultType
+    Parameters.filter,
+    Parameters.rollupby,
+    Parameters.metricnamespace,
+    Parameters.autoAdjustTimegrain,
+    Parameters.validateDimensions,
+    Parameters.resultType1
   ],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
