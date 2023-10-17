@@ -2652,6 +2652,12 @@ export interface VirtualApplianceAdditionalNicProperties {
   hasPublicIp?: boolean;
 }
 
+/** Resource Uri of Public Ip for Standard Load Balancer Frontend End. */
+export interface InternetIngressPublicIpsProperties {
+  /** Resource Uri of Public Ip */
+  id?: string;
+}
+
 /** Properties of the delegation. */
 export interface DelegationProperties {
   /** The service name to which the NVA is delegated. */
@@ -10202,6 +10208,8 @@ export interface NetworkVirtualAppliance extends Resource {
   readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
   /** Details required for Additional Network Interface. */
   additionalNics?: VirtualApplianceAdditionalNicProperties[];
+  /** List of Resource Uri of Public IPs for Internet Ingress Scenario. */
+  internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
   /**
    * List of references to VirtualApplianceSite.
    * NOTE: This property will not be serialized. It can only be populated by the server.

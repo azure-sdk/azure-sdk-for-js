@@ -7540,6 +7540,21 @@ export const VirtualApplianceAdditionalNicProperties: coreClient.CompositeMapper
   }
 };
 
+export const InternetIngressPublicIpsProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InternetIngressPublicIpsProperties",
+    modelProperties: {
+      id: {
+        serializedName: "Id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DelegationProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -27266,6 +27281,18 @@ export const NetworkVirtualAppliance: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "VirtualApplianceAdditionalNicProperties"
+            }
+          }
+        }
+      },
+      internetIngressPublicIps: {
+        serializedName: "properties.internetIngressPublicIps",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InternetIngressPublicIpsProperties"
             }
           }
         }

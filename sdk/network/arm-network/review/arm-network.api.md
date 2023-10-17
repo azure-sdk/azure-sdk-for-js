@@ -5673,6 +5673,11 @@ export interface InboundSecurityRules {
 export type InboundSecurityRulesProtocol = string;
 
 // @public
+export interface InternetIngressPublicIpsProperties {
+    id?: string;
+}
+
+// @public
 export interface IPAddressAvailabilityResult {
     available?: boolean;
     availableIPAddresses?: string[];
@@ -9674,6 +9679,7 @@ export interface NetworkVirtualAppliance extends Resource {
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
     readonly inboundSecurityRules?: SubResource[];
+    internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
     nvaSku?: VirtualApplianceSkuProperties;
     partnerManagedResource?: PartnerManagedResourceProperties;
     readonly provisioningState?: ProvisioningState;
