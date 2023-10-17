@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ArcSetting,
   ArcSettingsListByClusterOptionalParams,
@@ -22,7 +22,10 @@ import {
   ArcSettingsGeneratePasswordOptionalParams,
   ArcSettingsGeneratePasswordResponse,
   ArcSettingsCreateIdentityOptionalParams,
-  ArcSettingsCreateIdentityResponse
+  ArcSettingsCreateIdentityResponse,
+  ArcSettingsConsentAndInstallDefaultExtensionsOptionalParams,
+  ArcSettingsConsentAndInstallDefaultExtensionsResponse,
+  ArcSettingsInitializeDisableProcessOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -94,7 +97,7 @@ export interface ArcSettings {
     clusterName: string,
     arcSettingName: string,
     options?: ArcSettingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete ArcSetting resource details of HCI Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -134,8 +137,8 @@ export interface ArcSettings {
     arcSettingName: string,
     options?: ArcSettingsCreateIdentityOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ArcSettingsCreateIdentityResponse>,
+    SimplePollerLike<
+      OperationState<ArcSettingsCreateIdentityResponse>,
       ArcSettingsCreateIdentityResponse
     >
   >;
@@ -152,4 +155,43 @@ export interface ArcSettings {
     arcSettingName: string,
     options?: ArcSettingsCreateIdentityOptionalParams
   ): Promise<ArcSettingsCreateIdentityResponse>;
+  /**
+   * Add consent time for default extensions and initiate extensions installation
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  consentAndInstallDefaultExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsConsentAndInstallDefaultExtensionsOptionalParams
+  ): Promise<ArcSettingsConsentAndInstallDefaultExtensionsResponse>;
+  /**
+   * Initializes ARC Disable process on the cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  beginInitializeDisableProcess(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsInitializeDisableProcessOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Initializes ARC Disable process on the cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  beginInitializeDisableProcessAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsInitializeDisableProcessOptionalParams
+  ): Promise<void>;
 }
