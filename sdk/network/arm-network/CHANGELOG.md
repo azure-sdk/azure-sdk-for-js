@@ -1,15 +1,24 @@
 # Release History
+    
+## 32.3.0 (2023-10-17)
+    
+**Features**
 
-## 32.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface BastionShareableLinkTokenListRequest
+  - Added Interface DeleteBastionShareableLinkByTokenOptionalParams
+  - Added Interface InternetIngressPublicIpsProperties
+  - Added Type Alias FirewallPolicyIntrusionDetectionProfileType
+  - Interface ApplicationGatewayListener has a new optional parameter hostNames
+  - Interface FirewallPolicyIntrusionDetection has a new optional parameter profile
+  - Interface NetworkVirtualAppliance has a new optional parameter internetIngressPublicIps
+  - Added Enum KnownFirewallPolicyIntrusionDetectionProfileType
+  - Enum KnownActionType has a new value JSChallenge
+  - Enum KnownBastionHostSkuName has a new value Developer
+  - Enum KnownVirtualNetworkGatewaySkuName has a new value ErGwScale
+  - Enum KnownVirtualNetworkGatewaySkuTier has a new value ErGwScale
+  - Enum KnownWebApplicationFirewallAction has a new value JSChallenge
+    
+    
 ## 32.2.0 (2023-09-07)
     
 **Features**
@@ -901,4 +910,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
