@@ -1142,6 +1142,165 @@ export const MonitoredResource: coreClient.CompositeMapper = {
   }
 };
 
+export const BillingInfoResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingInfoResponse",
+    modelProperties: {
+      marketplaceSaasInfo: {
+        serializedName: "marketplaceSaasInfo",
+        type: {
+          name: "Composite",
+          className: "MarketplaceSaaSInfo"
+        }
+      },
+      partnerBillingEntity: {
+        serializedName: "partnerBillingEntity",
+        type: {
+          name: "Composite",
+          className: "PartnerBillingEntity"
+        }
+      }
+    }
+  }
+};
+
+export const MarketplaceSaaSInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MarketplaceSaaSInfo",
+    modelProperties: {
+      marketplaceSubscriptionId: {
+        serializedName: "marketplaceSubscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      marketplaceSubscriptionName: {
+        serializedName: "marketplaceSubscriptionName",
+        type: {
+          name: "String"
+        }
+      },
+      marketplaceResourceId: {
+        serializedName: "marketplaceResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      marketplaceStatus: {
+        serializedName: "marketplaceStatus",
+        type: {
+          name: "String"
+        }
+      },
+      billedAzureSubscriptionId: {
+        serializedName: "billedAzureSubscriptionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PartnerBillingEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartnerBillingEntity",
+    modelProperties: {
+      organizationId: {
+        serializedName: "organizationId",
+        type: {
+          name: "String"
+        }
+      },
+      organizationName: {
+        serializedName: "organizationName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectedPartnerResourcesListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectedPartnerResourcesListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectedPartnerResourcesListFormat"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectedPartnerResourcesListFormat: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectedPartnerResourcesListFormat",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ConnectedPartnerResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectedPartnerResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectedPartnerResourceProperties",
+    modelProperties: {
+      accountName: {
+        serializedName: "accountName",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        serializedName: "accountId",
+        type: {
+          name: "String"
+        }
+      },
+      azureResourceId: {
+        serializedName: "azureResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TagRuleListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

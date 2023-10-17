@@ -20,6 +20,8 @@ import {
   MonitorsImpl,
   OrganizationsImpl,
   PlansImpl,
+  BillingInfoImpl,
+  ConnectedPartnerResourcesImpl,
   TagRulesImpl
 } from "./operations";
 import {
@@ -28,6 +30,8 @@ import {
   Monitors,
   Organizations,
   Plans,
+  BillingInfo,
+  ConnectedPartnerResources,
   TagRules
 } from "./operationsInterfaces";
 import { NewRelicObservabilityOptionalParams } from "./models";
@@ -64,7 +68,7 @@ export class NewRelicObservability extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-newrelicobservability/1.0.1`;
+    const packageDetails = `azsdk-js-arm-newrelicobservability/1.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,12 +121,14 @@ export class NewRelicObservability extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01";
+    this.apiVersion = options.apiVersion || "2023-10-01-preview";
     this.operations = new OperationsImpl(this);
     this.accounts = new AccountsImpl(this);
     this.monitors = new MonitorsImpl(this);
     this.organizations = new OrganizationsImpl(this);
     this.plans = new PlansImpl(this);
+    this.billingInfo = new BillingInfoImpl(this);
+    this.connectedPartnerResources = new ConnectedPartnerResourcesImpl(this);
     this.tagRules = new TagRulesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -160,5 +166,7 @@ export class NewRelicObservability extends coreClient.ServiceClient {
   monitors: Monitors;
   organizations: Organizations;
   plans: Plans;
+  billingInfo: BillingInfo;
+  connectedPartnerResources: ConnectedPartnerResources;
   tagRules: TagRules;
 }
