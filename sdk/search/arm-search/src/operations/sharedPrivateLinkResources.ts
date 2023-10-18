@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SearchManagementClient } from "../searchManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SharedPrivateLinkResource,
   SharedPrivateLinkResourcesListByServiceNextOptionalParams,
@@ -46,8 +50,8 @@ export class SharedPrivateLinkResourcesImpl
    * Gets a list of all shared private link resources managed by the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   public listByService(
@@ -133,10 +137,10 @@ export class SharedPrivateLinkResourcesImpl
    * the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param sharedPrivateLinkResource The definition of the shared private link resource to create or
    *                                  update.
    * @param options The options parameters.
@@ -148,8 +152,8 @@ export class SharedPrivateLinkResourcesImpl
     sharedPrivateLinkResource: SharedPrivateLinkResource,
     options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>,
       SharedPrivateLinkResourcesCreateOrUpdateResponse
     >
   > {
@@ -159,7 +163,7 @@ export class SharedPrivateLinkResourcesImpl
     ): Promise<SharedPrivateLinkResourcesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -192,21 +196,24 @@ export class SharedPrivateLinkResourcesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         searchServiceName,
         sharedPrivateLinkResourceName,
         sharedPrivateLinkResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SharedPrivateLinkResourcesCreateOrUpdateResponse,
+      OperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -217,10 +224,10 @@ export class SharedPrivateLinkResourcesImpl
    * the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param sharedPrivateLinkResource The definition of the shared private link resource to create or
    *                                  update.
    * @param options The options parameters.
@@ -247,10 +254,10 @@ export class SharedPrivateLinkResourcesImpl
    * resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   get(
@@ -274,10 +281,10 @@ export class SharedPrivateLinkResourcesImpl
    * Initiates the deletion of the shared private link resource from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -285,14 +292,14 @@ export class SharedPrivateLinkResourcesImpl
     searchServiceName: string,
     sharedPrivateLinkResourceName: string,
     options?: SharedPrivateLinkResourcesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -325,20 +332,20 @@ export class SharedPrivateLinkResourcesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         searchServiceName,
         sharedPrivateLinkResourceName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -348,10 +355,10 @@ export class SharedPrivateLinkResourcesImpl
    * Initiates the deletion of the shared private link resource from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -373,8 +380,8 @@ export class SharedPrivateLinkResourcesImpl
    * Gets a list of all shared private link resources managed by the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   private _listByService(
@@ -392,8 +399,8 @@ export class SharedPrivateLinkResourcesImpl
    * ListByServiceNext
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
    */

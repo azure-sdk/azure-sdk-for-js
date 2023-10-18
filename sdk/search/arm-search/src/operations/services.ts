@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SearchManagementClient } from "../searchManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SearchService,
   ServicesListByResourceGroupNextOptionalParams,
@@ -51,7 +55,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given resource group.
+   * Gets a list of all Search services in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
@@ -121,7 +125,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given subscription.
+   * Gets a list of all Search services in the given subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -179,12 +183,12 @@ export class ServicesImpl implements Services {
    * exists, all properties will be updated with the given values.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service to create or update. Search
-   *                          service names must only contain lowercase letters, digits or dashes, cannot use dash as the first
-   *                          two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60
-   *                          characters in length. Search service names must be globally unique since they are part of the
-   *                          service URI (https://<name>.search.windows.net). You cannot change the service name after the
-   *                          service is created.
+   * @param searchServiceName The name of the search service to create or update. Search service names
+   *                          must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one
+   *                          characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
+   *                          Search service names must be globally unique since they are part of the service URI
+   *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
+   *                          created.
    * @param service The definition of the search service to create or update.
    * @param options The options parameters.
    */
@@ -194,8 +198,8 @@ export class ServicesImpl implements Services {
     service: SearchService,
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesCreateOrUpdateResponse>,
       ServicesCreateOrUpdateResponse
     >
   > {
@@ -205,7 +209,7 @@ export class ServicesImpl implements Services {
     ): Promise<ServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -238,13 +242,16 @@ export class ServicesImpl implements Services {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, searchServiceName, service, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, searchServiceName, service, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServicesCreateOrUpdateResponse,
+      OperationState<ServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -256,12 +263,12 @@ export class ServicesImpl implements Services {
    * exists, all properties will be updated with the given values.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service to create or update. Search
-   *                          service names must only contain lowercase letters, digits or dashes, cannot use dash as the first
-   *                          two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60
-   *                          characters in length. Search service names must be globally unique since they are part of the
-   *                          service URI (https://<name>.search.windows.net). You cannot change the service name after the
-   *                          service is created.
+   * @param searchServiceName The name of the search service to create or update. Search service names
+   *                          must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one
+   *                          characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
+   *                          Search service names must be globally unique since they are part of the service URI
+   *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
+   *                          created.
    * @param service The definition of the search service to create or update.
    * @param options The options parameters.
    */
@@ -284,7 +291,7 @@ export class ServicesImpl implements Services {
    * Updates an existing search service in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service to update.
+   * @param searchServiceName The name of the search service to update.
    * @param service The definition of the search service to update.
    * @param options The options parameters.
    */
@@ -304,8 +311,8 @@ export class ServicesImpl implements Services {
    * Gets the search service with the given name in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   get(
@@ -323,8 +330,8 @@ export class ServicesImpl implements Services {
    * Deletes a search service in the given resource group, along with its associated resources.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   delete(
@@ -339,7 +346,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given resource group.
+   * Gets a list of all Search services in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
@@ -355,7 +362,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given subscription.
+   * Gets a list of all Search services in the given subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
