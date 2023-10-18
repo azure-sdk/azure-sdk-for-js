@@ -14,11 +14,36 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Transaction,
+  TransactionsListByCustomerNextOptionalParams,
+  TransactionType,
+  TransactionsListByCustomerOptionalParams,
+  TransactionsListByCustomerResponse,
+  TransactionsListByInvoiceSectionNextOptionalParams,
+  TransactionsListByInvoiceSectionOptionalParams,
+  TransactionsListByInvoiceSectionResponse,
+  TransactionsListByBillingProfileNextOptionalParams,
+  TransactionsListByBillingProfileOptionalParams,
+  TransactionsListByBillingProfileResponse,
   TransactionsListByInvoiceNextOptionalParams,
   TransactionsListByInvoiceOptionalParams,
   TransactionsListByInvoiceResponse,
-  TransactionsListByInvoiceNextResponse
+  TransactionsListByBillingAccountNextOptionalParams,
+  TransactionsListByBillingAccountOptionalParams,
+  TransactionsListByBillingAccountResponse,
+  TransactionsDownloadByInvoiceOptionalParams,
+  TransactionsDownloadByInvoiceResponse,
+  TransactionsListByCustomerNextResponse,
+  TransactionsListByInvoiceSectionNextResponse,
+  TransactionsListByBillingProfileNextResponse,
+  TransactionsListByInvoiceNextResponse,
+  TransactionsListByBillingAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,6 +57,363 @@ export class TransactionsImpl implements Transactions {
    */
   constructor(client: BillingManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Lists the billed or unbilled transactions by customer id for given start date and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  public listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByCustomerOptionalParams
+  ): PagedAsyncIterableIterator<Transaction> {
+    const iter = this.listByCustomerPagingAll(
+      billingAccountName,
+      billingProfileName,
+      customerName,
+      periodStartDate,
+      periodEndDate,
+      typeParam,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByCustomerPagingPage(
+          billingAccountName,
+          billingProfileName,
+          customerName,
+          periodStartDate,
+          periodEndDate,
+          typeParam,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByCustomerPagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByCustomerOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Transaction[]> {
+    let result: TransactionsListByCustomerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCustomer(
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        periodStartDate,
+        periodEndDate,
+        typeParam,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByCustomerNext(
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByCustomerPagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByCustomerOptionalParams
+  ): AsyncIterableIterator<Transaction> {
+    for await (const page of this.listByCustomerPagingPage(
+      billingAccountName,
+      billingProfileName,
+      customerName,
+      periodStartDate,
+      periodEndDate,
+      typeParam,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the billed or unbilled transactions by invoice section name for given start date and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  public listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByInvoiceSectionOptionalParams
+  ): PagedAsyncIterableIterator<Transaction> {
+    const iter = this.listByInvoiceSectionPagingAll(
+      billingAccountName,
+      billingProfileName,
+      invoiceSectionName,
+      periodStartDate,
+      periodEndDate,
+      typeParam,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByInvoiceSectionPagingPage(
+          billingAccountName,
+          billingProfileName,
+          invoiceSectionName,
+          periodStartDate,
+          periodEndDate,
+          typeParam,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByInvoiceSectionPagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByInvoiceSectionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Transaction[]> {
+    let result: TransactionsListByInvoiceSectionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInvoiceSection(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        periodStartDate,
+        periodEndDate,
+        typeParam,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByInvoiceSectionNext(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByInvoiceSectionPagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByInvoiceSectionOptionalParams
+  ): AsyncIterableIterator<Transaction> {
+    for await (const page of this.listByInvoiceSectionPagingPage(
+      billingAccountName,
+      billingProfileName,
+      invoiceSectionName,
+      periodStartDate,
+      periodEndDate,
+      typeParam,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the billed or unbilled transactions by billing profile name for given start and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  public listByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingProfileOptionalParams
+  ): PagedAsyncIterableIterator<Transaction> {
+    const iter = this.listByBillingProfilePagingAll(
+      billingAccountName,
+      billingProfileName,
+      periodStartDate,
+      periodEndDate,
+      typeParam,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingProfilePagingPage(
+          billingAccountName,
+          billingProfileName,
+          periodStartDate,
+          periodEndDate,
+          typeParam,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByBillingProfilePagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingProfileOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Transaction[]> {
+    let result: TransactionsListByBillingProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingProfile(
+        billingAccountName,
+        billingProfileName,
+        periodStartDate,
+        periodEndDate,
+        typeParam,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByBillingProfileNext(
+        billingAccountName,
+        billingProfileName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByBillingProfilePagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingProfileOptionalParams
+  ): AsyncIterableIterator<Transaction> {
+    for await (const page of this.listByBillingProfilePagingPage(
+      billingAccountName,
+      billingProfileName,
+      periodStartDate,
+      periodEndDate,
+      typeParam,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -120,6 +502,314 @@ export class TransactionsImpl implements Transactions {
   }
 
   /**
+   * Lists the billed or unbilled transactions by billing account name for given start and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  public listByBillingAccount(
+    billingAccountName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<Transaction> {
+    const iter = this.listByBillingAccountPagingAll(
+      billingAccountName,
+      periodStartDate,
+      periodEndDate,
+      typeParam,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountName,
+          periodStartDate,
+          periodEndDate,
+          typeParam,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByBillingAccountPagingPage(
+    billingAccountName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingAccountOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Transaction[]> {
+    let result: TransactionsListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(
+        billingAccountName,
+        periodStartDate,
+        periodEndDate,
+        typeParam,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByBillingAccountNext(
+        billingAccountName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByBillingAccountPagingAll(
+    billingAccountName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingAccountOptionalParams
+  ): AsyncIterableIterator<Transaction> {
+    for await (const page of this.listByBillingAccountPagingPage(
+      billingAccountName,
+      periodStartDate,
+      periodEndDate,
+      typeParam,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the billed or unbilled transactions by customer id for given start date and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  private _listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByCustomerOptionalParams
+  ): Promise<TransactionsListByCustomerResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        periodStartDate,
+        periodEndDate,
+        typeParam,
+        options
+      },
+      listByCustomerOperationSpec
+    );
+  }
+
+  /**
+   * Lists the billed or unbilled transactions by invoice section name for given start date and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  private _listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByInvoiceSectionOptionalParams
+  ): Promise<TransactionsListByInvoiceSectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        periodStartDate,
+        periodEndDate,
+        typeParam,
+        options
+      },
+      listByInvoiceSectionOperationSpec
+    );
+  }
+
+  /**
+   * Lists the billed or unbilled transactions by billing profile name for given start and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  private _listByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingProfileOptionalParams
+  ): Promise<TransactionsListByBillingProfileResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        periodStartDate,
+        periodEndDate,
+        typeParam,
+        options
+      },
+      listByBillingProfileOperationSpec
+    );
+  }
+
+  /**
+   * Gets a URL to download the transactions document for an invoice. The operation is supported for
+   * billing accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The options parameters.
+   */
+  async beginDownloadByInvoice(
+    billingAccountName: string,
+    invoiceName: string,
+    options?: TransactionsDownloadByInvoiceOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TransactionsDownloadByInvoiceResponse>,
+      TransactionsDownloadByInvoiceResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<TransactionsDownloadByInvoiceResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, invoiceName, options },
+      spec: downloadByInvoiceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TransactionsDownloadByInvoiceResponse,
+      OperationState<TransactionsDownloadByInvoiceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Gets a URL to download the transactions document for an invoice. The operation is supported for
+   * billing accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The options parameters.
+   */
+  async beginDownloadByInvoiceAndWait(
+    billingAccountName: string,
+    invoiceName: string,
+    options?: TransactionsDownloadByInvoiceOptionalParams
+  ): Promise<TransactionsDownloadByInvoiceResponse> {
+    const poller = await this.beginDownloadByInvoice(
+      billingAccountName,
+      invoiceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Lists the transactions for an invoice. Transactions include purchases, refunds and Azure usage
    * charges.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -134,6 +824,111 @@ export class TransactionsImpl implements Transactions {
     return this.client.sendOperationRequest(
       { billingAccountName, invoiceName, options },
       listByInvoiceOperationSpec
+    );
+  }
+
+  /**
+   * Lists the billed or unbilled transactions by billing account name for given start and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccount(
+    billingAccountName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingAccountOptionalParams
+  ): Promise<TransactionsListByBillingAccountResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        periodStartDate,
+        periodEndDate,
+        typeParam,
+        options
+      },
+      listByBillingAccountOperationSpec
+    );
+  }
+
+  /**
+   * ListByCustomerNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param nextLink The nextLink from the previous successful call to the ListByCustomer method.
+   * @param options The options parameters.
+   */
+  private _listByCustomerNext(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    nextLink: string,
+    options?: TransactionsListByCustomerNextOptionalParams
+  ): Promise<TransactionsListByCustomerNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        nextLink,
+        options
+      },
+      listByCustomerNextOperationSpec
+    );
+  }
+
+  /**
+   * ListByInvoiceSectionNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param nextLink The nextLink from the previous successful call to the ListByInvoiceSection method.
+   * @param options The options parameters.
+   */
+  private _listByInvoiceSectionNext(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    nextLink: string,
+    options?: TransactionsListByInvoiceSectionNextOptionalParams
+  ): Promise<TransactionsListByInvoiceSectionNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        nextLink,
+        options
+      },
+      listByInvoiceSectionNextOperationSpec
+    );
+  }
+
+  /**
+   * ListByBillingProfileNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingProfile method.
+   * @param options The options parameters.
+   */
+  private _listByBillingProfileNext(
+    billingAccountName: string,
+    billingProfileName: string,
+    nextLink: string,
+    options?: TransactionsListByBillingProfileNextOptionalParams
+  ): Promise<TransactionsListByBillingProfileNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, nextLink, options },
+      listByBillingProfileNextOperationSpec
     );
   }
 
@@ -155,10 +950,149 @@ export class TransactionsImpl implements Transactions {
       listByInvoiceNextOperationSpec
     );
   }
+
+  /**
+   * ListByBillingAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccountNext(
+    billingAccountName: string,
+    nextLink: string,
+    options?: TransactionsListByBillingAccountNextOptionalParams
+  ): Promise<TransactionsListByBillingAccountNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, nextLink, options },
+      listByBillingAccountNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByCustomerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/transactions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter1,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search1,
+    Parameters.periodStartDate1,
+    Parameters.periodEndDate1,
+    Parameters.typeParam
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.customerName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/transactions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter1,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search1,
+    Parameters.periodStartDate1,
+    Parameters.periodEndDate1,
+    Parameters.typeParam
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/transactions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.periodStartDate1,
+    Parameters.periodEndDate1,
+    Parameters.typeParam
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const downloadByInvoiceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/transactions/download",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DocumentDownloadResult
+    },
+    201: {
+      bodyMapper: Mappers.DocumentDownloadResult
+    },
+    202: {
+      bodyMapper: Mappers.DocumentDownloadResult
+    },
+    204: {
+      bodyMapper: Mappers.DocumentDownloadResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.invoiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByInvoiceOperationSpec: coreClient.OperationSpec = {
   path:
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/transactions",
@@ -168,14 +1102,106 @@ const listByInvoiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TransactionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter1,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search1
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.invoiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/transactions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.periodStartDate1,
+    Parameters.periodEndDate1,
+    Parameters.typeParam
+  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.billingProfileName,
+    Parameters.customerName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.billingProfileName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -188,15 +1214,33 @@ const listByInvoiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TransactionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ArmErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
     Parameters.invoiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

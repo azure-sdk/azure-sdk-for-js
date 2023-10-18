@@ -7,14 +7,92 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Transaction,
-  TransactionsListByInvoiceOptionalParams
+  TransactionType,
+  TransactionsListByCustomerOptionalParams,
+  TransactionsListByInvoiceSectionOptionalParams,
+  TransactionsListByBillingProfileOptionalParams,
+  TransactionsListByInvoiceOptionalParams,
+  TransactionsListByBillingAccountOptionalParams,
+  TransactionsDownloadByInvoiceOptionalParams,
+  TransactionsDownloadByInvoiceResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Transactions. */
 export interface Transactions {
+  /**
+   * Lists the billed or unbilled transactions by customer id for given start date and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByCustomerOptionalParams
+  ): PagedAsyncIterableIterator<Transaction>;
+  /**
+   * Lists the billed or unbilled transactions by invoice section name for given start date and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByInvoiceSectionOptionalParams
+  ): PagedAsyncIterableIterator<Transaction>;
+  /**
+   * Lists the billed or unbilled transactions by billing profile name for given start and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  listByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingProfileOptionalParams
+  ): PagedAsyncIterableIterator<Transaction>;
   /**
    * Lists the transactions for an invoice. Transactions include purchases, refunds and Azure usage
    * charges.
@@ -27,4 +105,53 @@ export interface Transactions {
     invoiceName: string,
     options?: TransactionsListByInvoiceOptionalParams
   ): PagedAsyncIterableIterator<Transaction>;
+  /**
+   * Lists the billed or unbilled transactions by billing account name for given start and end date.
+   * Transactions include purchases, refunds and Azure usage charges. Unbilled transactions are listed
+   * under pending invoice Id and do not include tax. Tax is added to the amount once an invoice is
+   * generated.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the transactions. The date should be specified in
+   *                        MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the transactions. The date should be specified in
+   *                      MM-DD-YYYY format.
+   * @param typeParam The type of transaction.
+   * @param options The options parameters.
+   */
+  listByBillingAccount(
+    billingAccountName: string,
+    periodStartDate: Date,
+    periodEndDate: Date,
+    typeParam: TransactionType,
+    options?: TransactionsListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<Transaction>;
+  /**
+   * Gets a URL to download the transactions document for an invoice. The operation is supported for
+   * billing accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The options parameters.
+   */
+  beginDownloadByInvoice(
+    billingAccountName: string,
+    invoiceName: string,
+    options?: TransactionsDownloadByInvoiceOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TransactionsDownloadByInvoiceResponse>,
+      TransactionsDownloadByInvoiceResponse
+    >
+  >;
+  /**
+   * Gets a URL to download the transactions document for an invoice. The operation is supported for
+   * billing accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The options parameters.
+   */
+  beginDownloadByInvoiceAndWait(
+    billingAccountName: string,
+    invoiceName: string,
+    options?: TransactionsDownloadByInvoiceOptionalParams
+  ): Promise<TransactionsDownloadByInvoiceResponse>;
 }
