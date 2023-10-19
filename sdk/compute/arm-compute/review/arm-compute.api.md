@@ -3568,6 +3568,7 @@ export enum KnownRestorePointExpandOptions {
 // @public
 export enum KnownSecurityEncryptionTypes {
     DiskWithVMGuestState = "DiskWithVMGuestState",
+    NonPersistedTPM = "NonPersistedTPM",
     VMGuestStateOnly = "VMGuestStateOnly"
 }
 
