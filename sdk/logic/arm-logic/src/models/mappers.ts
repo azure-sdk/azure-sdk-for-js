@@ -6279,6 +6279,206 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
+export const WorkflowExportRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkflowExportRequest",
+    modelProperties: {
+      workflows: {
+        serializedName: "workflows",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      },
+      workflowExportOptions: {
+        serializedName: "workflowExportOptions",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WorkflowExportValidityResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkflowExportValidityResult",
+    modelProperties: {
+      validationState: {
+        serializedName: "validationState",
+        type: {
+          name: "String"
+        }
+      },
+      workflows: {
+        serializedName: "workflows",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "WorkflowExportValidity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WorkflowExportValidity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkflowExportValidity",
+    modelProperties: {
+      validationState: {
+        serializedName: "validationState",
+        type: {
+          name: "String"
+        }
+      },
+      workflowOperations: {
+        serializedName: "workflowOperations",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "ResourceExportValidity" }
+          }
+        }
+      },
+      connections: {
+        serializedName: "connections",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "ConnectionExportValidity" }
+          }
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "ResourceExportValidity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceExportValidity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceExportValidity",
+    modelProperties: {
+      validationState: {
+        serializedName: "validationState",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectionExportValidity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectionExportValidity",
+    modelProperties: {
+      validationState: {
+        serializedName: "validationState",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WorkflowExportResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkflowExportResult",
+    modelProperties: {
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExportDetail"
+            }
+          }
+        }
+      },
+      packageLink: {
+        serializedName: "packageLink",
+        type: {
+          name: "Composite",
+          className: "ContentLink"
+        }
+      }
+    }
+  }
+};
+
+export const ExportDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExportDetail",
+    modelProperties: {
+      exportDetailCategory: {
+        serializedName: "exportDetailCategory",
+        type: {
+          name: "String"
+        }
+      },
+      exportDetailCode: {
+        serializedName: "exportDetailCode",
+        type: {
+          name: "String"
+        }
+      },
+      exportDetailMessage: {
+        serializedName: "exportDetailMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkflowFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

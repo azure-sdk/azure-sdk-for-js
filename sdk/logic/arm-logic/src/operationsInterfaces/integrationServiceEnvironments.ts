@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationServiceEnvironment,
   IntegrationServiceEnvironmentsListBySubscriptionOptionalParams,
@@ -65,8 +65,8 @@ export interface IntegrationServiceEnvironments {
     integrationServiceEnvironment: IntegrationServiceEnvironment,
     options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>,
       IntegrationServiceEnvironmentsCreateOrUpdateResponse
     >
   >;
@@ -96,8 +96,8 @@ export interface IntegrationServiceEnvironments {
     integrationServiceEnvironment: IntegrationServiceEnvironment,
     options?: IntegrationServiceEnvironmentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentsUpdateResponse>,
       IntegrationServiceEnvironmentsUpdateResponse
     >
   >;

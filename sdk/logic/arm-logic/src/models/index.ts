@@ -2138,6 +2138,70 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** The workflow export request. */
+export interface WorkflowExportRequest {
+  /** The workflows for export. */
+  workflows: ResourceReference[];
+  /** The workflow export options flags. Possible options are: CloneConnections, GenerateInfrastructureTemplates */
+  workflowExportOptions: WorkflowExportOptions;
+}
+
+/** The workflow export validity result. */
+export interface WorkflowExportValidityResult {
+  /** The validation state for the workflow export. */
+  validationState?: ValidationState;
+  /** The workflows export validity. */
+  workflows?: { [propertyName: string]: WorkflowExportValidity };
+}
+
+/** The workflow export validity. */
+export interface WorkflowExportValidity {
+  /** The validation state for the workflow. */
+  validationState?: ValidationState;
+  /** The workflow operations export validity. */
+  workflowOperations?: { [propertyName: string]: ResourceExportValidity };
+  /** The connections export validity. */
+  connections?: { [propertyName: string]: ConnectionExportValidity };
+  /** The parameters export validity. */
+  parameters?: { [propertyName: string]: ResourceExportValidity };
+}
+
+/** The resource export validity. */
+export interface ResourceExportValidity {
+  /** The validation state for the resource. */
+  validationState?: ValidationState;
+  /** Error response describing why the operation failed. */
+  details?: ErrorResponse;
+}
+
+/** The connection export validity. */
+export interface ConnectionExportValidity {
+  /** The validation state for the connection. */
+  validationState?: ValidationState;
+  /** Error response describing why the operation failed. */
+  details?: ErrorResponse;
+  /** The display name of the connection. */
+  displayName?: string;
+}
+
+/** The workflow export result. */
+export interface WorkflowExportResult {
+  /** The export details. */
+  details?: ExportDetail[];
+  /** The link for the export package. */
+  packageLink?: ContentLink;
+}
+
+/** The workflow export detail. */
+export interface ExportDetail {
+  /** The export detail category. */
+  exportDetailCategory?: ExportDetailCategory;
+  /** The export detail code. */
+  exportDetailCode?: ExportDetailCode;
+  /** The export detail message. */
+  exportDetailMessage?: string;
+}
+
 /** The workflow filter. */
 export interface WorkflowFilter {
   /** The state of workflows. */
@@ -4197,6 +4261,90 @@ export enum KnownSwaggerSchemaType {
  */
 export type SwaggerSchemaType = string;
 
+/** Known values of {@link WorkflowExportOptions} that the service accepts. */
+export enum KnownWorkflowExportOptions {
+  /** CloneConnections */
+  CloneConnections = "CloneConnections",
+  /** GenerateInfrastructureTemplates */
+  GenerateInfrastructureTemplates = "GenerateInfrastructureTemplates",
+  /** CloneConnectionsGenerateInfrastructureTemplates */
+  CloneConnectionsGenerateInfrastructureTemplates = "CloneConnections,GenerateInfrastructureTemplates"
+}
+
+/**
+ * Defines values for WorkflowExportOptions. \
+ * {@link KnownWorkflowExportOptions} can be used interchangeably with WorkflowExportOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CloneConnections** \
+ * **GenerateInfrastructureTemplates** \
+ * **CloneConnections,GenerateInfrastructureTemplates**
+ */
+export type WorkflowExportOptions = string;
+
+/** Known values of {@link ValidationState} that the service accepts. */
+export enum KnownValidationState {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Failed */
+  Failed = "Failed",
+  /** SucceededWithWarning */
+  SucceededWithWarning = "SucceededWithWarning",
+  /** Succeeded */
+  Succeeded = "Succeeded"
+}
+
+/**
+ * Defines values for ValidationState. \
+ * {@link KnownValidationState} can be used interchangeably with ValidationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Failed** \
+ * **SucceededWithWarning** \
+ * **Succeeded**
+ */
+export type ValidationState = string;
+
+/** Known values of {@link ExportDetailCategory} that the service accepts. */
+export enum KnownExportDetailCategory {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Information */
+  Information = "Information",
+  /** RequiredStep */
+  RequiredStep = "RequiredStep"
+}
+
+/**
+ * Defines values for ExportDetailCategory. \
+ * {@link KnownExportDetailCategory} can be used interchangeably with ExportDetailCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Information** \
+ * **RequiredStep**
+ */
+export type ExportDetailCategory = string;
+
+/** Known values of {@link ExportDetailCode} that the service accepts. */
+export enum KnownExportDetailCode {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** ConnectionCloningUnsupported */
+  ConnectionCloningUnsupported = "ConnectionCloningUnsupported"
+}
+
+/**
+ * Defines values for ExportDetailCode. \
+ * {@link KnownExportDetailCode} can be used interchangeably with ExportDetailCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **ConnectionCloningUnsupported**
+ */
+export type ExportDetailCode = string;
+
 /** Known values of {@link AzureAsyncOperationState} that the service accepts. */
 export enum KnownAzureAsyncOperationState {
   /** Failed */
@@ -5194,6 +5342,20 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface LocationsValidateWorkflowExportOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateWorkflowExport operation. */
+export type LocationsValidateWorkflowExportResponse = WorkflowExportValidityResult;
+
+/** Optional parameters. */
+export interface LocationsWorkflowExportOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the workflowExport operation. */
+export type LocationsWorkflowExportResponse = WorkflowExportResult;
 
 /** Optional parameters. */
 export interface LogicManagementClientOptionalParams

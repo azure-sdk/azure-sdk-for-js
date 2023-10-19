@@ -41,7 +41,8 @@ import {
   IntegrationServiceEnvironmentNetworkHealthImpl,
   IntegrationServiceEnvironmentManagedApisImpl,
   IntegrationServiceEnvironmentManagedApiOperationsImpl,
-  OperationsImpl
+  OperationsImpl,
+  LocationsImpl
 } from "./operations";
 import {
   Workflows,
@@ -70,7 +71,8 @@ import {
   IntegrationServiceEnvironmentNetworkHealth,
   IntegrationServiceEnvironmentManagedApis,
   IntegrationServiceEnvironmentManagedApiOperations,
-  Operations
+  Operations,
+  Locations
 } from "./operationsInterfaces";
 import { LogicManagementClientOptionalParams } from "./models";
 
@@ -82,7 +84,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the LogicManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The subscription id.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -106,7 +108,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-logic/8.2.1`;
+    const packageDetails = `azsdk-js-arm-logic/8.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -159,7 +161,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2019-05-01";
+    this.apiVersion = options.apiVersion || "2022-09-01-preview";
     this.workflows = new WorkflowsImpl(this);
     this.workflowVersions = new WorkflowVersionsImpl(this);
     this.workflowTriggers = new WorkflowTriggersImpl(this);
@@ -213,6 +215,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
+    this.locations = new LocationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -271,4 +274,5 @@ export class LogicManagementClient extends coreClient.ServiceClient {
   integrationServiceEnvironmentManagedApis: IntegrationServiceEnvironmentManagedApis;
   integrationServiceEnvironmentManagedApiOperations: IntegrationServiceEnvironmentManagedApiOperations;
   operations: Operations;
+  locations: Locations;
 }

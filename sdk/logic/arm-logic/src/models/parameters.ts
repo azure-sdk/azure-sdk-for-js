@@ -30,7 +30,8 @@ import {
   IntegrationAccountCertificate as IntegrationAccountCertificateMapper,
   IntegrationAccountSession as IntegrationAccountSessionMapper,
   IntegrationServiceEnvironment as IntegrationServiceEnvironmentMapper,
-  IntegrationServiceEnvironmentManagedApi as IntegrationServiceEnvironmentManagedApiMapper
+  IntegrationServiceEnvironmentManagedApi as IntegrationServiceEnvironmentManagedApiMapper,
+  WorkflowExportRequest as WorkflowExportRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -60,6 +61,9 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
@@ -71,7 +75,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2019-05-01",
+    defaultValue: "2022-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -495,4 +499,23 @@ export const apiName: OperationURLParameter = {
 export const integrationServiceEnvironmentManagedApi: OperationParameter = {
   parameterPath: "integrationServiceEnvironmentManagedApi",
   mapper: IntegrationServiceEnvironmentManagedApiMapper
+};
+
+export const workflowExportRequest: OperationParameter = {
+  parameterPath: "workflowExportRequest",
+  mapper: WorkflowExportRequestMapper
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workflow,
   WorkflowsListBySubscriptionOptionalParams,
@@ -173,7 +173,7 @@ export interface Workflows {
     workflowName: string,
     move: WorkflowReference,
     options?: WorkflowsMoveOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Moves an existing workflow.
    * @param resourceGroupName The resource group name.

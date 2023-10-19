@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AgreementContent {
@@ -332,6 +332,13 @@ export interface CallbackUrl {
 }
 
 // @public
+export interface ConnectionExportValidity {
+    details?: ErrorResponse;
+    displayName?: string;
+    validationState?: ValidationState;
+}
+
+// @public
 export interface ContentHash {
     algorithm?: string;
     value?: string;
@@ -580,6 +587,19 @@ export type ErrorResponseCode = string;
 
 // @public
 export type EventLevel = "LogAlways" | "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
+
+// @public
+export interface ExportDetail {
+    exportDetailCategory?: ExportDetailCategory;
+    exportDetailCode?: ExportDetailCode;
+    exportDetailMessage?: string;
+}
+
+// @public
+export type ExportDetailCategory = string;
+
+// @public
+export type ExportDetailCode = string;
 
 // @public
 export interface Expression {
@@ -1344,9 +1364,9 @@ export interface IntegrationServiceEnvironmentManagedApiProperties extends ApiRe
 
 // @public
 export interface IntegrationServiceEnvironmentManagedApis {
-    beginDelete(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<void>;
-    beginPut(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentManagedApisPutResponse>, IntegrationServiceEnvironmentManagedApisPutResponse>>;
+    beginPut(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentManagedApisPutResponse>, IntegrationServiceEnvironmentManagedApisPutResponse>>;
     beginPutAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisPutResponse>;
     get(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisGetResponse>;
     list(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentManagedApisListOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironmentManagedApi>;
@@ -1443,9 +1463,9 @@ export interface IntegrationServiceEnvironmentProperties {
 
 // @public
 export interface IntegrationServiceEnvironments {
-    beginCreateOrUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>, IntegrationServiceEnvironmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>, IntegrationServiceEnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<IntegrationServiceEnvironmentsCreateOrUpdateResponse>;
-    beginUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentsUpdateResponse>, IntegrationServiceEnvironmentsUpdateResponse>>;
+    beginUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentsUpdateResponse>, IntegrationServiceEnvironmentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<IntegrationServiceEnvironmentsUpdateResponse>;
     delete(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsDeleteOptionalParams): Promise<void>;
     get(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsGetOptionalParams): Promise<IntegrationServiceEnvironmentsGetResponse>;
@@ -1708,6 +1728,19 @@ export enum KnownErrorResponseCode {
 }
 
 // @public
+export enum KnownExportDetailCategory {
+    Information = "Information",
+    NotSpecified = "NotSpecified",
+    RequiredStep = "RequiredStep"
+}
+
+// @public
+export enum KnownExportDetailCode {
+    ConnectionCloningUnsupported = "ConnectionCloningUnsupported",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
 export enum KnownHashingAlgorithm {
     MD5 = "MD5",
     None = "None",
@@ -1933,6 +1966,21 @@ export enum KnownUsageIndicator {
 }
 
 // @public
+export enum KnownValidationState {
+    Failed = "Failed",
+    NotSpecified = "NotSpecified",
+    Succeeded = "Succeeded",
+    SucceededWithWarning = "SucceededWithWarning"
+}
+
+// @public
+export enum KnownWorkflowExportOptions {
+    CloneConnections = "CloneConnections",
+    CloneConnectionsGenerateInfrastructureTemplates = "CloneConnections,GenerateInfrastructureTemplates",
+    GenerateInfrastructureTemplates = "GenerateInfrastructureTemplates"
+}
+
+// @public
 export enum KnownWorkflowProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -2044,6 +2092,26 @@ export interface ListKeyVaultKeysDefinition {
     skipToken?: string;
 }
 
+// @public
+export interface Locations {
+    validateWorkflowExport(location: string, workflowExportRequest: WorkflowExportRequest, options?: LocationsValidateWorkflowExportOptionalParams): Promise<LocationsValidateWorkflowExportResponse>;
+    workflowExport(location: string, workflowExportRequest: WorkflowExportRequest, options?: LocationsWorkflowExportOptionalParams): Promise<LocationsWorkflowExportResponse>;
+}
+
+// @public
+export interface LocationsValidateWorkflowExportOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocationsValidateWorkflowExportResponse = WorkflowExportValidityResult;
+
+// @public
+export interface LocationsWorkflowExportOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocationsWorkflowExportResponse = WorkflowExportResult;
+
 // @public (undocumented)
 export class LogicManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -2079,6 +2147,8 @@ export class LogicManagementClient extends coreClient.ServiceClient {
     integrationServiceEnvironments: IntegrationServiceEnvironments;
     // (undocumented)
     integrationServiceEnvironmentSkus: IntegrationServiceEnvironmentSkus;
+    // (undocumented)
+    locations: Locations;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -2318,6 +2388,12 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceExportValidity {
+    details?: ErrorResponse;
+    validationState?: ValidationState;
+}
+
+// @public
 export interface ResourceReference {
     id?: string;
     readonly name?: string;
@@ -2540,6 +2616,9 @@ export interface UserAssignedIdentity {
 }
 
 // @public
+export type ValidationState = string;
+
+// @public
 export interface Workflow extends Resource {
     accessControl?: FlowAccessControlConfiguration;
     readonly accessEndpoint?: string;
@@ -2557,6 +2636,43 @@ export interface Workflow extends Resource {
     readonly sku?: Sku;
     state?: WorkflowState;
     readonly version?: string;
+}
+
+// @public
+export type WorkflowExportOptions = string;
+
+// @public
+export interface WorkflowExportRequest {
+    workflowExportOptions: WorkflowExportOptions;
+    workflows: ResourceReference[];
+}
+
+// @public
+export interface WorkflowExportResult {
+    details?: ExportDetail[];
+    packageLink?: ContentLink;
+}
+
+// @public
+export interface WorkflowExportValidity {
+    connections?: {
+        [propertyName: string]: ConnectionExportValidity;
+    };
+    parameters?: {
+        [propertyName: string]: ResourceExportValidity;
+    };
+    validationState?: ValidationState;
+    workflowOperations?: {
+        [propertyName: string]: ResourceExportValidity;
+    };
+}
+
+// @public
+export interface WorkflowExportValidityResult {
+    validationState?: ValidationState;
+    workflows?: {
+        [propertyName: string]: WorkflowExportValidity;
+    };
 }
 
 // @public
@@ -2886,7 +3002,7 @@ export interface WorkflowRunTrigger {
 
 // @public
 export interface Workflows {
-    beginMove(resourceGroupName: string, workflowName: string, move: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginMove(resourceGroupName: string, workflowName: string, move: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginMoveAndWait(resourceGroupName: string, workflowName: string, move: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workflowName: string, workflow: Workflow, options?: WorkflowsCreateOrUpdateOptionalParams): Promise<WorkflowsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workflowName: string, options?: WorkflowsDeleteOptionalParams): Promise<void>;

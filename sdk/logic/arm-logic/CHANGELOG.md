@@ -1,15 +1,31 @@
 # Release History
+    
+## 8.3.0-beta.1 (2023-10-19)
+    
+**Features**
 
-## 8.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Locations
+  - Added Interface ConnectionExportValidity
+  - Added Interface ExportDetail
+  - Added Interface LocationsValidateWorkflowExportOptionalParams
+  - Added Interface LocationsWorkflowExportOptionalParams
+  - Added Interface ResourceExportValidity
+  - Added Interface WorkflowExportRequest
+  - Added Interface WorkflowExportResult
+  - Added Interface WorkflowExportValidity
+  - Added Interface WorkflowExportValidityResult
+  - Added Type Alias ExportDetailCategory
+  - Added Type Alias ExportDetailCode
+  - Added Type Alias LocationsValidateWorkflowExportResponse
+  - Added Type Alias LocationsWorkflowExportResponse
+  - Added Type Alias ValidationState
+  - Added Type Alias WorkflowExportOptions
+  - Added Enum KnownExportDetailCategory
+  - Added Enum KnownExportDetailCode
+  - Added Enum KnownValidationState
+  - Added Enum KnownWorkflowExportOptions
+    
+    
 ## 8.2.0 (2023-01-20)
     
 **Features**
@@ -93,4 +109,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

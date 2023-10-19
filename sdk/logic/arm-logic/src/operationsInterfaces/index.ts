@@ -33,3 +33,4 @@ export * from "./integrationServiceEnvironmentNetworkHealth";
 export * from "./integrationServiceEnvironmentManagedApis";
 export * from "./integrationServiceEnvironmentManagedApiOperations";
 export * from "./operations";
+export * from "./locations";
