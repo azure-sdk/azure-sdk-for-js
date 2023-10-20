@@ -513,6 +513,10 @@ export interface NetworkProfile {
   enableEgressNat: EgressNat;
   /** Egress nat IP to use */
   egressNatIp?: IPAddress[];
+  /** Non-RFC 1918 address */
+  trustedRanges?: string[];
+  /** Array of ipv4 destination address for which source NAT is to be performed */
+  privateSourceNatRulesDestination?: string[];
 }
 
 /** VnetInfo for Firewall Networking */
