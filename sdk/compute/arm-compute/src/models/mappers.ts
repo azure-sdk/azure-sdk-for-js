@@ -5191,6 +5191,13 @@ export const VirtualMachineInstanceView: coreClient.CompositeMapper = {
           name: "Composite",
           className: "VirtualMachinePatchStatus"
         }
+      },
+      isVMInStandbyPool: {
+        serializedName: "isVMInStandbyPool",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

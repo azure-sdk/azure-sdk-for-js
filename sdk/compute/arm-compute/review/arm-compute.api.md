@@ -6207,6 +6207,7 @@ export interface VirtualMachineInstanceView {
     disks?: DiskInstanceView[];
     extensions?: VirtualMachineExtensionInstanceView[];
     hyperVGeneration?: HyperVGenerationType;
+    readonly isVMInStandbyPool?: boolean;
     maintenanceRedeployStatus?: MaintenanceRedeployStatus;
     osName?: string;
     osVersion?: string;
