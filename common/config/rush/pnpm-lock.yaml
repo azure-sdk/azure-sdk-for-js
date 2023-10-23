@@ -2933,13 +2933,13 @@ packages:
   /@types/jsonwebtoken@9.0.3:
     resolution: {integrity: sha512-b0jGiOgHtZ2jqdPgPnP6WLCXZk1T8p06A/vPGzUvxpFGgKMbjXJDjC5m52ErqBnIuWZFgGoIJyRdeG5AyreJjA==}
     dependencies:
-      '@types/node': 16.18.58
+      '@types/node': 18.18.6
     dev: false
 
   /@types/jws@3.2.6:
     resolution: {integrity: sha512-SVbs88FPvGVMj19JYVOV+NpWu3HO5LUjz0+z6ks/rdRbrWlxs6fBz6Qxb/PKalZaweJisPyfikeoPu8VlpljQQ==}
     dependencies:
-      '@types/node': 16.18.58
+      '@types/node': 18.18.6
     dev: false
 
   /@types/linkify-it@3.0.3:
@@ -2990,7 +2990,7 @@ packages:
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 16.18.58
+      '@types/node': 18.18.6
     dev: false
 
   /@types/node-fetch@2.6.6:
@@ -3021,7 +3021,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 16.18.58
+      '@types/node': 18.18.6
       pg-protocol: 1.6.0
       pg-types: 2.2.0
     dev: false
@@ -3100,7 +3100,7 @@ packages:
   /@types/stoppable@1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 16.18.58
+      '@types/node': 18.18.6
     dev: false
 
   /@types/through@0.0.31:
@@ -4435,7 +4435,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231022
+      typescript: 5.3.0-dev.20231023
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9093,8 +9093,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231022:
-    resolution: {integrity: sha512-g8ICZidqxW5HGoyFFTyMvbHd4EbZlTSXILKT71uyPagM4asj/3JRaOw0A+xgHSf4PrLHAGAbJ7P/JgtbgZNgcw==}
+  /typescript@5.3.0-dev.20231023:
+    resolution: {integrity: sha512-epSBdrSFF5apIzARZXsSC0BlNVGy7UO7FL1UJIKNDUIZuzlHVDFoAx1wAmV+dNn9AyIUY8LSion0D6QoIx5Dzw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14525,19 +14525,27 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-vkrdCmtaEUFL/61lDJhWSBG1bQAxlhQR35sg/8ZsVVrBEV7pJav4/psBndH23pTW6QUjqG5WhqW+BMiiZr5yqg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-bqz3d2nmCrsXt5jF6MLa2oL/xMMbTrAWXGKcF1DGIrkBrJDOtuYTq2hqIAsfu2Fni2geDmdoRSvmwQqADqOdoQ==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.58)
+      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
+      '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
+      '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.2
       '@types/node': 16.18.58
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.58)(rollup@2.79.1)
       ts-node: 10.9.1(@types/node@16.18.58)(typescript@5.0.4)
       tslib: 2.6.2
       typescript: 5.0.4
