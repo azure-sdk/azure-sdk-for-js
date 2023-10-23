@@ -733,8 +733,11 @@ export type BasePolicyRuleUnion = BasePolicyRule | AzureBackupRule | AzureRetent
 
 // @public
 export interface BaseResourceProperties {
-    objectType: "BaseResourceProperties";
+    objectType: "DefaultResourceProperties";
 }
+
+// @public (undocumented)
+export type BaseResourcePropertiesUnion = BaseResourceProperties | DefaultResourceProperties;
 
 // @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
@@ -934,7 +937,7 @@ export interface Datasource {
     resourceID: string;
     resourceLocation?: string;
     resourceName?: string;
-    resourceProperties?: BaseResourceProperties;
+    resourceProperties?: BaseResourcePropertiesUnion;
     resourceType?: string;
     resourceUri?: string;
 }
@@ -946,7 +949,7 @@ export interface DatasourceSet {
     resourceID: string;
     resourceLocation?: string;
     resourceName?: string;
-    resourceProperties?: BaseResourceProperties;
+    resourceProperties?: BaseResourcePropertiesUnion;
     resourceType?: string;
     resourceUri?: string;
 }
@@ -977,6 +980,11 @@ export interface Day {
 
 // @public
 export type DayOfWeek = string;
+
+// @public
+export interface DefaultResourceProperties extends BaseResourceProperties {
+    objectType: "DefaultResourceProperties";
+}
 
 // @public
 export interface DeletedBackupInstance extends BackupInstance {
@@ -1557,6 +1565,11 @@ export enum KnownResourceMoveState {
     PrepareFailed = "PrepareFailed",
     PrepareTimedout = "PrepareTimedout",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownResourcePropertiesObjectType {
+    DefaultResourceProperties = "DefaultResourceProperties"
 }
 
 // @public
@@ -2184,6 +2197,9 @@ export interface ResourceMoveDetails {
 
 // @public
 export type ResourceMoveState = string;
+
+// @public
+export type ResourcePropertiesObjectType = string;
 
 // @public (undocumented)
 export interface RestorableTimeRange {
