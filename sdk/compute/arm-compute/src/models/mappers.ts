@@ -1862,6 +1862,13 @@ export const SecurityProfile: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      proxyAgentSettings: {
+        serializedName: "proxyAgentSettings",
+        type: {
+          name: "Composite",
+          className: "ProxyAgentSettings"
+        }
       }
     }
   }
@@ -1882,6 +1889,33 @@ export const UefiSettings: coreClient.CompositeMapper = {
         serializedName: "vTpmEnabled",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyAgentSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyAgentSettings",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      keyIncarnationId: {
+        serializedName: "keyIncarnationId",
+        type: {
+          name: "Number"
         }
       }
     }

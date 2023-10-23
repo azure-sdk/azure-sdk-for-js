@@ -3386,6 +3386,12 @@ export enum KnownLinuxVMGuestPatchMode {
 }
 
 // @public
+export enum KnownMode {
+    Audit = "Audit",
+    Enforce = "Enforce"
+}
+
+// @public
 export enum KnownNetworkAccessPolicy {
     AllowAll = "AllowAll",
     AllowPrivate = "AllowPrivate",
@@ -4068,6 +4074,9 @@ export interface ManagedDiskParameters extends SubResource {
 }
 
 // @public
+export type Mode = string;
+
+// @public
 export type NetworkAccessPolicy = string;
 
 // @public
@@ -4466,6 +4475,13 @@ export type ProximityPlacementGroupType = string;
 
 // @public
 export interface ProximityPlacementGroupUpdate extends UpdateResource {
+}
+
+// @public
+export interface ProxyAgentSettings {
+    enabled?: boolean;
+    keyIncarnationId?: number;
+    mode?: Mode;
 }
 
 // @public
@@ -5091,6 +5107,7 @@ export interface SecurityPostureReference {
 // @public
 export interface SecurityProfile {
     encryptionAtHost?: boolean;
+    proxyAgentSettings?: ProxyAgentSettings;
     securityType?: SecurityTypes;
     uefiSettings?: UefiSettings;
 }
