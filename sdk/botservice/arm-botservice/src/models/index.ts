@@ -115,6 +115,11 @@ export interface BotProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * List of Network Security Perimeter configurations for the bot
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkSecurityPerimeterConfigurations?: NetworkSecurityPerimeterConfiguration[];
   /** The hint to browser (e.g. protocol handler) on how to open the bot for authoring */
   openWithHint?: string;
   /** The hint (e.g. keyVault secret resourceId) on how to fetch the app secret */
@@ -166,6 +171,156 @@ export interface PrivateLinkResourceBase {
   readonly type?: string;
 }
 
+/** Network Security Perimeter configuration */
+export interface NetworkSecurityPerimeterConfiguration {
+  /** Fully qualified identifier of the resource */
+  id?: string;
+  /** Name of the resource */
+  name?: string;
+  /** Type of the resource */
+  type?: string;
+  /**
+   * Properties of the Network Security Perimeter configuration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+/** Properties of Network Security Perimeter configuration */
+export interface NetworkSecurityPerimeterConfigurationProperties {
+  provisioningState?: ProvisioningState;
+  /** List of Provisioning Issues if any */
+  provisioningIssues?: ProvisioningIssue[];
+  /**
+   * Information about Network Security Perimeter
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /**
+   * Information about resource association
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceAssociation?: ResourceAssociation;
+  /**
+   * Information about profile
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly profile?: Profile;
+}
+
+/** Describes Provisioning issue for given Network Security Perimeter configuration */
+export interface ProvisioningIssue {
+  /** Name of the issue */
+  name?: string;
+  /**
+   * Properties of Provisioning Issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: ProvisioningIssueProperties;
+}
+
+/** Properties of Provisioning Issue */
+export interface ProvisioningIssueProperties {
+  /** Type of Issue */
+  issueType?: string;
+  /** Provisioning state of Network Security Perimeter configuration propagation */
+  severity?: Severity;
+  /** Description of the issue */
+  description?: string;
+  /**
+   * ARM IDs of resources that can be associated to the same perimeter to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedResourceIds?: string[];
+  /** Access rules that can be added to the same profile to remediate the issue. */
+  suggestedAccessRules?: NspAccessRule[];
+}
+
+/** Information of Access Rule in a profile */
+export interface NspAccessRule {
+  /** Name of the access rule */
+  name?: string;
+  /**
+   * Properties of Access Rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: NspAccessRuleProperties;
+}
+
+/** Properties of Access Rule */
+export interface NspAccessRuleProperties {
+  /** Direction of Access Rule */
+  direction?: NspAccessRuleDirection;
+  /** Address prefixes in the CIDR format for inbound rules */
+  addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+  /**
+   * NetworkSecurityPerimeters for inbound rules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /**
+   * FQDN for outbound rules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullyQualifiedDomainNames?: string[];
+  /**
+   * Email addresses for outbound rules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly emailAddresses?: string[];
+  /**
+   * Phone numbers for outbound rules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly phoneNumbers?: string[];
+}
+
+/** Subscription for inbound rule */
+export interface NspAccessRulePropertiesSubscriptionsItem {
+  /** Fully qualified identifier of subscription */
+  id?: string;
+}
+
+/** Information about Network Security Perimeter */
+export interface NetworkSecurityPerimeter {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Guid of the Network Security Perimeter */
+  perimeterGuid?: string;
+  /** Location of the Network Security Perimeter */
+  location?: string;
+}
+
+/** Information about resource association */
+export interface ResourceAssociation {
+  /** Name of the resource association */
+  name?: string;
+  /** Access Mode of the resource association */
+  accessMode?: AccessMode;
+}
+
+/** Information about profile */
+export interface Profile {
+  /** Name of the profile */
+  name?: string;
+  /** Current access rules version */
+  accessRulesVersion?: number;
+  /** List of Access Rules */
+  accessRules?: NspAccessRule[];
+  /** Current diagnostic settings version */
+  diagnosticSettingsVersion?: number;
+  /**
+   * List of log categories
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enabledLogCategories?: string[];
+}
+
 /** Azure resource */
 export interface Resource {
   /**
@@ -191,7 +346,7 @@ export interface Resource {
   sku?: Sku;
   /** Required. Gets or sets the Kind of the resource. */
   kind?: Kind;
-  /** Entity Tag */
+  /** Entity Tag. */
   etag?: string;
   /**
    * Entity zones
@@ -554,6 +709,10 @@ export interface QnAMakerEndpointKeysResponse {
 
 /** Properties for a Connection Setting Item */
 export interface ConnectionSettingProperties {
+  /** Id of the Connection Setting. */
+  id?: string;
+  /** Name of the Connection Setting. */
+  name?: string;
   /** Client Id associated with the Connection Setting. */
   clientId?: string;
   /**
@@ -648,6 +807,69 @@ export interface PrivateEndpointConnectionListResult {
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
   value?: PrivateLinkResource[];
+}
+
+/** Result of the List NetworkSecurityPerimeterConfiguration operation. */
+export interface NetworkSecurityPerimeterConfigurationList {
+  /**
+   * A collection of Network Security Perimeter configurations
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: NetworkSecurityPerimeterConfiguration[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** The parameters to provide for the Alexa channel. */
@@ -1171,6 +1393,11 @@ export interface ListChannelWithKeysResponse extends BotChannel {
   changedTime?: string;
 }
 
+/** Defines headers for NetworkSecurityPerimeterConfigurations_reconcile operation. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+  location?: string;
+}
+
 /** Known values of {@link MsaAppType} that the service accepts. */
 export enum KnownMsaAppType {
   /** UserAssignedMSI */
@@ -1197,7 +1424,9 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 /**
@@ -1206,7 +1435,8 @@ export enum KnownPublicNetworkAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **SecuredByPerimeter**
  */
 export type PublicNetworkAccess = string;
 
@@ -1254,6 +1484,93 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Accepted** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error"
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Error**
+ */
+export type Severity = string;
+
+/** Known values of {@link NspAccessRuleDirection} that the service accepts. */
+export enum KnownNspAccessRuleDirection {
+  /** Inbound */
+  Inbound = "Inbound",
+  /** Outbound */
+  Outbound = "Outbound"
+}
+
+/**
+ * Defines values for NspAccessRuleDirection. \
+ * {@link KnownNspAccessRuleDirection} can be used interchangeably with NspAccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound** \
+ * **Outbound**
+ */
+export type NspAccessRuleDirection = string;
+
+/** Known values of {@link AccessMode} that the service accepts. */
+export enum KnownAccessMode {
+  /** Enforced */
+  Enforced = "Enforced",
+  /** Learning */
+  Learning = "Learning",
+  /** Audit */
+  Audit = "Audit"
+}
+
+/**
+ * Defines values for AccessMode. \
+ * {@link KnownAccessMode} can be used interchangeably with AccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced** \
+ * **Learning** \
+ * **Audit**
+ */
+export type AccessMode = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -1388,7 +1705,7 @@ export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {
   sku?: Sku;
   /** Required. Gets or sets the Kind of the resource. */
   kind?: Kind;
-  /** Entity Tag */
+  /** Entity Tag. */
   etag?: string;
   /** The set of properties specific to bot resource */
   properties?: BotProperties;
@@ -1458,7 +1775,7 @@ export interface ChannelsUpdateOptionalParams
   sku?: Sku;
   /** Required. Gets or sets the Kind of the resource. */
   kind?: Kind;
-  /** Entity Tag */
+  /** Entity Tag. */
   etag?: string;
   /** The set of properties specific to bot channel resource */
   properties?: ChannelUnion;
@@ -1637,6 +1954,39 @@ export interface PrivateLinkResourcesListByBotResourceOptionalParams
 
 /** Contains response data for the listByBotResource operation. */
 export type PrivateLinkResourcesListByBotResourceResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reconcile operation. */
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type NetworkSecurityPerimeterConfigurationsListNextResponse = NetworkSecurityPerimeterConfigurationList;
 
 /** Optional parameters. */
 export interface AzureBotServiceOptionalParams
