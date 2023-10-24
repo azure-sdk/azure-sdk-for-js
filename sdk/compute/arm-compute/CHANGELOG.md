@@ -1,5 +1,22 @@
 # Release History
     
+## 21.3.0 (2023-10-24)
+    
+**Features**
+
+  - Added operation VirtualMachineScaleSets.beginApproveRollingUpgrade
+  - Added operation VirtualMachineScaleSets.beginApproveRollingUpgradeAndWait
+  - Added operation VirtualMachineScaleSetVMs.beginApproveRollingUpgrade
+  - Added operation VirtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait
+  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+  - Added Type Alias VirtualMachineScaleSetsApproveRollingUpgradeResponse
+  - Added Type Alias VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
+  - Interface AutomaticOSUpgradePolicy has a new optional parameter osRollingUpgradeDeferral
+    
+    
 ## 21.2.0 (2023-08-14)
     
 **Features**
@@ -515,4 +532,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

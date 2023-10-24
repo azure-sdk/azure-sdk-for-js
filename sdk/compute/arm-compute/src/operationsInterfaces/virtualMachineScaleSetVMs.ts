@@ -13,6 +13,8 @@ import {
   VirtualMachineScaleSetVMsListOptionalParams,
   VirtualMachineScaleSetVMsReimageOptionalParams,
   VirtualMachineScaleSetVMsReimageAllOptionalParams,
+  VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
+  VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
   VirtualMachineScaleSetVMsDeallocateOptionalParams,
   VirtualMachineScaleSetVMsUpdateOptionalParams,
   VirtualMachineScaleSetVMsUpdateResponse,
@@ -102,6 +104,37 @@ export interface VirtualMachineScaleSetVMs {
     instanceId: string,
     options?: VirtualMachineScaleSetVMsReimageAllOptionalParams
   ): Promise<void>;
+  /**
+   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginApproveRollingUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>,
+      VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
+    >
+  >;
+  /**
+   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginApproveRollingUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+  ): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>;
   /**
    * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
    * releases the compute resources it uses. You are not billed for the compute resources of this virtual

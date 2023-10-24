@@ -553,6 +553,12 @@ export const AutomaticOSUpgradePolicy: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      osRollingUpgradeDeferral: {
+        serializedName: "osRollingUpgradeDeferral",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -17151,6 +17157,36 @@ export const VirtualMachineScaleSetsReapplyHeaders: coreClient.CompositeMapper =
   type: {
     name: "Composite",
     className: "VirtualMachineScaleSetsReapplyHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetsApproveRollingUpgradeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetsApproveRollingUpgradeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
