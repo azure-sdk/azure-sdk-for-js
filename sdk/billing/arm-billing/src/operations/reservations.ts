@@ -330,13 +330,6 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.refreshSummary,
-    Parameters.selectedState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -356,13 +349,6 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.refreshSummary,
-    Parameters.selectedState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

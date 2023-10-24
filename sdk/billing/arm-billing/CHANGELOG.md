@@ -1,15 +1,45 @@
 # Release History
+    
+## 5.0.0-beta.1 (2023-10-24)
+    
+**Features**
 
-## 4.1.1 (Unreleased)
+  - Added Interface BillingProfileInfo
+  - Added Interface OperationsErrorDetails
+  - Added Interface OperationsErrorResponse
+  - Interface Agreement has a new optional parameter billingProfileInfo
+  - Interface BillingProfileListResult has a new optional parameter totalCount
+  - Enum KnownAcceptanceMode has a new value Implicit
+  - Enum KnownAcceptanceMode has a new value Offline
+  - Enum KnownAcceptanceMode has a new value Other
+  - Enum KnownAcceptanceMode has a new value PhysicalSign
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class BillingManagementClient has a new signature
+  - Interface AgreementsListByBillingAccountNextOptionalParams no longer has parameter expand
+  - Interface BillingAccountsListNextOptionalParams no longer has parameter expand
+  - Interface BillingPeriodsListNextOptionalParams no longer has parameter filter
+  - Interface BillingPeriodsListNextOptionalParams no longer has parameter skiptoken
+  - Interface BillingPeriodsListNextOptionalParams no longer has parameter top
+  - Interface BillingProfilesListByBillingAccountNextOptionalParams no longer has parameter expand
+  - Interface CustomersListByBillingAccountNextOptionalParams no longer has parameter filter
+  - Interface CustomersListByBillingAccountNextOptionalParams no longer has parameter search
+  - Interface CustomersListByBillingProfileNextOptionalParams no longer has parameter filter
+  - Interface CustomersListByBillingProfileNextOptionalParams no longer has parameter search
+  - Interface ProductsListByBillingAccountNextOptionalParams no longer has parameter filter
+  - Interface ProductsListByBillingProfileNextOptionalParams no longer has parameter filter
+  - Interface ProductsListByInvoiceSectionNextOptionalParams no longer has parameter filter
+  - Interface ReservationsListByBillingAccountNextOptionalParams no longer has parameter filter
+  - Interface ReservationsListByBillingAccountNextOptionalParams no longer has parameter orderby
+  - Interface ReservationsListByBillingAccountNextOptionalParams no longer has parameter refreshSummary
+  - Interface ReservationsListByBillingAccountNextOptionalParams no longer has parameter selectedState
+  - Interface ReservationsListByBillingProfileNextOptionalParams no longer has parameter filter
+  - Interface ReservationsListByBillingProfileNextOptionalParams no longer has parameter orderby
+  - Interface ReservationsListByBillingProfileNextOptionalParams no longer has parameter refreshSummary
+  - Interface ReservationsListByBillingProfileNextOptionalParams no longer has parameter selectedState
+    
+    
 ## 4.1.0 (2022-11-16)
     
 **Features**
@@ -47,4 +77,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
