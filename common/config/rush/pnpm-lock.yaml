@@ -1154,6 +1154,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cognitiveservices@7.5.0:
+    resolution: {integrity: sha512-UA13hCXP1Ou3chmwLf4FoXibVn5mmstcVqOhR+f5Iwv1ScwdlocIMC4jn9vkrJnkSwHE+03SSax5upAkmr6fnw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -8956,6 +8971,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.0.4):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 16.18.55
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.0.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -11309,7 +11355,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-qu7JmrD6jfTO0WZshXvOSKsKQ4/+PibXR6bNzn9BoLzXmnnVGggqY9yj9nVgEZDDarqECkDItItq3OX5Z1TZXA==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-O32ZQ0zrN4LfIm/AIqf2DP1FnDkmyPZJQ3Grn1qwGqDsTT7W1G3BKuP1QcImWlI2KGh8k4XFcYQmm1l4hZJfYQ==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -11319,18 +11365,20 @@ packages:
       '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@types/chai': 4.3.6
+      '@types/mocha': 10.0.2
       '@types/node': 16.18.55
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.55)(rollup@2.79.1)
-      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -19212,7 +19260,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-I2HoDbXKPMnWCzSLvBfSeRvhcEcjo5QbWjR69KuNMGEeNtuyi9ZIYdRhvDkh1jhmXF0pUFIO+gxW1fDLZNHL+w==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-N3MzxkAtHFu1M6+2m0+9fYOpGu66U9JAjLwxrkMPgj/qtovuH2m8lFizg6B4k4mnWSo19Z0kl04vF7nNS9CR6g==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -20028,10 +20076,11 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-HPJq35LqAc0O4ZWamZunXj5BkVfVNdv2w1RdY2uw64qwsyHfDNFl2AQ9RSGn9HxJtZopAmf93tueLSiARnjQsg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-L98nxj1cJ3YB5m6G+7Ccg2sowv10MdBvcJhWLQSBsJ4TwtL4PQq2Erk7qlZwl9puJu0XAfN+tGW4V4DEOhmZVg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cognitiveservices': 7.5.0
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.6)
       '@types/mocha': 10.0.2
       '@types/node': 18.18.6
