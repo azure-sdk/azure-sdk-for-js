@@ -1768,7 +1768,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.10
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@grpc/proto-loader@0.7.10:
@@ -2808,7 +2808,7 @@ packages:
     resolution: {integrity: sha512-N7UDG0/xiPQa2D/XrVJXjkWbpqHCd2sBaB32ggRF2l83RhPfamgKGF8gwwqyksS95qUS5ZYF9aF+lLPRlwI2UA==}
     dependencies:
       '@types/connect': 3.4.37
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/chai-as-promised@7.1.7:
@@ -2830,7 +2830,7 @@ packages:
   /@types/connect@3.4.37:
     resolution: {integrity: sha512-zBUSRqkfZ59OcwXon4HVxhx5oWCJmc0OtBTK05M+p0dYjgN6iTwIL2T/WbsQZrEsdnwaF9cWQ+azOnpPvIqY3Q==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/cookie@0.4.1:
@@ -2840,7 +2840,7 @@ packages:
   /@types/cors@2.8.15:
     resolution: {integrity: sha512-n91JxbNLD8eQIuXDIChAN1tCKNWCEgpceU9b7ZMbFA+P+Q4yIeh80jizFLEvolRPc1ES0VdwFlGv+kJTSirogw==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/debug@4.1.10:
@@ -2897,7 +2897,7 @@ packages:
   /@types/fs-extra@9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/http-errors@2.0.3:
@@ -2932,13 +2932,13 @@ packages:
   /@types/jsonwebtoken@9.0.4:
     resolution: {integrity: sha512-8UYapdmR0QlxgvJmyE8lP7guxD0UGVMfknsdtCFZh4ovShdBl3iOI4zdvqBHrB/IS+xUj3PSx73Qkey1fhWz+g==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/jws@3.2.7:
     resolution: {integrity: sha512-T7Ip96aYPl3SlF0Y7zR8dmJ87XbxjrlCETpLohwdsuTv9jT7TgNXPPbUOTPtPYwSrVgKw7+87xR71aNi+vB26Q==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/linkify-it@3.0.4:
@@ -2989,13 +2989,13 @@ packages:
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/node-fetch@2.6.7:
     resolution: {integrity: sha512-lX17GZVpJ/fuCjguZ5b3TjEbSENxmEk1B2z02yoXSK9WMEWRivhdSY73wWMn6bpcCDAOh6qAdktpKHIlkDk2lg==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
       form-data: 4.0.0
     dev: false
 
@@ -3020,7 +3020,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
       pg-protocol: 1.6.0
       pg-types: 2.2.0
     dev: false
@@ -3048,7 +3048,7 @@ packages:
   /@types/resolve@1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3079,7 +3079,7 @@ packages:
     dependencies:
       '@types/http-errors': 2.0.3
       '@types/mime': 3.0.3
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/shimmer@1.0.4:
@@ -3099,7 +3099,7 @@ packages:
   /@types/stoppable@1.1.2:
     resolution: {integrity: sha512-zRBGFTIdkCAdM4VDeFvka5NbD6JVfz7yEYzggKrXQ03ZplrZp5vqQPWHTw0wk81wer61dwi44Tp6FDDXoPBW5A==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/through@0.0.32:
@@ -3119,7 +3119,7 @@ packages:
   /@types/tunnel@0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/underscore@1.11.12:
@@ -3149,7 +3149,7 @@ packages:
   /@types/xml2js@0.4.13:
     resolution: {integrity: sha512-nuT42GzgoUa4zZgBoF4d+Zqc12/FlVxXCT4xU6j3RfqTFVQWrUAClI/0sNJ5ImM9Wv6KB42KMG2xsVMn4cSBzA==}
     dependencies:
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
     dev: false
 
   /@types/yargs-parser@21.0.2:
@@ -4517,7 +4517,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.15
-      '@types/node': 16.18.59
+      '@types/node': 18.18.6
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -8880,6 +8880,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node@10.9.1(@types/node@16.18.59)(typescript@5.0.4):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 16.18.59
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.0.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@16.18.59)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -11372,22 +11403,30 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-qrAEdA7rP1MyqbEe+PBnvQmvsDGIVFHwjS1jeG783Yu51ZnVaXODNa+jCfTsvAiCiQma1fexVi56zr7MFF63uA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-xyXm8zYmPybsqJAuVD5DTCSP62igbOJlXfV3cED8B3EOR1ntapteo5kHyTzKrghsLcB8gM1Re+4QHw07V1MiDg==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.59)
+      '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
+      '@rollup/plugin-json': 6.0.1(rollup@2.79.1)
+      '@rollup/plugin-multi-entry': 6.0.1(rollup@2.79.1)
+      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 16.18.59
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
-      ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.2.2)
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.59)(rollup@2.79.1)
+      ts-node: 10.9.1(@types/node@16.18.59)(typescript@5.0.4)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -11868,7 +11907,7 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-/angxbieMkKcJsQJdqNc+zy25g0XoAOpcDa6DASkRdfp2uNoq/Uj9I3FDFf3lzreh9d0e26JB4Kn8PcPUACleg==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-K5dsNt8WmABkxTXGXEc7EABDWa8n976i5C/w9YM/9FUNfsYCpo8CUkgKH+eIo1dYQ9mq7PLW43LZVU+GOq8LLQ==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
@@ -12759,7 +12798,7 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-f1Y090+FjIYGgVrBYGG1+mRJl2uH27vEsXhQG9zh2By/YXkTNL/gEJuC73RbAu2j5aNA+ygpwG5OoJ8WyV+0zA==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-mJZb076NjWXPWX+BubEqM/+ZwVL4kqwgnl2zEIMwbduph1qBMxpy4Ep+H6ZKVPRkN+cGK9/FGYim6K9gMN2VXQ==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -14171,7 +14210,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesdatareplication.tgz:
-    resolution: {integrity: sha512-P2ShC9/4EXm4vIJRDEm1YSx2InnENT2cuOXxSYZCBwpQqxfjeaKienST4FM8v2zV6HL3tM/4H1Qw8Ebl5m4GhQ==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
+    resolution: {integrity: sha512-c3iqbkXdtfIbpO1YWP1PzcuD7idEEBAukQ1E07PcuURdAT3yZWGGyMIp/mG6966hs4yaIxK9H0F5l3jdfGVZlw==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
     name: '@rush-temp/arm-recoveryservicesdatareplication'
     version: 0.0.0
     dependencies:
@@ -14337,7 +14376,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcehealth.tgz:
-    resolution: {integrity: sha512-Vi11ByWkUqB6+KrUx1OqvaUODlyNFx2dCi0ZBDdCTzTMUmnGIFROrswsFeJ+IzxeOrh4TwHtQAYT8AakTbkRNA==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-WfSg3UfoZo/16YZM6vtq4nGyHEoDGifURwH76iVIvEC3Za1wzaSGp8hilf/G+zo//WRTFkbXcxMsq4rjlIvRcQ==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
@@ -15161,7 +15200,7 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-C3MECBBBJ2MFTOqGTI8ZRsXsYSIMDmwdXs7dsoiwzfAzULzsPclqcCv67S3cQnhEQZ9BXSs8r2S9CnhgEnLd0A==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-VJNVcMTPsYDEREGB+/MlH0VKcKBp6sFBZclB3nfB394j4g5vCkvpk6q1WFcn/d8udHhGo8mI4XiNdfN43Mu6sQ==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
@@ -17783,7 +17822,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-I2HoDbXKPMnWCzSLvBfSeRvhcEcjo5QbWjR69KuNMGEeNtuyi9ZIYdRhvDkh1jhmXF0pUFIO+gxW1fDLZNHL+w==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-N3MzxkAtHFu1M6+2m0+9fYOpGu66U9JAjLwxrkMPgj/qtovuH2m8lFizg6B4k4mnWSo19Z0kl04vF7nNS9CR6g==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
