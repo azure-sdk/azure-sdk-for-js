@@ -7418,6 +7418,7 @@ export interface VirtualMachineScaleSetVMProfile {
     securityProfile?: SecurityProfile;
     serviceArtifactReference?: ServiceArtifactReference;
     storageProfile?: VirtualMachineScaleSetStorageProfile;
+    readonly timeCreated?: Date;
     userData?: string;
 }
 

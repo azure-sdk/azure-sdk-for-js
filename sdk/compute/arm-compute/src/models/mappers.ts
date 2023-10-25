@@ -704,6 +704,13 @@ export const VirtualMachineScaleSetVMProfile: coreClient.CompositeMapper = {
           name: "Composite",
           className: "SecurityPostureReference"
         }
+      },
+      timeCreated: {
+        serializedName: "timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
