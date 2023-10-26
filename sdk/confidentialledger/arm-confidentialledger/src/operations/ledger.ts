@@ -34,6 +34,12 @@ import {
   LedgerCreateResponse,
   LedgerUpdateOptionalParams,
   LedgerUpdateResponse,
+  ConfidentialLedgerBackup,
+  LedgerBackupOptionalParams,
+  LedgerBackupResponse,
+  ConfidentialLedgerRestore,
+  LedgerRestoreOptionalParams,
+  LedgerRestoreResponse,
   LedgerListByResourceGroupNextResponse,
   LedgerListBySubscriptionNextResponse
 } from "../models";
@@ -487,6 +493,193 @@ export class LedgerImpl implements Ledger {
   }
 
   /**
+   * Backs up a Confidential Ledger Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param ledgerName Name of the Confidential Ledger
+   * @param confidentialLedger Confidential Ledger Backup Request Body
+   * @param options The options parameters.
+   */
+  async beginBackup(
+    resourceGroupName: string,
+    ledgerName: string,
+    confidentialLedger: ConfidentialLedgerBackup,
+    options?: LedgerBackupOptionalParams
+  ): Promise<
+    SimplePollerLike<OperationState<LedgerBackupResponse>, LedgerBackupResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LedgerBackupResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ledgerName, confidentialLedger, options },
+      spec: backupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LedgerBackupResponse,
+      OperationState<LedgerBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Backs up a Confidential Ledger Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param ledgerName Name of the Confidential Ledger
+   * @param confidentialLedger Confidential Ledger Backup Request Body
+   * @param options The options parameters.
+   */
+  async beginBackupAndWait(
+    resourceGroupName: string,
+    ledgerName: string,
+    confidentialLedger: ConfidentialLedgerBackup,
+    options?: LedgerBackupOptionalParams
+  ): Promise<LedgerBackupResponse> {
+    const poller = await this.beginBackup(
+      resourceGroupName,
+      ledgerName,
+      confidentialLedger,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Restores a Confidential Ledger Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param ledgerName Name of the Confidential Ledger
+   * @param confidentialLedger Confidential Ledger Restore Request Body
+   * @param options The options parameters.
+   */
+  async beginRestore(
+    resourceGroupName: string,
+    ledgerName: string,
+    confidentialLedger: ConfidentialLedgerRestore,
+    options?: LedgerRestoreOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LedgerRestoreResponse>,
+      LedgerRestoreResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LedgerRestoreResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ledgerName, confidentialLedger, options },
+      spec: restoreOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LedgerRestoreResponse,
+      OperationState<LedgerRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restores a Confidential Ledger Resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param ledgerName Name of the Confidential Ledger
+   * @param confidentialLedger Confidential Ledger Restore Request Body
+   * @param options The options parameters.
+   */
+  async beginRestoreAndWait(
+    resourceGroupName: string,
+    ledgerName: string,
+    confidentialLedger: ConfidentialLedgerRestore,
+    options?: LedgerRestoreOptionalParams
+  ): Promise<LedgerRestoreResponse> {
+    const poller = await this.beginRestore(
+      resourceGroupName,
+      ledgerName,
+      confidentialLedger,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -668,6 +861,72 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const backupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/ledgers/{ledgerName}/backup",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfidentialLedgerBackupResponse
+    },
+    201: {
+      bodyMapper: Mappers.ConfidentialLedgerBackupResponse
+    },
+    202: {
+      bodyMapper: Mappers.ConfidentialLedgerBackupResponse
+    },
+    204: {
+      bodyMapper: Mappers.ConfidentialLedgerBackupResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.confidentialLedger1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.ledgerName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const restoreOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConfidentialLedger/ledgers/{ledgerName}/restore",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfidentialLedgerRestoreResponse
+    },
+    201: {
+      bodyMapper: Mappers.ConfidentialLedgerRestoreResponse
+    },
+    202: {
+      bodyMapper: Mappers.ConfidentialLedgerRestoreResponse
+    },
+    204: {
+      bodyMapper: Mappers.ConfidentialLedgerRestoreResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.confidentialLedger2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.ledgerName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
