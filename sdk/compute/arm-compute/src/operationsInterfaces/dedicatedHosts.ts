@@ -20,7 +20,8 @@ import {
   DedicatedHostsDeleteOptionalParams,
   DedicatedHostsGetOptionalParams,
   DedicatedHostsGetResponse,
-  DedicatedHostsRestartOptionalParams
+  DedicatedHostsRestartOptionalParams,
+  DedicatedHostsRedeployOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -192,5 +193,31 @@ export interface DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     options?: DedicatedHostsRestartOptionalParams
+  ): Promise<void>;
+  /**
+   * Redeploy the dedicated host.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  beginRedeploy(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRedeployOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Redeploy the dedicated host.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  beginRedeployAndWait(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRedeployOptionalParams
   ): Promise<void>;
 }
