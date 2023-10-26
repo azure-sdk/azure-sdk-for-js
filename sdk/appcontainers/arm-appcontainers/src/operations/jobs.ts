@@ -27,6 +27,14 @@ import {
   JobsListByResourceGroupNextOptionalParams,
   JobsListByResourceGroupOptionalParams,
   JobsListByResourceGroupResponse,
+  JobsListDetectorsOptionalParams,
+  JobsListDetectorsResponse,
+  JobsGetDetectorOptionalParams,
+  JobsGetDetectorResponse,
+  JobsProxyListOptionalParams,
+  JobsProxyListResponse,
+  JobsProxyGetOptionalParams,
+  JobsProxyGetResponse,
   JobsGetOptionalParams,
   JobsGetResponse,
   JobsCreateOrUpdateOptionalParams,
@@ -180,6 +188,78 @@ export class JobsImpl implements Jobs {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Get the list of diagnostics for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param options The options parameters.
+   */
+  listDetectors(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams
+  ): Promise<JobsListDetectorsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, jobName, options },
+      listDetectorsOperationSpec
+    );
+  }
+
+  /**
+   * Get the diagnostics data for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param detectorName Name of the Container App Job detector.
+   * @param options The options parameters.
+   */
+  getDetector(
+    resourceGroupName: string,
+    jobName: string,
+    detectorName: string,
+    options?: JobsGetDetectorOptionalParams
+  ): Promise<JobsGetDetectorResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, jobName, detectorName, options },
+      getDetectorOperationSpec
+    );
+  }
+
+  /**
+   * Get the proxy properties of a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param options The options parameters.
+   */
+  proxyList(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsProxyListOptionalParams
+  ): Promise<JobsProxyListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, jobName, options },
+      proxyListOperationSpec
+    );
+  }
+
+  /**
+   * Get the properties of a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param apiName Proxy API Name for Container App Job.
+   * @param options The options parameters.
+   */
+  proxyGet(
+    resourceGroupName: string,
+    jobName: string,
+    apiName: string,
+    options?: JobsProxyGetOptionalParams
+  ): Promise<JobsProxyGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, jobName, apiName, options },
+      proxyGetOperationSpec
+    );
   }
 
   /**
@@ -809,6 +889,96 @@ export class JobsImpl implements Jobs {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listDetectorsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/detectors",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getDetectorOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/detectors/{detectorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Diagnostics
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName,
+    Parameters.detectorName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const proxyListOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/detectorProperties/",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const proxyGetOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/detectorProperties/{apiName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Job
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName,
+    Parameters.apiName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/jobs",
   httpMethod: "GET",
@@ -897,7 +1067,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -953,7 +1123,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -986,7 +1156,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

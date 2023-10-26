@@ -12,6 +12,14 @@ import {
   Job,
   JobsListBySubscriptionOptionalParams,
   JobsListByResourceGroupOptionalParams,
+  JobsListDetectorsOptionalParams,
+  JobsListDetectorsResponse,
+  JobsGetDetectorOptionalParams,
+  JobsGetDetectorResponse,
+  JobsProxyListOptionalParams,
+  JobsProxyListResponse,
+  JobsProxyGetOptionalParams,
+  JobsProxyGetResponse,
   JobsGetOptionalParams,
   JobsGetResponse,
   JobsCreateOrUpdateOptionalParams,
@@ -48,6 +56,54 @@ export interface Jobs {
     resourceGroupName: string,
     options?: JobsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Job>;
+  /**
+   * Get the list of diagnostics for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param options The options parameters.
+   */
+  listDetectors(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams
+  ): Promise<JobsListDetectorsResponse>;
+  /**
+   * Get the diagnostics data for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param detectorName Name of the Container App Job detector.
+   * @param options The options parameters.
+   */
+  getDetector(
+    resourceGroupName: string,
+    jobName: string,
+    detectorName: string,
+    options?: JobsGetDetectorOptionalParams
+  ): Promise<JobsGetDetectorResponse>;
+  /**
+   * Get the proxy properties of a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param options The options parameters.
+   */
+  proxyList(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsProxyListOptionalParams
+  ): Promise<JobsProxyListResponse>;
+  /**
+   * Get the properties of a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param apiName Proxy API Name for Container App Job.
+   * @param options The options parameters.
+   */
+  proxyGet(
+    resourceGroupName: string,
+    jobName: string,
+    apiName: string,
+    options?: JobsProxyGetOptionalParams
+  ): Promise<JobsProxyGetResponse>;
   /**
    * Get the properties of a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

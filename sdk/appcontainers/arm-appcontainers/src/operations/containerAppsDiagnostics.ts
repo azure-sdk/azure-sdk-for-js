@@ -473,8 +473,8 @@ const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.containerAppName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -494,8 +494,8 @@ const listRevisionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.containerAppName
   ],
   headerParameters: [Parameters.accept],
   serializer
