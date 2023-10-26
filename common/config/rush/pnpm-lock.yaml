@@ -1154,6 +1154,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.2.0:
+    resolution: {integrity: sha512-ySwLS2rHvvWTl03t0I0gJR8zLkShV/zAxZ2dRKPbm9043d7G9IXwATrUXGOqW6sQnBOOF1STriLQS6aDB03eoA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -4533,7 +4548,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231025
+      typescript: 5.3.0-dev.20231026
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8948,6 +8963,37 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
+  /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.0.4):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 16.18.55
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.0.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@16.18.55)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -9152,8 +9198,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231025:
-    resolution: {integrity: sha512-DW0GNkWzKHnI9lcYCVIw5SO5nzlaZ9iHAdcN7zCxt/OJsKg7s33xRtEa5nmPTIC5qvKzLLZboWWBJ+KRD9cKFw==}
+  /typescript@5.3.0-dev.20231026:
+    resolution: {integrity: sha512-TPCRnvIO1nKy3PLJwVyXwZJAQ3silk51ktcvvk1NzYoPtS9p3xX7LNodMA6DDDndhbeMkjMlxb/PmPur2Z+zUQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11440,7 +11486,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-nxMEr0oGDzJrV/vEYy16myhcYQLYY7b//dbOf2bmhuWsRPg1mAfB0VXHF1O1ed+dyi/nDY7mJVQmISmb92iIfQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-Nbb0LCo9KAxXShxYSN99p4GTFFhG2tlJbYBiMwQ76kURegQowMINHGv5RDn/IJWvontgGVmw+wW8DOwv6JbDCA==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -11450,18 +11496,20 @@ packages:
       '@rollup/plugin-multi-entry': 6.0.0(rollup@2.79.1)
       '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.1)
       '@types/chai': 4.3.6
+      '@types/mocha': 10.0.2
       '@types/node': 16.18.55
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3(@types/node@16.18.55)(rollup@2.79.1)
-      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@16.18.55)(typescript@5.0.4)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -13281,10 +13329,11 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-RxrqqGABlwFfQYZRlWB8zRiAAQP7uoA+hIKXGuucEz713do3l/8ln5ypZufVk1eWGmvZaeSVX0ZYxH0fxpVpzw==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-G+fpR5DAem4OyuqpyqPXirg/UPDkfh0iCWaZfLlY07UluhUDPFc3FtYu3OwBAydSMMAfbWu2AAj+xdTvbF0Ytw==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
+      '@azure/arm-compute': 21.2.0
       '@microsoft/api-extractor': 7.38.0(@types/node@16.18.55)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
@@ -13307,6 +13356,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-iotcentral.tgz:
@@ -21032,7 +21082,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-v58t6pSQO2V8yONwW5KEjBcPCGQKo0leyK1/Xu3r9/VodjwUkhCra7MN5g8bZXMqe3wl+l5d2KNcrqaMXOmnDg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-TYRJDw9i9Sl87uFVhvAvvk5N1Bq/7axieJRvMiK2YkRVDXO0iO4/B9B83ews5FIsNQkGVqEO8xS7cB1FEX+8Og==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -21080,7 +21130,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-GQi6OI2UWagiy4TeQ8ppMHNavRaQM+zw3ZfmnvzBt8ciXbKEvHGELPv8K7p+BoOvIuMBr07lRui/294fb+RNdQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-B9HeR4c9MNUuwCw0IrbFkEsqgy4K1e1YOSQkmV5GBd9KQi5gfUQhjagQgzMFKn4cu78mnKghdD/IM/XyybMgyg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

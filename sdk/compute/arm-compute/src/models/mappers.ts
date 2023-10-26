@@ -1862,6 +1862,13 @@ export const SecurityProfile: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      encryptionIdentity: {
+        serializedName: "encryptionIdentity",
+        type: {
+          name: "Composite",
+          className: "EncryptionIdentity"
+        }
       }
     }
   }
@@ -1882,6 +1889,21 @@ export const UefiSettings: coreClient.CompositeMapper = {
         serializedName: "vTpmEnabled",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionIdentity",
+    modelProperties: {
+      userAssignedIdentityResourceId: {
+        serializedName: "userAssignedIdentityResourceId",
+        type: {
+          name: "String"
         }
       }
     }

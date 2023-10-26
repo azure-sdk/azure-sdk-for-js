@@ -2095,6 +2095,11 @@ export interface Encryption {
 }
 
 // @public
+export interface EncryptionIdentity {
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
 export interface EncryptionImages {
     dataDiskImages?: DataDiskImageEncryption[];
     osDiskImage?: OSDiskImageEncryption;
@@ -5091,6 +5096,7 @@ export interface SecurityPostureReference {
 // @public
 export interface SecurityProfile {
     encryptionAtHost?: boolean;
+    encryptionIdentity?: EncryptionIdentity;
     securityType?: SecurityTypes;
     uefiSettings?: UefiSettings;
 }
