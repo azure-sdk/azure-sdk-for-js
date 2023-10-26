@@ -987,6 +987,8 @@ export interface SiteConfig {
   http20Enabled?: boolean;
   /** MinTlsVersion: configures the minimum version of TLS required for SSL requests */
   minTlsVersion?: SupportedTlsVersions;
+  /** The minimum strength TLS cipher suite allowed for an application */
+  minTlsCipherSuite?: TlsCipherSuites;
   /** ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site */
   scmMinTlsVersion?: SupportedTlsVersions;
   /** State of FTP / FTPS service */
@@ -1312,6 +1314,32 @@ export interface AzureStorageInfoValue {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: AzureStorageState;
+}
+
+/** App Dapr configuration. */
+export interface DaprConfig {
+  /** Boolean indicating if the Dapr side car is enabled */
+  enabled?: boolean;
+  /** Dapr application identifier */
+  appId?: string;
+  /** Tells Dapr which port your application is listening on */
+  appPort?: number;
+  /** Dapr max size of http header read buffer in KB to handle when sending multi-KB headers. Default is 65KB. */
+  httpReadBufferSize?: number;
+  /** Increasing max size of request body http servers parameter in MB to handle uploading of big files. Default is 4 MB. */
+  httpMaxRequestSize?: number;
+  /** Sets the log level for the Dapr sidecar. Allowed values are debug, info, warn, error. Default is info. */
+  logLevel?: DaprLogLevel;
+  /** Enables API logging for the Dapr sidecar */
+  enableApiLogging?: boolean;
+}
+
+/** Function app resource requirements. */
+export interface ResourceConfig {
+  /** Required CPU in cores, e.g. 0.5 */
+  cpu?: number;
+  /** Required memory, e.g. "1Gi" */
+  memory?: string;
 }
 
 /** Specification for an App Service Environment to use for this resource. */
@@ -2845,6 +2873,8 @@ export interface ResourceNameAvailabilityRequest {
   type: CheckNameResourceTypes;
   /** Is fully qualified domain name. */
   isFqdn?: boolean;
+  /** Azure Resource Manager ID of the customer's selected Container Apps Environment on which to host the Function app. This must be of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName} */
+  environmentId?: string;
 }
 
 /** Information regarding availability of a resource name. */
@@ -5274,6 +5304,12 @@ export interface Site extends Resource {
   vnetContentShareEnabled?: boolean;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
+  /** Dapr configuration of the app. */
+  daprConfig?: DaprConfig;
+  /** Workload profile name for function app to execute on. */
+  workloadProfileName?: string;
+  /** Function app resource requirements. */
+  resourceConfig?: ResourceConfig;
   /**
    * Azure Traffic Manager hostnames associated with the app. Read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -7779,6 +7815,8 @@ export interface SiteConfigResource extends ProxyOnlyResource {
   http20Enabled?: boolean;
   /** MinTlsVersion: configures the minimum version of TLS required for SSL requests */
   minTlsVersion?: SupportedTlsVersions;
+  /** The minimum strength TLS cipher suite allowed for an application */
+  minTlsCipherSuite?: TlsCipherSuites;
   /** ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site */
   scmMinTlsVersion?: SupportedTlsVersions;
   /** State of FTP / FTPS service */
@@ -8218,6 +8256,26 @@ export interface MSDeployLog extends ProxyOnlyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly entries?: MSDeployLogEntry[];
+}
+
+/** OneDeploy settings defined by user */
+export interface OneDeployRequest extends ProxyOnlyResource {
+  /** The Uri where the source artifact can be pulled from */
+  packageUri?: string;
+  /** Specifies whether the deployment should be performed asynchronously */
+  async?: boolean;
+  /** The absolute path to deploy the artifact to */
+  path?: string;
+  /** Specifies whether to restart the app following the deployment */
+  restart?: boolean;
+  /** Specifies whether to clean the target deployment directory */
+  clean?: boolean;
+  /** Disables any language-specific defaults */
+  ignoreStack?: boolean;
+  /** The type of the artifact being deployed */
+  trackDeploymentProgress?: boolean;
+  /** Resets Java apps to the default parking page if set to true with no type specified */
+  reset?: boolean;
 }
 
 /** Function information. */
@@ -9454,6 +9512,69 @@ export enum KnownSupportedTlsVersions {
  */
 export type SupportedTlsVersions = string;
 
+/** Known values of {@link TlsCipherSuites} that the service accepts. */
+export enum KnownTlsCipherSuites {
+  /** TLSAES256GCMSHA384 */
+  TLSAES256GCMSHA384 = "TLS_AES_256_GCM_SHA384",
+  /** TLSAES128GCMSHA256 */
+  TLSAES128GCMSHA256 = "TLS_AES_128_GCM_SHA256",
+  /** TLSEcdheEcdsaWithAES256GCMSHA384 */
+  TLSEcdheEcdsaWithAES256GCMSHA384 = "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+  /** TLSEcdheEcdsaWithAES128CBCSHA256 */
+  TLSEcdheEcdsaWithAES128CBCSHA256 = "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
+  /** TLSEcdheEcdsaWithAES128GCMSHA256 */
+  TLSEcdheEcdsaWithAES128GCMSHA256 = "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+  /** TLSEcdheRSAWithAES256GCMSHA384 */
+  TLSEcdheRSAWithAES256GCMSHA384 = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+  /** TLSEcdheRSAWithAES128GCMSHA256 */
+  TLSEcdheRSAWithAES128GCMSHA256 = "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+  /** TLSEcdheRSAWithAES256CBCSHA384 */
+  TLSEcdheRSAWithAES256CBCSHA384 = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384",
+  /** TLSEcdheRSAWithAES128CBCSHA256 */
+  TLSEcdheRSAWithAES128CBCSHA256 = "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
+  /** TLSEcdheRSAWithAES256CBCSHA */
+  TLSEcdheRSAWithAES256CBCSHA = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+  /** TLSEcdheRSAWithAES128CBCSHA */
+  TLSEcdheRSAWithAES128CBCSHA = "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+  /** TLSRSAWithAES256GCMSHA384 */
+  TLSRSAWithAES256GCMSHA384 = "TLS_RSA_WITH_AES_256_GCM_SHA384",
+  /** TLSRSAWithAES128GCMSHA256 */
+  TLSRSAWithAES128GCMSHA256 = "TLS_RSA_WITH_AES_128_GCM_SHA256",
+  /** TLSRSAWithAES256CBCSHA256 */
+  TLSRSAWithAES256CBCSHA256 = "TLS_RSA_WITH_AES_256_CBC_SHA256",
+  /** TLSRSAWithAES128CBCSHA256 */
+  TLSRSAWithAES128CBCSHA256 = "TLS_RSA_WITH_AES_128_CBC_SHA256",
+  /** TLSRSAWithAES256CBCSHA */
+  TLSRSAWithAES256CBCSHA = "TLS_RSA_WITH_AES_256_CBC_SHA",
+  /** TLSRSAWithAES128CBCSHA */
+  TLSRSAWithAES128CBCSHA = "TLS_RSA_WITH_AES_128_CBC_SHA"
+}
+
+/**
+ * Defines values for TlsCipherSuites. \
+ * {@link KnownTlsCipherSuites} can be used interchangeably with TlsCipherSuites,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TLS_AES_256_GCM_SHA384** \
+ * **TLS_AES_128_GCM_SHA256** \
+ * **TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384** \
+ * **TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256** \
+ * **TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256** \
+ * **TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384** \
+ * **TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256** \
+ * **TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384** \
+ * **TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256** \
+ * **TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA** \
+ * **TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA** \
+ * **TLS_RSA_WITH_AES_256_GCM_SHA384** \
+ * **TLS_RSA_WITH_AES_128_GCM_SHA256** \
+ * **TLS_RSA_WITH_AES_256_CBC_SHA256** \
+ * **TLS_RSA_WITH_AES_128_CBC_SHA256** \
+ * **TLS_RSA_WITH_AES_256_CBC_SHA** \
+ * **TLS_RSA_WITH_AES_128_CBC_SHA**
+ */
+export type TlsCipherSuites = string;
+
 /** Known values of {@link FtpsState} that the service accepts. */
 export enum KnownFtpsState {
   /** AllAllowed */
@@ -9474,6 +9595,30 @@ export enum KnownFtpsState {
  * **Disabled**
  */
 export type FtpsState = string;
+
+/** Known values of {@link DaprLogLevel} that the service accepts. */
+export enum KnownDaprLogLevel {
+  /** Info */
+  Info = "info",
+  /** Debug */
+  Debug = "debug",
+  /** Warn */
+  Warn = "warn",
+  /** Error */
+  Error = "error"
+}
+
+/**
+ * Defines values for DaprLogLevel. \
+ * {@link KnownDaprLogLevel} can be used interchangeably with DaprLogLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **info** \
+ * **debug** \
+ * **warn** \
+ * **error**
+ */
+export type DaprLogLevel = string;
 
 /** Known values of {@link RouteType} that the service accepts. */
 export enum KnownRouteType {
@@ -10020,6 +10165,36 @@ export enum KnownPublishingProfileFormat {
  * **Ftp**
  */
 export type PublishingProfileFormat = string;
+
+/** Known values of {@link WorkflowState} that the service accepts. */
+export enum KnownWorkflowState {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Completed */
+  Completed = "Completed",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Suspended */
+  Suspended = "Suspended"
+}
+
+/**
+ * Defines values for WorkflowState. \
+ * {@link KnownWorkflowState} can be used interchangeably with WorkflowState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Completed** \
+ * **Enabled** \
+ * **Disabled** \
+ * **Deleted** \
+ * **Suspended**
+ */
+export type WorkflowState = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
@@ -10743,14 +10918,6 @@ export type PublicCertificateLocation =
 export type SiteExtensionType = "Gallery" | "WebRoot";
 /** Defines values for TriggeredWebJobStatus. */
 export type TriggeredWebJobStatus = "Success" | "Failed" | "Error";
-/** Defines values for WorkflowState. */
-export type WorkflowState =
-  | "NotSpecified"
-  | "Completed"
-  | "Enabled"
-  | "Disabled"
-  | "Deleted"
-  | "Suspended";
 /** Defines values for WorkflowHealthState. */
 export type WorkflowHealthState =
   | "NotSpecified"
@@ -12855,6 +13022,8 @@ export interface CheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {
   /** Is fully qualified domain name. */
   isFqdn?: boolean;
+  /** Azure Resource Manager ID of the customer's selected Container Apps Environment on which to host the Function app. This must be of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName} */
+  environmentId?: string;
 }
 
 /** Contains response data for the checkNameAvailability operation. */
@@ -12974,6 +13143,20 @@ export interface ListPremierAddOnOffersNextOptionalParams
 
 /** Contains response data for the listPremierAddOnOffersNext operation. */
 export type ListPremierAddOnOffersNextResponse = PremierAddOnOfferCollection;
+
+/** Optional parameters. */
+export interface GetUsagesInLocationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GetUsagesInLocationListResponse = CsmUsageQuotaCollection;
+
+/** Optional parameters. */
+export interface GetUsagesInLocationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GetUsagesInLocationListNextResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
 export interface StaticSitesPreviewWorkflowOptionalParams
@@ -14235,14 +14418,17 @@ export interface WebAppsGetOneDeployStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOneDeployStatus operation. */
-export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
+export type WebAppsGetOneDeployStatusResponse = Deployment;
 
 /** Optional parameters. */
 export interface WebAppsCreateOneDeployOperationOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Information on OneDeploy request */
+  request?: OneDeployRequest;
+}
 
 /** Contains response data for the createOneDeployOperation operation. */
-export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
+export type WebAppsCreateOneDeployOperationResponse = Deployment;
 
 /** Optional parameters. */
 export interface WebAppsListFunctionsOptionalParams
