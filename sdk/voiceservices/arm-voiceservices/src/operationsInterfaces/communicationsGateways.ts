@@ -16,10 +16,10 @@ import {
   CommunicationsGatewaysGetResponse,
   CommunicationsGatewaysCreateOrUpdateOptionalParams,
   CommunicationsGatewaysCreateOrUpdateResponse,
-  CommunicationsGatewaysDeleteOptionalParams,
   CommunicationsGatewayUpdate,
   CommunicationsGatewaysUpdateOptionalParams,
-  CommunicationsGatewaysUpdateResponse
+  CommunicationsGatewaysUpdateResponse,
+  CommunicationsGatewaysDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -84,6 +84,19 @@ export interface CommunicationsGateways {
     options?: CommunicationsGatewaysCreateOrUpdateOptionalParams
   ): Promise<CommunicationsGatewaysCreateOrUpdateResponse>;
   /**
+   * Update a CommunicationsGateway
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationsGatewayName Unique identifier for this deployment
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    communicationsGatewayName: string,
+    properties: CommunicationsGatewayUpdate,
+    options?: CommunicationsGatewaysUpdateOptionalParams
+  ): Promise<CommunicationsGatewaysUpdateResponse>;
+  /**
    * Delete a CommunicationsGateway
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationsGatewayName Unique identifier for this deployment
@@ -105,17 +118,4 @@ export interface CommunicationsGateways {
     communicationsGatewayName: string,
     options?: CommunicationsGatewaysDeleteOptionalParams
   ): Promise<void>;
-  /**
-   * Update a CommunicationsGateway
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param properties The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    properties: CommunicationsGatewayUpdate,
-    options?: CommunicationsGatewaysUpdateOptionalParams
-  ): Promise<CommunicationsGatewaysUpdateResponse>;
 }

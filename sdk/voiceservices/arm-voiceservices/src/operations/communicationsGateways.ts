@@ -31,10 +31,10 @@ import {
   CommunicationsGatewaysGetResponse,
   CommunicationsGatewaysCreateOrUpdateOptionalParams,
   CommunicationsGatewaysCreateOrUpdateResponse,
-  CommunicationsGatewaysDeleteOptionalParams,
   CommunicationsGatewayUpdate,
   CommunicationsGatewaysUpdateOptionalParams,
   CommunicationsGatewaysUpdateResponse,
+  CommunicationsGatewaysDeleteOptionalParams,
   CommunicationsGatewaysListBySubscriptionNextResponse,
   CommunicationsGatewaysListByResourceGroupNextResponse
 } from "../models";
@@ -317,6 +317,25 @@ export class CommunicationsGatewaysImpl implements CommunicationsGateways {
   }
 
   /**
+   * Update a CommunicationsGateway
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationsGatewayName Unique identifier for this deployment
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    communicationsGatewayName: string,
+    properties: CommunicationsGatewayUpdate,
+    options?: CommunicationsGatewaysUpdateOptionalParams
+  ): Promise<CommunicationsGatewaysUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, communicationsGatewayName, properties, options },
+      updateOperationSpec
+    );
+  }
+
+  /**
    * Delete a CommunicationsGateway
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationsGatewayName Unique identifier for this deployment
@@ -374,7 +393,7 @@ export class CommunicationsGatewaysImpl implements CommunicationsGateways {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -397,25 +416,6 @@ export class CommunicationsGatewaysImpl implements CommunicationsGateways {
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Update a CommunicationsGateway
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param properties The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    properties: CommunicationsGatewayUpdate,
-    options?: CommunicationsGatewaysUpdateOptionalParams
-  ): Promise<CommunicationsGatewaysUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, communicationsGatewayName, properties, options },
-      updateOperationSpec
-    );
   }
 
   /**
@@ -546,29 +546,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.communicationsGatewayName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}",
@@ -591,6 +568,29 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.communicationsGatewayName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
