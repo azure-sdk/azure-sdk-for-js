@@ -1,15 +1,33 @@
 # Release History
+    
+## 3.1.0 (2023-10-27)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ImageTemplatePropertiesErrorHandling
+  - Added Type Alias OnBuildError
+  - Added Type Alias TriggersDeleteResponse
+  - Added Type Alias VirtualMachineImageTemplatesDeleteResponse
+  - Interface ImageTemplate has a new optional parameter errorHandling
+  - Interface ImageTemplateUpdateParameters has a new optional parameter buildTimeoutInMinutes
+  - Interface ImageTemplateUpdateParameters has a new optional parameter customize
+  - Interface ImageTemplateUpdateParameters has a new optional parameter distribute
+  - Interface ImageTemplateUpdateParameters has a new optional parameter errorHandling
+  - Interface ImageTemplateUpdateParameters has a new optional parameter exactStagingResourceGroup
+  - Interface ImageTemplateUpdateParameters has a new optional parameter lastRunStatus
+  - Interface ImageTemplateUpdateParameters has a new optional parameter optimize
+  - Interface ImageTemplateUpdateParameters has a new optional parameter provisioningError
+  - Interface ImageTemplateUpdateParameters has a new optional parameter provisioningState
+  - Interface ImageTemplateUpdateParameters has a new optional parameter source
+  - Interface ImageTemplateUpdateParameters has a new optional parameter stagingResourceGroup
+  - Interface ImageTemplateUpdateParameters has a new optional parameter validate
+  - Interface ImageTemplateUpdateParameters has a new optional parameter vmProfile
+  - Added Enum KnownOnBuildError
+    
+    
 ## 3.0.0 (2023-03-24)
     
 **Features**
@@ -122,4 +140,4 @@
     
 ## 1.0.0 (2022-01-10)
 
-The package of @azure/arm-imagebuilder is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-imagebuilder is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
