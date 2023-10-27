@@ -6,6 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./namespaces";
 export * from "./notificationHubs";
+export * from "./namespaces";

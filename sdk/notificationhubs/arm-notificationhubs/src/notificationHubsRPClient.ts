@@ -14,34 +14,25 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  OperationsImpl,
-  NamespacesImpl,
-  NotificationHubsImpl
-} from "./operations";
-import {
-  Operations,
-  Namespaces,
-  NotificationHubs
-} from "./operationsInterfaces";
-import { NotificationHubsManagementClientOptionalParams } from "./models";
+import { NotificationHubsImpl, NamespacesImpl } from "./operations";
+import { NotificationHubs, Namespaces } from "./operationsInterfaces";
+import { NotificationHubsRPClientOptionalParams } from "./models";
 
-export class NotificationHubsManagementClient extends coreClient.ServiceClient {
+export class NotificationHubsRPClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
-   * Initializes a new instance of the NotificationHubsManagementClient class.
+   * Initializes a new instance of the NotificationHubsRPClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: NotificationHubsManagementClientOptionalParams
+    options?: NotificationHubsRPClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -54,12 +45,12 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: NotificationHubsManagementClientOptionalParams = {
+    const defaults: NotificationHubsRPClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-notificationhubs/2.1.1`;
+    const packageDetails = `azsdk-js-arm-notificationhubs/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -112,10 +103,9 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2017-04-01";
-    this.operations = new OperationsImpl(this);
-    this.namespaces = new NamespacesImpl(this);
+    this.apiVersion = options.apiVersion || "2023-10-01-preview";
     this.notificationHubs = new NotificationHubsImpl(this);
+    this.namespaces = new NamespacesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -147,7 +137,6 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
-  namespaces: Namespaces;
   notificationHubs: NotificationHubs;
+  namespaces: Namespaces;
 }
