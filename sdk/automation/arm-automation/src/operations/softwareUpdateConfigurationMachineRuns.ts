@@ -88,12 +88,12 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.softwareUpdateConfigurationMachineRunId
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
@@ -112,16 +112,16 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
-    Parameters.apiVersion2,
     Parameters.skip1,
     Parameters.top1
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
   serializer

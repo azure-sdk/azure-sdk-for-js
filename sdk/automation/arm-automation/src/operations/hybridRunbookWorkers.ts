@@ -24,6 +24,8 @@ import {
   HybridRunbookWorkerCreateParameters,
   HybridRunbookWorkersCreateOptionalParams,
   HybridRunbookWorkersCreateResponse,
+  HybridRunbookWorkersPatchOptionalParams,
+  HybridRunbookWorkersPatchResponse,
   HybridRunbookWorkerMoveParameters,
   HybridRunbookWorkersMoveOptionalParams,
   HybridRunbookWorkersListByHybridRunbookWorkerGroupNextResponse
@@ -221,6 +223,33 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
   }
 
   /**
+   * Update a hybrid runbook worker.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param hybridRunbookWorkerGroupName The hybrid runbook worker group name
+   * @param hybridRunbookWorkerId The hybrid runbook worker id
+   * @param options The options parameters.
+   */
+  patch(
+    resourceGroupName: string,
+    automationAccountName: string,
+    hybridRunbookWorkerGroupName: string,
+    hybridRunbookWorkerId: string,
+    options?: HybridRunbookWorkersPatchOptionalParams
+  ): Promise<HybridRunbookWorkersPatchResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        automationAccountName,
+        hybridRunbookWorkerGroupName,
+        hybridRunbookWorkerId,
+        options
+      },
+      patchOperationSpec
+    );
+  }
+
+  /**
    * Move a hybrid worker to a different group.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -316,12 +345,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName,
     Parameters.hybridRunbookWorkerId
   ],
@@ -340,12 +369,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName,
     Parameters.hybridRunbookWorkerId
   ],
@@ -360,17 +389,46 @@ const createOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.HybridRunbookWorker
     },
+    201: {
+      bodyMapper: Mappers.HybridRunbookWorker
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.hybridRunbookWorkerCreationParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
+    Parameters.hybridRunbookWorkerGroupName,
+    Parameters.hybridRunbookWorkerId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const patchOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HybridRunbookWorker
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.hybridRunbookWorkerCreationParameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName,
     Parameters.hybridRunbookWorkerId
   ],
@@ -389,12 +447,12 @@ const moveOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.hybridRunbookWorkerMoveParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName,
     Parameters.hybridRunbookWorkerId
   ],
@@ -414,12 +472,12 @@ const listByHybridRunbookWorkerGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -438,9 +496,9 @@ const listByHybridRunbookWorkerGroupNextOperationSpec: coreClient.OperationSpec 
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.hybridRunbookWorkerGroupName
   ],

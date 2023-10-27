@@ -231,9 +231,9 @@ const listByNodeOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.nodeId
   ],
   headerParameters: [Parameters.accept],
@@ -254,9 +254,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.nodeId,
     Parameters.reportId
   ],
@@ -280,9 +280,9 @@ const getContentOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.nodeId,
     Parameters.reportId
   ],
@@ -302,11 +302,11 @@ const listByNodeNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nextLink,
-    Parameters.nodeId
+    Parameters.subscriptionId,
+    Parameters.nodeId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

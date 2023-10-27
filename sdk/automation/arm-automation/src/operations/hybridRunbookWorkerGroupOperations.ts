@@ -280,12 +280,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -303,12 +303,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -322,17 +322,20 @@ const createOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.HybridRunbookWorkerGroup
     },
+    201: {
+      bodyMapper: Mappers.HybridRunbookWorkerGroup
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.hybridRunbookWorkerGroupCreationParameters,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -352,12 +355,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.hybridRunbookWorkerGroupUpdationParameters,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.hybridRunbookWorkerGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -376,12 +379,12 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -399,9 +402,9 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

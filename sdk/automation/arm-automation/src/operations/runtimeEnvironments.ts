@@ -8,35 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SourceControlOperations } from "../operationsInterfaces";
+import { RuntimeEnvironments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
-  SourceControl,
-  SourceControlListByAutomationAccountNextOptionalParams,
-  SourceControlListByAutomationAccountOptionalParams,
-  SourceControlListByAutomationAccountResponse,
-  SourceControlCreateOrUpdateParameters,
-  SourceControlCreateOrUpdateOptionalParams,
-  SourceControlCreateOrUpdateResponse,
-  SourceControlUpdateParameters,
-  SourceControlUpdateOptionalParams,
-  SourceControlUpdateResponse,
-  SourceControlDeleteOptionalParams,
-  SourceControlGetOptionalParams,
-  SourceControlGetResponse,
-  SourceControlListByAutomationAccountNextResponse
+  RuntimeEnvironment,
+  RuntimeEnvironmentsListByAutomationAccountNextOptionalParams,
+  RuntimeEnvironmentsListByAutomationAccountOptionalParams,
+  RuntimeEnvironmentsListByAutomationAccountResponse,
+  RuntimeEnvironmentUpdateParameters,
+  RuntimeEnvironmentsUpdateOptionalParams,
+  RuntimeEnvironmentsUpdateResponse,
+  RuntimeEnvironmentsCreateOptionalParams,
+  RuntimeEnvironmentsCreateResponse,
+  RuntimeEnvironmentsDeleteOptionalParams,
+  RuntimeEnvironmentsGetOptionalParams,
+  RuntimeEnvironmentsGetResponse,
+  RuntimeEnvironmentsListByAutomationAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SourceControlOperations operations. */
-export class SourceControlOperationsImpl implements SourceControlOperations {
+/** Class containing RuntimeEnvironments operations. */
+export class RuntimeEnvironmentsImpl implements RuntimeEnvironments {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class SourceControlOperations class.
+   * Initialize a new instance of the class RuntimeEnvironments class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -44,7 +43,7 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   }
 
   /**
-   * Retrieve a list of source controls.
+   * Retrieve a list of RuntimeEnvironments.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -52,8 +51,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams
-  ): PagedAsyncIterableIterator<SourceControl> {
+    options?: RuntimeEnvironmentsListByAutomationAccountOptionalParams
+  ): PagedAsyncIterableIterator<RuntimeEnvironment> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -83,10 +82,10 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams,
+    options?: RuntimeEnvironmentsListByAutomationAccountOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<SourceControl[]> {
-    let result: SourceControlListByAutomationAccountResponse;
+  ): AsyncIterableIterator<RuntimeEnvironment[]> {
+    let result: RuntimeEnvironmentsListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -116,8 +115,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams
-  ): AsyncIterableIterator<SourceControl> {
+    options?: RuntimeEnvironmentsListByAutomationAccountOptionalParams
+  ): AsyncIterableIterator<RuntimeEnvironment> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -128,52 +127,25 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   }
 
   /**
-   * Create a source control.
+   * Update an Runtime Environment.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param sourceControlName The source control name.
-   * @param parameters The parameters supplied to the create or update source control operation.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    automationAccountName: string,
-    sourceControlName: string,
-    parameters: SourceControlCreateOrUpdateParameters,
-    options?: SourceControlCreateOrUpdateOptionalParams
-  ): Promise<SourceControlCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        automationAccountName,
-        sourceControlName,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Update a source control.
-   * @param resourceGroupName Name of an Azure Resource group.
-   * @param automationAccountName The name of the automation account.
-   * @param sourceControlName The source control name.
-   * @param parameters The parameters supplied to the update source control operation.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param parameters Parameters supplied to the Runtime Environment
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    sourceControlName: string,
-    parameters: SourceControlUpdateParameters,
-    options?: SourceControlUpdateOptionalParams
-  ): Promise<SourceControlUpdateResponse> {
+    runtimeEnvironmentName: string,
+    parameters: RuntimeEnvironmentUpdateParameters,
+    options?: RuntimeEnvironmentsUpdateOptionalParams
+  ): Promise<RuntimeEnvironmentsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        sourceControlName,
+        runtimeEnvironmentName,
         parameters,
         options
       },
@@ -182,45 +154,82 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   }
 
   /**
-   * Delete the source control.
+   * Create or update Runtime Environment
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param sourceControlName The name of source control.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param parameters Parameters supplied to the create  the runtime environment.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runtimeEnvironmentName: string,
+    parameters: RuntimeEnvironment,
+    options?: RuntimeEnvironmentsCreateOptionalParams
+  ): Promise<RuntimeEnvironmentsCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        parameters,
+        options
+      },
+      createOperationSpec
+    );
+  }
+
+  /**
+   * Delete the Runtime Environment.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    sourceControlName: string,
-    options?: SourceControlDeleteOptionalParams
+    runtimeEnvironmentName: string,
+    options?: RuntimeEnvironmentsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, sourceControlName, options },
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        options
+      },
       deleteOperationSpec
     );
   }
 
   /**
-   * Retrieve the source control identified by source control name.
+   * Get information about the Runtime Environment
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param sourceControlName The name of source control.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    sourceControlName: string,
-    options?: SourceControlGetOptionalParams
-  ): Promise<SourceControlGetResponse> {
+    runtimeEnvironmentName: string,
+    options?: RuntimeEnvironmentsGetOptionalParams
+  ): Promise<RuntimeEnvironmentsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, sourceControlName, options },
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Retrieve a list of source controls.
+   * Retrieve a list of RuntimeEnvironments.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -228,8 +237,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams
-  ): Promise<SourceControlListByAutomationAccountResponse> {
+    options?: RuntimeEnvironmentsListByAutomationAccountOptionalParams
+  ): Promise<RuntimeEnvironmentsListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec
@@ -248,8 +257,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: SourceControlListByAutomationAccountNextOptionalParams
-  ): Promise<SourceControlListByAutomationAccountNextResponse> {
+    options?: RuntimeEnvironmentsListByAutomationAccountNextOptionalParams
+  ): Promise<RuntimeEnvironmentsListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec
@@ -259,54 +268,54 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}",
-  httpMethod: "PUT",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}",
+  httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
-    },
-    201: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.RuntimeEnvironment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters34,
+  requestBody: Parameters.parameters30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.sourceControlName
+    Parameters.runtimeEnvironmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}",
-  httpMethod: "PATCH",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.RuntimeEnvironment
+    },
+    201: {
+      bodyMapper: Mappers.RuntimeEnvironment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters35,
+  requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.sourceControlName
+    Parameters.runtimeEnvironmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -314,10 +323,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -328,18 +338,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.sourceControlName
+    Parameters.runtimeEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.RuntimeEnvironment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -351,24 +361,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.sourceControlName
+    Parameters.runtimeEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlListResult
+      bodyMapper: Mappers.RuntimeEnvironmentListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -383,7 +393,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlListResult
+      bodyMapper: Mappers.RuntimeEnvironmentListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

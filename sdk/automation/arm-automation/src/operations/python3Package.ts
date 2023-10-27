@@ -8,35 +8,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SourceControlOperations } from "../operationsInterfaces";
+import { Python3Package } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
-  SourceControl,
-  SourceControlListByAutomationAccountNextOptionalParams,
-  SourceControlListByAutomationAccountOptionalParams,
-  SourceControlListByAutomationAccountResponse,
-  SourceControlCreateOrUpdateParameters,
-  SourceControlCreateOrUpdateOptionalParams,
-  SourceControlCreateOrUpdateResponse,
-  SourceControlUpdateParameters,
-  SourceControlUpdateOptionalParams,
-  SourceControlUpdateResponse,
-  SourceControlDeleteOptionalParams,
-  SourceControlGetOptionalParams,
-  SourceControlGetResponse,
-  SourceControlListByAutomationAccountNextResponse
+  Module,
+  Python3PackageListByAutomationAccountNextOptionalParams,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageListByAutomationAccountResponse,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
+  PythonPackageCreateParameters,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
+  PythonPackageUpdateParameters,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
+  Python3PackageListByAutomationAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SourceControlOperations operations. */
-export class SourceControlOperationsImpl implements SourceControlOperations {
+/** Class containing Python3Package operations. */
+export class Python3PackageImpl implements Python3Package {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class SourceControlOperations class.
+   * Initialize a new instance of the class Python3Package class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -44,7 +44,7 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   }
 
   /**
-   * Retrieve a list of source controls.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -52,8 +52,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams
-  ): PagedAsyncIterableIterator<SourceControl> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -83,10 +83,10 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<SourceControl[]> {
-    let result: SourceControlListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Module[]> {
+    let result: Python3PackageListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -116,8 +116,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams
-  ): AsyncIterableIterator<SourceControl> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -128,25 +128,63 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   }
 
   /**
-   * Create a source control.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param sourceControlName The source control name.
-   * @param parameters The parameters supplied to the create or update source control operation.
+   * @param packageName The python package name.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    options?: Python3PackageDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, automationAccountName, packageName, options },
+      deleteOperationSpec
+    );
+  }
+
+  /**
+   * Retrieve the python 3 package identified by package name.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param packageName The python package name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    options?: Python3PackageGetOptionalParams
+  ): Promise<Python3PackageGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, automationAccountName, packageName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Create or Update the python 3 package identified by package name.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    sourceControlName: string,
-    parameters: SourceControlCreateOrUpdateParameters,
-    options?: SourceControlCreateOrUpdateOptionalParams
-  ): Promise<SourceControlCreateOrUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams
+  ): Promise<Python3PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        sourceControlName,
+        packageName,
         parameters,
         options
       },
@@ -155,25 +193,25 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   }
 
   /**
-   * Update a source control.
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param sourceControlName The source control name.
-   * @param parameters The parameters supplied to the update source control operation.
+   * @param packageName The name of python package.
+   * @param parameters The update parameters for python package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    sourceControlName: string,
-    parameters: SourceControlUpdateParameters,
-    options?: SourceControlUpdateOptionalParams
-  ): Promise<SourceControlUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageUpdateParameters,
+    options?: Python3PackageUpdateOptionalParams
+  ): Promise<Python3PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        sourceControlName,
+        packageName,
         parameters,
         options
       },
@@ -182,45 +220,7 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   }
 
   /**
-   * Delete the source control.
-   * @param resourceGroupName Name of an Azure Resource group.
-   * @param automationAccountName The name of the automation account.
-   * @param sourceControlName The name of source control.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    automationAccountName: string,
-    sourceControlName: string,
-    options?: SourceControlDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, sourceControlName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Retrieve the source control identified by source control name.
-   * @param resourceGroupName Name of an Azure Resource group.
-   * @param automationAccountName The name of the automation account.
-   * @param sourceControlName The name of source control.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    automationAccountName: string,
-    sourceControlName: string,
-    options?: SourceControlGetOptionalParams
-  ): Promise<SourceControlGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, sourceControlName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Retrieve a list of source controls.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -228,8 +228,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams
-  ): Promise<SourceControlListByAutomationAccountResponse> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): Promise<Python3PackageListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec
@@ -248,8 +248,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: SourceControlListByAutomationAccountNextOptionalParams
-  ): Promise<SourceControlListByAutomationAccountNextResponse> {
+    options?: Python3PackageListByAutomationAccountNextOptionalParams
+  ): Promise<Python3PackageListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec
@@ -259,29 +259,74 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}",
-  httpMethod: "PUT",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
+  httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.SourceControl
-    },
-    201: {
-      bodyMapper: Mappers.SourceControl
-    },
+    200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.sourceControlName
+    Parameters.packageName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Module
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
+    Parameters.packageName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Module
+    },
+    201: {
+      bodyMapper: Mappers.Module
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters25,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -289,86 +334,42 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.Module
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters35,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.sourceControlName
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.subscriptionId,
-    Parameters.sourceControlName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SourceControl
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.subscriptionId,
-    Parameters.sourceControlName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlListResult
+      bodyMapper: Mappers.ModuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -383,7 +384,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlListResult
+      bodyMapper: Mappers.ModuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

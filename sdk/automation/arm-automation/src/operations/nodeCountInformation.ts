@@ -66,10 +66,10 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.countType
+    Parameters.countType,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer

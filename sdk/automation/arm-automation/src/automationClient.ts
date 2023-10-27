@@ -8,21 +8,20 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  PrivateEndpointConnectionsImpl,
+  NodeCountInformationImpl,
+  SoftwareUpdateConfigurationsImpl,
+  DeletedAutomationAccountsImpl,
   PrivateLinkResourcesImpl,
-  Python2PackageImpl,
   AgentRegistrationInformationImpl,
   DscNodeOperationsImpl,
   NodeReportsImpl,
-  DscNodeConfigurationOperationsImpl,
-  DscCompilationJobOperationsImpl,
-  DscCompilationJobStreamImpl,
-  NodeCountInformationImpl,
-  SourceControlOperationsImpl,
-  SourceControlSyncJobOperationsImpl,
-  SourceControlSyncJobStreamsImpl,
   AutomationAccountOperationsImpl,
   StatisticsOperationsImpl,
   UsagesImpl,
@@ -31,45 +30,49 @@ import {
   ConnectionOperationsImpl,
   ConnectionTypeOperationsImpl,
   CredentialOperationsImpl,
+  DscCompilationJobOperationsImpl,
+  DscCompilationJobStreamImpl,
+  DscConfigurationOperationsImpl,
+  DscNodeConfigurationOperationsImpl,
+  HybridRunbookWorkersImpl,
+  HybridRunbookWorkerGroupOperationsImpl,
+  JobOperationsImpl,
+  JobStreamOperationsImpl,
   JobScheduleOperationsImpl,
   LinkedWorkspaceOperationsImpl,
   ActivityOperationsImpl,
   ModuleOperationsImpl,
   ObjectDataTypesImpl,
   FieldsImpl,
-  ScheduleOperationsImpl,
-  VariableOperationsImpl,
-  WatcherOperationsImpl,
-  DscConfigurationOperationsImpl,
-  JobOperationsImpl,
-  JobStreamOperationsImpl,
   OperationsImpl,
-  SoftwareUpdateConfigurationsImpl,
-  SoftwareUpdateConfigurationRunsImpl,
-  SoftwareUpdateConfigurationMachineRunsImpl,
+  PackageOperationsImpl,
+  PackagesImpl,
+  PrivateEndpointConnectionsImpl,
+  Python2PackageImpl,
+  Python3PackageImpl,
   RunbookDraftOperationsImpl,
   RunbookOperationsImpl,
   TestJobStreamsImpl,
   TestJobOperationsImpl,
-  WebhookOperationsImpl,
-  HybridRunbookWorkersImpl,
-  DeletedAutomationAccountsImpl,
-  HybridRunbookWorkerGroupOperationsImpl
+  RuntimeEnvironmentsImpl,
+  ScheduleOperationsImpl,
+  SoftwareUpdateConfigurationMachineRunsImpl,
+  SoftwareUpdateConfigurationRunsImpl,
+  SourceControlOperationsImpl,
+  SourceControlSyncJobOperationsImpl,
+  SourceControlSyncJobStreamsImpl,
+  VariableOperationsImpl,
+  WatcherOperationsImpl,
+  WebhookOperationsImpl
 } from "./operations";
 import {
-  PrivateEndpointConnections,
+  NodeCountInformation,
+  SoftwareUpdateConfigurations,
+  DeletedAutomationAccounts,
   PrivateLinkResources,
-  Python2Package,
   AgentRegistrationInformation,
   DscNodeOperations,
   NodeReports,
-  DscNodeConfigurationOperations,
-  DscCompilationJobOperations,
-  DscCompilationJobStream,
-  NodeCountInformation,
-  SourceControlOperations,
-  SourceControlSyncJobOperations,
-  SourceControlSyncJobStreams,
   AutomationAccountOperations,
   StatisticsOperations,
   Usages,
@@ -78,30 +81,40 @@ import {
   ConnectionOperations,
   ConnectionTypeOperations,
   CredentialOperations,
+  DscCompilationJobOperations,
+  DscCompilationJobStream,
+  DscConfigurationOperations,
+  DscNodeConfigurationOperations,
+  HybridRunbookWorkers,
+  HybridRunbookWorkerGroupOperations,
+  JobOperations,
+  JobStreamOperations,
   JobScheduleOperations,
   LinkedWorkspaceOperations,
   ActivityOperations,
   ModuleOperations,
   ObjectDataTypes,
   Fields,
-  ScheduleOperations,
-  VariableOperations,
-  WatcherOperations,
-  DscConfigurationOperations,
-  JobOperations,
-  JobStreamOperations,
   Operations,
-  SoftwareUpdateConfigurations,
-  SoftwareUpdateConfigurationRuns,
-  SoftwareUpdateConfigurationMachineRuns,
+  PackageOperations,
+  Packages,
+  PrivateEndpointConnections,
+  Python2Package,
+  Python3Package,
   RunbookDraftOperations,
   RunbookOperations,
   TestJobStreams,
   TestJobOperations,
-  WebhookOperations,
-  HybridRunbookWorkers,
-  DeletedAutomationAccounts,
-  HybridRunbookWorkerGroupOperations
+  RuntimeEnvironments,
+  ScheduleOperations,
+  SoftwareUpdateConfigurationMachineRuns,
+  SoftwareUpdateConfigurationRuns,
+  SourceControlOperations,
+  SourceControlSyncJobOperations,
+  SourceControlSyncJobStreams,
+  VariableOperations,
+  WatcherOperations,
+  WebhookOperations
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -115,6 +128,7 @@ import {
 export class AutomationClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the AutomationClient class.
@@ -197,29 +211,18 @@ export class AutomationClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.apiVersion = options.apiVersion || "2023-05-15-preview";
+    this.nodeCountInformation = new NodeCountInformationImpl(this);
+    this.softwareUpdateConfigurations = new SoftwareUpdateConfigurationsImpl(
+      this
+    );
+    this.deletedAutomationAccounts = new DeletedAutomationAccountsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.python2Package = new Python2PackageImpl(this);
     this.agentRegistrationInformation = new AgentRegistrationInformationImpl(
       this
     );
     this.dscNodeOperations = new DscNodeOperationsImpl(this);
     this.nodeReports = new NodeReportsImpl(this);
-    this.dscNodeConfigurationOperations = new DscNodeConfigurationOperationsImpl(
-      this
-    );
-    this.dscCompilationJobOperations = new DscCompilationJobOperationsImpl(
-      this
-    );
-    this.dscCompilationJobStream = new DscCompilationJobStreamImpl(this);
-    this.nodeCountInformation = new NodeCountInformationImpl(this);
-    this.sourceControlOperations = new SourceControlOperationsImpl(this);
-    this.sourceControlSyncJobOperations = new SourceControlSyncJobOperationsImpl(
-      this
-    );
-    this.sourceControlSyncJobStreams = new SourceControlSyncJobStreamsImpl(
-      this
-    );
     this.automationAccountOperations = new AutomationAccountOperationsImpl(
       this
     );
@@ -230,38 +233,83 @@ export class AutomationClient extends coreClient.ServiceClient {
     this.connectionOperations = new ConnectionOperationsImpl(this);
     this.connectionTypeOperations = new ConnectionTypeOperationsImpl(this);
     this.credentialOperations = new CredentialOperationsImpl(this);
+    this.dscCompilationJobOperations = new DscCompilationJobOperationsImpl(
+      this
+    );
+    this.dscCompilationJobStream = new DscCompilationJobStreamImpl(this);
+    this.dscConfigurationOperations = new DscConfigurationOperationsImpl(this);
+    this.dscNodeConfigurationOperations = new DscNodeConfigurationOperationsImpl(
+      this
+    );
+    this.hybridRunbookWorkers = new HybridRunbookWorkersImpl(this);
+    this.hybridRunbookWorkerGroupOperations = new HybridRunbookWorkerGroupOperationsImpl(
+      this
+    );
+    this.jobOperations = new JobOperationsImpl(this);
+    this.jobStreamOperations = new JobStreamOperationsImpl(this);
     this.jobScheduleOperations = new JobScheduleOperationsImpl(this);
     this.linkedWorkspaceOperations = new LinkedWorkspaceOperationsImpl(this);
     this.activityOperations = new ActivityOperationsImpl(this);
     this.moduleOperations = new ModuleOperationsImpl(this);
     this.objectDataTypes = new ObjectDataTypesImpl(this);
     this.fields = new FieldsImpl(this);
-    this.scheduleOperations = new ScheduleOperationsImpl(this);
-    this.variableOperations = new VariableOperationsImpl(this);
-    this.watcherOperations = new WatcherOperationsImpl(this);
-    this.dscConfigurationOperations = new DscConfigurationOperationsImpl(this);
-    this.jobOperations = new JobOperationsImpl(this);
-    this.jobStreamOperations = new JobStreamOperationsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.softwareUpdateConfigurations = new SoftwareUpdateConfigurationsImpl(
+    this.packageOperations = new PackageOperationsImpl(this);
+    this.packages = new PackagesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.python2Package = new Python2PackageImpl(this);
+    this.python3Package = new Python3PackageImpl(this);
+    this.runbookDraftOperations = new RunbookDraftOperationsImpl(this);
+    this.runbookOperations = new RunbookOperationsImpl(this);
+    this.testJobStreams = new TestJobStreamsImpl(this);
+    this.testJobOperations = new TestJobOperationsImpl(this);
+    this.runtimeEnvironments = new RuntimeEnvironmentsImpl(this);
+    this.scheduleOperations = new ScheduleOperationsImpl(this);
+    this.softwareUpdateConfigurationMachineRuns = new SoftwareUpdateConfigurationMachineRunsImpl(
       this
     );
     this.softwareUpdateConfigurationRuns = new SoftwareUpdateConfigurationRunsImpl(
       this
     );
-    this.softwareUpdateConfigurationMachineRuns = new SoftwareUpdateConfigurationMachineRunsImpl(
+    this.sourceControlOperations = new SourceControlOperationsImpl(this);
+    this.sourceControlSyncJobOperations = new SourceControlSyncJobOperationsImpl(
       this
     );
-    this.runbookDraftOperations = new RunbookDraftOperationsImpl(this);
-    this.runbookOperations = new RunbookOperationsImpl(this);
-    this.testJobStreams = new TestJobStreamsImpl(this);
-    this.testJobOperations = new TestJobOperationsImpl(this);
+    this.sourceControlSyncJobStreams = new SourceControlSyncJobStreamsImpl(
+      this
+    );
+    this.variableOperations = new VariableOperationsImpl(this);
+    this.watcherOperations = new WatcherOperationsImpl(this);
     this.webhookOperations = new WebhookOperationsImpl(this);
-    this.hybridRunbookWorkers = new HybridRunbookWorkersImpl(this);
-    this.deletedAutomationAccounts = new DeletedAutomationAccountsImpl(this);
-    this.hybridRunbookWorkerGroupOperations = new HybridRunbookWorkerGroupOperationsImpl(
-      this
-    );
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -283,19 +331,13 @@ export class AutomationClient extends coreClient.ServiceClient {
     );
   }
 
-  privateEndpointConnections: PrivateEndpointConnections;
+  nodeCountInformation: NodeCountInformation;
+  softwareUpdateConfigurations: SoftwareUpdateConfigurations;
+  deletedAutomationAccounts: DeletedAutomationAccounts;
   privateLinkResources: PrivateLinkResources;
-  python2Package: Python2Package;
   agentRegistrationInformation: AgentRegistrationInformation;
   dscNodeOperations: DscNodeOperations;
   nodeReports: NodeReports;
-  dscNodeConfigurationOperations: DscNodeConfigurationOperations;
-  dscCompilationJobOperations: DscCompilationJobOperations;
-  dscCompilationJobStream: DscCompilationJobStream;
-  nodeCountInformation: NodeCountInformation;
-  sourceControlOperations: SourceControlOperations;
-  sourceControlSyncJobOperations: SourceControlSyncJobOperations;
-  sourceControlSyncJobStreams: SourceControlSyncJobStreams;
   automationAccountOperations: AutomationAccountOperations;
   statisticsOperations: StatisticsOperations;
   usages: Usages;
@@ -304,30 +346,40 @@ export class AutomationClient extends coreClient.ServiceClient {
   connectionOperations: ConnectionOperations;
   connectionTypeOperations: ConnectionTypeOperations;
   credentialOperations: CredentialOperations;
+  dscCompilationJobOperations: DscCompilationJobOperations;
+  dscCompilationJobStream: DscCompilationJobStream;
+  dscConfigurationOperations: DscConfigurationOperations;
+  dscNodeConfigurationOperations: DscNodeConfigurationOperations;
+  hybridRunbookWorkers: HybridRunbookWorkers;
+  hybridRunbookWorkerGroupOperations: HybridRunbookWorkerGroupOperations;
+  jobOperations: JobOperations;
+  jobStreamOperations: JobStreamOperations;
   jobScheduleOperations: JobScheduleOperations;
   linkedWorkspaceOperations: LinkedWorkspaceOperations;
   activityOperations: ActivityOperations;
   moduleOperations: ModuleOperations;
   objectDataTypes: ObjectDataTypes;
   fields: Fields;
-  scheduleOperations: ScheduleOperations;
-  variableOperations: VariableOperations;
-  watcherOperations: WatcherOperations;
-  dscConfigurationOperations: DscConfigurationOperations;
-  jobOperations: JobOperations;
-  jobStreamOperations: JobStreamOperations;
   operations: Operations;
-  softwareUpdateConfigurations: SoftwareUpdateConfigurations;
-  softwareUpdateConfigurationRuns: SoftwareUpdateConfigurationRuns;
-  softwareUpdateConfigurationMachineRuns: SoftwareUpdateConfigurationMachineRuns;
+  packageOperations: PackageOperations;
+  packages: Packages;
+  privateEndpointConnections: PrivateEndpointConnections;
+  python2Package: Python2Package;
+  python3Package: Python3Package;
   runbookDraftOperations: RunbookDraftOperations;
   runbookOperations: RunbookOperations;
   testJobStreams: TestJobStreams;
   testJobOperations: TestJobOperations;
+  runtimeEnvironments: RuntimeEnvironments;
+  scheduleOperations: ScheduleOperations;
+  softwareUpdateConfigurationMachineRuns: SoftwareUpdateConfigurationMachineRuns;
+  softwareUpdateConfigurationRuns: SoftwareUpdateConfigurationRuns;
+  sourceControlOperations: SourceControlOperations;
+  sourceControlSyncJobOperations: SourceControlSyncJobOperations;
+  sourceControlSyncJobStreams: SourceControlSyncJobStreams;
+  variableOperations: VariableOperations;
+  watcherOperations: WatcherOperations;
   webhookOperations: WebhookOperations;
-  hybridRunbookWorkers: HybridRunbookWorkers;
-  deletedAutomationAccounts: DeletedAutomationAccounts;
-  hybridRunbookWorkerGroupOperations: HybridRunbookWorkerGroupOperations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -344,13 +396,13 @@ const convertGraphRunbookContentOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters32,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters21,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

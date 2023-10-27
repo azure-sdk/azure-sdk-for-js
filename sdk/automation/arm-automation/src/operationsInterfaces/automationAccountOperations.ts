@@ -11,6 +11,8 @@ import {
   AutomationAccount,
   AutomationAccountListByResourceGroupOptionalParams,
   AutomationAccountListOptionalParams,
+  DeletedRunbook,
+  AutomationAccountListDeletedRunbooksOptionalParams,
   AutomationAccountUpdateParameters,
   AutomationAccountUpdateOptionalParams,
   AutomationAccountUpdateResponse,
@@ -41,6 +43,17 @@ export interface AutomationAccountOperations {
   list(
     options?: AutomationAccountListOptionalParams
   ): PagedAsyncIterableIterator<AutomationAccount>;
+  /**
+   * Retrieve the deleted runbooks for an automation account.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param options The options parameters.
+   */
+  listDeletedRunbooks(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: AutomationAccountListDeletedRunbooksOptionalParams
+  ): PagedAsyncIterableIterator<DeletedRunbook>;
   /**
    * Update an automation account.
    * @param resourceGroupName Name of an Azure Resource group.

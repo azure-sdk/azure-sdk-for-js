@@ -16,6 +16,8 @@ import {
   HybridRunbookWorkerCreateParameters,
   HybridRunbookWorkersCreateOptionalParams,
   HybridRunbookWorkersCreateResponse,
+  HybridRunbookWorkersPatchOptionalParams,
+  HybridRunbookWorkersPatchResponse,
   HybridRunbookWorkerMoveParameters,
   HybridRunbookWorkersMoveOptionalParams
 } from "../models";
@@ -84,6 +86,21 @@ export interface HybridRunbookWorkers {
     hybridRunbookWorkerCreationParameters: HybridRunbookWorkerCreateParameters,
     options?: HybridRunbookWorkersCreateOptionalParams
   ): Promise<HybridRunbookWorkersCreateResponse>;
+  /**
+   * Update a hybrid runbook worker.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param hybridRunbookWorkerGroupName The hybrid runbook worker group name
+   * @param hybridRunbookWorkerId The hybrid runbook worker id
+   * @param options The options parameters.
+   */
+  patch(
+    resourceGroupName: string,
+    automationAccountName: string,
+    hybridRunbookWorkerGroupName: string,
+    hybridRunbookWorkerId: string,
+    options?: HybridRunbookWorkersPatchOptionalParams
+  ): Promise<HybridRunbookWorkersPatchResponse>;
   /**
    * Move a hybrid worker to a different group.
    * @param resourceGroupName Name of an Azure Resource group.

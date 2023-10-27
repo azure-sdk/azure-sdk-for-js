@@ -21,6 +21,10 @@ import {
   AutomationAccountListNextOptionalParams,
   AutomationAccountListOptionalParams,
   AutomationAccountListResponse,
+  DeletedRunbook,
+  AutomationAccountListDeletedRunbooksNextOptionalParams,
+  AutomationAccountListDeletedRunbooksOptionalParams,
+  AutomationAccountListDeletedRunbooksResponse,
   AutomationAccountUpdateParameters,
   AutomationAccountUpdateOptionalParams,
   AutomationAccountUpdateResponse,
@@ -31,7 +35,8 @@ import {
   AutomationAccountGetOptionalParams,
   AutomationAccountGetResponse,
   AutomationAccountListByResourceGroupNextResponse,
-  AutomationAccountListNextResponse
+  AutomationAccountListNextResponse,
+  AutomationAccountListDeletedRunbooksNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -172,6 +177,90 @@ export class AutomationAccountOperationsImpl
   }
 
   /**
+   * Retrieve the deleted runbooks for an automation account.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param options The options parameters.
+   */
+  public listDeletedRunbooks(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: AutomationAccountListDeletedRunbooksOptionalParams
+  ): PagedAsyncIterableIterator<DeletedRunbook> {
+    const iter = this.listDeletedRunbooksPagingAll(
+      resourceGroupName,
+      automationAccountName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDeletedRunbooksPagingPage(
+          resourceGroupName,
+          automationAccountName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listDeletedRunbooksPagingPage(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: AutomationAccountListDeletedRunbooksOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DeletedRunbook[]> {
+    let result: AutomationAccountListDeletedRunbooksResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDeletedRunbooks(
+        resourceGroupName,
+        automationAccountName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listDeletedRunbooksNext(
+        resourceGroupName,
+        automationAccountName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listDeletedRunbooksPagingAll(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: AutomationAccountListDeletedRunbooksOptionalParams
+  ): AsyncIterableIterator<DeletedRunbook> {
+    for await (const page of this.listDeletedRunbooksPagingPage(
+      resourceGroupName,
+      automationAccountName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Update an automation account.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -269,6 +358,23 @@ export class AutomationAccountOperationsImpl
   }
 
   /**
+   * Retrieve the deleted runbooks for an automation account.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param options The options parameters.
+   */
+  private _listDeletedRunbooks(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: AutomationAccountListDeletedRunbooksOptionalParams
+  ): Promise<AutomationAccountListDeletedRunbooksResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, automationAccountName, options },
+      listDeletedRunbooksOperationSpec
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName Name of an Azure Resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -299,6 +405,25 @@ export class AutomationAccountOperationsImpl
       listNextOperationSpec
     );
   }
+
+  /**
+   * ListDeletedRunbooksNext
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param nextLink The nextLink from the previous successful call to the ListDeletedRunbooks method.
+   * @param options The options parameters.
+   */
+  private _listDeletedRunbooksNext(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nextLink: string,
+    options?: AutomationAccountListDeletedRunbooksNextOptionalParams
+  ): Promise<AutomationAccountListDeletedRunbooksNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, automationAccountName, nextLink, options },
+      listDeletedRunbooksNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -315,13 +440,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -342,13 +467,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters10,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -365,12 +490,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -387,12 +512,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -409,11 +534,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -430,8 +555,30 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listDeletedRunbooksOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/listDeletedRunbooks",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedRunbookListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.automationAccountName1
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -448,8 +595,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -470,6 +617,27 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listDeletedRunbooksNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedRunbookListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.automationAccountName1
   ],
   headerParameters: [Parameters.accept],
   serializer
