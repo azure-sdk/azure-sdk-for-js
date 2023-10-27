@@ -15,8 +15,8 @@ import * as Parameters from "../models/parameters";
 import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
 import {
   MyWorkbook,
-  CategoryType,
   MyWorkbooksListByResourceGroupNextOptionalParams,
+  CategoryType,
   MyWorkbooksListByResourceGroupOptionalParams,
   MyWorkbooksListByResourceGroupResponse,
   MyWorkbooksListBySubscriptionNextOptionalParams,
@@ -105,7 +105,6 @@ export class MyWorkbooksImpl implements MyWorkbooks {
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
-        category,
         continuationToken,
         options
       );
@@ -171,11 +170,7 @@ export class MyWorkbooksImpl implements MyWorkbooks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBySubscriptionNext(
-        category,
-        continuationToken,
-        options
-      );
+      result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -302,35 +297,31 @@ export class MyWorkbooksImpl implements MyWorkbooks {
   /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param category Category of workbook to return.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
-    category: CategoryType,
     nextLink: string,
     options?: MyWorkbooksListByResourceGroupNextOptionalParams
   ): Promise<MyWorkbooksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, category, nextLink, options },
+      { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
     );
   }
 
   /**
    * ListBySubscriptionNext
-   * @param category Category of workbook to return.
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
   private _listBySubscriptionNext(
-    category: CategoryType,
     nextLink: string,
     options?: MyWorkbooksListBySubscriptionNextOptionalParams
   ): Promise<MyWorkbooksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { category, nextLink, options },
+      { nextLink, options },
       listBySubscriptionNextOperationSpec
     );
   }
@@ -353,14 +344,14 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.canFetchContent,
     Parameters.tags,
+    Parameters.apiVersion3,
     Parameters.category,
-    Parameters.sourceId,
-    Parameters.apiVersion2
+    Parameters.sourceId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -380,8 +371,8 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.canFetchContent,
     Parameters.tags,
-    Parameters.category,
-    Parameters.apiVersion2
+    Parameters.apiVersion3,
+    Parameters.category
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
@@ -399,11 +390,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MyWorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -420,11 +411,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MyWorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -446,11 +437,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workbookProperties,
-  queryParameters: [Parameters.sourceId, Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3, Parameters.sourceId],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -470,11 +461,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workbookProperties,
-  queryParameters: [Parameters.sourceId, Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3, Parameters.sourceId],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -492,17 +483,10 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MyWorkbookError
     }
   },
-  queryParameters: [
-    Parameters.canFetchContent,
-    Parameters.tags,
-    Parameters.category,
-    Parameters.sourceId,
-    Parameters.apiVersion2
-  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -519,12 +503,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MyWorkbookError
     }
   },
-  queryParameters: [
-    Parameters.canFetchContent,
-    Parameters.tags,
-    Parameters.category,
-    Parameters.apiVersion2
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
