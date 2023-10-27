@@ -1,5 +1,24 @@
 # Release History
     
+## 21.3.0 (2023-10-27)
+    
+**Features**
+
+  - Interface VirtualMachine has a new optional parameter etag
+  - Interface VirtualMachineScaleSet has a new optional parameter etag
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetVM has a new optional parameter etag
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifNoneMatch
+    
+    
 ## 21.2.0 (2023-08-14)
     
 **Features**
@@ -515,4 +534,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

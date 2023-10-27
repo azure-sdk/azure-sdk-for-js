@@ -5815,6 +5815,7 @@ export interface VirtualMachine extends Resource {
     billingProfile?: BillingProfile;
     capacityReservation?: CapacityReservationProfile;
     diagnosticsProfile?: DiagnosticsProfile;
+    readonly etag?: string;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extendedLocation?: ExtendedLocation;
     extensionsTimeBudget?: string;
@@ -6506,6 +6507,7 @@ export interface VirtualMachineScaleSet extends Resource {
     automaticRepairsPolicy?: AutomaticRepairsPolicy;
     constrainedMaximumCapacity?: boolean;
     doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocation;
     hostGroup?: SubResource;
     identity?: VirtualMachineScaleSetIdentity;
@@ -6893,6 +6895,8 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalPar
 
 // @public
 export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7119,6 +7123,8 @@ export interface VirtualMachineScaleSetsUpdateInstancesOptionalParams extends co
 
 // @public
 export interface VirtualMachineScaleSetsUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7237,6 +7243,7 @@ export interface VirtualMachineScaleSetVM extends Resource {
     additionalCapabilities?: AdditionalCapabilities;
     availabilitySet?: SubResource;
     diagnosticsProfile?: DiagnosticsProfile;
+    readonly etag?: string;
     hardwareProfile?: HardwareProfile;
     identity?: VirtualMachineIdentity;
     readonly instanceId?: string;
@@ -7633,6 +7640,8 @@ export interface VirtualMachineScaleSetVMsStartOptionalParams extends coreClient
 
 // @public
 export interface VirtualMachineScaleSetVMsUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7657,6 +7666,8 @@ export interface VirtualMachinesConvertToManagedDisksOptionalParams extends core
 
 // @public
 export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7877,6 +7888,8 @@ export interface VirtualMachineStatusCodeCount {
 
 // @public
 export interface VirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }

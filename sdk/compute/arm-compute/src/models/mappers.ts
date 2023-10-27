@@ -12789,6 +12789,13 @@ export const VirtualMachineScaleSet: coreClient.CompositeMapper = {
           className: "ExtendedLocation"
         }
       },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       upgradePolicy: {
         serializedName: "properties.upgradePolicy",
         type: {
@@ -13016,6 +13023,13 @@ export const VirtualMachineScaleSetVM: coreClient.CompositeMapper = {
           className: "VirtualMachineIdentity"
         }
       },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       latestModelApplied: {
         serializedName: "properties.latestModelApplied",
         readOnly: true,
@@ -13193,6 +13207,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ExtendedLocation"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       hardwareProfile: {
