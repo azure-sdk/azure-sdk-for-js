@@ -205,15 +205,15 @@ export interface StorageAccountCreateParameters {
   accessTier?: AccessTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
-  /** Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01. */
+  /** Allows https traffic only to storage service if set to true. The default value is true since API version 2019-04-01. */
   enableHttpsTrafficOnly?: boolean;
   /** Enables Secure File Transfer Protocol, if set to true */
   isSftpEnabled?: boolean;
   /** Enables local users feature, if set to true */
   isLocalUserEnabled?: boolean;
-  /** Account HierarchicalNamespace enabled if sets to true. */
+  /** Account HierarchicalNamespace enabled if set to true. */
   isHnsEnabled?: boolean;
-  /** Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. */
+  /** Allow large file shares if set to Enabled. It cannot be disabled once it is enabled. */
   largeFileSharesState?: LargeFileSharesState;
   /** Maintains information about the network routing choice opted by the user for data transfer */
   routingPreference?: RoutingPreference;
@@ -221,7 +221,7 @@ export interface StorageAccountCreateParameters {
   allowBlobPublicAccess?: boolean;
   /** Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. */
   minimumTlsVersion?: MinimumTlsVersion;
-  /** Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true. */
+  /** Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to false. */
   allowSharedKeyAccess?: boolean;
   /** NFS 3.0 protocol support enabled if set to true. */
   enableNfsV3?: boolean;
@@ -735,7 +735,7 @@ export interface StorageAccountUpdateParameters {
   accessTier?: AccessTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
-  /** Allows https traffic only to storage service if sets to true. */
+  /** Allows https traffic only to storage service if set to true. */
   enableHttpsTrafficOnly?: boolean;
   /** Enables Secure File Transfer Protocol, if set to true */
   isSftpEnabled?: boolean;
@@ -743,7 +743,7 @@ export interface StorageAccountUpdateParameters {
   isLocalUserEnabled?: boolean;
   /** Network rule set */
   networkRuleSet?: NetworkRuleSet;
-  /** Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. */
+  /** Allow large file shares if set to Enabled. It cannot be disabled once it is enabled. */
   largeFileSharesState?: LargeFileSharesState;
   /** Maintains information about the network routing choice opted by the user for data transfer */
   routingPreference?: RoutingPreference;
@@ -751,7 +751,7 @@ export interface StorageAccountUpdateParameters {
   allowBlobPublicAccess?: boolean;
   /** Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. */
   minimumTlsVersion?: MinimumTlsVersion;
-  /** Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true. */
+  /** Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to false. */
   allowSharedKeyAccess?: boolean;
   /** Allow or disallow cross AAD tenant object replication. Set this property to true for new or existing accounts only if object replication policies will involve storage accounts in different AAD tenants. The default interpretation is false for new accounts to follow best security practices by default. */
   allowCrossTenantReplication?: boolean;
@@ -2117,7 +2117,7 @@ export interface StorageAccount extends TrackedResource {
   readonly accessTier?: AccessTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
-  /** Allows https traffic only to storage service if sets to true. */
+  /** Allows https traffic only to storage service if set to true. */
   enableHttpsTrafficOnly?: boolean;
   /**
    * Network rule set
@@ -2128,7 +2128,7 @@ export interface StorageAccount extends TrackedResource {
   isSftpEnabled?: boolean;
   /** Enables local users feature, if set to true */
   isLocalUserEnabled?: boolean;
-  /** Account HierarchicalNamespace enabled if sets to true. */
+  /** Account HierarchicalNamespace enabled if set to true. */
   isHnsEnabled?: boolean;
   /**
    * Geo Replication Stats
@@ -2140,7 +2140,7 @@ export interface StorageAccount extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly failoverInProgress?: boolean;
-  /** Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. */
+  /** Allow large file shares if set to Enabled. It cannot be disabled once it is enabled. */
   largeFileSharesState?: LargeFileSharesState;
   /**
    * List of private endpoint connection associated with the specified storage account
@@ -2158,7 +2158,7 @@ export interface StorageAccount extends TrackedResource {
   allowBlobPublicAccess?: boolean;
   /** Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. */
   minimumTlsVersion?: MinimumTlsVersion;
-  /** Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true. */
+  /** Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to false. */
   allowSharedKeyAccess?: boolean;
   /** NFS 3.0 protocol support enabled if set to true. */
   enableNfsV3?: boolean;
