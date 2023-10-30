@@ -24,13 +24,13 @@ import {
   TransactionsImpl,
   PoliciesImpl,
   BillingPropertyOperationsImpl,
-  OperationsImpl,
   BillingRoleDefinitionsImpl,
   BillingRoleAssignmentsImpl,
   AgreementsImpl,
   ReservationsImpl,
   EnrollmentAccountsImpl,
-  BillingPeriodsImpl
+  BillingPeriodsImpl,
+  OperationsImpl
 } from "./operations";
 import {
   BillingAccounts,
@@ -47,19 +47,19 @@ import {
   Transactions,
   Policies,
   BillingPropertyOperations,
-  Operations,
   BillingRoleDefinitions,
   BillingRoleAssignments,
   Agreements,
   Reservations,
   EnrollmentAccounts,
-  BillingPeriods
+  BillingPeriods,
+  Operations
 } from "./operationsInterfaces";
 import { BillingManagementClientOptionalParams } from "./models";
 
 export class BillingManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the BillingManagementClient class.
@@ -71,12 +71,26 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: BillingManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: BillingManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: BillingManagementClientOptionalParams | string,
+    options?: BillingManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -88,7 +102,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-billing/4.1.1`;
+    const packageDetails = `azsdk-js-arm-billing/5.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -155,13 +169,13 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     this.transactions = new TransactionsImpl(this);
     this.policies = new PoliciesImpl(this);
     this.billingPropertyOperations = new BillingPropertyOperationsImpl(this);
-    this.operations = new OperationsImpl(this);
     this.billingRoleDefinitions = new BillingRoleDefinitionsImpl(this);
     this.billingRoleAssignments = new BillingRoleAssignmentsImpl(this);
     this.agreements = new AgreementsImpl(this);
     this.reservations = new ReservationsImpl(this);
     this.enrollmentAccounts = new EnrollmentAccountsImpl(this);
     this.billingPeriods = new BillingPeriodsImpl(this);
+    this.operations = new OperationsImpl(this);
   }
 
   billingAccounts: BillingAccounts;
@@ -178,11 +192,11 @@ export class BillingManagementClient extends coreClient.ServiceClient {
   transactions: Transactions;
   policies: Policies;
   billingPropertyOperations: BillingPropertyOperations;
-  operations: Operations;
   billingRoleDefinitions: BillingRoleDefinitions;
   billingRoleAssignments: BillingRoleAssignments;
   agreements: Agreements;
   reservations: Reservations;
   enrollmentAccounts: EnrollmentAccounts;
   billingPeriods: BillingPeriods;
+  operations: Operations;
 }
