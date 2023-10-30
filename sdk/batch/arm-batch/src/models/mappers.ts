@@ -1376,6 +1376,7 @@ export const ImageReference: coreClient.CompositeMapper = {
         }
       },
       version: {
+        defaultValue: "latest",
         serializedName: "version",
         type: {
           name: "String"
@@ -1688,6 +1689,7 @@ export const FixedScaleSettings: coreClient.CompositeMapper = {
     className: "FixedScaleSettings",
     modelProperties: {
       resizeTimeout: {
+        defaultValue: "PT15M",
         serializedName: "resizeTimeout",
         type: {
           name: "TimeSpan"
@@ -1819,6 +1821,7 @@ export const NetworkConfiguration: coreClient.CompositeMapper = {
         }
       },
       dynamicVnetAssignmentScope: {
+        defaultValue: "none",
         serializedName: "dynamicVnetAssignmentScope",
         type: {
           name: "Enum",
@@ -2003,6 +2006,7 @@ export const TaskSchedulingPolicy: coreClient.CompositeMapper = {
     className: "TaskSchedulingPolicy",
     modelProperties: {
       nodeFillType: {
+        defaultValue: "Spread",
         serializedName: "nodeFillType",
         required: true,
         type: {
@@ -2167,6 +2171,7 @@ export const StartTask: coreClient.CompositeMapper = {
         }
       },
       maxTaskRetryCount: {
+        defaultValue: 0,
         serializedName: "maxTaskRetryCount",
         type: {
           name: "Number"
@@ -3273,6 +3278,7 @@ export const Pool: coreClient.CompositeMapper = {
         }
       },
       taskSlotsPerNode: {
+        defaultValue: 1,
         serializedName: "properties.taskSlotsPerNode",
         type: {
           name: "Number"
