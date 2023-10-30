@@ -14,7 +14,11 @@ import {
 import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   ConfidentialLedger as ConfidentialLedgerMapper,
-  ManagedCCF as ManagedCCFMapper
+  ConfidentialLedgerBackup as ConfidentialLedgerBackupMapper,
+  ConfidentialLedgerRestore as ConfidentialLedgerRestoreMapper,
+  ManagedCCF as ManagedCCFMapper,
+  ManagedCCFBackup as ManagedCCFBackupMapper,
+  ManagedCCFRestore as ManagedCCFRestoreMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -44,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-26-preview",
+    defaultValue: "2023-06-28-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -140,6 +144,16 @@ export const filter: OperationQueryParameter = {
   }
 };
 
+export const confidentialLedger1: OperationParameter = {
+  parameterPath: "confidentialLedger",
+  mapper: ConfidentialLedgerBackupMapper
+};
+
+export const confidentialLedger2: OperationParameter = {
+  parameterPath: "confidentialLedger",
+  mapper: ConfidentialLedgerRestoreMapper
+};
+
 export const appName: OperationURLParameter = {
   parameterPath: "appName",
   mapper: {
@@ -157,4 +171,14 @@ export const appName: OperationURLParameter = {
 export const managedCCF: OperationParameter = {
   parameterPath: "managedCCF",
   mapper: ManagedCCFMapper
+};
+
+export const managedCCF1: OperationParameter = {
+  parameterPath: "managedCCF",
+  mapper: ManagedCCFBackupMapper
+};
+
+export const managedCCF2: OperationParameter = {
+  parameterPath: "managedCCF",
+  mapper: ManagedCCFRestoreMapper
 };
