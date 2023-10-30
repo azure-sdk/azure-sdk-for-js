@@ -4913,6 +4913,7 @@ export interface RestorePointSourceVmosDisk {
 // @public
 export interface RestorePointSourceVMStorageProfile {
     dataDisks?: RestorePointSourceVMDataDisk[];
+    diskControllerType?: DiskControllerTypes;
     osDisk?: RestorePointSourceVmosDisk;
 }
 
