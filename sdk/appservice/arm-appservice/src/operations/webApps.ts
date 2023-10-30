@@ -21319,9 +21319,7 @@ const getOneDeployStatusOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.Deployment
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -21343,14 +21341,13 @@ const createOneDeployOperationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.Deployment
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -21358,7 +21355,8 @@ const createOneDeployOperationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.name
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listFunctionsOperationSpec: coreClient.OperationSpec = {

@@ -2374,7 +2374,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
    * Update Custom Dns Suffix configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
-   * @param customDnsSuffixConfiguration Full view of the custom domain suffix configuration for ASEv3.
+   * @param customDnsSuffixConfiguration Full view of the custom domain suffix configuration for ASE.
    * @param options The options parameters.
    */
   updateAseCustomDnsSuffixConfiguration(
@@ -2431,7 +2431,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
    * Description for Update networking configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
-   * @param aseNetworkingConfiguration Full view of networking configuration for an ASE.
+   * @param aseNetworkingConfiguration Full view of networking configuration for an ASEv3.
    * @param options The options parameters.
    */
   updateAseNetworkingConfiguration(

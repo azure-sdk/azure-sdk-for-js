@@ -2328,6 +2328,242 @@ export const NameValuePair: coreClient.CompositeMapper = {
   }
 };
 
+export const CustomDnsSuffixConfiguration: coreClient.CompositeMapper = {
+  serializedName: "CustomDnsSuffixConfiguration",
+  type: {
+    name: "Composite",
+    className: "CustomDnsSuffixConfiguration",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        xmlName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        xmlName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        xmlName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        xmlName: "properties",
+        type: {
+          name: "Composite",
+          className: "CustomDnsSuffixConfigurationProperties"
+        }
+      }
+    }
+  }
+};
+
+export const CustomDnsSuffixConfigurationProperties: coreClient.CompositeMapper = {
+  serializedName: "CustomDnsSuffixConfigurationProperties",
+  type: {
+    name: "Composite",
+    className: "CustomDnsSuffixConfigurationProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        xmlName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Succeeded",
+            "Failed",
+            "Degraded",
+            "InProgress",
+            "Canceled"
+          ]
+        }
+      },
+      provisioningDetails: {
+        serializedName: "provisioningDetails",
+        readOnly: true,
+        xmlName: "provisioningDetails",
+        type: {
+          name: "String"
+        }
+      },
+      dnsSuffix: {
+        serializedName: "dnsSuffix",
+        xmlName: "dnsSuffix",
+        type: {
+          name: "String"
+        }
+      },
+      certificateUrl: {
+        serializedName: "certificateUrl",
+        xmlName: "certificateUrl",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultReferenceIdentity: {
+        serializedName: "keyVaultReferenceIdentity",
+        xmlName: "keyVaultReferenceIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AseV3NetworkingConfiguration: coreClient.CompositeMapper = {
+  serializedName: "AseV3NetworkingConfiguration",
+  type: {
+    name: "Composite",
+    className: "AseV3NetworkingConfiguration",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        xmlName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        xmlName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        xmlName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        xmlName: "properties",
+        type: {
+          name: "Composite",
+          className: "AseV3NetworkingConfigurationProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AseV3NetworkingConfigurationProperties: coreClient.CompositeMapper = {
+  serializedName: "AseV3NetworkingConfigurationProperties",
+  type: {
+    name: "Composite",
+    className: "AseV3NetworkingConfigurationProperties",
+    modelProperties: {
+      windowsOutboundIpAddresses: {
+        serializedName: "windowsOutboundIpAddresses",
+        readOnly: true,
+        xmlName: "windowsOutboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesWindowsOutboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      linuxOutboundIpAddresses: {
+        serializedName: "linuxOutboundIpAddresses",
+        readOnly: true,
+        xmlName: "linuxOutboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesLinuxOutboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      externalInboundIpAddresses: {
+        serializedName: "externalInboundIpAddresses",
+        readOnly: true,
+        xmlName: "externalInboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesExternalInboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      internalInboundIpAddresses: {
+        serializedName: "internalInboundIpAddresses",
+        readOnly: true,
+        xmlName: "internalInboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesInternalInboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      allowNewPrivateEndpointConnections: {
+        serializedName: "allowNewPrivateEndpointConnections",
+        xmlName: "allowNewPrivateEndpointConnections",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ftpEnabled: {
+        serializedName: "ftpEnabled",
+        xmlName: "ftpEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      remoteDebugEnabled: {
+        serializedName: "remoteDebugEnabled",
+        xmlName: "remoteDebugEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inboundIpAddressOverride: {
+        serializedName: "inboundIpAddressOverride",
+        xmlName: "inboundIpAddressOverride",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const StampCapacityCollection: coreClient.CompositeMapper = {
   serializedName: "StampCapacityCollection",
   type: {
@@ -3092,6 +3328,13 @@ export const SiteConfig: coreClient.CompositeMapper = {
       minTlsVersion: {
         serializedName: "minTlsVersion",
         xmlName: "minTlsVersion",
+        type: {
+          name: "String"
+        }
+      },
+      minTlsCipherSuite: {
+        serializedName: "minTlsCipherSuite",
+        xmlName: "minTlsCipherSuite",
         type: {
           name: "String"
         }
@@ -4015,6 +4258,90 @@ export const AzureStorageInfoValue: coreClient.CompositeMapper = {
             "InvalidShare",
             "NotValidated"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const DaprConfig: coreClient.CompositeMapper = {
+  serializedName: "DaprConfig",
+  type: {
+    name: "Composite",
+    className: "DaprConfig",
+    modelProperties: {
+      enabled: {
+        defaultValue: false,
+        serializedName: "enabled",
+        xmlName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        xmlName: "appId",
+        type: {
+          name: "String"
+        }
+      },
+      appPort: {
+        serializedName: "appPort",
+        xmlName: "appPort",
+        type: {
+          name: "Number"
+        }
+      },
+      httpReadBufferSize: {
+        serializedName: "httpReadBufferSize",
+        xmlName: "httpReadBufferSize",
+        type: {
+          name: "Number"
+        }
+      },
+      httpMaxRequestSize: {
+        serializedName: "httpMaxRequestSize",
+        xmlName: "httpMaxRequestSize",
+        type: {
+          name: "Number"
+        }
+      },
+      logLevel: {
+        serializedName: "logLevel",
+        xmlName: "logLevel",
+        type: {
+          name: "String"
+        }
+      },
+      enableApiLogging: {
+        serializedName: "enableApiLogging",
+        xmlName: "enableApiLogging",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceConfig: coreClient.CompositeMapper = {
+  serializedName: "ResourceConfig",
+  type: {
+    name: "Composite",
+    className: "ResourceConfig",
+    modelProperties: {
+      cpu: {
+        serializedName: "cpu",
+        xmlName: "cpu",
+        type: {
+          name: "Number"
+        }
+      },
+      memory: {
+        serializedName: "memory",
+        xmlName: "memory",
+        type: {
+          name: "String"
         }
       }
     }
@@ -8371,6 +8698,13 @@ export const ResourceNameAvailabilityRequest: coreClient.CompositeMapper = {
         xmlName: "isFqdn",
         type: {
           name: "Boolean"
+        }
+      },
+      environmentId: {
+        serializedName: "environmentId",
+        xmlName: "environmentId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -13152,15 +13486,7 @@ export const WorkflowEnvelopeProperties: coreClient.CompositeMapper = {
         serializedName: "flowState",
         xmlName: "flowState",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       health: {
@@ -14863,15 +15189,7 @@ export const WorkflowFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       }
     }
@@ -14953,15 +15271,7 @@ export const WorkflowTriggerFilter: coreClient.CompositeMapper = {
         serializedName: "state",
         xmlName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       }
     }
@@ -15802,6 +16112,29 @@ export const Site: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SiteConfig"
+        }
+      },
+      daprConfig: {
+        serializedName: "properties.daprConfig",
+        xmlName: "properties.daprConfig",
+        type: {
+          name: "Composite",
+          className: "DaprConfig"
+        }
+      },
+      workloadProfileName: {
+        serializedName: "properties.workloadProfileName",
+        xmlName: "properties.workloadProfileName",
+        type: {
+          name: "String"
+        }
+      },
+      resourceConfig: {
+        serializedName: "properties.resourceConfig",
+        xmlName: "properties.resourceConfig",
+        type: {
+          name: "Composite",
+          className: "ResourceConfig"
         }
       },
       trafficManagerHostNames: {
@@ -17560,154 +17893,6 @@ export const TopLevelDomain: coreClient.CompositeMapper = {
         xmlName: "properties.privacy",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const CustomDnsSuffixConfiguration: coreClient.CompositeMapper = {
-  serializedName: "CustomDnsSuffixConfiguration",
-  type: {
-    name: "Composite",
-    className: "CustomDnsSuffixConfiguration",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        xmlName: "properties.provisioningState",
-        type: {
-          name: "Enum",
-          allowedValues: ["Succeeded", "Failed", "Degraded", "InProgress"]
-        }
-      },
-      provisioningDetails: {
-        serializedName: "properties.provisioningDetails",
-        readOnly: true,
-        xmlName: "properties.provisioningDetails",
-        type: {
-          name: "String"
-        }
-      },
-      dnsSuffix: {
-        serializedName: "properties.dnsSuffix",
-        xmlName: "properties.dnsSuffix",
-        type: {
-          name: "String"
-        }
-      },
-      certificateUrl: {
-        serializedName: "properties.certificateUrl",
-        xmlName: "properties.certificateUrl",
-        type: {
-          name: "String"
-        }
-      },
-      keyVaultReferenceIdentity: {
-        serializedName: "properties.keyVaultReferenceIdentity",
-        xmlName: "properties.keyVaultReferenceIdentity",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AseV3NetworkingConfiguration: coreClient.CompositeMapper = {
-  serializedName: "AseV3NetworkingConfiguration",
-  type: {
-    name: "Composite",
-    className: "AseV3NetworkingConfiguration",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      windowsOutboundIpAddresses: {
-        serializedName: "properties.windowsOutboundIpAddresses",
-        readOnly: true,
-        xmlName: "properties.windowsOutboundIpAddresses",
-        xmlElementName:
-          "AseV3NetworkingConfigurationPropertiesWindowsOutboundIpAddressesItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      linuxOutboundIpAddresses: {
-        serializedName: "properties.linuxOutboundIpAddresses",
-        readOnly: true,
-        xmlName: "properties.linuxOutboundIpAddresses",
-        xmlElementName:
-          "AseV3NetworkingConfigurationPropertiesLinuxOutboundIpAddressesItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      externalInboundIpAddresses: {
-        serializedName: "properties.externalInboundIpAddresses",
-        readOnly: true,
-        xmlName: "properties.externalInboundIpAddresses",
-        xmlElementName:
-          "AseV3NetworkingConfigurationPropertiesExternalInboundIpAddressesItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      internalInboundIpAddresses: {
-        serializedName: "properties.internalInboundIpAddresses",
-        readOnly: true,
-        xmlName: "properties.internalInboundIpAddresses",
-        xmlElementName:
-          "AseV3NetworkingConfigurationPropertiesInternalInboundIpAddressesItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      allowNewPrivateEndpointConnections: {
-        serializedName: "properties.allowNewPrivateEndpointConnections",
-        xmlName: "properties.allowNewPrivateEndpointConnections",
-        type: {
-          name: "Boolean"
-        }
-      },
-      ftpEnabled: {
-        serializedName: "properties.ftpEnabled",
-        xmlName: "properties.ftpEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      remoteDebugEnabled: {
-        serializedName: "properties.remoteDebugEnabled",
-        xmlName: "properties.remoteDebugEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      inboundIpAddressOverride: {
-        serializedName: "properties.inboundIpAddressOverride",
-        xmlName: "properties.inboundIpAddressOverride",
-        type: {
-          name: "String"
         }
       }
     }
@@ -22545,6 +22730,13 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      minTlsCipherSuite: {
+        serializedName: "properties.minTlsCipherSuite",
+        xmlName: "properties.minTlsCipherSuite",
+        type: {
+          name: "String"
+        }
+      },
       scmMinTlsVersion: {
         serializedName: "properties.scmMinTlsVersion",
         xmlName: "properties.scmMinTlsVersion",
@@ -23653,6 +23845,73 @@ export const MSDeployLog: coreClient.CompositeMapper = {
               className: "MSDeployLogEntry"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const OneDeployRequest: coreClient.CompositeMapper = {
+  serializedName: "OneDeployRequest",
+  type: {
+    name: "Composite",
+    className: "OneDeployRequest",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      packageUri: {
+        serializedName: "packageUri",
+        xmlName: "packageUri",
+        type: {
+          name: "String"
+        }
+      },
+      async: {
+        serializedName: "async",
+        xmlName: "async",
+        type: {
+          name: "Boolean"
+        }
+      },
+      path: {
+        serializedName: "path",
+        xmlName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      restart: {
+        serializedName: "restart",
+        xmlName: "restart",
+        type: {
+          name: "Boolean"
+        }
+      },
+      clean: {
+        serializedName: "clean",
+        xmlName: "clean",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ignoreStack: {
+        serializedName: "ignoreStack",
+        xmlName: "ignoreStack",
+        type: {
+          name: "Boolean"
+        }
+      },
+      trackDeploymentProgress: {
+        serializedName: "trackDeploymentProgress",
+        xmlName: "trackDeploymentProgress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reset: {
+        serializedName: "reset",
+        xmlName: "reset",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -25361,6 +25620,160 @@ export const WebJob: coreClient.CompositeMapper = {
   }
 };
 
+export const AseV3NetworkingConfigurationResource: coreClient.CompositeMapper = {
+  serializedName: "AseV3NetworkingConfigurationResource",
+  type: {
+    name: "Composite",
+    className: "AseV3NetworkingConfigurationResource",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      windowsOutboundIpAddresses: {
+        serializedName: "properties.windowsOutboundIpAddresses",
+        readOnly: true,
+        xmlName: "properties.windowsOutboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesWindowsOutboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      linuxOutboundIpAddresses: {
+        serializedName: "properties.linuxOutboundIpAddresses",
+        readOnly: true,
+        xmlName: "properties.linuxOutboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesLinuxOutboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      externalInboundIpAddresses: {
+        serializedName: "properties.externalInboundIpAddresses",
+        readOnly: true,
+        xmlName: "properties.externalInboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesExternalInboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      internalInboundIpAddresses: {
+        serializedName: "properties.internalInboundIpAddresses",
+        readOnly: true,
+        xmlName: "properties.internalInboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesInternalInboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      allowNewPrivateEndpointConnections: {
+        serializedName: "properties.allowNewPrivateEndpointConnections",
+        xmlName: "properties.allowNewPrivateEndpointConnections",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ftpEnabled: {
+        serializedName: "properties.ftpEnabled",
+        xmlName: "properties.ftpEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      remoteDebugEnabled: {
+        serializedName: "properties.remoteDebugEnabled",
+        xmlName: "properties.remoteDebugEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inboundIpAddressOverride: {
+        serializedName: "properties.inboundIpAddressOverride",
+        xmlName: "properties.inboundIpAddressOverride",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomDnsSuffixConfigurationResource: coreClient.CompositeMapper = {
+  serializedName: "CustomDnsSuffixConfigurationResource",
+  type: {
+    name: "Composite",
+    className: "CustomDnsSuffixConfigurationResource",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        xmlName: "properties.provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Succeeded",
+            "Failed",
+            "Degraded",
+            "InProgress",
+            "Canceled"
+          ]
+        }
+      },
+      provisioningDetails: {
+        serializedName: "properties.provisioningDetails",
+        readOnly: true,
+        xmlName: "properties.provisioningDetails",
+        type: {
+          name: "String"
+        }
+      },
+      dnsSuffix: {
+        serializedName: "properties.dnsSuffix",
+        xmlName: "properties.dnsSuffix",
+        type: {
+          name: "String"
+        }
+      },
+      certificateUrl: {
+        serializedName: "properties.certificateUrl",
+        xmlName: "properties.certificateUrl",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultReferenceIdentity: {
+        serializedName: "properties.keyVaultReferenceIdentity",
+        xmlName: "properties.keyVaultReferenceIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkflowOutputParameter: coreClient.CompositeMapper = {
   serializedName: "WorkflowOutputParameter",
   type: {
@@ -25683,15 +26096,7 @@ export const WorkflowTrigger: coreClient.CompositeMapper = {
         readOnly: true,
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       status: {
@@ -26216,15 +26621,7 @@ export const Workflow: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       version: {
@@ -26345,15 +26742,7 @@ export const WorkflowVersion: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         xmlName: "properties.state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Completed",
-            "Enabled",
-            "Disabled",
-            "Deleted",
-            "Suspended"
-          ]
+          name: "String"
         }
       },
       version: {

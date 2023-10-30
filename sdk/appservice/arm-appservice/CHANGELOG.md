@@ -1,15 +1,61 @@
 # Release History
+    
+## 15.0.0 (2023-10-30)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
+  - Added operation group GetUsagesInLocation
+  - Added Interface AseV3NetworkingConfigurationProperties
+  - Added Interface AseV3NetworkingConfigurationResource
+  - Added Interface CustomDnsSuffixConfigurationProperties
+  - Added Interface CustomDnsSuffixConfigurationResource
+  - Added Interface DaprConfig
+  - Added Interface GetUsagesInLocationListNextOptionalParams
+  - Added Interface GetUsagesInLocationListOptionalParams
+  - Added Interface OneDeployRequest
+  - Added Interface ResourceConfig
+  - Added Type Alias DaprLogLevel
+  - Added Type Alias GetUsagesInLocationListNextResponse
+  - Added Type Alias GetUsagesInLocationListResponse
+  - Added Type Alias TlsCipherSuites
+  - Interface AseV3NetworkingConfiguration has a new optional parameter id
+  - Interface AseV3NetworkingConfiguration has a new optional parameter name
+  - Interface AseV3NetworkingConfiguration has a new optional parameter properties
+  - Interface AseV3NetworkingConfiguration has a new optional parameter type
+  - Interface CheckNameAvailabilityOptionalParams has a new optional parameter environmentId
+  - Interface CustomDnsSuffixConfiguration has a new optional parameter id
+  - Interface CustomDnsSuffixConfiguration has a new optional parameter name
+  - Interface CustomDnsSuffixConfiguration has a new optional parameter properties
+  - Interface CustomDnsSuffixConfiguration has a new optional parameter type
+  - Interface ResourceNameAvailabilityRequest has a new optional parameter environmentId
+  - Interface Site has a new optional parameter daprConfig
+  - Interface Site has a new optional parameter resourceConfig
+  - Interface Site has a new optional parameter workloadProfileName
+  - Interface SiteConfig has a new optional parameter minTlsCipherSuite
+  - Interface SiteConfigResource has a new optional parameter minTlsCipherSuite
+  - Interface WebAppsCreateOneDeployOperationOptionalParams has a new optional parameter request
+  - Added Enum KnownDaprLogLevel
+  - Added Enum KnownTlsCipherSuites
+  - Added Enum KnownWorkflowState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class WebSiteManagementClient has a new signature
+  - Interface AseV3NetworkingConfiguration no longer has parameter allowNewPrivateEndpointConnections
+  - Interface AseV3NetworkingConfiguration no longer has parameter externalInboundIpAddresses
+  - Interface AseV3NetworkingConfiguration no longer has parameter ftpEnabled
+  - Interface AseV3NetworkingConfiguration no longer has parameter inboundIpAddressOverride
+  - Interface AseV3NetworkingConfiguration no longer has parameter internalInboundIpAddresses
+  - Interface AseV3NetworkingConfiguration no longer has parameter linuxOutboundIpAddresses
+  - Interface AseV3NetworkingConfiguration no longer has parameter remoteDebugEnabled
+  - Interface AseV3NetworkingConfiguration no longer has parameter windowsOutboundIpAddresses
+  - Interface CustomDnsSuffixConfiguration no longer has parameter certificateUrl
+  - Interface CustomDnsSuffixConfiguration no longer has parameter dnsSuffix
+  - Interface CustomDnsSuffixConfiguration no longer has parameter keyVaultReferenceIdentity
+  - Interface CustomDnsSuffixConfiguration no longer has parameter provisioningDetails
+  - Interface CustomDnsSuffixConfiguration no longer has parameter provisioningState
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**
@@ -747,4 +793,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
