@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ContainerRegistries } from "../operationsInterfaces";
+import { Apms } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,27 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ContainerRegistryResource,
-  ContainerRegistriesListNextOptionalParams,
-  ContainerRegistriesListOptionalParams,
-  ContainerRegistriesListResponse,
-  ContainerRegistriesGetOptionalParams,
-  ContainerRegistriesGetResponse,
-  ContainerRegistriesCreateOrUpdateOptionalParams,
-  ContainerRegistriesCreateOrUpdateResponse,
-  ContainerRegistriesDeleteOptionalParams,
-  ContainerRegistryProperties,
-  ContainerRegistriesValidateOptionalParams,
-  ContainerRegistriesValidateResponse,
-  ContainerRegistriesListNextResponse
+  ApmResource,
+  ApmsListNextOptionalParams,
+  ApmsListOptionalParams,
+  ApmsListResponse,
+  ApmsGetOptionalParams,
+  ApmsGetResponse,
+  ApmsCreateOrUpdateOptionalParams,
+  ApmsCreateOrUpdateResponse,
+  ApmsDeleteOptionalParams,
+  ApmsListSecretKeysOptionalParams,
+  ApmsListSecretKeysResponse,
+  ApmsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ContainerRegistries operations. */
-export class ContainerRegistriesImpl implements ContainerRegistries {
+/** Class containing Apms operations. */
+export class ApmsImpl implements Apms {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class ContainerRegistries class.
+   * Initialize a new instance of the class Apms class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -49,7 +48,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   }
 
   /**
-   * List container registries resource.
+   * Get collection of APMs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -58,8 +57,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams
-  ): PagedAsyncIterableIterator<ContainerRegistryResource> {
+    options?: ApmsListOptionalParams
+  ): PagedAsyncIterableIterator<ApmResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -85,10 +84,10 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams,
+    options?: ApmsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ContainerRegistryResource[]> {
-    let result: ContainerRegistriesListResponse;
+  ): AsyncIterableIterator<ApmResource[]> {
+    let result: ApmsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, serviceName, options);
@@ -114,8 +113,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams
-  ): AsyncIterableIterator<ContainerRegistryResource> {
+    options?: ApmsListOptionalParams
+  ): AsyncIterableIterator<ApmResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -126,7 +125,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   }
 
   /**
-   * List container registries resource.
+   * Get collection of APMs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -135,8 +134,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams
-  ): Promise<ContainerRegistriesListResponse> {
+    options?: ApmsListOptionalParams
+  ): Promise<ApmsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       listOperationSpec
@@ -144,50 +143,50 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   }
 
   /**
-   * Get the container registries resource.
+   * Get the APM by name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    options?: ContainerRegistriesGetOptionalParams
-  ): Promise<ContainerRegistriesGetResponse> {
+    apmName: string,
+    options?: ApmsGetOptionalParams
+  ): Promise<ApmsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, containerRegistryName, options },
+      { resourceGroupName, serviceName, apmName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update container registry resource.
+   * Create or update an APM.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
-   * @param containerRegistryResource Parameters for the create or update operation
+   * @param apmName The name of the APM
+   * @param apmResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    containerRegistryResource: ContainerRegistryResource,
-    options?: ContainerRegistriesCreateOrUpdateOptionalParams
+    apmName: string,
+    apmResource: ApmResource,
+    options?: ApmsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ContainerRegistriesCreateOrUpdateResponse>,
-      ContainerRegistriesCreateOrUpdateResponse
+      OperationState<ApmsCreateOrUpdateResponse>,
+      ApmsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ContainerRegistriesCreateOrUpdateResponse> => {
+    ): Promise<ApmsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -225,66 +224,59 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        containerRegistryName,
-        containerRegistryResource,
-        options
-      },
+      args: { resourceGroupName, serviceName, apmName, apmResource, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ContainerRegistriesCreateOrUpdateResponse,
-      OperationState<ContainerRegistriesCreateOrUpdateResponse>
+      ApmsCreateOrUpdateResponse,
+      OperationState<ApmsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update container registry resource.
+   * Create or update an APM.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
-   * @param containerRegistryResource Parameters for the create or update operation
+   * @param apmName The name of the APM
+   * @param apmResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    containerRegistryResource: ContainerRegistryResource,
-    options?: ContainerRegistriesCreateOrUpdateOptionalParams
-  ): Promise<ContainerRegistriesCreateOrUpdateResponse> {
+    apmName: string,
+    apmResource: ApmResource,
+    options?: ApmsCreateOrUpdateOptionalParams
+  ): Promise<ApmsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      containerRegistryName,
-      containerRegistryResource,
+      apmName,
+      apmResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a container registry resource.
+   * Operation to delete an APM
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    options?: ContainerRegistriesDeleteOptionalParams
+    apmName: string,
+    options?: ApmsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -327,7 +319,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, serviceName, containerRegistryName, options },
+      args: { resourceGroupName, serviceName, apmName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -340,135 +332,46 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   }
 
   /**
-   * Delete a container registry resource.
+   * Operation to delete an APM
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    options?: ContainerRegistriesDeleteOptionalParams
+    apmName: string,
+    options?: ApmsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      containerRegistryName,
+      apmName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Check if the container registry properties are valid.
+   * List keys of APM sensitive properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
-   * @param containerRegistryProperties Parameters for the validate operation
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
-  async beginValidate(
+  listSecretKeys(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    containerRegistryProperties: ContainerRegistryProperties,
-    options?: ContainerRegistriesValidateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ContainerRegistriesValidateResponse>,
-      ContainerRegistriesValidateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ContainerRegistriesValidateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        containerRegistryName,
-        containerRegistryProperties,
-        options
-      },
-      spec: validateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ContainerRegistriesValidateResponse,
-      OperationState<ContainerRegistriesValidateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Check if the container registry properties are valid.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
-   * @param containerRegistryProperties Parameters for the validate operation
-   * @param options The options parameters.
-   */
-  async beginValidateAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    containerRegistryName: string,
-    containerRegistryProperties: ContainerRegistryProperties,
-    options?: ContainerRegistriesValidateOptionalParams
-  ): Promise<ContainerRegistriesValidateResponse> {
-    const poller = await this.beginValidate(
-      resourceGroupName,
-      serviceName,
-      containerRegistryName,
-      containerRegistryProperties,
-      options
+    apmName: string,
+    options?: ApmsListSecretKeysOptionalParams
+  ): Promise<ApmsListSecretKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apmName, options },
+      listSecretKeysOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -483,8 +386,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ContainerRegistriesListNextOptionalParams
-  ): Promise<ContainerRegistriesListNextResponse> {
+    options?: ApmsListNextOptionalParams
+  ): Promise<ApmsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -496,11 +399,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryResourceCollection
+      bodyMapper: Mappers.ApmResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -518,11 +421,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ApmResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -534,40 +437,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.containerRegistryName
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ApmResource
     },
     201: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ApmResource
     },
     202: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ApmResource
     },
     204: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ApmResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.containerRegistryResource,
+  requestBody: Parameters.apmResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.containerRegistryName
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -575,7 +478,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -592,43 +495,32 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.containerRegistryName
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const validateOperationSpec: coreClient.OperationSpec = {
+const listSecretKeysOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}/validate",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}/listSecretKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryValidateResult
-    },
-    201: {
-      bodyMapper: Mappers.ContainerRegistryValidateResult
-    },
-    202: {
-      bodyMapper: Mappers.ContainerRegistryValidateResult
-    },
-    204: {
-      bodyMapper: Mappers.ContainerRegistryValidateResult
+      bodyMapper: Mappers.ApmSecretKeys
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.containerRegistryProperties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.containerRegistryName
+    Parameters.apmName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -636,7 +528,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryResourceCollection
+      bodyMapper: Mappers.ApmResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
