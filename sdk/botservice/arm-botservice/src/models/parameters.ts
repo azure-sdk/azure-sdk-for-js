@@ -97,7 +97,7 @@ export const resourceName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-15",
+    defaultValue: "2023-09-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -315,4 +315,18 @@ export const privateEndpointConnectionName: OperationURLParameter = {
 export const properties2: OperationParameter = {
   parameterPath: "properties",
   mapper: PrivateEndpointConnectionMapper
+};
+
+export const networkSecurityPerimeterConfigurationName: OperationURLParameter = {
+  parameterPath: "networkSecurityPerimeterConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(".*")
+    },
+    serializedName: "networkSecurityPerimeterConfigurationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
