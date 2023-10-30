@@ -33,6 +33,7 @@ export interface AcceleratorGitRepository {
     commit?: string;
     gitTag?: string;
     intervalInSeconds?: number;
+    subPath?: string;
     url: string;
 }
 
@@ -57,6 +58,9 @@ export type ActionType = string;
 export interface ActiveDeploymentCollection {
     activeDeploymentNames?: string[];
 }
+
+// @public
+export type ApiPortalApiTryOutEnabledState = string;
 
 // @public
 export interface ApiPortalCustomDomainProperties {
@@ -128,6 +132,7 @@ export interface ApiPortalInstance {
 
 // @public
 export interface ApiPortalProperties {
+    apiTryOutEnabledState?: ApiPortalApiTryOutEnabledState;
     gatewayIds?: string[];
     httpsOnly?: boolean;
     readonly instances?: ApiPortalInstance[];
@@ -213,6 +218,102 @@ export interface ApiPortalsValidateDomainOptionalParams extends coreClient.Opera
 
 // @public
 export type ApiPortalsValidateDomainResponse = CustomDomainValidateResult;
+
+// @public
+export interface ApmProperties {
+    properties?: {
+        [propertyName: string]: string;
+    };
+    readonly provisioningState?: ApmProvisioningState;
+    secrets?: {
+        [propertyName: string]: string;
+    };
+    type: string;
+}
+
+// @public
+export type ApmProvisioningState = string;
+
+// @public
+export interface ApmReference {
+    resourceId: string;
+}
+
+// @public
+export interface ApmResource extends ProxyResource {
+    properties?: ApmProperties;
+}
+
+// @public
+export interface ApmResourceCollection {
+    nextLink?: string;
+    value?: ApmResource[];
+}
+
+// @public
+export interface Apms {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, apmName: string, apmResource: ApmResource, options?: ApmsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApmsCreateOrUpdateResponse>, ApmsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, apmName: string, apmResource: ApmResource, options?: ApmsCreateOrUpdateOptionalParams): Promise<ApmsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, apmName: string, options?: ApmsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, apmName: string, options?: ApmsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, apmName: string, options?: ApmsGetOptionalParams): Promise<ApmsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: ApmsListOptionalParams): PagedAsyncIterableIterator<ApmResource>;
+    listSecretKeys(resourceGroupName: string, serviceName: string, apmName: string, options?: ApmsListSecretKeysOptionalParams): Promise<ApmsListSecretKeysResponse>;
+}
+
+// @public
+export interface ApmsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ApmsCreateOrUpdateResponse = ApmResource;
+
+// @public
+export interface ApmsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ApmsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApmSecretKeys {
+    value?: string[];
+}
+
+// @public
+export interface ApmsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApmsGetResponse = ApmResource;
+
+// @public
+export interface ApmsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApmsListNextResponse = ApmResourceCollection;
+
+// @public
+export interface ApmsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApmsListResponse = ApmResourceCollection;
+
+// @public
+export interface ApmsListSecretKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApmsListSecretKeysResponse = ApmSecretKeys;
 
 // @public
 export type ApmType = string;
@@ -401,12 +502,15 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AppPlatformManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: AppPlatformManagementClientOptionalParams);
     // (undocumented)
     apiPortalCustomDomains: ApiPortalCustomDomains;
     // (undocumented)
     apiPortals: ApiPortals;
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    apms: Apms;
     // (undocumented)
     applicationAccelerators: ApplicationAccelerators;
     // (undocumented)
@@ -440,6 +544,8 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     devToolPortals: DevToolPortals;
     // (undocumented)
+    eurekaServers: EurekaServers;
+    // (undocumented)
     gatewayCustomDomains: GatewayCustomDomains;
     // (undocumented)
     gatewayRouteConfigs: GatewayRouteConfigs;
@@ -462,7 +568,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     storages: Storages;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -503,6 +609,7 @@ export interface AppResourceProperties {
     temporaryDisk?: TemporaryDisk;
     readonly url?: string;
     vnetAddons?: AppVNetAddons;
+    workloadProfileName?: string;
 }
 
 // @public
@@ -842,7 +949,9 @@ export interface BuildpacksGroupProperties {
 // @public
 export interface BuildProperties {
     agentPool?: string;
+    apms?: ApmReference[];
     builder?: string;
+    certificates?: CertificateReference[];
     env?: {
         [propertyName: string]: string;
     };
@@ -1219,6 +1328,11 @@ export interface CertificateProperties {
 export type CertificatePropertiesUnion = CertificateProperties | KeyVaultCertificateProperties | ContentCertificateProperties;
 
 // @public
+export interface CertificateReference {
+    resourceId: string;
+}
+
+// @public
 export interface CertificateResource extends ProxyResource {
     properties?: CertificatePropertiesUnion;
 }
@@ -1295,6 +1409,7 @@ export interface CloudErrorBody {
 export interface ClusterResourceProperties {
     readonly fqdn?: string;
     infraResourceGroup?: string;
+    maintenanceScheduleConfiguration?: MaintenanceScheduleConfigurationUnion;
     managedEnvironmentId?: string;
     marketplaceResource?: MarketplaceResource;
     networkProfile?: NetworkProfile;
@@ -1306,6 +1421,9 @@ export interface ClusterResourceProperties {
     // (undocumented)
     zoneRedundant?: boolean;
 }
+
+// @public
+export type ConfigServerEnabledState = string;
 
 // @public
 export interface ConfigServerGitProperty {
@@ -1324,6 +1442,7 @@ export interface ConfigServerGitProperty {
 // @public
 export interface ConfigServerProperties {
     configServer?: ConfigServerSettings;
+    enabledState?: ConfigServerEnabledState;
     error?: ErrorModel;
     readonly provisioningState?: ConfigServerState;
 }
@@ -1400,6 +1519,9 @@ export interface ConfigServersValidateOptionalParams extends coreClient.Operatio
 export type ConfigServersValidateResponse = ConfigServerSettingsValidateResult;
 
 // @public
+export type ConfigurationServiceGeneration = string;
+
+// @public
 export interface ConfigurationServiceGitProperty {
     repositories?: ConfigurationServiceGitRepository[];
 }
@@ -1412,6 +1534,8 @@ export interface ConfigurationServiceGitPropertyValidateResult {
 
 // @public
 export interface ConfigurationServiceGitRepository {
+    caCertResourceId?: string;
+    gitImplementation?: GitImplementation;
     hostKey?: string;
     hostKeyAlgorithm?: string;
     label: string;
@@ -1433,6 +1557,7 @@ export interface ConfigurationServiceInstance {
 
 // @public
 export interface ConfigurationServiceProperties {
+    generation?: ConfigurationServiceGeneration;
     readonly instances?: ConfigurationServiceInstance[];
     readonly provisioningState?: ConfigurationServiceProvisioningState;
     readonly resourceRequests?: ConfigurationServiceResourceRequests;
@@ -1468,6 +1593,8 @@ export interface ConfigurationServices {
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, configurationServiceName: string, options?: ConfigurationServicesDeleteOptionalParams): Promise<void>;
     beginValidate(resourceGroupName: string, serviceName: string, configurationServiceName: string, settings: ConfigurationServiceSettings, options?: ConfigurationServicesValidateOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationServicesValidateResponse>, ConfigurationServicesValidateResponse>>;
     beginValidateAndWait(resourceGroupName: string, serviceName: string, configurationServiceName: string, settings: ConfigurationServiceSettings, options?: ConfigurationServicesValidateOptionalParams): Promise<ConfigurationServicesValidateResponse>;
+    beginValidateResource(resourceGroupName: string, serviceName: string, configurationServiceName: string, configurationServiceResource: ConfigurationServiceResource, options?: ConfigurationServicesValidateResourceOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationServicesValidateResourceResponse>, ConfigurationServicesValidateResourceResponse>>;
+    beginValidateResourceAndWait(resourceGroupName: string, serviceName: string, configurationServiceName: string, configurationServiceResource: ConfigurationServiceResource, options?: ConfigurationServicesValidateResourceOptionalParams): Promise<ConfigurationServicesValidateResourceResponse>;
     get(resourceGroupName: string, serviceName: string, configurationServiceName: string, options?: ConfigurationServicesGetOptionalParams): Promise<ConfigurationServicesGetResponse>;
     list(resourceGroupName: string, serviceName: string, options?: ConfigurationServicesListOptionalParams): PagedAsyncIterableIterator<ConfigurationServiceResource>;
 }
@@ -1525,6 +1652,21 @@ export interface ConfigurationServicesValidateOptionalParams extends coreClient.
 }
 
 // @public
+export interface ConfigurationServicesValidateResourceHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ConfigurationServicesValidateResourceOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConfigurationServicesValidateResourceResponse = ConfigurationServiceSettingsValidateResult;
+
+// @public
 export type ConfigurationServicesValidateResponse = ConfigurationServiceSettingsValidateResult;
 
 // @public
@@ -1536,6 +1678,10 @@ export interface ContainerProbeSettings {
 export interface ContainerRegistries {
     beginCreateOrUpdate(resourceGroupName: string, serviceName: string, containerRegistryName: string, containerRegistryResource: ContainerRegistryResource, options?: ContainerRegistriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerRegistriesCreateOrUpdateResponse>, ContainerRegistriesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, containerRegistryName: string, containerRegistryResource: ContainerRegistryResource, options?: ContainerRegistriesCreateOrUpdateOptionalParams): Promise<ContainerRegistriesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, containerRegistryName: string, options?: ContainerRegistriesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, containerRegistryName: string, options?: ContainerRegistriesDeleteOptionalParams): Promise<void>;
+    beginValidate(resourceGroupName: string, serviceName: string, containerRegistryName: string, containerRegistryProperties: ContainerRegistryProperties, options?: ContainerRegistriesValidateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerRegistriesValidateResponse>, ContainerRegistriesValidateResponse>>;
+    beginValidateAndWait(resourceGroupName: string, serviceName: string, containerRegistryName: string, containerRegistryProperties: ContainerRegistryProperties, options?: ContainerRegistriesValidateOptionalParams): Promise<ContainerRegistriesValidateResponse>;
     get(resourceGroupName: string, serviceName: string, containerRegistryName: string, options?: ContainerRegistriesGetOptionalParams): Promise<ContainerRegistriesGetResponse>;
     list(resourceGroupName: string, serviceName: string, options?: ContainerRegistriesListOptionalParams): PagedAsyncIterableIterator<ContainerRegistryResource>;
 }
@@ -1548,6 +1694,18 @@ export interface ContainerRegistriesCreateOrUpdateOptionalParams extends coreCli
 
 // @public
 export type ContainerRegistriesCreateOrUpdateResponse = ContainerRegistryResource;
+
+// @public
+export interface ContainerRegistriesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerRegistriesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface ContainerRegistriesGetOptionalParams extends coreClient.OperationOptions {
@@ -1569,6 +1727,21 @@ export interface ContainerRegistriesListOptionalParams extends coreClient.Operat
 
 // @public
 export type ContainerRegistriesListResponse = ContainerRegistryResourceCollection;
+
+// @public
+export interface ContainerRegistriesValidateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerRegistriesValidateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerRegistriesValidateResponse = ContainerRegistryValidateResult;
 
 // @public
 export interface ContainerRegistryBasicCredentials extends ContainerRegistryCredentials {
@@ -1604,6 +1777,12 @@ export interface ContainerRegistryResource extends ProxyResource {
 export interface ContainerRegistryResourceCollection {
     nextLink?: string;
     value?: ContainerRegistryResource[];
+}
+
+// @public
+export interface ContainerRegistryValidateResult {
+    isValid?: boolean;
+    message?: string;
 }
 
 // @public
@@ -1725,6 +1904,7 @@ export interface CustomDomainValidateResult {
 export interface CustomizedAcceleratorProperties {
     // (undocumented)
     acceleratorTags?: string[];
+    acceleratorType?: CustomizedAcceleratorType;
     // (undocumented)
     description?: string;
     // (undocumented)
@@ -1733,6 +1913,7 @@ export interface CustomizedAcceleratorProperties {
     gitRepository: AcceleratorGitRepository;
     // (undocumented)
     iconUrl?: string;
+    readonly imports?: string[];
     readonly provisioningState?: CustomizedAcceleratorProvisioningState;
 }
 
@@ -1806,6 +1987,9 @@ export interface CustomizedAcceleratorsValidateOptionalParams extends coreClient
 
 // @public
 export type CustomizedAcceleratorsValidateResponse = CustomizedAcceleratorValidateResult;
+
+// @public
+export type CustomizedAcceleratorType = string;
 
 // @public
 export interface CustomizedAcceleratorValidateResult {
@@ -1956,6 +2140,7 @@ export interface DeploymentSettings {
     addonConfigs?: {
         [propertyName: string]: Record<string, unknown>;
     };
+    apms?: ApmReference[];
     containerProbeSettings?: ContainerProbeSettings;
     environmentVariables?: {
         [propertyName: string]: string;
@@ -2010,6 +2195,7 @@ export type DeploymentsListForClusterNextResponse = DeploymentResourceCollection
 
 // @public
 export interface DeploymentsListForClusterOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
     version?: string[];
 }
 
@@ -2025,6 +2211,7 @@ export type DeploymentsListNextResponse = DeploymentResourceCollection;
 
 // @public
 export interface DeploymentsListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
     version?: string[];
 }
 
@@ -2064,6 +2251,13 @@ export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOpt
 // @public
 export type DeploymentsUpdateResponse = DeploymentResource;
 
+// @public (undocumented)
+export interface DevToolPortalComponent {
+    readonly instances?: DevToolPortalInstance[];
+    readonly name?: string;
+    readonly resourceRequests?: DevToolPortalResourceRequests;
+}
+
 // @public
 export interface DevToolPortalFeatureDetail {
     readonly route?: string;
@@ -2087,11 +2281,10 @@ export interface DevToolPortalInstance {
 
 // @public
 export interface DevToolPortalProperties {
+    readonly components?: DevToolPortalComponent[];
     features?: DevToolPortalFeatureSettings;
-    readonly instances?: DevToolPortalInstance[];
     readonly provisioningState?: DevToolPortalProvisioningState;
     public?: boolean;
-    readonly resourceRequests?: DevToolPortalResourceRequests;
     ssoProperties?: DevToolPortalSsoProperties;
     readonly url?: string;
 }
@@ -2185,10 +2378,91 @@ export interface ErrorModel {
 }
 
 // @public
+export type EurekaServerEnabledState = string;
+
+// @public
+export interface EurekaServerProperties {
+    enabledState?: EurekaServerEnabledState;
+    error?: ErrorModel;
+    readonly provisioningState?: EurekaServerState;
+}
+
+// @public
+export interface EurekaServerResource extends ProxyResource {
+    properties?: EurekaServerProperties;
+}
+
+// @public
+export interface EurekaServerResourceCollection {
+    nextLink?: string;
+    value?: EurekaServerResource[];
+}
+
+// @public
+export interface EurekaServers {
+    beginUpdatePatch(resourceGroupName: string, serviceName: string, eurekaServerResource: EurekaServerResource, options?: EurekaServersUpdatePatchOptionalParams): Promise<SimplePollerLike<OperationState<EurekaServersUpdatePatchResponse>, EurekaServersUpdatePatchResponse>>;
+    beginUpdatePatchAndWait(resourceGroupName: string, serviceName: string, eurekaServerResource: EurekaServerResource, options?: EurekaServersUpdatePatchOptionalParams): Promise<EurekaServersUpdatePatchResponse>;
+    beginUpdatePut(resourceGroupName: string, serviceName: string, eurekaServerResource: EurekaServerResource, options?: EurekaServersUpdatePutOptionalParams): Promise<SimplePollerLike<OperationState<EurekaServersUpdatePutResponse>, EurekaServersUpdatePutResponse>>;
+    beginUpdatePutAndWait(resourceGroupName: string, serviceName: string, eurekaServerResource: EurekaServerResource, options?: EurekaServersUpdatePutOptionalParams): Promise<EurekaServersUpdatePutResponse>;
+    get(resourceGroupName: string, serviceName: string, options?: EurekaServersGetOptionalParams): Promise<EurekaServersGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: EurekaServersListOptionalParams): Promise<EurekaServersListResponse>;
+}
+
+// @public
+export interface EurekaServersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EurekaServersGetResponse = EurekaServerResource;
+
+// @public
+export interface EurekaServersListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EurekaServersListResponse = EurekaServerResourceCollection;
+
+// @public
+export type EurekaServerState = string;
+
+// @public
+export interface EurekaServersUpdatePatchHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface EurekaServersUpdatePatchOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EurekaServersUpdatePatchResponse = EurekaServerResource;
+
+// @public
+export interface EurekaServersUpdatePutHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface EurekaServersUpdatePutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EurekaServersUpdatePutResponse = EurekaServerResource;
+
+// @public
 export interface ExecAction extends ProbeAction {
     command?: string[];
     type: "ExecAction";
 }
+
+// @public
+export type Frequency = string;
 
 // @public
 export interface GatewayApiMetadataProperties {
@@ -2220,6 +2494,7 @@ export interface GatewayCorsProperties {
     allowCredentials?: boolean;
     allowedHeaders?: string[];
     allowedMethods?: string[];
+    allowedOriginPatterns?: string[];
     allowedOrigins?: string[];
     exposedHeaders?: string[];
     maxAge?: number;
@@ -2294,6 +2569,20 @@ export interface GatewayInstance {
 }
 
 // @public
+export interface GatewayLocalResponseCachePerInstanceProperties extends GatewayResponseCacheProperties {
+    responseCacheType: "LocalCachePerInstance";
+    size?: string;
+    timeToLive?: string;
+}
+
+// @public
+export interface GatewayLocalResponseCachePerRouteProperties extends GatewayResponseCacheProperties {
+    responseCacheType: "LocalCachePerRoute";
+    size?: string;
+    timeToLive?: string;
+}
+
+// @public
 export interface GatewayOperatorProperties {
     readonly instances?: GatewayInstance[];
     readonly resourceRequests?: GatewayOperatorResourceRequests;
@@ -2308,7 +2597,11 @@ export interface GatewayOperatorResourceRequests {
 
 // @public
 export interface GatewayProperties {
+    addonConfigs?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
     apiMetadataProperties?: GatewayApiMetadataProperties;
+    apms?: ApmReference[];
     apmTypes?: ApmType[];
     clientAuth?: GatewayPropertiesClientAuth;
     corsProperties?: GatewayCorsProperties;
@@ -2319,6 +2612,7 @@ export interface GatewayProperties {
     readonly provisioningState?: GatewayProvisioningState;
     public?: boolean;
     resourceRequests?: GatewayResourceRequests;
+    responseCacheProperties?: GatewayResponseCachePropertiesUnion;
     ssoProperties?: SsoProperties;
     readonly url?: string;
 }
@@ -2359,6 +2653,14 @@ export interface GatewayResourceRequests {
     cpu?: string;
     memory?: string;
 }
+
+// @public
+export interface GatewayResponseCacheProperties {
+    responseCacheType: "LocalCachePerRoute" | "LocalCachePerInstance";
+}
+
+// @public (undocumented)
+export type GatewayResponseCachePropertiesUnion = GatewayResponseCacheProperties | GatewayLocalResponseCachePerRouteProperties | GatewayLocalResponseCachePerInstanceProperties;
 
 // @public
 export interface GatewayRouteConfigOpenApiProperties {
@@ -2536,6 +2838,9 @@ export type GatewaysValidateDomainResponse = CustomDomainValidateResult;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type GitImplementation = string;
+
+// @public
 export interface GitPatternRepository {
     hostKey?: string;
     hostKeyAlgorithm?: string;
@@ -2548,6 +2853,11 @@ export interface GitPatternRepository {
     strictHostKeyChecking?: boolean;
     uri: string;
     username?: string;
+}
+
+// @public
+export interface GloballyEnabledApms {
+    value?: string[];
 }
 
 // @public
@@ -2602,7 +2912,11 @@ export interface JarUploadedUserSourceInfo extends UploadedUserSourceInfo {
 }
 
 // @public
+export type KeyVaultCertificateAutoSync = string;
+
+// @public
 export interface KeyVaultCertificateProperties extends CertificateProperties {
+    autoSync?: KeyVaultCertificateAutoSync;
     certVersion?: string;
     excludePrivateKey?: boolean;
     keyVaultCertName: string;
@@ -2616,7 +2930,23 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownApiPortalApiTryOutEnabledState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownApiPortalProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownApmProvisioningState {
+    Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -2733,12 +3063,24 @@ export enum KnownCertificateResourceProvisioningState {
 }
 
 // @public
+export enum KnownConfigServerEnabledState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownConfigServerState {
     Deleted = "Deleted",
     Failed = "Failed",
     NotAvailable = "NotAvailable",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownConfigurationServiceGeneration {
+    Gen1 = "Gen1",
+    Gen2 = "Gen2"
 }
 
 // @public
@@ -2754,6 +3096,7 @@ export enum KnownConfigurationServiceProvisioningState {
 export enum KnownContainerRegistryProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
+    Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
@@ -2783,6 +3126,12 @@ export enum KnownCustomizedAcceleratorProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownCustomizedAcceleratorType {
+    Accelerator = "Accelerator",
+    Fragment = "Fragment"
 }
 
 // @public
@@ -2822,6 +3171,25 @@ export enum KnownDevToolPortalProvisioningState {
 }
 
 // @public
+export enum KnownEurekaServerEnabledState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEurekaServerState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownFrequency {
+    Weekly = "Weekly"
+}
+
+// @public
 export enum KnownGatewayCertificateVerification {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -2843,9 +3211,21 @@ export enum KnownGatewayRouteConfigProtocol {
 }
 
 // @public
+export enum KnownGitImplementation {
+    GoGit = "go-git",
+    Libgit2 = "libgit2"
+}
+
+// @public
 export enum KnownHttpSchemeType {
     Http = "HTTP",
     Https = "HTTPS"
+}
+
+// @public
+export enum KnownKeyVaultCertificateAutoSync {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -2988,8 +3368,29 @@ export enum KnownTrafficDirection {
 }
 
 // @public
+export enum KnownTriggeredBuildResultProvisioningState {
+    Building = "Building",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Queuing = "Queuing",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownType {
     AzureFileVolume = "AzureFileVolume"
+}
+
+// @public
+export enum KnownWeekDay {
+    Friday = "Friday",
+    Monday = "Monday",
+    Saturday = "Saturday",
+    Sunday = "Sunday",
+    Thursday = "Thursday",
+    Tuesday = "Tuesday",
+    Wednesday = "Wednesday"
 }
 
 // @public
@@ -3015,6 +3416,14 @@ export interface LogSpecification {
     displayName?: string;
     name?: string;
 }
+
+// @public
+export interface MaintenanceScheduleConfiguration {
+    frequency: "Weekly";
+}
+
+// @public (undocumented)
+export type MaintenanceScheduleConfigurationUnion = MaintenanceScheduleConfiguration | WeeklyMaintenanceScheduleConfiguration;
 
 // @public
 export interface ManagedIdentityProperties {
@@ -3548,6 +3957,12 @@ export interface Services {
     beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, resource: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
+    beginDisableApmGlobally(resourceGroupName: string, serviceName: string, apm: ApmReference, options?: ServicesDisableApmGloballyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDisableApmGloballyAndWait(resourceGroupName: string, serviceName: string, apm: ApmReference, options?: ServicesDisableApmGloballyOptionalParams): Promise<void>;
+    beginEnableApmGlobally(resourceGroupName: string, serviceName: string, apm: ApmReference, options?: ServicesEnableApmGloballyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginEnableApmGloballyAndWait(resourceGroupName: string, serviceName: string, apm: ApmReference, options?: ServicesEnableApmGloballyOptionalParams): Promise<void>;
+    beginFlushVnetDnsSetting(resourceGroupName: string, serviceName: string, options?: ServicesFlushVnetDnsSettingOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginFlushVnetDnsSettingAndWait(resourceGroupName: string, serviceName: string, options?: ServicesFlushVnetDnsSettingOptionalParams): Promise<void>;
     beginStart(resourceGroupName: string, serviceName: string, options?: ServicesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, serviceName: string, options?: ServicesStartOptionalParams): Promise<void>;
     beginStop(resourceGroupName: string, serviceName: string, options?: ServicesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -3560,6 +3975,9 @@ export interface Services {
     get(resourceGroupName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
     list(resourceGroupName: string, options?: ServicesListOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
     listBySubscription(options?: ServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
+    listGloballyEnabledApms(resourceGroupName: string, serviceName: string, options?: ServicesListGloballyEnabledApmsOptionalParams): Promise<ServicesListGloballyEnabledApmsResponse>;
+    listSupportedApmTypes(resourceGroupName: string, serviceName: string, options?: ServicesListSupportedApmTypesOptionalParams): PagedAsyncIterableIterator<SupportedApmType>;
+    listSupportedServerVersions(resourceGroupName: string, serviceName: string, options?: ServicesListSupportedServerVersionsOptionalParams): PagedAsyncIterableIterator<SupportedServerVersion>;
     listTestKeys(resourceGroupName: string, serviceName: string, options?: ServicesListTestKeysOptionalParams): Promise<ServicesListTestKeysResponse>;
     regenerateTestKey(resourceGroupName: string, serviceName: string, regenerateTestKeyRequest: RegenerateTestKeyRequestPayload, options?: ServicesRegenerateTestKeyOptionalParams): Promise<ServicesRegenerateTestKeyResponse>;
 }
@@ -3587,7 +4005,31 @@ export interface ServicesDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
+export interface ServicesDisableApmGloballyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ServicesDisableApmGloballyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ServicesDisableTestEndpointOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ServicesEnableApmGloballyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ServicesEnableApmGloballyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -3596,6 +4038,18 @@ export interface ServicesEnableTestEndpointOptionalParams extends coreClient.Ope
 
 // @public
 export type ServicesEnableTestEndpointResponse = TestKeys;
+
+// @public
+export interface ServicesFlushVnetDnsSettingHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ServicesFlushVnetDnsSettingOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
@@ -3619,6 +4073,13 @@ export interface ServicesListBySubscriptionOptionalParams extends coreClient.Ope
 export type ServicesListBySubscriptionResponse = ServiceResourceList;
 
 // @public
+export interface ServicesListGloballyEnabledApmsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServicesListGloballyEnabledApmsResponse = GloballyEnabledApms;
+
+// @public
 export interface ServicesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -3631,6 +4092,34 @@ export interface ServicesListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type ServicesListResponse = ServiceResourceList;
+
+// @public
+export interface ServicesListSupportedApmTypesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServicesListSupportedApmTypesNextResponse = SupportedApmTypes;
+
+// @public
+export interface ServicesListSupportedApmTypesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServicesListSupportedApmTypesResponse = SupportedApmTypes;
+
+// @public
+export interface ServicesListSupportedServerVersionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServicesListSupportedServerVersionsNextResponse = SupportedServerVersions;
+
+// @public
+export interface ServicesListSupportedServerVersionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServicesListSupportedServerVersionsResponse = SupportedServerVersions;
 
 // @public
 export interface ServicesListTestKeysOptionalParams extends coreClient.OperationOptions {
@@ -3821,6 +4310,17 @@ export type StoragesListResponse = StorageResourceCollection;
 export type StorageType = string;
 
 // @public
+export interface SupportedApmType {
+    name?: string;
+}
+
+// @public
+export interface SupportedApmTypes {
+    nextLink?: string;
+    value?: SupportedApmType[];
+}
+
+// @public
 export interface SupportedBuildpackResource extends ProxyResource {
     properties?: SupportedBuildpackResourceProperties;
 }
@@ -3847,6 +4347,19 @@ export interface SupportedRuntimeVersion {
     platform?: SupportedRuntimePlatform;
     value?: SupportedRuntimeValue;
     version?: string;
+}
+
+// @public
+export interface SupportedServerVersion {
+    server?: string;
+    value?: string;
+    version?: string;
+}
+
+// @public
+export interface SupportedServerVersions {
+    nextLink?: string;
+    value?: SupportedServerVersion[];
 }
 
 // @public
@@ -3921,7 +4434,15 @@ export type TrafficDirection = string;
 // @public
 export interface TriggeredBuildResult {
     id?: string;
+    image?: string;
+    lastTransitionReason?: string;
+    lastTransitionStatus?: string;
+    lastTransitionTime?: Date;
+    readonly provisioningState?: TriggeredBuildResultProvisioningState;
 }
+
+// @public
+export type TriggeredBuildResultProvisioningState = string;
 
 // @public
 export type Type = string;
@@ -3929,11 +4450,11 @@ export type Type = string;
 // @public
 export interface UploadedUserSourceInfo extends UserSourceInfo {
     relativePath?: string;
-    type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip";
+    type: "UploadedUserSourceInfo" | "Jar" | "War" | "Source" | "NetCoreZip";
 }
 
 // @public (undocumented)
-export type UploadedUserSourceInfoUnion = UploadedUserSourceInfo | JarUploadedUserSourceInfo | SourceUploadedUserSourceInfo | NetCoreZipUploadedUserSourceInfo;
+export type UploadedUserSourceInfoUnion = UploadedUserSourceInfo | JarUploadedUserSourceInfo | WarUploadedUserSourceInfo | SourceUploadedUserSourceInfo | NetCoreZipUploadedUserSourceInfo;
 
 // @public
 export interface UserAssignedManagedIdentity {
@@ -3943,7 +4464,7 @@ export interface UserAssignedManagedIdentity {
 
 // @public
 export interface UserSourceInfo {
-    type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" | "Container";
+    type: "UploadedUserSourceInfo" | "Jar" | "War" | "Source" | "NetCoreZip" | "BuildResult" | "Container";
     version?: string;
 }
 
@@ -3954,6 +4475,25 @@ export type UserSourceInfoUnion = UserSourceInfo | UploadedUserSourceInfoUnion |
 export interface ValidationMessages {
     messages?: string[];
     name?: string;
+}
+
+// @public
+export interface WarUploadedUserSourceInfo extends UploadedUserSourceInfo {
+    jvmOptions?: string;
+    runtimeVersion?: string;
+    serverVersion?: string;
+    type: "War";
+}
+
+// @public
+export type WeekDay = string;
+
+// @public
+export interface WeeklyMaintenanceScheduleConfiguration extends MaintenanceScheduleConfiguration {
+    day: WeekDay;
+    readonly duration?: string;
+    frequency: "Weekly";
+    hour: number;
 }
 
 // (No @packageDocumentation comment for this package)
