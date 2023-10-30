@@ -14,24 +14,66 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, ServicesImpl } from "./operations";
-import { Operations, Services } from "./operationsInterfaces";
+import {
+  OperationsImpl,
+  ServicesImpl,
+  MetadataSchemasImpl,
+  WorkspacesImpl,
+  ApisImpl,
+  ApiVersionsImpl,
+  ApiDefinitionsImpl,
+  DeploymentsImpl,
+  EnvironmentsImpl
+} from "./operations";
+import {
+  Operations,
+  Services,
+  MetadataSchemas,
+  Workspaces,
+  Apis,
+  ApiVersions,
+  ApiDefinitions,
+  Deployments,
+  Environments
+} from "./operationsInterfaces";
 import { AzureAPICenterOptionalParams } from "./models";
 
 export class AzureAPICenter extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
+  filter?: string;
+  metadataSchemaName: string;
+  workspaceName: string;
+  apiName: string;
+  versionName: string;
+  definitionName: string;
+  deploymentName: string;
+  environmentName: string;
 
   /**
    * Initializes a new instance of the AzureAPICenter class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param metadataSchemaName The name of the metadata schema.
+   * @param workspaceName The name of the workspace.
+   * @param apiName The name of the API.
+   * @param versionName The name of the API version.
+   * @param definitionName The name of the API definition.
+   * @param deploymentName The name of the API deployment.
+   * @param environmentName The name of the environment.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    metadataSchemaName: string,
+    workspaceName: string,
+    apiName: string,
+    versionName: string,
+    definitionName: string,
+    deploymentName: string,
+    environmentName: string,
     options?: AzureAPICenterOptionalParams
   ) {
     if (credentials === undefined) {
@@ -39,6 +81,27 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (metadataSchemaName === undefined) {
+      throw new Error("'metadataSchemaName' cannot be null");
+    }
+    if (workspaceName === undefined) {
+      throw new Error("'workspaceName' cannot be null");
+    }
+    if (apiName === undefined) {
+      throw new Error("'apiName' cannot be null");
+    }
+    if (versionName === undefined) {
+      throw new Error("'versionName' cannot be null");
+    }
+    if (definitionName === undefined) {
+      throw new Error("'definitionName' cannot be null");
+    }
+    if (deploymentName === undefined) {
+      throw new Error("'deploymentName' cannot be null");
+    }
+    if (environmentName === undefined) {
+      throw new Error("'environmentName' cannot be null");
     }
 
     // Initializing default values for options
@@ -50,7 +113,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apicenter/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-apicenter/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -100,12 +163,26 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.metadataSchemaName = metadataSchemaName;
+    this.workspaceName = workspaceName;
+    this.apiName = apiName;
+    this.versionName = versionName;
+    this.definitionName = definitionName;
+    this.deploymentName = deploymentName;
+    this.environmentName = environmentName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-07-01-preview";
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.operations = new OperationsImpl(this);
     this.services = new ServicesImpl(this);
+    this.metadataSchemas = new MetadataSchemasImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
+    this.apis = new ApisImpl(this);
+    this.apiVersions = new ApiVersionsImpl(this);
+    this.apiDefinitions = new ApiDefinitionsImpl(this);
+    this.deployments = new DeploymentsImpl(this);
+    this.environments = new EnvironmentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -139,4 +216,11 @@ export class AzureAPICenter extends coreClient.ServiceClient {
 
   operations: Operations;
   services: Services;
+  metadataSchemas: MetadataSchemas;
+  workspaces: Workspaces;
+  apis: Apis;
+  apiVersions: ApiVersions;
+  apiDefinitions: ApiDefinitions;
+  deployments: Deployments;
+  environments: Environments;
 }
