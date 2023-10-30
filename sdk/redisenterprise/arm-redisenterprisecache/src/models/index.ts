@@ -441,48 +441,18 @@ export interface ForceUnlinkParameters {
   ids: string[];
 }
 
-/** Parameters for a Redis Enterprise active geo-replication flush operation. */
+/** Parameters for a Redis Enterprise active geo-replication flush operation */
 export interface FlushParameters {
-  /** The resource identifiers of all the other database resources in the georeplication group to be flushed */
+  /** The identifiers of all the other database resources in the georeplication group to be flushed. */
   ids?: string[];
 }
 
-/** List of details about all the available SKUs */
-export interface RegionSkuDetails {
-  /** List of Sku Detail */
-  value?: RegionSkuDetail[];
-}
-
-/** Details about the location requested and the available skus in the location */
-export interface RegionSkuDetail {
-  /** Resource type which has the SKU, such as Microsoft.Cache/redisEnterprise */
-  resourceType?: string;
-  /** Details about location and its capabilities */
-  locationInfo?: LocationInfo;
-  /** Details about available skus */
-  skuDetails?: SkuDetail;
-}
-
-/** Information about location (for example: features that it supports) */
-export interface LocationInfo {
-  /** Location name */
-  location?: string;
-  /** List of capabilities */
-  capabilities?: Capability[];
-}
-
-/** Information about the features the location supports */
-export interface Capability {
-  /** Feature name */
-  name?: string;
-  /** Indicates whether feature is supported or not */
-  value?: boolean;
-}
-
-/** Information about Sku */
-export interface SkuDetail {
-  /** The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.) */
-  name?: SkuName;
+/** Parameters body to pass for resource name availability check. */
+export interface CheckNameAvailabilityParameters {
+  /** Resource name. */
+  name: string;
+  /** Resource type. The only legal value of this property for checking redis enterprise cache name availability is 'Microsoft.Cache/redisenterprise'. */
+  type: string;
 }
 
 /** The Private Endpoint Connection resource. */
@@ -600,6 +570,14 @@ export interface DatabasesFlushHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** User */
@@ -638,6 +616,8 @@ export type ActionType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** EnterpriseE5 */
+  EnterpriseE5 = "Enterprise_E5",
   /** EnterpriseE10 */
   EnterpriseE10 = "Enterprise_E10",
   /** EnterpriseE20 */
@@ -646,6 +626,10 @@ export enum KnownSkuName {
   EnterpriseE50 = "Enterprise_E50",
   /** EnterpriseE100 */
   EnterpriseE100 = "Enterprise_E100",
+  /** EnterpriseE200 */
+  EnterpriseE200 = "Enterprise_E200",
+  /** EnterpriseE400 */
+  EnterpriseE400 = "Enterprise_E400",
   /** EnterpriseFlashF300 */
   EnterpriseFlashF300 = "EnterpriseFlash_F300",
   /** EnterpriseFlashF700 */
@@ -659,10 +643,13 @@ export enum KnownSkuName {
  * {@link KnownSkuName} can be used interchangeably with SkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Enterprise_E5** \
  * **Enterprise_E10** \
  * **Enterprise_E20** \
  * **Enterprise_E50** \
  * **Enterprise_E100** \
+ * **Enterprise_E200** \
+ * **Enterprise_E400** \
  * **EnterpriseFlash_F300** \
  * **EnterpriseFlash_F700** \
  * **EnterpriseFlash_F1500**
@@ -787,7 +774,11 @@ export enum KnownResourceState {
   /** DisableFailed */
   DisableFailed = "DisableFailed",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** Scaling */
+  Scaling = "Scaling",
+  /** ScalingFailed */
+  ScalingFailed = "ScalingFailed"
 }
 
 /**
@@ -806,7 +797,9 @@ export enum KnownResourceState {
  * **EnableFailed** \
  * **Disabling** \
  * **DisableFailed** \
- * **Disabled**
+ * **Disabled** \
+ * **Scaling** \
+ * **ScalingFailed**
  */
 export type ResourceState = string;
 
@@ -1095,6 +1088,10 @@ export interface RedisEnterpriseListOptionalParams
 export type RedisEnterpriseListResponse = ClusterList;
 
 /** Optional parameters. */
+export interface RedisEnterpriseCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface RedisEnterpriseListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1245,7 +1242,12 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByClusterOptionalParams
@@ -1253,12 +1255,6 @@ export interface PrivateLinkResourcesListByClusterOptionalParams
 
 /** Contains response data for the listByCluster operation. */
 export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SkusListResponse = RegionSkuDetails;
 
 /** Optional parameters. */
 export interface RedisEnterpriseManagementClientOptionalParams
