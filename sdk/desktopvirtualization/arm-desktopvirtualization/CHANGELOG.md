@@ -1,15 +1,53 @@
 # Release History
+    
+## 1.2.0-beta.1 (2023-10-31)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group AppAttachPackageInfo
+  - Added operation group AppAttachPackageOperations
+  - Added Interface AppAttachPackage
+  - Added Interface AppAttachPackageCreateOrUpdateOptionalParams
+  - Added Interface AppAttachPackageDeleteOptionalParams
+  - Added Interface AppAttachPackageGetOptionalParams
+  - Added Interface AppAttachPackageInfoImportNextOptionalParams
+  - Added Interface AppAttachPackageInfoImportOptionalParams
+  - Added Interface AppAttachPackageInfoProperties
+  - Added Interface AppAttachPackageList
+  - Added Interface AppAttachPackageListByResourceGroupNextOptionalParams
+  - Added Interface AppAttachPackageListByResourceGroupOptionalParams
+  - Added Interface AppAttachPackageListBySubscriptionNextOptionalParams
+  - Added Interface AppAttachPackageListBySubscriptionOptionalParams
+  - Added Interface AppAttachPackagePatch
+  - Added Interface AppAttachPackagePatchProperties
+  - Added Interface AppAttachPackageProperties
+  - Added Interface AppAttachPackageUpdateOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ImportPackageInfoRequest
+  - Added Type Alias AppAttachPackageArchitectures
+  - Added Type Alias AppAttachPackageCreateOrUpdateResponse
+  - Added Type Alias AppAttachPackageGetResponse
+  - Added Type Alias AppAttachPackageInfoImportNextResponse
+  - Added Type Alias AppAttachPackageInfoImportResponse
+  - Added Type Alias AppAttachPackageListByResourceGroupNextResponse
+  - Added Type Alias AppAttachPackageListByResourceGroupResponse
+  - Added Type Alias AppAttachPackageListBySubscriptionNextResponse
+  - Added Type Alias AppAttachPackageListBySubscriptionResponse
+  - Added Type Alias AppAttachPackageUpdateResponse
+  - Added Type Alias FailHealthCheckOnStagingFailure
+  - Added Type Alias PackageTimestamped
+  - Added Type Alias ProvisioningState
+  - Interface ExpandMsixImage has a new optional parameter certificateExpiry
+  - Interface ExpandMsixImage has a new optional parameter certificateName
+  - Interface HostPool has a new optional parameter appAttachPackageReferences
+  - Added Enum KnownAppAttachPackageArchitectures
+  - Added Enum KnownFailHealthCheckOnStagingFailure
+  - Added Enum KnownPackageTimestamped
+  - Added Enum KnownProvisioningState
+    
+    
 ## 1.1.0 (2023-10-08)
     
 **Features**

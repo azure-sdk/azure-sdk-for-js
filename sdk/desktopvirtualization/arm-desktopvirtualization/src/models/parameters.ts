@@ -32,7 +32,10 @@ import {
   SessionHostPatch as SessionHostPatchMapper,
   MsixPackage as MsixPackageMapper,
   MsixPackagePatch as MsixPackagePatchMapper,
-  MsixImageURI as MsixImageURIMapper
+  ImportPackageInfoRequest as ImportPackageInfoRequestMapper,
+  MsixImageURI as MsixImageURIMapper,
+  AppAttachPackage as AppAttachPackageMapper,
+  AppAttachPackagePatch as AppAttachPackagePatchMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -62,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-05",
+    defaultValue: "2023-10-04-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -435,7 +438,38 @@ export const msixPackage1: OperationParameter = {
   mapper: MsixPackagePatchMapper
 };
 
+export const importPackageInfoRequest: OperationParameter = {
+  parameterPath: "importPackageInfoRequest",
+  mapper: ImportPackageInfoRequestMapper
+};
+
 export const msixImageURI: OperationParameter = {
   parameterPath: "msixImageURI",
   mapper: MsixImageURIMapper
+};
+
+export const appAttachPackageName: OperationURLParameter = {
+  parameterPath: "appAttachPackageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$"),
+      MaxLength: 100,
+      MinLength: 3
+    },
+    serializedName: "appAttachPackageName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const appAttachPackage: OperationParameter = {
+  parameterPath: "appAttachPackage",
+  mapper: AppAttachPackageMapper
+};
+
+export const appAttachPackagePatch: OperationParameter = {
+  parameterPath: ["options", "appAttachPackagePatch"],
+  mapper: AppAttachPackagePatchMapper
 };
