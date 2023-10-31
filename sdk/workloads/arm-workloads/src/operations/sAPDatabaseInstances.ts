@@ -266,105 +266,28 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Updates the Database resource.
+   * Updates the Database instance resource. This can be used to update tags on the resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
    *                             to work correctly.
    * @param options The options parameters.
    */
-  async beginUpdate(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    databaseInstanceName: string,
-    options?: SAPDatabaseInstancesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SAPDatabaseInstancesUpdateResponse>,
-      SAPDatabaseInstancesUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SAPDatabaseInstancesUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        sapVirtualInstanceName,
-        databaseInstanceName,
-        options
-      },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      SAPDatabaseInstancesUpdateResponse,
-      OperationState<SAPDatabaseInstancesUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Updates the Database resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
-   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
-   *                             to work correctly.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
     options?: SAPDatabaseInstancesUpdateOptionalParams
   ): Promise<SAPDatabaseInstancesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      sapVirtualInstanceName,
-      databaseInstanceName,
-      options
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        options
+      },
+      updateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -442,7 +365,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -563,7 +486,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -666,7 +589,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -761,7 +684,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -782,20 +705,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SAPDatabaseInstance
     },
-    201: {
-      bodyMapper: Mappers.SAPDatabaseInstance
-    },
-    202: {
-      bodyMapper: Mappers.SAPDatabaseInstance
-    },
-    204: {
-      bodyMapper: Mappers.SAPDatabaseInstance
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body6,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -814,16 +728,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPDatabaseInstancesDeleteHeaders
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPDatabaseInstancesDeleteHeaders
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPDatabaseInstancesDeleteHeaders
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPDatabaseInstancesDeleteHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -883,6 +797,7 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -891,7 +806,8 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
     Parameters.sapVirtualInstanceName,
     Parameters.databaseInstanceName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };
 const stopInstanceOperationSpec: coreClient.OperationSpec = {
@@ -915,7 +831,7 @@ const stopInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

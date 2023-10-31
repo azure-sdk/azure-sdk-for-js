@@ -17,14 +17,15 @@ export type SAPConfigurationUnion =
   | DiscoveryConfiguration
   | DeploymentConfiguration
   | DeploymentWithOSConfiguration;
-export type ProviderSpecificPropertiesUnion =
-  | ProviderSpecificProperties
-  | HanaDbProviderInstanceProperties
-  | SapNetWeaverProviderInstanceProperties
-  | PrometheusOSProviderInstanceProperties
-  | DB2ProviderInstanceProperties
-  | PrometheusHaClusterProviderInstanceProperties
-  | MsSqlServerProviderInstanceProperties;
+export type BackupDataUnion =
+  | BackupData
+  | VMBackupData
+  | HanaBackupData
+  | SqlBackupData;
+export type RecoveryServicesVaultPropertiesUnion =
+  | RecoveryServicesVaultProperties
+  | NewRecoveryServicesVault
+  | ExistingRecoveryServicesVault;
 export type OSConfigurationUnion =
   | OSConfiguration
   | WindowsConfiguration
@@ -49,6 +50,20 @@ export type SoftwareConfigurationUnion =
   | ServiceInitiatedSoftwareConfiguration
   | SAPInstallWithoutOSConfigSoftwareConfiguration
   | ExternalInstallationSoftwareConfiguration;
+export type SchedulePolicyUnion =
+  | SchedulePolicy
+  | SimpleSchedulePolicy
+  | SimpleSchedulePolicyV2
+  | LongTermSchedulePolicy
+  | LogSchedulePolicy;
+export type RetentionPolicyUnion =
+  | RetentionPolicy
+  | LongTermRetentionPolicy
+  | SimpleRetentionPolicy;
+export type ProtectionPolicyUnion =
+  | ProtectionPolicy
+  | AzureIaaSVMProtectionPolicy
+  | AzureVmWorkloadProtectionPolicy;
 
 /** The SAP Sizing Recommendation request. */
 export interface SAPSizingRecommendationRequest {
@@ -247,12 +262,14 @@ export interface SAPAvailabilityZonePair {
   zoneB?: number;
 }
 
-/** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
+/** Managed service identity (user assigned identities) */
 export interface UserAssignedServiceIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
   /** User assigned identities dictionary */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** User assigned identity properties */
@@ -350,28 +367,16 @@ export interface SystemData {
 export interface UpdateSAPVirtualInstanceRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
+  /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
+  /** Defines the properties to be updated for Virtual Instance for SAP. */
+  properties?: UpdateSAPVirtualInstanceProperties;
 }
 
-/** The current status of an async operation. */
-export interface OperationStatusResult {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
+/** Defines the properties to be updated for Virtual Instance for SAP. */
+export interface UpdateSAPVirtualInstanceProperties {
+  /** Specifies the network access configuration for the resources that will be deployed in the Managed Resource Group. The options to choose from are Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled on the subnets in which the SAP VMs exist. This is required for establishing connectivity between VM extensions and the managed resource group storage account. This setting is currently applicable only to Storage Account. Learn more here https://go.microsoft.com/fwlink/?linkid=2247228 */
+  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType;
 }
 
 /** Defines the collection of Virtual Instance for SAP solutions resources. */
@@ -382,35 +387,35 @@ export interface SAPVirtualInstanceList {
   nextLink?: string;
 }
 
-/** Defines the SAP Message Server properties. */
+/** Defines the SAP message server properties. */
 export interface MessageServerProperties {
   /**
-   * Message Server port.
+   * message server port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly msPort?: number;
   /**
-   * Message Server internal MS port.
+   * message server internal MS port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly internalMsPort?: number;
   /**
-   * Message Server HTTP Port.
+   * message server HTTP Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly httpPort?: number;
   /**
-   * Message Server HTTPS Port.
+   * message server HTTPS Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly httpsPort?: number;
   /**
-   * Message Server SAP Hostname.
+   * message server SAP Hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * Message server IP Address.
+   * message server IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
@@ -600,117 +605,38 @@ export interface SAPApplicationServerInstanceList {
   nextLink?: string;
 }
 
+/** Start SAP instance(s) request body. */
+export interface StartRequest {
+  /** The boolean value indicates whether to start the virtual machines before starting the SAP instances. */
+  startVm?: boolean;
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
 /** Stop SAP instance(s) request body. */
 export interface StopRequest {
   /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
   softStopTimeoutSeconds?: number;
-}
-
-/** The response from the List SAP monitors operation. */
-export interface MonitorListResult {
-  /** The list of SAP monitors. */
-  value?: Monitor[];
-  /** The URL to get the next set of SAP monitors. */
-  nextLink?: string;
-}
-
-/** Standard error object. */
-export interface ErrorModel {
-  /**
-   * Server-defined set of error codes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Human-readable representation of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Target of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * Array of details about specific errors that led to this reported error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorModel[];
-  /**
-   * Object containing more specific information than  the current object about the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innerError?: ErrorInnerError;
-}
-
-/** Object containing more specific information than  the current object about the error. */
-export interface ErrorInnerError {
-  /** Standard error object. */
-  innerError?: ErrorModel;
-}
-
-/** Defines the request body for updating SAP monitor resource. */
-export interface UpdateMonitorRequest {
-  /** Gets or sets the Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** [currently not in use] Managed service identity(user assigned identities) */
-  identity?: UserAssignedServiceIdentity;
-}
-
-/** The response from the List provider instances operation. */
-export interface ProviderInstanceListResult {
-  /** The list of provider instances. */
-  value?: ProviderInstance[];
-  /** The URL to get the next set of provider instances. */
-  nextLink?: string;
-}
-
-/** Gets or sets the provider specific properties. */
-export interface ProviderSpecificProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  providerType:
-    | "SapHana"
-    | "SapNetWeaver"
-    | "PrometheusOS"
-    | "Db2"
-    | "PrometheusHaCluster"
-    | "MsSqlServer";
-}
-
-/** Gets or sets the SID groupings by landscape and Environment. */
-export interface SapLandscapeMonitorPropertiesGrouping {
-  /** Gets or sets the list of landscape to SID mappings. */
-  landscape?: SapLandscapeMonitorSidMapping[];
-  /** Gets or sets the list of Sap Applications to SID mappings. */
-  sapApplication?: SapLandscapeMonitorSidMapping[];
-}
-
-/** Gets or sets the mapping for SID to Environment/Applications. */
-export interface SapLandscapeMonitorSidMapping {
-  /** Gets or sets the name of the grouping. */
-  name?: string;
-  /** Gets or sets the list of SID's. */
-  topSid?: string[];
-}
-
-/** Gets or sets the Threshold Values for Top Metrics Health. */
-export interface SapLandscapeMonitorMetricThresholds {
-  /** Gets or sets the name of the threshold. */
-  name?: string;
-  /** Gets or sets the threshold value for Green. */
-  green?: number;
-  /** Gets or sets the threshold value for Yellow. */
-  yellow?: number;
-  /** Gets or sets the threshold value for Red. */
-  red?: number;
-}
-
-/** The response from the List SAP Landscape Monitor Dashboard operation. */
-export interface SapLandscapeMonitorListResult {
-  /** The list of Sap Landscape Monitor configuration. */
-  value?: SapLandscapeMonitor[];
-  /** The URL to get the next set of SAP Landscape Monitor Dashboard. */
-  nextLink?: string;
+  /** The boolean value indicates whether to Stop and deallocate the virtual machines along with the SAP instances. */
+  deallocateVm?: boolean;
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -777,6 +703,69 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** Error definition. */
+export interface ConnectorErrorDefinition {
+  /**
+   * Service specific error code which serves as the substatus for the HTTP error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Description of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Internal error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ConnectorErrorDefinition[];
+}
+
+/** Defines the request body for updating a connector. */
+export interface UpdateConnectorRequest {
+  /** Gets or sets the resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Managed service identity (user assigned identities) */
+  identity?: UserAssignedServiceIdentity;
+}
+
+/** Defines the collection of connector resources. */
+export interface ConnectorList {
+  /** Gets the list of connector resources. */
+  value: Connector[];
+  /** Gets the value of next link. */
+  nextLink?: string;
+}
+
+/** Information about the recovery services vault and backup policy used for backup. */
+export interface BackupData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  backupType: "VM" | "HANA" | "SQL";
+  /** The properties of the recovery services vault used for backup. */
+  recoveryServicesVault: RecoveryServicesVaultPropertiesUnion;
+}
+
+/** The properties of the recovery services vault used for backup. */
+export interface RecoveryServicesVaultProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  vaultType: "New" | "Existing";
+}
+
+/** Defines the request body for updating backup connection resource of virtual instance for SAP. */
+export interface UpdateAcssBackupConnectionRequest {
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Defines the collection of backup connection resources of virtual instances for SAP. */
+export interface AcssBackupConnectionList {
+  /** Gets the list of backup connection resources of virtual instances for SAP. */
+  value: AcssBackupConnection[];
+  /** Gets the value of next link. */
+  nextLink?: string;
+}
+
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
 export interface ImageReference {
   /** The image publisher. */
@@ -787,6 +776,8 @@ export interface ImageReference {
   sku?: string;
   /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. */
   version?: string;
+  /** Specifies the ARM resource ID of the Azure Compute Gallery image version used for creating ACSS VMs. You will need to provide this input when you choose to deploy virtual machines in ACSS with OS image from the Azure Compute gallery. */
+  id?: string;
 }
 
 /** Defines the OS configuration. */
@@ -1022,46 +1013,295 @@ export interface DeployerVmPackages {
   storageAccountId?: string;
 }
 
-/** Defines the workload operation. */
-export interface OperationsDisplayDefinition {
-  /** Defines the workload provider. */
-  provider: string;
-  /** Defines the workload resource. */
-  resource: string;
-  /** Defines the workload operation. */
-  operation: string;
-  /** Describes the workload operation. */
-  description: string;
-}
-
-/** Properties of an Operation. */
-export interface OperationsDefinition {
-  /** Name of the operation. */
+/** Defines the policy properties for virtual machine backup. */
+export interface VMBackupPolicyProperties {
+  /** The name of the VM Backup policy. */
   name: string;
-  /** Indicates whether the operation applies to data-plane. */
-  isDataAction?: boolean;
-  /** Defines the workload operation origin. */
-  origin?: OperationProperties;
-  /** Display information of the operation. */
-  display: OperationsDefinitionDisplay;
-  /** Defines the action type of workload operation. */
-  actionType?: WorkloadMonitorActionType;
-  /** Defines the workload operation properties. */
-  properties?: any;
+  /** Number of items associated with this policy. */
+  protectedItemsCount?: number;
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  backupManagementType?: string;
+  /** ResourceGuard Operation Requests */
+  resourceGuardOperationRequests?: string[];
+  /** Instant recovery point additional details. */
+  instantRPDetails?: InstantRPAdditionalDetails;
+  /** Backup schedule specified as part of backup policy. */
+  schedulePolicy?: SchedulePolicyUnion;
+  /** Retention policy with the details on backup copy retention ranges. */
+  retentionPolicy?: RetentionPolicyUnion;
+  /**
+   * Tiering policy to automatically move RPs to another tier
+   * Key is Target Tier, defined in RecoveryPointTierType enum.
+   * Tiering policy specifies the criteria to move RP to the target tier.
+   */
+  tieringPolicy?: { [propertyName: string]: TieringPolicy };
+  /** Instant RP retention policy range in days */
+  instantRpRetentionRangeInDays?: number;
+  /** Time zone optional input as string. For example: "Pacific Standard Time". */
+  timeZone?: string;
+  /** The policy type. */
+  policyType?: IaasvmPolicyType;
 }
 
-/** Defines the workload operation definition response. */
-export interface OperationsDefinitionArrayResponseWithContinuation {
-  /** Defines the workload operation definition response properties. */
-  value?: OperationsDefinition[];
-  /** The URL to get to the next set of results, if there are any. */
-  nextLink?: string;
+/** Instant recovery point additional details. */
+export interface InstantRPAdditionalDetails {
+  /** Azure backup resource group name prefix. */
+  azureBackupRGNamePrefix?: string;
+  /** Azure backup resource group name suffix. */
+  azureBackupRGNameSuffix?: string;
 }
 
-/** Tags field of the resource. */
-export interface Tags {
-  /** Tags field of the resource. */
-  tags?: { [propertyName: string]: string };
+/** Base class for backup schedule. */
+export interface SchedulePolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  schedulePolicyType:
+    | "SimpleSchedulePolicy"
+    | "SimpleSchedulePolicyV2"
+    | "LongTermSchedulePolicy"
+    | "LogSchedulePolicy";
+}
+
+/** Base class for retention policy. */
+export interface RetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  retentionPolicyType: "LongTermRetentionPolicy" | "SimpleRetentionPolicy";
+}
+
+/**
+ * Tiering Policy for a target tier.
+ * If the policy is not specified for a given target tier, service retains the existing configured tiering policy for that tier
+ */
+export interface TieringPolicy {
+  /**
+   * Tiering Mode to control automatic tiering of recovery points. Supported values are:
+   * 1. TierRecommended: Tier all recovery points recommended to be tiered
+   * 2. TierAfter: Tier all recovery points after a fixed period, as specified in duration + durationType below.
+   * 3. DoNotTier: Do not tier any recovery points
+   */
+  tieringMode?: TieringMode;
+  /**
+   * Number of days/weeks/months/years to retain backups in current tier before tiering.
+   * Used only if TieringMode is set to TierAfter
+   */
+  duration?: number;
+  /**
+   * Retention duration type: days/weeks/months/years
+   * Used only if TieringMode is set to TierAfter
+   */
+  durationType?: RetentionDurationType;
+}
+
+/** Base class for backup policy. Workload-specific backup policies are derived from this class. */
+export interface ProtectionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  backupManagementType: "AzureIaasVM" | "AzureWorkload";
+  /** Number of items associated with this policy. */
+  protectedItemsCount?: number;
+  /** ResourceGuard Operation Requests */
+  resourceGuardOperationRequests?: string[];
+}
+
+/** Defines the disk exclusion properties for virtual machine backup. */
+export interface DiskExclusionProperties {
+  /** List of Disks' Logical Unit Numbers (LUN) to be used for VM Protection. */
+  diskLunList: number[];
+  /** Flag to indicate whether DiskLunList is to be included/ excluded from backup. */
+  isInclusionList: boolean;
+}
+
+/** Defines the policy properties for database backup. */
+export interface DBBackupPolicyProperties {
+  /** The name of the DB backup policy. */
+  name: string;
+  /** Number of items associated with this policy. */
+  protectedItemsCount?: number;
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  backupManagementType?: string;
+  /** ResourceGuard Operation Requests */
+  resourceGuardOperationRequests?: string[];
+  /** Type of workload for the backup management */
+  workLoadType?: WorkloadType;
+  /** Common settings for the backup management */
+  settings?: Settings;
+  /** List of sub-protection policies which includes schedule and retention */
+  subProtectionPolicy?: SubProtectionPolicy[];
+  /** Fix the policy inconsistency */
+  makePolicyConsistent?: boolean;
+}
+
+/** Common settings field for backup management */
+export interface Settings {
+  /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
+  timeZone?: string;
+  /** SQL compression flag */
+  issqlcompression?: boolean;
+  /**
+   * Workload compression flag. This has been added so that 'isSqlCompression'
+   * will be deprecated once clients upgrade to consider this flag.
+   */
+  isCompression?: boolean;
+}
+
+/** Sub-protection policy which includes schedule and retention */
+export interface SubProtectionPolicy {
+  /** Type of backup policy type */
+  policyType?: PolicyType;
+  /** Backup schedule specified as part of backup policy. */
+  schedulePolicy?: SchedulePolicyUnion;
+  /** Retention policy with the details on backup copy retention ranges. */
+  retentionPolicy?: RetentionPolicyUnion;
+  /**
+   * Tiering policy to automatically move RPs to another tier.
+   * Key is Target Tier, defined in RecoveryPointTierType enum.
+   * Tiering policy specifies the criteria to move RP to the target tier.
+   */
+  tieringPolicy?: { [propertyName: string]: TieringPolicy };
+  /** Hana DB instance snapshot backup additional details. */
+  snapshotBackupAdditionalDetails?: SnapshotBackupAdditionalDetails;
+}
+
+/** Snapshot Backup related fields for WorkloadType SAP Hana system */
+export interface SnapshotBackupAdditionalDetails {
+  /** Retention range for instant Rp in days. */
+  instantRpRetentionRangeInDays?: number;
+  /** Instant RP details for the snapshot. */
+  instantRPDetails?: string;
+  /** User Assigned managed identity details used for snapshot policy. */
+  userAssignedManagedIdentityDetails?: UserAssignedManagedIdentityDetails;
+}
+
+/** User assigned managed identity details. */
+export interface UserAssignedManagedIdentityDetails {
+  identityArmId?: string;
+  identityName?: string;
+  /** User assigned managed identity properties. */
+  userAssignedIdentityProperties?: UserAssignedIdentityProperties;
+}
+
+/** User assigned managed identity properties. */
+export interface UserAssignedIdentityProperties {
+  clientId?: string;
+  principalId?: string;
+}
+
+/** Specify the HANA database TLS/SSL properties which will be used for enabling Azure Backup for this database. You need to specify these details if you have enabled secure communication for your HANA database. */
+export interface SSLConfiguration {
+  /** Specify the name of the keystore file that contains the client's identity (eg. sapsrv.pse). The script will search for the file in the appropriate directory depending on the crypto provider mentioned. If this argument is not provided, it is automatically determined by searching in the configuration files. */
+  sslKeyStore?: string;
+  /** Specify the name of the trust store file that contains the server’s public certificates (eg. sapsrv.pse). The script will search for the file in the appropriate directory depending on the crypto provider mentioned. If this argument is not provided, it is automatically determined by searching in the configuration files. */
+  sslTrustStore?: string;
+  /** Specify the hostname as mentioned in the SSL certificate. If this argument is not provided, it is automatically determined by searching in the SSL certificate. */
+  sslHostNameInCertificate?: string;
+  /** Specify the crypto provider being used (commoncrypto/openssl). If this argument is not provided, it is automatically determined by searching in the configuration files. */
+  sslCryptoProvider?: SslCryptoProvider;
+}
+
+/** Hourly schedule. */
+export interface HourlySchedule {
+  /**
+   * Interval at which backup needs to be triggered. For hourly the value
+   *  can be 4/6/8/12
+   */
+  interval?: number;
+  /** To specify start time of the backup window */
+  scheduleWindowStartTime?: Date;
+  /** To specify duration of the backup window */
+  scheduleWindowDuration?: number;
+}
+
+/** Daily schedule. */
+export interface DailySchedule {
+  /** List of times of day this schedule has to be run. */
+  scheduleRunTimes?: Date[];
+}
+
+/** Weekly schedule. */
+export interface WeeklySchedule {
+  /** Schedule run days. */
+  scheduleRunDays?: DayOfWeek[];
+  /** List of times of day this schedule has to be run. */
+  scheduleRunTimes?: Date[];
+}
+
+/** Daily retention schedule. */
+export interface DailyRetentionSchedule {
+  /** Retention times of retention policy. */
+  retentionTimes?: Date[];
+  /** Retention duration of retention Policy. */
+  retentionDuration?: RetentionDuration;
+}
+
+/** Retention duration. */
+export interface RetentionDuration {
+  /**
+   * Count of duration types. Retention duration is obtained by the counting the duration type Count times.
+   * For example, when Count = 3 and DurationType = Weeks, retention duration will be three weeks.
+   */
+  count?: number;
+  /** Retention duration type of retention policy. */
+  durationType?: RetentionDurationType;
+}
+
+/** Weekly retention schedule. */
+export interface WeeklyRetentionSchedule {
+  /** List of days of week for weekly retention policy. */
+  daysOfTheWeek?: DayOfWeek[];
+  /** Retention times of retention policy. */
+  retentionTimes?: Date[];
+  /** Retention duration of retention Policy. */
+  retentionDuration?: RetentionDuration;
+}
+
+/** Monthly retention schedule. */
+export interface MonthlyRetentionSchedule {
+  /** Retention schedule format type for monthly retention policy. */
+  retentionScheduleFormatType?: RetentionScheduleFormat;
+  /** Daily retention format for monthly retention policy. */
+  retentionScheduleDaily?: DailyRetentionFormat;
+  /** Weekly retention format for monthly retention policy. */
+  retentionScheduleWeekly?: WeeklyRetentionFormat;
+  /** Retention times of retention policy. */
+  retentionTimes?: Date[];
+  /** Retention duration of retention Policy. */
+  retentionDuration?: RetentionDuration;
+}
+
+/** Daily retention format. */
+export interface DailyRetentionFormat {
+  /** List of days of the month. */
+  daysOfTheMonth?: Day[];
+}
+
+/** Day of the week. */
+export interface Day {
+  /** Date of the month */
+  date?: number;
+  /** Whether Date is last date of month */
+  isLast?: boolean;
+}
+
+/** Weekly retention format. */
+export interface WeeklyRetentionFormat {
+  /** List of days of the week. */
+  daysOfTheWeek?: DayOfWeek[];
+  /** List of weeks of month. */
+  weeksOfTheMonth?: WeekOfMonth[];
+}
+
+/** Yearly retention schedule. */
+export interface YearlyRetentionSchedule {
+  /** Retention schedule format for yearly retention policy. */
+  retentionScheduleFormatType?: RetentionScheduleFormat;
+  /** List of months of year of yearly retention policy. */
+  monthsOfYear?: MonthOfYear[];
+  /** Daily retention format for yearly retention policy. */
+  retentionScheduleDaily?: DailyRetentionFormat;
+  /** Weekly retention format for yearly retention policy. */
+  retentionScheduleWeekly?: WeeklyRetentionFormat;
+  /** Retention times of retention policy. */
+  retentionTimes?: Date[];
+  /** Retention duration of retention Policy. */
+  retentionDuration?: RetentionDuration;
 }
 
 /** The recommended configuration for a single server SAP system. */
@@ -1141,169 +1381,58 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** Defines the workload operation content. */
-export interface OperationsContent extends Resource {
-  /** Name of the operation. */
-  namePropertiesName?: string;
-  /** Indicates whether the operation applies to data-plane. */
-  isDataAction?: boolean;
-  /** Defines the workload operation origin. */
-  origin?: OperationProperties;
-  /** Display information of the operation. */
-  display?: OperationsDefinitionDisplay;
-  /** Defines the action type of workload operation. */
-  actionType?: WorkloadMonitorActionType;
-  /** Defines the workload operation properties. */
-  properties?: any;
+/** Defines the VM Backup data for a virtual instance for SAP. */
+export interface VMBackupData extends BackupData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  backupType: "VM";
+  /** Defines the policy properties for virtual machine backup. */
+  backupPolicy: VMBackupPolicyProperties;
+  /** Defines the disk exclusion properties for virtual machine backup. */
+  diskExclusionProperties?: DiskExclusionProperties;
 }
 
-/** Defines the SAP monitor errors. */
-export interface MonitorPropertiesErrors extends ErrorModel {}
-
-/** Defines the provider instance errors. */
-export interface ProviderInstancePropertiesErrors extends ErrorModel {}
-
-/** Gets or sets the provider properties. */
-export interface HanaDbProviderInstanceProperties
-  extends ProviderSpecificProperties {
+/** Defines the HANA Backup data for a virtual instance for SAP. */
+export interface HanaBackupData extends BackupData {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  providerType: "SapHana";
-  /** Gets or sets the target virtual machine size. */
-  hostname?: string;
-  /** Gets or sets the hana database name. */
-  dbName?: string;
-  /** Gets or sets the database sql port. */
-  sqlPort?: string;
+  backupType: "HANA";
+  /** Path of the SSL key store. */
+  sslConfiguration?: SSLConfiguration;
+  /** Defines the policy properties for database backup. */
+  backupPolicy: DBBackupPolicyProperties;
+  /** Name of the HANA Database User Store Key. */
+  hdbuserstoreKeyName: string;
   /** Gets or sets the database instance number. */
   instanceNumber?: string;
-  /** Gets or sets the database user name. */
-  dbUsername?: string;
-  /** Gets or sets the database password. */
-  dbPassword?: string;
-  /** Gets or sets the key vault URI to secret with the database password. */
-  dbPasswordUri?: string;
-  /** Gets or sets the blob URI to SSL certificate for the DB. */
-  sslCertificateUri?: string;
-  /** Gets or sets the hostname(s) in the SSL certificate. */
-  sslHostNameInCertificate?: string;
-  /** Gets or sets certificate preference if secure communication is enabled. */
-  sslPreference?: SslPreference;
-  /** Gets or sets the SAP System Identifier. */
-  sapSid?: string;
+  /** Defines the policy properties for database backup. */
+  dbInstanceSnapshotBackupPolicy?: DBBackupPolicyProperties;
 }
 
-/** Gets or sets the provider properties. */
-export interface SapNetWeaverProviderInstanceProperties
-  extends ProviderSpecificProperties {
+/** Defines the SQL Backup data for a virtual instance for SAP. */
+export interface SqlBackupData extends BackupData {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  providerType: "SapNetWeaver";
-  /** Gets or sets the SAP System Identifier */
-  sapSid?: string;
-  /** Gets or sets the target virtual machine IP Address/FQDN. */
-  sapHostname?: string;
-  /** Gets or sets the instance number of SAP NetWeaver. */
-  sapInstanceNr?: string;
-  /** Gets or sets the list of HostFile Entries */
-  sapHostFileEntries?: string[];
-  /** Gets or sets the SAP user name. */
-  sapUsername?: string;
-  /** Sets the SAP password. */
-  sapPassword?: string;
-  /** Gets or sets the key vault URI to secret with the SAP password. */
-  sapPasswordUri?: string;
-  /** Gets or sets the SAP Client ID. */
-  sapClientId?: string;
-  /** Gets or sets the SAP HTTP port number. */
-  sapPortNumber?: string;
-  /** Gets or sets the blob URI to SSL certificate for the SAP system. */
-  sslCertificateUri?: string;
-  /** Gets or sets certificate preference if secure communication is enabled. */
-  sslPreference?: SslPreference;
+  backupType: "SQL";
+  /** Defines the policy properties for database backup. */
+  backupPolicy: DBBackupPolicyProperties;
 }
 
-/** Gets or sets the PrometheusOS provider properties. */
-export interface PrometheusOSProviderInstanceProperties
-  extends ProviderSpecificProperties {
+/** New recovery services vault. */
+export interface NewRecoveryServicesVault
+  extends RecoveryServicesVaultProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  providerType: "PrometheusOS";
-  /** URL of the Node Exporter endpoint */
-  prometheusUrl?: string;
-  /** Gets or sets certificate preference if secure communication is enabled. */
-  sslPreference?: SslPreference;
-  /** Gets or sets the blob URI to SSL certificate for the prometheus node exporter. */
-  sslCertificateUri?: string;
-  /** Gets or sets the SAP System Identifier */
-  sapSid?: string;
+  vaultType: "New";
+  /** The name of the recovery services vault has to be created. */
+  name: string;
+  /** The name of the resource group where the recovery services vault has to be created. */
+  resourceGroup: string;
 }
 
-/** Gets or sets the DB2 provider properties. */
-export interface DB2ProviderInstanceProperties
-  extends ProviderSpecificProperties {
+/** Existing recovery services vault. */
+export interface ExistingRecoveryServicesVault
+  extends RecoveryServicesVaultProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  providerType: "Db2";
-  /** Gets or sets the target virtual machine name. */
-  hostname?: string;
-  /** Gets or sets the db2 database name. */
-  dbName?: string;
-  /** Gets or sets the db2 database sql port. */
-  dbPort?: string;
-  /** Gets or sets the db2 database user name. */
-  dbUsername?: string;
-  /** Gets or sets the db2 database password. */
-  dbPassword?: string;
-  /** Gets or sets the key vault URI to secret with the database password. */
-  dbPasswordUri?: string;
-  /** Gets or sets the SAP System Identifier */
-  sapSid?: string;
-  /** Gets or sets certificate preference if secure communication is enabled. */
-  sslPreference?: SslPreference;
-  /** Gets or sets the blob URI to SSL certificate for the DB2 Database. */
-  sslCertificateUri?: string;
-}
-
-/** Gets or sets the PrometheusHaCluster provider properties. */
-export interface PrometheusHaClusterProviderInstanceProperties
-  extends ProviderSpecificProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  providerType: "PrometheusHaCluster";
-  /** URL of the Node Exporter endpoint. */
-  prometheusUrl?: string;
-  /** Gets or sets the target machine name. */
-  hostname?: string;
-  /** Gets or sets the cluster sid. */
-  sid?: string;
-  /** Gets or sets the clusterName. */
-  clusterName?: string;
-  /** Gets or sets certificate preference if secure communication is enabled. */
-  sslPreference?: SslPreference;
-  /** Gets or sets the blob URI to SSL certificate for the HA cluster exporter. */
-  sslCertificateUri?: string;
-}
-
-/** Gets or sets the SQL server provider properties. */
-export interface MsSqlServerProviderInstanceProperties
-  extends ProviderSpecificProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  providerType: "MsSqlServer";
-  /** Gets or sets the SQL server host name. */
-  hostname?: string;
-  /** Gets or sets the database sql port. */
-  dbPort?: string;
-  /** Gets or sets the database user name. */
-  dbUsername?: string;
-  /** Gets or sets the database password. */
-  dbPassword?: string;
-  /** Gets or sets the key vault URI to secret with the database password. */
-  dbPasswordUri?: string;
-  /** Gets or sets the SAP System Identifier */
-  sapSid?: string;
-  /** Gets or sets certificate preference if secure communication is enabled. */
-  sslPreference?: SslPreference;
-  /** Gets or sets the blob URI to SSL certificate for the SQL Database. */
-  sslCertificateUri?: string;
+  vaultType: "Existing";
+  /** The resource ID of the recovery services vault that has been created. */
+  id: string;
 }
 
 /** Specifies Windows operating system settings on the virtual machine. */
@@ -1377,7 +1506,7 @@ export interface SkipFileShareConfiguration extends FileShareConfiguration {
   configurationType: "Skip";
 }
 
-/** Gets or sets the file share configuration where the transport directory fileshare is created and mounted as a part of the create infra flow. Please pre-create the resource group you intend to place the transport directory in. The storage account and fileshare will be auto-created by the ACSS and doesn’t need to pre-created. */
+/** Gets or sets the file share configuration where the transport directory fileshare is created and mounted as a part of the create infra flow. Please pre-create the resource group you intend to place the transport directory in. The storage account and fileshare will be auto-created by the ACSS and doesn't need to be pre-created. */
 export interface CreateAndMountFileShareConfiguration
   extends FileShareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1456,18 +1585,120 @@ export interface ExternalInstallationSoftwareConfiguration
   centralServerVmId?: string;
 }
 
-/** Display information of the operation. */
-export interface OperationsDefinitionDisplay
-  extends OperationsDisplayDefinition {}
+/** Simple policy schedule. */
+export interface SimpleSchedulePolicy extends SchedulePolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  schedulePolicyType: "SimpleSchedulePolicy";
+  /** Frequency of the schedule operation of this policy. */
+  scheduleRunFrequency?: ScheduleRunType;
+  /** List of days of week this schedule has to be run. */
+  scheduleRunDays?: DayOfWeek[];
+  /** List of times of day this schedule has to be run. */
+  scheduleRunTimes?: Date[];
+  /** Hourly Schedule of this Policy */
+  hourlySchedule?: HourlySchedule;
+  /** At every number weeks this schedule has to be run. */
+  scheduleWeeklyFrequency?: number;
+}
+
+/** The V2 policy schedule for IaaS that supports hourly backups. */
+export interface SimpleSchedulePolicyV2 extends SchedulePolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  schedulePolicyType: "SimpleSchedulePolicyV2";
+  /** Frequency of the schedule operation of this policy. */
+  scheduleRunFrequency?: ScheduleRunType;
+  /** hourly schedule of this policy */
+  hourlySchedule?: HourlySchedule;
+  /** Daily schedule of this policy */
+  dailySchedule?: DailySchedule;
+  /** Weekly schedule of this policy */
+  weeklySchedule?: WeeklySchedule;
+}
+
+/** Long term policy schedule. */
+export interface LongTermSchedulePolicy extends SchedulePolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  schedulePolicyType: "LongTermSchedulePolicy";
+}
+
+/** Log policy schedule. */
+export interface LogSchedulePolicy extends SchedulePolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  schedulePolicyType: "LogSchedulePolicy";
+  /** Frequency of the log schedule operation of this policy in minutes. */
+  scheduleFrequencyInMins?: number;
+}
+
+/** Long term retention policy. */
+export interface LongTermRetentionPolicy extends RetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  retentionPolicyType: "LongTermRetentionPolicy";
+  /** Daily retention schedule of the protection policy. */
+  dailySchedule?: DailyRetentionSchedule;
+  /** Weekly retention schedule of the protection policy. */
+  weeklySchedule?: WeeklyRetentionSchedule;
+  /** Monthly retention schedule of the protection policy. */
+  monthlySchedule?: MonthlyRetentionSchedule;
+  /** Yearly retention schedule of the protection policy. */
+  yearlySchedule?: YearlyRetentionSchedule;
+}
+
+/** Simple policy retention. */
+export interface SimpleRetentionPolicy extends RetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  retentionPolicyType: "SimpleRetentionPolicy";
+  /** Retention duration of the protection policy. */
+  retentionDuration?: RetentionDuration;
+}
+
+/** IaaS VM workload-specific backup policy. */
+export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  backupManagementType: "AzureIaasVM";
+  /** Instant recovery point additional details. */
+  instantRPDetails?: InstantRPAdditionalDetails;
+  /** Backup schedule specified as part of backup policy. */
+  schedulePolicy?: SchedulePolicyUnion;
+  /** Retention policy with the details on backup copy retention ranges. */
+  retentionPolicy?: RetentionPolicyUnion;
+  /**
+   * Tiering policy to automatically move RPs to another tier
+   * Key is Target Tier, defined in RecoveryPointTierType enum.
+   * Tiering policy specifies the criteria to move RP to the target tier.
+   */
+  tieringPolicy?: { [propertyName: string]: TieringPolicy };
+  /** Instant RP retention policy range in days */
+  instantRpRetentionRangeInDays?: number;
+  /** Time zone optional input as string. For example: "Pacific Standard Time". */
+  timeZone?: string;
+  /** The policy type. */
+  policyType?: IaasvmPolicyType;
+}
+
+/** Azure VM (Mercury) workload-specific backup policy. */
+export interface AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  backupManagementType: "AzureWorkload";
+  /** Type of workload for the backup management */
+  workLoadType?: WorkloadType;
+  /** Common settings for the backup management */
+  settings?: Settings;
+  /** List of sub-protection policies which includes schedule and retention */
+  subProtectionPolicy?: SubProtectionPolicy[];
+  /** Fix the policy inconsistency */
+  makePolicyConsistent?: boolean;
+}
 
 /** Define the Virtual Instance for SAP solutions resource. */
 export interface SAPVirtualInstance extends TrackedResource {
-  /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
+  /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /** Defines the environment type - Production/Non Production. */
   environment: SAPEnvironmentType;
   /** Defines the SAP Product type. */
   sapProduct: SAPProductType;
+  /** Specifies the network access configuration for the resources that will be deployed in the Managed Resource Group. The options to choose from are Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled on the subnets in which the SAP VMs exist. This is required for establishing connectivity between VM extensions and the managed resource group storage account. This setting is currently applicable only to Storage Account. Learn more here https://go.microsoft.com/fwlink/?linkid=2247228 */
+  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType;
   /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
   configuration: SAPConfigurationUnion;
   /** Managed resource group configuration */
@@ -1511,7 +1742,7 @@ export interface SAPCentralServerInstance extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subnet?: string;
-  /** Defines the SAP Message Server properties. */
+  /** Defines the SAP message server properties. */
   messageServerProperties?: MessageServerProperties;
   /** Defines the SAP Enqueue Server properties. */
   enqueueServerProperties?: EnqueueServerProperties;
@@ -1658,6 +1889,11 @@ export interface SAPApplicationServerInstance extends TrackedResource {
    */
   readonly icmHttpsPort?: number;
   /**
+   * Application server instance dispatcher status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dispatcherStatus?: string;
+  /**
    * The Load Balancer details such as LoadBalancer ID attached to Application Server Virtual Machines
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1689,73 +1925,139 @@ export interface SAPApplicationServerInstance extends TrackedResource {
   readonly errors?: SAPVirtualInstanceError;
 }
 
-/** SAP monitor info on Azure (ARM properties and SAP monitor properties) */
-export interface Monitor extends TrackedResource {
-  /** [currently not in use] Managed service identity(user assigned identities) */
+/** Define the connector resource. */
+export interface Connector extends TrackedResource {
+  /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
+  /** Defines the ID of the connector's source resource. */
+  sourceResourceId: string;
   /**
-   * State of provisioning of the SAP monitor.
+   * Defines the provisioning states.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: WorkloadMonitorProvisioningState;
+  readonly provisioningState?: ConnectorProvisioningState;
   /**
-   * Defines the SAP monitor errors.
+   * Indicates any errors on the connector resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly errors?: MonitorPropertiesErrors;
-  /** The SAP monitor resources will be deployed in the SAP monitoring region. The subnet region should be same as the SAP monitoring region. */
-  appLocation?: string;
-  /** Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to the customer VNET. */
-  routingPreference?: RoutingPreference;
-  /** Sets the preference for zone redundancy on resources created for the SAP monitor. By default resources will be created which do not support zone redundancy. */
-  zoneRedundancyPreference?: string;
+  readonly errors?: ConnectorErrorDefinition;
   /** Managed resource group configuration */
   managedResourceGroupConfiguration?: ManagedRGConfiguration;
-  /** The ARM ID of the Log Analytics Workspace that is used for SAP monitoring. */
-  logAnalyticsWorkspaceArmId?: string;
-  /** The subnet which the SAP monitor will be deployed in */
-  monitorSubnet?: string;
-  /**
-   * The ARM ID of the MSI used for SAP monitoring.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly msiArmId?: string;
-  /**
-   * The ARM ID of the Storage account used for SAP monitoring.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageAccountArmId?: string;
 }
 
-/** A provider instance associated with SAP monitor. */
-export interface ProviderInstance extends ProxyResource {
-  /** [currently not in use] Managed service identity(user assigned identities) */
-  identity?: UserAssignedServiceIdentity;
+/** Define the backup connection resource of virtual instance for SAP.. */
+export interface AcssBackupConnection extends TrackedResource {
+  /** Information about the recovery services vault and backup policy used for backup. */
+  backupData?: BackupDataUnion;
   /**
-   * State of provisioning of the provider instance
+   * Defines the provisioning states.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: WorkloadMonitorProvisioningState;
+  readonly provisioningState?: ConnectorProvisioningState;
   /**
-   * Defines the provider instance errors.
+   * Defines the errors related to backup connection resource of virtual instance for SAP.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly errors?: ProviderInstancePropertiesErrors;
-  /** Defines the provider specific properties. */
-  providerSettings?: ProviderSpecificPropertiesUnion;
+  readonly errors?: ConnectorErrorDefinition;
 }
 
-/** configuration associated with SAP Landscape Monitor Dashboard. */
-export interface SapLandscapeMonitor extends ProxyResource {
-  /**
-   * State of provisioning of the SAP monitor.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: SapLandscapeMonitorProvisioningState;
-  /** Gets or sets the SID groupings by landscape and Environment. */
-  grouping?: SapLandscapeMonitorPropertiesGrouping;
-  /** Gets or sets the list Top Metric Thresholds for SAP Landscape Monitor Dashboard */
-  topMetricsThresholds?: SapLandscapeMonitorMetricThresholds[];
+/** Defines headers for SAPVirtualInstances_update operation. */
+export interface SAPVirtualInstancesUpdateHeaders {
+  /** URL to poll for status updates. */
+  location?: string;
+}
+
+/** Defines headers for SAPVirtualInstances_delete operation. */
+export interface SAPVirtualInstancesDeleteHeaders {
+  /** URL to poll for status updates. */
+  location?: string;
+}
+
+/** Defines headers for SAPVirtualInstances_start operation. */
+export interface SAPVirtualInstancesStartHeaders {
+  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPVirtualInstances_stop operation. */
+export interface SAPVirtualInstancesStopHeaders {
+  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPCentralInstances_delete operation. */
+export interface SAPCentralInstancesDeleteHeaders {
+  /** The URI to fetch the updated SAP Central Services Instance resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPCentralInstances_startInstance operation. */
+export interface SAPCentralInstancesStartInstanceHeaders {
+  /** The URI to fetch the updated central instance for SAP resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPCentralInstances_stopInstance operation. */
+export interface SAPCentralInstancesStopInstanceHeaders {
+  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPDatabaseInstances_delete operation. */
+export interface SAPDatabaseInstancesDeleteHeaders {
+  /** The URI to fetch the updated SAP Database Instance resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPDatabaseInstances_startInstance operation. */
+export interface SAPDatabaseInstancesStartInstanceHeaders {
+  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPDatabaseInstances_stopInstance operation. */
+export interface SAPDatabaseInstancesStopInstanceHeaders {
+  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPApplicationServerInstances_delete operation. */
+export interface SAPApplicationServerInstancesDeleteHeaders {
+  /** The URI to fetch the updated SAP Application Server Instance resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPApplicationServerInstances_startInstance operation. */
+export interface SAPApplicationServerInstancesStartInstanceHeaders {
+  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+  location?: string;
+}
+
+/** Defines headers for SAPApplicationServerInstances_stopInstance operation. */
+export interface SAPApplicationServerInstancesStopInstanceHeaders {
+  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+  location?: string;
+}
+
+/** Defines headers for Connectors_delete operation. */
+export interface ConnectorsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
+/** Defines headers for AcssBackupConnections_update operation. */
+export interface AcssBackupConnectionsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for AcssBackupConnections_delete operation. */
+export interface AcssBackupConnectionsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for status of the operation. */
+  location?: string;
 }
 
 /** Known values of {@link SAPEnvironmentType} that the service accepts. */
@@ -1917,6 +2219,24 @@ export enum KnownManagedServiceIdentityType {
  */
 export type ManagedServiceIdentityType = string;
 
+/** Known values of {@link ManagedResourcesNetworkAccessType} that the service accepts. */
+export enum KnownManagedResourcesNetworkAccessType {
+  /** Public */
+  Public = "Public",
+  /** Private */
+  Private = "Private"
+}
+
+/**
+ * Defines values for ManagedResourcesNetworkAccessType. \
+ * {@link KnownManagedResourcesNetworkAccessType} can be used interchangeably with ManagedResourcesNetworkAccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public** \
+ * **Private**
+ */
+export type ManagedResourcesNetworkAccessType = string;
+
 /** Known values of {@link SAPConfigurationType} that the service accepts. */
 export enum KnownSAPConfigurationType {
   /** Deployment */
@@ -2020,7 +2340,9 @@ export enum KnownSAPVirtualInstanceState {
   /** DiscoveryFailed */
   DiscoveryFailed = "DiscoveryFailed",
   /** RegistrationComplete */
-  RegistrationComplete = "RegistrationComplete"
+  RegistrationComplete = "RegistrationComplete",
+  /** AcssInstallationBlocked */
+  AcssInstallationBlocked = "ACSSInstallationBlocked"
 }
 
 /**
@@ -2039,7 +2361,8 @@ export enum KnownSAPVirtualInstanceState {
  * **DiscoveryPending** \
  * **DiscoveryInProgress** \
  * **DiscoveryFailed** \
- * **RegistrationComplete**
+ * **RegistrationComplete** \
+ * **ACSSInstallationBlocked**
  */
 export type SAPVirtualInstanceState = string;
 
@@ -2054,7 +2377,9 @@ export enum KnownSapVirtualInstanceProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -2066,7 +2391,8 @@ export enum KnownSapVirtualInstanceProvisioningState {
  * **Updating** \
  * **Creating** \
  * **Failed** \
- * **Deleting**
+ * **Deleting** \
+ * **Canceled**
  */
 export type SapVirtualInstanceProvisioningState = string;
 
@@ -2166,84 +2492,6 @@ export enum KnownApplicationServerVirtualMachineType {
  */
 export type ApplicationServerVirtualMachineType = string;
 
-/** Known values of {@link WorkloadMonitorProvisioningState} that the service accepts. */
-export enum KnownWorkloadMonitorProvisioningState {
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Migrating */
-  Migrating = "Migrating"
-}
-
-/**
- * Defines values for WorkloadMonitorProvisioningState. \
- * {@link KnownWorkloadMonitorProvisioningState} can be used interchangeably with WorkloadMonitorProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted** \
- * **Creating** \
- * **Updating** \
- * **Failed** \
- * **Succeeded** \
- * **Deleting** \
- * **Migrating**
- */
-export type WorkloadMonitorProvisioningState = string;
-
-/** Known values of {@link RoutingPreference} that the service accepts. */
-export enum KnownRoutingPreference {
-  /** Default */
-  Default = "Default",
-  /** RouteAll */
-  RouteAll = "RouteAll"
-}
-
-/**
- * Defines values for RoutingPreference. \
- * {@link KnownRoutingPreference} can be used interchangeably with RoutingPreference,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default** \
- * **RouteAll**
- */
-export type RoutingPreference = string;
-
-/** Known values of {@link SapLandscapeMonitorProvisioningState} that the service accepts. */
-export enum KnownSapLandscapeMonitorProvisioningState {
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Created */
-  Created = "Created",
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Canceled */
-  Canceled = "Canceled"
-}
-
-/**
- * Defines values for SapLandscapeMonitorProvisioningState. \
- * {@link KnownSapLandscapeMonitorProvisioningState} can be used interchangeably with SapLandscapeMonitorProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted** \
- * **Created** \
- * **Failed** \
- * **Succeeded** \
- * **Canceled**
- */
-export type SapLandscapeMonitorProvisioningState = string;
-
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** User */
@@ -2279,6 +2527,75 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+
+/** Known values of {@link ConnectorProvisioningState} that the service accepts. */
+export enum KnownConnectorProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Updating */
+  Updating = "Updating",
+  /** Creating */
+  Creating = "Creating",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ConnectorProvisioningState. \
+ * {@link KnownConnectorProvisioningState} can be used interchangeably with ConnectorProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Updating** \
+ * **Creating** \
+ * **Failed** \
+ * **Deleting** \
+ * **Canceled**
+ */
+export type ConnectorProvisioningState = string;
+
+/** Known values of {@link BackupType} that the service accepts. */
+export enum KnownBackupType {
+  /** VM */
+  VM = "VM",
+  /** SQL */
+  SQL = "SQL",
+  /** Hana */
+  Hana = "HANA"
+}
+
+/**
+ * Defines values for BackupType. \
+ * {@link KnownBackupType} can be used interchangeably with BackupType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **VM** \
+ * **SQL** \
+ * **HANA**
+ */
+export type BackupType = string;
+
+/** Known values of {@link VaultType} that the service accepts. */
+export enum KnownVaultType {
+  /** Existing */
+  Existing = "Existing",
+  /** New */
+  New = "New"
+}
+
+/**
+ * Defines values for VaultType. \
+ * {@link KnownVaultType} can be used interchangeably with VaultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Existing** \
+ * **New**
+ */
+export type VaultType = string;
 
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
@@ -2355,65 +2672,268 @@ export enum KnownSAPSoftwareInstallationType {
  */
 export type SAPSoftwareInstallationType = string;
 
-/** Known values of {@link OperationProperties} that the service accepts. */
-export enum KnownOperationProperties {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** User */
-  User = "User",
-  /** System */
-  System = "System"
+/** Known values of {@link TieringMode} that the service accepts. */
+export enum KnownTieringMode {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** TierRecommended */
+  TierRecommended = "TierRecommended",
+  /** TierAfter */
+  TierAfter = "TierAfter",
+  /** DoNotTier */
+  DoNotTier = "DoNotTier"
 }
 
 /**
- * Defines values for OperationProperties. \
- * {@link KnownOperationProperties} can be used interchangeably with OperationProperties,
+ * Defines values for TieringMode. \
+ * {@link KnownTieringMode} can be used interchangeably with TieringMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **User** \
- * **System**
+ * **Invalid** \
+ * **TierRecommended** \
+ * **TierAfter** \
+ * **DoNotTier**
  */
-export type OperationProperties = string;
+export type TieringMode = string;
 
-/** Known values of {@link WorkloadMonitorActionType} that the service accepts. */
-export enum KnownWorkloadMonitorActionType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Internal */
-  Internal = "Internal"
+/** Known values of {@link RetentionDurationType} that the service accepts. */
+export enum KnownRetentionDurationType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Days */
+  Days = "Days",
+  /** Weeks */
+  Weeks = "Weeks",
+  /** Months */
+  Months = "Months",
+  /** Years */
+  Years = "Years"
 }
 
 /**
- * Defines values for WorkloadMonitorActionType. \
- * {@link KnownWorkloadMonitorActionType} can be used interchangeably with WorkloadMonitorActionType,
+ * Defines values for RetentionDurationType. \
+ * {@link KnownRetentionDurationType} can be used interchangeably with RetentionDurationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Internal**
+ * **Invalid** \
+ * **Days** \
+ * **Weeks** \
+ * **Months** \
+ * **Years**
  */
-export type WorkloadMonitorActionType = string;
+export type RetentionDurationType = string;
 
-/** Known values of {@link SslPreference} that the service accepts. */
-export enum KnownSslPreference {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** RootCertificate */
-  RootCertificate = "RootCertificate",
-  /** ServerCertificate */
-  ServerCertificate = "ServerCertificate"
+/** Known values of {@link IaasvmPolicyType} that the service accepts. */
+export enum KnownIaasvmPolicyType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** V1 */
+  V1 = "V1",
+  /** V2 */
+  V2 = "V2"
 }
 
 /**
- * Defines values for SslPreference. \
- * {@link KnownSslPreference} can be used interchangeably with SslPreference,
+ * Defines values for IaasvmPolicyType. \
+ * {@link KnownIaasvmPolicyType} can be used interchangeably with IaasvmPolicyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Disabled** \
- * **RootCertificate** \
- * **ServerCertificate**
+ * **Invalid** \
+ * **V1** \
+ * **V2**
  */
-export type SslPreference = string;
+export type IaasvmPolicyType = string;
+
+/** Known values of {@link WorkloadType} that the service accepts. */
+export enum KnownWorkloadType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** VM */
+  VM = "VM",
+  /** FileFolder */
+  FileFolder = "FileFolder",
+  /** AzureSqlDb */
+  AzureSqlDb = "AzureSqlDb",
+  /** Sqldb */
+  Sqldb = "SQLDB",
+  /** Exchange */
+  Exchange = "Exchange",
+  /** Sharepoint */
+  Sharepoint = "Sharepoint",
+  /** VMwareVM */
+  VMwareVM = "VMwareVM",
+  /** SystemState */
+  SystemState = "SystemState",
+  /** Client */
+  Client = "Client",
+  /** GenericDataSource */
+  GenericDataSource = "GenericDataSource",
+  /** SQLDataBase */
+  SQLDataBase = "SQLDataBase",
+  /** AzureFileShare */
+  AzureFileShare = "AzureFileShare",
+  /** SAPHanaDatabase */
+  SAPHanaDatabase = "SAPHanaDatabase",
+  /** SAPAseDatabase */
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
+}
+
+/**
+ * Defines values for WorkloadType. \
+ * {@link KnownWorkloadType} can be used interchangeably with WorkloadType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **VM** \
+ * **FileFolder** \
+ * **AzureSqlDb** \
+ * **SQLDB** \
+ * **Exchange** \
+ * **Sharepoint** \
+ * **VMwareVM** \
+ * **SystemState** \
+ * **Client** \
+ * **GenericDataSource** \
+ * **SQLDataBase** \
+ * **AzureFileShare** \
+ * **SAPHanaDatabase** \
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
+ */
+export type WorkloadType = string;
+
+/** Known values of {@link PolicyType} that the service accepts. */
+export enum KnownPolicyType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Full */
+  Full = "Full",
+  /** Differential */
+  Differential = "Differential",
+  /** Log */
+  Log = "Log",
+  /** CopyOnlyFull */
+  CopyOnlyFull = "CopyOnlyFull",
+  /** Incremental */
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
+}
+
+/**
+ * Defines values for PolicyType. \
+ * {@link KnownPolicyType} can be used interchangeably with PolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Full** \
+ * **Differential** \
+ * **Log** \
+ * **CopyOnlyFull** \
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
+ */
+export type PolicyType = string;
+
+/** Known values of {@link SslCryptoProvider} that the service accepts. */
+export enum KnownSslCryptoProvider {
+  /** Commoncrypto */
+  Commoncrypto = "commoncrypto",
+  /** Openssl */
+  Openssl = "openssl"
+}
+
+/**
+ * Defines values for SslCryptoProvider. \
+ * {@link KnownSslCryptoProvider} can be used interchangeably with SslCryptoProvider,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **commoncrypto** \
+ * **openssl**
+ */
+export type SslCryptoProvider = string;
+
+/** Known values of {@link ScheduleRunType} that the service accepts. */
+export enum KnownScheduleRunType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Daily */
+  Daily = "Daily",
+  /** Weekly */
+  Weekly = "Weekly",
+  /** Hourly */
+  Hourly = "Hourly"
+}
+
+/**
+ * Defines values for ScheduleRunType. \
+ * {@link KnownScheduleRunType} can be used interchangeably with ScheduleRunType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Daily** \
+ * **Weekly** \
+ * **Hourly**
+ */
+export type ScheduleRunType = string;
+
+/** Known values of {@link RetentionScheduleFormat} that the service accepts. */
+export enum KnownRetentionScheduleFormat {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Daily */
+  Daily = "Daily",
+  /** Weekly */
+  Weekly = "Weekly"
+}
+
+/**
+ * Defines values for RetentionScheduleFormat. \
+ * {@link KnownRetentionScheduleFormat} can be used interchangeably with RetentionScheduleFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Daily** \
+ * **Weekly**
+ */
+export type RetentionScheduleFormat = string;
+/** Defines values for DayOfWeek. */
+export type DayOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
+/** Defines values for WeekOfMonth. */
+export type WeekOfMonth =
+  | "First"
+  | "Second"
+  | "Third"
+  | "Fourth"
+  | "Last"
+  | "Invalid";
+/** Defines values for MonthOfYear. */
+export type MonthOfYear =
+  | "Invalid"
+  | "January"
+  | "February"
+  | "March"
+  | "April"
+  | "May"
+  | "June"
+  | "July"
+  | "August"
+  | "September"
+  | "October"
+  | "November"
+  | "December";
 
 /** Optional parameters. */
 export interface SAPSizingRecommendationsOptionalParams
@@ -2481,6 +3001,10 @@ export interface SAPVirtualInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Request body to update a Virtual Instance for SAP solutions resource. */
   body?: UpdateSAPVirtualInstanceRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -2496,7 +3020,7 @@ export interface SAPVirtualInstancesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type SAPVirtualInstancesDeleteResponse = OperationStatusResult;
+export type SAPVirtualInstancesDeleteResponse = SAPVirtualInstancesDeleteHeaders;
 
 /** Optional parameters. */
 export interface SAPVirtualInstancesListByResourceGroupOptionalParams
@@ -2515,6 +3039,8 @@ export type SAPVirtualInstancesListBySubscriptionResponse = SAPVirtualInstanceLi
 /** Optional parameters. */
 export interface SAPVirtualInstancesStartOptionalParams
   extends coreClient.OperationOptions {
+  /** The Virtual Instance for SAP solutions resource start request body. */
+  body?: StartRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2578,10 +3104,6 @@ export interface SAPCentralInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The SAP Central Services Instance resource request body. */
   body?: UpdateSAPCentralInstanceRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -2597,7 +3119,7 @@ export interface SAPCentralInstancesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type SAPCentralInstancesDeleteResponse = OperationStatusResult;
+export type SAPCentralInstancesDeleteResponse = SAPCentralInstancesDeleteHeaders;
 
 /** Optional parameters. */
 export interface SAPCentralInstancesListOptionalParams
@@ -2609,6 +3131,8 @@ export type SAPCentralInstancesListResponse = SAPCentralInstanceList;
 /** Optional parameters. */
 export interface SAPCentralInstancesStartInstanceOptionalParams
   extends coreClient.OperationOptions {
+  /** SAP Central Services instance start request body. */
+  body?: StartRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2665,10 +3189,6 @@ export interface SAPDatabaseInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Database resource update request body. */
   body?: UpdateSAPDatabaseInstanceRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -2684,7 +3204,7 @@ export interface SAPDatabaseInstancesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type SAPDatabaseInstancesDeleteResponse = OperationStatusResult;
+export type SAPDatabaseInstancesDeleteResponse = SAPDatabaseInstancesDeleteHeaders;
 
 /** Optional parameters. */
 export interface SAPDatabaseInstancesListOptionalParams
@@ -2696,6 +3216,8 @@ export type SAPDatabaseInstancesListResponse = SAPDatabaseInstanceList;
 /** Optional parameters. */
 export interface SAPDatabaseInstancesStartInstanceOptionalParams
   extends coreClient.OperationOptions {
+  /** SAP Database server instance start request body. */
+  body?: StartRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2752,10 +3274,6 @@ export interface SAPApplicationServerInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The SAP Application Server Instance resource request body. */
   body?: UpdateSAPApplicationInstanceRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -2771,7 +3289,7 @@ export interface SAPApplicationServerInstancesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type SAPApplicationServerInstancesDeleteResponse = OperationStatusResult;
+export type SAPApplicationServerInstancesDeleteResponse = SAPApplicationServerInstancesDeleteHeaders;
 
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesListOptionalParams
@@ -2783,6 +3301,8 @@ export type SAPApplicationServerInstancesListResponse = SAPApplicationServerInst
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesStartInstanceOptionalParams
   extends coreClient.OperationOptions {
+  /** SAP Application server instance start request body. */
+  body?: StartRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2814,149 +3334,6 @@ export interface SAPApplicationServerInstancesListNextOptionalParams
 export type SAPApplicationServerInstancesListNextResponse = SAPApplicationServerInstanceList;
 
 /** Optional parameters. */
-export interface MonitorsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type MonitorsListResponse = MonitorListResult;
-
-/** Optional parameters. */
-export interface MonitorsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type MonitorsListByResourceGroupResponse = MonitorListResult;
-
-/** Optional parameters. */
-export interface MonitorsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type MonitorsGetResponse = Monitor;
-
-/** Optional parameters. */
-export interface MonitorsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type MonitorsCreateResponse = Monitor;
-
-/** Optional parameters. */
-export interface MonitorsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type MonitorsDeleteResponse = OperationStatusResult;
-
-/** Optional parameters. */
-export interface MonitorsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type MonitorsUpdateResponse = Monitor;
-
-/** Optional parameters. */
-export interface MonitorsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type MonitorsListNextResponse = MonitorListResult;
-
-/** Optional parameters. */
-export interface MonitorsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type MonitorsListByResourceGroupNextResponse = MonitorListResult;
-
-/** Optional parameters. */
-export interface ProviderInstancesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ProviderInstancesListResponse = ProviderInstanceListResult;
-
-/** Optional parameters. */
-export interface ProviderInstancesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ProviderInstancesGetResponse = ProviderInstance;
-
-/** Optional parameters. */
-export interface ProviderInstancesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ProviderInstancesCreateResponse = ProviderInstance;
-
-/** Optional parameters. */
-export interface ProviderInstancesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type ProviderInstancesDeleteResponse = OperationStatusResult;
-
-/** Optional parameters. */
-export interface ProviderInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ProviderInstancesListNextResponse = ProviderInstanceListResult;
-
-/** Optional parameters. */
-export interface SapLandscapeMonitorGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SapLandscapeMonitorGetResponse = SapLandscapeMonitor;
-
-/** Optional parameters. */
-export interface SapLandscapeMonitorCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type SapLandscapeMonitorCreateResponse = SapLandscapeMonitor;
-
-/** Optional parameters. */
-export interface SapLandscapeMonitorDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SapLandscapeMonitorUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type SapLandscapeMonitorUpdateResponse = SapLandscapeMonitor;
-
-/** Optional parameters. */
-export interface SapLandscapeMonitorListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SapLandscapeMonitorListResponse = SapLandscapeMonitorListResult;
-
-/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2969,6 +3346,138 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface ConnectorsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Connector resource request body. */
+  body?: Connector;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ConnectorsCreateResponse = Connector;
+
+/** Optional parameters. */
+export interface ConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConnectorsGetResponse = Connector;
+
+/** Optional parameters. */
+export interface ConnectorsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Request body to update a connector resource. */
+  body?: UpdateConnectorRequest;
+}
+
+/** Contains response data for the update operation. */
+export type ConnectorsUpdateResponse = Connector;
+
+/** Optional parameters. */
+export interface ConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ConnectorsDeleteResponse = ConnectorsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ConnectorsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ConnectorsListByResourceGroupResponse = ConnectorList;
+
+/** Optional parameters. */
+export interface ConnectorsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ConnectorsListBySubscriptionResponse = ConnectorList;
+
+/** Optional parameters. */
+export interface ConnectorsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ConnectorsListByResourceGroupNextResponse = ConnectorList;
+
+/** Optional parameters. */
+export interface ConnectorsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ConnectorsListBySubscriptionNextResponse = ConnectorList;
+
+/** Optional parameters. */
+export interface AcssBackupConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AcssBackupConnectionsGetResponse = AcssBackupConnection;
+
+/** Optional parameters. */
+export interface AcssBackupConnectionsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body of backup connection of virtual instance for SAP. */
+  body?: AcssBackupConnection;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type AcssBackupConnectionsCreateResponse = AcssBackupConnection;
+
+/** Optional parameters. */
+export interface AcssBackupConnectionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body of backup connection resource of virtual instance for SAP. */
+  body?: UpdateAcssBackupConnectionRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AcssBackupConnectionsUpdateResponse = AcssBackupConnection;
+
+/** Optional parameters. */
+export interface AcssBackupConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type AcssBackupConnectionsDeleteResponse = AcssBackupConnectionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface AcssBackupConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AcssBackupConnectionsListResponse = AcssBackupConnectionList;
+
+/** Optional parameters. */
+export interface AcssBackupConnectionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AcssBackupConnectionsListNextResponse = AcssBackupConnectionList;
 
 /** Optional parameters. */
 export interface WorkloadsClientOptionalParams

@@ -292,15 +292,89 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    options?: SAPVirtualInstancesUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesUpdateResponse>,
+      SAPVirtualInstancesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SAPVirtualInstancesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapVirtualInstanceName, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SAPVirtualInstancesUpdateResponse,
+      OperationState<SAPVirtualInstancesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates a Virtual Instance for SAP solutions resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesUpdateOptionalParams
   ): Promise<SAPVirtualInstancesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, sapVirtualInstanceName, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      sapVirtualInstanceName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -370,7 +444,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -702,6 +776,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SAPVirtualInstance
     },
+    201: {
+      bodyMapper: Mappers.SAPVirtualInstance
+    },
+    202: {
+      bodyMapper: Mappers.SAPVirtualInstance
+    },
+    204: {
+      bodyMapper: Mappers.SAPVirtualInstance
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -724,16 +807,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPVirtualInstancesDeleteHeaders
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPVirtualInstancesDeleteHeaders
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPVirtualInstancesDeleteHeaders
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPVirtualInstancesDeleteHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -808,6 +891,7 @@ const startOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -815,7 +899,8 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };
 const stopOperationSpec: coreClient.OperationSpec = {
@@ -839,7 +924,7 @@ const stopOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -98,27 +98,7 @@ export interface SAPCentralInstances {
    *                            auto generation to work correctly.
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    centralInstanceName: string,
-    options?: SAPCentralInstancesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SAPCentralInstancesUpdateResponse>,
-      SAPCentralInstancesUpdateResponse
-    >
-  >;
-  /**
-   * Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the
-   * resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
-   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
-   *                            auto generation to work correctly.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,

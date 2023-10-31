@@ -18,6 +18,7 @@ import {
   SAPAvailabilityZoneDetailsRequest as SAPAvailabilityZoneDetailsRequestMapper,
   SAPVirtualInstance as SAPVirtualInstanceMapper,
   UpdateSAPVirtualInstanceRequest as UpdateSAPVirtualInstanceRequestMapper,
+  StartRequest as StartRequestMapper,
   StopRequest as StopRequestMapper,
   SAPCentralServerInstance as SAPCentralServerInstanceMapper,
   UpdateSAPCentralInstanceRequest as UpdateSAPCentralInstanceRequestMapper,
@@ -25,10 +26,10 @@ import {
   UpdateSAPDatabaseInstanceRequest as UpdateSAPDatabaseInstanceRequestMapper,
   SAPApplicationServerInstance as SAPApplicationServerInstanceMapper,
   UpdateSAPApplicationInstanceRequest as UpdateSAPApplicationInstanceRequestMapper,
-  Monitor as MonitorMapper,
-  UpdateMonitorRequest as UpdateMonitorRequestMapper,
-  ProviderInstance as ProviderInstanceMapper,
-  SapLandscapeMonitor as SapLandscapeMonitorMapper
+  Connector as ConnectorMapper,
+  UpdateConnectorRequest as UpdateConnectorRequestMapper,
+  AcssBackupConnection as AcssBackupConnectionMapper,
+  UpdateAcssBackupConnectionRequest as UpdateAcssBackupConnectionRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -103,7 +104,7 @@ export const location: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-01",
+    defaultValue: "2023-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -150,6 +151,9 @@ export const resourceGroupName: OperationURLParameter = {
 export const sapVirtualInstanceName: OperationURLParameter = {
   parameterPath: "sapVirtualInstanceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9]{2}$")
+    },
     serializedName: "sapVirtualInstanceName",
     required: true,
     type: {
@@ -164,6 +168,11 @@ export const body1: OperationParameter = {
 };
 
 export const body2: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: StartRequestMapper
+};
+
+export const body3: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: StopRequestMapper
 };
@@ -183,6 +192,9 @@ export const nextLink: OperationURLParameter = {
 export const centralInstanceName: OperationURLParameter = {
   parameterPath: "centralInstanceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*")
+    },
     serializedName: "centralInstanceName",
     required: true,
     type: {
@@ -191,12 +203,12 @@ export const centralInstanceName: OperationURLParameter = {
   }
 };
 
-export const body3: OperationParameter = {
+export const body4: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: SAPCentralServerInstanceMapper
 };
 
-export const body4: OperationParameter = {
+export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: UpdateSAPCentralInstanceRequestMapper
 };
@@ -204,6 +216,9 @@ export const body4: OperationParameter = {
 export const databaseInstanceName: OperationURLParameter = {
   parameterPath: "databaseInstanceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*")
+    },
     serializedName: "databaseInstanceName",
     required: true,
     type: {
@@ -212,12 +227,12 @@ export const databaseInstanceName: OperationURLParameter = {
   }
 };
 
-export const body5: OperationParameter = {
+export const body6: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: SAPDatabaseInstanceMapper
 };
 
-export const body6: OperationParameter = {
+export const body7: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: UpdateSAPDatabaseInstanceRequestMapper
 };
@@ -225,6 +240,9 @@ export const body6: OperationParameter = {
 export const applicationInstanceName: OperationURLParameter = {
   parameterPath: "applicationInstanceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*")
+    },
     serializedName: "applicationInstanceName",
     required: true,
     type: {
@@ -233,20 +251,28 @@ export const applicationInstanceName: OperationURLParameter = {
   }
 };
 
-export const body7: OperationParameter = {
+export const body8: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: SAPApplicationServerInstanceMapper
 };
 
-export const body8: OperationParameter = {
+export const body9: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: UpdateSAPApplicationInstanceRequestMapper
 };
 
-export const monitorName: OperationURLParameter = {
-  parameterPath: "monitorName",
+export const body10: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ConnectorMapper
+};
+
+export const connectorName: OperationURLParameter = {
+  parameterPath: "connectorName",
   mapper: {
-    serializedName: "monitorName",
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9]+-?[A-Za-z0-9]*$")
+    },
+    serializedName: "connectorName",
     required: true,
     type: {
       name: "String"
@@ -254,20 +280,18 @@ export const monitorName: OperationURLParameter = {
   }
 };
 
-export const monitorParameter: OperationParameter = {
-  parameterPath: "monitorParameter",
-  mapper: MonitorMapper
+export const body11: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: UpdateConnectorRequestMapper
 };
 
-export const body9: OperationParameter = {
-  parameterPath: "body",
-  mapper: UpdateMonitorRequestMapper
-};
-
-export const providerInstanceName: OperationURLParameter = {
-  parameterPath: "providerInstanceName",
+export const backupName: OperationURLParameter = {
+  parameterPath: "backupName",
   mapper: {
-    serializedName: "providerInstanceName",
+    constraints: {
+      Pattern: new RegExp("^.+")
+    },
+    serializedName: "backupName",
     required: true,
     type: {
       name: "String"
@@ -275,12 +299,12 @@ export const providerInstanceName: OperationURLParameter = {
   }
 };
 
-export const providerInstanceParameter: OperationParameter = {
-  parameterPath: "providerInstanceParameter",
-  mapper: ProviderInstanceMapper
+export const body12: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: AcssBackupConnectionMapper
 };
 
-export const sapLandscapeMonitorParameter: OperationParameter = {
-  parameterPath: "sapLandscapeMonitorParameter",
-  mapper: SapLandscapeMonitorMapper
+export const body13: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: UpdateAcssBackupConnectionRequestMapper
 };

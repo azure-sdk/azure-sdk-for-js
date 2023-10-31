@@ -19,20 +19,18 @@ import {
   SAPCentralInstancesImpl,
   SAPDatabaseInstancesImpl,
   SAPApplicationServerInstancesImpl,
-  MonitorsImpl,
-  ProviderInstancesImpl,
-  SapLandscapeMonitorOperationsImpl,
-  OperationsImpl
+  OperationsImpl,
+  ConnectorsImpl,
+  AcssBackupConnectionsImpl
 } from "./operations";
 import {
   SAPVirtualInstances,
   SAPCentralInstances,
   SAPDatabaseInstances,
   SAPApplicationServerInstances,
-  Monitors,
-  ProviderInstances,
-  SapLandscapeMonitorOperations,
-  Operations
+  Operations,
+  Connectors,
+  AcssBackupConnections
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -80,7 +78,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-workloads/1.0.1`;
+    const packageDetails = `azsdk-js-arm-workloads/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -133,19 +131,16 @@ export class WorkloadsClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-04-01";
+    this.apiVersion = options.apiVersion || "2023-10-01-preview";
     this.sAPVirtualInstances = new SAPVirtualInstancesImpl(this);
     this.sAPCentralInstances = new SAPCentralInstancesImpl(this);
     this.sAPDatabaseInstances = new SAPDatabaseInstancesImpl(this);
     this.sAPApplicationServerInstances = new SAPApplicationServerInstancesImpl(
       this
     );
-    this.monitors = new MonitorsImpl(this);
-    this.providerInstances = new ProviderInstancesImpl(this);
-    this.sapLandscapeMonitorOperations = new SapLandscapeMonitorOperationsImpl(
-      this
-    );
     this.operations = new OperationsImpl(this);
+    this.connectors = new ConnectorsImpl(this);
+    this.acssBackupConnections = new AcssBackupConnectionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -242,10 +237,9 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   sAPCentralInstances: SAPCentralInstances;
   sAPDatabaseInstances: SAPDatabaseInstances;
   sAPApplicationServerInstances: SAPApplicationServerInstances;
-  monitors: Monitors;
-  providerInstances: ProviderInstances;
-  sapLandscapeMonitorOperations: SapLandscapeMonitorOperations;
   operations: Operations;
+  connectors: Connectors;
+  acssBackupConnections: AcssBackupConnections;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

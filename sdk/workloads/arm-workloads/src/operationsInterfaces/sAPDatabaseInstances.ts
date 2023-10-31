@@ -89,33 +89,14 @@ export interface SAPDatabaseInstances {
     options?: SAPDatabaseInstancesCreateOptionalParams
   ): Promise<SAPDatabaseInstancesCreateResponse>;
   /**
-   * Updates the Database resource.
+   * Updates the Database instance resource. This can be used to update tags on the resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
    *                             to work correctly.
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    databaseInstanceName: string,
-    options?: SAPDatabaseInstancesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SAPDatabaseInstancesUpdateResponse>,
-      SAPDatabaseInstancesUpdateResponse
-    >
-  >;
-  /**
-   * Updates the Database resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
-   * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
-   *                             to work correctly.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,

@@ -266,103 +266,28 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Puts the SAP Application Server Instance resource.
+   * Updates the SAP Application server instance resource. This can be used to update tags on the
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  async beginUpdate(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesUpdateResponse>,
-      SAPApplicationServerInstancesUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SAPApplicationServerInstancesUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        sapVirtualInstanceName,
-        applicationInstanceName,
-        options
-      },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      SAPApplicationServerInstancesUpdateResponse,
-      OperationState<SAPApplicationServerInstancesUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Puts the SAP Application Server Instance resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
-   * @param applicationInstanceName The name of SAP Application Server instance resource.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
     options?: SAPApplicationServerInstancesUpdateOptionalParams
   ): Promise<SAPApplicationServerInstancesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      sapVirtualInstanceName,
-      applicationInstanceName,
-      options
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        sapVirtualInstanceName,
+        applicationInstanceName,
+        options
+      },
+      updateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -439,7 +364,7 @@ export class SAPApplicationServerInstancesImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -559,7 +484,7 @@ export class SAPApplicationServerInstancesImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -660,7 +585,7 @@ export class SAPApplicationServerInstancesImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -754,7 +679,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body7,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -775,20 +700,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SAPApplicationServerInstance
     },
-    201: {
-      bodyMapper: Mappers.SAPApplicationServerInstance
-    },
-    202: {
-      bodyMapper: Mappers.SAPApplicationServerInstance
-    },
-    204: {
-      bodyMapper: Mappers.SAPApplicationServerInstance
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -807,16 +723,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPApplicationServerInstancesDeleteHeaders
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPApplicationServerInstancesDeleteHeaders
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPApplicationServerInstancesDeleteHeaders
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      headersMapper: Mappers.SAPApplicationServerInstancesDeleteHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -876,6 +792,7 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -884,7 +801,8 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
     Parameters.sapVirtualInstanceName,
     Parameters.applicationInstanceName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };
 const stopInstanceOperationSpec: coreClient.OperationSpec = {
@@ -908,7 +826,7 @@ const stopInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -88,31 +88,14 @@ export interface SAPApplicationServerInstances {
     options?: SAPApplicationServerInstancesCreateOptionalParams
   ): Promise<SAPApplicationServerInstancesCreateResponse>;
   /**
-   * Puts the SAP Application Server Instance resource.
+   * Updates the SAP Application server instance resource. This can be used to update tags on the
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesUpdateResponse>,
-      SAPApplicationServerInstancesUpdateResponse
-    >
-  >;
-  /**
-   * Puts the SAP Application Server Instance resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
-   * @param applicationInstanceName The name of SAP Application Server instance resource.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,

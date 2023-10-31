@@ -89,7 +89,23 @@ export interface SAPVirtualInstances {
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    options?: SAPVirtualInstancesUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SAPVirtualInstancesUpdateResponse>,
+      SAPVirtualInstancesUpdateResponse
+    >
+  >;
+  /**
+   * Updates a Virtual Instance for SAP solutions resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     options?: SAPVirtualInstancesUpdateOptionalParams
