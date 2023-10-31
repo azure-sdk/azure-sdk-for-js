@@ -13195,6 +13195,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
           className: "ExtendedLocation"
         }
       },
+      managedBy: {
+        serializedName: "managedBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       hardwareProfile: {
         serializedName: "properties.hardwareProfile",
         type: {
