@@ -193,12 +193,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion1,
-    Parameters.skiptoken,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
