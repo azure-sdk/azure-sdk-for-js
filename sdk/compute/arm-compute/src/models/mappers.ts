@@ -5018,6 +5018,89 @@ export const RetrieveBootDiagnosticsDataResult: coreClient.CompositeMapper = {
   }
 };
 
+export const AttachDetachDataDisksRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AttachDetachDataDisksRequest",
+    modelProperties: {
+      dataDisksToAttach: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "dataDisksToAttach",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataDisksToAttach"
+            }
+          }
+        }
+      },
+      dataDisksToDetach: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "dataDisksToDetach",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataDisksToDetach"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DataDisksToAttach: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataDisksToAttach",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lun: {
+        serializedName: "lun",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DataDisksToDetach: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataDisksToDetach",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      detachOption: {
+        serializedName: "detachOption",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineExtensionsListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -17151,6 +17234,36 @@ export const VirtualMachineScaleSetsReapplyHeaders: coreClient.CompositeMapper =
   type: {
     name: "Composite",
     className: "VirtualMachineScaleSetsReapplyHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachinesAttachDetachDataDisksHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachinesAttachDetachDataDisksHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
