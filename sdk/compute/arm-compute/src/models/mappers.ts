@@ -6919,6 +6919,19 @@ export const CapacityReservationGroupInstanceView: coreClient.CompositeMapper = 
             }
           }
         }
+      },
+      sharedSubscriptionIds: {
+        serializedName: "sharedSubscriptionIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResourceReadOnly"
+            }
+          }
+        }
       }
     }
   }
@@ -6973,6 +6986,27 @@ export const CapacityReservationUtilization: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SubResourceReadOnly"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSharingProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSharingProfile",
+    modelProperties: {
+      subscriptionIds: {
+        serializedName: "subscriptionIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
             }
           }
         }
@@ -13863,6 +13897,13 @@ export const CapacityReservationGroup: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CapacityReservationGroupInstanceView"
         }
+      },
+      sharingProfile: {
+        serializedName: "properties.sharingProfile",
+        type: {
+          name: "Composite",
+          className: "ResourceSharingProfile"
+        }
       }
     }
   }
@@ -15687,6 +15728,13 @@ export const CapacityReservationGroupUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CapacityReservationGroupInstanceView"
+        }
+      },
+      sharingProfile: {
+        serializedName: "properties.sharingProfile",
+        type: {
+          name: "Composite",
+          className: "ResourceSharingProfile"
         }
       }
     }

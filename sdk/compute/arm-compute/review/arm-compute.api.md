@@ -249,6 +249,7 @@ export interface CapacityReservation extends Resource {
 export interface CapacityReservationGroup extends Resource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
+    sharingProfile?: ResourceSharingProfile;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
     zones?: string[];
 }
@@ -256,6 +257,7 @@ export interface CapacityReservationGroup extends Resource {
 // @public (undocumented)
 export interface CapacityReservationGroupInstanceView {
     readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
+    readonly sharedSubscriptionIds?: SubResourceReadOnly[];
 }
 
 // @public
@@ -337,6 +339,7 @@ export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
 export interface CapacityReservationGroupUpdate extends UpdateResource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
+    sharingProfile?: ResourceSharingProfile;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
 }
 
@@ -4592,6 +4595,11 @@ export interface ResourceInstanceViewStatus {
 export interface ResourceRange {
     max?: number;
     min?: number;
+}
+
+// @public (undocumented)
+export interface ResourceSharingProfile {
+    subscriptionIds?: SubResource[];
 }
 
 // @public

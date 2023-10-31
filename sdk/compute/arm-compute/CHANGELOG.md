@@ -1,5 +1,15 @@
 # Release History
     
+## 21.3.0 (2023-10-31)
+    
+**Features**
+
+  - Added Interface ResourceSharingProfile
+  - Interface CapacityReservationGroup has a new optional parameter sharingProfile
+  - Interface CapacityReservationGroupInstanceView has a new optional parameter sharedSubscriptionIds
+  - Interface CapacityReservationGroupUpdate has a new optional parameter sharingProfile
+    
+    
 ## 21.2.0 (2023-08-14)
     
 **Features**
@@ -515,4 +525,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
