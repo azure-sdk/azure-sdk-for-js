@@ -100,6 +100,14 @@ export interface ImageTemplateDistributor {
   artifactTags?: { [propertyName: string]: string };
 }
 
+/** Error handling options upon a build failure */
+export interface ImageTemplatePropertiesErrorHandling {
+  /** If there is a customizer error and this field is set to 'cleanup', the build VM and associated network resources will be cleaned up. This is the default behavior. If there is a customizer error and this field is set to 'abort', the build VM will be preserved. */
+  onCustomizerError?: OnBuildError;
+  /** If there is a validation error and this field is set to 'cleanup', the build VM and associated network resources will be cleaned up. This is the default behavior. If there is a validation error and this field is set to 'abort', the build VM will be preserved. */
+  onValidationError?: OnBuildError;
+}
+
 /** Describes the error happened when create or update an image template */
 export interface ProvisioningError {
   /** Error code of the provisioning failure */
@@ -204,22 +212,53 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** An error response from the Azure VM Image Builder service. */
-export interface CloudError {
-  /** Details about the error. */
-  error?: CloudErrorBody;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** An error response from the Azure VM Image Builder service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Parameters for updating an image template. */
@@ -228,6 +267,44 @@ export interface ImageTemplateUpdateParameters {
   identity?: ImageTemplateIdentity;
   /** The user-specified tags associated with the image template. */
   tags?: { [propertyName: string]: string };
+  /** Specifies the properties used to describe the source image. */
+  source?: ImageTemplateSourceUnion;
+  /** Specifies the properties used to describe the customization steps of the image, like Image source etc */
+  customize?: ImageTemplateCustomizerUnion[];
+  /** Specifies optimization to be performed on image. */
+  optimize?: ImageTemplatePropertiesOptimize;
+  /** Configuration options and list of validations to be performed on the resulting image. */
+  validate?: ImageTemplatePropertiesValidate;
+  /** The distribution targets where the image output needs to go to. */
+  distribute?: ImageTemplateDistributorUnion[];
+  /** Error handling options upon a build failure */
+  errorHandling?: ImageTemplatePropertiesErrorHandling;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Provisioning error, if any
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: ProvisioningError;
+  /**
+   * State of 'run' that is currently executing or was last executed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastRunStatus?: ImageTemplateLastRunStatus;
+  /** Maximum duration to wait while building the image template (includes all customizations, optimization, validations, and distributions). Omit or specify 0 to use the default (4 hours). */
+  buildTimeoutInMinutes?: number;
+  /** Describes how virtual machine is set up to build images */
+  vmProfile?: ImageTemplateVmProfile;
+  /** The staging resource group id in the same subscription as the image template that will be used to build the image. If this field is empty, a resource group with a random name will be created. If the resource group specified in this field doesn't exist, it will be created with the same name. If the resource group specified exists, it must be empty and in the same region as the image template. The resource group created will be deleted during template deletion if this field is empty or the resource group specified doesn't exist, but if the resource group specified exists the resources created in the resource group will be deleted during template deletion and the resource group itself will remain. */
+  stagingResourceGroup?: string;
+  /**
+   * The staging resource group id in the same subscription as the image template that will be used to build the image. This read-only field differs from 'stagingResourceGroup' only if the value specified in the 'stagingResourceGroup' field is empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exactStagingResourceGroup?: string;
 }
 
 /** The result of List run outputs operation */
@@ -580,6 +657,8 @@ export interface ImageTemplate extends TrackedResource {
   validate?: ImageTemplatePropertiesValidate;
   /** The distribution targets where the image output needs to go to. */
   distribute?: ImageTemplateDistributorUnion[];
+  /** Error handling options upon a build failure */
+  errorHandling?: ImageTemplatePropertiesErrorHandling;
   /**
    * Provisioning state of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -648,6 +727,24 @@ export interface TriggersDeleteHeaders {
   /** The URI to poll for completion status. */
   location?: string;
 }
+
+/** Known values of {@link OnBuildError} that the service accepts. */
+export enum KnownOnBuildError {
+  /** Cleanup */
+  Cleanup = "cleanup",
+  /** Abort */
+  Abort = "abort"
+}
+
+/**
+ * Defines values for OnBuildError. \
+ * {@link KnownOnBuildError} can be used interchangeably with OnBuildError,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cleanup** \
+ * **abort**
+ */
+export type OnBuildError = string;
 
 /** Known values of {@link ProvisioningErrorCode} that the service accepts. */
 export enum KnownProvisioningErrorCode {
@@ -833,6 +930,9 @@ export interface VirtualMachineImageTemplatesDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type VirtualMachineImageTemplatesDeleteResponse = VirtualMachineImageTemplatesDeleteHeaders;
+
 /** Optional parameters. */
 export interface VirtualMachineImageTemplatesRunOptionalParams
   extends coreClient.OperationOptions {
@@ -920,6 +1020,9 @@ export interface TriggersDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type TriggersDeleteResponse = TriggersDeleteHeaders;
 
 /** Optional parameters. */
 export interface TriggersListByImageTemplateNextOptionalParams

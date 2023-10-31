@@ -6,7 +6,7 @@ Azure Virtual Machine Image Builder Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/imagebuilder/arm-imagebuilder) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-imagebuilder) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-imagebuilder) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-imagebuilder?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
