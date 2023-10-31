@@ -63,7 +63,7 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-devhub/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-devhub/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,7 +116,7 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-11-preview";
+    this.apiVersion = options.apiVersion || "2023-08-01";
     this.operations = new OperationsImpl(this);
     this.workflowOperations = new WorkflowOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
