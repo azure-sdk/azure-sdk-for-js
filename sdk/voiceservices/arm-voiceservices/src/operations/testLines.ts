@@ -28,10 +28,10 @@ import {
   TestLinesGetResponse,
   TestLinesCreateOrUpdateOptionalParams,
   TestLinesCreateOrUpdateResponse,
-  TestLinesDeleteOptionalParams,
   TestLineUpdate,
   TestLinesUpdateOptionalParams,
   TestLinesUpdateResponse,
+  TestLinesDeleteOptionalParams,
   TestLinesListByCommunicationsGatewayNextResponse
 } from "../models";
 
@@ -276,6 +276,33 @@ export class TestLinesImpl implements TestLines {
   }
 
   /**
+   * Update a TestLine
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationsGatewayName Unique identifier for this deployment
+   * @param testLineName Unique identifier for this test line
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    communicationsGatewayName: string,
+    testLineName: string,
+    properties: TestLineUpdate,
+    options?: TestLinesUpdateOptionalParams
+  ): Promise<TestLinesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        communicationsGatewayName,
+        testLineName,
+        properties,
+        options
+      },
+      updateOperationSpec
+    );
+  }
+
+  /**
    * Delete a TestLine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationsGatewayName Unique identifier for this deployment
@@ -340,7 +367,7 @@ export class TestLinesImpl implements TestLines {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -366,33 +393,6 @@ export class TestLinesImpl implements TestLines {
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Update a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param properties The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    properties: TestLineUpdate,
-    options?: TestLinesUpdateOptionalParams
-  ): Promise<TestLinesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        communicationsGatewayName,
-        testLineName,
-        properties,
-        options
-      },
-      updateOperationSpec
-    );
   }
 
   /**
@@ -497,30 +497,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines/{testLineName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.communicationsGatewayName,
-    Parameters.testLineName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines/{testLineName}",
@@ -544,6 +520,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines/{testLineName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.communicationsGatewayName,
+    Parameters.testLineName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByCommunicationsGatewayNextOperationSpec: coreClient.OperationSpec = {
