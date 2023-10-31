@@ -25,7 +25,8 @@ import {
   HostSettingsImpl,
   OperationResultsImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  NetworkSecurityPerimeterConfigurationsImpl
 } from "./operations";
 import {
   Bots,
@@ -38,14 +39,15 @@ import {
   HostSettings,
   OperationResults,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  NetworkSecurityPerimeterConfigurations
 } from "./operationsInterfaces";
 import { AzureBotServiceOptionalParams } from "./models";
 
 export class AzureBotService extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the AzureBotService class.
@@ -57,12 +59,26 @@ export class AzureBotService extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: AzureBotServiceOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AzureBotServiceOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: AzureBotServiceOptionalParams | string,
+    options?: AzureBotServiceOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -74,7 +90,7 @@ export class AzureBotService extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-botservice/4.0.1`;
+    const packageDetails = `azsdk-js-arm-botservice/5.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -127,7 +143,7 @@ export class AzureBotService extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-15";
+    this.apiVersion = options.apiVersion || "2023-09-15-preview";
     this.bots = new BotsImpl(this);
     this.channels = new ChannelsImpl(this);
     this.directLine = new DirectLineImpl(this);
@@ -139,6 +155,9 @@ export class AzureBotService extends coreClient.ServiceClient {
     this.operationResults = new OperationResultsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -181,4 +200,5 @@ export class AzureBotService extends coreClient.ServiceClient {
   operationResults: OperationResults;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
 }
