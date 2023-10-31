@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** The result of the request to list REST API operations. It contains a list of operations and a URL  to get the next set of results. */
+/** The result of the request to list REST API operations. It contains a list of operations and a URL to get the next set of results. */
 export interface OperationListResult {
   /**
    * The list of operations supported by the resource provider.
@@ -78,7 +78,7 @@ export interface CloudErrorBody {
   details?: CloudErrorBody[];
 }
 
-/** Response containing the primary and secondary admin API keys for a given Azure Cognitive Search service. */
+/** Response containing the primary and secondary admin API keys for a given search service. */
 export interface AdminKeyResult {
   /**
    * The primary admin API key of the search service.
@@ -92,7 +92,7 @@ export interface AdminKeyResult {
   readonly secondaryKey?: string;
 }
 
-/** Describes an API key for a given Azure Cognitive Search service that has permissions for query operations only. */
+/** Describes an API key for a given search service that has permissions for query operations only. */
 export interface QueryKey {
   /**
    * The name of the query API key; may be empty.
@@ -106,10 +106,10 @@ export interface QueryKey {
   readonly key?: string;
 }
 
-/** Response containing the query API keys for a given Azure Cognitive Search service. */
+/** Response containing the query API keys for a given search service. */
 export interface ListQueryKeysResult {
   /**
-   * The query keys for the Azure Cognitive Search service.
+   * The query keys for the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: QueryKey[];
@@ -120,44 +120,44 @@ export interface ListQueryKeysResult {
   readonly nextLink?: string;
 }
 
-/** Network specific rules that determine how the Azure Cognitive Search service may be reached. */
+/** Network-specific rules that determine how the search service can be reached. */
 export interface NetworkRuleSet {
-  /** A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint. At the meantime, all other public IP networks are blocked by the firewall. These restriction rules are applied only when the 'publicNetworkAccess' of the search service is 'enabled'; otherwise, traffic over public interface is not allowed even with any public IP rules, and private endpoint connections would be the exclusive access method. */
+  /** A list of IP restriction rules used for an IP firewall. Any IPs that do not match the rules are blocked by the firewall. These rules are only applied when the 'publicNetworkAccess' of the search service is 'enabled'. */
   ipRules?: IpRule[];
 }
 
-/** The IP restriction rule of the Azure Cognitive Search service. */
+/** The IP restriction rule of the search service. */
 export interface IpRule {
-  /** Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in CIDR format (eg., 123.1.2.3/24) to be allowed. */
+  /** Value corresponding to a single IPv4 address (for example, 123.1.2.3) or an IP range in CIDR format (for example, 123.1.2.3/24) to be allowed. */
   value?: string;
 }
 
-/** Describes a policy that determines how resources within the search service are to be encrypted with Customer Managed Keys. */
+/** Describes a policy that determines how resources within the search service are to be encrypted with customer=managed keys. */
 export interface EncryptionWithCmk {
-  /** Describes how a search service should enforce having one or more non customer encrypted resources. */
+  /** Describes how a search service should enforce having one or more non-customer-encrypted resources. */
   enforcement?: SearchEncryptionWithCmk;
   /**
-   * Describes whether the search service is compliant or not with respect to having non customer encrypted resources. If a service has more than one non customer encrypted resource and 'Enforcement' is 'enabled' then the service will be marked as 'nonCompliant'.
+   * Describes whether the search service is compliant or not with respect to having non-customer-encrypted resources. If a service has more than one non-customer-encrypted resource and 'Enforcement' is 'enabled' then the service will be marked as 'nonCompliant'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
 }
 
-/** Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
+/** Defines the options for how the search service authenticates a data plane request. This cannot be set if 'disableLocalAuth' is set to true. */
 export interface DataPlaneAuthOptions {
-  /** Indicates that only the API key needs to be used for authentication. */
+  /** Indicates that only the API key can be used for authentication. */
   apiKeyOnly?: Record<string, unknown>;
-  /** Indicates that either the API key or an access token from Azure Active Directory can be used for authentication. */
+  /** Indicates that either the API key or an access token from a Microsoft Entra ID tenant can be used for authentication. */
   aadOrApiKey?: DataPlaneAadOrApiKeyAuthOption;
 }
 
-/** Indicates that either the API key or an access token from Azure Active Directory can be used for authentication. */
+/** Indicates that either the API key or an access token from a Microsoft Entra ID tenant can be used for authentication. */
 export interface DataPlaneAadOrApiKeyAuthOption {
-  /** Describes what response the data plane API of a Search service would send for requests that failed authentication. */
+  /** Describes what response the data plane API of a search service would send for requests that failed authentication. */
   aadAuthFailureMode?: AadAuthFailureMode;
 }
 
-/** Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. */
+/** Describes the properties of an existing Private Endpoint connection to the search service. */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint resource from Microsoft.Network provider. */
   privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
@@ -165,7 +165,7 @@ export interface PrivateEndpointConnectionProperties {
   privateLinkServiceConnectionState?: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
   /** The group id from the provider of resource the private link service connection is for. */
   groupId?: string;
-  /** The provisioning state of the private link service connection. Can be Updating, Deleting, Failed, Succeeded, or Incomplete */
+  /** The provisioning state of the private link service connection. Valid values are Updating, Deleting, Failed, Succeeded, or Incomplete */
   provisioningState?: PrivateLinkServiceConnectionProvisioningState;
 }
 
@@ -177,7 +177,7 @@ export interface PrivateEndpointConnectionPropertiesPrivateEndpoint {
 
 /** Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. */
 export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState {
-  /** Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected. */
+  /** Status of the the private link service connection. Valid values are Pending, Approved, Rejected, or Disconnected. */
   status?: PrivateLinkServiceConnectionStatus;
   /** The description for the private link service connection state. */
   description?: string;
@@ -204,7 +204,7 @@ export interface Resource {
   readonly type?: string;
 }
 
-/** Describes the properties of an existing Shared Private Link Resource managed by the Azure Cognitive Search service. */
+/** Describes the properties of an existing Shared Private Link Resource managed by the search service. */
 export interface SharedPrivateLinkResourceProperties {
   /** The resource id of the resource the shared private link resource is for. */
   privateLinkResourceId?: string;
@@ -214,13 +214,13 @@ export interface SharedPrivateLinkResourceProperties {
   requestMessage?: string;
   /** Optional. Can be used to specify the Azure Resource Manager location of the resource to which a shared private link is to be created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service). */
   resourceRegion?: string;
-  /** Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. */
+  /** Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected. */
   status?: SharedPrivateLinkResourceStatus;
-  /** The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded or Incomplete. */
+  /** The provisioning state of the shared private link resource. Valid values are Updating, Deleting, Failed, Succeeded or Incomplete. */
   provisioningState?: SharedPrivateLinkResourceProvisioningState;
 }
 
-/** Defines the SKU of an Azure Cognitive Search Service, which determines price tier and capacity limits. */
+/** Defines the SKU of a search service, which determines billing rate and capacity limits. */
 export interface Sku {
   /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.' */
   name?: SkuName;
@@ -242,10 +242,10 @@ export interface Identity {
   type: IdentityType;
 }
 
-/** Response containing a list of Azure Cognitive Search services. */
+/** Response containing a list of search services. */
 export interface SearchServiceListResult {
   /**
-   * The list of Search services.
+   * The list of search services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: SearchService[];
@@ -265,7 +265,7 @@ export interface PrivateLinkResourcesResult {
   readonly value?: PrivateLinkResource[];
 }
 
-/** Describes the properties of a supported private link resource for the Azure Cognitive Search service. For a given API version, this represents the 'supported' groupIds when creating a shared private link resource. */
+/** Describes the properties of a supported private link resource for the search service. For a given API version, this represents the 'supported' groupIds when creating a shared private link resource. */
 export interface PrivateLinkResourceProperties {
   /**
    * The group ID of the private link resource.
@@ -283,40 +283,40 @@ export interface PrivateLinkResourceProperties {
    */
   readonly requiredZoneNames?: string[];
   /**
-   * The list of resources that are onboarded to private link service, that are supported by Azure Cognitive Search.
+   * The list of resources that are onboarded to private link service and that are supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly shareablePrivateLinkResourceTypes?: ShareablePrivateLinkResourceType[];
 }
 
-/** Describes an resource type that has been onboarded to private link service, supported by Azure Cognitive Search. */
+/** Describes a resource type that has been onboarded to private link service and that's supported by search. */
 export interface ShareablePrivateLinkResourceType {
   /**
-   * The name of the resource type that has been onboarded to private link service, supported by Azure Cognitive Search.
+   * The name of the resource type that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Describes the properties of a resource type that has been onboarded to private link service, supported by Azure Cognitive Search.
+   * Describes the properties of a resource type that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly properties?: ShareablePrivateLinkResourceProperties;
 }
 
-/** Describes the properties of a resource type that has been onboarded to private link service, supported by Azure Cognitive Search. */
+/** Describes the properties of a resource type that has been onboarded to private link service and that's supported by search. */
 export interface ShareablePrivateLinkResourceProperties {
   /**
-   * The resource provider type for the resource that has been onboarded to private link service, supported by Azure Cognitive Search.
+   * The resource provider type for the resource that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
-   * The resource provider group id for the resource that has been onboarded to private link service, supported by Azure Cognitive Search.
+   * The resource provider group id for the resource that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly groupId?: string;
   /**
-   * The description of the resource type that has been onboarded to private link service, supported by Azure Cognitive Search.
+   * The description of the resource type that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
@@ -374,10 +374,10 @@ export interface CheckNameAvailabilityOutput {
   readonly message?: string;
 }
 
-/** Response containing the quota usage information for all the supported skus of Azure Cognitive Search service. */
+/** Response containing the quota usage information for all the supported SKUs of Azure AI Search. */
 export interface QuotaUsagesListResult {
   /**
-   * The quota usages for the SKUs supported by Azure Cognitive Search.
+   * The quota usages for the SKUs supported by Azure AI Search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: QuotaUsageResult[];
@@ -388,28 +388,28 @@ export interface QuotaUsagesListResult {
   readonly nextLink?: string;
 }
 
-/** Describes the quota usage for a particular sku supported by Azure Cognitive Search. */
+/** Describes the quota usage for a particular SKU. */
 export interface QuotaUsageResult {
-  /** The resource id of the quota usage sku endpoint for Microsoft.Search provider. */
+  /** The resource ID of the quota usage SKU endpoint for Microsoft.Search provider. */
   id?: string;
-  /** The unit of measurement for the search sku. */
+  /** The unit of measurement for the search SKU. */
   unit?: string;
-  /** The currently used up value for the particular search sku. */
+  /** The currently used up value for the particular search SKU. */
   currentValue?: number;
-  /** The quota limit for the particular search sku. */
+  /** The quota limit for the particular search SKU. */
   limit?: number;
   /**
-   * The name of the sku supported by Azure Cognitive Search.
+   * The name of the SKU supported by Azure AI Search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: QuotaUsageResultName;
 }
 
-/** The name of the sku supported by Azure Cognitive Search. */
+/** The name of the SKU supported by Azure AI Search. */
 export interface QuotaUsageResultName {
-  /** The sku name supported by Azure Cognitive Search. */
+  /** The SKU name supported by Azure AI Search. */
   value?: string;
-  /** The localized string value for the sku supported by Azure Cognitive Search. */
+  /** The localized string value for the SKU name. */
   localizedValue?: string;
 }
 
@@ -419,15 +419,15 @@ export interface AsyncOperationResult {
   status?: SharedPrivateLinkResourceAsyncOperationResult;
 }
 
-/** Describes an existing Private Endpoint connection to the Azure Cognitive Search service. */
+/** Describes an existing private endpoint connection to the search service. */
 export interface PrivateEndpointConnection extends Resource {
-  /** Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. */
+  /** Describes the properties of an existing private endpoint connection to the search service. */
   properties?: PrivateEndpointConnectionProperties;
 }
 
-/** Describes a Shared Private Link Resource managed by the Azure Cognitive Search service. */
+/** Describes a Shared Private Link Resource managed by the search service. */
 export interface SharedPrivateLinkResource extends Resource {
-  /** Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service. */
+  /** Describes the properties of a Shared Private Link Resource managed by the search service. */
   properties?: SharedPrivateLinkResourceProperties;
 }
 
@@ -439,11 +439,11 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** The parameters used to update an Azure Cognitive Search service. */
+/** The parameters used to update a search service. */
 export interface SearchServiceUpdate extends Resource {
-  /** The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. */
+  /** The SKU of the search service, which determines the billing rate and capacity limits. This property is required when creating a new search service. */
   sku?: Sku;
-  /** The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. */
+  /** The geographic location of the resource. This must be one of the supported and registered Azure geo regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. */
   location?: string;
   /** Tags to help categorize the resource in the Azure portal. */
   tags?: { [propertyName: string]: string };
@@ -458,7 +458,7 @@ export interface SearchServiceUpdate extends Resource {
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
-   * The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
+   * The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: SearchServiceStatus;
@@ -472,7 +472,7 @@ export interface SearchServiceUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Network specific rules that determine how the Azure Cognitive Search service may be reached. */
+  /** Network-specific rules that determine how the search service may be reached. */
   networkRuleSet?: NetworkRuleSet;
   /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
   encryptionWithCmk?: EncryptionWithCmk;
@@ -481,31 +481,31 @@ export interface SearchServiceUpdate extends Resource {
   /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
   authOptions?: DataPlaneAuthOptions;
   /**
-   * The list of private endpoint connections to the Azure Cognitive Search service.
+   * The list of private endpoint connections to the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations. */
+  /** Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. */
   semanticSearch?: SearchSemanticSearch;
   /**
-   * The list of shared private link resources managed by the Azure Cognitive Search service.
+   * The list of shared private link resources managed by the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
 }
 
-/** Describes a supported private link resource for the Azure Cognitive Search service. */
+/** Describes a supported private link resource for the search service. */
 export interface PrivateLinkResource extends Resource {
   /**
-   * Describes the properties of a supported private link resource for the Azure Cognitive Search service.
+   * Describes the properties of a supported private link resource for the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly properties?: PrivateLinkResourceProperties;
 }
 
-/** Describes an Azure Cognitive Search service and its current state. */
+/** Describes a search service and its current state. */
 export interface SearchService extends TrackedResource {
-  /** The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. */
+  /** The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. */
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
@@ -518,7 +518,7 @@ export interface SearchService extends TrackedResource {
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
-   * The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
+   * The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: SearchServiceStatus;
@@ -532,7 +532,7 @@ export interface SearchService extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Network specific rules that determine how the Azure Cognitive Search service may be reached. */
+  /** Network-specific rules that determine how the search service may be reached. */
   networkRuleSet?: NetworkRuleSet;
   /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
   encryptionWithCmk?: EncryptionWithCmk;
@@ -541,14 +541,14 @@ export interface SearchService extends TrackedResource {
   /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
   authOptions?: DataPlaneAuthOptions;
   /**
-   * The list of private endpoint connections to the Azure Cognitive Search service.
+   * The list of private endpoint connections to the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations. */
+  /** Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. */
   semanticSearch?: SearchSemanticSearch;
   /**
-   * The list of shared private link resources managed by the Azure Cognitive Search service.
+   * The list of shared private link resources managed by the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
@@ -592,11 +592,11 @@ export type PrivateLinkServiceConnectionProvisioningState = string;
 
 /** Known values of {@link SearchSemanticSearch} that the service accepts. */
 export enum KnownSearchSemanticSearch {
-  /** Indicates that semantic search is disabled for the search service. */
+  /** Indicates that semantic ranking is disabled for the search service. */
   Disabled = "disabled",
-  /** Enables semantic search on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic search requests and is offered at no extra charge. This is the default for newly provisioned search services. */
+  /** Enables semantic ranking on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic ranking requests and is offered at no extra charge. This is the default for newly provisioned search services. */
   Free = "free",
-  /** Enables semantic search on a search service as a billable feature, with higher throughput and volume of semantic search queries. */
+  /** Enables semantic ranking on a search service as a billable feature, with higher throughput and volume of semantic ranking requests. */
   Standard = "standard"
 }
 
@@ -605,9 +605,9 @@ export enum KnownSearchSemanticSearch {
  * {@link KnownSearchSemanticSearch} can be used interchangeably with SearchSemanticSearch,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **disabled**: Indicates that semantic search is disabled for the search service. \
- * **free**: Enables semantic search on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic search requests and is offered at no extra charge. This is the default for newly provisioned search services. \
- * **standard**: Enables semantic search on a search service as a billable feature, with higher throughput and volume of semantic search queries.
+ * **disabled**: Indicates that semantic ranking is disabled for the search service. \
+ * **free**: Enables semantic ranking on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic ranking requests and is offered at no extra charge. This is the default for newly provisioned search services. \
+ * **standard**: Enables semantic ranking on a search service as a billable feature, with higher throughput and volume of semantic ranking requests.
  */
 export type SearchSemanticSearch = string;
 
