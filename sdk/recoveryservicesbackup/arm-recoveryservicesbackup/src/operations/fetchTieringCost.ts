@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ValidateOperation } from "../operationsInterfaces";
+import { FetchTieringCost } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -18,16 +18,17 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ValidateOperationRequestResource,
-  ValidateOperationTriggerOptionalParams
+  FetchTieringCostInfoRequestUnion,
+  FetchTieringCostPostOptionalParams,
+  FetchTieringCostPostResponse
 } from "../models";
 
-/** Class containing ValidateOperation operations. */
-export class ValidateOperationImpl implements ValidateOperation {
+/** Class containing FetchTieringCost operations. */
+export class FetchTieringCostImpl implements FetchTieringCost {
   private readonly client: RecoveryServicesBackupClient;
 
   /**
-   * Initialize a new instance of the class ValidateOperation class.
+   * Initialize a new instance of the class FetchTieringCost class.
    * @param client Reference to the service client
    */
   constructor(client: RecoveryServicesBackupClient) {
@@ -35,24 +36,30 @@ export class ValidateOperationImpl implements ValidateOperation {
   }
 
   /**
-   * Validate operation for specified backed up item in the form of an asynchronous operation. Returns
-   * tracking headers which can be tracked using GetValidateOperationResult API.
-   * @param vaultName The name of the recovery services vault.
+   * Provides the details of the tiering related sizes and cost.
+   * Status of the operation can be fetched using GetTieringCostOperationStatus API and result using
+   * GetTieringCostOperationResult API.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
-   * @param parameters resource validate operation request
+   * @param vaultName The name of the recovery services vault.
+   * @param parameters Fetch Tiering Cost Request
    * @param options The options parameters.
    */
-  async beginTrigger(
-    vaultName: string,
+  async beginPost(
     resourceGroupName: string,
-    parameters: ValidateOperationRequestResource,
-    options?: ValidateOperationTriggerOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    vaultName: string,
+    parameters: FetchTieringCostInfoRequestUnion,
+    options?: FetchTieringCostPostOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FetchTieringCostPostResponse>,
+      FetchTieringCostPostResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<FetchTieringCostPostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -90,10 +97,13 @@ export class ValidateOperationImpl implements ValidateOperation {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { vaultName, resourceGroupName, parameters, options },
-      spec: triggerOperationSpec
+      args: { resourceGroupName, vaultName, parameters, options },
+      spec: postOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      FetchTieringCostPostResponse,
+      OperationState<FetchTieringCostPostResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -102,23 +112,24 @@ export class ValidateOperationImpl implements ValidateOperation {
   }
 
   /**
-   * Validate operation for specified backed up item in the form of an asynchronous operation. Returns
-   * tracking headers which can be tracked using GetValidateOperationResult API.
-   * @param vaultName The name of the recovery services vault.
+   * Provides the details of the tiering related sizes and cost.
+   * Status of the operation can be fetched using GetTieringCostOperationStatus API and result using
+   * GetTieringCostOperationResult API.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
-   * @param parameters resource validate operation request
+   * @param vaultName The name of the recovery services vault.
+   * @param parameters Fetch Tiering Cost Request
    * @param options The options parameters.
    */
-  async beginTriggerAndWait(
-    vaultName: string,
+  async beginPostAndWait(
     resourceGroupName: string,
-    parameters: ValidateOperationRequestResource,
-    options?: ValidateOperationTriggerOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginTrigger(
-      vaultName,
+    vaultName: string,
+    parameters: FetchTieringCostInfoRequestUnion,
+    options?: FetchTieringCostPostOptionalParams
+  ): Promise<FetchTieringCostPostResponse> {
+    const poller = await this.beginPost(
       resourceGroupName,
+      vaultName,
       parameters,
       options
     );
@@ -128,26 +139,34 @@ export class ValidateOperationImpl implements ValidateOperation {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const triggerOperationSpec: coreClient.OperationSpec = {
+const postOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTriggerValidateOperation",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/fetchTieringCost",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.TieringCostInfo
+    },
+    201: {
+      bodyMapper: Mappers.TieringCostInfo
+    },
+    202: {
+      bodyMapper: Mappers.TieringCostInfo
+    },
+    204: {
+      bodyMapper: Mappers.TieringCostInfo
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.vaultName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
