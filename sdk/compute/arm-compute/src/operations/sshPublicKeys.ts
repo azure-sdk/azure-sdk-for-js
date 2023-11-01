@@ -473,6 +473,7 @@ const generateKeyPairOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -480,7 +481,8 @@ const generateKeyPairOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.sshPublicKeyName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {

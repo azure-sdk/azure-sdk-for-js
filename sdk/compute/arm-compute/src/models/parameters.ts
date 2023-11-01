@@ -43,6 +43,7 @@ import {
   DedicatedHostUpdate as DedicatedHostUpdateMapper,
   SshPublicKeyResource as SshPublicKeyResourceMapper,
   SshPublicKeyUpdateResource as SshPublicKeyUpdateResourceMapper,
+  SshGenerateKeyPairInputParameters as SshGenerateKeyPairInputParametersMapper,
   Image as ImageMapper,
   ImageUpdate as ImageUpdateMapper,
   RestorePointCollection as RestorePointCollectionMapper,
@@ -110,7 +111,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-01",
+    defaultValue: "2023-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -756,6 +757,11 @@ export const parameters19: OperationParameter = {
 };
 
 export const parameters20: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: SshGenerateKeyPairInputParametersMapper
+};
+
+export const parameters21: OperationParameter = {
   parameterPath: "parameters",
   mapper: ImageMapper
 };
@@ -771,12 +777,12 @@ export const imageName: OperationURLParameter = {
   }
 };
 
-export const parameters21: OperationParameter = {
+export const parameters22: OperationParameter = {
   parameterPath: "parameters",
   mapper: ImageUpdateMapper
 };
 
-export const parameters22: OperationParameter = {
+export const parameters23: OperationParameter = {
   parameterPath: "parameters",
   mapper: RestorePointCollectionMapper
 };
@@ -792,7 +798,7 @@ export const restorePointCollectionName: OperationURLParameter = {
   }
 };
 
-export const parameters23: OperationParameter = {
+export const parameters24: OperationParameter = {
   parameterPath: "parameters",
   mapper: RestorePointCollectionUpdateMapper
 };
@@ -807,7 +813,7 @@ export const expand5: OperationQueryParameter = {
   }
 };
 
-export const parameters24: OperationParameter = {
+export const parameters25: OperationParameter = {
   parameterPath: "parameters",
   mapper: RestorePointMapper
 };
@@ -833,7 +839,7 @@ export const expand6: OperationQueryParameter = {
   }
 };
 
-export const parameters25: OperationParameter = {
+export const parameters26: OperationParameter = {
   parameterPath: "parameters",
   mapper: CapacityReservationGroupMapper
 };
@@ -849,7 +855,7 @@ export const capacityReservationGroupName: OperationURLParameter = {
   }
 };
 
-export const parameters26: OperationParameter = {
+export const parameters27: OperationParameter = {
   parameterPath: "parameters",
   mapper: CapacityReservationGroupUpdateMapper
 };
@@ -874,7 +880,7 @@ export const expand8: OperationQueryParameter = {
   }
 };
 
-export const parameters27: OperationParameter = {
+export const parameters28: OperationParameter = {
   parameterPath: "parameters",
   mapper: CapacityReservationMapper
 };
@@ -890,7 +896,7 @@ export const capacityReservationName: OperationURLParameter = {
   }
 };
 
-export const parameters28: OperationParameter = {
+export const parameters29: OperationParameter = {
   parameterPath: "parameters",
   mapper: CapacityReservationUpdateMapper
 };
@@ -905,12 +911,12 @@ export const expand9: OperationQueryParameter = {
   }
 };
 
-export const parameters29: OperationParameter = {
+export const parameters30: OperationParameter = {
   parameterPath: "parameters",
   mapper: RequestRateByIntervalInputMapper
 };
 
-export const parameters30: OperationParameter = {
+export const parameters31: OperationParameter = {
   parameterPath: "parameters",
   mapper: ThrottledRequestsInputMapper
 };
@@ -1349,22 +1355,22 @@ export const roleName: OperationURLParameter = {
   }
 };
 
-export const parameters31: OperationParameter = {
+export const parameters32: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: CloudServiceMapper
 };
 
-export const parameters32: OperationParameter = {
+export const parameters33: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: CloudServiceUpdateMapper
 };
 
-export const parameters33: OperationParameter = {
+export const parameters34: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: RoleInstancesMapper
 };
 
-export const parameters34: OperationParameter = {
+export const parameters35: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: UpdateDomainMapper
 };

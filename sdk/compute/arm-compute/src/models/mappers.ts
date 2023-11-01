@@ -6345,6 +6345,21 @@ export const SshPublicKeysGroupListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const SshGenerateKeyPairInputParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SshGenerateKeyPairInputParameters",
+    modelProperties: {
+      encryptionType: {
+        serializedName: "encryptionType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SshPublicKeyGenerateKeyPairResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

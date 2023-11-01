@@ -3624,6 +3624,12 @@ export enum KnownSnapshotStorageAccountTypes {
 }
 
 // @public
+export enum KnownSshEncryptionTypes {
+    Ed25519 = "Ed25519",
+    RSA = "RSA"
+}
+
+// @public
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
@@ -5488,6 +5494,14 @@ export interface SshConfiguration {
 }
 
 // @public
+export type SshEncryptionTypes = string;
+
+// @public
+export interface SshGenerateKeyPairInputParameters {
+    encryptionType?: SshEncryptionTypes;
+}
+
+// @public
 export interface SshPublicKey {
     keyData?: string;
     path?: string;
@@ -5529,6 +5543,7 @@ export interface SshPublicKeysDeleteOptionalParams extends coreClient.OperationO
 
 // @public
 export interface SshPublicKeysGenerateKeyPairOptionalParams extends coreClient.OperationOptions {
+    parameters?: SshGenerateKeyPairInputParameters;
 }
 
 // @public

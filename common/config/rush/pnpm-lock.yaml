@@ -1,7 +1,7 @@
 lockfileVersion: '6.0'
 
 settings:
-  autoInstallPeers: true
+  autoInstallPeers: false
   excludeLinksFromLockfile: false
 
 dependencies:
@@ -1149,6 +1149,21 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/arm-compute@21.2.0:
+    resolution: {integrity: sha512-ySwLS2rHvvWTl03t0I0gJR8zLkShV/zAxZ2dRKPbm9043d7G9IXwATrUXGOqW6sQnBOOF1STriLQS6aDB03eoA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.2
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -4495,7 +4510,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231030
+      typescript: 5.3.0-dev.20231101
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9261,8 +9276,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231030:
-    resolution: {integrity: sha512-azWrF0lAiu8cBHNr6yq3RDkU/DtQScvT48ea3Ngq6oXJ/GPO0n96wCFSRQA5UbZlVVf3fAAqsUfvOdohRbrPVg==}
+  /typescript@5.3.0-dev.20231101:
+    resolution: {integrity: sha512-yt5zz7L+TBfzeJhMA/tAEO1YU8J2DWsFN3LbeMslNPXL3S0lR3yvePdl6fXCk7QFjnfaRtXH0noNdWg2imHWXg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11416,20 +11431,22 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-GNH6eYlcbf2q/gL3gSeFIrGTeu55MJKUeTHcFvtpwckRU5Gl7M+amBD/C3WcgxE9eiMwGdSh7fnY2u9I3kN1Cg==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-pE1jCbP8JVsNO3I4y9lZZiY3omADFpvBkMsIAYTW8aWKuIJMLV7Ho9bjo2TDu9hX1DN9xjpDqkkfGrMj9baKUg==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.7
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -13015,10 +13032,11 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-5xhT4Afs/nnEBVg0V2kJPrwtneezT8HR7rXEQ2l2e/BWDisgjRNhu0d1qfJxD9g1OsjXClmhEXqocSXGkNMhoA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-2cGlANR3mSMJ3NKP1JI4GtKiO03Acv7AqzvrVw/xnGTdpQL1uq+5FAVNJyzPprlyB/3+Z0FqVLL9j5rwRGJcJw==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
+      '@azure/arm-compute': 21.2.0
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
@@ -20375,7 +20393,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-2LtIcl6t12irIaBaBSP/ytxkJA5VSRJ2RUg08UJEi/NVLHhjpx+NQQn/a/ebeAwpa2DefdSkfHRhgh7zn8Qzzg==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-nBVNUHVbjsSyKfoA2uJNvG+jlJEW9Oq12K9Oha1C6GVY1rZhEpcWrkob0RJe/sCDdrMo0MBUnvL7+PkUsvhR8w==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
