@@ -8,6 +8,8 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  SubscriptionScopeMetricDefinition,
+  MetricDefinitionsListAtSubscriptionScopeOptionalParams,
   MetricDefinition,
   MetricDefinitionsListOptionalParams
 } from "../models";
@@ -15,6 +17,15 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MetricDefinitions. */
 export interface MetricDefinitions {
+  /**
+   * Lists the metric definitions for the subscription.
+   * @param region The region where the metrics you want reside.
+   * @param options The options parameters.
+   */
+  listAtSubscriptionScope(
+    region: string,
+    options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams
+  ): PagedAsyncIterableIterator<SubscriptionScopeMetricDefinition>;
   /**
    * Lists the metric definitions for the resource.
    * @param resourceUri The identifier of the resource.
