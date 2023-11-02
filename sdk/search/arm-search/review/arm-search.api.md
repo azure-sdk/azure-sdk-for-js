@@ -65,6 +65,7 @@ export interface CheckNameAvailabilityOutput {
 // @public
 export interface CloudError {
     error?: CloudErrorBody;
+    message?: string;
 }
 
 // @public
@@ -103,10 +104,13 @@ export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: IdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedManagedIdentity;
+    };
 }
 
 // @public
-export type IdentityType = "None" | "SystemAssigned";
+export type IdentityType = string;
 
 // @public
 export interface IpRule {
@@ -114,13 +118,28 @@ export interface IpRule {
 }
 
 // @public
-export enum KnownPrivateLinkServiceConnectionProvisioningState {
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Incomplete = "Incomplete",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
+export enum KnownIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownSearchBypass {
+    AzurePortal = "AzurePortal",
+    None = "None"
+}
+
+// @public
+export enum KnownSearchDisabledDataExfiltrationOption {
+    All = "All"
 }
 
 // @public
@@ -138,6 +157,34 @@ export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
 }
 
 // @public
+export enum KnownSharedPrivateLinkResourceProvisioningState {
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Incomplete = "Incomplete",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownSharedPrivateLinkResourceStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownSkuName {
+    Basic = "basic",
+    Free = "free",
+    Standard = "standard",
+    Standard2 = "standard2",
+    Standard3 = "standard3",
+    StorageOptimizedL1 = "storage_optimized_l1",
+    StorageOptimizedL2 = "storage_optimized_l2"
+}
+
+// @public
 export enum KnownUnavailableNameReason {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
@@ -151,13 +198,23 @@ export interface ListQueryKeysResult {
 
 // @public
 export interface NetworkRuleSet {
+    bypass?: SearchBypass;
     ipRules?: IpRule[];
 }
 
 // @public
 export interface Operation {
     readonly display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
+    readonly origin?: string;
+    readonly properties?: OperationProperties;
+}
+
+// @public
+export interface OperationAvailability {
+    readonly blobDuration?: string;
+    readonly timeGrain?: string;
 }
 
 // @public
@@ -175,8 +232,43 @@ export interface OperationListResult {
 }
 
 // @public
+export interface OperationLogsSpecification {
+    readonly blobDuration?: string;
+    readonly displayName?: string;
+    readonly name?: string;
+}
+
+// @public
+export interface OperationMetricDimension {
+    readonly displayName?: string;
+    readonly name?: string;
+}
+
+// @public
+export interface OperationMetricsSpecification {
+    readonly aggregationType?: string;
+    readonly availabilities?: OperationAvailability[];
+    readonly dimensions?: OperationMetricDimension[];
+    readonly displayDescription?: string;
+    readonly displayName?: string;
+    readonly name?: string;
+    readonly unit?: string;
+}
+
+// @public
+export interface OperationProperties {
+    readonly serviceSpecification?: OperationServiceSpecification;
+}
+
+// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationServiceSpecification {
+    readonly logSpecifications?: OperationLogsSpecification[];
+    readonly metricSpecifications?: OperationMetricsSpecification[];
 }
 
 // @public
@@ -199,10 +291,8 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnectionProperties {
-    groupId?: string;
     privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
-    provisioningState?: PrivateLinkServiceConnectionProvisioningState;
 }
 
 // @public
@@ -297,16 +387,13 @@ export interface PrivateLinkResourcesResult {
 }
 
 // @public
-export type PrivateLinkServiceConnectionProvisioningState = string;
-
-// @public
 export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
 export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 
 // @public
-export type PublicNetworkAccess = "enabled" | "disabled";
+export type PublicNetworkAccess = string;
 
 // @public
 export interface QueryKey {
@@ -351,32 +438,17 @@ export interface QueryKeysListBySearchServiceOptionalParams extends coreClient.O
 export type QueryKeysListBySearchServiceResponse = ListQueryKeysResult;
 
 // @public
-export interface QuotaUsageResult {
-    currentValue?: number;
-    id?: string;
-    limit?: number;
-    readonly name?: QuotaUsageResultName;
-    unit?: string;
-}
-
-// @public
-export interface QuotaUsageResultName {
-    localizedValue?: string;
-    value?: string;
-}
-
-// @public
-export interface QuotaUsagesListResult {
-    readonly nextLink?: string;
-    readonly value?: QuotaUsageResult[];
-}
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
 }
+
+// @public
+export type SearchBypass = string;
+
+// @public
+export type SearchDisabledDataExfiltrationOption = string;
 
 // @public
 export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
@@ -407,9 +479,6 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     sharedPrivateLinkResources: SharedPrivateLinkResources;
     // (undocumented)
     subscriptionId: string;
-    usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<UsageBySubscriptionSkuResponse>;
-    // (undocumented)
-    usages: Usages;
 }
 
 // @public
@@ -430,8 +499,10 @@ export type SearchSemanticSearch = string;
 // @public
 export interface SearchService extends TrackedResource {
     authOptions?: DataPlaneAuthOptions;
+    disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
+    readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
     networkRuleSet?: NetworkRuleSet;
@@ -454,13 +525,15 @@ export interface SearchServiceListResult {
 }
 
 // @public
-export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error";
+export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error" | "stopped";
 
 // @public
 export interface SearchServiceUpdate extends Resource {
     authOptions?: DataPlaneAuthOptions;
+    disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
+    readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
     location?: string;
@@ -601,7 +674,7 @@ export interface SharedPrivateLinkResourceProperties {
 }
 
 // @public
-export type SharedPrivateLinkResourceProvisioningState = "Updating" | "Deleting" | "Failed" | "Succeeded" | "Incomplete";
+export type SharedPrivateLinkResourceProvisioningState = string;
 
 // @public
 export interface SharedPrivateLinkResources {
@@ -655,7 +728,7 @@ export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends c
 export type SharedPrivateLinkResourcesListByServiceResponse = SharedPrivateLinkResourceListResult;
 
 // @public
-export type SharedPrivateLinkResourceStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
+export type SharedPrivateLinkResourceStatus = string;
 
 // @public
 export interface Sku {
@@ -663,7 +736,7 @@ export interface Sku {
 }
 
 // @public
-export type SkuName = "free" | "basic" | "standard" | "standard2" | "standard3" | "storage_optimized_l1" | "storage_optimized_l2";
+export type SkuName = string;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -677,33 +750,10 @@ export interface TrackedResource extends Resource {
 export type UnavailableNameReason = string;
 
 // @public
-export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface UserAssignedManagedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
-
-// @public
-export type UsageBySubscriptionSkuResponse = QuotaUsageResult;
-
-// @public
-export interface Usages {
-    listBySubscription(location: string, options?: UsagesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<QuotaUsageResult>;
-}
-
-// @public
-export interface UsagesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export type UsagesListBySubscriptionNextResponse = QuotaUsagesListResult;
-
-// @public
-export interface UsagesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
 
 // (No @packageDocumentation comment for this package)
 
