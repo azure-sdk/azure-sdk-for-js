@@ -770,6 +770,9 @@ dependencies:
   '@rush-temp/container-registry':
     specifier: file:./projects/container-registry.tgz
     version: file:projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest':
+    specifier: file:./projects/contoso-widgetmanager-rest.tgz
+    version: file:projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp':
     specifier: file:./projects/core-amqp.tgz
     version: file:projects/core-amqp.tgz
@@ -4495,7 +4498,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231031
+      typescript: 5.3.0-dev.20231102
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9272,8 +9275,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231031:
-    resolution: {integrity: sha512-+w6szmOFr7GSWj/eNFgHdYqubMux9B5ao5LFoGdn712gbDYMpLwqLNkPLpJHD9chl/2wc/W96iSfALkZs7sVXQ==}
+  /typescript@5.3.0-dev.20231102:
+    resolution: {integrity: sha512-M1maLdHyAvE+y4w27IBplkqekR5Lzf2B7XualvF3lXJUC2165swvSmpThFdfHcXxP/+/SYmLI9z2CVvN7pEK+g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16916,6 +16919,51 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/contoso-widgetmanager-rest.tgz:
+    resolution: {integrity: sha512-jJdgrdbZQSrCXkvEupJQs8eSy6P6bFzLil59iyHCv9ElgNDFkxHM5gUTmkh2igglcOxqO3qiKJJPW6jkmkvITQ==, tarball: file:projects/contoso-widgetmanager-rest.tgz}
+    name: '@rush-temp/contoso-widgetmanager-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.3.2
+      '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
+      '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
+      '@types/node': 18.18.7
+      autorest: 3.6.3
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.52.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      mocha-junit-reporter: 1.23.3(mocha@10.2.0)
+      prettier: 2.8.8
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
