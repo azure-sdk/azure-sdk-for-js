@@ -1,7 +1,7 @@
 lockfileVersion: '6.0'
 
 settings:
-  autoInstallPeers: true
+  autoInstallPeers: false
   excludeLinksFromLockfile: false
 
 dependencies:
@@ -866,6 +866,9 @@ dependencies:
   '@rush-temp/identity-vscode':
     specifier: file:./projects/identity-vscode.tgz
     version: file:projects/identity-vscode.tgz
+  '@rush-temp/imageAnalysis':
+    specifier: file:./projects/imageAnalysis.tgz
+    version: file:projects/imageAnalysis.tgz
   '@rush-temp/iot-device-update':
     specifier: file:./projects/iot-device-update.tgz
     version: file:projects/iot-device-update.tgz
@@ -4495,7 +4498,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231030
+      typescript: 5.3.0-dev.20231101
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9261,8 +9264,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231030:
-    resolution: {integrity: sha512-azWrF0lAiu8cBHNr6yq3RDkU/DtQScvT48ea3Ngq6oXJ/GPO0n96wCFSRQA5UbZlVVf3fAAqsUfvOdohRbrPVg==}
+  /typescript@5.3.0-dev.20231101:
+    resolution: {integrity: sha512-yt5zz7L+TBfzeJhMA/tAEO1YU8J2DWsFN3LbeMslNPXL3S0lR3yvePdl6fXCk7QFjnfaRtXH0noNdWg2imHWXg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18318,6 +18321,50 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/imageAnalysis.tgz:
+    resolution: {integrity: sha512-GCvuivha1ZkgLVC1q24AfLE5pCAEBh4VhbfPWV4rLSUTNq4+hLUS2nUpHfC1wDbVKzEHxx69uZhSwUcdn7Q6LA==, tarball: file:projects/imageAnalysis.tgz}
+    name: '@rush-temp/imageAnalysis'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.3.2
+      '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
+      '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
+      '@types/node': 18.18.7
+      autorest: 3.6.3
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.52.0
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      mocha-junit-reporter: 1.23.3(mocha@10.2.0)
+      prettier: 2.8.8
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/iot-device-update.tgz:
     resolution: {integrity: sha512-5oO9dieSrWCX5+U1dKkSlqs41QCZkSVR3EguVZrgM8AKDpECvhknGOsE55N1kVWlthyuzBKzb2RHUeLBDgh/IQ==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
@@ -20375,7 +20422,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-2LtIcl6t12irIaBaBSP/ytxkJA5VSRJ2RUg08UJEi/NVLHhjpx+NQQn/a/ebeAwpa2DefdSkfHRhgh7zn8Qzzg==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-nBVNUHVbjsSyKfoA2uJNvG+jlJEW9Oq12K9Oha1C6GVY1rZhEpcWrkob0RJe/sCDdrMo0MBUnvL7+PkUsvhR8w==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
