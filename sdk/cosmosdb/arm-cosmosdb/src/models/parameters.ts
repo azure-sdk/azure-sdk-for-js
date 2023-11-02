@@ -126,7 +126,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-15-preview",
+    defaultValue: "2023-11-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -614,6 +614,21 @@ export const body1: OperationParameter = {
   mapper: CommandPostBodyMapper
 };
 
+export const commandId: OperationURLParameter = {
+  parameterPath: "commandId",
+  mapper: {
+    constraints: {
+      MaxLength: 100,
+      MinLength: 1
+    },
+    serializedName: "commandId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const backupId: OperationURLParameter = {
   parameterPath: "backupId",
   mapper: {
@@ -626,6 +641,16 @@ export const backupId: OperationURLParameter = {
     required: true,
     type: {
       name: "String"
+    }
+  }
+};
+
+export const xMsForceDeallocate: OperationParameter = {
+  parameterPath: ["options", "xMsForceDeallocate"],
+  mapper: {
+    serializedName: "x-ms-force-deallocate",
+    type: {
+      name: "Boolean"
     }
   }
 };

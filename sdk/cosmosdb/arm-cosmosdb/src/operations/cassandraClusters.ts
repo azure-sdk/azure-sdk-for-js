@@ -37,6 +37,12 @@ import {
   CommandPostBody,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersInvokeCommandResponse,
+  CassandraClustersInvokeCommandAsyncOptionalParams,
+  CassandraClustersInvokeCommandAsyncResponse,
+  CassandraClustersListCommandOptionalParams,
+  CassandraClustersListCommandResponse,
+  CassandraClustersGetCommandAsyncOptionalParams,
+  CassandraClustersGetCommandAsyncResponse,
   CassandraClustersGetBackupOptionalParams,
   CassandraClustersGetBackupResponse,
   CassandraClustersDeallocateOptionalParams,
@@ -628,6 +634,288 @@ export class CassandraClustersImpl implements CassandraClusters {
   }
 
   /**
+   * Invoke a command like nodetool for cassandra maintenance asynchronously
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param body Specification which command to run where
+   * @param options The options parameters.
+   */
+  async beginInvokeCommandAsync(
+    resourceGroupName: string,
+    clusterName: string,
+    body: CommandPostBody,
+    options?: CassandraClustersInvokeCommandAsyncOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraClustersInvokeCommandAsyncResponse>,
+      CassandraClustersInvokeCommandAsyncResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraClustersInvokeCommandAsyncResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, body, options },
+      spec: invokeCommandAsyncOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraClustersInvokeCommandAsyncResponse,
+      OperationState<CassandraClustersInvokeCommandAsyncResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Invoke a command like nodetool for cassandra maintenance asynchronously
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param body Specification which command to run where
+   * @param options The options parameters.
+   */
+  async beginInvokeCommandAsyncAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    body: CommandPostBody,
+    options?: CassandraClustersInvokeCommandAsyncOptionalParams
+  ): Promise<CassandraClustersInvokeCommandAsyncResponse> {
+    const poller = await this.beginInvokeCommandAsync(
+      resourceGroupName,
+      clusterName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List all commands currently running on ring info
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  async beginListCommand(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListCommandOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraClustersListCommandResponse>,
+      CassandraClustersListCommandResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraClustersListCommandResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: listCommandOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraClustersListCommandResponse,
+      OperationState<CassandraClustersListCommandResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * List all commands currently running on ring info
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  async beginListCommandAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListCommandOptionalParams
+  ): Promise<CassandraClustersListCommandResponse> {
+    const poller = await this.beginListCommand(
+      resourceGroupName,
+      clusterName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get list of details about commands that were run asynchronously. Use "all" as commandId to list all
+   * commands in three days associated with the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param commandId Managed Cassandra cluster command id.
+   * @param options The options parameters.
+   */
+  async beginGetCommandAsync(
+    resourceGroupName: string,
+    clusterName: string,
+    commandId: string,
+    options?: CassandraClustersGetCommandAsyncOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraClustersGetCommandAsyncResponse>,
+      CassandraClustersGetCommandAsyncResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraClustersGetCommandAsyncResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, commandId, options },
+      spec: getCommandAsyncOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CassandraClustersGetCommandAsyncResponse,
+      OperationState<CassandraClustersGetCommandAsyncResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Get list of details about commands that were run asynchronously. Use "all" as commandId to list all
+   * commands in three days associated with the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param commandId Managed Cassandra cluster command id.
+   * @param options The options parameters.
+   */
+  async beginGetCommandAsyncAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    commandId: string,
+    options?: CassandraClustersGetCommandAsyncOptionalParams
+  ): Promise<CassandraClustersGetCommandAsyncResponse> {
+    const poller = await this.beginGetCommandAsync(
+      resourceGroupName,
+      clusterName,
+      commandId,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * List the backups of this cluster that are available to restore.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
@@ -1037,6 +1325,102 @@ const invokeCommandOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const invokeCommandAsyncOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/invokeCommandAsync",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommandPublicResource
+    },
+    201: {
+      bodyMapper: Mappers.CommandPublicResource
+    },
+    202: {
+      bodyMapper: Mappers.CommandPublicResource
+    },
+    204: {
+      bodyMapper: Mappers.CommandPublicResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listCommandOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/commands",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListCommands
+    },
+    201: {
+      bodyMapper: Mappers.ListCommands
+    },
+    202: {
+      bodyMapper: Mappers.ListCommands
+    },
+    204: {
+      bodyMapper: Mappers.ListCommands
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCommandAsyncOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/commands/{commandId}",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListCommands
+    },
+    201: {
+      bodyMapper: Mappers.ListCommands
+    },
+    202: {
+      bodyMapper: Mappers.ListCommands
+    },
+    204: {
+      bodyMapper: Mappers.ListCommands
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.commandId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listBackupsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups",
@@ -1102,7 +1486,7 @@ const deallocateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.xMsForceDeallocate],
   serializer
 };
 const startOperationSpec: coreClient.OperationSpec = {

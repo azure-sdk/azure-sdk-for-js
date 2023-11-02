@@ -24,6 +24,12 @@ import {
   CommandPostBody,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersInvokeCommandResponse,
+  CassandraClustersInvokeCommandAsyncOptionalParams,
+  CassandraClustersInvokeCommandAsyncResponse,
+  CassandraClustersListCommandOptionalParams,
+  CassandraClustersListCommandResponse,
+  CassandraClustersGetCommandAsyncOptionalParams,
+  CassandraClustersGetCommandAsyncResponse,
   CassandraClustersGetBackupOptionalParams,
   CassandraClustersGetBackupResponse,
   CassandraClustersDeallocateOptionalParams,
@@ -190,6 +196,97 @@ export interface CassandraClusters {
     body: CommandPostBody,
     options?: CassandraClustersInvokeCommandOptionalParams
   ): Promise<CassandraClustersInvokeCommandResponse>;
+  /**
+   * Invoke a command like nodetool for cassandra maintenance asynchronously
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param body Specification which command to run where
+   * @param options The options parameters.
+   */
+  beginInvokeCommandAsync(
+    resourceGroupName: string,
+    clusterName: string,
+    body: CommandPostBody,
+    options?: CassandraClustersInvokeCommandAsyncOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraClustersInvokeCommandAsyncResponse>,
+      CassandraClustersInvokeCommandAsyncResponse
+    >
+  >;
+  /**
+   * Invoke a command like nodetool for cassandra maintenance asynchronously
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param body Specification which command to run where
+   * @param options The options parameters.
+   */
+  beginInvokeCommandAsyncAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    body: CommandPostBody,
+    options?: CassandraClustersInvokeCommandAsyncOptionalParams
+  ): Promise<CassandraClustersInvokeCommandAsyncResponse>;
+  /**
+   * List all commands currently running on ring info
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  beginListCommand(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListCommandOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraClustersListCommandResponse>,
+      CassandraClustersListCommandResponse
+    >
+  >;
+  /**
+   * List all commands currently running on ring info
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  beginListCommandAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersListCommandOptionalParams
+  ): Promise<CassandraClustersListCommandResponse>;
+  /**
+   * Get list of details about commands that were run asynchronously. Use "all" as commandId to list all
+   * commands in three days associated with the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param commandId Managed Cassandra cluster command id.
+   * @param options The options parameters.
+   */
+  beginGetCommandAsync(
+    resourceGroupName: string,
+    clusterName: string,
+    commandId: string,
+    options?: CassandraClustersGetCommandAsyncOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CassandraClustersGetCommandAsyncResponse>,
+      CassandraClustersGetCommandAsyncResponse
+    >
+  >;
+  /**
+   * Get list of details about commands that were run asynchronously. Use "all" as commandId to list all
+   * commands in three days associated with the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param commandId Managed Cassandra cluster command id.
+   * @param options The options parameters.
+   */
+  beginGetCommandAsyncAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    commandId: string,
+    options?: CassandraClustersGetCommandAsyncOptionalParams
+  ): Promise<CassandraClustersGetCommandAsyncResponse>;
   /**
    * Get the properties of an individual backup of this cluster that is available to restore.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
