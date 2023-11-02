@@ -1,5 +1,45 @@
 # Release History
     
+## 4.0.0-beta.1 (2023-11-02)
+    
+**Features**
+
+  - Added Interface OperationAvailability
+  - Added Interface OperationLogsSpecification
+  - Added Interface OperationMetricDimension
+  - Added Interface OperationMetricsSpecification
+  - Added Interface OperationProperties
+  - Added Interface OperationServiceSpecification
+  - Added Interface UserAssignedManagedIdentity
+  - Added Type Alias SearchBypass
+  - Added Type Alias SearchDisabledDataExfiltrationOption
+  - Interface CloudError has a new optional parameter message
+  - Interface Identity has a new optional parameter userAssignedIdentities
+  - Interface NetworkRuleSet has a new optional parameter bypass
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface Operation has a new optional parameter properties
+  - Interface SearchService has a new optional parameter disabledDataExfiltrationOptions
+  - Interface SearchService has a new optional parameter eTag
+  - Interface SearchServiceUpdate has a new optional parameter disabledDataExfiltrationOptions
+  - Interface SearchServiceUpdate has a new optional parameter eTag
+  - Added Enum KnownIdentityType
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownSearchBypass
+  - Added Enum KnownSearchDisabledDataExfiltrationOption
+  - Added Enum KnownSharedPrivateLinkResourceProvisioningState
+  - Added Enum KnownSharedPrivateLinkResourceStatus
+  - Added Enum KnownSkuName
+
+**Breaking Changes**
+
+  - Removed operation group Usages
+  - Interface PrivateEndpointConnectionProperties no longer has parameter groupId
+  - Interface PrivateEndpointConnectionProperties no longer has parameter provisioningState
+  - Class SearchManagementClient no longer has parameter usages
+  - Removed Enum KnownPrivateLinkServiceConnectionProvisioningState
+    
+    
 ## 3.2.0 (2023-10-09)
     
 **Features**
