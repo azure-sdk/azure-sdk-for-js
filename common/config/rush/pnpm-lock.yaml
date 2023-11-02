@@ -4495,7 +4495,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231031
+      typescript: 5.3.0-dev.20231102
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9272,8 +9272,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231031:
-    resolution: {integrity: sha512-+w6szmOFr7GSWj/eNFgHdYqubMux9B5ao5LFoGdn712gbDYMpLwqLNkPLpJHD9chl/2wc/W96iSfALkZs7sVXQ==}
+  /typescript@5.3.0-dev.20231102:
+    resolution: {integrity: sha512-M1maLdHyAvE+y4w27IBplkqekR5Lzf2B7XualvF3lXJUC2165swvSmpThFdfHcXxP/+/SYmLI9z2CVvN7pEK+g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14084,20 +14084,22 @@ packages:
     dev: false
 
   file:projects/arm-nginx.tgz:
-    resolution: {integrity: sha512-9u6ync6F3jVWi3v6KRt0QfNzX9ghcXNPE/eOFOpJTB/7fEqrx6ql6tmgvt5Nl8Rs6x1H6vTq98EI3DSTT6mUlQ==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-5sAta1oU0WGyEZ3Zv8Sw6XRP8eQBSpm6mEacmEGpy9S9RStG2/JpbRWgtyvylB3UV14FjT5sWwTUlNh2SSsj8Q==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.7
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
