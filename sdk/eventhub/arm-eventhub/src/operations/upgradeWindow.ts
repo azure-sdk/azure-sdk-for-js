@@ -6,25 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Configuration } from "../operationsInterfaces";
+import { UpgradeWindow } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventHubManagementClient } from "../eventHubManagementClient";
 import {
-  ClusterQuotaConfigurationProperties,
-  ConfigurationPatchOptionalParams,
-  ConfigurationPatchResponse,
-  ConfigurationGetOptionalParams,
-  ConfigurationGetResponse
+  ClusterUpgradeWindow,
+  UpgradeWindowPatchOptionalParams,
+  UpgradeWindowPatchResponse,
+  UpgradeWindowGetOptionalParams,
+  UpgradeWindowGetResponse
 } from "../models";
 
-/** Class containing Configuration operations. */
-export class ConfigurationImpl implements Configuration {
+/** Class containing UpgradeWindow operations. */
+export class UpgradeWindowImpl implements UpgradeWindow {
   private readonly client: EventHubManagementClient;
 
   /**
-   * Initialize a new instance of the class Configuration class.
+   * Initialize a new instance of the class UpgradeWindow class.
    * @param client Reference to the service client
    */
   constructor(client: EventHubManagementClient) {
@@ -32,19 +32,19 @@ export class ConfigurationImpl implements Configuration {
   }
 
   /**
-   * Replace all specified Event Hubs Cluster settings with those contained in the request body. Leaves
-   * the settings not specified in the request body unmodified.
+   * Replace all specified Event Hubs Cluster upgrade window settings with those contained in the request
+   * body. Leaves the settings not specified in the request body unmodified.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param clusterName The name of the Event Hubs Cluster.
-   * @param parameters Parameters for creating an Event Hubs Cluster resource.
+   * @param parameters Parameters for updating Event Hubs Clusters Upgrade Window
    * @param options The options parameters.
    */
   patch(
     resourceGroupName: string,
     clusterName: string,
-    parameters: ClusterQuotaConfigurationProperties,
-    options?: ConfigurationPatchOptionalParams
-  ): Promise<ConfigurationPatchResponse> {
+    parameters: ClusterUpgradeWindow,
+    options?: UpgradeWindowPatchOptionalParams
+  ): Promise<UpgradeWindowPatchResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, parameters, options },
       patchOperationSpec
@@ -52,8 +52,7 @@ export class ConfigurationImpl implements Configuration {
   }
 
   /**
-   * Get all Event Hubs Cluster settings - a collection of key/value pairs which represent the quotas and
-   * settings imposed on the cluster.
+   * Get all Event Hubs Cluster upgrade window settings
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param clusterName The name of the Event Hubs Cluster.
    * @param options The options parameters.
@@ -61,8 +60,8 @@ export class ConfigurationImpl implements Configuration {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationGetOptionalParams
-  ): Promise<ConfigurationGetResponse> {
+    options?: UpgradeWindowGetOptionalParams
+  ): Promise<UpgradeWindowGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
       getOperationSpec
@@ -74,21 +73,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const patchOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/quotaConfiguration/default",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/upgradewindow",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterQuotaConfigurationProperties
+      bodyMapper: Mappers.ClusterUpgradeWindow
     },
-    201: {
-      bodyMapper: Mappers.ClusterQuotaConfigurationProperties
-    },
-    202: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -102,11 +97,11 @@ const patchOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/quotaConfiguration/default",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/upgradewindow",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterQuotaConfigurationProperties
+      bodyMapper: Mappers.ClusterUpgradeWindow
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -27,7 +27,10 @@ import {
   ConsumerGroupsImpl,
   OperationsImpl,
   SchemaRegistryImpl,
-  ApplicationGroupOperationsImpl
+  ApplicationGroupOperationsImpl,
+  UpgradeWindowImpl,
+  UpgradeWindowHistoryImpl,
+  UpgradeWindowTriggerImpl
 } from "./operations";
 import {
   Clusters,
@@ -42,7 +45,10 @@ import {
   ConsumerGroups,
   Operations,
   SchemaRegistry,
-  ApplicationGroupOperations
+  ApplicationGroupOperations,
+  UpgradeWindow,
+  UpgradeWindowHistory,
+  UpgradeWindowTrigger
 } from "./operationsInterfaces";
 import { EventHubManagementClientOptionalParams } from "./models";
 
@@ -79,7 +85,7 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventhub/5.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-eventhub/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -132,7 +138,7 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01-preview";
+    this.apiVersion = options.apiVersion || "2023-12-01-preview";
     this.clusters = new ClustersImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -150,6 +156,9 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.schemaRegistry = new SchemaRegistryImpl(this);
     this.applicationGroupOperations = new ApplicationGroupOperationsImpl(this);
+    this.upgradeWindow = new UpgradeWindowImpl(this);
+    this.upgradeWindowHistory = new UpgradeWindowHistoryImpl(this);
+    this.upgradeWindowTrigger = new UpgradeWindowTriggerImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -194,4 +203,7 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
   operations: Operations;
   schemaRegistry: SchemaRegistry;
   applicationGroupOperations: ApplicationGroupOperations;
+  upgradeWindow: UpgradeWindow;
+  upgradeWindowHistory: UpgradeWindowHistory;
+  upgradeWindowTrigger: UpgradeWindowTrigger;
 }

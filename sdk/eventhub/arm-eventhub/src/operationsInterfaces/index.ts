@@ -19,3 +19,6 @@ export * from "./consumerGroups";
 export * from "./operations";
 export * from "./schemaRegistry";
 export * from "./applicationGroupOperations";
+export * from "./upgradeWindow";
+export * from "./upgradeWindowHistory";
+export * from "./upgradeWindowTrigger";
