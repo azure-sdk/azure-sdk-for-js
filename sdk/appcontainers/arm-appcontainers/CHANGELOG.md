@@ -1,15 +1,32 @@
 # Release History
+    
+## 2.1.0-beta.1 (2023-11-03)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ManagedEnvironmentUsages
+  - Added operation group Usages
+  - Added Interface BlobStorageTokenStore
+  - Added Interface EncryptionSettings
+  - Added Interface GetCustomDomainVerificationIdOptionalParams
+  - Added Interface IngressPortMapping
+  - Added Interface ListUsagesResult
+  - Added Interface ManagedEnvironmentUsagesListNextOptionalParams
+  - Added Interface ManagedEnvironmentUsagesListOptionalParams
+  - Added Interface TokenStore
+  - Added Interface Usage
+  - Added Interface UsageName
+  - Added Interface UsagesListNextOptionalParams
+  - Added Interface UsagesListOptionalParams
+  - Added Type Alias GetCustomDomainVerificationIdResponse
+  - Added Type Alias ManagedEnvironmentUsagesListNextResponse
+  - Added Type Alias ManagedEnvironmentUsagesListResponse
+  - Added Type Alias UsagesListNextResponse
+  - Added Type Alias UsagesListResponse
+  - Interface AuthConfig has a new optional parameter encryptionSettings
+  - Interface Ingress has a new optional parameter additionalPortMappings
+  - Interface Login has a new optional parameter tokenStore
+    
 ## 2.0.0 (2023-08-08)
 
 **Features**
@@ -361,4 +378,4 @@
 
 ## 1.0.0 (2022-05-20)
 
-The package of @azure/arm-appcontainers is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-appcontainers is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

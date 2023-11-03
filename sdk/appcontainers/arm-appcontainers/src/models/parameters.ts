@@ -97,7 +97,7 @@ export const containerAppName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01",
+    defaultValue: "2023-05-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -405,4 +405,32 @@ export const sourceControlName: OperationURLParameter = {
 export const sourceControlEnvelope: OperationParameter = {
   parameterPath: "sourceControlEnvelope",
   mapper: SourceControlMapper
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const environmentName1: OperationURLParameter = {
+  parameterPath: "environmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
+    serializedName: "environmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
