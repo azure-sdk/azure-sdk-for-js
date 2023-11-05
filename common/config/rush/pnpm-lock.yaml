@@ -4517,7 +4517,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231102
+      typescript: 5.4.0-dev.20231105
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9294,8 +9294,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231102:
-    resolution: {integrity: sha512-M1maLdHyAvE+y4w27IBplkqekR5Lzf2B7XualvF3lXJUC2165swvSmpThFdfHcXxP/+/SYmLI9z2CVvN7pEK+g==}
+  /typescript@5.4.0-dev.20231105:
+    resolution: {integrity: sha512-TN7QRSjarOvoxvHuZdVmofCnXJYklxsiZ1tyJKiKkghPWXwrkQ68R3NN3vhtS8B+jIeZoETKssmfbmhCl8rwxQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10715,20 +10715,22 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-eTTY4B3BCdKWVQs2FB3jkI6SAnvCkKQEwFOMX1i5eBUhVHBAmA1FF26l4MlzUuwIOIxH2AmxwG8eeKu1qX+nWg==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-6djz+IRsSuPnHH+ecDdVDgaKpxHxES+rBKoYvLJ3TPhdYFLOOHDzA+EWJSU51D63zqlNSe/mrMpwKaiAgGu+rg==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.0(@types/node@18.18.7)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.7
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.7)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -18189,7 +18191,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-IHVPicxkUV7K71ze6miruZVilVdHQMvm7xbM1DN095RqCEje1whEdPcVOmzvfRggcGZYPg1djws5LiLkYuy0Wg==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-DqXrLFDX3av9ofrE/YRqxCFYzQKDmVKt+CM9rURcX0NzVXADlEPMXlFQuPCtvv24WjllpEX+aQAc3QTmfBnA4Q==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -18220,7 +18222,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-Z5sE20BlSCrUoWPnETIfeq2HlzQr5D6RR1E5qjhEdMWxSMSrYZfo9YFw3MGN9ZyZZ8r9r/BnRZw9xbst8za1wQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-5ZVSbAFLhPBKUmjIoaUj/Xmy+RyCD0b+9Ow/n6+rDtQ9/IZu1n+/PaonbeSDP1nB67Nxg2ueJCVzIMPIo6DTGg==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
