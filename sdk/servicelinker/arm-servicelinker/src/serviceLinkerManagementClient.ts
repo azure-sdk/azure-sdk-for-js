@@ -14,8 +14,20 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { LinkerImpl, OperationsImpl } from "./operations";
-import { Linker, Operations } from "./operationsInterfaces";
+import {
+  ConnectorImpl,
+  LinkerImpl,
+  LinkersImpl,
+  OperationsImpl,
+  ConfigurationNamesImpl
+} from "./operations";
+import {
+  Connector,
+  Linker,
+  Linkers,
+  Operations,
+  ConfigurationNames
+} from "./operationsInterfaces";
 import { ServiceLinkerManagementClientOptionalParams } from "./models";
 
 export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
@@ -44,7 +56,7 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-servicelinker/2.1.1`;
+    const packageDetails = `azsdk-js-arm-servicelinker/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -95,9 +107,12 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2022-11-01-preview";
+    this.connector = new ConnectorImpl(this);
     this.linker = new LinkerImpl(this);
+    this.linkers = new LinkersImpl(this);
     this.operations = new OperationsImpl(this);
+    this.configurationNames = new ConfigurationNamesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -129,6 +144,9 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  connector: Connector;
   linker: Linker;
+  linkers: Linkers;
   operations: Operations;
+  configurationNames: ConfigurationNames;
 }
