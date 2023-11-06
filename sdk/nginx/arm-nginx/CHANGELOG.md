@@ -1,15 +1,22 @@
 # Release History
+    
+## 3.0.0 (2023-11-06)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
+  - Added Interface NginxDeploymentScalingProperties
+  - Added Interface NginxDeploymentUserProfile
+  - Interface NginxConfigurationPackage has a new optional parameter protectedFiles
+  - Interface NginxDeploymentProperties has a new optional parameter scalingProperties
+  - Interface NginxDeploymentProperties has a new optional parameter userProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter scalingProperties
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter userProfile
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface NginxCertificate no longer has parameter tags
+  - Interface NginxConfiguration no longer has parameter tags
+    
 ## 2.0.1 (2023-01-30)
 
 **Features**
@@ -44,4 +51,4 @@
     
 ## 1.0.0 (2022-08-23)
 
-The package of @azure/arm-nginx is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-nginx is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
