@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnectionOperations } from "../operationsInterfaces";
+import { GroupsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectNextOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectResponse,
-  PrivateEndpointConnectionOperationsGetOptionalParams,
-  PrivateEndpointConnectionOperationsGetResponse,
-  PrivateEndpointConnectionOperationsUpdateOptionalParams,
-  PrivateEndpointConnectionOperationsUpdateResponse,
-  PrivateEndpointConnectionOperationsDeleteOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectNextResponse
+  Group,
+  GroupsOperationsListByAssessmentProjectNextOptionalParams,
+  GroupsOperationsListByAssessmentProjectOptionalParams,
+  GroupsOperationsListByAssessmentProjectResponse,
+  GroupsOperationsGetOptionalParams,
+  GroupsOperationsGetResponse,
+  GroupsOperationsCreateOptionalParams,
+  GroupsOperationsCreateResponse,
+  GroupsOperationsDeleteOptionalParams,
+  UpdateGroupBody,
+  GroupsOperationsUpdateMachinesOptionalParams,
+  GroupsOperationsUpdateMachinesResponse,
+  GroupsOperationsListByAssessmentProjectNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnectionOperations operations. */
-export class PrivateEndpointConnectionOperationsImpl
-  implements PrivateEndpointConnectionOperations {
+/** Class containing GroupsOperations operations. */
+export class GroupsOperationsImpl implements GroupsOperations {
   private readonly client: AzureMigrateAssessmentService;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnectionOperations class.
+   * Initialize a new instance of the class GroupsOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMigrateAssessmentService) {
@@ -47,7 +49,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * List PrivateEndpointConnection resources by AssessmentProject
+   * List Group resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -55,8 +57,8 @@ export class PrivateEndpointConnectionOperationsImpl
   public listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: GroupsOperationsListByAssessmentProjectOptionalParams
+  ): PagedAsyncIterableIterator<Group> {
     const iter = this.listByAssessmentProjectPagingAll(
       resourceGroupName,
       projectName,
@@ -86,10 +88,10 @@ export class PrivateEndpointConnectionOperationsImpl
   private async *listByAssessmentProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
+    options?: GroupsOperationsListByAssessmentProjectOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionOperationsListByAssessmentProjectResponse;
+  ): AsyncIterableIterator<Group[]> {
+    let result: GroupsOperationsListByAssessmentProjectResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAssessmentProject(
@@ -119,8 +121,8 @@ export class PrivateEndpointConnectionOperationsImpl
   private async *listByAssessmentProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: GroupsOperationsListByAssessmentProjectOptionalParams
+  ): AsyncIterableIterator<Group> {
     for await (const page of this.listByAssessmentProjectPagingPage(
       resourceGroupName,
       projectName,
@@ -131,7 +133,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * List PrivateEndpointConnection resources by AssessmentProject
+   * List Group resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -139,10 +141,8 @@ export class PrivateEndpointConnectionOperationsImpl
   private _listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams
-  ): Promise<
-    PrivateEndpointConnectionOperationsListByAssessmentProjectResponse
-  > {
+    options?: GroupsOperationsListByAssessmentProjectOptionalParams
+  ): Promise<GroupsOperationsListByAssessmentProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
       listByAssessmentProjectOperationSpec
@@ -150,53 +150,48 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Get a PrivateEndpointConnection
+   * Get a Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param groupName Group ARM name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionOperationsGetOptionalParams
-  ): Promise<PrivateEndpointConnectionOperationsGetResponse> {
+    groupName: string,
+    options?: GroupsOperationsGetOptionalParams
+  ): Promise<GroupsOperationsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        projectName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, projectName, groupName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a PrivateEndpointConnection
+   * Create a Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param groupName Group ARM name
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  async beginCreate(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    resource: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionOperationsUpdateOptionalParams
+    groupName: string,
+    resource: Group,
+    options?: GroupsOperationsCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<PrivateEndpointConnectionOperationsUpdateResponse>,
-      PrivateEndpointConnectionOperationsUpdateResponse
+      OperationState<GroupsOperationsCreateResponse>,
+      GroupsOperationsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionOperationsUpdateResponse> => {
+    ): Promise<GroupsOperationsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -234,18 +229,12 @@ export class PrivateEndpointConnectionOperationsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        projectName,
-        privateEndpointConnectionName,
-        resource,
-        options
-      },
-      spec: updateOperationSpec
+      args: { resourceGroupName, projectName, groupName, resource, options },
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      PrivateEndpointConnectionOperationsUpdateResponse,
-      OperationState<PrivateEndpointConnectionOperationsUpdateResponse>
+      GroupsOperationsCreateResponse,
+      OperationState<GroupsOperationsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -256,24 +245,24 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Create a PrivateEndpointConnection
+   * Create a Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param groupName Group ARM name
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    resource: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionOperationsUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionOperationsUpdateResponse> {
-    const poller = await this.beginUpdate(
+    groupName: string,
+    resource: Group,
+    options?: GroupsOperationsCreateOptionalParams
+  ): Promise<GroupsOperationsCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       projectName,
-      privateEndpointConnectionName,
+      groupName,
       resource,
       options
     );
@@ -281,27 +270,123 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Delete a PrivateEndpointConnection
+   * Delete a Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param groupName Group ARM name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionOperationsDeleteOptionalParams
+    groupName: string,
+    options?: GroupsOperationsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        projectName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, projectName, groupName, options },
       deleteOperationSpec
     );
+  }
+
+  /**
+   * Update machines in group by adding or removing machines.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param groupName Group ARM name
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginUpdateMachines(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    body: UpdateGroupBody,
+    options?: GroupsOperationsUpdateMachinesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GroupsOperationsUpdateMachinesResponse>,
+      GroupsOperationsUpdateMachinesResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<GroupsOperationsUpdateMachinesResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, projectName, groupName, body, options },
+      spec: updateMachinesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GroupsOperationsUpdateMachinesResponse,
+      OperationState<GroupsOperationsUpdateMachinesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update machines in group by adding or removing machines.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param groupName Group ARM name
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginUpdateMachinesAndWait(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    body: UpdateGroupBody,
+    options?: GroupsOperationsUpdateMachinesOptionalParams
+  ): Promise<GroupsOperationsUpdateMachinesResponse> {
+    const poller = await this.beginUpdateMachines(
+      resourceGroupName,
+      projectName,
+      groupName,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -316,10 +401,8 @@ export class PrivateEndpointConnectionOperationsImpl
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectNextOptionalParams
-  ): Promise<
-    PrivateEndpointConnectionOperationsListByAssessmentProjectNextResponse
-  > {
+    options?: GroupsOperationsListByAssessmentProjectNextOptionalParams
+  ): Promise<GroupsOperationsListByAssessmentProjectNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
       listByAssessmentProjectNextOperationSpec
@@ -331,11 +414,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.GroupListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -353,11 +436,11 @@ const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Group
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -369,40 +452,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName
+    Parameters.groupName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Group
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Group
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Group
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Group
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.resource7,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName
+    Parameters.groupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -410,7 +493,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -425,9 +508,43 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName
+    Parameters.groupName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateMachinesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/updateMachines",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Group
+    },
+    201: {
+      bodyMapper: Mappers.Group
+    },
+    202: {
+      bodyMapper: Mappers.Group
+    },
+    204: {
+      bodyMapper: Mappers.Group
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.groupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listByAssessmentProjectNextOperationSpec: coreClient.OperationSpec = {
@@ -435,7 +552,7 @@ const listByAssessmentProjectNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.GroupListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
