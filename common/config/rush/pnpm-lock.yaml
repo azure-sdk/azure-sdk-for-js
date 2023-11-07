@@ -12904,19 +12904,22 @@ packages:
     dev: false
 
   file:projects/arm-healthcareapis.tgz:
-    resolution: {integrity: sha512-39Z3FnRxvLIxyM2OL3tvvzcGGG9GRDUFkqaddU6PG2Edbr8FZp7lMRMDV1ysLaKycrgV+jY+NUXggWEqJqyaHw==, tarball: file:projects/arm-healthcareapis.tgz}
+    resolution: {integrity: sha512-pUu5Tv9upKVg3XZlTGb2bM45MZ8ZX3TAZOCUoSfdKRDzphalIONbpW2hn3NQzuP4SWr1QCM10h9susneu/Hg7Q==, tarball: file:projects/arm-healthcareapis.tgz}
     name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
