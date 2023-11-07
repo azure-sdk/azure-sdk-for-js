@@ -6616,6 +6616,13 @@ export const RestorePointSourceVMStorageProfile: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      diskControllerType: {
+        serializedName: "diskControllerType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
