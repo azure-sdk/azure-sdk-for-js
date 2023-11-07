@@ -4495,7 +4495,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231106
+      typescript: 5.4.0-dev.20231107
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9272,8 +9272,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231106:
-    resolution: {integrity: sha512-Uxjjt7meOHOSXpQJkiObTPUXfQKqSkdcMQOV+ZAjo3U1w/D/1Qah5Pdg0x/jt/fIA6laCNWLogS+QiaT5HOohw==}
+  /typescript@5.4.0-dev.20231107:
+    resolution: {integrity: sha512-4bQlfsyFjzZMo1bSLEkFJEcvuQ64pgE0S/BpdWu16lYsQOfJZtntZIyWdED3h+e96IMtVgrC6sxzfPZhj4J/dw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11279,20 +11279,22 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-8Dll77YDjgujpTNawmQf+OwblyeVtwXw093LHmvw1S89ar1zTshiONi4IbaK8TzLIFQBRsRReNZQ/pI30b+Jag==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-WWKVg5kkFT3j2agx26vuV5BtKk8zqL6i8Sq6hi3db7LFpYxOiiD8iTZwhpEpk3Z1JG9uTVp1WHwQHnfouSdEbg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
