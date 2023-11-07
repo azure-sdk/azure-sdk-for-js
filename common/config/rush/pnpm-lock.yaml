@@ -686,6 +686,9 @@ dependencies:
   '@rush-temp/arm-templatespecs':
     specifier: file:./projects/arm-templatespecs.tgz
     version: file:projects/arm-templatespecs.tgz
+  '@rush-temp/arm-testbase':
+    specifier: file:./projects/arm-testbase.tgz
+    version: file:projects/arm-testbase.tgz
   '@rush-temp/arm-timeseriesinsights':
     specifier: file:./projects/arm-timeseriesinsights.tgz
     version: file:projects/arm-timeseriesinsights.tgz
@@ -15825,6 +15828,33 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-testbase.tgz:
+    resolution: {integrity: sha512-1NlH2GkGtc4B9XjM4jIijCehdah/mj59+x0U5LzE4orOrxuC57/uq/jXrygVYKcHiHXovJKe42/7yPMW6/XAqQ==, tarball: file:projects/arm-testbase.tgz}
+    name: '@rush-temp/arm-testbase'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.3.2
+      '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
+      '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
+      '@types/node': 18.18.8
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
