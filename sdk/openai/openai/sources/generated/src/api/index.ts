@@ -7,10 +7,15 @@ export {
   OpenAIContext,
 } from "./OpenAIContext.js";
 export {
-  getEmbeddings,
+  getAudioTranscriptionAsPlainText,
+  getAudioTranscriptionAsResponseObject,
+  getAudioTranslationAsPlainText,
+  getAudioTranslationAsResponseObject,
   getCompletions,
   getChatCompletions,
   getChatCompletionsWithAzureExtensions,
+  getImageGenerations,
   getAzureBatchImageGenerationOperationStatus,
   beginAzureBatchImageGeneration,
+  getEmbeddings,
 } from "./operations.js";

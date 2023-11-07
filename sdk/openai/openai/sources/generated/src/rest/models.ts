@@ -1,31 +1,66 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * The configuration information for an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsOptions {
+/** The configuration information for an audio transcription request. */
+export interface AudioTranscriptionOptions {
   /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
+   * The audio data to transcribe. This must be the binary content of a file in one of the supported media formats:
+   *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
    */
-  user?: string;
+  file: string;
   /**
-   * The model name to provide as part of this embeddings request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-  /**
-   * Input texts to get embeddings for, encoded as a an array of strings.
-   * Each input must not exceed 2048 tokens in length.
+   * The requested format of the transcription response data, which will influence the content and detail of the result.
    *
-   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
-   * as we have observed inferior results when newlines are present.
+   * Possible values: json, verbose_json, text, srt, vtt
    */
-  input: string[];
+  response_format?: string;
+  /**
+   * The primary spoken language of the audio data to be transcribed, supplied as a two-letter ISO-639-1 language code
+   * such as 'en' or 'fr'.
+   * Providing this known input language is optional but may improve the accuracy and/or latency of transcription.
+   */
+  language?: string;
+  /**
+   * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
+   * prompt should match the primary spoken language of the audio data.
+   */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The model to use for this transcription request. */
+  model?: string;
+}
+
+/** The configuration information for an audio translation request. */
+export interface AudioTranslationOptions {
+  /**
+   * The audio data to translate. This must be the binary content of a file in one of the supported media formats:
+   *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   */
+  file: string;
+  /**
+   * The requested format of the translation response data, which will influence the content and detail of the result.
+   *
+   * Possible values: json, verbose_json, text, srt, vtt
+   */
+  response_format?: string;
+  /**
+   * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
+   * prompt should match the primary spoken language of the audio data.
+   */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The model to use for this translation request. */
+  model?: string;
 }
 
 /**
@@ -312,23 +347,71 @@ export interface AzureChatExtensionConfiguration {
 
 /** Represents the request data used to generate images. */
 export interface ImageGenerationOptions {
+  /** The model to use for image generation. */
+  model?: string;
   /** A description of the desired images. */
   prompt: string;
-  /** The number of images to generate (defaults to 1). */
+  /**
+   * The number of images to generate.
+   * Dall-e-2 models support values between 1 and 10.
+   * Dall-e-3 models only support a value of 1.
+   */
   n?: number;
   /**
-   * The desired size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 (defaults to 1024x1024).
+   * The desired dimensions for generated images.
+   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
+   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
    *
-   * Possible values: 256x256, 512x512, 1024x1024
+   * Possible values: 256x256, 512x512, 1024x1024, 1792x1024, 1024x1792
    */
   size?: string;
   /**
-   *   The format in which image generation response items should be presented.
-   *   Azure OpenAI only supports URL response items.
+   * The format in which image generation response items should be presented.
    *
    * Possible values: url, b64_json
    */
   response_format?: string;
+  /**
+   * The desired image generation quality level to use.
+   * Only configurable with dall-e-3 models.
+   *
+   * Possible values: standard, hd
+   */
+  quality?: string;
+  /**
+   * The desired image generation style to use.
+   * Only configurable with dall-e-3 models.
+   *
+   * Possible values: natural, vivid
+   */
+  style?: string;
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
   user?: string;
+}
+
+/**
+ * The configuration information for an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface EmbeddingsOptions {
+  /**
+   * An identifier for the caller or end user of the operation. This may be used for tracking
+   * or rate-limiting purposes.
+   */
+  user?: string;
+  /**
+   * The model name to provide as part of this embeddings request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
+   * Input texts to get embeddings for, encoded as a an array of strings.
+   * Each input must not exceed 2048 tokens in length.
+   *
+   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
+   * as we have observed inferior results when newlines are present.
+   */
+  input: string[];
 }
