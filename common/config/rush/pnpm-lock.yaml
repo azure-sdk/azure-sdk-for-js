@@ -854,6 +854,9 @@ dependencies:
   '@rush-temp/health-insights-clinicalmatching':
     specifier: file:./projects/health-insights-clinicalmatching.tgz
     version: file:projects/health-insights-clinicalmatching.tgz
+  '@rush-temp/hybridnetwork':
+    specifier: file:./projects/hybridnetwork.tgz
+    version: file:projects/hybridnetwork.tgz
   '@rush-temp/identity':
     specifier: file:./projects/identity.tgz
     version: file:projects/identity.tgz
@@ -18164,6 +18167,33 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/hybridnetwork.tgz:
+    resolution: {integrity: sha512-aoYu5ThQ213BtiSXkvVk2jgYBNB6+oFJCfVpv/5t9ssUIve2Oxsgei9QohUv0Ja9zgXehagMUn2HxypoFfAGPw==, tarball: file:projects/hybridnetwork.tgz}
+    name: '@rush-temp/hybridnetwork'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.3.2
+      '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
+      '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
+      '@types/node': 18.18.8
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/identity-broker.tgz:
