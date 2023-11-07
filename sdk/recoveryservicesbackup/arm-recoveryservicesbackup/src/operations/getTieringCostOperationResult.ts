@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Operation } from "../operationsInterfaces";
+import { GetTieringCostOperationResult } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
-  ValidateOperationRequestResource,
-  OperationValidateOptionalParams,
-  OperationValidateResponse
+  GetTieringCostOperationResultGetOptionalParams,
+  GetTieringCostOperationResultGetResponse
 } from "../models";
 
-/** Class containing Operation operations. */
-export class OperationImpl implements Operation {
+/** Class containing GetTieringCostOperationResult operations. */
+export class GetTieringCostOperationResultImpl
+  implements GetTieringCostOperationResult {
   private readonly client: RecoveryServicesBackupClient;
 
   /**
-   * Initialize a new instance of the class Operation class.
+   * Initialize a new instance of the class GetTieringCostOperationResult class.
    * @param client Reference to the service client
    */
   constructor(client: RecoveryServicesBackupClient) {
@@ -30,49 +30,48 @@ export class OperationImpl implements Operation {
   }
 
   /**
-   * Validate operation for specified backed up item. This is a synchronous operation.
-   * @param vaultName The name of the recovery services vault.
+   * Gets the result of async operation for tiering cost
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
-   * @param parameters resource validate operation request
+   * @param vaultName The name of the recovery services vault.
+   * @param operationId
    * @param options The options parameters.
    */
-  validate(
-    vaultName: string,
+  get(
     resourceGroupName: string,
-    parameters: ValidateOperationRequestResource,
-    options?: OperationValidateOptionalParams
-  ): Promise<OperationValidateResponse> {
+    vaultName: string,
+    operationId: string,
+    options?: GetTieringCostOperationResultGetOptionalParams
+  ): Promise<GetTieringCostOperationResultGetResponse> {
     return this.client.sendOperationRequest(
-      { vaultName, resourceGroupName, parameters, options },
-      validateOperationSpec
+      { resourceGroupName, vaultName, operationId, options },
+      getOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const validateOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperation",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupTieringCost/default/operationResults/{operationId}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateOperationsResponse
+      bodyMapper: Mappers.TieringCostInfo
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.operationId,
+    Parameters.vaultName1
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
