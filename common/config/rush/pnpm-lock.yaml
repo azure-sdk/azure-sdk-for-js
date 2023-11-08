@@ -11206,18 +11206,20 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-Vk/t0OOehpgWfzYGEAEQNqNB+YWXGnaNrKI+txh8/Jjzr0qfKCi3+cr2vI+5if7FYpbA8Cfy+/aOM8dxpy7rIA==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-ycT09EisANJNn0UuyeDiYQ6YvQ2YVI56/CyiiKo1eVieg7QyR/F03w5z9tRvt7WUjFOUbElt8dQsxr+rPY2Rzg==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
