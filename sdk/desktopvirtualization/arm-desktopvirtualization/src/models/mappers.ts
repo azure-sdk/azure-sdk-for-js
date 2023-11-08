@@ -1861,6 +1861,320 @@ export const MsixPackageList: coreClient.CompositeMapper = {
   }
 };
 
+export const ImportPackageInfoRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportPackageInfoRequest",
+    modelProperties: {
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      packageArchitecture: {
+        serializedName: "packageArchitecture",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppAttachPackageList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppAttachPackageList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppAttachPackage"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppAttachPackageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppAttachPackageProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      image: {
+        serializedName: "image",
+        type: {
+          name: "Composite",
+          className: "AppAttachPackageInfoProperties"
+        }
+      },
+      hostPoolReferences: {
+        serializedName: "hostPoolReferences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      keyVaultURL: {
+        serializedName: "keyVaultURL",
+        type: {
+          name: "String"
+        }
+      },
+      failHealthCheckOnStagingFailure: {
+        serializedName: "failHealthCheckOnStagingFailure",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppAttachPackageInfoProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppAttachPackageInfoProperties",
+    modelProperties: {
+      packageAlias: {
+        serializedName: "packageAlias",
+        type: {
+          name: "String"
+        }
+      },
+      imagePath: {
+        serializedName: "imagePath",
+        type: {
+          name: "String"
+        }
+      },
+      packageName: {
+        serializedName: "packageName",
+        type: {
+          name: "String"
+        }
+      },
+      packageFamilyName: {
+        serializedName: "packageFamilyName",
+        type: {
+          name: "String"
+        }
+      },
+      packageFullName: {
+        serializedName: "packageFullName",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      packageRelativePath: {
+        serializedName: "packageRelativePath",
+        type: {
+          name: "String"
+        }
+      },
+      isRegularRegistration: {
+        serializedName: "isRegularRegistration",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isActive: {
+        serializedName: "isActive",
+        type: {
+          name: "Boolean"
+        }
+      },
+      packageDependencies: {
+        serializedName: "packageDependencies",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MsixPackageDependencies"
+            }
+          }
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdated: {
+        serializedName: "lastUpdated",
+        type: {
+          name: "DateTime"
+        }
+      },
+      packageApplications: {
+        serializedName: "packageApplications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MsixPackageApplications"
+            }
+          }
+        }
+      },
+      certificateName: {
+        serializedName: "certificateName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      certificateExpiry: {
+        serializedName: "certificateExpiry",
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      isPackageTimestamped: {
+        serializedName: "isPackageTimestamped",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const MsixImageURI: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1896,6 +2210,45 @@ export const ExpandMsixImageList: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppAttachPackagePatchProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppAttachPackagePatchProperties",
+    modelProperties: {
+      image: {
+        serializedName: "image",
+        type: {
+          name: "Composite",
+          className: "AppAttachPackageInfoProperties"
+        }
+      },
+      hostPoolReferences: {
+        serializedName: "hostPoolReferences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      keyVaultURL: {
+        serializedName: "keyVaultURL",
+        type: {
+          name: "String"
+        }
+      },
+      failHealthCheckOnStagingFailure: {
+        serializedName: "failHealthCheckOnStagingFailure",
         type: {
           name: "String"
         }
@@ -3098,6 +3451,44 @@ export const ExpandMsixImage: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      certificateName: {
+        serializedName: "properties.certificateName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      certificateExpiry: {
+        serializedName: "properties.certificateExpiry",
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const AppAttachPackagePatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppAttachPackagePatch",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AppAttachPackagePatchProperties"
+        }
       }
     }
   }
@@ -3427,6 +3818,18 @@ export const HostPool: coreClient.CompositeMapper = {
           }
         }
       },
+      appAttachPackageReferences: {
+        serializedName: "properties.appAttachPackageReferences",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       ssoadfsAuthority: {
         serializedName: "properties.ssoadfsAuthority",
         type: {
@@ -3495,6 +3898,30 @@ export const HostPool: coreClient.CompositeMapper = {
               className: "PrivateEndpointConnection"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const AppAttachPackage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppAttachPackage",
+    modelProperties: {
+      ...ResourceModelWithAllowedPropertySet.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AppAttachPackageProperties"
         }
       }
     }

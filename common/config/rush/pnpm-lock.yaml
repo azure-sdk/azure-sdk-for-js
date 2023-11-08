@@ -12187,17 +12187,19 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-PCPedV/PuxGgESNuEKTPdRHDon5WHZknD/yPvCGIuDFraL8VXe+vgjABNurZzfpYjqPbDLYoS1ollsEk3jug4g==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-lZ29hP0WzZqp1A5KSKtuoX5OcnTjB6AMzRzFpwRhpBRi/QjmkURb1P9UI/Dt0aowzcsqa2s5A/YTX9ntEnuBKg==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
