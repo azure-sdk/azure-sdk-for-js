@@ -8,28 +8,29 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateLinkResources } from "../operationsInterfaces";
+import { HybridIdentityMetadataOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HybridComputeManagementClient } from "../hybridComputeManagementClient";
 import {
-  PrivateLinkResource,
-  PrivateLinkResourcesListByPrivateLinkScopeNextOptionalParams,
-  PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
-  PrivateLinkResourcesListByPrivateLinkScopeResponse,
-  PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse,
-  PrivateLinkResourcesListByPrivateLinkScopeNextResponse
+  HybridIdentityMetadata,
+  HybridIdentityMetadataListByMachinesNextOptionalParams,
+  HybridIdentityMetadataListByMachinesOptionalParams,
+  HybridIdentityMetadataListByMachinesResponse,
+  HybridIdentityMetadataGetOptionalParams,
+  HybridIdentityMetadataGetResponse,
+  HybridIdentityMetadataListByMachinesNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateLinkResources operations. */
-export class PrivateLinkResourcesImpl implements PrivateLinkResources {
+/** Class containing HybridIdentityMetadataOperations operations. */
+export class HybridIdentityMetadataOperationsImpl
+  implements HybridIdentityMetadataOperations {
   private readonly client: HybridComputeManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateLinkResources class.
+   * Initialize a new instance of the class HybridIdentityMetadataOperations class.
    * @param client Reference to the service client
    */
   constructor(client: HybridComputeManagementClient) {
@@ -37,19 +38,19 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   }
 
   /**
-   * Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
+   * Returns the list of HybridIdentityMetadata of the given machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
+   * @param machineName The name of the hybrid machine.
    * @param options The options parameters.
    */
-  public listByPrivateLinkScope(
+  public listByMachines(
     resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
-  ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByPrivateLinkScopePagingAll(
+    machineName: string,
+    options?: HybridIdentityMetadataListByMachinesOptionalParams
+  ): PagedAsyncIterableIterator<HybridIdentityMetadata> {
+    const iter = this.listByMachinesPagingAll(
       resourceGroupName,
-      scopeName,
+      machineName,
       options
     );
     return {
@@ -63,9 +64,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByPrivateLinkScopePagingPage(
+        return this.listByMachinesPagingPage(
           resourceGroupName,
-          scopeName,
+          machineName,
           options,
           settings
         );
@@ -73,18 +74,18 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     };
   }
 
-  private async *listByPrivateLinkScopePagingPage(
+  private async *listByMachinesPagingPage(
     resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
+    machineName: string,
+    options?: HybridIdentityMetadataListByMachinesOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result: PrivateLinkResourcesListByPrivateLinkScopeResponse;
+  ): AsyncIterableIterator<HybridIdentityMetadata[]> {
+    let result: HybridIdentityMetadataListByMachinesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPrivateLinkScope(
+      result = await this._listByMachines(
         resourceGroupName,
-        scopeName,
+        machineName,
         options
       );
       let page = result.value || [];
@@ -93,9 +94,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByPrivateLinkScopeNext(
+      result = await this._listByMachinesNext(
         resourceGroupName,
-        scopeName,
+        machineName,
         continuationToken,
         options
       );
@@ -106,14 +107,14 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     }
   }
 
-  private async *listByPrivateLinkScopePagingAll(
+  private async *listByMachinesPagingAll(
     resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
-  ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listByPrivateLinkScopePagingPage(
+    machineName: string,
+    options?: HybridIdentityMetadataListByMachinesOptionalParams
+  ): AsyncIterableIterator<HybridIdentityMetadata> {
+    for await (const page of this.listByMachinesPagingPage(
       resourceGroupName,
-      scopeName,
+      machineName,
       options
     )) {
       yield* page;
@@ -121,92 +122,70 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   }
 
   /**
-   * Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
+   * Implements HybridIdentityMetadata GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param options The options parameters.
-   */
-  private _listByPrivateLinkScope(
-    resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
-  ): Promise<PrivateLinkResourcesListByPrivateLinkScopeResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, scopeName, options },
-      listByPrivateLinkScopeOperationSpec
-    );
-  }
-
-  /**
-   * Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param groupName The name of the private link resource.
+   * @param machineName The name of the hybrid machine.
+   * @param metadataName Name of the HybridIdentityMetadata.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    scopeName: string,
-    groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
-  ): Promise<PrivateLinkResourcesGetResponse> {
+    machineName: string,
+    metadataName: string,
+    options?: HybridIdentityMetadataGetOptionalParams
+  ): Promise<HybridIdentityMetadataGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, scopeName, groupName, options },
+      { resourceGroupName, machineName, metadataName, options },
       getOperationSpec
     );
   }
 
   /**
-   * ListByPrivateLinkScopeNext
+   * Returns the list of HybridIdentityMetadata of the given machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param nextLink The nextLink from the previous successful call to the ListByPrivateLinkScope method.
+   * @param machineName The name of the hybrid machine.
    * @param options The options parameters.
    */
-  private _listByPrivateLinkScopeNext(
+  private _listByMachines(
     resourceGroupName: string,
-    scopeName: string,
-    nextLink: string,
-    options?: PrivateLinkResourcesListByPrivateLinkScopeNextOptionalParams
-  ): Promise<PrivateLinkResourcesListByPrivateLinkScopeNextResponse> {
+    machineName: string,
+    options?: HybridIdentityMetadataListByMachinesOptionalParams
+  ): Promise<HybridIdentityMetadataListByMachinesResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, scopeName, nextLink, options },
-      listByPrivateLinkScopeNextOperationSpec
+      { resourceGroupName, machineName, options },
+      listByMachinesOperationSpec
+    );
+  }
+
+  /**
+   * ListByMachinesNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName The name of the hybrid machine.
+   * @param nextLink The nextLink from the previous successful call to the ListByMachines method.
+   * @param options The options parameters.
+   */
+  private _listByMachinesNext(
+    resourceGroupName: string,
+    machineName: string,
+    nextLink: string,
+    options?: HybridIdentityMetadataListByMachinesNextOptionalParams
+  ): Promise<HybridIdentityMetadataListByMachinesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, machineName, nextLink, options },
+      listByMachinesNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateLinkResources",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.scopeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateLinkResources/{groupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/hybridIdentityMetadata/{metadataName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResource
+      bodyMapper: Mappers.HybridIdentityMetadata
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -217,18 +196,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scopeName,
-    Parameters.groupName
+    Parameters.machineName,
+    Parameters.metadataName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
+const listByMachinesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/hybridIdentityMetadata",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HybridIdentityMetadataList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.machineName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByMachinesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.HybridIdentityMetadataList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -239,7 +240,7 @@ const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.scopeName
+    Parameters.machineName
   ],
   headerParameters: [Parameters.accept],
   serializer
