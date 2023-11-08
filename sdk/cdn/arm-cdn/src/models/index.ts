@@ -286,6 +286,26 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
+/** Defines rules to scrub sensitive fields in logs */
+export interface ProfilePropertiesLogScrubbing {
+  /** State of the log scrub config. Default value is Enabled. */
+  state?: ProfileScrubbingState;
+  /** List of log scrub rules applied to logs. */
+  scrubbingRules?: ProfileScrubbingRules[];
+}
+
+/** Defines contents of a log scrub rules. */
+export interface ProfileScrubbingRules {
+  /** The variable to be scrubbed from the logs. */
+  matchVariable: ScrubbingRuleEntryMatchVariable;
+  /** Comparison type to use for matching with the variable value in log. */
+  selectorMatchOperator: ScrubbingRuleEntryMatchOperator;
+  /** Match against a specific key from the QueryString variables in the log. Default value is null. */
+  selector?: string;
+  /** Defines the state of log scrubbing rule. Default value is Enabled. */
+  state?: ScrubbingRuleEntryState;
+}
+
 /** The core properties of ARM resources */
 export interface Resource {
   /**
@@ -1021,6 +1041,16 @@ export interface ProfileUpdateParameters {
   identity?: ManagedServiceIdentity;
   /** Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns. */
   originResponseTimeoutSeconds?: number;
+  /** Defines rules to scrub sensitive fields in logs */
+  logScrubbing?: ProfilePropertiesUpdateParametersLogScrubbing;
+}
+
+/** Defines rules to scrub sensitive fields in logs */
+export interface ProfilePropertiesUpdateParametersLogScrubbing {
+  /** State of the log scrub config. Default value is Enabled. */
+  state?: ProfileScrubbingState;
+  /** List of log scrub rules applied to logs. */
+  scrubbingRules?: ProfileScrubbingRules[];
 }
 
 /** Request body for CanMigrate operation. */
@@ -2892,6 +2922,8 @@ export interface Profile extends TrackedResource {
   readonly frontDoorId?: string;
   /** Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns. */
   originResponseTimeoutSeconds?: number;
+  /** Defines rules to scrub sensitive fields in logs */
+  logScrubbing?: ProfilePropertiesLogScrubbing;
 }
 
 /** Azure Front Door endpoint is the entity within a Azure Front Door profile containing configuration information such as origin, protocol, content caching and delivery behavior. The AzureFrontDoor endpoint uses the URL format <endpointname>.azureedge.net. */
@@ -3822,6 +3854,78 @@ export enum KnownProfileProvisioningState {
  * **Creating**
  */
 export type ProfileProvisioningState = string;
+
+/** Known values of {@link ProfileScrubbingState} that the service accepts. */
+export enum KnownProfileScrubbingState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ProfileScrubbingState. \
+ * {@link KnownProfileScrubbingState} can be used interchangeably with ProfileScrubbingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ProfileScrubbingState = string;
+
+/** Known values of {@link ScrubbingRuleEntryMatchVariable} that the service accepts. */
+export enum KnownScrubbingRuleEntryMatchVariable {
+  /** RequestIPAddress */
+  RequestIPAddress = "RequestIPAddress",
+  /** RequestUri */
+  RequestUri = "RequestUri",
+  /** QueryStringArgNames */
+  QueryStringArgNames = "QueryStringArgNames"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryMatchVariable. \
+ * {@link KnownScrubbingRuleEntryMatchVariable} can be used interchangeably with ScrubbingRuleEntryMatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestIPAddress** \
+ * **RequestUri** \
+ * **QueryStringArgNames**
+ */
+export type ScrubbingRuleEntryMatchVariable = string;
+
+/** Known values of {@link ScrubbingRuleEntryMatchOperator} that the service accepts. */
+export enum KnownScrubbingRuleEntryMatchOperator {
+  /** EqualsAny */
+  EqualsAny = "EqualsAny"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryMatchOperator. \
+ * {@link KnownScrubbingRuleEntryMatchOperator} can be used interchangeably with ScrubbingRuleEntryMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EqualsAny**
+ */
+export type ScrubbingRuleEntryMatchOperator = string;
+
+/** Known values of {@link ScrubbingRuleEntryState} that the service accepts. */
+export enum KnownScrubbingRuleEntryState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryState. \
+ * {@link KnownScrubbingRuleEntryState} can be used interchangeably with ScrubbingRuleEntryState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ScrubbingRuleEntryState = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {

@@ -495,6 +495,68 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
   }
 };
 
+export const ProfilePropertiesLogScrubbing: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProfilePropertiesLogScrubbing",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      scrubbingRules: {
+        serializedName: "scrubbingRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProfileScrubbingRules"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ProfileScrubbingRules: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProfileScrubbingRules",
+    modelProperties: {
+      matchVariable: {
+        serializedName: "matchVariable",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      selectorMatchOperator: {
+        serializedName: "selectorMatchOperator",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2760,6 +2822,40 @@ export const ProfileUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "properties.originResponseTimeoutSeconds",
         type: {
           name: "Number"
+        }
+      },
+      logScrubbing: {
+        serializedName: "properties.logScrubbing",
+        type: {
+          name: "Composite",
+          className: "ProfilePropertiesUpdateParametersLogScrubbing"
+        }
+      }
+    }
+  }
+};
+
+export const ProfilePropertiesUpdateParametersLogScrubbing: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProfilePropertiesUpdateParametersLogScrubbing",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      scrubbingRules: {
+        serializedName: "scrubbingRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProfileScrubbingRules"
+            }
+          }
         }
       }
     }
@@ -8148,6 +8244,13 @@ export const Profile: coreClient.CompositeMapper = {
         serializedName: "properties.originResponseTimeoutSeconds",
         type: {
           name: "Number"
+        }
+      },
+      logScrubbing: {
+        serializedName: "properties.logScrubbing",
+        type: {
+          name: "Composite",
+          className: "ProfilePropertiesLogScrubbing"
         }
       }
     }

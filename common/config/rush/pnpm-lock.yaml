@@ -4495,7 +4495,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231107
+      typescript: 5.4.0-dev.20231108
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9272,8 +9272,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231107:
-    resolution: {integrity: sha512-4bQlfsyFjzZMo1bSLEkFJEcvuQ64pgE0S/BpdWu16lYsQOfJZtntZIyWdED3h+e96IMtVgrC6sxzfPZhj4J/dw==}
+  /typescript@5.4.0-dev.20231108:
+    resolution: {integrity: sha512-/DNtrqpbir9XaRxE6qwjhB94pCZzw/9R/PhB8309frJBEBGZ5qSDqstl7YYbhWbqs+zWpCCbwBjWDGlz8wn8GA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11206,18 +11206,20 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-Vk/t0OOehpgWfzYGEAEQNqNB+YWXGnaNrKI+txh8/Jjzr0qfKCi3+cr2vI+5if7FYpbA8Cfy+/aOM8dxpy7rIA==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-ycT09EisANJNn0UuyeDiYQ6YvQ2YVI56/CyiiKo1eVieg7QyR/F03w5z9tRvt7WUjFOUbElt8dQsxr+rPY2Rzg==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
@@ -17244,7 +17246,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-aybeGPnbeitvPNCcGDY39lnvS1t7T3JlrJVY7tvOt7WhIH+RWyjRuzKw5r88pHQj10DquhvLQSlL0+hg4BOUzg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-VXVR9XPqN4BsP9s8v8l7GKSduwT3TUuE9E9tqqQO6hL5JpokBmLbiYZXnq1fSBH25zc/JMNVEF520IZzXJowXQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
