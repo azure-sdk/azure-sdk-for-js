@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { StorageSpacesOperations } from "../operationsInterfaces";
+import { VirtualNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,32 +20,33 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  StorageSpaces,
-  StorageSpacesListByResourceGroupNextOptionalParams,
-  StorageSpacesListByResourceGroupOptionalParams,
-  StorageSpacesListByResourceGroupResponse,
-  StorageSpacesListBySubscriptionNextOptionalParams,
-  StorageSpacesListBySubscriptionOptionalParams,
-  StorageSpacesListBySubscriptionResponse,
-  StorageSpacesRetrieveOptionalParams,
-  StorageSpacesRetrieveResponse,
-  StorageSpacesCreateOrUpdateOptionalParams,
-  StorageSpacesCreateOrUpdateResponse,
-  StorageSpacesDeleteOptionalParams,
-  StorageSpacesPatch,
-  StorageSpacesUpdateOptionalParams,
-  StorageSpacesUpdateResponse,
-  StorageSpacesListByResourceGroupNextResponse,
-  StorageSpacesListBySubscriptionNextResponse
+  VirtualNetwork,
+  VirtualNetworksListByResourceGroupNextOptionalParams,
+  VirtualNetworksListByResourceGroupOptionalParams,
+  VirtualNetworksListByResourceGroupResponse,
+  VirtualNetworksListBySubscriptionNextOptionalParams,
+  VirtualNetworksListBySubscriptionOptionalParams,
+  VirtualNetworksListBySubscriptionResponse,
+  VirtualNetworksRetrieveOptionalParams,
+  VirtualNetworksRetrieveResponse,
+  VirtualNetworksCreateOrUpdateOptionalParams,
+  VirtualNetworksCreateOrUpdateResponse,
+  VirtualNetworksDeleteOptionalParams,
+  VirtualNetworksDeleteResponse,
+  VirtualNetworksPatch,
+  VirtualNetworksUpdateOptionalParams,
+  VirtualNetworksUpdateResponse,
+  VirtualNetworksListByResourceGroupNextResponse,
+  VirtualNetworksListBySubscriptionNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing StorageSpacesOperations operations. */
-export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
+/** Class containing VirtualNetworks operations. */
+export class VirtualNetworksImpl implements VirtualNetworks {
   private readonly client: HybridContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class StorageSpacesOperations class.
+   * Initialize a new instance of the class VirtualNetworks class.
    * @param client Reference to the service client
    */
   constructor(client: HybridContainerServiceClient) {
@@ -53,14 +54,14 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
   }
 
   /**
-   * List the Hybrid AKS storage object by resource group
+   * Lists the Hybrid AKS virtual networks by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: StorageSpacesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<StorageSpaces> {
+    options?: VirtualNetworksListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<VirtualNetwork> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -84,10 +85,10 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: StorageSpacesListByResourceGroupOptionalParams,
+    options?: VirtualNetworksListByResourceGroupOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<StorageSpaces[]> {
-    let result: StorageSpacesListByResourceGroupResponse;
+  ): AsyncIterableIterator<VirtualNetwork[]> {
+    let result: VirtualNetworksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -111,8 +112,8 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: StorageSpacesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<StorageSpaces> {
+    options?: VirtualNetworksListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<VirtualNetwork> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -122,12 +123,12 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
   }
 
   /**
-   * List the Hybrid AKS storage object by subscription
+   * Lists the Hybrid AKS virtual networks by subscription
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: StorageSpacesListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<StorageSpaces> {
+    options?: VirtualNetworksListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<VirtualNetwork> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -146,10 +147,10 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: StorageSpacesListBySubscriptionOptionalParams,
+    options?: VirtualNetworksListBySubscriptionOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<StorageSpaces[]> {
-    let result: StorageSpacesListBySubscriptionResponse;
+  ): AsyncIterableIterator<VirtualNetwork[]> {
+    let result: VirtualNetworksListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -168,52 +169,52 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: StorageSpacesListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<StorageSpaces> {
+    options?: VirtualNetworksListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<VirtualNetwork> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the Hybrid AKS storage space object
+   * Gets the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageSpacesName Parameter for the name of the storage object
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
    */
   retrieve(
     resourceGroupName: string,
-    storageSpacesName: string,
-    options?: StorageSpacesRetrieveOptionalParams
-  ): Promise<StorageSpacesRetrieveResponse> {
+    virtualNetworkName: string,
+    options?: VirtualNetworksRetrieveOptionalParams
+  ): Promise<VirtualNetworksRetrieveResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, storageSpacesName, options },
+      { resourceGroupName, virtualNetworkName, options },
       retrieveOperationSpec
     );
   }
 
   /**
-   * Puts the Hybrid AKS storage object
+   * Puts the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageSpacesName Parameter for the name of the storage object
-   * @param storageSpaces The storageSpaces resource definition.
+   * @param virtualNetworkName Parameter for the name of the virtual network
+   * @param virtualNetworks The virtualNetworks resource definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    storageSpacesName: string,
-    storageSpaces: StorageSpaces,
-    options?: StorageSpacesCreateOrUpdateOptionalParams
+    virtualNetworkName: string,
+    virtualNetworks: VirtualNetwork,
+    options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<StorageSpacesCreateOrUpdateResponse>,
-      StorageSpacesCreateOrUpdateResponse
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
+      VirtualNetworksCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<StorageSpacesCreateOrUpdateResponse> => {
+    ): Promise<VirtualNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -251,12 +252,12 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, storageSpacesName, storageSpaces, options },
+      args: { resourceGroupName, virtualNetworkName, virtualNetworks, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      StorageSpacesCreateOrUpdateResponse,
-      OperationState<StorageSpacesCreateOrUpdateResponse>
+      VirtualNetworksCreateOrUpdateResponse,
+      OperationState<VirtualNetworksCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -267,66 +268,47 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
   }
 
   /**
-   * Puts the Hybrid AKS storage object
+   * Puts the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageSpacesName Parameter for the name of the storage object
-   * @param storageSpaces The storageSpaces resource definition.
+   * @param virtualNetworkName Parameter for the name of the virtual network
+   * @param virtualNetworks The virtualNetworks resource definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    storageSpacesName: string,
-    storageSpaces: StorageSpaces,
-    options?: StorageSpacesCreateOrUpdateOptionalParams
-  ): Promise<StorageSpacesCreateOrUpdateResponse> {
+    virtualNetworkName: string,
+    virtualNetworks: VirtualNetwork,
+    options?: VirtualNetworksCreateOrUpdateOptionalParams
+  ): Promise<VirtualNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      storageSpacesName,
-      storageSpaces,
+      virtualNetworkName,
+      virtualNetworks,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the Hybrid AKS storage object
+   * Deletes the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageSpacesName Parameter for the name of the storage object
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
-    storageSpacesName: string,
-    options?: StorageSpacesDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, storageSpacesName, options },
-      deleteOperationSpec
-    );
-  }
-
-  /**
-   * Patches the Hybrid AKS storage object
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageSpacesName Parameter for the name of the storage object
-   * @param storageSpaces The storageSpaces resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    storageSpacesName: string,
-    storageSpaces: StorageSpacesPatch,
-    options?: StorageSpacesUpdateOptionalParams
+    virtualNetworkName: string,
+    options?: VirtualNetworksDeleteOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<StorageSpacesUpdateResponse>,
-      StorageSpacesUpdateResponse
+      OperationState<VirtualNetworksDeleteResponse>,
+      VirtualNetworksDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<StorageSpacesUpdateResponse> => {
+    ): Promise<VirtualNetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -364,12 +346,12 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, storageSpacesName, storageSpaces, options },
-      spec: updateOperationSpec
+      args: { resourceGroupName, virtualNetworkName, options },
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<
-      StorageSpacesUpdateResponse,
-      OperationState<StorageSpacesUpdateResponse>
+      VirtualNetworksDeleteResponse,
+      OperationState<VirtualNetworksDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -380,36 +362,129 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
   }
 
   /**
-   * Patches the Hybrid AKS storage object
+   * Deletes the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageSpacesName Parameter for the name of the storage object
-   * @param storageSpaces The storageSpaces resource patch definition.
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
-    storageSpacesName: string,
-    storageSpaces: StorageSpacesPatch,
-    options?: StorageSpacesUpdateOptionalParams
-  ): Promise<StorageSpacesUpdateResponse> {
-    const poller = await this.beginUpdate(
+    virtualNetworkName: string,
+    options?: VirtualNetworksDeleteOptionalParams
+  ): Promise<VirtualNetworksDeleteResponse> {
+    const poller = await this.beginDelete(
       resourceGroupName,
-      storageSpacesName,
-      storageSpaces,
+      virtualNetworkName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List the Hybrid AKS storage object by resource group
+   * Patches the Hybrid AKS virtual network
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualNetworkName Parameter for the name of the virtual network
+   * @param virtualNetworks The virtualNetworks resource patch definition.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    virtualNetworks: VirtualNetworksPatch,
+    options?: VirtualNetworksUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworksUpdateResponse>,
+      VirtualNetworksUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VirtualNetworksUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkName, virtualNetworks, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworksUpdateResponse,
+      OperationState<VirtualNetworksUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Patches the Hybrid AKS virtual network
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualNetworkName Parameter for the name of the virtual network
+   * @param virtualNetworks The virtualNetworks resource patch definition.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    virtualNetworks: VirtualNetworksPatch,
+    options?: VirtualNetworksUpdateOptionalParams
+  ): Promise<VirtualNetworksUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      virtualNetworkName,
+      virtualNetworks,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the Hybrid AKS virtual networks by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: StorageSpacesListByResourceGroupOptionalParams
-  ): Promise<StorageSpacesListByResourceGroupResponse> {
+    options?: VirtualNetworksListByResourceGroupOptionalParams
+  ): Promise<VirtualNetworksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -417,12 +492,12 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
   }
 
   /**
-   * List the Hybrid AKS storage object by subscription
+   * Lists the Hybrid AKS virtual networks by subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: StorageSpacesListBySubscriptionOptionalParams
-  ): Promise<StorageSpacesListBySubscriptionResponse> {
+    options?: VirtualNetworksListBySubscriptionOptionalParams
+  ): Promise<VirtualNetworksListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -438,8 +513,8 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: StorageSpacesListByResourceGroupNextOptionalParams
-  ): Promise<StorageSpacesListByResourceGroupNextResponse> {
+    options?: VirtualNetworksListByResourceGroupNextOptionalParams
+  ): Promise<VirtualNetworksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -453,8 +528,8 @@ export class StorageSpacesOperationsImpl implements StorageSpacesOperations {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: StorageSpacesListBySubscriptionNextOptionalParams
-  ): Promise<StorageSpacesListBySubscriptionNextResponse> {
+    options?: VirtualNetworksListBySubscriptionNextOptionalParams
+  ): Promise<VirtualNetworksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -466,11 +541,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const retrieveOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/storageSpaces/{storageSpacesName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks/{virtualNetworkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -481,39 +556,39 @@ const retrieveOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSpacesName
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/storageSpaces/{storageSpacesName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks/{virtualNetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     201: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     202: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     204: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.storageSpaces,
+  requestBody: Parameters.virtualNetworks,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSpacesName
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -521,11 +596,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/storageSpaces/{storageSpacesName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks/{virtualNetworkName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualNetworksDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.VirtualNetworksDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.VirtualNetworksDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.VirtualNetworksDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -535,39 +620,39 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSpacesName
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/storageSpaces/{storageSpacesName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks/{virtualNetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     201: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     202: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     204: {
-      bodyMapper: Mappers.StorageSpaces
+      bodyMapper: Mappers.VirtualNetwork
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.storageSpaces1,
+  requestBody: Parameters.virtualNetworks1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSpacesName
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -575,11 +660,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/storageSpaces",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSpacesListResult
+      bodyMapper: Mappers.VirtualNetworksListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -596,11 +681,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridContainerService/storageSpaces",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridContainerService/virtualNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSpacesListResult
+      bodyMapper: Mappers.VirtualNetworksListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -616,7 +701,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSpacesListResult
+      bodyMapper: Mappers.VirtualNetworksListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -624,9 +709,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -636,7 +721,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSpacesListResult
+      bodyMapper: Mappers.VirtualNetworksListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -644,8 +729,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
