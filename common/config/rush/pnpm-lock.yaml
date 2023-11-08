@@ -13026,20 +13026,22 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-5xhT4Afs/nnEBVg0V2kJPrwtneezT8HR7rXEQ2l2e/BWDisgjRNhu0d1qfJxD9g1OsjXClmhEXqocSXGkNMhoA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-VIyV1V7zKgCXqK+/IZEZHhK6/kLvI+LlLQPPAPH6CSX+4hBYjYKLGG+915tOub2P49ynnsyPYsk3piNtWuR4Ag==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
