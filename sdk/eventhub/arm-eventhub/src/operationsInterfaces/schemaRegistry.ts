@@ -32,6 +32,7 @@ export interface SchemaRegistry {
     options?: SchemaRegistryListByNamespaceOptionalParams
   ): PagedAsyncIterableIterator<SchemaGroup>;
   /**
+   * Creates or Updates an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
@@ -46,6 +47,7 @@ export interface SchemaRegistry {
     options?: SchemaRegistryCreateOrUpdateOptionalParams
   ): Promise<SchemaRegistryCreateOrUpdateResponse>;
   /**
+   * Deletes an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
@@ -58,6 +60,7 @@ export interface SchemaRegistry {
     options?: SchemaRegistryDeleteOptionalParams
   ): Promise<void>;
   /**
+   * Gets the details of an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
