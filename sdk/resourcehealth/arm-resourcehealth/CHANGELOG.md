@@ -1,16 +1,6 @@
 # Release History
-
-## 4.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 4.1.0-beta.1 (2023-10-17)
+    
+## 5.0.0-beta.1 (2023-11-08)
     
 **Features**
 
@@ -25,6 +15,9 @@
   - Interface EventImpactedResource has a new optional parameter resourceName
   - Interface EventImpactedResource has a new optional parameter status
   - Added Enum KnownEventSubTypeValues
+
+**Breaking Changes**
+
   - Class MicrosoftResourceHealth has a new signature
     
     
