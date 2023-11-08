@@ -12212,17 +12212,19 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-KnOhxtbMIxzLhzg1STzXmgNbM4v9muAhM6ZXgV3Zl23MbdsvK1vE/XNZnqMuztR29e5fKzOmynun+1voTaLd8A==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-W6fyjjDfAIEjQWmwDp/8EX3lNGUIEQUGMwNuXJHarYTni1WybsyK1KK4qtvESg+NDOAdrItESzSWA7uPFzHqZA==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
