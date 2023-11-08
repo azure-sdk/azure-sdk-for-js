@@ -1,15 +1,14 @@
 # Release History
+    
+## 3.2.0-beta.1 (2023-11-08)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CreatorProperties has a new optional parameter consumedStorageUnitSizeInBytes
+  - Interface CreatorProperties has a new optional parameter totalStorageUnitSizeInBytes
+  - Interface CreatorUpdateParameters has a new optional parameter consumedStorageUnitSizeInBytes
+  - Interface CreatorUpdateParameters has a new optional parameter totalStorageUnitSizeInBytes
+    
 ## 3.1.0 (2023-08-08)
 
 **Features**
@@ -61,4 +60,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

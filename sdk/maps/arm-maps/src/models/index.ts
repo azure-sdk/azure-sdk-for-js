@@ -419,6 +419,10 @@ export interface CreatorProperties {
   readonly provisioningState?: string;
   /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
   storageUnits: number;
+  /** The total allocated storage unit size in bytes for the creator resource. */
+  totalStorageUnitSizeInBytes?: number;
+  /** The consumed storage unit size in bytes for the creator resource. */
+  consumedStorageUnitSizeInBytes?: number;
 }
 
 /** Parameters used to update an existing Creator resource. */
@@ -432,6 +436,10 @@ export interface CreatorUpdateParameters {
   readonly provisioningState?: string;
   /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
   storageUnits?: number;
+  /** The total allocated storage unit size in bytes for the creator resource. */
+  totalStorageUnitSizeInBytes?: number;
+  /** The consumed storage unit size in bytes for the creator resource. */
+  consumedStorageUnitSizeInBytes?: number;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
