@@ -113,6 +113,9 @@ dependencies:
   '@rush-temp/arm-azureadexternalidentities':
     specifier: file:./projects/arm-azureadexternalidentities.tgz
     version: file:projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azureintegrationspaces':
+    specifier: file:./projects/arm-azureintegrationspaces.tgz
+    version: file:projects/arm-azureintegrationspaces.tgz
   '@rush-temp/arm-azurestack':
     specifier: file:./projects/arm-azurestack.tgz
     version: file:projects/arm-azurestack.tgz
@@ -11023,6 +11026,33 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-azureintegrationspaces.tgz:
+    resolution: {integrity: sha512-78ZVDuRphDp6VvlIn3Z+gizD4kEKEXHcY5X4ft6oTdYhbvpc68bIr2p1EzJtO5dlnm4leN9l1l3dfhOATyJD+w==, tarball: file:projects/arm-azureintegrationspaces.tgz}
+    name: '@rush-temp/arm-azureintegrationspaces'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.3.2
+      '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
+      '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
+      '@types/node': 18.18.8
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
