@@ -17161,3 +17161,18 @@ export const VirtualMachineScaleSetsReapplyHeaders: coreClient.CompositeMapper =
     }
   }
 };
+
+export const DedicatedHostsRedeployHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DedicatedHostsRedeployHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};

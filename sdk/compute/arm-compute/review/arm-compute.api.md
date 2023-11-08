@@ -1382,6 +1382,8 @@ export interface DedicatedHosts {
     beginCreateOrUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams): Promise<DedicatedHostsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<void>;
+    beginRedeploy(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsRedeployResponse>, DedicatedHostsRedeployResponse>>;
+    beginRedeployAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams): Promise<DedicatedHostsRedeployResponse>;
     beginRestart(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>>;
@@ -1439,6 +1441,21 @@ export interface DedicatedHostsListByHostGroupOptionalParams extends coreClient.
 
 // @public
 export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult;
+
+// @public
+export interface DedicatedHostsRedeployHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DedicatedHostsRedeployOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DedicatedHostsRedeployResponse = DedicatedHostsRedeployHeaders;
 
 // @public
 export interface DedicatedHostsRestartOptionalParams extends coreClient.OperationOptions {
