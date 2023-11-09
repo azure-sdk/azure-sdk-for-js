@@ -1,15 +1,23 @@
 # Release History
+    
+## 2.0.0 (2023-11-09)
+    
+**Features**
 
-## 1.2.1 (Unreleased)
+  - Added Interface DefaultResourceProperties
+  - Added Interface KubernetesClusterVaultTierRestoreCriteria
+  - Added Type Alias BaseResourcePropertiesUnion
+  - Added Type Alias ResourcePropertiesObjectType
+  - Type of parameter objectType of interface ItemLevelRestoreCriteria is changed from "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria" to "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria" | "KubernetesClusterVaultTierRestoreCriteria"
+  - Added Enum KnownResourcePropertiesObjectType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter objectType of interface BaseResourceProperties is changed from "BaseResourceProperties" to "DefaultResourceProperties"
+  - Type of parameter resourceProperties of interface Datasource is changed from BaseResourceProperties to BaseResourcePropertiesUnion
+  - Type of parameter resourceProperties of interface DatasourceSet is changed from BaseResourceProperties to BaseResourcePropertiesUnion
+    
+    
 ## 1.2.0 (2023-07-10)
     
 **Features**
@@ -62,4 +70,4 @@
     
 ## 1.0.0 (2023-03-08)
 
-The package of @azure/arm-dataprotection is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-dataprotection is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
