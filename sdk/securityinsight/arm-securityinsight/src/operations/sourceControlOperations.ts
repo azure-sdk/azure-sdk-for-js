@@ -15,7 +15,7 @@ import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
   Repo,
-  RepoType,
+  RepositoryAccessProperties,
   SourceControlListRepositoriesNextOptionalParams,
   SourceControlListRepositoriesOptionalParams,
   SourceControlListRepositoriesResponse,
@@ -39,19 +39,19 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
    * Gets a list of repositories metadata.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param repoType The repo type.
+   * @param repositoryAccess The repository access credentials.
    * @param options The options parameters.
    */
   public listRepositories(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
+    repositoryAccess: RepositoryAccessProperties,
     options?: SourceControlListRepositoriesOptionalParams
   ): PagedAsyncIterableIterator<Repo> {
     const iter = this.listRepositoriesPagingAll(
       resourceGroupName,
       workspaceName,
-      repoType,
+      repositoryAccess,
       options
     );
     return {
@@ -68,7 +68,7 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
         return this.listRepositoriesPagingPage(
           resourceGroupName,
           workspaceName,
-          repoType,
+          repositoryAccess,
           options,
           settings
         );
@@ -79,7 +79,7 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private async *listRepositoriesPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
+    repositoryAccess: RepositoryAccessProperties,
     options?: SourceControlListRepositoriesOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Repo[]> {
@@ -89,7 +89,7 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
       result = await this._listRepositories(
         resourceGroupName,
         workspaceName,
-        repoType,
+        repositoryAccess,
         options
       );
       let page = result.value || [];
@@ -101,7 +101,7 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
       result = await this._listRepositoriesNext(
         resourceGroupName,
         workspaceName,
-        repoType,
+        repositoryAccess,
         continuationToken,
         options
       );
@@ -115,13 +115,13 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private async *listRepositoriesPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
+    repositoryAccess: RepositoryAccessProperties,
     options?: SourceControlListRepositoriesOptionalParams
   ): AsyncIterableIterator<Repo> {
     for await (const page of this.listRepositoriesPagingPage(
       resourceGroupName,
       workspaceName,
-      repoType,
+      repositoryAccess,
       options
     )) {
       yield* page;
@@ -132,17 +132,17 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
    * Gets a list of repositories metadata.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param repoType The repo type.
+   * @param repositoryAccess The repository access credentials.
    * @param options The options parameters.
    */
   private _listRepositories(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
+    repositoryAccess: RepositoryAccessProperties,
     options?: SourceControlListRepositoriesOptionalParams
   ): Promise<SourceControlListRepositoriesResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, repoType, options },
+      { resourceGroupName, workspaceName, repositoryAccess, options },
       listRepositoriesOperationSpec
     );
   }
@@ -151,19 +151,19 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
    * ListRepositoriesNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param repoType The repo type.
+   * @param repositoryAccess The repository access credentials.
    * @param nextLink The nextLink from the previous successful call to the ListRepositories method.
    * @param options The options parameters.
    */
   private _listRepositoriesNext(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
+    repositoryAccess: RepositoryAccessProperties,
     nextLink: string,
     options?: SourceControlListRepositoriesNextOptionalParams
   ): Promise<SourceControlListRepositoriesNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, repoType, nextLink, options },
+      { resourceGroupName, workspaceName, repositoryAccess, nextLink, options },
       listRepositoriesNextOperationSpec
     );
   }
@@ -183,7 +183,7 @@ const listRepositoriesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.repoType,
+  requestBody: Parameters.repositoryAccess,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
