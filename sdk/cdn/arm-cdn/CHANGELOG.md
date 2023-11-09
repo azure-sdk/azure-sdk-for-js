@@ -1,5 +1,125 @@
 # Release History
     
+## 10.0.0 (2023-11-09)
+    
+**Features**
+
+  - Added Interface DeliveryRuleAction
+  - Added Type Alias CacheExpirationActionParametersType
+  - Added Type Alias CacheKeyQueryStringActionParametersType
+  - Added Type Alias CdnCertificateSourceParametersType
+  - Added Type Alias ClientPortMatchConditionParametersType
+  - Added Type Alias CookiesMatchConditionParametersType
+  - Added Type Alias DeliveryRuleActionName
+  - Added Type Alias DeliveryRuleActionUnion
+  - Added Type Alias HeaderActionParametersType
+  - Added Type Alias HostNameMatchConditionParametersType
+  - Added Type Alias HttpVersionMatchConditionParametersType
+  - Added Type Alias IsDeviceMatchConditionParametersType
+  - Added Type Alias IsDeviceMatchValue
+  - Added Type Alias KeyVaultCertificateSourceParametersType
+  - Added Type Alias KeyVaultSigningKeyParametersType
+  - Added Type Alias OriginGroupOverrideActionParametersType
+  - Added Type Alias PostArgsMatchConditionParametersType
+  - Added Type Alias QueryStringMatchConditionParametersType
+  - Added Type Alias RemoteAddressMatchConditionParametersType
+  - Added Type Alias RequestBodyMatchConditionParametersType
+  - Added Type Alias RequestHeaderMatchConditionParametersType
+  - Added Type Alias RequestMethodMatchConditionParametersType
+  - Added Type Alias RequestMethodMatchValue
+  - Added Type Alias RequestSchemeMatchConditionParametersType
+  - Added Type Alias RequestSchemeMatchValue
+  - Added Type Alias RequestUriMatchConditionParametersType
+  - Added Type Alias RouteConfigurationOverrideActionParametersType
+  - Added Type Alias ServerPortMatchConditionParametersType
+  - Added Type Alias SocketAddrMatchConditionParametersType
+  - Added Type Alias SslProtocolMatchConditionParametersType
+  - Added Type Alias UrlFileExtensionMatchConditionParametersType
+  - Added Type Alias UrlFileNameMatchConditionParametersType
+  - Added Type Alias UrlPathMatchConditionParametersType
+  - Added Type Alias UrlRedirectActionParametersType
+  - Added Type Alias UrlRewriteActionParametersType
+  - Added Type Alias UrlSigningActionParametersType
+  - Added Enum KnownCacheExpirationActionParametersType
+  - Added Enum KnownCacheKeyQueryStringActionParametersType
+  - Added Enum KnownCdnCertificateSourceParametersType
+  - Added Enum KnownClientPortMatchConditionParametersType
+  - Added Enum KnownCookiesMatchConditionParametersType
+  - Added Enum KnownDeliveryRuleActionName
+  - Added Enum KnownHeaderActionParametersType
+  - Added Enum KnownHostNameMatchConditionParametersType
+  - Added Enum KnownHttpVersionMatchConditionParametersType
+  - Added Enum KnownIsDeviceMatchConditionParametersType
+  - Added Enum KnownIsDeviceMatchValue
+  - Added Enum KnownKeyVaultCertificateSourceParametersType
+  - Added Enum KnownKeyVaultSigningKeyParametersType
+  - Added Enum KnownOriginGroupOverrideActionParametersType
+  - Added Enum KnownPostArgsMatchConditionParametersType
+  - Added Enum KnownQueryStringMatchConditionParametersType
+  - Added Enum KnownRemoteAddressMatchConditionParametersType
+  - Added Enum KnownRequestBodyMatchConditionParametersType
+  - Added Enum KnownRequestHeaderMatchConditionParametersType
+  - Added Enum KnownRequestMethodMatchConditionParametersType
+  - Added Enum KnownRequestMethodMatchValue
+  - Added Enum KnownRequestSchemeMatchConditionParametersType
+  - Added Enum KnownRequestSchemeMatchValue
+  - Added Enum KnownRequestUriMatchConditionParametersType
+  - Added Enum KnownRouteConfigurationOverrideActionParametersType
+  - Added Enum KnownServerPortMatchConditionParametersType
+  - Added Enum KnownSocketAddrMatchConditionParametersType
+  - Added Enum KnownSslProtocolMatchConditionParametersType
+  - Added Enum KnownUrlFileExtensionMatchConditionParametersType
+  - Added Enum KnownUrlFileNameMatchConditionParametersType
+  - Added Enum KnownUrlPathMatchConditionParametersType
+  - Added Enum KnownUrlRedirectActionParametersType
+  - Added Enum KnownUrlRewriteActionParametersType
+  - Added Enum KnownUrlSigningActionParametersType
+
+**Breaking Changes**
+
+  - Type of parameter typeName of interface CacheExpirationActionParameters is changed from "DeliveryRuleCacheExpirationActionParameters" to CacheExpirationActionParametersType
+  - Type of parameter typeName of interface CacheKeyQueryStringActionParameters is changed from "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters" to CacheKeyQueryStringActionParametersType
+  - Type of parameter typeName of interface CdnCertificateSourceParameters is changed from "CdnCertificateSourceParameters" to CdnCertificateSourceParametersType
+  - Type of parameter typeName of interface ClientPortMatchConditionParameters is changed from "DeliveryRuleClientPortConditionParameters" to ClientPortMatchConditionParametersType
+  - Type of parameter typeName of interface CookiesMatchConditionParameters is changed from "DeliveryRuleCookiesConditionParameters" to CookiesMatchConditionParametersType
+  - Type of parameter actions of interface DeliveryRule is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter typeName of interface HeaderActionParameters is changed from "DeliveryRuleHeaderActionParameters" to HeaderActionParametersType
+  - Type of parameter typeName of interface HostNameMatchConditionParameters is changed from "DeliveryRuleHostNameConditionParameters" to HostNameMatchConditionParametersType
+  - Type of parameter typeName of interface HttpVersionMatchConditionParameters is changed from "DeliveryRuleHttpVersionConditionParameters" to HttpVersionMatchConditionParametersType
+  - Type of parameter matchValues of interface IsDeviceMatchConditionParameters is changed from IsDeviceMatchConditionParametersMatchValuesItem[] to IsDeviceMatchValue[]
+  - Type of parameter typeName of interface IsDeviceMatchConditionParameters is changed from "DeliveryRuleIsDeviceConditionParameters" to IsDeviceMatchConditionParametersType
+  - Type of parameter typeName of interface KeyVaultCertificateSourceParameters is changed from "KeyVaultCertificateSourceParameters" to KeyVaultCertificateSourceParametersType
+  - Type of parameter typeName of interface KeyVaultSigningKeyParameters is changed from "KeyVaultSigningKeyParameters" to KeyVaultSigningKeyParametersType
+  - Type of parameter typeName of interface OriginGroupOverrideActionParameters is changed from "DeliveryRuleOriginGroupOverrideActionParameters" to OriginGroupOverrideActionParametersType
+  - Type of parameter typeName of interface PostArgsMatchConditionParameters is changed from "DeliveryRulePostArgsConditionParameters" to PostArgsMatchConditionParametersType
+  - Type of parameter typeName of interface QueryStringMatchConditionParameters is changed from "DeliveryRuleQueryStringConditionParameters" to QueryStringMatchConditionParametersType
+  - Type of parameter typeName of interface RemoteAddressMatchConditionParameters is changed from "DeliveryRuleRemoteAddressConditionParameters" to RemoteAddressMatchConditionParametersType
+  - Type of parameter typeName of interface RequestBodyMatchConditionParameters is changed from "DeliveryRuleRequestBodyConditionParameters" to RequestBodyMatchConditionParametersType
+  - Type of parameter typeName of interface RequestHeaderMatchConditionParameters is changed from "DeliveryRuleRequestHeaderConditionParameters" to RequestHeaderMatchConditionParametersType
+  - Type of parameter matchValues of interface RequestMethodMatchConditionParameters is changed from RequestMethodMatchConditionParametersMatchValuesItem[] to RequestMethodMatchValue[]
+  - Type of parameter typeName of interface RequestMethodMatchConditionParameters is changed from "DeliveryRuleRequestMethodConditionParameters" to RequestMethodMatchConditionParametersType
+  - Type of parameter matchValues of interface RequestSchemeMatchConditionParameters is changed from RequestSchemeMatchConditionParametersMatchValuesItem[] to RequestSchemeMatchValue[]
+  - Type of parameter typeName of interface RequestSchemeMatchConditionParameters is changed from "DeliveryRuleRequestSchemeConditionParameters" to RequestSchemeMatchConditionParametersType
+  - Type of parameter typeName of interface RequestUriMatchConditionParameters is changed from "DeliveryRuleRequestUriConditionParameters" to RequestUriMatchConditionParametersType
+  - Type of parameter typeName of interface RouteConfigurationOverrideActionParameters is changed from "DeliveryRuleRouteConfigurationOverrideActionParameters" to RouteConfigurationOverrideActionParametersType
+  - Type of parameter actions of interface Rule is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter actions of interface RuleUpdateParameters is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter actions of interface RuleUpdatePropertiesParameters is changed from DeliveryRuleActionAutoGeneratedUnion[] to DeliveryRuleActionUnion[]
+  - Type of parameter typeName of interface ServerPortMatchConditionParameters is changed from "DeliveryRuleServerPortConditionParameters" to ServerPortMatchConditionParametersType
+  - Type of parameter typeName of interface SocketAddrMatchConditionParameters is changed from "DeliveryRuleSocketAddrConditionParameters" to SocketAddrMatchConditionParametersType
+  - Type of parameter typeName of interface SslProtocolMatchConditionParameters is changed from "DeliveryRuleSslProtocolConditionParameters" to SslProtocolMatchConditionParametersType
+  - Type of parameter typeName of interface UrlFileExtensionMatchConditionParameters is changed from "DeliveryRuleUrlFileExtensionMatchConditionParameters" to UrlFileExtensionMatchConditionParametersType
+  - Type of parameter typeName of interface UrlFileNameMatchConditionParameters is changed from "DeliveryRuleUrlFilenameConditionParameters" to UrlFileNameMatchConditionParametersType
+  - Type of parameter typeName of interface UrlPathMatchConditionParameters is changed from "DeliveryRuleUrlPathMatchConditionParameters" to UrlPathMatchConditionParametersType
+  - Type of parameter typeName of interface UrlRedirectActionParameters is changed from "DeliveryRuleUrlRedirectActionParameters" to UrlRedirectActionParametersType
+  - Type of parameter typeName of interface UrlRewriteActionParameters is changed from "DeliveryRuleUrlRewriteActionParameters" to UrlRewriteActionParametersType
+  - Type of parameter typeName of interface UrlSigningActionParameters is changed from "DeliveryRuleUrlSigningActionParameters" to UrlSigningActionParametersType
+  - Removed Enum KnownDeliveryRuleAction
+  - Removed Enum KnownIsDeviceMatchConditionParametersMatchValuesItem
+  - Removed Enum KnownRequestMethodMatchConditionParametersMatchValuesItem
+  - Removed Enum KnownRequestSchemeMatchConditionParametersMatchValuesItem
+    
+    
 ## 9.0.0 (2023-10-10)
     
 **Features**
