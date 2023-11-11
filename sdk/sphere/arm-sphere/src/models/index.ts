@@ -183,8 +183,23 @@ export interface CertificateListResult {
   nextLink?: string;
 }
 
-/** The properties of certificate */
-export interface CertificateProperties {
+/** The certificate chain response. */
+export interface CertificateChainResponse {
+  /**
+   * The certificate chain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly certificateChain?: string;
+}
+
+/** Request for the proof of possession nonce */
+export interface ProofOfPossessionNonceRequest {
+  /** The proof of possession nonce */
+  proofOfPossessionNonce: string;
+}
+
+/** Result of the action to generate a proof of possession nonce */
+export interface ProofOfPossessionNonceResponse {
   /**
    * The certificate as a UTF-8 encoded base 64 string.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -222,23 +237,8 @@ export interface CertificateProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-/** The certificate chain response. */
-export interface CertificateChainResponse {
-  /**
-   * The certificate chain.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly certificateChain?: string;
-}
-
-/** Request for the proof of possession nonce */
-export interface ProofOfPossessionNonceRequest {
-  /** The proof of possession nonce */
-  proofOfPossessionNonce: string;
-}
-
-/** Response of the count for elements. */
-export interface CountElementsResponse {
+/** Response to the action call for count devices in a catalog. */
+export interface CountDeviceResponse {
   /** Number of children resources in parent resource. */
   value: number;
 }
@@ -386,12 +386,6 @@ export interface TrackedResource extends Resource {
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
-
-/** Result of the action to generate a proof of possession nonce */
-export interface ProofOfPossessionNonceResponse extends CertificateProperties {}
-
-/** Response to the action call for count devices in a catalog. */
-export interface CountDeviceResponse extends CountElementsResponse {}
 
 /** An Azure Sphere catalog */
 export interface Catalog extends TrackedResource {

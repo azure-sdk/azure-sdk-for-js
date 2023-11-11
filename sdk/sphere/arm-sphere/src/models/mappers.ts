@@ -368,10 +368,42 @@ export const CertificateListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CertificateProperties: coreClient.CompositeMapper = {
+export const CertificateChainResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CertificateProperties",
+    className: "CertificateChainResponse",
+    modelProperties: {
+      certificateChain: {
+        serializedName: "certificateChain",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProofOfPossessionNonceRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProofOfPossessionNonceRequest",
+    modelProperties: {
+      proofOfPossessionNonce: {
+        serializedName: "proofOfPossessionNonce",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProofOfPossessionNonceResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProofOfPossessionNonceResponse",
     modelProperties: {
       certificate: {
         serializedName: "certificate",
@@ -426,42 +458,10 @@ export const CertificateProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const CertificateChainResponse: coreClient.CompositeMapper = {
+export const CountDeviceResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CertificateChainResponse",
-    modelProperties: {
-      certificateChain: {
-        serializedName: "certificateChain",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ProofOfPossessionNonceRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProofOfPossessionNonceRequest",
-    modelProperties: {
-      proofOfPossessionNonce: {
-        serializedName: "proofOfPossessionNonce",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CountElementsResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CountElementsResponse",
+    className: "CountDeviceResponse",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -911,26 +911,6 @@ export const ProxyResource: coreClient.CompositeMapper = {
     className: "ProxyResource",
     modelProperties: {
       ...Resource.type.modelProperties
-    }
-  }
-};
-
-export const ProofOfPossessionNonceResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProofOfPossessionNonceResponse",
-    modelProperties: {
-      ...CertificateProperties.type.modelProperties
-    }
-  }
-};
-
-export const CountDeviceResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CountDeviceResponse",
-    modelProperties: {
-      ...CountElementsResponse.type.modelProperties
     }
   }
 };

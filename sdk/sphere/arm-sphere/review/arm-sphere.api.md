@@ -258,17 +258,6 @@ export interface CertificateListResult {
 }
 
 // @public
-export interface CertificateProperties {
-    readonly certificate?: string;
-    readonly expiryUtc?: Date;
-    readonly notBeforeUtc?: Date;
-    readonly provisioningState?: ProvisioningState;
-    readonly status?: CertificateStatus;
-    readonly subject?: string;
-    readonly thumbprint?: string;
-}
-
-// @public
 export interface Certificates {
     get(resourceGroupName: string, catalogName: string, serialNumber: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
     listByCatalog(resourceGroupName: string, catalogName: string, options?: CertificatesListByCatalogOptionalParams): PagedAsyncIterableIterator<Certificate>;
@@ -324,11 +313,7 @@ export interface ClaimDevicesRequest {
 }
 
 // @public
-export interface CountDeviceResponse extends CountElementsResponse {
-}
-
-// @public
-export interface CountElementsResponse {
+export interface CountDeviceResponse {
     value: number;
 }
 
@@ -1060,7 +1045,14 @@ export interface ProofOfPossessionNonceRequest {
 }
 
 // @public
-export interface ProofOfPossessionNonceResponse extends CertificateProperties {
+export interface ProofOfPossessionNonceResponse {
+    readonly certificate?: string;
+    readonly expiryUtc?: Date;
+    readonly notBeforeUtc?: Date;
+    readonly provisioningState?: ProvisioningState;
+    readonly status?: CertificateStatus;
+    readonly subject?: string;
+    readonly thumbprint?: string;
 }
 
 // @public
