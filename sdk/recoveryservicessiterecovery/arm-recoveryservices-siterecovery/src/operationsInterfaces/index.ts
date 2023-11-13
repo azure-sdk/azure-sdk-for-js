@@ -12,6 +12,7 @@ export * from "./replicationAppliances";
 export * from "./replicationEligibilityResultsOperations";
 export * from "./replicationEvents";
 export * from "./replicationFabrics";
+export * from "./replicationInfrastructure";
 export * from "./replicationLogicalNetworks";
 export * from "./replicationNetworks";
 export * from "./replicationNetworkMappings";

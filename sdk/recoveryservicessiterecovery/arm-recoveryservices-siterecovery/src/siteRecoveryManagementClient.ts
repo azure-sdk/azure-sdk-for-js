@@ -21,6 +21,7 @@ import {
   ReplicationEligibilityResultsOperationsImpl,
   ReplicationEventsImpl,
   ReplicationFabricsImpl,
+  ReplicationInfrastructureImpl,
   ReplicationLogicalNetworksImpl,
   ReplicationNetworksImpl,
   ReplicationNetworkMappingsImpl,
@@ -51,6 +52,7 @@ import {
   ReplicationEligibilityResultsOperations,
   ReplicationEvents,
   ReplicationFabrics,
+  ReplicationInfrastructure,
   ReplicationLogicalNetworks,
   ReplicationNetworks,
   ReplicationNetworkMappings,
@@ -108,7 +110,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.1.0`;
+    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -161,7 +163,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01";
+    this.apiVersion = options.apiVersion || "2023-08-01";
     this.operations = new OperationsImpl(this);
     this.replicationAlertSettings = new ReplicationAlertSettingsImpl(this);
     this.replicationAppliances = new ReplicationAppliancesImpl(this);
@@ -170,6 +172,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     );
     this.replicationEvents = new ReplicationEventsImpl(this);
     this.replicationFabrics = new ReplicationFabricsImpl(this);
+    this.replicationInfrastructure = new ReplicationInfrastructureImpl(this);
     this.replicationLogicalNetworks = new ReplicationLogicalNetworksImpl(this);
     this.replicationNetworks = new ReplicationNetworksImpl(this);
     this.replicationNetworkMappings = new ReplicationNetworkMappingsImpl(this);
@@ -245,6 +248,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   replicationEligibilityResultsOperations: ReplicationEligibilityResultsOperations;
   replicationEvents: ReplicationEvents;
   replicationFabrics: ReplicationFabrics;
+  replicationInfrastructure: ReplicationInfrastructure;
   replicationLogicalNetworks: ReplicationLogicalNetworks;
   replicationNetworks: ReplicationNetworks;
   replicationNetworkMappings: ReplicationNetworkMappings;

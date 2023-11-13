@@ -97,6 +97,7 @@ export interface A2ACrossClusterMigrationReplicationDetails extends ReplicationP
 
 // @public
 export interface A2AEnableProtectionInput extends EnableProtectionProviderSpecificInput {
+    autoProtectionOfDataDisk?: AutoProtectionOfDataDisk;
     diskEncryptionInfo?: DiskEncryptionInfo;
     fabricObjectId: string;
     instanceType: "A2A";
@@ -1000,6 +1001,26 @@ export interface EncryptionDetails {
     kekCertExpiryDate?: Date;
     kekCertThumbprint?: string;
     kekState?: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -4583,6 +4604,27 @@ export interface ReplicationGroupDetails extends ConfigurationSettings {
 }
 
 // @public
+export interface ReplicationInfrastructure {
+    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationInfrastructureDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationInfrastructureDeleteResponse>, ReplicationInfrastructureDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationInfrastructureDeleteOptionalParams): Promise<ReplicationInfrastructureDeleteResponse>;
+}
+
+// @public
+export interface ReplicationInfrastructureDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ReplicationInfrastructureDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationInfrastructureDeleteResponse = ReplicationInfrastructureDeleteHeaders;
+
+// @public
 export interface ReplicationJobs {
     beginCancel(resourceName: string, resourceGroupName: string, jobName: string, options?: ReplicationJobsCancelOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationJobsCancelResponse>, ReplicationJobsCancelResponse>>;
     beginCancelAndWait(resourceName: string, resourceGroupName: string, jobName: string, options?: ReplicationJobsCancelOptionalParams): Promise<ReplicationJobsCancelResponse>;
@@ -6237,6 +6279,8 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     replicationEvents: ReplicationEvents;
     // (undocumented)
     replicationFabrics: ReplicationFabrics;
+    // (undocumented)
+    replicationInfrastructure: ReplicationInfrastructure;
     // (undocumented)
     replicationJobs: ReplicationJobs;
     // (undocumented)

@@ -1,5 +1,19 @@
 # Release History
     
+## 5.2.0 (2023-11-13)
+    
+**Features**
+
+  - Added operation group ReplicationInfrastructure
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ReplicationInfrastructureDeleteHeaders
+  - Added Interface ReplicationInfrastructureDeleteOptionalParams
+  - Added Type Alias ReplicationInfrastructureDeleteResponse
+  - Interface A2AEnableProtectionInput has a new optional parameter autoProtectionOfDataDisk
+    
+    
 ## 5.1.0 (2023-09-08)
     
 **Features**
@@ -521,4 +535,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

@@ -92,7 +92,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01",
+    defaultValue: "2023-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -230,6 +230,34 @@ export const failoverProcessServerRequest: OperationParameter = {
 export const renewCertificate: OperationParameter = {
   parameterPath: "renewCertificate",
   mapper: RenewCertificateInputMapper
+};
+
+export const resourceName1: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$")
+    },
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fabricName1: OperationURLParameter = {
+  parameterPath: "fabricName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$")
+    },
+    serializedName: "fabricName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const logicalNetworkName: OperationURLParameter = {
