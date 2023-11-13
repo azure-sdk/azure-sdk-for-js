@@ -701,6 +701,7 @@ export interface RedisCommonPropertiesRedisConfiguration {
     maxmemoryDelta?: string;
     maxmemoryPolicy?: string;
     maxmemoryReserved?: string;
+    notifyKeyspaceEvents?: string;
     readonly preferredDataArchiveAuthMethod?: string;
     preferredDataPersistenceAuthMethod?: string;
     rdbBackupEnabled?: string;

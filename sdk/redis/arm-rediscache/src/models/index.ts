@@ -229,6 +229,8 @@ export interface RedisCommonPropertiesRedisConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maxclients?: string;
+  /** The keyspace events which should be monitored. */
+  notifyKeyspaceEvents?: string;
   /**
    * Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS
    * NOTE: This property will not be serialized. It can only be populated by the server.

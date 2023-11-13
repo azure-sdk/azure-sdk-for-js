@@ -583,6 +583,12 @@ export const RedisCommonPropertiesRedisConfiguration: coreClient.CompositeMapper
           name: "String"
         }
       },
+      notifyKeyspaceEvents: {
+        serializedName: "notify-keyspace-events",
+        type: {
+          name: "String"
+        }
+      },
       preferredDataArchiveAuthMethod: {
         serializedName: "preferred-data-archive-auth-method",
         readOnly: true,
