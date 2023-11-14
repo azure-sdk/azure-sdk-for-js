@@ -589,40 +589,6 @@ export interface FirewallRuleList {
   values?: FirewallRule[];
 }
 
-/** An ARM Resource SKU. */
-export interface Sku {
-  /** The name of the SKU, typically, a letter + Number code, e.g. P3. */
-  name: string;
-  /** The tier or edition of the particular SKU, e.g. Basic, Premium. */
-  tier?: string;
-  /** Size of the particular SKU */
-  size?: string;
-  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
-  /** Capacity of the particular SKU. */
-  capacity?: number;
-}
-
-/** An update to an Instance pool. */
-export interface InstancePoolUpdate {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** A list of Azure SQL instance pools. */
-export interface InstancePoolListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: InstancePool[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** A list of Azure SQL job agents. */
 export interface JobAgentListResult {
   /**
@@ -635,6 +601,20 @@ export interface JobAgentListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** An ARM Resource SKU. */
+export interface Sku {
+  /** The name of the SKU, typically, a letter + Number code, e.g. P3. */
+  name: string;
+  /** The tier or edition of the particular SKU, e.g. Basic, Premium. */
+  tier?: string;
+  /** Size of the particular SKU */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** Capacity of the particular SKU. */
+  capacity?: number;
 }
 
 /** An update to an Azure SQL job agent. */
@@ -688,6 +668,20 @@ export interface JobExecutionTarget {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseName?: string;
+}
+
+/** A list of job agent private endpoints. */
+export interface JobPrivateEndpointListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: JobPrivateEndpoint[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** A list of jobs. */
@@ -4602,6 +4596,41 @@ export interface FailoverGroupUpdate {
   partnerServers?: PartnerInfo[];
 }
 
+/** A list of Azure SQL instance pools. */
+export interface InstancePoolListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: InstancePool[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An update to an Instance pool. */
+export interface InstancePoolUpdate {
+  /** The name and tier of the SKU. */
+  sku?: Sku;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Resource ID of the subnet to place this instance pool in. */
+  subnetId?: string;
+  /** Count of vCores belonging to this instance pool. */
+  vCores?: number;
+  /** The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price). */
+  licenseType?: InstancePoolLicenseType;
+  /**
+   * The Dns Zone that the managed instance pool is in.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dnsZone?: string;
+  /** Specifies maintenance configuration id to apply to this managed instance. */
+  maintenanceConfigurationId?: string;
+}
+
 /** A Slo Usage Metric. */
 export interface SloUsageMetric {
   /**
@@ -5513,6 +5542,17 @@ export interface JobExecution extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: JobExecutionTarget;
+}
+
+/** A job agent private endpoint. */
+export interface JobPrivateEndpoint extends ProxyResource {
+  /** ARM resource id of the server the private endpoint will target. */
+  targetServerAzureResourceId?: string;
+  /**
+   * Private endpoint id of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointId?: string;
 }
 
 /** A job. */
@@ -8221,18 +8261,6 @@ export interface FailoverGroup extends ProxyResource {
   databases?: string[];
 }
 
-/** An Azure SQL instance pool. */
-export interface InstancePool extends TrackedResource {
-  /** The name and tier of the SKU. */
-  sku?: Sku;
-  /** Resource ID of the subnet to place this instance pool in. */
-  subnetId?: string;
-  /** Count of vCores belonging to this instance pool. */
-  vCores?: number;
-  /** The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price). */
-  licenseType?: InstancePoolLicenseType;
-}
-
 /** An Azure SQL job agent. */
 export interface JobAgent extends TrackedResource {
   /** The name and tier of the SKU. */
@@ -8772,6 +8800,25 @@ export interface Server extends TrackedResource {
   readonly externalGovernanceStatus?: ExternalGovernanceStatus;
 }
 
+/** An Azure SQL instance pool. */
+export interface InstancePool extends TrackedResource {
+  /** The name and tier of the SKU. */
+  sku?: Sku;
+  /** Resource ID of the subnet to place this instance pool in. */
+  subnetId?: string;
+  /** Count of vCores belonging to this instance pool. */
+  vCores?: number;
+  /** The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price). */
+  licenseType?: InstancePoolLicenseType;
+  /**
+   * The Dns Zone that the managed instance pool is in.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dnsZone?: string;
+  /** Specifies maintenance configuration id to apply to this managed instance. */
+  maintenanceConfigurationId?: string;
+}
+
 /** A server firewall rule. */
 export interface FirewallRule extends ProxyResourceWithWritableName {
   /** The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' for all Azure-internal IP addresses. */
@@ -9230,24 +9277,6 @@ export enum KnownEncryptionProtectorName {
  * **current**
  */
 export type EncryptionProtectorName = string;
-
-/** Known values of {@link InstancePoolLicenseType} that the service accepts. */
-export enum KnownInstancePoolLicenseType {
-  /** LicenseIncluded */
-  LicenseIncluded = "LicenseIncluded",
-  /** BasePrice */
-  BasePrice = "BasePrice"
-}
-
-/**
- * Defines values for InstancePoolLicenseType. \
- * {@link KnownInstancePoolLicenseType} can be used interchangeably with InstancePoolLicenseType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LicenseIncluded** \
- * **BasePrice**
- */
-export type InstancePoolLicenseType = string;
 
 /** Known values of {@link JobAgentState} that the service accepts. */
 export enum KnownJobAgentState {
@@ -11520,6 +11549,24 @@ export enum KnownFailoverGroupReplicationRole {
  */
 export type FailoverGroupReplicationRole = string;
 
+/** Known values of {@link InstancePoolLicenseType} that the service accepts. */
+export enum KnownInstancePoolLicenseType {
+  /** LicenseIncluded */
+  LicenseIncluded = "LicenseIncluded",
+  /** BasePrice */
+  BasePrice = "BasePrice"
+}
+
+/**
+ * Defines values for InstancePoolLicenseType. \
+ * {@link KnownInstancePoolLicenseType} can be used interchangeably with InstancePoolLicenseType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LicenseIncluded** \
+ * **BasePrice**
+ */
+export type InstancePoolLicenseType = string;
+
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
   /** System */
@@ -12643,74 +12690,6 @@ export interface FirewallRulesListByServerNextOptionalParams
 export type FirewallRulesListByServerNextResponse = FirewallRuleListResult;
 
 /** Optional parameters. */
-export interface InstancePoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type InstancePoolsGetResponse = InstancePool;
-
-/** Optional parameters. */
-export interface InstancePoolsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type InstancePoolsCreateOrUpdateResponse = InstancePool;
-
-/** Optional parameters. */
-export interface InstancePoolsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface InstancePoolsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type InstancePoolsUpdateResponse = InstancePool;
-
-/** Optional parameters. */
-export interface InstancePoolsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type InstancePoolsListByResourceGroupResponse = InstancePoolListResult;
-
-/** Optional parameters. */
-export interface InstancePoolsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type InstancePoolsListResponse = InstancePoolListResult;
-
-/** Optional parameters. */
-export interface InstancePoolsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type InstancePoolsListByResourceGroupNextResponse = InstancePoolListResult;
-
-/** Optional parameters. */
-export interface InstancePoolsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type InstancePoolsListNextResponse = InstancePoolListResult;
-
-/** Optional parameters. */
 export interface JobAgentsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -12888,6 +12867,48 @@ export interface JobExecutionsListByJobNextOptionalParams
 
 /** Contains response data for the listByJobNext operation. */
 export type JobExecutionsListByJobNextResponse = JobExecutionListResult;
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsListByAgentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAgent operation. */
+export type JobPrivateEndpointsListByAgentResponse = JobPrivateEndpointListResult;
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type JobPrivateEndpointsGetResponse = JobPrivateEndpoint;
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type JobPrivateEndpointsCreateOrUpdateResponse = JobPrivateEndpoint;
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsListByAgentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAgentNext operation. */
+export type JobPrivateEndpointsListByAgentNextResponse = JobPrivateEndpointListResult;
 
 /** Optional parameters. */
 export interface JobsListByAgentOptionalParams
@@ -17335,6 +17356,74 @@ export interface FailoverGroupsListByServerNextOptionalParams
 
 /** Contains response data for the listByServerNext operation. */
 export type FailoverGroupsListByServerNextResponse = FailoverGroupListResult;
+
+/** Optional parameters. */
+export interface InstancePoolsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type InstancePoolsListResponse = InstancePoolListResult;
+
+/** Optional parameters. */
+export interface InstancePoolsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type InstancePoolsListByResourceGroupResponse = InstancePoolListResult;
+
+/** Optional parameters. */
+export interface InstancePoolsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InstancePoolsGetResponse = InstancePool;
+
+/** Optional parameters. */
+export interface InstancePoolsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type InstancePoolsCreateOrUpdateResponse = InstancePool;
+
+/** Optional parameters. */
+export interface InstancePoolsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface InstancePoolsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type InstancePoolsUpdateResponse = InstancePool;
+
+/** Optional parameters. */
+export interface InstancePoolsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type InstancePoolsListNextResponse = InstancePoolListResult;
+
+/** Optional parameters. */
+export interface InstancePoolsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type InstancePoolsListByResourceGroupNextResponse = InstancePoolListResult;
 
 /** Optional parameters. */
 export interface SqlManagementClientOptionalParams
