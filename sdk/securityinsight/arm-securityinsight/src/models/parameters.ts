@@ -15,29 +15,43 @@ import {
   AlertRule as AlertRuleMapper,
   ActionRequest as ActionRequestMapper,
   AutomationRule as AutomationRuleMapper,
+  EntityManualTriggerRequestBody as EntityManualTriggerRequestBodyMapper,
+  EntityExpandParameters as EntityExpandParametersMapper,
+  EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   ManualTriggerRequestBody as ManualTriggerRequestBodyMapper,
   Incident as IncidentMapper,
-  TeamProperties as TeamPropertiesMapper,
+  TeamInformation as TeamInformationMapper,
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
-  EntityExpandParameters as EntityExpandParametersMapper,
-  EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
+  PackageModel as PackageModelMapper,
+  TemplateModel as TemplateModelMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
   CustomEntityQuery as CustomEntityQueryMapper,
   FileImport as FileImportMapper,
+  Hunt as HuntMapper,
+  HuntRelation as HuntRelationMapper,
+  HuntComment as HuntCommentMapper,
   IncidentComment as IncidentCommentMapper,
+  IncidentTask as IncidentTaskMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
   SecurityMLAnalyticsSetting as SecurityMLAnalyticsSettingMapper,
   Settings as SettingsMapper,
+  RepositoryAccessProperties as RepositoryAccessPropertiesMapper,
   SourceControl as SourceControlMapper,
   ThreatIntelligenceIndicatorModel as ThreatIntelligenceIndicatorModelMapper,
   ThreatIntelligenceFilteringCriteria as ThreatIntelligenceFilteringCriteriaMapper,
   ThreatIntelligenceAppendTags as ThreatIntelligenceAppendTagsMapper,
+  AnalyticsRuleRunTrigger as AnalyticsRuleRunTriggerMapper,
   Watchlist as WatchlistMapper,
   WatchlistItem as WatchlistItemMapper,
+  WorkspaceManagerAssignment as WorkspaceManagerAssignmentMapper,
+  WorkspaceManagerConfiguration as WorkspaceManagerConfigurationMapper,
+  WorkspaceManagerGroup as WorkspaceManagerGroupMapper,
+  WorkspaceManagerMember as WorkspaceManagerMemberMapper,
+  DataConnectorDefinition as DataConnectorDefinitionMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
   DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
@@ -70,7 +84,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -112,6 +126,7 @@ export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
       MaxLength: 90,
       MinLength: 1
     },
@@ -208,6 +223,54 @@ export const automationRuleToUpsert: OperationParameter = {
 
 export const requestBody: OperationParameter = {
   parameterPath: ["options", "requestBody"],
+  mapper: EntityManualTriggerRequestBodyMapper
+};
+
+export const entityIdentifier: OperationURLParameter = {
+  parameterPath: "entityIdentifier",
+  mapper: {
+    serializedName: "entityIdentifier",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const entityId: OperationURLParameter = {
+  parameterPath: "entityId",
+  mapper: {
+    serializedName: "entityId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: EntityExpandParametersMapper
+};
+
+export const kind: OperationQueryParameter = {
+  parameterPath: "kind",
+  mapper: {
+    serializedName: "kind",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: EntityGetInsightsParametersMapper
+};
+
+export const requestBody1: OperationParameter = {
+  parameterPath: ["options", "requestBody"],
   mapper: ManualTriggerRequestBodyMapper
 };
 
@@ -280,7 +343,21 @@ export const incident: OperationParameter = {
 
 export const teamProperties: OperationParameter = {
   parameterPath: "teamProperties",
-  mapper: TeamPropertiesMapper
+  mapper: TeamInformationMapper
+};
+
+export const billingStatisticName: OperationURLParameter = {
+  parameterPath: "billingStatisticName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$")
+    },
+    serializedName: "billingStatisticName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const bookmarkId: OperationURLParameter = {
@@ -315,9 +392,81 @@ export const relation: OperationParameter = {
   mapper: RelationMapper
 };
 
-export const parameters: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: BookmarkExpandParametersMapper
+};
+
+export const search: OperationQueryParameter = {
+  parameterPath: ["options", "search"],
+  mapper: {
+    serializedName: "$search",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const count: OperationQueryParameter = {
+  parameterPath: ["options", "count"],
+  mapper: {
+    serializedName: "$count",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "$skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const packageId: OperationURLParameter = {
+  parameterPath: "packageId",
+  mapper: {
+    serializedName: "packageId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const packageInstallationProperties: OperationParameter = {
+  parameterPath: "packageInstallationProperties",
+  mapper: PackageModelMapper
+};
+
+export const templateId: OperationURLParameter = {
+  parameterPath: "templateId",
+  mapper: {
+    serializedName: "templateId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const templateInstallationProperties: OperationParameter = {
+  parameterPath: "templateInstallationProperties",
+  mapper: TemplateModelMapper
 };
 
 export const ipAddress: OperationQueryParameter = {
@@ -340,38 +489,6 @@ export const domain: OperationQueryParameter = {
       name: "String"
     }
   }
-};
-
-export const entityId: OperationURLParameter = {
-  parameterPath: "entityId",
-  mapper: {
-    serializedName: "entityId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EntityExpandParametersMapper
-};
-
-export const kind: OperationQueryParameter = {
-  parameterPath: "kind",
-  mapper: {
-    serializedName: "kind",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EntityGetInsightsParametersMapper
 };
 
 export const parameters3: OperationParameter = {
@@ -444,6 +561,54 @@ export const fileImport: OperationParameter = {
   mapper: FileImportMapper
 };
 
+export const huntId: OperationURLParameter = {
+  parameterPath: "huntId",
+  mapper: {
+    serializedName: "huntId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const hunt: OperationParameter = {
+  parameterPath: "hunt",
+  mapper: HuntMapper
+};
+
+export const huntRelationId: OperationURLParameter = {
+  parameterPath: "huntRelationId",
+  mapper: {
+    serializedName: "huntRelationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const huntRelation: OperationParameter = {
+  parameterPath: "huntRelation",
+  mapper: HuntRelationMapper
+};
+
+export const huntCommentId: OperationURLParameter = {
+  parameterPath: "huntCommentId",
+  mapper: {
+    serializedName: "huntCommentId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const huntComment: OperationParameter = {
+  parameterPath: "huntComment",
+  mapper: HuntCommentMapper
+};
+
 export const incidentCommentId: OperationURLParameter = {
   parameterPath: "incidentCommentId",
   mapper: {
@@ -460,19 +625,28 @@ export const incidentComment: OperationParameter = {
   mapper: IncidentCommentMapper
 };
 
-export const skip: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
+export const incidentTaskId: OperationURLParameter = {
+  parameterPath: "incidentTaskId",
   mapper: {
-    serializedName: "$skip",
+    serializedName: "incidentTaskId",
+    required: true,
     type: {
-      name: "Number"
+      name: "String"
     }
   }
+};
+
+export const incidentTask: OperationParameter = {
+  parameterPath: "incidentTask",
+  mapper: IncidentTaskMapper
 };
 
 export const metadataName: OperationURLParameter = {
   parameterPath: "metadataName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^\\S+$")
+    },
     serializedName: "metadataName",
     required: true,
     type: {
@@ -518,6 +692,34 @@ export const sentinelOnboardingStateParameter: OperationParameter = {
   mapper: SentinelOnboardingStateMapper
 };
 
+export const recommendationId: OperationURLParameter = {
+  parameterPath: "recommendationId",
+  mapper: {
+    serializedName: "recommendationId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const recommendationPatch: OperationParameter = {
+  parameterPath: "recommendationPatch",
+  mapper: {
+    serializedName: "recommendationPatch",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "RecommendationPatch"
+        }
+      }
+    }
+  }
+};
+
 export const settingsResourceName: OperationURLParameter = {
   parameterPath: "settingsResourceName",
   mapper: {
@@ -550,15 +752,9 @@ export const settings: OperationParameter = {
   mapper: SettingsMapper
 };
 
-export const repoType: OperationParameter = {
-  parameterPath: "repoType",
-  mapper: {
-    serializedName: "repoType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const repositoryAccess: OperationParameter = {
+  parameterPath: "repositoryAccess",
+  mapper: RepositoryAccessPropertiesMapper
 };
 
 export const sourceControlId: OperationURLParameter = {
@@ -608,6 +804,22 @@ export const threatIntelligenceReplaceTags: OperationParameter = {
   mapper: ThreatIntelligenceIndicatorModelMapper
 };
 
+export const ruleRunId: OperationURLParameter = {
+  parameterPath: "ruleRunId",
+  mapper: {
+    serializedName: "ruleRunId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const analyticsRuleRunTriggerParameter: OperationParameter = {
+  parameterPath: "analyticsRuleRunTriggerParameter",
+  mapper: AnalyticsRuleRunTriggerMapper
+};
+
 export const watchlistAlias: OperationURLParameter = {
   parameterPath: "watchlistAlias",
   mapper: {
@@ -638,6 +850,115 @@ export const watchlistItemId: OperationURLParameter = {
 export const watchlistItem: OperationParameter = {
   parameterPath: "watchlistItem",
   mapper: WatchlistItemMapper
+};
+
+export const workspaceManagerAssignmentName: OperationURLParameter = {
+  parameterPath: "workspaceManagerAssignmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$")
+    },
+    serializedName: "workspaceManagerAssignmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspaceManagerAssignment: OperationParameter = {
+  parameterPath: "workspaceManagerAssignment",
+  mapper: WorkspaceManagerAssignmentMapper
+};
+
+export const jobName: OperationURLParameter = {
+  parameterPath: "jobName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$")
+    },
+    serializedName: "jobName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspaceManagerConfigurationName: OperationURLParameter = {
+  parameterPath: "workspaceManagerConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$")
+    },
+    serializedName: "workspaceManagerConfigurationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspaceManagerConfiguration: OperationParameter = {
+  parameterPath: "workspaceManagerConfiguration",
+  mapper: WorkspaceManagerConfigurationMapper
+};
+
+export const workspaceManagerGroupName: OperationURLParameter = {
+  parameterPath: "workspaceManagerGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$")
+    },
+    serializedName: "workspaceManagerGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspaceManagerGroup: OperationParameter = {
+  parameterPath: "workspaceManagerGroup",
+  mapper: WorkspaceManagerGroupMapper
+};
+
+export const workspaceManagerMemberName: OperationURLParameter = {
+  parameterPath: "workspaceManagerMemberName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$")
+    },
+    serializedName: "workspaceManagerMemberName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspaceManagerMember: OperationParameter = {
+  parameterPath: "workspaceManagerMember",
+  mapper: WorkspaceManagerMemberMapper
+};
+
+export const dataConnectorDefinitionName: OperationURLParameter = {
+  parameterPath: "dataConnectorDefinitionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9A-Z-_]*$")
+    },
+    serializedName: "dataConnectorDefinitionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const connectorDefinitionInput: OperationParameter = {
+  parameterPath: "connectorDefinitionInput",
+  mapper: DataConnectorDefinitionMapper
 };
 
 export const dataConnectorId: OperationURLParameter = {
