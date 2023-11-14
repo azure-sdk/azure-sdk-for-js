@@ -157,8 +157,10 @@ export interface CreatorList {
 
 // @public
 export interface CreatorProperties {
+    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits: number;
+    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
@@ -211,11 +213,13 @@ export type CreatorsUpdateResponse = Creator;
 
 // @public
 export interface CreatorUpdateParameters {
+    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits?: number;
     tags?: {
         [propertyName: string]: string;
     };
+    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
@@ -345,6 +349,11 @@ export interface LinkedResource {
 }
 
 // @public
+export interface LocationsItem {
+    locationName: string;
+}
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -386,6 +395,7 @@ export interface MapsAccountProperties {
     disableLocalAuth?: boolean;
     encryption?: Encryption;
     linkedResources?: LinkedResource[];
+    locations?: LocationsItem[];
     readonly provisioningState?: string;
     readonly uniqueId?: string;
 }
@@ -409,6 +419,7 @@ export interface MapsAccountUpdateParameters {
     identity?: ManagedServiceIdentity;
     kind?: Kind;
     linkedResources?: LinkedResource[];
+    locations?: LocationsItem[];
     readonly provisioningState?: string;
     sku?: Sku;
     tags?: {

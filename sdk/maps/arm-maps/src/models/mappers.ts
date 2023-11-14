@@ -192,6 +192,18 @@ export const MapsAccountProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "Encryption"
         }
+      },
+      locations: {
+        serializedName: "locations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LocationsItem"
+            }
+          }
+        }
       }
     }
   }
@@ -330,6 +342,22 @@ export const CustomerManagedKeyEncryptionKeyIdentity: coreClient.CompositeMapper
         serializedName: "delegatedIdentityClientId",
         type: {
           name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
+export const LocationsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocationsItem",
+    modelProperties: {
+      locationName: {
+        serializedName: "locationName",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -543,6 +571,18 @@ export const MapsAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
+        }
+      },
+      locations: {
+        serializedName: "properties.locations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LocationsItem"
+            }
+          }
         }
       }
     }
@@ -1023,6 +1063,18 @@ export const CreatorProperties: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      totalStorageUnitSizeInBytes: {
+        serializedName: "totalStorageUnitSizeInBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      consumedStorageUnitSizeInBytes: {
+        serializedName: "consumedStorageUnitSizeInBytes",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -1053,6 +1105,18 @@ export const CreatorUpdateParameters: coreClient.CompositeMapper = {
           InclusiveMinimum: 1
         },
         serializedName: "properties.storageUnits",
+        type: {
+          name: "Number"
+        }
+      },
+      totalStorageUnitSizeInBytes: {
+        serializedName: "properties.totalStorageUnitSizeInBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      consumedStorageUnitSizeInBytes: {
+        serializedName: "properties.consumedStorageUnitSizeInBytes",
         type: {
           name: "Number"
         }

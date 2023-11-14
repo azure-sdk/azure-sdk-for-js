@@ -87,6 +87,12 @@ export interface MapsAccountProperties {
   cors?: CorsRules;
   /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
   encryption?: Encryption;
+  /**
+   * Sets data processing locations. If no locations are defined, Azure REST APIs will only enable features available in the Map account's location.
+   *
+   * Please refer to [Azure Maps Data Processing Locations](https://https://learn.microsoft.com/en-us/azure/azure-maps/) for features enabled on select locations.
+   */
+  locations?: LocationsItem[];
 }
 
 /** Linked resource is reference to a resource deployed in an Azure subscription, add the linked resource `uniqueName` value as an optional parameter for operations on Azure Maps Geospatial REST APIs. */
@@ -133,6 +139,12 @@ export interface CustomerManagedKeyEncryptionKeyIdentity {
   userAssignedIdentityResourceId?: string;
   /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
   delegatedIdentityClientId?: string;
+}
+
+/** Data processing location. */
+export interface LocationsItem {
+  /** The location name. */
+  locationName: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -231,6 +243,12 @@ export interface MapsAccountUpdateParameters {
   cors?: CorsRules;
   /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
   encryption?: Encryption;
+  /**
+   * Sets data processing locations. If no locations are defined, Azure REST APIs will only enable features available in the Map account's location.
+   *
+   * Please refer to [Azure Maps Data Processing Locations](https://https://learn.microsoft.com/en-us/azure/azure-maps/) for features enabled on select locations.
+   */
+  locations?: LocationsItem[];
 }
 
 /** A list of Maps Accounts. */
@@ -419,6 +437,10 @@ export interface CreatorProperties {
   readonly provisioningState?: string;
   /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
   storageUnits: number;
+  /** The total allocated storage unit size in bytes for the creator resource. */
+  totalStorageUnitSizeInBytes?: number;
+  /** The consumed storage unit size in bytes for the creator resource. */
+  consumedStorageUnitSizeInBytes?: number;
 }
 
 /** Parameters used to update an existing Creator resource. */
@@ -432,6 +454,10 @@ export interface CreatorUpdateParameters {
   readonly provisioningState?: string;
   /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
   storageUnits?: number;
+  /** The total allocated storage unit size in bytes for the creator resource. */
+  totalStorageUnitSizeInBytes?: number;
+  /** The consumed storage unit size in bytes for the creator resource. */
+  consumedStorageUnitSizeInBytes?: number;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
