@@ -638,6 +638,9 @@ dependencies:
   '@rush-temp/arm-sphere':
     specifier: file:./projects/arm-sphere.tgz
     version: file:projects/arm-sphere.tgz
+  '@rush-temp/arm-springappdiscovery':
+    specifier: file:./projects/arm-springappdiscovery.tgz
+    version: file:projects/arm-springappdiscovery.tgz
   '@rush-temp/arm-sql':
     specifier: file:./projects/arm-sql.tgz
     version: file:projects/arm-sql.tgz
@@ -4437,7 +4440,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231113
+      typescript: 5.4.0-dev.20231114
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4446,7 +4449,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231113
+      typescript: 5.4.0-dev.20231114
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9160,8 +9163,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231113:
-    resolution: {integrity: sha512-5K165L/tImARYZDKwwT2ER9qKt0n56E8jxldXfAVpq8qNqX5o2SvpoPrzCi+eddkHJHl1gPf26xiE+7R6//1Gg==}
+  /typescript@5.4.0-dev.20231114:
+    resolution: {integrity: sha512-z7rH8Vy4KWJyzNUaFt1HMzwYNRUmy2HMN98eufjvqbhmS3WPoQF89/UgonRmYf1vAP/69z0PytuV9hBMHNkaDg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15325,6 +15328,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-springappdiscovery.tgz:
+    resolution: {integrity: sha512-3Z/FlI0ctbwJeX3r+tjOjLoHI/HdiqbwQOuz+iKfx7888zDa0QhAu5ot8N/le5JXZK45zVNwkvSb3FhSZrozJA==, tarball: file:projects/arm-springappdiscovery.tgz}
+    name: '@rush-temp/arm-springappdiscovery'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
+      '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
+      '@types/node': 18.18.9
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-sql.tgz:
     resolution: {integrity: sha512-0MYK1EjJEHPI1KPd/eZ8Gm9oW0nVx5GFMSRS1B7i5YQu3QuSukJq+OQKcWLgbT3WFVYfmRCas+Krh4yCiiVDfw==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
@@ -19095,7 +19125,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-reelA1qEW+iEwulyW+eEAvwqoXCIgKkRJ/Hix2lpAPdCC2WVan3zqMloP/hptMSnx9dv5X88uORVt5Hrn5+obA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-z2/A8lNpxYXE77kmOhmAxAEOehHra4Fvtfnlia7rNwlq+UNTlinS3FJylQQyTMOJV/ubJk/BDv8hyxFs+o1vOw==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
