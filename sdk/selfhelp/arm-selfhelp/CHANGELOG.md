@@ -1,16 +1,6 @@
 # Release History
-
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.0-beta.1 (2023-10-24)
+    
+## 2.0.0-beta.2 (2023-11-14)
     
 **Features**
 
@@ -34,7 +24,6 @@
   - Added Interface SolutionMetadataProperties
   - Added Interface SolutionPatchRequestBody
   - Added Interface SolutionResource
-  - Added Interface SolutionResourceProperties
   - Added Interface SolutionsDiagnostic
   - Added Interface SolutionsTroubleshooters
   - Added Interface SolutionUpdateHeaders
@@ -106,4 +95,4 @@
     
 ## 1.0.0 (2023-06-20)
 
-The package of @azure/arm-selfhelp is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-selfhelp is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
