@@ -10,6 +10,10 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  OperationsImpl,
+  WorkspacesImpl,
+  DeletedWorkspacesImpl,
+  TablesImpl,
   QueryPacksImpl,
   QueriesImpl,
   DataExportsImpl,
@@ -27,13 +31,13 @@ import {
   GatewaysImpl,
   SchemaOperationsImpl,
   WorkspacePurgeImpl,
-  ClustersImpl,
-  OperationsImpl,
-  WorkspacesImpl,
-  DeletedWorkspacesImpl,
-  TablesImpl
+  ClustersImpl
 } from "./operations";
 import {
+  Operations,
+  Workspaces,
+  DeletedWorkspaces,
+  Tables,
   QueryPacks,
   Queries,
   DataExports,
@@ -51,11 +55,7 @@ import {
   Gateways,
   SchemaOperations,
   WorkspacePurge,
-  Clusters,
-  Operations,
-  Workspaces,
-  DeletedWorkspaces,
-  Tables
+  Clusters
 } from "./operationsInterfaces";
 import { OperationalInsightsManagementClientOptionalParams } from "./models";
 
@@ -90,7 +90,7 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-operationalinsights/9.0.1`;
+    const packageDetails = `azsdk-js-arm-operationalinsights/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -143,6 +143,10 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.operations = new OperationsImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
+    this.deletedWorkspaces = new DeletedWorkspacesImpl(this);
+    this.tables = new TablesImpl(this);
     this.queryPacks = new QueryPacksImpl(this);
     this.queries = new QueriesImpl(this);
     this.dataExports = new DataExportsImpl(this);
@@ -161,12 +165,12 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
     this.schemaOperations = new SchemaOperationsImpl(this);
     this.workspacePurge = new WorkspacePurgeImpl(this);
     this.clusters = new ClustersImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.workspaces = new WorkspacesImpl(this);
-    this.deletedWorkspaces = new DeletedWorkspacesImpl(this);
-    this.tables = new TablesImpl(this);
   }
 
+  operations: Operations;
+  workspaces: Workspaces;
+  deletedWorkspaces: DeletedWorkspaces;
+  tables: Tables;
   queryPacks: QueryPacks;
   queries: Queries;
   dataExports: DataExports;
@@ -185,8 +189,4 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
   schemaOperations: SchemaOperations;
   workspacePurge: WorkspacePurge;
   clusters: Clusters;
-  operations: Operations;
-  workspaces: Workspaces;
-  deletedWorkspaces: DeletedWorkspaces;
-  tables: Tables;
 }

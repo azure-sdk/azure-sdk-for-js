@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Table,
   TablesListByWorkspaceOptionalParams,
@@ -51,8 +51,8 @@ export interface Tables {
     parameters: Table,
     options?: TablesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TablesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TablesCreateOrUpdateResponse>,
       TablesCreateOrUpdateResponse
     >
   >;
@@ -86,7 +86,7 @@ export interface Tables {
     parameters: Table,
     options?: TablesUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TablesUpdateResponse>, TablesUpdateResponse>
+    SimplePollerLike<OperationState<TablesUpdateResponse>, TablesUpdateResponse>
   >;
   /**
    * Update a Log Analytics workspace table.
@@ -128,7 +128,7 @@ export interface Tables {
     workspaceName: string,
     tableName: string,
     options?: TablesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Log Analytics workspace table.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

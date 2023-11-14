@@ -243,8 +243,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataSource
     }
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -261,7 +261,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -280,7 +280,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataSource
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -301,7 +301,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion3,
     Parameters.filter,
     Parameters.skiptoken
   ],
@@ -324,9 +324,9 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
     Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
