@@ -31,6 +31,11 @@ export interface AdministratorConfiguration {
 }
 
 // @public
+export interface AdministratorConfigurationPatch {
+    sshPublicKeys?: SshPublicKey[];
+}
+
+// @public
 export type AdvertiseToFabric = string;
 
 // @public
@@ -86,6 +91,7 @@ export type AgentPoolMode = string;
 
 // @public
 export interface AgentPoolPatchParameters {
+    administratorConfiguration?: NodePoolAdministratorConfigurationPatch;
     count?: number;
     tags?: {
         [propertyName: string]: string;
@@ -209,6 +215,7 @@ export interface BareMetalMachine extends TrackedResource {
     readonly kubernetesVersion?: string;
     machineDetails: string;
     machineName: string;
+    readonly machineRoles?: string[];
     machineSkuId: string;
     readonly oamIpv4Address?: string;
     readonly oamIpv6Address?: string;
@@ -218,6 +225,7 @@ export interface BareMetalMachine extends TrackedResource {
     rackId: string;
     rackSlot: number;
     readonly readyState?: BareMetalMachineReadyState;
+    readonly runtimeProtectionStatus?: RuntimeProtectionStatus;
     serialNumber: string;
     readonly serviceTag?: string;
     readonly virtualMachinesAssociatedIds?: string[];
@@ -973,7 +981,10 @@ export interface Cluster extends TrackedResource {
     readonly manualActionCount?: number;
     networkFabricId: string;
     readonly provisioningState?: ClusterProvisioningState;
+    runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+    secretArchive?: ClusterSecretArchive;
     readonly supportExpiryDate?: string;
+    updateStrategy?: ClusterUpdateStrategy;
     readonly workloadResourceIds?: string[];
 }
 
@@ -1177,9 +1188,12 @@ export interface ClusterPatchParameters {
     clusterServicePrincipal?: ServicePrincipalInformation;
     computeDeploymentThreshold?: ValidationThreshold;
     computeRackDefinitions?: RackDefinition[];
+    runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+    secretArchive?: ClusterSecretArchive;
     tags?: {
         [propertyName: string]: string;
     };
+    updateStrategy?: ClusterUpdateStrategy;
 }
 
 // @public
@@ -1193,6 +1207,8 @@ export interface Clusters {
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
     beginDeploy(resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams): Promise<SimplePollerLike<OperationState<ClustersDeployResponse>, ClustersDeployResponse>>;
     beginDeployAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams): Promise<ClustersDeployResponse>;
+    beginScanRuntime(resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams): Promise<SimplePollerLike<OperationState<ClustersScanRuntimeResponse>, ClustersScanRuntimeResponse>>;
+    beginScanRuntimeAndWait(resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams): Promise<ClustersScanRuntimeResponse>;
     beginUpdate(resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     beginUpdateVersion(resourceGroupName: string, clusterName: string, clusterUpdateVersionParameters: ClusterUpdateVersionParameters, options?: ClustersUpdateVersionOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateVersionResponse>, ClustersUpdateVersionResponse>>;
@@ -1201,6 +1217,14 @@ export interface Clusters {
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listBySubscription(options?: ClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
 }
+
+// @public
+export interface ClusterScanRuntimeParameters {
+    scanActivity?: ClusterScanRuntimeParametersScanActivity;
+}
+
+// @public
+export type ClusterScanRuntimeParametersScanActivity = string;
 
 // @public
 export interface ClustersCreateOrUpdateHeaders {
@@ -1243,6 +1267,15 @@ export interface ClustersDeployOptionalParams extends coreClient.OperationOption
 export type ClustersDeployResponse = OperationStatusResult;
 
 // @public
+export interface ClusterSecretArchive {
+    keyVaultId: string;
+    useKeyVault?: ClusterSecretArchiveEnabled;
+}
+
+// @public
+export type ClusterSecretArchiveEnabled = string;
+
+// @public
 export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1278,6 +1311,21 @@ export interface ClustersListBySubscriptionOptionalParams extends coreClient.Ope
 export type ClustersListBySubscriptionResponse = ClusterList;
 
 // @public
+export interface ClustersScanRuntimeHeaders {
+    location?: string;
+}
+
+// @public
+export interface ClustersScanRuntimeOptionalParams extends coreClient.OperationOptions {
+    clusterScanRuntimeParameters?: ClusterScanRuntimeParameters;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersScanRuntimeResponse = OperationStatusResult;
+
+// @public
 export interface ClustersUpdateHeaders {
     azureAsyncOperation?: string;
 }
@@ -1308,6 +1356,18 @@ export type ClustersUpdateVersionResponse = OperationStatusResult;
 
 // @public
 export type ClusterType = string;
+
+// @public
+export interface ClusterUpdateStrategy {
+    maxUnavailable?: number;
+    strategyType: ClusterUpdateStrategyType;
+    thresholdType: ValidationThresholdType;
+    thresholdValue: number;
+    waitTimeMinutes?: number;
+}
+
+// @public
+export type ClusterUpdateStrategyType = string;
 
 // @public
 export interface ClusterUpdateVersionParameters {
@@ -1439,6 +1499,7 @@ export interface ControlPlaneNodeConfiguration {
 
 // @public
 export interface ControlPlaneNodePatchConfiguration {
+    administratorConfiguration?: AdministratorConfigurationPatch;
     count?: number;
 }
 
@@ -1577,6 +1638,7 @@ export interface KeySetUser {
     azureUserName: string;
     description?: string;
     sshPublicKey: SshPublicKey;
+    userPrincipalName?: string;
 }
 
 // @public
@@ -1777,6 +1839,7 @@ export enum KnownCloudServicesNetworkProvisioningState {
 // @public
 export enum KnownClusterConnectionStatus {
     Connected = "Connected",
+    Disconnected = "Disconnected",
     Timeout = "Timeout",
     Undefined = "Undefined"
 }
@@ -1846,9 +1909,26 @@ export enum KnownClusterProvisioningState {
 }
 
 // @public
+export enum KnownClusterScanRuntimeParametersScanActivity {
+    Scan = "Scan",
+    Skip = "Skip"
+}
+
+// @public
+export enum KnownClusterSecretArchiveEnabled {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownClusterType {
     MultiRack = "MultiRack",
     SingleRack = "SingleRack"
+}
+
+// @public
+export enum KnownClusterUpdateStrategyType {
+    Rack = "Rack"
 }
 
 // @public
@@ -2100,6 +2180,15 @@ export enum KnownRemoteVendorManagementStatus {
 }
 
 // @public
+export enum KnownRuntimeProtectionEnforcementLevel {
+    Audit = "Audit",
+    Disabled = "Disabled",
+    OnDemand = "OnDemand",
+    Passive = "Passive",
+    RealTime = "RealTime"
+}
+
+// @public
 export enum KnownSkipShutdown {
     False = "False",
     True = "True"
@@ -2306,6 +2395,7 @@ export type KubernetesClusterNodeDetailedStatus = string;
 
 // @public
 export interface KubernetesClusterPatchParameters {
+    administratorConfiguration?: AdministratorConfigurationPatch;
     controlPlaneNodeConfiguration?: ControlPlaneNodePatchConfiguration;
     kubernetesVersion?: string;
     tags?: {
@@ -2899,6 +2989,11 @@ export interface Nic {
 }
 
 // @public
+export interface NodePoolAdministratorConfigurationPatch {
+    sshPublicKeys?: SshPublicKey[];
+}
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
@@ -3165,6 +3260,23 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface RuntimeProtectionConfiguration {
+    enforcementLevel?: RuntimeProtectionEnforcementLevel;
+}
+
+// @public
+export type RuntimeProtectionEnforcementLevel = string;
+
+// @public
+export interface RuntimeProtectionStatus {
+    readonly definitionsLastUpdated?: Date;
+    readonly definitionsVersion?: string;
+    readonly scanCompletedTime?: Date;
+    readonly scanScheduledTime?: Date;
+    readonly scanStartedTime?: Date;
 }
 
 // @public

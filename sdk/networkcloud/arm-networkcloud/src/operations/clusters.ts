@@ -36,6 +36,8 @@ import {
   ClustersUpdateResponse,
   ClustersDeployOptionalParams,
   ClustersDeployResponse,
+  ClustersScanRuntimeOptionalParams,
+  ClustersScanRuntimeResponse,
   ClusterUpdateVersionParameters,
   ClustersUpdateVersionOptionalParams,
   ClustersUpdateVersionResponse,
@@ -497,7 +499,7 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Deploy the cluster to the provided rack.
+   * Deploy the cluster using the rack configuration provided during creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
@@ -569,7 +571,7 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Deploy the cluster to the provided rack.
+   * Deploy the cluster using the rack configuration provided during creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
@@ -580,6 +582,99 @@ export class ClustersImpl implements Clusters {
     options?: ClustersDeployOptionalParams
   ): Promise<ClustersDeployResponse> {
     const poller = await this.beginDeploy(
+      resourceGroupName,
+      clusterName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Triggers the execution of a runtime protection scan to detect and remediate detected issues, in
+   * accordance with the cluster configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  async beginScanRuntime(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersScanRuntimeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersScanRuntimeResponse>,
+      ClustersScanRuntimeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ClustersScanRuntimeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: scanRuntimeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClustersScanRuntimeResponse,
+      OperationState<ClustersScanRuntimeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Triggers the execution of a runtime protection scan to detect and remediate detected issues, in
+   * accordance with the cluster configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  async beginScanRuntimeAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersScanRuntimeOptionalParams
+  ): Promise<ClustersScanRuntimeResponse> {
+    const poller = await this.beginScanRuntime(
       resourceGroupName,
       clusterName,
       options
@@ -894,6 +989,39 @@ const deployOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.clusterDeployParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const scanRuntimeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/scanRuntime",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.clusterScanRuntimeParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

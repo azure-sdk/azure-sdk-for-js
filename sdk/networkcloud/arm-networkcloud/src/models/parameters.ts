@@ -27,6 +27,7 @@ import {
   Cluster as ClusterMapper,
   ClusterPatchParameters as ClusterPatchParametersMapper,
   ClusterDeployParameters as ClusterDeployParametersMapper,
+  ClusterScanRuntimeParameters as ClusterScanRuntimeParametersMapper,
   ClusterUpdateVersionParameters as ClusterUpdateVersionParametersMapper,
   KubernetesCluster as KubernetesClusterMapper,
   KubernetesClusterPatchParameters as KubernetesClusterPatchParametersMapper,
@@ -86,7 +87,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-01",
+    defaultValue: "2023-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -274,6 +275,11 @@ export const clusterUpdateParameters: OperationParameter = {
 export const clusterDeployParameters: OperationParameter = {
   parameterPath: ["options", "clusterDeployParameters"],
   mapper: ClusterDeployParametersMapper
+};
+
+export const clusterScanRuntimeParameters: OperationParameter = {
+  parameterPath: ["options", "clusterScanRuntimeParameters"],
+  mapper: ClusterScanRuntimeParametersMapper
 };
 
 export const clusterUpdateVersionParameters: OperationParameter = {
