@@ -38,6 +38,7 @@ import {
   ClustersDeleteOptionalParams,
   ClustersListNamespacesOptionalParams,
   ClustersListNamespacesResponse,
+  ClustersTriggerUpgradePostOptionalParams,
   ClustersListBySubscriptionNextResponse,
   ClustersListByResourceGroupNextResponse
 } from "../models";
@@ -526,6 +527,23 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
+   * Trigger pending cluster upgrades if any. Bypasses any upgrade preferences set by customer.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param clusterName The name of the Event Hubs Cluster.
+   * @param options The options parameters.
+   */
+  triggerUpgradePost(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersTriggerUpgradePostOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      triggerUpgradePostOperationSpec
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -733,6 +751,26 @@ const listNamespacesOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EHNamespaceIdListResult
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const triggerUpgradePostOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/clusters/{clusterName}/triggerUpgrade",
+  httpMethod: "POST",
+  responses: {
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
