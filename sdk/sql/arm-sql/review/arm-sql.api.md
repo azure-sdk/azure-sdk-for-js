@@ -2751,7 +2751,9 @@ export type InstanceFailoverGroupsListByLocationResponse = InstanceFailoverGroup
 
 // @public
 export interface InstancePool extends TrackedResource {
+    readonly dnsZone?: string;
     licenseType?: InstancePoolLicenseType;
+    maintenanceConfigurationId?: string;
     sku?: Sku;
     subnetId?: string;
     vCores?: number;
@@ -2857,9 +2859,15 @@ export type InstancePoolsUpdateResponse = InstancePool;
 
 // @public
 export interface InstancePoolUpdate {
+    readonly dnsZone?: string;
+    licenseType?: InstancePoolLicenseType;
+    maintenanceConfigurationId?: string;
+    sku?: Sku;
+    subnetId?: string;
     tags?: {
         [propertyName: string]: string;
     };
+    vCores?: number;
 }
 
 // @public
@@ -3186,6 +3194,64 @@ export interface JobListResult {
     readonly nextLink?: string;
     readonly value?: Job[];
 }
+
+// @public
+export interface JobPrivateEndpoint extends ProxyResource {
+    readonly privateEndpointId?: string;
+    targetServerAzureResourceId?: string;
+}
+
+// @public
+export interface JobPrivateEndpointListResult {
+    readonly nextLink?: string;
+    readonly value?: JobPrivateEndpoint[];
+}
+
+// @public
+export interface JobPrivateEndpoints {
+    beginCreateOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, parameters: JobPrivateEndpoint, options?: JobPrivateEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobPrivateEndpointsCreateOrUpdateResponse>, JobPrivateEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, parameters: JobPrivateEndpoint, options?: JobPrivateEndpointsCreateOrUpdateOptionalParams): Promise<JobPrivateEndpointsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsGetOptionalParams): Promise<JobPrivateEndpointsGetResponse>;
+    listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobPrivateEndpointsListByAgentOptionalParams): PagedAsyncIterableIterator<JobPrivateEndpoint>;
+}
+
+// @public
+export interface JobPrivateEndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type JobPrivateEndpointsCreateOrUpdateResponse = JobPrivateEndpoint;
+
+// @public
+export interface JobPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface JobPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobPrivateEndpointsGetResponse = JobPrivateEndpoint;
+
+// @public
+export interface JobPrivateEndpointsListByAgentNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobPrivateEndpointsListByAgentNextResponse = JobPrivateEndpointListResult;
+
+// @public
+export interface JobPrivateEndpointsListByAgentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobPrivateEndpointsListByAgentResponse = JobPrivateEndpointListResult;
 
 // @public
 export interface Jobs {
@@ -9740,6 +9806,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     jobCredentials: JobCredentials;
     // (undocumented)
     jobExecutions: JobExecutions;
+    // (undocumented)
+    jobPrivateEndpoints: JobPrivateEndpoints;
     // (undocumented)
     jobs: Jobs;
     // (undocumented)

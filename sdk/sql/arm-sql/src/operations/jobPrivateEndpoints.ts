@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { OutboundFirewallRules } from "../operationsInterfaces";
+import { JobPrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  OutboundFirewallRule,
-  OutboundFirewallRulesListByServerNextOptionalParams,
-  OutboundFirewallRulesListByServerOptionalParams,
-  OutboundFirewallRulesListByServerResponse,
-  OutboundFirewallRulesGetOptionalParams,
-  OutboundFirewallRulesGetResponse,
-  OutboundFirewallRulesCreateOrUpdateOptionalParams,
-  OutboundFirewallRulesCreateOrUpdateResponse,
-  OutboundFirewallRulesDeleteOptionalParams,
-  OutboundFirewallRulesListByServerNextResponse
+  JobPrivateEndpoint,
+  JobPrivateEndpointsListByAgentNextOptionalParams,
+  JobPrivateEndpointsListByAgentOptionalParams,
+  JobPrivateEndpointsListByAgentResponse,
+  JobPrivateEndpointsGetOptionalParams,
+  JobPrivateEndpointsGetResponse,
+  JobPrivateEndpointsCreateOrUpdateOptionalParams,
+  JobPrivateEndpointsCreateOrUpdateResponse,
+  JobPrivateEndpointsDeleteOptionalParams,
+  JobPrivateEndpointsListByAgentNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing OutboundFirewallRules operations. */
-export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
+/** Class containing JobPrivateEndpoints operations. */
+export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class OutboundFirewallRules class.
+   * Initialize a new instance of the class JobPrivateEndpoints class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -46,20 +46,23 @@ export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
   }
 
   /**
-   * Gets all outbound firewall rules on a server.
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
    * @param options The options parameters.
    */
-  public listByServer(
+  public listByAgent(
     resourceGroupName: string,
     serverName: string,
-    options?: OutboundFirewallRulesListByServerOptionalParams
-  ): PagedAsyncIterableIterator<OutboundFirewallRule> {
-    const iter = this.listByServerPagingAll(
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): PagedAsyncIterableIterator<JobPrivateEndpoint> {
+    const iter = this.listByAgentPagingAll(
       resourceGroupName,
       serverName,
+      jobAgentName,
       options
     );
     return {
@@ -73,9 +76,10 @@ export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
+        return this.listByAgentPagingPage(
           resourceGroupName,
           serverName,
+          jobAgentName,
           options,
           settings
         );
@@ -83,25 +87,32 @@ export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
     };
   }
 
-  private async *listByServerPagingPage(
+  private async *listByAgentPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: OutboundFirewallRulesListByServerOptionalParams,
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<OutboundFirewallRule[]> {
-    let result: OutboundFirewallRulesListByServerResponse;
+  ): AsyncIterableIterator<JobPrivateEndpoint[]> {
+    let result: JobPrivateEndpointsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByServer(resourceGroupName, serverName, options);
+      result = await this._listByAgent(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByServerNext(
+      result = await this._listByAgentNext(
         resourceGroupName,
         serverName,
+        jobAgentName,
         continuationToken,
         options
       );
@@ -112,14 +123,16 @@ export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
     }
   }
 
-  private async *listByServerPagingAll(
+  private async *listByAgentPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: OutboundFirewallRulesListByServerOptionalParams
-  ): AsyncIterableIterator<OutboundFirewallRule> {
-    for await (const page of this.listByServerPagingPage(
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): AsyncIterableIterator<JobPrivateEndpoint> {
+    for await (const page of this.listByAgentPagingPage(
       resourceGroupName,
       serverName,
+      jobAgentName,
       options
     )) {
       yield* page;
@@ -127,50 +140,80 @@ export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
   }
 
   /**
-   * Gets an outbound firewall rule.
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
+   * @param jobAgentName The name of the job agent.
+   * @param options The options parameters.
+   */
+  private _listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): Promise<JobPrivateEndpointsListByAgentResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, jobAgentName, options },
+      listByAgentOperationSpec
+    );
+  }
+
+  /**
+   * Gets a private endpoint.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to get.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesGetOptionalParams
-  ): Promise<OutboundFirewallRulesGetResponse> {
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsGetOptionalParams
+  ): Promise<JobPrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, outboundRuleFqdn, options },
+      {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        privateEndpointName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Create a outbound firewall rule with a given name.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
-   * @param parameters An Azure SQL DB Server Outbound Firewall Rule.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    parameters: OutboundFirewallRule,
-    options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<OutboundFirewallRulesCreateOrUpdateResponse>,
-      OutboundFirewallRulesCreateOrUpdateResponse
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>,
+      JobPrivateEndpointsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<OutboundFirewallRulesCreateOrUpdateResponse> => {
+    ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -211,43 +254,48 @@ export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
       args: {
         resourceGroupName,
         serverName,
-        outboundRuleFqdn,
+        jobAgentName,
+        privateEndpointName,
         parameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      OutboundFirewallRulesCreateOrUpdateResponse,
-      OperationState<OutboundFirewallRulesCreateOrUpdateResponse>
+      JobPrivateEndpointsCreateOrUpdateResponse,
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create a outbound firewall rule with a given name.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
-   * @param parameters An Azure SQL DB Server Outbound Firewall Rule.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    parameters: OutboundFirewallRule,
-    options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
-  ): Promise<OutboundFirewallRulesCreateOrUpdateResponse> {
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+  ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
-      outboundRuleFqdn,
+      jobAgentName,
+      privateEndpointName,
       parameters,
       options
     );
@@ -255,18 +303,20 @@ export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
   }
 
   /**
-   * Deletes a outbound firewall rule with a given name.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesDeleteOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -309,129 +359,146 @@ export class OutboundFirewallRulesImpl implements OutboundFirewallRules {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, serverName, outboundRuleFqdn, options },
+      args: {
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        privateEndpointName,
+        options
+      },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a outbound firewall rule with a given name.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param outboundRuleFqdn
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serverName: string,
-    outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesDeleteOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
-      outboundRuleFqdn,
+      jobAgentName,
+      privateEndpointName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets all outbound firewall rules on a server.
+   * ListByAgentNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param nextLink The nextLink from the previous successful call to the ListByAgent method.
    * @param options The options parameters.
    */
-  private _listByServer(
+  private _listByAgentNext(
     resourceGroupName: string,
     serverName: string,
-    options?: OutboundFirewallRulesListByServerOptionalParams
-  ): Promise<OutboundFirewallRulesListByServerResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listByServerOperationSpec
-    );
-  }
-
-  /**
-   * ListByServerNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param nextLink The nextLink from the previous successful call to the ListByServer method.
-   * @param options The options parameters.
-   */
-  private _listByServerNext(
-    resourceGroupName: string,
-    serverName: string,
+    jobAgentName: string,
     nextLink: string,
-    options?: OutboundFirewallRulesListByServerNextOptionalParams
-  ): Promise<OutboundFirewallRulesListByServerNextResponse> {
+    options?: JobPrivateEndpointsListByAgentNextOptionalParams
+  ): Promise<JobPrivateEndpointsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      { resourceGroupName, serverName, jobAgentName, nextLink, options },
+      listByAgentNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listByAgentOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/outboundFirewallRules/{outboundRuleFqdn}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OutboundFirewallRule
+      bodyMapper: Mappers.JobPrivateEndpointListResult
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.outboundRuleFqdn
+    Parameters.jobAgentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobPrivateEndpoint
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/outboundFirewallRules/{outboundRuleFqdn}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.OutboundFirewallRule
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     201: {
-      bodyMapper: Mappers.OutboundFirewallRule
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     202: {
-      bodyMapper: Mappers.OutboundFirewallRule
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     204: {
-      bodyMapper: Mappers.OutboundFirewallRule
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     default: {}
   },
-  requestBody: Parameters.parameters62,
-  queryParameters: [Parameters.apiVersion6],
+  requestBody: Parameters.parameters23,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.outboundRuleFqdn
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -439,45 +506,26 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/outboundFirewallRules/{outboundRuleFqdn}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.outboundRuleFqdn
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   serializer
 };
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/outboundFirewallRules",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundFirewallRuleListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByServerNextOperationSpec: coreClient.OperationSpec = {
+const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OutboundFirewallRuleListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult
     },
     default: {}
   },
@@ -486,7 +534,8 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept],
   serializer
