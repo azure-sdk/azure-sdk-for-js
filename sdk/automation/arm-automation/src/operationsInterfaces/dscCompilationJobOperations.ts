@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DscCompilationJob,
   DscCompilationJobListByAutomationAccountOptionalParams,
@@ -49,8 +49,8 @@ export interface DscCompilationJobOperations {
     parameters: DscCompilationJobCreateParameters,
     options?: DscCompilationJobCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DscCompilationJobCreateResponse>,
+    SimplePollerLike<
+      OperationState<DscCompilationJobCreateResponse>,
       DscCompilationJobCreateResponse
     >
   >;
