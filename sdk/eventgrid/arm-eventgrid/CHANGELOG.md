@@ -1,16 +1,6 @@
 # Release History
-
-## 14.2.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 14.2.0-beta.1 (2023-05-18)
+    
+## 15.0.0-beta.1 (2023-11-16)
     
 **Features**
 
@@ -20,6 +10,7 @@
   - Added operation group Namespaces
   - Added operation group NamespaceTopicEventSubscriptions
   - Added operation group NamespaceTopics
+  - Added operation group NetworkSecurityPerimeterConfigurations
   - Added operation group PartnerDestinations
   - Added operation group PermissionBindings
   - Added operation group TopicSpaces
@@ -35,11 +26,8 @@
   - Added Interface CaCertificatesListResult
   - Added Interface ChannelsDeleteHeaders
   - Added Interface Client
-  - Added Interface ClientAuthentication
   - Added Interface ClientAuthenticationSettings
   - Added Interface ClientCertificateAuthentication
-  - Added Interface ClientCertificateSubjectDistinguishedName
-  - Added Interface ClientCertificateThumbprint
   - Added Interface ClientGroup
   - Added Interface ClientGroupsCreateOrUpdateOptionalParams
   - Added Interface ClientGroupsDeleteHeaders
@@ -70,6 +58,7 @@
   - Added Interface FiltersConfiguration
   - Added Interface IsNotNullFilter
   - Added Interface IsNullOrUndefinedFilter
+  - Added Interface MonitorAlertEventSubscriptionDestination
   - Added Interface Namespace
   - Added Interface NamespaceRegenerateKeyRequest
   - Added Interface NamespacesCreateOrUpdateOptionalParams
@@ -89,9 +78,11 @@
   - Added Interface NamespacesUpdateHeaders
   - Added Interface NamespacesUpdateOptionalParams
   - Added Interface NamespaceTopic
+  - Added Interface NamespaceTopicEventSubscriptionDestination
   - Added Interface NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams
   - Added Interface NamespaceTopicEventSubscriptionsDeleteHeaders
   - Added Interface NamespaceTopicEventSubscriptionsDeleteOptionalParams
+  - Added Interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   - Added Interface NamespaceTopicEventSubscriptionsGetOptionalParams
   - Added Interface NamespaceTopicEventSubscriptionsListByNamespaceTopicNextOptionalParams
   - Added Interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams
@@ -111,6 +102,16 @@
   - Added Interface NamespaceTopicsUpdateOptionalParams
   - Added Interface NamespaceTopicUpdateParameters
   - Added Interface NamespaceUpdateParameters
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationIssues
+  - Added Interface NetworkSecurityPerimeterConfigurationList
+  - Added Interface NetworkSecurityPerimeterConfigurationProfile
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileHeaders
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterInfo
+  - Added Interface NetworkSecurityPerimeterProfileAccessRule
   - Added Interface NumberGreaterThanFilter
   - Added Interface NumberGreaterThanOrEqualsFilter
   - Added Interface NumberInFilter
@@ -152,12 +153,15 @@
   - Added Interface PermissionBindingsListByNamespaceOptionalParams
   - Added Interface PermissionBindingsListResult
   - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Interface PushInfo
   - Added Interface QueueInfo
+  - Added Interface ResourceAssociation
   - Added Interface ResourceMoveChangeHistory
   - Added Interface ResourceSku
   - Added Interface RoutingEnrichments
   - Added Interface RoutingIdentityInfo
   - Added Interface StaticRoutingEnrichment
+  - Added Interface StaticStringRoutingEnrichment
   - Added Interface StringBeginsWithFilter
   - Added Interface StringContainsFilter
   - Added Interface StringEndsWithFilter
@@ -184,6 +188,7 @@
   - Added Interface TopicSpacesListByNamespaceOptionalParams
   - Added Interface TopicSpacesListResult
   - Added Interface TopicsRegenerateKeyHeaders
+  - Added Interface TopicTypeAdditionalEnforcedPermission
   - Added Interface UpdateTopicSpacesConfigurationInfo
   - Added Interface WebhookPartnerDestinationInfo
   - Added Interface WebhookUpdatePartnerDestinationInfo
@@ -210,6 +215,7 @@
   - Added Type Alias EventInputSchema
   - Added Type Alias FilterOperatorType
   - Added Type Alias FilterUnion
+  - Added Type Alias MonitorAlertSeverity
   - Added Type Alias NamespaceProvisioningState
   - Added Type Alias NamespacesCreateOrUpdateResponse
   - Added Type Alias NamespacesGetResponse
@@ -221,6 +227,7 @@
   - Added Type Alias NamespacesRegenerateKeyResponse
   - Added Type Alias NamespacesUpdateResponse
   - Added Type Alias NamespaceTopicEventSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse
   - Added Type Alias NamespaceTopicEventSubscriptionsGetResponse
   - Added Type Alias NamespaceTopicEventSubscriptionsListByNamespaceTopicNextResponse
   - Added Type Alias NamespaceTopicEventSubscriptionsListByNamespaceTopicResponse
@@ -233,6 +240,15 @@
   - Added Type Alias NamespaceTopicsListSharedAccessKeysResponse
   - Added Type Alias NamespaceTopicsRegenerateKeyResponse
   - Added Type Alias NamespaceTopicsUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationAccessMode
+  - Added Type Alias NetworkSecurityPerimeterConfigProvisioningState
+  - Added Type Alias NetworkSecurityPerimeterConfigurationIssueSeverity
+  - Added Type Alias NetworkSecurityPerimeterConfigurationIssueType
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsReconcileResponse
+  - Added Type Alias NetworkSecurityPerimeterProfileAccessRuleDirection
+  - Added Type Alias NetworkSecurityPerimeterResourceType
   - Added Type Alias PartnerClientAuthenticationType
   - Added Type Alias PartnerClientAuthenticationUnion
   - Added Type Alias PartnerDestinationActivationState
@@ -261,6 +277,7 @@
   - Added Type Alias Sku
   - Added Type Alias SkuName
   - Added Type Alias StaticRoutingEnrichmentType
+  - Added Type Alias StaticRoutingEnrichmentUnion
   - Added Type Alias SubscriptionProvisioningState
   - Added Type Alias TlsVersion
   - Added Type Alias TopicsDeleteResponse
@@ -285,13 +302,14 @@
   - Interface Topic has a new optional parameter kind
   - Interface Topic has a new optional parameter minimumTlsVersionAllowed
   - Interface Topic has a new optional parameter sku
+  - Interface TopicTypeInfo has a new optional parameter additionalEnforcedPermissions
   - Interface TopicTypeInfo has a new optional parameter areRegionalAndGlobalSourcesSupported
   - Interface TopicUpdateParameters has a new optional parameter eventTypeInfo
   - Interface TopicUpdateParameters has a new optional parameter minimumTlsVersionAllowed
   - Interface TopicUpdateParameters has a new optional parameter sku
   - Interface VerifiedPartner has a new optional parameter partnerDestinationDetails
   - Interface WebHookEventSubscriptionDestination has a new optional parameter minimumTlsVersionAllowed
-  - Type of parameter endpointType of interface EventSubscriptionDestination is changed from "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" to "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "PartnerDestination"
+  - Type of parameter endpointType of interface EventSubscriptionDestination is changed from "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" to "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "PartnerDestination" | "MonitorAlert" | "NamespaceTopic"
   - Added Enum KnownAlternativeAuthenticationNameSource
   - Added Enum KnownCaCertificateProvisioningState
   - Added Enum KnownClientCertificateValidationScheme
@@ -302,8 +320,15 @@
   - Added Enum KnownDeliverySchema
   - Added Enum KnownEventInputSchema
   - Added Enum KnownFilterOperatorType
+  - Added Enum KnownMonitorAlertSeverity
   - Added Enum KnownNamespaceProvisioningState
   - Added Enum KnownNamespaceTopicProvisioningState
+  - Added Enum KnownNetworkSecurityPerimeterAssociationAccessMode
+  - Added Enum KnownNetworkSecurityPerimeterConfigProvisioningState
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationIssueSeverity
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationIssueType
+  - Added Enum KnownNetworkSecurityPerimeterProfileAccessRuleDirection
+  - Added Enum KnownNetworkSecurityPerimeterResourceType
   - Added Enum KnownPartnerClientAuthenticationType
   - Added Enum KnownPartnerDestinationActivationState
   - Added Enum KnownPartnerDestinationProvisioningState
@@ -322,8 +347,15 @@
   - Added Enum KnownTopicSpacesConfigurationState
   - Enum KnownChannelProvisioningState has a new value IdleDueToMirroredPartnerDestinationDeletion
   - Enum KnownChannelType has a new value PartnerDestination
+  - Enum KnownEndpointType has a new value MonitorAlert
+  - Enum KnownEndpointType has a new value NamespaceTopic
   - Enum KnownEndpointType has a new value PartnerDestination
   - Enum KnownPrivateEndpointConnectionsParentType has a new value Namespaces
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
+
+**Breaking Changes**
+
+  - Class EventGridManagementClient has a new signature
     
     
 ## 14.1.0 (2023-01-10)
@@ -712,4 +744,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
