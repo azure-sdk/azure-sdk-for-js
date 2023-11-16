@@ -1,5 +1,77 @@
 # Release History
     
+## 21.3.0 (2023-11-16)
+    
+**Features**
+
+  - Added operation DedicatedHosts.beginRedeploy
+  - Added operation DedicatedHosts.beginRedeployAndWait
+  - Added operation VirtualMachines.beginAttachDetachDataDisks
+  - Added operation VirtualMachines.beginAttachDetachDataDisksAndWait
+  - Added operation VirtualMachineScaleSets.beginApproveRollingUpgrade
+  - Added operation VirtualMachineScaleSets.beginApproveRollingUpgradeAndWait
+  - Added operation VirtualMachineScaleSetVMs.beginApproveRollingUpgrade
+  - Added operation VirtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait
+  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisks
+  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait
+  - Added Interface AttachDetachDataDisksRequest
+  - Added Interface DataDisksToAttach
+  - Added Interface DataDisksToDetach
+  - Added Interface DedicatedHostsRedeployHeaders
+  - Added Interface DedicatedHostsRedeployOptionalParams
+  - Added Interface EncryptionIdentity
+  - Added Interface ProxyAgentSettings
+  - Added Interface ResiliencyPolicy
+  - Added Interface ResilientVMCreationPolicy
+  - Added Interface ResilientVMDeletionPolicy
+  - Added Interface ResourceSharingProfile
+  - Added Interface SshGenerateKeyPairInputParameters
+  - Added Interface VirtualMachinesAttachDetachDataDisksHeaders
+  - Added Interface VirtualMachinesAttachDetachDataDisksOptionalParams
+  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders
+  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  - Added Type Alias DedicatedHostsRedeployResponse
+  - Added Type Alias Mode
+  - Added Type Alias SshEncryptionTypes
+  - Added Type Alias VirtualMachinesAttachDetachDataDisksResponse
+  - Added Type Alias VirtualMachineScaleSetsApproveRollingUpgradeResponse
+  - Added Type Alias VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
+  - Added Type Alias VirtualMachineScaleSetVMsAttachDetachDataDisksResponse
+  - Interface AutomaticOSUpgradePolicy has a new optional parameter osRollingUpgradeDeferral
+  - Interface CapacityReservationGroup has a new optional parameter sharingProfile
+  - Interface CapacityReservationGroupInstanceView has a new optional parameter sharedSubscriptionIds
+  - Interface CapacityReservationGroupUpdate has a new optional parameter sharingProfile
+  - Interface RestorePointSourceVMStorageProfile has a new optional parameter diskControllerType
+  - Interface SecurityProfile has a new optional parameter encryptionIdentity
+  - Interface SecurityProfile has a new optional parameter proxyAgentSettings
+  - Interface SshPublicKeysGenerateKeyPairOptionalParams has a new optional parameter parameters
+  - Interface VirtualMachine has a new optional parameter etag
+  - Interface VirtualMachine has a new optional parameter managedBy
+  - Interface VirtualMachineInstanceView has a new optional parameter isVMInStandbyPool
+  - Interface VirtualMachineScaleSet has a new optional parameter etag
+  - Interface VirtualMachineScaleSet has a new optional parameter resiliencyPolicy
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetUpdate has a new optional parameter resiliencyPolicy
+  - Interface VirtualMachineScaleSetVM has a new optional parameter etag
+  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter timeCreated
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Added Enum KnownMode
+  - Added Enum KnownSshEncryptionTypes
+  - Enum KnownSecurityEncryptionTypes has a new value NonPersistedTPM
+    
+    
 ## 21.2.0 (2023-08-14)
     
 **Features**
@@ -515,4 +587,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
