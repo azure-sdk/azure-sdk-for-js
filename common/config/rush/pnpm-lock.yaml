@@ -689,6 +689,9 @@ dependencies:
   '@rush-temp/arm-templatespecs':
     specifier: file:./projects/arm-templatespecs.tgz
     version: file:projects/arm-templatespecs.tgz
+  '@rush-temp/arm-testbase':
+    specifier: file:./projects/arm-testbase.tgz
+    version: file:projects/arm-testbase.tgz
   '@rush-temp/arm-timeseriesinsights':
     specifier: file:./projects/arm-timeseriesinsights.tgz
     version: file:projects/arm-timeseriesinsights.tgz
@@ -3509,6 +3512,13 @@ packages:
     requiresBuild: true
     dev: false
 
+  /autorest@3.7.0:
+    resolution: {integrity: sha512-E6RXXd6S8Kyc0oNY7Ar0IARSMTodIrww7FBR0FZSuQT0J8P3udvqXFexr2K290fr8qm7kAl7OUsWq08FTbIJoA==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -4440,7 +4450,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231116
+      typescript: 5.4.0-dev.20231117
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4449,7 +4459,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231116
+      typescript: 5.4.0-dev.20231117
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9163,8 +9173,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231116:
-    resolution: {integrity: sha512-arT/MwHnosyqo1MQ2xN9VzwvWo1jxrhUpa1iQX1yZACfBRJb1dQ1D2MU/Ijotjr6eXw8BZ3RFdj9X/9O56iOgw==}
+  /typescript@5.4.0-dev.20231117:
+    resolution: {integrity: sha512-qJs5vq279esPS+UX+NlDaSB8aDc9NiC1VLo6cHGrEVMUV8e9WTMic5T92KgDsExf239vViwmKNvtSMGf90aDOA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9792,7 +9802,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9838,7 +9848,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9880,7 +9890,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10113,7 +10123,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       dotenv: 8.6.0
       eslint: 8.53.0
@@ -10185,7 +10195,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10277,7 +10287,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10757,7 +10767,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11417,7 +11427,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11637,7 +11647,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13906,7 +13916,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15188,7 +15198,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15757,6 +15767,33 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-testbase.tgz:
+    resolution: {integrity: sha512-1NlH2GkGtc4B9XjM4jIijCehdah/mj59+x0U5LzE4orOrxuC57/uq/jXrygVYKcHiHXovJKe42/7yPMW6/XAqQ==, tarball: file:projects/arm-testbase.tgz}
+    name: '@rush-temp/arm-testbase'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
+      '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
+      '@types/node': 18.18.9
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16383,7 +16420,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -17611,7 +17648,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18017,7 +18054,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18062,7 +18099,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18565,7 +18602,7 @@ packages:
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       '@types/uuid': 8.3.4
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18674,7 +18711,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18720,7 +18757,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18766,7 +18803,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18812,7 +18849,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19938,7 +19975,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19983,7 +20020,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20472,7 +20509,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-cElx8OY4OhnGLeTTxL6P+Y9+1krsptOCY82lNRi1RFirPFEYptgQO4uu3PzSSi10nVD7XZCUufej5e5CJvCQ0A==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-40V28wv/bYrwzBpkO7wTPesmR3f+iSe2KZUv762kyxG36GJDzBRLmcNkAw6SyV+o7RRA/XCTgGB/sCQc7gK2ZQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
