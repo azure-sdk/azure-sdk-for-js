@@ -15,7 +15,7 @@ security: AADToken
 security-scopes: https://dev.azuresynapse.net/.default
 output-folder: ..
 clear-output-folder: false
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/synapse/data-plane/readme.md
+require: /mnt/vss/_work/1/s/azure-rest-api-specs/specification/synapse/data-plane/readme.md
 use-extension:
   "@autorest/typescript": "latest"
 
