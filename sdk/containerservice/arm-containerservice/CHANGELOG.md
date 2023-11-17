@@ -1,5 +1,51 @@
 # Release History
     
+## 19.5.0 (2023-11-17)
+    
+**Features**
+
+  - Added operation group TrustedAccessRoleBindings
+  - Added operation group TrustedAccessRoles
+  - Added Interface AgentPoolNetworkProfile
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface IPTag
+  - Added Interface PortRange
+  - Added Interface TrustedAccessRole
+  - Added Interface TrustedAccessRoleBinding
+  - Added Interface TrustedAccessRoleBindingListResult
+  - Added Interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  - Added Interface TrustedAccessRoleBindingsDeleteHeaders
+  - Added Interface TrustedAccessRoleBindingsDeleteOptionalParams
+  - Added Interface TrustedAccessRoleBindingsGetOptionalParams
+  - Added Interface TrustedAccessRoleBindingsListNextOptionalParams
+  - Added Interface TrustedAccessRoleBindingsListOptionalParams
+  - Added Interface TrustedAccessRoleListResult
+  - Added Interface TrustedAccessRoleRule
+  - Added Interface TrustedAccessRolesListNextOptionalParams
+  - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias BackendPoolType
+  - Added Type Alias Protocol
+  - Added Type Alias TrustedAccessRoleBindingProvisioningState
+  - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
+  - Added Type Alias TrustedAccessRoleBindingsDeleteResponse
+  - Added Type Alias TrustedAccessRoleBindingsGetResponse
+  - Added Type Alias TrustedAccessRoleBindingsListNextResponse
+  - Added Type Alias TrustedAccessRoleBindingsListResponse
+  - Added Type Alias TrustedAccessRolesListNextResponse
+  - Added Type Alias TrustedAccessRolesListResponse
+  - Interface AgentPool has a new optional parameter capacityReservationGroupID
+  - Interface AgentPool has a new optional parameter networkProfile
+  - Interface AgentPoolUpgradeSettings has a new optional parameter nodeSoakDurationInMinutes
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter networkProfile
+  - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
+  - Added Enum KnownBackendPoolType
+  - Added Enum KnownProtocol
+  - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+    
+    
 ## 19.4.0 (2023-10-20)
     
 **Features**
