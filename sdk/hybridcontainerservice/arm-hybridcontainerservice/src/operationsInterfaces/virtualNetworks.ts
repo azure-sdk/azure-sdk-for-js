@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  VirtualNetworks,
+  VirtualNetwork,
   VirtualNetworksListByResourceGroupOptionalParams,
   VirtualNetworksListBySubscriptionOptionalParams,
   VirtualNetworksRetrieveOptionalParams,
@@ -17,14 +17,15 @@ import {
   VirtualNetworksCreateOrUpdateOptionalParams,
   VirtualNetworksCreateOrUpdateResponse,
   VirtualNetworksDeleteOptionalParams,
+  VirtualNetworksDeleteResponse,
   VirtualNetworksPatch,
   VirtualNetworksUpdateOptionalParams,
   VirtualNetworksUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a VirtualNetworksOperations. */
-export interface VirtualNetworksOperations {
+/** Interface representing a VirtualNetworks. */
+export interface VirtualNetworks {
   /**
    * Lists the Hybrid AKS virtual networks by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -33,36 +34,36 @@ export interface VirtualNetworksOperations {
   listByResourceGroup(
     resourceGroupName: string,
     options?: VirtualNetworksListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetworks>;
+  ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
    * Lists the Hybrid AKS virtual networks by subscription
    * @param options The options parameters.
    */
   listBySubscription(
     options?: VirtualNetworksListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetworks>;
+  ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
    * Gets the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualNetworksName Parameter for the name of the virtual network
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
    */
   retrieve(
     resourceGroupName: string,
-    virtualNetworksName: string,
+    virtualNetworkName: string,
     options?: VirtualNetworksRetrieveOptionalParams
   ): Promise<VirtualNetworksRetrieveResponse>;
   /**
    * Puts the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualNetworksName Parameter for the name of the virtual network
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param virtualNetworks The virtualNetworks resource definition.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    virtualNetworksName: string,
-    virtualNetworks: VirtualNetworks,
+    virtualNetworkName: string,
+    virtualNetworks: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -73,37 +74,53 @@ export interface VirtualNetworksOperations {
   /**
    * Puts the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualNetworksName Parameter for the name of the virtual network
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param virtualNetworks The virtualNetworks resource definition.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    virtualNetworksName: string,
-    virtualNetworks: VirtualNetworks,
+    virtualNetworkName: string,
+    virtualNetworks: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<VirtualNetworksCreateOrUpdateResponse>;
   /**
    * Deletes the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualNetworksName Parameter for the name of the virtual network
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
-    virtualNetworksName: string,
+    virtualNetworkName: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworksDeleteResponse>,
+      VirtualNetworksDeleteResponse
+    >
+  >;
+  /**
+   * Deletes the Hybrid AKS virtual network
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualNetworkName Parameter for the name of the virtual network
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options?: VirtualNetworksDeleteOptionalParams
+  ): Promise<VirtualNetworksDeleteResponse>;
   /**
    * Patches the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualNetworksName Parameter for the name of the virtual network
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param virtualNetworks The virtualNetworks resource patch definition.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
-    virtualNetworksName: string,
+    virtualNetworkName: string,
     virtualNetworks: VirtualNetworksPatch,
     options?: VirtualNetworksUpdateOptionalParams
   ): Promise<
@@ -115,13 +132,13 @@ export interface VirtualNetworksOperations {
   /**
    * Patches the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualNetworksName Parameter for the name of the virtual network
+   * @param virtualNetworkName Parameter for the name of the virtual network
    * @param virtualNetworks The virtualNetworks resource patch definition.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    virtualNetworksName: string,
+    virtualNetworkName: string,
     virtualNetworks: VirtualNetworksPatch,
     options?: VirtualNetworksUpdateOptionalParams
   ): Promise<VirtualNetworksUpdateResponse>;
