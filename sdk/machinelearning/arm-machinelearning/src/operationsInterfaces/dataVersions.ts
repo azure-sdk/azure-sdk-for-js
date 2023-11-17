@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataVersionBase,
   DataVersionsListOptionalParams,
@@ -14,7 +15,10 @@ import {
   DataVersionsGetOptionalParams,
   DataVersionsGetResponse,
   DataVersionsCreateOrUpdateOptionalParams,
-  DataVersionsCreateOrUpdateResponse
+  DataVersionsCreateOrUpdateResponse,
+  DestinationAsset,
+  DataVersionsPublishOptionalParams,
+  DataVersionsPublishResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,4 +84,43 @@ export interface DataVersions {
     body: DataVersionBase,
     options?: DataVersionsCreateOrUpdateOptionalParams
   ): Promise<DataVersionsCreateOrUpdateResponse>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublish(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: DataVersionsPublishOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DataVersionsPublishResponse>,
+      DataVersionsPublishResponse
+    >
+  >;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublishAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: DataVersionsPublishOptionalParams
+  ): Promise<DataVersionsPublishResponse>;
 }
