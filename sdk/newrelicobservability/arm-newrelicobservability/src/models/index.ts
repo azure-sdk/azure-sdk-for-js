@@ -198,7 +198,7 @@ export interface AccountInfo {
    * This value contains a credential. Consider obscuring before showing to users
    */
   ingestionKey?: string;
-  /** NewRelic account region */
+  /** Region where New Relic account is present */
   region?: string;
 }
 
@@ -438,12 +438,81 @@ export interface MonitoredResource {
   reasonForLogsStatus?: string;
 }
 
+/** Marketplace Subscription and Organization details to which resource gets billed into. */
+export interface BillingInfoResponse {
+  /** Marketplace Subscription details */
+  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  /** Partner Billing Entity details: Organization Info */
+  partnerBillingEntity?: PartnerBillingEntity;
+}
+
+/** Marketplace SAAS Info of the resource. */
+export interface MarketplaceSaaSInfo {
+  /** Marketplace Subscription Id. This is a GUID-formatted string. */
+  marketplaceSubscriptionId?: string;
+  /** Marketplace Subscription Details: SAAS Name */
+  marketplaceSubscriptionName?: string;
+  /** Marketplace Subscription Details: Resource URI */
+  marketplaceResourceId?: string;
+  /** Marketplace Subscription Details: SaaS Subscription Status */
+  marketplaceStatus?: string;
+  /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
+  billedAzureSubscriptionId?: string;
+}
+
+/** Partner Billing details associated with the resource. */
+export interface PartnerBillingEntity {
+  /** The New Relic Organization Id. */
+  organizationId?: string;
+  /** The New Relic Organization Name. */
+  organizationName?: string;
+}
+
+/**  List of all active newrelic deployments. */
+export interface ConnectedPartnerResourcesListResponse {
+  /** Results of a list operation. */
+  value?: ConnectedPartnerResourcesListFormat[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
+}
+
+/** Connected Partner Resources List Format */
+export interface ConnectedPartnerResourcesListFormat {
+  /** Connected Partner Resource Properties */
+  properties?: ConnectedPartnerResourceProperties;
+}
+
+/** Connected Partner Resource Properties */
+export interface ConnectedPartnerResourceProperties {
+  /** NewRelic account name */
+  accountName?: string;
+  /** NewRelic Account Id */
+  accountId?: string;
+  /** The azure resource Id of the deployment. */
+  azureResourceId?: string;
+  /** The location of the deployment. */
+  location?: string;
+}
+
 /** The response of a TagRule list operation. */
 export interface TagRuleListResult {
   /** The TagRule items on this page */
   value: TagRule[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** The resource-specific properties for this resource. */
+export interface MonitoringTagRulesProperties {
+  /**
+   * Provisioning State of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Set of rules for sending logs for the Monitor resource. */
+  logRules?: LogRules;
+  /** Set of rules for sending metrics for the Monitor resource. */
+  metricRules?: MetricRules;
 }
 
 /** Set of rules for sending logs for the Monitor resource. */
@@ -467,6 +536,72 @@ export interface TagRuleUpdate {
   logRules?: LogRules;
   /** Set of rules for sending metrics for the Monitor resource. */
   metricRules?: MetricRules;
+}
+
+export interface MonitoredSubscriptionPropertiesList {
+  value?: MonitoredSubscriptionProperties[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The request to update subscriptions needed to be monitored by the NewRelic monitor resource. */
+export interface MonitoredSubscriptionProperties {
+  /**
+   * Name of the monitored subscription resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The id of the monitored subscription resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The type of the monitored subscription resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The request to update subscriptions needed to be monitored by the NewRelic monitor resource. */
+  properties?: SubscriptionList;
+}
+
+/** The request to update subscriptions needed to be monitored by the NewRelic monitor resource. */
+export interface SubscriptionList {
+  /** The operation for the patch on the resource. */
+  patchOperation?: PatchOperation;
+  /** List of subscriptions and the state of the monitoring. */
+  monitoredSubscriptionList?: MonitoredSubscription[];
+  /**
+   * Provisioning State of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** The list of subscriptions and it's monitoring status by current NewRelic monitor. */
+export interface MonitoredSubscription {
+  /** The subscriptionId to be monitored. */
+  subscriptionId?: string;
+  /** The state of monitoring. */
+  status?: Status;
+  /** The reason of not monitoring the subscription. */
+  error?: string;
+  /** The resource-specific properties for this resource. */
+  tagRules?: MonitoringTagRulesProperties;
+}
+
+/** Response of a list operation. */
+export interface LinkedResourceListResponse {
+  /** Results of a list operation. */
+  value?: LinkedResource[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
+}
+
+/** The definition of a linked resource. */
+export interface LinkedResource {
+  /** The ARM id of the linked resource. */
+  id?: string;
 }
 
 /** Response of payload to be passed while installing VM agent. */
@@ -524,7 +659,7 @@ export interface AccountResource extends ProxyResource {
   accountId?: string;
   /** account name */
   accountName?: string;
-  /** region */
+  /** Region where New Relic account is present */
   region?: string;
 }
 
@@ -635,6 +770,16 @@ export interface TagRulesCreateOrUpdateHeaders {
 export interface TagRulesDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+}
+
+/** Defines headers for MonitoredSubscriptions_update operation. */
+export interface MonitoredSubscriptionsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for MonitoredSubscriptions_delete operation. */
+export interface MonitoredSubscriptionsDeleteHeaders {
+  location?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -1057,6 +1202,72 @@ export enum KnownSendActivityLogsStatus {
  */
 export type SendActivityLogsStatus = string;
 
+/** Known values of {@link PatchOperation} that the service accepts. */
+export enum KnownPatchOperation {
+  /** AddBegin */
+  AddBegin = "AddBegin",
+  /** AddComplete */
+  AddComplete = "AddComplete",
+  /** DeleteBegin */
+  DeleteBegin = "DeleteBegin",
+  /** DeleteComplete */
+  DeleteComplete = "DeleteComplete",
+  /** Active */
+  Active = "Active"
+}
+
+/**
+ * Defines values for PatchOperation. \
+ * {@link KnownPatchOperation} can be used interchangeably with PatchOperation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AddBegin** \
+ * **AddComplete** \
+ * **DeleteBegin** \
+ * **DeleteComplete** \
+ * **Active**
+ */
+export type PatchOperation = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Active */
+  Active = "Active",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Active** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type Status = string;
+
+/** Known values of {@link ConfigurationName} that the service accepts. */
+export enum KnownConfigurationName {
+  /** Default */
+  Default = "default"
+}
+
+/**
+ * Defines values for ConfigurationName. \
+ * {@link KnownConfigurationName} can be used interchangeably with ConfigurationName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type ConfigurationName = string;
+
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -1177,6 +1388,13 @@ export interface MonitorsListMonitoredResourcesOptionalParams
 export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
 
 /** Optional parameters. */
+export interface MonitorsListLinkedResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLinkedResources operation. */
+export type MonitorsListLinkedResourcesResponse = LinkedResourceListResponse;
+
+/** Optional parameters. */
 export interface MonitorsVmHostPayloadOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1219,6 +1437,13 @@ export interface MonitorsListMonitoredResourcesNextOptionalParams
 export type MonitorsListMonitoredResourcesNextResponse = MonitoredResourceListResponse;
 
 /** Optional parameters. */
+export interface MonitorsListLinkedResourcesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLinkedResourcesNext operation. */
+export type MonitorsListLinkedResourcesNextResponse = LinkedResourceListResponse;
+
+/** Optional parameters. */
 export interface OrganizationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1249,6 +1474,33 @@ export interface PlansListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type PlansListNextResponse = PlanDataListResponse;
+
+/** Optional parameters. */
+export interface BillingInfoGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BillingInfoGetResponse = BillingInfoResponse;
+
+/** Optional parameters. */
+export interface ConnectedPartnerResourcesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Email Id of the user */
+  body?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ConnectedPartnerResourcesListOperationResponse = ConnectedPartnerResourcesListResponse;
+
+/** Optional parameters. */
+export interface ConnectedPartnerResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Email Id of the user */
+  body?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type ConnectedPartnerResourcesListNextResponse = ConnectedPartnerResourcesListResponse;
 
 /** Optional parameters. */
 export interface TagRulesListByNewRelicMonitorResourceOptionalParams
@@ -1298,6 +1550,67 @@ export interface TagRulesListByNewRelicMonitorResourceNextOptionalParams
 
 /** Contains response data for the listByNewRelicMonitorResourceNext operation. */
 export type TagRulesListByNewRelicMonitorResourceNextResponse = TagRuleListResult;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MonitoredSubscriptionsListResponse = MonitoredSubscriptionPropertiesList;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsCreateorUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request to update subscriptions needed to be monitored by the NewRelic monitor resource. */
+  body?: MonitoredSubscriptionProperties;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createorUpdate operation. */
+export type MonitoredSubscriptionsCreateorUpdateResponse = MonitoredSubscriptionProperties;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request to update subscriptions needed to be monitored by the NewRelic monitor resource. */
+  body?: MonitoredSubscriptionProperties;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type MonitoredSubscriptionsUpdateResponse = MonitoredSubscriptionProperties;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type MonitoredSubscriptionsDeleteResponse = MonitoredSubscriptionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MonitoredSubscriptionsListNextResponse = MonitoredSubscriptionPropertiesList;
 
 /** Optional parameters. */
 export interface NewRelicObservabilityOptionalParams
