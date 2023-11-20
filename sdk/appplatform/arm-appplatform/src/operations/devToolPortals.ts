@@ -29,6 +29,7 @@ import {
   DevToolPortalsCreateOrUpdateOptionalParams,
   DevToolPortalsCreateOrUpdateResponse,
   DevToolPortalsDeleteOptionalParams,
+  DevToolPortalsDeleteResponse,
   DevToolPortalsListNextResponse
 } from "../models";
 
@@ -281,11 +282,16 @@ export class DevToolPortalsImpl implements DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     options?: DevToolPortalsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DevToolPortalsDeleteResponse>,
+      DevToolPortalsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<DevToolPortalsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -326,7 +332,10 @@ export class DevToolPortalsImpl implements DevToolPortals {
       args: { resourceGroupName, serviceName, devToolPortalName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      DevToolPortalsDeleteResponse,
+      OperationState<DevToolPortalsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -347,7 +356,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     options?: DevToolPortalsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<DevToolPortalsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
@@ -464,10 +473,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
