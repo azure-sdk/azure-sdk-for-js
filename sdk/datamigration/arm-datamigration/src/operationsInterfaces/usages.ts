@@ -13,8 +13,8 @@ import { Quota, UsagesListOptionalParams } from "../models";
 /** Interface representing a Usages. */
 export interface Usages {
   /**
-   * This method returns region-specific quotas and resource usage information for the Database Migration
-   * Service.
+   * This method returns region-specific quotas and resource usage information for the Azure Database
+   * Migration Service (classic).
    * @param location The Azure region of the operation
    * @param options The options parameters.
    */
