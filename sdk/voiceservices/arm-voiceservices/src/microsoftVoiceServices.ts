@@ -60,7 +60,7 @@ export class MicrosoftVoiceServices extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-voiceservices/1.0.1`;
+    const packageDetails = `azsdk-js-arm-voiceservices/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,7 +113,7 @@ export class MicrosoftVoiceServices extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-31";
+    this.apiVersion = options.apiVersion || "2023-09-01";
     this.operations = new OperationsImpl(this);
     this.communicationsGateways = new CommunicationsGatewaysImpl(this);
     this.nameAvailability = new NameAvailabilityImpl(this);

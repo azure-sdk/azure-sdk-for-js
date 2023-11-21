@@ -321,6 +321,231 @@ export const PrimaryRegionProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const ApiBridgeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiBridgeProperties",
+    modelProperties: {
+      configureApiBridge: {
+        serializedName: "configureApiBridge",
+        type: {
+          name: "String"
+        }
+      },
+      endpointFqdns: {
+        serializedName: "endpointFqdns",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      allowedAddressPrefixes: {
+        serializedName: "allowedAddressPrefixes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DnsDelegationsProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnsDelegationsProperties",
+    modelProperties: {
+      delegations: {
+        serializedName: "delegations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DnsDelegationProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DnsDelegationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnsDelegationProperties",
+    modelProperties: {
+      domain: {
+        serializedName: "domain",
+        type: {
+          name: "String"
+        }
+      },
+      nameServers: {
+        serializedName: "nameServers",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CustomSipHeadersProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomSipHeadersProperties",
+    modelProperties: {
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomSipHeader"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CustomSipHeader: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomSipHeader",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
+export const Sku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "Enum",
+          allowedValues: ["Free", "Basic", "Standard", "Premium"]
+        }
+      },
+      size: {
+        serializedName: "size",
+        type: {
+          name: "String"
+        }
+      },
+      family: {
+        serializedName: "family",
+        type: {
+          name: "String"
+        }
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -456,6 +681,20 @@ export const CommunicationsGatewayUpdate: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunicationsGatewayUpdate",
     modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
       tags: {
         serializedName: "tags",
         type: {
@@ -541,6 +780,20 @@ export const CommunicationsGateway: coreClient.CompositeMapper = {
     className: "CommunicationsGateway",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -607,8 +860,8 @@ export const CommunicationsGateway: coreClient.CompositeMapper = {
       apiBridge: {
         serializedName: "properties.apiBridge",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
+          name: "Composite",
+          className: "ApiBridgeProperties"
         }
       },
       autoGeneratedDomainNameLabelScope: {
@@ -637,9 +890,54 @@ export const CommunicationsGateway: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      integratedMcpEnabled: {
+        defaultValue: false,
+        serializedName: "properties.integratedMcpEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       emergencyDialStrings: {
         defaultValue: ["911", "933"],
         serializedName: "properties.emergencyDialStrings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dnsDelegations: {
+        serializedName: "properties.dnsDelegations",
+        type: {
+          name: "Composite",
+          className: "DnsDelegationsProperties"
+        }
+      },
+      customSipHeaders: {
+        serializedName: "properties.customSipHeaders",
+        type: {
+          name: "Composite",
+          className: "CustomSipHeadersProperties"
+        }
+      },
+      allocatedSignalingAddressPrefixes: {
+        serializedName: "properties.allocatedSignalingAddressPrefixes",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      allocatedMediaAddressPrefixes: {
+        serializedName: "properties.allocatedMediaAddressPrefixes",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -707,6 +1005,12 @@ export const CommunicationsGatewaysDeleteHeaders: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -736,6 +1040,12 @@ export const TestLinesDeleteHeaders: coreClient.CompositeMapper = {
         serializedName: "retry-after",
         type: {
           name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }
