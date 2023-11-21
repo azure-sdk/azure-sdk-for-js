@@ -1,6 +1,6 @@
 # Release History
     
-## 1.1.0 (2023-11-10)
+## 1.1.0 (2023-11-21)
     
 **Features**
 
@@ -79,4 +79,4 @@
 
 ## 1.0.0 (2022-08-15)
 
-The package of @azure/arm-dashboard is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-dashboard is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
