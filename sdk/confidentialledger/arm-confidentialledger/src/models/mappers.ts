@@ -294,6 +294,12 @@ export const LedgerProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      ledgerSku: {
+        serializedName: "ledgerSku",
+        type: {
+          name: "String"
+        }
+      },
       aadBasedSecurityPrincipals: {
         serializedName: "aadBasedSecurityPrincipals",
         type: {
@@ -479,6 +485,90 @@ export const ConfidentialLedgerList: coreClient.CompositeMapper = {
   }
 };
 
+export const ConfidentialLedgerBackup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialLedgerBackup",
+    modelProperties: {
+      restoreRegion: {
+        serializedName: "restoreRegion",
+        type: {
+          name: "String"
+        }
+      },
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfidentialLedgerBackupResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialLedgerBackupResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfidentialLedgerRestore: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialLedgerRestore",
+    modelProperties: {
+      fileShareName: {
+        serializedName: "fileShareName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      restoreRegion: {
+        serializedName: "restoreRegion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfidentialLedgerRestoreResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialLedgerRestoreResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedCCFProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -522,6 +612,12 @@ export const ManagedCCFProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DeploymentType"
+        }
+      },
+      runningState: {
+        serializedName: "runningState",
+        type: {
+          name: "String"
         }
       },
       provisioningState: {
@@ -609,6 +705,90 @@ export const ManagedCCFList: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCCFBackup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCCFBackup",
+    modelProperties: {
+      restoreRegion: {
+        serializedName: "restoreRegion",
+        type: {
+          name: "String"
+        }
+      },
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCCFBackupResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCCFBackupResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCCFRestore: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCCFRestore",
+    modelProperties: {
+      fileShareName: {
+        serializedName: "fileShareName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      restoreRegion: {
+        serializedName: "restoreRegion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      uri: {
+        serializedName: "uri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCCFRestoreResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedCCFRestoreResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        readOnly: true,
         type: {
           name: "String"
         }
