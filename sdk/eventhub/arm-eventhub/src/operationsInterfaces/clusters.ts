@@ -22,7 +22,8 @@ import {
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
   ClustersListNamespacesOptionalParams,
-  ClustersListNamespacesResponse
+  ClustersListNamespacesResponse,
+  ClustersTriggerUpgradePostOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -157,4 +158,15 @@ export interface Clusters {
     clusterName: string,
     options?: ClustersListNamespacesOptionalParams
   ): Promise<ClustersListNamespacesResponse>;
+  /**
+   * Trigger pending cluster upgrades if any. Bypasses any upgrade preferences set by customer.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param clusterName The name of the Event Hubs Cluster.
+   * @param options The options parameters.
+   */
+  triggerUpgradePost(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersTriggerUpgradePostOptionalParams
+  ): Promise<void>;
 }

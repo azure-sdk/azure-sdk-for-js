@@ -65,7 +65,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01-preview",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -142,6 +142,7 @@ export const namespaceName: OperationURLParameter = {
   parameterPath: "namespaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-]{6,50}[a-zA-Z0-9]$"),
       MaxLength: 50,
       MinLength: 6
     },

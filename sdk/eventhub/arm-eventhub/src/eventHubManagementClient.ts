@@ -79,7 +79,7 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventhub/5.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-eventhub/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -132,7 +132,7 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01-preview";
+    this.apiVersion = options.apiVersion || "2024-01-01";
     this.clusters = new ClustersImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);

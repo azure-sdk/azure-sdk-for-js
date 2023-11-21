@@ -105,6 +105,14 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** Contains all settings for the cluster upgrade window. */
+export interface UpgradePreferences {
+  /** Preferred day of the week in UTC time to begin an upgrade. If 'Any' is selected, upgrade will proceed at any given weekday */
+  startDayOfWeek?: StartDayOfWeek;
+  /** Preferred hour of the day in UTC time to begin an upgrade */
+  startHourOfDay?: number;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -591,6 +599,8 @@ export interface CaptureDescription {
 export interface Destination {
   /** Name for capture destination */
   name?: string;
+  /** A value that indicates whether capture description is enabled. */
+  identity?: CaptureIdentity;
   /** Resource id of the storage account to be used to create the blobs */
   storageAccountResourceId?: string;
   /** Blob container Name */
@@ -605,13 +615,21 @@ export interface Destination {
   dataLakeFolderPath?: string;
 }
 
+/** A value that indicates whether capture description is enabled. */
+export interface CaptureIdentity {
+  /** Type of Azure Active Directory Managed Identity. */
+  type?: CaptureIdentityType;
+  /** ARM ID of Managed User Identity. This property is required is the type is UserAssignedIdentity. If type is SystemAssigned, then the System Assigned Identity Associated with the namespace will be used. */
+  userAssignedIdentity?: string;
+}
+
 /** Properties to configure retention settings for the  eventhub */
 export interface RetentionDescription {
   /** Enumerates the possible values for cleanup policy */
   cleanupPolicy?: CleanupPolicyRetentionDescription;
-  /** Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned value of this property is Long.MaxValue */
+  /** Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compact the returned value of this property is Long.MaxValue */
   retentionTimeInHours?: number;
-  /** Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub */
+  /** Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compact. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub */
   tombstoneRetentionTimeInHours?: number;
 }
 
@@ -650,8 +668,23 @@ export interface TrackedResource extends Resource {
   tags?: { [propertyName: string]: string };
 }
 
+/** Properties of the PrivateEndpointConnection. */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The Private Endpoint resource for this Connection. */
+  privateEndpoint?: PrivateEndpoint;
+  /** Details about the state of the connection. */
+  privateLinkServiceConnectionState?: ConnectionState;
+  /** Provisioning state of the Private Endpoint Connection. */
+  provisioningState?: EndPointProvisioningState;
+}
+
 /** Network Security Perimeter related configurations of a given namespace */
-export interface NetworkSecurityPerimeterConfiguration extends Resource {
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
   /** Provisioning state of NetworkSecurityPerimeter configuration propagation */
   provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
   /** List of Provisioning Issues if any */
@@ -671,21 +704,26 @@ export interface NetworkSecurityPerimeterConfiguration extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
-}
-
-/** Properties of the PrivateEndpointConnection. */
-export interface PrivateEndpointConnection extends ProxyResource {
   /**
-   * The system meta data relating to this resource.
+   * True if the EventHub namespace is backed by another Azure resource and not visible to end users.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
-  /** The Private Endpoint resource for this Connection. */
-  privateEndpoint?: PrivateEndpoint;
-  /** Details about the state of the connection. */
-  privateLinkServiceConnectionState?: ConnectionState;
-  /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: EndPointProvisioningState;
+  readonly isBackingResource?: boolean;
+  /**
+   * Indicates that the NSP controls related to backing association are only applicable to a specific feature in backing resource's data plane.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicableFeatures?: string[];
+  /**
+   * Source Resource Association name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly parentAssociationName?: string;
+  /**
+   * ARM Id of source resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceResourceId?: string;
 }
 
 /** Description of topic resource. */
@@ -869,6 +907,11 @@ export interface Cluster extends TrackedResource {
    */
   readonly createdAt?: string;
   /**
+   * Provisioning state of the Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
    * The UTC time when the Event Hubs Cluster was last updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -885,6 +928,8 @@ export interface Cluster extends TrackedResource {
   readonly status?: string;
   /** A value that indicates whether Scaling is Supported. */
   supportsScaling?: boolean;
+  /** Properties of the cluster upgrade preferences. */
+  upgradePreferences?: UpgradePreferences;
 }
 
 /** Single Namespace item in List or Get Operation */
@@ -990,6 +1035,78 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Scaling */
+  Scaling = "Scaling",
+  /** Active */
+  Active = "Active",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Creating** \
+ * **Deleting** \
+ * **Scaling** \
+ * **Active** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link StartDayOfWeek} that the service accepts. */
+export enum KnownStartDayOfWeek {
+  /** Sunday */
+  Sunday = "Sunday",
+  /** Monday */
+  Monday = "Monday",
+  /** Tuesday */
+  Tuesday = "Tuesday",
+  /** Wednesday */
+  Wednesday = "Wednesday",
+  /** Thursday */
+  Thursday = "Thursday",
+  /** Friday */
+  Friday = "Friday",
+  /** Saturday */
+  Saturday = "Saturday",
+  /** Any */
+  Any = "Any"
+}
+
+/**
+ * Defines values for StartDayOfWeek. \
+ * {@link KnownStartDayOfWeek} can be used interchangeably with StartDayOfWeek,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sunday** \
+ * **Monday** \
+ * **Tuesday** \
+ * **Wednesday** \
+ * **Thursday** \
+ * **Friday** \
+ * **Saturday** \
+ * **Any**
+ */
+export type StartDayOfWeek = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -1316,8 +1433,8 @@ export type KeyType = string;
 export enum KnownCleanupPolicyRetentionDescription {
   /** Delete */
   Delete = "Delete",
-  /** Compaction */
-  Compaction = "Compaction"
+  /** Compact */
+  Compact = "Compact"
 }
 
 /**
@@ -1326,7 +1443,7 @@ export enum KnownCleanupPolicyRetentionDescription {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Delete** \
- * **Compaction**
+ * **Compact**
  */
 export type CleanupPolicyRetentionDescription = string;
 
@@ -1441,6 +1558,8 @@ export type EntityStatus =
   | "Unknown";
 /** Defines values for EncodingCaptureDescription. */
 export type EncodingCaptureDescription = "Avro" | "AvroDeflate";
+/** Defines values for CaptureIdentityType. */
+export type CaptureIdentityType = "SystemAssigned" | "UserAssigned";
 
 /** Optional parameters. */
 export interface ClustersListAvailableClusterRegionOptionalParams
@@ -1509,6 +1628,10 @@ export interface ClustersListNamespacesOptionalParams
 
 /** Contains response data for the listNamespaces operation. */
 export type ClustersListNamespacesResponse = EHNamespaceIdListResult;
+
+/** Optional parameters. */
+export interface ClustersTriggerUpgradePostOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ClustersListBySubscriptionNextOptionalParams

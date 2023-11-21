@@ -237,6 +237,31 @@ export const SystemData: coreClient.CompositeMapper = {
   }
 };
 
+export const UpgradePreferences: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpgradePreferences",
+    modelProperties: {
+      startDayOfWeek: {
+        serializedName: "startDayOfWeek",
+        type: {
+          name: "String"
+        }
+      },
+      startHourOfDay: {
+        constraints: {
+          InclusiveMaximum: 23,
+          InclusiveMinimum: 0
+        },
+        serializedName: "startHourOfDay",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1461,6 +1486,13 @@ export const Destination: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "CaptureIdentity"
+        }
+      },
       storageAccountResourceId: {
         serializedName: "properties.storageAccountResourceId",
         type: {
@@ -1493,6 +1525,28 @@ export const Destination: coreClient.CompositeMapper = {
       },
       dataLakeFolderPath: {
         serializedName: "properties.dataLakeFolderPath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CaptureIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CaptureIdentity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: ["SystemAssigned", "UserAssigned"]
+        }
+      },
+      userAssignedIdentity: {
+        serializedName: "userAssignedIdentity",
         type: {
           name: "String"
         }
@@ -1634,12 +1688,49 @@ export const TrackedResource: coreClient.CompositeMapper = {
   }
 };
 
+export const PrivateEndpointConnection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "ConnectionState"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NetworkSecurityPerimeterConfiguration",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...ProxyResource.type.modelProperties,
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -1679,40 +1770,36 @@ export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper =
           name: "Composite",
           className: "NetworkSecurityPerimeterConfigurationPropertiesProfile"
         }
-      }
-    }
-  }
-};
-
-export const PrivateEndpointConnection: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnection",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
+      },
+      isBackingResource: {
+        serializedName: "properties.isBackingResource",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "SystemData"
+          name: "Boolean"
         }
       },
-      privateEndpoint: {
-        serializedName: "properties.privateEndpoint",
+      applicableFeatures: {
+        serializedName: "properties.applicableFeatures",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "PrivateEndpoint"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
+      parentAssociationName: {
+        serializedName: "properties.parentAssociationName",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "ConnectionState"
+          name: "String"
         }
       },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
+      sourceResourceId: {
+        serializedName: "properties.sourceResourceId",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -2143,6 +2230,13 @@ export const Cluster: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       updatedAt: {
         serializedName: "properties.updatedAt",
         readOnly: true,
@@ -2168,6 +2262,13 @@ export const Cluster: coreClient.CompositeMapper = {
         serializedName: "properties.supportsScaling",
         type: {
           name: "Boolean"
+        }
+      },
+      upgradePreferences: {
+        serializedName: "properties.upgradePreferences",
+        type: {
+          name: "Composite",
+          className: "UpgradePreferences"
         }
       }
     }
@@ -2269,6 +2370,9 @@ export const EHNamespace: coreClient.CompositeMapper = {
         }
       },
       maximumThroughputUnits: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
         serializedName: "properties.maximumThroughputUnits",
         type: {
           name: "Number"
