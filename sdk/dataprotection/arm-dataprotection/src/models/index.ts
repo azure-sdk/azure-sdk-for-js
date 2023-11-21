@@ -18,6 +18,9 @@ export type FeatureValidationResponseBaseUnion =
   | FeatureValidationResponseBase
   | FeatureValidationResponse;
 export type BaseBackupPolicyUnion = BaseBackupPolicy | BackupPolicy;
+export type BaseResourcePropertiesUnion =
+  | BaseResourceProperties
+  | DefaultResourceProperties;
 export type DataStoreParametersUnion =
   | DataStoreParameters
   | AzureOperationalStoreParameters;
@@ -62,7 +65,8 @@ export type ItemLevelRestoreCriteriaUnion =
   | RangeBasedItemLevelRestoreCriteria
   | KubernetesStorageClassRestoreCriteria
   | KubernetesPVRestoreCriteria
-  | KubernetesClusterRestoreCriteria;
+  | KubernetesClusterRestoreCriteria
+  | KubernetesClusterVaultTierRestoreCriteria;
 export type AzureBackupRecoveryPointBasedRestoreRequestUnion =
   | AzureBackupRecoveryPointBasedRestoreRequest
   | AzureBackupRestoreWithRehydrationRequest;
@@ -532,13 +536,13 @@ export interface Datasource {
   /** Uri of the resource. */
   resourceUri?: string;
   /** Properties specific to data source */
-  resourceProperties?: BaseResourceProperties;
+  resourceProperties?: BaseResourcePropertiesUnion;
 }
 
 /** Properties which are specific to datasource/datasourceSets */
 export interface BaseResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  objectType: "BaseResourceProperties";
+  objectType: "DefaultResourceProperties";
 }
 
 /** DatasourceSet details of datasource to be backed up */
@@ -558,7 +562,7 @@ export interface DatasourceSet {
   /** Uri of the resource. */
   resourceUri?: string;
   /** Properties specific to data source set */
-  resourceProperties?: BaseResourceProperties;
+  resourceProperties?: BaseResourcePropertiesUnion;
 }
 
 /** Policy Info in backupInstance */
@@ -1244,7 +1248,8 @@ export interface ItemLevelRestoreCriteria {
     | "RangeBasedItemLevelRestoreCriteria"
     | "KubernetesStorageClassRestoreCriteria"
     | "KubernetesPVRestoreCriteria"
-    | "KubernetesClusterRestoreCriteria";
+    | "KubernetesClusterRestoreCriteria"
+    | "KubernetesClusterVaultTierRestoreCriteria";
 }
 
 /** Class encapsulating target details, used where the destination is not a datasource */
@@ -1424,6 +1429,12 @@ export interface DeletedBackupInstance extends BackupInstance {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deletionInfo?: DeletionInfo;
+}
+
+/** Default source properties */
+export interface DefaultResourceProperties extends BaseResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "DefaultResourceProperties";
 }
 
 /** Parameters for Operational-Tier DataStore */
@@ -1726,6 +1737,37 @@ export interface KubernetesClusterRestoreCriteria
   namespaceMappings?: { [propertyName: string]: string };
   /** Gets or sets the restore hook references. This property sets the hook reference to be executed during restore. */
   restoreHookReferences?: NamespacedNameResource[];
+}
+
+/** kubernetes Cluster Backup target info for restore operation from vault */
+export interface KubernetesClusterVaultTierRestoreCriteria
+  extends ItemLevelRestoreCriteria {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "KubernetesClusterVaultTierRestoreCriteria";
+  /** Gets or sets the include cluster resources property. This property if enabled will include cluster scope resources during restore from vault. */
+  includeClusterScopeResources: boolean;
+  /** Gets or sets the include namespaces property. This property sets the namespaces to be included during restore from vault. */
+  includedNamespaces?: string[];
+  /** Gets or sets the exclude namespaces property. This property sets the namespaces to be excluded during restore from vault. */
+  excludedNamespaces?: string[];
+  /** Gets or sets the include resource types property. This property sets the resource types to be included during restore from vault. */
+  includedResourceTypes?: string[];
+  /** Gets or sets the exclude resource types property. This property sets the resource types to be excluded during restore from vault. */
+  excludedResourceTypes?: string[];
+  /** Gets or sets the LabelSelectors property. This property sets the resource with such label selectors to be included during restore from vault. */
+  labelSelectors?: string[];
+  /** Gets or sets the PV (Persistent Volume) Restore Mode property. This property sets whether volumes needs to be restored from vault. */
+  persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+  /** Gets or sets the Conflict Policy property. This property sets policy during conflict of resources during restore from vault. */
+  conflictPolicy?: ExistingResourcePolicy;
+  /** Gets or sets the Namespace Mappings property. This property sets if namespace needs to be change during restore from vault. */
+  namespaceMappings?: { [propertyName: string]: string };
+  /** Gets or sets the restore hook references. This property sets the hook reference to be executed during restore from vault. */
+  restoreHookReferences?: NamespacedNameResource[];
+  /** Gets or sets the staging RG Id for creating staging disks and snapshots during restore from vault. */
+  stagingResourceGroupId?: string;
+  /** Gets or sets the staging Storage Account Id for creating backup extension object store data during restore from vault. */
+  stagingStorageAccountId?: string;
 }
 
 /** Backup Vault Resource */
@@ -2151,6 +2193,21 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ResourcePropertiesObjectType} that the service accepts. */
+export enum KnownResourcePropertiesObjectType {
+  /** DefaultResourceProperties */
+  DefaultResourceProperties = "DefaultResourceProperties"
+}
+
+/**
+ * Defines values for ResourcePropertiesObjectType. \
+ * {@link KnownResourcePropertiesObjectType} can be used interchangeably with ResourcePropertiesObjectType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DefaultResourceProperties**
+ */
+export type ResourcePropertiesObjectType = string;
 
 /** Known values of {@link DataStoreTypes} that the service accepts. */
 export enum KnownDataStoreTypes {

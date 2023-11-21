@@ -733,8 +733,11 @@ export type BasePolicyRuleUnion = BasePolicyRule | AzureBackupRule | AzureRetent
 
 // @public
 export interface BaseResourceProperties {
-    objectType: "BaseResourceProperties";
+    objectType: "DefaultResourceProperties";
 }
+
+// @public (undocumented)
+export type BaseResourcePropertiesUnion = BaseResourceProperties | DefaultResourceProperties;
 
 // @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
@@ -934,7 +937,7 @@ export interface Datasource {
     resourceID: string;
     resourceLocation?: string;
     resourceName?: string;
-    resourceProperties?: BaseResourceProperties;
+    resourceProperties?: BaseResourcePropertiesUnion;
     resourceType?: string;
     resourceUri?: string;
 }
@@ -946,7 +949,7 @@ export interface DatasourceSet {
     resourceID: string;
     resourceLocation?: string;
     resourceName?: string;
-    resourceProperties?: BaseResourceProperties;
+    resourceProperties?: BaseResourcePropertiesUnion;
     resourceType?: string;
     resourceUri?: string;
 }
@@ -977,6 +980,11 @@ export interface Day {
 
 // @public
 export type DayOfWeek = string;
+
+// @public
+export interface DefaultResourceProperties extends BaseResourceProperties {
+    objectType: "DefaultResourceProperties";
+}
 
 // @public
 export interface DeletedBackupInstance extends BackupInstance {
@@ -1320,11 +1328,11 @@ export interface InnerError {
 
 // @public
 export interface ItemLevelRestoreCriteria {
-    objectType: "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria";
+    objectType: "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria" | "KubernetesClusterVaultTierRestoreCriteria";
 }
 
 // @public (undocumented)
-export type ItemLevelRestoreCriteriaUnion = ItemLevelRestoreCriteria | ItemPathBasedRestoreCriteria | RangeBasedItemLevelRestoreCriteria | KubernetesStorageClassRestoreCriteria | KubernetesPVRestoreCriteria | KubernetesClusterRestoreCriteria;
+export type ItemLevelRestoreCriteriaUnion = ItemLevelRestoreCriteria | ItemPathBasedRestoreCriteria | RangeBasedItemLevelRestoreCriteria | KubernetesStorageClassRestoreCriteria | KubernetesPVRestoreCriteria | KubernetesClusterRestoreCriteria | KubernetesClusterVaultTierRestoreCriteria;
 
 // @public
 export interface ItemLevelRestoreTargetInfo extends RestoreTargetInfoBase {
@@ -1560,6 +1568,11 @@ export enum KnownResourceMoveState {
 }
 
 // @public
+export enum KnownResourcePropertiesObjectType {
+    DefaultResourceProperties = "DefaultResourceProperties"
+}
+
+// @public
 export enum KnownRestoreSourceDataStoreType {
     ArchiveStore = "ArchiveStore",
     OperationalStore = "OperationalStore",
@@ -1676,6 +1689,25 @@ export interface KubernetesClusterRestoreCriteria extends ItemLevelRestoreCriter
     objectType: "KubernetesClusterRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
     restoreHookReferences?: NamespacedNameResource[];
+}
+
+// @public
+export interface KubernetesClusterVaultTierRestoreCriteria extends ItemLevelRestoreCriteria {
+    conflictPolicy?: ExistingResourcePolicy;
+    excludedNamespaces?: string[];
+    excludedResourceTypes?: string[];
+    includeClusterScopeResources: boolean;
+    includedNamespaces?: string[];
+    includedResourceTypes?: string[];
+    labelSelectors?: string[];
+    namespaceMappings?: {
+        [propertyName: string]: string;
+    };
+    objectType: "KubernetesClusterVaultTierRestoreCriteria";
+    persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    restoreHookReferences?: NamespacedNameResource[];
+    stagingResourceGroupId?: string;
+    stagingStorageAccountId?: string;
 }
 
 // @public
@@ -2184,6 +2216,9 @@ export interface ResourceMoveDetails {
 
 // @public
 export type ResourceMoveState = string;
+
+// @public
+export type ResourcePropertiesObjectType = string;
 
 // @public (undocumented)
 export interface RestorableTimeRange {
