@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ModelVersion,
   ModelVersionsListOptionalParams,
@@ -14,7 +15,12 @@ import {
   ModelVersionsGetOptionalParams,
   ModelVersionsGetResponse,
   ModelVersionsCreateOrUpdateOptionalParams,
-  ModelVersionsCreateOrUpdateResponse
+  ModelVersionsCreateOrUpdateResponse,
+  PackageRequest,
+  ModelVersionsPackageOptionalParams,
+  ModelVersionsPackageResponse,
+  DestinationAsset,
+  ModelVersionsPublishOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,4 +86,77 @@ export interface ModelVersions {
     body: ModelVersion,
     options?: ModelVersionsCreateOrUpdateOptionalParams
   ): Promise<ModelVersionsCreateOrUpdateResponse>;
+  /**
+   * Model Version Package operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param version Version identifier. This is case-sensitive.
+   * @param body Package operation request body.
+   * @param options The options parameters.
+   */
+  beginPackage(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: PackageRequest,
+    options?: ModelVersionsPackageOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ModelVersionsPackageResponse>,
+      ModelVersionsPackageResponse
+    >
+  >;
+  /**
+   * Model Version Package operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param version Version identifier. This is case-sensitive.
+   * @param body Package operation request body.
+   * @param options The options parameters.
+   */
+  beginPackageAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: PackageRequest,
+    options?: ModelVersionsPackageOptionalParams
+  ): Promise<ModelVersionsPackageResponse>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublish(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ModelVersionsPublishOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublishAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ModelVersionsPublishOptionalParams
+  ): Promise<void>;
 }
