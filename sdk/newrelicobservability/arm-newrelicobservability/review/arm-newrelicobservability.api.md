@@ -84,7 +84,63 @@ export interface AppServicesListResponse {
 export type BillingCycle = string;
 
 // @public
+export interface BillingInfo {
+    get(resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams): Promise<BillingInfoGetResponse>;
+}
+
+// @public
+export interface BillingInfoGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BillingInfoGetResponse = BillingInfoResponse;
+
+// @public
+export interface BillingInfoResponse {
+    marketplaceSaasInfo?: MarketplaceSaaSInfo;
+    partnerBillingEntity?: PartnerBillingEntity;
+}
+
+// @public
 export type BillingSource = string;
+
+// @public
+export interface ConnectedPartnerResourceProperties {
+    accountId?: string;
+    accountName?: string;
+    azureResourceId?: string;
+    location?: string;
+}
+
+// @public
+export interface ConnectedPartnerResources {
+    list(resourceGroupName: string, monitorName: string, options?: ConnectedPartnerResourcesListOptionalParams): PagedAsyncIterableIterator<ConnectedPartnerResourcesListFormat>;
+}
+
+// @public
+export interface ConnectedPartnerResourcesListFormat {
+    properties?: ConnectedPartnerResourceProperties;
+}
+
+// @public
+export interface ConnectedPartnerResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectedPartnerResourcesListNextResponse = ConnectedPartnerResourcesListResponse;
+
+// @public
+export type ConnectedPartnerResourcesListOperationResponse = ConnectedPartnerResourcesListResponse;
+
+// @public
+export interface ConnectedPartnerResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ConnectedPartnerResourcesListResponse {
+    nextLink?: string;
+    value?: ConnectedPartnerResourcesListFormat[];
+}
 
 // @public
 export type CreatedByType = string;
@@ -293,6 +349,15 @@ export interface ManagedServiceIdentity {
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface MarketplaceSaaSInfo {
+    billedAzureSubscriptionId?: string;
+    marketplaceResourceId?: string;
+    marketplaceStatus?: string;
+    marketplaceSubscriptionId?: string;
+    marketplaceSubscriptionName?: string;
+}
 
 // @public
 export type MarketplaceSubscriptionStatus = string;
@@ -562,6 +627,10 @@ export class NewRelicObservability extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    billingInfo: BillingInfo;
+    // (undocumented)
+    connectedPartnerResources: ConnectedPartnerResources;
+    // (undocumented)
     monitors: Monitors;
     // (undocumented)
     operations: Operations;
@@ -674,6 +743,12 @@ export type OrgCreationSource = string;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PartnerBillingEntity {
+    organizationId?: string;
+    organizationName?: string;
+}
 
 // @public
 export interface PlanData {

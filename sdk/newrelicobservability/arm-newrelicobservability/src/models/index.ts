@@ -198,7 +198,7 @@ export interface AccountInfo {
    * This value contains a credential. Consider obscuring before showing to users
    */
   ingestionKey?: string;
-  /** NewRelic account region */
+  /** Region where New Relic account is present */
   region?: string;
 }
 
@@ -438,6 +438,62 @@ export interface MonitoredResource {
   reasonForLogsStatus?: string;
 }
 
+/** Marketplace Subscription and Organization details to which resource gets billed into. */
+export interface BillingInfoResponse {
+  /** Marketplace Subscription details */
+  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  /** Partner Billing Entity details: Organization Info */
+  partnerBillingEntity?: PartnerBillingEntity;
+}
+
+/** Marketplace SAAS Info of the resource. */
+export interface MarketplaceSaaSInfo {
+  /** Marketplace Subscription Id. This is a GUID-formatted string. */
+  marketplaceSubscriptionId?: string;
+  /** Marketplace Subscription Details: SAAS Name */
+  marketplaceSubscriptionName?: string;
+  /** Marketplace Subscription Details: Resource URI */
+  marketplaceResourceId?: string;
+  /** Marketplace Subscription Details: SaaS Subscription Status */
+  marketplaceStatus?: string;
+  /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
+  billedAzureSubscriptionId?: string;
+}
+
+/** Partner Billing details associated with the resource. */
+export interface PartnerBillingEntity {
+  /** The New Relic Organization Id. */
+  organizationId?: string;
+  /** The New Relic Organization Name. */
+  organizationName?: string;
+}
+
+/**  List of all active newrelic deployments. */
+export interface ConnectedPartnerResourcesListResponse {
+  /** Results of a list operation. */
+  value?: ConnectedPartnerResourcesListFormat[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
+}
+
+/** Connected Partner Resources List Format */
+export interface ConnectedPartnerResourcesListFormat {
+  /** Connected Partner Resource Properties */
+  properties?: ConnectedPartnerResourceProperties;
+}
+
+/** Connected Partner Resource Properties */
+export interface ConnectedPartnerResourceProperties {
+  /** NewRelic account name */
+  accountName?: string;
+  /** NewRelic Account Id */
+  accountId?: string;
+  /** The azure resource Id of the deployment. */
+  azureResourceId?: string;
+  /** The location of the deployment. */
+  location?: string;
+}
+
 /** The response of a TagRule list operation. */
 export interface TagRuleListResult {
   /** The TagRule items on this page */
@@ -524,7 +580,7 @@ export interface AccountResource extends ProxyResource {
   accountId?: string;
   /** account name */
   accountName?: string;
-  /** region */
+  /** Region where New Relic account is present */
   region?: string;
 }
 
@@ -1249,6 +1305,27 @@ export interface PlansListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type PlansListNextResponse = PlanDataListResponse;
+
+/** Optional parameters. */
+export interface BillingInfoGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BillingInfoGetResponse = BillingInfoResponse;
+
+/** Optional parameters. */
+export interface ConnectedPartnerResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConnectedPartnerResourcesListOperationResponse = ConnectedPartnerResourcesListResponse;
+
+/** Optional parameters. */
+export interface ConnectedPartnerResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ConnectedPartnerResourcesListNextResponse = ConnectedPartnerResourcesListResponse;
 
 /** Optional parameters. */
 export interface TagRulesListByNewRelicMonitorResourceOptionalParams
