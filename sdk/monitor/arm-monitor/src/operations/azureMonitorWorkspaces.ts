@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   AzureMonitorWorkspaceResource,
   AzureMonitorWorkspacesListByResourceGroupNextOptionalParams,
   AzureMonitorWorkspacesListByResourceGroupOptionalParams,
@@ -28,6 +34,7 @@ import {
   AzureMonitorWorkspacesUpdateOptionalParams,
   AzureMonitorWorkspacesUpdateResponse,
   AzureMonitorWorkspacesDeleteOptionalParams,
+  AzureMonitorWorkspacesDeleteResponse,
   AzureMonitorWorkspacesListByResourceGroupNextResponse,
   AzureMonitorWorkspacesListBySubscriptionNextResponse
 } from "../models";
@@ -46,7 +53,7 @@ export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   }
 
   /**
-   * Lists all workspaces in the specified resource group
+   * Lists all Azure Monitor Workspaces in the specified resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -115,7 +122,7 @@ export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   }
 
   /**
-   * Lists all workspaces in the specified subscription
+   * Lists all Azure Monitor Workspaces in the specified subscription
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -169,7 +176,7 @@ export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   }
 
   /**
-   * Lists all workspaces in the specified resource group
+   * Lists all Azure Monitor Workspaces in the specified resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -184,7 +191,7 @@ export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   }
 
   /**
-   * Lists all workspaces in the specified subscription
+   * Lists all Azure Monitor Workspaces in the specified subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -197,9 +204,9 @@ export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   }
 
   /**
-   * Returns the specific Azure Monitor workspace
+   * Returns the specified Azure Monitor Workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param azureMonitorWorkspaceName The name of the Azure Monitor workspace.  The name is case
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
    *                                  insensitive
    * @param options The options parameters.
    */
@@ -215,12 +222,12 @@ export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   }
 
   /**
-   * Create or update a workspace
+   * Creates or updates an Azure Monitor Workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param azureMonitorWorkspaceName The name of the Azure Monitor workspace.  The name is case
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
    *                                  insensitive
-   * @param azureMonitorWorkspaceProperties Properties that need to be specified to create a new
-   *                                        workspace
+   * @param azureMonitorWorkspaceProperties Properties that need to be specified to create a new Azure
+   *                                        Monitor Workspace
    * @param options The options parameters.
    */
   create(
@@ -241,9 +248,9 @@ export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   }
 
   /**
-   * Updates part of a workspace
+   * Updates part of an Azure Monitor Workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param azureMonitorWorkspaceName The name of the Azure Monitor workspace.  The name is case
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
    *                                  insensitive
    * @param options The options parameters.
    */
@@ -259,21 +266,96 @@ export class AzureMonitorWorkspacesImpl implements AzureMonitorWorkspaces {
   }
 
   /**
-   * Delete a workspace
+   * Deletes an Azure Monitor Workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param azureMonitorWorkspaceName The name of the Azure Monitor workspace.  The name is case
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
    *                                  insensitive
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
     options?: AzureMonitorWorkspacesDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, azureMonitorWorkspaceName, options },
-      deleteOperationSpec
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AzureMonitorWorkspacesDeleteResponse>,
+      AzureMonitorWorkspacesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AzureMonitorWorkspacesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, azureMonitorWorkspaceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AzureMonitorWorkspacesDeleteResponse,
+      OperationState<AzureMonitorWorkspacesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes an Azure Monitor Workspace
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
+   *                                  insensitive
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    azureMonitorWorkspaceName: string,
+    options?: AzureMonitorWorkspacesDeleteOptionalParams
+  ): Promise<AzureMonitorWorkspacesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      azureMonitorWorkspaceName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -320,14 +402,14 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AzureMonitorWorkspaceResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -340,10 +422,10 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AzureMonitorWorkspaceResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -357,14 +439,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AzureMonitorWorkspaceResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.azureMonitorWorkspaceName
   ],
   headerParameters: [Parameters.accept],
@@ -382,15 +464,15 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AzureMonitorWorkspaceResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.azureMonitorWorkspaceProperties,
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.azureMonitorWorkspaceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -406,15 +488,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AzureMonitorWorkspaceResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.azureMonitorWorkspaceProperties1,
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.azureMonitorWorkspaceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -426,17 +508,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts/{azureMonitorWorkspaceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AzureMonitorWorkspacesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.AzureMonitorWorkspacesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.AzureMonitorWorkspacesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.AzureMonitorWorkspacesDeleteHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.azureMonitorWorkspaceName
   ],
   headerParameters: [Parameters.accept],
@@ -450,13 +542,13 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AzureMonitorWorkspaceResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -470,7 +562,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AzureMonitorWorkspaceResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
