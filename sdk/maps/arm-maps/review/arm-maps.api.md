@@ -157,8 +157,10 @@ export interface CreatorList {
 
 // @public
 export interface CreatorProperties {
+    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits: number;
+    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
@@ -211,11 +213,13 @@ export type CreatorsUpdateResponse = Creator;
 
 // @public
 export interface CreatorUpdateParameters {
+    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits?: number;
     tags?: {
         [propertyName: string]: string;
     };
+    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
