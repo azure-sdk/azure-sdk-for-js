@@ -51,7 +51,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
    * Initializes a new instance of the SearchManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The unique identifier for a Microsoft Azure subscription. You can obtain this
-   *                       value from the Azure Resource Manager API or the portal.
+   *                       value from the Azure Resource Manager API, command line tools, or the portal.
    * @param options The parameter options
    */
   constructor(
@@ -75,7 +75,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-search/3.2.0`;
+    const packageDetails = `azsdk-js-arm-search/3.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -169,9 +169,9 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Gets the quota usage for a search sku in the given subscription.
+   * Gets the quota usage for a search SKU in the given subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
-   * @param skuName The unique search service sku name supported by Azure Cognitive Search.
+   * @param skuName The unique SKU name that identifies a billable tier.
    * @param options The options parameters.
    */
   usageBySubscriptionSku(
