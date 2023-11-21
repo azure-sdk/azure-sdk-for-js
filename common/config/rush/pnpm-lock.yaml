@@ -1157,6 +1157,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cognitiveservices@7.5.0:
+    resolution: {integrity: sha512-UA13hCXP1Ou3chmwLf4FoXibVn5mmstcVqOhR+f5Iwv1ScwdlocIMC4jn9vkrJnkSwHE+03SSax5upAkmr6fnw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -4440,7 +4455,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231120
+      typescript: 5.4.0-dev.20231121
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4449,7 +4464,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231120
+      typescript: 5.4.0-dev.20231121
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9155,8 +9170,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231120:
-    resolution: {integrity: sha512-MG4Zg5HXb8bnvGdZrMeLBekqbCjHjaMPewXh3wVrNgTF+toQ4BrdhXnYiqMU0pLLxcsxRSMPB5MzB7YHgr67Cg==}
+  /typescript@5.4.0-dev.20231121:
+    resolution: {integrity: sha512-/JUU1WLbuTBKfivcYHR+gvBAjMdhj1r2+flrnh8z7wdy2MDQgxRzSlfktNsbaqoYsOVolVDAPAoHpxVIvJlEgA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11232,20 +11247,22 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-iRH0Oo39F/4mHOAq3ul++LrsFc9YWx4AiVqMcQzYZq3tyda9ood4t3JwCnuchXJBYDPh2u+u2FT6o2TIrTM71Q==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-UduJAf4mNt7doFKY6I/WrvBhzVQhwG6B9ZESXWJ1k6P1odqHGxB9UNyeYShzZstWH4biN3h12oCCeRSEy3k/hQ==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -19198,10 +19215,11 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-k2irDR1Yxhn3opTM9MZvcerr7pOLOd2iB0m571RQ/xZFAJXGRnzW8uqZG//8gZSHVPoTKDDGSJTGMdadr+4BAw==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-vhl0EI4LmqY17okmBUKVxB9xpE8Ol74+zUhz3h9LqekPJ0Y8mz3UyK/Hd/XkKVDqZenLW+ovSk6nV8d+rAXYrg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cognitiveservices': 7.5.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/mocha': 10.0.4
