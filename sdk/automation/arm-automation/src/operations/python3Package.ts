@@ -8,38 +8,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DscNodeConfigurationOperations } from "../operationsInterfaces";
+import { Python3Package } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
-  DscNodeConfiguration,
-  DscNodeConfigurationListByAutomationAccountNextOptionalParams,
-  DscNodeConfigurationListByAutomationAccountOptionalParams,
-  DscNodeConfigurationListByAutomationAccountResponse,
-  DscNodeConfigurationDeleteOptionalParams,
-  DscNodeConfigurationGetOptionalParams,
-  DscNodeConfigurationGetResponse,
-  DscNodeConfigurationCreateOrUpdateParameters,
-  DscNodeConfigurationCreateOrUpdateOptionalParams,
-  DscNodeConfigurationListByAutomationAccountNextResponse
+  Module,
+  Python3PackageListByAutomationAccountNextOptionalParams,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageListByAutomationAccountResponse,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
+  PythonPackageCreateParameters,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
+  PythonPackageUpdateParameters,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
+  Python3PackageListByAutomationAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DscNodeConfigurationOperations operations. */
-export class DscNodeConfigurationOperationsImpl
-  implements DscNodeConfigurationOperations {
+/** Class containing Python3Package operations. */
+export class Python3PackageImpl implements Python3Package {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class DscNodeConfigurationOperations class.
+   * Initialize a new instance of the class Python3Package class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -47,7 +44,7 @@ export class DscNodeConfigurationOperationsImpl
   }
 
   /**
-   * Retrieve a list of dsc node configurations.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -55,8 +52,8 @@ export class DscNodeConfigurationOperationsImpl
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeConfigurationListByAutomationAccountOptionalParams
-  ): PagedAsyncIterableIterator<DscNodeConfiguration> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -86,10 +83,10 @@ export class DscNodeConfigurationOperationsImpl
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeConfigurationListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<DscNodeConfiguration[]> {
-    let result: DscNodeConfigurationListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Module[]> {
+    let result: Python3PackageListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -119,8 +116,8 @@ export class DscNodeConfigurationOperationsImpl
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeConfigurationListByAutomationAccountOptionalParams
-  ): AsyncIterableIterator<DscNodeConfiguration> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -131,153 +128,99 @@ export class DscNodeConfigurationOperationsImpl
   }
 
   /**
-   * Delete the Dsc node configurations by node configuration.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param nodeConfigurationName The Dsc node configuration name.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    nodeConfigurationName: string,
-    options?: DscNodeConfigurationDeleteOptionalParams
+    packageName: string,
+    options?: Python3PackageDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        automationAccountName,
-        nodeConfigurationName,
-        options
-      },
+      { resourceGroupName, automationAccountName, packageName, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Retrieve the Dsc node configurations by node configuration.
+   * Retrieve the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param nodeConfigurationName The Dsc node configuration name.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    nodeConfigurationName: string,
-    options?: DscNodeConfigurationGetOptionalParams
-  ): Promise<DscNodeConfigurationGetResponse> {
+    packageName: string,
+    options?: Python3PackageGetOptionalParams
+  ): Promise<Python3PackageGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        automationAccountName,
-        nodeConfigurationName,
-        options
-      },
+      { resourceGroupName, automationAccountName, packageName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create the node configuration identified by node configuration name.
+   * Create or Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param nodeConfigurationName The Dsc node configuration name.
-   * @param parameters The create or update parameters for configuration.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    nodeConfigurationName: string,
-    parameters: DscNodeConfigurationCreateOrUpdateParameters,
-    options?: DscNodeConfigurationCreateOrUpdateOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams
+  ): Promise<Python3PackageCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
         resourceGroupName,
         automationAccountName,
-        nodeConfigurationName,
+        packageName,
         parameters,
         options
       },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
+      createOrUpdateOperationSpec
+    );
   }
 
   /**
-   * Create the node configuration identified by node configuration name.
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param nodeConfigurationName The Dsc node configuration name.
-   * @param parameters The create or update parameters for configuration.
+   * @param packageName The name of python package.
+   * @param parameters The update parameters for python package.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  update(
     resourceGroupName: string,
     automationAccountName: string,
-    nodeConfigurationName: string,
-    parameters: DscNodeConfigurationCreateOrUpdateParameters,
-    options?: DscNodeConfigurationCreateOrUpdateOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      automationAccountName,
-      nodeConfigurationName,
-      parameters,
-      options
+    packageName: string,
+    parameters: PythonPackageUpdateParameters,
+    options?: Python3PackageUpdateOptionalParams
+  ): Promise<Python3PackageUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        automationAccountName,
+        packageName,
+        parameters,
+        options
+      },
+      updateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
-   * Retrieve a list of dsc node configurations.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -285,8 +228,8 @@ export class DscNodeConfigurationOperationsImpl
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeConfigurationListByAutomationAccountOptionalParams
-  ): Promise<DscNodeConfigurationListByAutomationAccountResponse> {
+    options?: Python3PackageListByAutomationAccountOptionalParams
+  ): Promise<Python3PackageListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec
@@ -305,8 +248,8 @@ export class DscNodeConfigurationOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: DscNodeConfigurationListByAutomationAccountNextOptionalParams
-  ): Promise<DscNodeConfigurationListByAutomationAccountNextResponse> {
+    options?: Python3PackageListByAutomationAccountNextOptionalParams
+  ): Promise<Python3PackageListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec
@@ -318,10 +261,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations/{nodeConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -332,18 +276,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nodeConfigurationName
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations/{nodeConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeConfiguration
+      bodyMapper: Mappers.Module
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -355,32 +299,59 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nodeConfigurationName
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations/{nodeConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PUT",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.Module
+    },
+    201: {
+      bodyMapper: Mappers.Module
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nodeConfigurationName
+    Parameters.packageName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Module
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters28,
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.automationAccountName,
+    Parameters.packageName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -388,23 +359,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeConfigurationListResult
+      bodyMapper: Mappers.ModuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.skip,
-    Parameters.top,
-    Parameters.inlinecount,
-    Parameters.apiVersion4
-  ],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -419,7 +384,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeConfigurationListResult
+      bodyMapper: Mappers.ModuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
