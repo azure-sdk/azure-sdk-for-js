@@ -30,7 +30,9 @@ import {
   UserSessionsImpl,
   SessionHostsImpl,
   MsixPackagesImpl,
-  MsixImagesImpl
+  AppAttachPackageInfoImpl,
+  MsixImagesImpl,
+  AppAttachPackageOperationsImpl
 } from "./operations";
 import {
   Operations,
@@ -48,7 +50,9 @@ import {
   UserSessions,
   SessionHosts,
   MsixPackages,
-  MsixImages
+  AppAttachPackageInfo,
+  MsixImages,
+  AppAttachPackageOperations
 } from "./operationsInterfaces";
 import { DesktopVirtualizationAPIClientOptionalParams } from "./models";
 
@@ -84,7 +88,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.1.1`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -137,7 +141,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-05";
+    this.apiVersion = options.apiVersion || "2023-10-04-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -155,7 +159,9 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     this.userSessions = new UserSessionsImpl(this);
     this.sessionHosts = new SessionHostsImpl(this);
     this.msixPackages = new MsixPackagesImpl(this);
+    this.appAttachPackageInfo = new AppAttachPackageInfoImpl(this);
     this.msixImages = new MsixImagesImpl(this);
+    this.appAttachPackageOperations = new AppAttachPackageOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -202,5 +208,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   userSessions: UserSessions;
   sessionHosts: SessionHosts;
   msixPackages: MsixPackages;
+  appAttachPackageInfo: AppAttachPackageInfo;
   msixImages: MsixImages;
+  appAttachPackageOperations: AppAttachPackageOperations;
 }
