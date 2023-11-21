@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DscCompilationJob,
   DscCompilationJobListByAutomationAccountNextOptionalParams,
@@ -143,8 +147,8 @@ export class DscCompilationJobOperationsImpl
     parameters: DscCompilationJobCreateParameters,
     options?: DscCompilationJobCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DscCompilationJobCreateResponse>,
+    SimplePollerLike<
+      OperationState<DscCompilationJobCreateResponse>,
       DscCompilationJobCreateResponse
     >
   > {
@@ -154,7 +158,7 @@ export class DscCompilationJobOperationsImpl
     ): Promise<DscCompilationJobCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -187,19 +191,22 @@ export class DscCompilationJobOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         automationAccountName,
         compilationJobName,
         parameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DscCompilationJobCreateResponse,
+      OperationState<DscCompilationJobCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -332,7 +339,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
