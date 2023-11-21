@@ -1,15 +1,167 @@
 # Release History
+    
+## 2.1.0-beta.1 (2023-11-21)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group AppResiliencyOperations
+  - Added operation group Builders
+  - Added operation group Builds
+  - Added operation group DaprComponentResiliencyPolicies
+  - Added operation group DaprSubscriptions
+  - Added operation group ManagedEnvironmentUsages
+  - Added operation group Usages
+  - Added operation Jobs.getDetector
+  - Added operation Jobs.listDetectors
+  - Added operation Jobs.proxyGet
+  - Added Interface AppInsightsConfiguration
+  - Added Interface AppResiliency
+  - Added Interface AppResiliencyCollection
+  - Added Interface AppResiliencyCreateOrUpdateOptionalParams
+  - Added Interface AppResiliencyDeleteOptionalParams
+  - Added Interface AppResiliencyGetOptionalParams
+  - Added Interface AppResiliencyListNextOptionalParams
+  - Added Interface AppResiliencyListOptionalParams
+  - Added Interface AppResiliencyUpdateOptionalParams
+  - Added Interface BlobStorageTokenStore
+  - Added Interface BuildCollection
+  - Added Interface BuildConfiguration
+  - Added Interface BuilderCollection
+  - Added Interface BuilderResource
+  - Added Interface BuilderResourceUpdate
+  - Added Interface BuildersCreateOrUpdateHeaders
+  - Added Interface BuildersCreateOrUpdateOptionalParams
+  - Added Interface BuildersDeleteHeaders
+  - Added Interface BuildersDeleteOptionalParams
+  - Added Interface BuildersGetOptionalParams
+  - Added Interface BuildersListByResourceGroupNextOptionalParams
+  - Added Interface BuildersListByResourceGroupOptionalParams
+  - Added Interface BuildersListBySubscriptionNextOptionalParams
+  - Added Interface BuildersListBySubscriptionOptionalParams
+  - Added Interface BuildersUpdateHeaders
+  - Added Interface BuildersUpdateOptionalParams
+  - Added Interface BuildResource
+  - Added Interface BuildsCreateOrUpdateHeaders
+  - Added Interface BuildsCreateOrUpdateOptionalParams
+  - Added Interface BuildsDeleteHeaders
+  - Added Interface BuildsDeleteOptionalParams
+  - Added Interface BuildsGetOptionalParams
+  - Added Interface BuildsListAuthTokenOptionalParams
+  - Added Interface BuildsListByBuilderResourceNextOptionalParams
+  - Added Interface BuildsListByBuilderResourceOptionalParams
+  - Added Interface BuildToken
+  - Added Interface CircuitBreakerPolicy
+  - Added Interface ContainerRegistry
+  - Added Interface ContainerRegistryWithCustomImage
+  - Added Interface DaprComponentResiliencyPoliciesCollection
+  - Added Interface DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesDeleteOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesGetOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesListNextOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesListOptionalParams
+  - Added Interface DaprComponentResiliencyPolicy
+  - Added Interface DaprComponentResiliencyPolicyConfiguration
+  - Added Interface DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration
+  - Added Interface DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration
+  - Added Interface DaprComponentResiliencyPolicyTimeoutPolicyConfiguration
+  - Added Interface DaprComponentServiceBinding
+  - Added Interface DaprServiceBindMetadata
+  - Added Interface DaprSubscription
+  - Added Interface DaprSubscriptionBulkSubscribeOptions
+  - Added Interface DaprSubscriptionRouteRule
+  - Added Interface DaprSubscriptionRoutes
+  - Added Interface DaprSubscriptionsCollection
+  - Added Interface DaprSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface DaprSubscriptionsDeleteOptionalParams
+  - Added Interface DaprSubscriptionsGetOptionalParams
+  - Added Interface DaprSubscriptionsListNextOptionalParams
+  - Added Interface DaprSubscriptionsListOptionalParams
+  - Added Interface DataDogConfiguration
+  - Added Interface DestinationsConfiguration
+  - Added Interface EncryptionSettings
+  - Added Interface EnvironmentVariable
+  - Added Interface GetCustomDomainVerificationIdOptionalParams
+  - Added Interface HeaderMatch
+  - Added Interface HttpConnectionPool
+  - Added Interface HttpGet
+  - Added Interface HttpRetryPolicy
+  - Added Interface IngressPortMapping
+  - Added Interface JobsGetDetectorOptionalParams
+  - Added Interface JobsListDetectorsOptionalParams
+  - Added Interface JobsProxyGetOptionalParams
+  - Added Interface ListUsagesResult
+  - Added Interface LogsConfiguration
+  - Added Interface ManagedEnvironmentUsagesListNextOptionalParams
+  - Added Interface ManagedEnvironmentUsagesListOptionalParams
+  - Added Interface MetricsConfiguration
+  - Added Interface OpenTelemetryConfiguration
+  - Added Interface PreBuildStep
+  - Added Interface TcpConnectionPool
+  - Added Interface TcpRetryPolicy
+  - Added Interface TimeoutPolicy
+  - Added Interface TokenStore
+  - Added Interface TracesConfiguration
+  - Added Interface Usage
+  - Added Interface UsageName
+  - Added Interface UsagesListNextOptionalParams
+  - Added Interface UsagesListOptionalParams
+  - Added Type Alias AppResiliencyCreateOrUpdateResponse
+  - Added Type Alias AppResiliencyGetResponse
+  - Added Type Alias AppResiliencyListNextResponse
+  - Added Type Alias AppResiliencyListResponse
+  - Added Type Alias AppResiliencyUpdateResponse
+  - Added Type Alias BuilderProvisioningState
+  - Added Type Alias BuildersCreateOrUpdateResponse
+  - Added Type Alias BuildersDeleteResponse
+  - Added Type Alias BuildersGetResponse
+  - Added Type Alias BuildersListByResourceGroupNextResponse
+  - Added Type Alias BuildersListByResourceGroupResponse
+  - Added Type Alias BuildersListBySubscriptionNextResponse
+  - Added Type Alias BuildersListBySubscriptionResponse
+  - Added Type Alias BuildersUpdateResponse
+  - Added Type Alias BuildProvisioningState
+  - Added Type Alias BuildsCreateOrUpdateResponse
+  - Added Type Alias BuildsDeleteResponse
+  - Added Type Alias BuildsGetResponse
+  - Added Type Alias BuildsListAuthTokenResponse
+  - Added Type Alias BuildsListByBuilderResourceNextResponse
+  - Added Type Alias BuildsListByBuilderResourceResponse
+  - Added Type Alias BuildStatus
+  - Added Type Alias CertificateType
+  - Added Type Alias DaprComponentResiliencyPoliciesCreateOrUpdateResponse
+  - Added Type Alias DaprComponentResiliencyPoliciesGetResponse
+  - Added Type Alias DaprComponentResiliencyPoliciesListNextResponse
+  - Added Type Alias DaprComponentResiliencyPoliciesListResponse
+  - Added Type Alias DaprSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias DaprSubscriptionsGetResponse
+  - Added Type Alias DaprSubscriptionsListNextResponse
+  - Added Type Alias DaprSubscriptionsListResponse
+  - Added Type Alias GetCustomDomainVerificationIdResponse
+  - Added Type Alias JobsGetDetectorResponse
+  - Added Type Alias JobsListDetectorsResponse
+  - Added Type Alias JobsProxyGetResponse
+  - Added Type Alias ManagedEnvironmentUsagesListNextResponse
+  - Added Type Alias ManagedEnvironmentUsagesListResponse
+  - Added Type Alias UsagesListNextResponse
+  - Added Type Alias UsagesListResponse
+  - Interface AuthConfig has a new optional parameter encryptionSettings
+  - Interface AvailableWorkloadProfileProperties has a new optional parameter gpus
+  - Interface CertificateProperties has a new optional parameter certificateType
+  - Interface DaprComponent has a new optional parameter serviceComponentBind
+  - Interface Ingress has a new optional parameter additionalPortMappings
+  - Interface Job has a new optional parameter extendedLocation
+  - Interface JobPatchProperties has a new optional parameter extendedLocation
+  - Interface LogAnalyticsConfiguration has a new optional parameter dynamicJsonColumns
+  - Interface Login has a new optional parameter tokenStore
+  - Interface ManagedEnvironment has a new optional parameter appInsightsConfiguration
+  - Interface ManagedEnvironment has a new optional parameter openTelemetryConfiguration
+  - Interface ServiceBind has a new optional parameter clientType
+  - Interface ServiceBind has a new optional parameter customizedKeys
+  - Added Enum KnownBuilderProvisioningState
+  - Added Enum KnownBuildProvisioningState
+  - Added Enum KnownBuildStatus
+  - Added Enum KnownCertificateType
+    
 ## 2.0.0 (2023-08-08)
 
 **Features**
@@ -361,4 +513,4 @@
 
 ## 1.0.0 (2022-05-20)
 
-The package of @azure/arm-appcontainers is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-appcontainers is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
