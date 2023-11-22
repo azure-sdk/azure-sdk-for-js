@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { WorkloadClassifiers } from "../operationsInterfaces";
+import { JobPrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  WorkloadClassifier,
-  WorkloadClassifiersListByWorkloadGroupNextOptionalParams,
-  WorkloadClassifiersListByWorkloadGroupOptionalParams,
-  WorkloadClassifiersListByWorkloadGroupResponse,
-  WorkloadClassifiersGetOptionalParams,
-  WorkloadClassifiersGetResponse,
-  WorkloadClassifiersCreateOrUpdateOptionalParams,
-  WorkloadClassifiersCreateOrUpdateResponse,
-  WorkloadClassifiersDeleteOptionalParams,
-  WorkloadClassifiersListByWorkloadGroupNextResponse
+  JobPrivateEndpoint,
+  JobPrivateEndpointsListByAgentNextOptionalParams,
+  JobPrivateEndpointsListByAgentOptionalParams,
+  JobPrivateEndpointsListByAgentResponse,
+  JobPrivateEndpointsGetOptionalParams,
+  JobPrivateEndpointsGetResponse,
+  JobPrivateEndpointsCreateOrUpdateOptionalParams,
+  JobPrivateEndpointsCreateOrUpdateResponse,
+  JobPrivateEndpointsDeleteOptionalParams,
+  JobPrivateEndpointsListByAgentNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing WorkloadClassifiers operations. */
-export class WorkloadClassifiersImpl implements WorkloadClassifiers {
+/** Class containing JobPrivateEndpoints operations. */
+export class JobPrivateEndpointsImpl implements JobPrivateEndpoints {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class WorkloadClassifiers class.
+   * Initialize a new instance of the class JobPrivateEndpoints class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -46,26 +46,23 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
   }
 
   /**
-   * Gets the list of workload classifiers for a workload group
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifiers from.
+   * @param jobAgentName The name of the job agent.
    * @param options The options parameters.
    */
-  public listByWorkloadGroup(
+  public listByAgent(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadClassifier> {
-    const iter = this.listByWorkloadGroupPagingAll(
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): PagedAsyncIterableIterator<JobPrivateEndpoint> {
+    const iter = this.listByAgentPagingAll(
       resourceGroupName,
       serverName,
-      databaseName,
-      workloadGroupName,
+      jobAgentName,
       options
     );
     return {
@@ -79,11 +76,10 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByWorkloadGroupPagingPage(
+        return this.listByAgentPagingPage(
           resourceGroupName,
           serverName,
-          databaseName,
-          workloadGroupName,
+          jobAgentName,
           options,
           settings
         );
@@ -91,22 +87,20 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     };
   }
 
-  private async *listByWorkloadGroupPagingPage(
+  private async *listByAgentPagingPage(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams,
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<WorkloadClassifier[]> {
-    let result: WorkloadClassifiersListByWorkloadGroupResponse;
+  ): AsyncIterableIterator<JobPrivateEndpoint[]> {
+    let result: JobPrivateEndpointsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByWorkloadGroup(
+      result = await this._listByAgent(
         resourceGroupName,
         serverName,
-        databaseName,
-        workloadGroupName,
+        jobAgentName,
         options
       );
       let page = result.value || [];
@@ -115,11 +109,10 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByWorkloadGroupNext(
+      result = await this._listByAgentNext(
         resourceGroupName,
         serverName,
-        databaseName,
-        workloadGroupName,
+        jobAgentName,
         continuationToken,
         options
       );
@@ -130,18 +123,16 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     }
   }
 
-  private async *listByWorkloadGroupPagingAll(
+  private async *listByAgentPagingAll(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams
-  ): AsyncIterableIterator<WorkloadClassifier> {
-    for await (const page of this.listByWorkloadGroupPagingPage(
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): AsyncIterableIterator<JobPrivateEndpoint> {
+    for await (const page of this.listByAgentPagingPage(
       resourceGroupName,
       serverName,
-      databaseName,
-      workloadGroupName,
+      jobAgentName,
       options
     )) {
       yield* page;
@@ -149,58 +140,47 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
   }
 
   /**
-   * Gets the list of workload classifiers for a workload group
+   * Gets a list of job agent private endpoints.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifiers from.
+   * @param jobAgentName The name of the job agent.
    * @param options The options parameters.
    */
-  private _listByWorkloadGroup(
+  private _listByAgent(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams
-  ): Promise<WorkloadClassifiersListByWorkloadGroupResponse> {
+    jobAgentName: string,
+    options?: JobPrivateEndpointsListByAgentOptionalParams
+  ): Promise<JobPrivateEndpointsListByAgentResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        workloadGroupName,
-        options
-      },
-      listByWorkloadGroupOperationSpec
+      { resourceGroupName, serverName, jobAgentName, options },
+      listByAgentOperationSpec
     );
   }
 
   /**
-   * Gets a workload classifier
+   * Gets a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifier from.
-   * @param workloadClassifierName The name of the workload classifier.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to get.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    workloadClassifierName: string,
-    options?: WorkloadClassifiersGetOptionalParams
-  ): Promise<WorkloadClassifiersGetResponse> {
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsGetOptionalParams
+  ): Promise<JobPrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serverName,
-        databaseName,
-        workloadGroupName,
-        workloadClassifierName,
+        jobAgentName,
+        privateEndpointName,
         options
       },
       getOperationSpec
@@ -208,34 +188,32 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
   }
 
   /**
-   * Creates or updates a workload classifier.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifier from.
-   * @param workloadClassifierName The name of the workload classifier to create/update.
-   * @param parameters The properties of the workload classifier.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    workloadClassifierName: string,
-    parameters: WorkloadClassifier,
-    options?: WorkloadClassifiersCreateOrUpdateOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<WorkloadClassifiersCreateOrUpdateResponse>,
-      WorkloadClassifiersCreateOrUpdateResponse
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>,
+      JobPrivateEndpointsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<WorkloadClassifiersCreateOrUpdateResponse> => {
+    ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -276,51 +254,48 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
       args: {
         resourceGroupName,
         serverName,
-        databaseName,
-        workloadGroupName,
-        workloadClassifierName,
+        jobAgentName,
+        privateEndpointName,
         parameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      WorkloadClassifiersCreateOrUpdateResponse,
-      OperationState<WorkloadClassifiersCreateOrUpdateResponse>
+      JobPrivateEndpointsCreateOrUpdateResponse,
+      OperationState<JobPrivateEndpointsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates a workload classifier.
+   * Creates or updates a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifier from.
-   * @param workloadClassifierName The name of the workload classifier to create/update.
-   * @param parameters The properties of the workload classifier.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint.
+   * @param parameters The requested private endpoint state.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    workloadClassifierName: string,
-    parameters: WorkloadClassifier,
-    options?: WorkloadClassifiersCreateOrUpdateOptionalParams
-  ): Promise<WorkloadClassifiersCreateOrUpdateResponse> {
+    jobAgentName: string,
+    privateEndpointName: string,
+    parameters: JobPrivateEndpoint,
+    options?: JobPrivateEndpointsCreateOrUpdateOptionalParams
+  ): Promise<JobPrivateEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
-      databaseName,
-      workloadGroupName,
-      workloadClassifierName,
+      jobAgentName,
+      privateEndpointName,
       parameters,
       options
     );
@@ -328,22 +303,20 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
   }
 
   /**
-   * Deletes a workload classifier.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifier from.
-   * @param workloadClassifierName The name of the workload classifier to delete.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    workloadClassifierName: string,
-    options?: WorkloadClassifiersDeleteOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -389,91 +362,79 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
       args: {
         resourceGroupName,
         serverName,
-        databaseName,
-        workloadGroupName,
-        workloadClassifierName,
+        jobAgentName,
+        privateEndpointName,
         options
       },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a workload classifier.
+   * Deletes a private endpoint.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifier from.
-   * @param workloadClassifierName The name of the workload classifier to delete.
+   * @param jobAgentName The name of the job agent.
+   * @param privateEndpointName The name of the private endpoint to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    workloadClassifierName: string,
-    options?: WorkloadClassifiersDeleteOptionalParams
+    jobAgentName: string,
+    privateEndpointName: string,
+    options?: JobPrivateEndpointsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
-      databaseName,
-      workloadGroupName,
-      workloadClassifierName,
+      jobAgentName,
+      privateEndpointName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByWorkloadGroupNext
+   * ListByAgentNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifiers from.
-   * @param nextLink The nextLink from the previous successful call to the ListByWorkloadGroup method.
+   * @param jobAgentName The name of the job agent.
+   * @param nextLink The nextLink from the previous successful call to the ListByAgent method.
    * @param options The options parameters.
    */
-  private _listByWorkloadGroupNext(
+  private _listByAgentNext(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
+    jobAgentName: string,
     nextLink: string,
-    options?: WorkloadClassifiersListByWorkloadGroupNextOptionalParams
-  ): Promise<WorkloadClassifiersListByWorkloadGroupNextResponse> {
+    options?: JobPrivateEndpointsListByAgentNextOptionalParams
+  ): Promise<JobPrivateEndpointsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        workloadGroupName,
-        nextLink,
-        options
-      },
-      listByWorkloadGroupNextOperationSpec
+      { resourceGroupName, serverName, jobAgentName, nextLink, options },
+      listByAgentNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByWorkloadGroupOperationSpec: coreClient.OperationSpec = {
+const listByAgentOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadClassifierListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult
     },
     default: {}
   },
@@ -482,20 +443,19 @@ const listByWorkloadGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
-    Parameters.workloadGroupName
+    Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     default: {}
   },
@@ -504,43 +464,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
-    Parameters.workloadGroupName,
-    Parameters.workloadClassifierName
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     201: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     202: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     204: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.JobPrivateEndpoint
     },
     default: {}
   },
-  requestBody: Parameters.parameters107,
+  requestBody: Parameters.parameters39,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
-    Parameters.workloadGroupName,
-    Parameters.workloadClassifierName
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -548,7 +506,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/privateEndpoints/{privateEndpointName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -556,19 +514,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
-    Parameters.workloadGroupName,
-    Parameters.workloadClassifierName
+    Parameters.jobAgentName,
+    Parameters.privateEndpointName
   ],
   serializer
 };
-const listByWorkloadGroupNextOperationSpec: coreClient.OperationSpec = {
+const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadClassifierListResult
+      bodyMapper: Mappers.JobPrivateEndpointListResult
     },
     default: {}
   },
@@ -576,10 +533,9 @@ const listByWorkloadGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.workloadGroupName
+    Parameters.jobAgentName
   ],
   headerParameters: [Parameters.accept],
   serializer
