@@ -689,6 +689,9 @@ dependencies:
   '@rush-temp/arm-templatespecs':
     specifier: file:./projects/arm-templatespecs.tgz
     version: file:projects/arm-templatespecs.tgz
+  '@rush-temp/arm-testbase':
+    specifier: file:./projects/arm-testbase.tgz
+    version: file:projects/arm-testbase.tgz
   '@rush-temp/arm-timeseriesinsights':
     specifier: file:./projects/arm-timeseriesinsights.tgz
     version: file:projects/arm-timeseriesinsights.tgz
@@ -4440,7 +4443,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231120
+      typescript: 5.4.0-dev.20231121
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4449,7 +4452,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231120
+      typescript: 5.4.0-dev.20231121
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9155,8 +9158,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231120:
-    resolution: {integrity: sha512-MG4Zg5HXb8bnvGdZrMeLBekqbCjHjaMPewXh3wVrNgTF+toQ4BrdhXnYiqMU0pLLxcsxRSMPB5MzB7YHgr67Cg==}
+  /typescript@5.4.0-dev.20231121:
+    resolution: {integrity: sha512-/JUU1WLbuTBKfivcYHR+gvBAjMdhj1r2+flrnh8z7wdy2MDQgxRzSlfktNsbaqoYsOVolVDAPAoHpxVIvJlEgA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15769,6 +15772,33 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-testbase.tgz:
+    resolution: {integrity: sha512-1NlH2GkGtc4B9XjM4jIijCehdah/mj59+x0U5LzE4orOrxuC57/uq/jXrygVYKcHiHXovJKe42/7yPMW6/XAqQ==, tarball: file:projects/arm-testbase.tgz}
+    name: '@rush-temp/arm-testbase'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
+      '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
+      '@types/node': 18.18.10
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
