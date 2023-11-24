@@ -8,17 +8,17 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  PrivateLinkResource,
-  PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams,
-  PrivateLinkResourceOperationsGetOptionalParams,
-  PrivateLinkResourceOperationsGetResponse
+  SqlAssessmentOptions,
+  SqlAssessmentOptionsOperationsListByAssessmentProjectOptionalParams,
+  SqlAssessmentOptionsOperationsGetOptionalParams,
+  SqlAssessmentOptionsOperationsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a PrivateLinkResourceOperations. */
-export interface PrivateLinkResourceOperations {
+/** Interface representing a SqlAssessmentOptionsOperations. */
+export interface SqlAssessmentOptionsOperations {
   /**
-   * List PrivateLinkResource resources by AssessmentProject
+   * List SqlAssessmentOptions resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -26,19 +26,19 @@ export interface PrivateLinkResourceOperations {
   listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+    options?: SqlAssessmentOptionsOperationsListByAssessmentProjectOptionalParams
+  ): PagedAsyncIterableIterator<SqlAssessmentOptions>;
   /**
-   * Get a PrivateLinkResource
+   * Get a SqlAssessmentOptions
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateLinkResourceName Private link resource ARM name
+   * @param assessmentOptionsName Sql assessment options ARM name. Accepted values is 'default'
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    privateLinkResourceName: string,
-    options?: PrivateLinkResourceOperationsGetOptionalParams
-  ): Promise<PrivateLinkResourceOperationsGetResponse>;
+    assessmentOptionsName: string,
+    options?: SqlAssessmentOptionsOperationsGetOptionalParams
+  ): Promise<SqlAssessmentOptionsOperationsGetResponse>;
 }
