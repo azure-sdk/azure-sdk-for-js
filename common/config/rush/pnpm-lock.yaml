@@ -164,6 +164,9 @@ dependencies:
   '@rush-temp/arm-communication':
     specifier: file:./projects/arm-communication.tgz
     version: file:projects/arm-communication.tgz
+  '@rush-temp/arm-communitytraining':
+    specifier: file:./projects/arm-communitytraining.tgz
+    version: file:projects/arm-communitytraining.tgz
   '@rush-temp/arm-compute':
     specifier: file:./projects/arm-compute.tgz
     version: file:projects/arm-compute.tgz
@@ -11343,6 +11346,33 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      ts-node: 10.9.1(@types/node@18.18.12)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-communitytraining.tgz:
+    resolution: {integrity: sha512-5xjJGqRouZUFo0AOUvdMuXLEBM/U4cZGXR0WsklXu9yi8yBmeoqwvVempbjvEVjgSVNmIS03NuSv/qXsOdKmzQ==, tarball: file:projects/arm-communitytraining.tgz}
+    name: '@rush-temp/arm-communitytraining'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.12)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.18.12
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
