@@ -440,7 +440,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.BackupPoliciesList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -460,7 +462,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.BackupPolicy
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -490,7 +494,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.BackupPolicy
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body24,
   queryParameters: [Parameters.apiVersion],
@@ -522,7 +528,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.BackupPolicy
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body25,
   queryParameters: [Parameters.apiVersion],
@@ -541,7 +549,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -550,5 +566,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.backupPolicyName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };

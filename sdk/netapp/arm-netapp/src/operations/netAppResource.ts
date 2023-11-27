@@ -49,7 +49,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Check if a resource name is available.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param name Resource name to verify.
    * @param typeParam Resource type used for verification.
    * @param resourceGroup Resource group name.
@@ -70,7 +70,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Check if a file path is available.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param name File path to verify.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
    *                 Microsoft.NetApp/volumes
@@ -90,7 +90,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Check if a quota is available.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param name Name of the resource to verify.
    * @param typeParam Resource type used for verification.
    * @param resourceGroup Resource group name.
@@ -111,7 +111,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Provides storage to network proximity and logical zone mapping information.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   queryRegionInfo(
@@ -126,7 +126,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Get details of the specified network sibling set.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
    *                            resources in a subnet.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
@@ -148,7 +148,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Update the network features of the specified network sibling set.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
    *                            resources in a subnet.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
@@ -237,7 +237,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Update the network features of the specified network sibling set.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
    *                            resources in a subnet.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
@@ -278,7 +278,9 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CheckAvailabilityResponse
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: {
     parameterPath: {
@@ -306,7 +308,9 @@ const checkFilePathAvailabilityOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CheckAvailabilityResponse
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: {
     parameterPath: { name: ["name"], subnetId: ["subnetId"] },
@@ -330,7 +334,9 @@ const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CheckAvailabilityResponse
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: {
     parameterPath: {
@@ -358,7 +364,9 @@ const queryRegionInfoOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RegionInfo
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
