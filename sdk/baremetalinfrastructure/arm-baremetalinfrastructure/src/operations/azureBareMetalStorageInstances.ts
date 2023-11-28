@@ -25,7 +25,7 @@ import {
   AzureBareMetalStorageInstancesGetResponse,
   AzureBareMetalStorageInstancesCreateOptionalParams,
   AzureBareMetalStorageInstancesCreateResponse,
-  Tags,
+  AzureBareMetalStorageInstanceBody,
   AzureBareMetalStorageInstancesUpdateOptionalParams,
   AzureBareMetalStorageInstancesUpdateResponse,
   AzureBareMetalStorageInstancesDeleteOptionalParams,
@@ -252,20 +252,21 @@ export class AzureBareMetalStorageInstancesImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalStorageInstanceName Name of the Azure Bare Metal Storage Instance, also known
    *                                          as the ResourceName.
-   * @param tagsParameter Request body that only contains the new Tags field
+   * @param azureBareMetalStorageInstanceBodyParameter Request body that only contains the Tags and
+   *                                                   Identity Field
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
-    tagsParameter: Tags,
+    azureBareMetalStorageInstanceBodyParameter: AzureBareMetalStorageInstanceBody,
     options?: AzureBareMetalStorageInstancesUpdateOptionalParams
   ): Promise<AzureBareMetalStorageInstancesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         azureBareMetalStorageInstanceName,
-        tagsParameter,
+        azureBareMetalStorageInstanceBodyParameter,
         options
       },
       updateOperationSpec
@@ -424,7 +425,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.tagsParameter,
+  requestBody: Parameters.azureBareMetalStorageInstanceBodyParameter,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
