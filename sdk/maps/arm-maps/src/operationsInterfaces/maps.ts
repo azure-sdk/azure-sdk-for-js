@@ -7,11 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  OperationDetail,
-  MapsListOperationsOptionalParams,
-  MapsListSubscriptionOperationsOptionalParams
-} from "../models";
+import { Operation, MapsListOperationsOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Maps. */
@@ -22,12 +18,5 @@ export interface Maps {
    */
   listOperations(
     options?: MapsListOperationsOptionalParams
-  ): PagedAsyncIterableIterator<OperationDetail>;
-  /**
-   * List operations available for the Maps Resource Provider
-   * @param options The options parameters.
-   */
-  listSubscriptionOperations(
-    options?: MapsListSubscriptionOperationsOptionalParams
-  ): PagedAsyncIterableIterator<OperationDetail>;
+  ): PagedAsyncIterableIterator<Operation>;
 }
