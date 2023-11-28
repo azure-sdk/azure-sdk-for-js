@@ -15035,20 +15035,22 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-lLw8O1dpdJ4CKd51UlTWBOLl47c8MfxuN1CN6xglprWSM8nXwDjrmErm2RfFgB0Fr0MdRIN90ny5PPE+fsNt4g==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-XmQ+KNLN3luM9hSrhoHtXBGzdzvkdRn2Ew1birVQksvAj41NKmzvGjbtQkoU9YKJDtQ2F3Lv8d/eJjRCihClnA==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.18.13
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.13)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -18233,7 +18235,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-Lj15j+IFPXNJotoVhQtAurBpIEQW/JCdQRGYxB03zYaiNb2GI/07Bq5ZlZJRMxb8lwgnplT2Xq0k5IJPzjT6Nw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-MuCTGxlBHAgRG60wMaIRdu0iQQURgMoojNknvE8VGefA1OvqzRH51LNodDEkUKelUPUXVFgqoA8aZBmSRmBm8w==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
