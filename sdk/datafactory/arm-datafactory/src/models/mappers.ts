@@ -25209,6 +25209,18 @@ export const WebActivity: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      httpRequestTimeout: {
+        serializedName: "typeProperties.httpRequestTimeout",
+        type: {
+          name: "any"
+        }
+      },
+      turnOffAsync: {
+        serializedName: "typeProperties.turnOffAsync",
+        type: {
+          name: "Boolean"
+        }
+      },
       datasets: {
         serializedName: "typeProperties.datasets",
         type: {

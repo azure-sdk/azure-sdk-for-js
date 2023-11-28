@@ -10190,6 +10190,10 @@ export interface WebActivity extends ExecutionActivity {
   authentication?: WebActivityAuthentication;
   /** When set to true, Certificate validation will be disabled. */
   disableCertValidation?: boolean;
+  /** Timeout for the HTTP request to get a response. Format is in TimeSpan (hh:mm:ss). This value is the timeout to get a response, not the activity timeout. The default value is 00:01:00 (1 minute). The range is from 1 to 10 minutes */
+  httpRequestTimeout?: any;
+  /** Option to disable invoking HTTP GET on location given in response header of a HTTP 202 Response. If set true, it stops invoking HTTP GET on http location given in response header. If set false then continues to invoke HTTP GET call on location given in http response headers. */
+  turnOffAsync?: boolean;
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */
