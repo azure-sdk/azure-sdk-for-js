@@ -1,6 +1,6 @@
 # Release History
     
-## 4.0.0-beta.1 (2023-10-16)
+## 4.0.0 (2023-11-29)
     
 **Features**
 
@@ -110,7 +110,6 @@
   - Added Interface NetworkInterfacesUpdateRequest
   - Added Interface NetworkProfileUpdate
   - Added Interface NetworkProfileUpdateNetworkInterfacesItem
-  - Added Interface OperationsListNextOptionalParams
   - Added Interface OsProfileUpdate
   - Added Interface OsProfileUpdateLinuxConfiguration
   - Added Interface OsProfileUpdateWindowsConfiguration
@@ -235,7 +234,6 @@
   - Added Type Alias NetworkInterfacesListResponse
   - Added Type Alias NetworkInterfacesUpdateResponse
   - Added Type Alias OperatingSystemTypes
-  - Added Type Alias OperationsListNextResponse
   - Added Type Alias PowerStateEnum
   - Added Type Alias ProvisioningAction
   - Added Type Alias ProvisioningStateEnum
@@ -290,16 +288,20 @@
   - Removed operation group ArcSettings
   - Removed operation group Clusters
   - Removed operation group Extensions
+  - Removed operation group Operations
   - Class AzureStackHCIClient has a new signature
   - Class AzureStackHCIClient no longer has parameter arcSettings
   - Class AzureStackHCIClient no longer has parameter clusters
   - Class AzureStackHCIClient no longer has parameter extensions
+  - Class AzureStackHCIClient no longer has parameter operations
+  - Removed Enum KnownActionType
   - Removed Enum KnownArcSettingAggregateState
   - Removed Enum KnownDiagnosticLevel
   - Removed Enum KnownExtensionAggregateState
   - Removed Enum KnownImdsAttestation
   - Removed Enum KnownNodeArcState
   - Removed Enum KnownNodeExtensionState
+  - Removed Enum KnownOrigin
   - Removed Enum KnownProvisioningState
   - Removed Enum KnownWindowsServerSubscription
   - Enum KnownStatus no longer has value ConnectedRecently

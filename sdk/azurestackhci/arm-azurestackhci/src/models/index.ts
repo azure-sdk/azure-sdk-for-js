@@ -180,70 +180,6 @@ export interface GalleryImagesListResult {
   readonly nextLink?: string;
 }
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * List of operations supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: ActionType;
-}
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
 /** DhcpOptions contains an array of DNS servers available to VMs deployed in the logical network. Standard DHCP option for a subnet overrides logical network DHCP options. */
 export interface LogicalNetworkPropertiesDhcpOptions {
   /** The list of DNS servers IP addresses. */
@@ -1304,42 +1240,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link Origin} that the service accepts. */
-export enum KnownOrigin {
-  /** User */
-  User = "user",
-  /** System */
-  System = "system",
-  /** UserSystem */
-  UserSystem = "user,system"
-}
-
-/**
- * Defines values for Origin. \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
- */
-export type Origin = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** Internal */
-  Internal = "Internal"
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**
- */
-export type ActionType = string;
-
 /** Known values of {@link IpAllocationMethodEnum} that the service accepts. */
 export enum KnownIpAllocationMethodEnum {
   /** Dynamic */
@@ -1645,20 +1545,6 @@ export interface GalleryImagesListAllNextOptionalParams
 
 /** Contains response data for the listAllNext operation. */
 export type GalleryImagesListAllNextResponse = GalleryImagesListResult;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface LogicalNetworksGetOptionalParams

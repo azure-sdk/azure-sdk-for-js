@@ -10,9 +10,6 @@ import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
-// @public
-export type ActionType = string;
-
 // @public (undocumented)
 export class AzureStackHCIClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -35,8 +32,6 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     marketplaceGalleryImagesOperations: MarketplaceGalleryImagesOperations;
     // (undocumented)
     networkInterfacesOperations: NetworkInterfacesOperations;
-    // (undocumented)
-    operations: Operations;
     // (undocumented)
     storageContainersOperations: StorageContainersOperations;
     // (undocumented)
@@ -470,11 +465,6 @@ export interface IPPoolInfo {
 export type IPPoolTypeEnum = "vm" | "vippool";
 
 // @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
-
-// @public
 export enum KnownCloudInitDataSource {
     Azure = "Azure",
     NoCloud = "NoCloud"
@@ -509,13 +499,6 @@ export enum KnownHyperVGeneration {
 export enum KnownIpAllocationMethodEnum {
     Dynamic = "Dynamic",
     Static = "Static"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
 }
 
 // @public
@@ -1006,51 +989,6 @@ export interface NetworkProfileUpdateNetworkInterfacesItem {
 
 // @public
 export type OperatingSystemTypes = "Windows" | "Linux";
-
-// @public
-export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
-}
-
-// @public
-export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export type Origin = string;
 
 // @public
 export interface OsProfileUpdate {

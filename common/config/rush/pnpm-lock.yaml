@@ -11174,7 +11174,7 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-ZziaYVjY0uSP0zh+3F3rHPAj+iZ+EjAepiEB00DE5LRbYLPxWDuVeW6fwIH59oVuqaSzsRl+NI97gV2EwbaUrg==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-/j/FTbZn8gKXDFHtyMxk6pBJJiRImXIuYlB8rWXpMoCbfXuy3FFvxiWjlyzmAa0Wai73RdPA2osK+h28uupGWw==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -11182,11 +11182,13 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)

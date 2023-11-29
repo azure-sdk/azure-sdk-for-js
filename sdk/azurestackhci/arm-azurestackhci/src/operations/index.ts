@@ -7,7 +7,6 @@
  */
 
 export * from "./galleryImagesOperations";
-export * from "./operations";
 export * from "./logicalNetworksOperations";
 export * from "./marketplaceGalleryImagesOperations";
 export * from "./networkInterfacesOperations";
