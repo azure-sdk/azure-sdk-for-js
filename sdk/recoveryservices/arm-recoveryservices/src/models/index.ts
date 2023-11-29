@@ -551,16 +551,10 @@ export interface CrossSubscriptionRestoreSettings {
 
 /** The redundancy Settings of a Vault */
 export interface VaultPropertiesRedundancySettings {
-  /**
-   * The storage redundancy setting of a vault
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
-  /**
-   * Flag to show if Cross Region Restore is enabled on the Vault or not
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly crossRegionRestore?: CrossRegionRestore;
+  /** The storage redundancy setting of a vault */
+  standardTierStorageRedundancy?: StandardTierStorageRedundancy;
+  /** Flag to show if Cross Region Restore is enabled on the Vault or not */
+  crossRegionRestore?: CrossRegionRestore;
 }
 
 /** Security Settings of the vault */
@@ -586,6 +580,7 @@ export interface SoftDeleteSettings {
   softDeleteState?: SoftDeleteState;
   /** Soft delete retention period in days */
   softDeleteRetentionPeriodInDays?: number;
+  enhancedSecurityState?: EnhancedSecurityState;
 }
 
 /** Identifies the unique system identifier for each Azure resource. */
@@ -1164,6 +1159,8 @@ export type CrossSubscriptionRestoreState = string;
 
 /** Known values of {@link StandardTierStorageRedundancy} that the service accepts. */
 export enum KnownStandardTierStorageRedundancy {
+  /** Invalid */
+  Invalid = "Invalid",
   /** LocallyRedundant */
   LocallyRedundant = "LocallyRedundant",
   /** GeoRedundant */
@@ -1177,6 +1174,7 @@ export enum KnownStandardTierStorageRedundancy {
  * {@link KnownStandardTierStorageRedundancy} can be used interchangeably with StandardTierStorageRedundancy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Invalid** \
  * **LocallyRedundant** \
  * **GeoRedundant** \
  * **ZoneRedundant**
@@ -1245,6 +1243,30 @@ export enum KnownSoftDeleteState {
  * **AlwaysON**
  */
 export type SoftDeleteState = string;
+
+/** Known values of {@link EnhancedSecurityState} that the service accepts. */
+export enum KnownEnhancedSecurityState {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** AlwaysON */
+  AlwaysON = "AlwaysON"
+}
+
+/**
+ * Defines values for EnhancedSecurityState. \
+ * {@link KnownEnhancedSecurityState} can be used interchangeably with EnhancedSecurityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Enabled** \
+ * **Disabled** \
+ * **AlwaysON**
+ */
+export type EnhancedSecurityState = string;
 
 /** Known values of {@link MultiUserAuthorization} that the service accepts. */
 export enum KnownMultiUserAuthorization {

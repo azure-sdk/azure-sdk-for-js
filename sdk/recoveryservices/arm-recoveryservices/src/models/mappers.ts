@@ -1206,14 +1206,12 @@ export const VaultPropertiesRedundancySettings: coreClient.CompositeMapper = {
     modelProperties: {
       standardTierStorageRedundancy: {
         serializedName: "standardTierStorageRedundancy",
-        readOnly: true,
         type: {
           name: "String"
         }
       },
       crossRegionRestore: {
         serializedName: "crossRegionRestore",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -1282,6 +1280,12 @@ export const SoftDeleteSettings: coreClient.CompositeMapper = {
         serializedName: "softDeleteRetentionPeriodInDays",
         type: {
           name: "Number"
+        }
+      },
+      enhancedSecurityState: {
+        serializedName: "enhancedSecurityState",
+        type: {
+          name: "String"
         }
       }
     }
