@@ -4529,7 +4529,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231128
+      typescript: 5.4.0-dev.20231129
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4538,7 +4538,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231128
+      typescript: 5.4.0-dev.20231129
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9320,8 +9320,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231128:
-    resolution: {integrity: sha512-9qkF438icXJz8XXZ38mDJfUTTAvVZptHGBEkwqB2QaO8p6cQuiYvghMHk5o2bZFHS5VcrAwYtpEuekd1iSTmBQ==}
+  /typescript@5.4.0-dev.20231129:
+    resolution: {integrity: sha512-ff8qrYy50SbFp5yGxTKA4xnG/lyUm73GPKWNMYvigDEcwHbOq0ArkvGaHn4EIk6ina1ggsrLVIbBtyhhy2szVA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10018,7 +10018,7 @@ packages:
       prettier: 2.8.8
       rimraf: 5.0.5
       source-map-support: 0.5.21
-      ts-node: 10.9.1(@types/node@18.18.13)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
     transitivePeerDependencies:
@@ -13810,20 +13810,22 @@ packages:
     dev: false
 
   file:projects/arm-migrate.tgz:
-    resolution: {integrity: sha512-ZZrIq4csKPZh4DrK5L7EzaQcTo36InofLfb6Z9idF44Hda6DqFEeM6I8+GwqUBAd3GsTbFAPORo9AJa1o38X9Q==, tarball: file:projects/arm-migrate.tgz}
+    resolution: {integrity: sha512-SvVDljSk9gzApcgWTKSlQdIggPWqyQ9yFjt18ZtTKh2r/kM+hzqc9EAOxihXLNcT4mUXRw1q47o/Y/hFhxL2nw==, tarball: file:projects/arm-migrate.tgz}
     name: '@rush-temp/arm-migrate'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -14129,15 +14131,15 @@ packages:
     dev: false
 
   file:projects/arm-networkanalytics.tgz:
-    resolution: {integrity: sha512-WbRUbDTJCJVlmVilj1D6xG08o8m9Qmz33FbtOqa3ZSict+ARrPe2oUkCiL9Q88qz1/nt1niPOgftduhhRpdh5g==, tarball: file:projects/arm-networkanalytics.tgz}
+    resolution: {integrity: sha512-sym060MEAXpwiF3FmO1zZpjV469FJNKH0ngqXTRGDUbvM8ty67daLoCoFqgNpVOiuxAj11sJqeGF0Y9heyCV/A==, tarball: file:projects/arm-networkanalytics.tgz}
     name: '@rush-temp/arm-networkanalytics'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
-      '@types/chai': 4.3.11
-      '@types/mocha': 10.0.6
-      '@types/node': 18.18.13
+      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
+      '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
+      '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -14145,7 +14147,7 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
-      ts-node: 10.9.1(@types/node@18.18.13)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
       uglify-js: 3.17.4

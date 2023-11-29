@@ -6,39 +6,61 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type ActionType = string;
+
+// @public
+export type ApiVersions = string;
+
+// @public (undocumented)
 export interface AssessedDisk {
-    readonly displayName?: string;
-    readonly gigabytesForRecommendedDiskSize?: number;
-    readonly gigabytesProvisioned?: number;
-    readonly megabytesPerSecondOfRead?: number;
-    readonly megabytesPerSecondOfWrite?: number;
-    readonly monthlyStorageCost?: number;
-    readonly name?: string;
-    readonly numberOfReadOperationsPerSecond?: number;
-    readonly numberOfWriteOperationsPerSecond?: number;
-    readonly recommendedDiskSize?: AzureDiskSize;
-    readonly recommendedDiskType?: AzureDiskType;
-    readonly suitability?: CloudSuitability;
-    readonly suitabilityDetail?: AzureDiskSuitabilityDetail;
-    readonly suitabilityExplanation?: AzureDiskSuitabilityExplanation;
+    displayName?: string;
+    gigabytesForRecommendedDiskSize?: number;
+    gigabytesProvisioned?: number;
+    megabytesPerSecondOfRead?: number;
+    megabytesPerSecondOfWrite?: number;
+    monthlyStorageCost?: number;
+    name?: string;
+    numberOfReadOperationsPerSecond?: number;
+    numberOfWriteOperationsPerSecond?: number;
+    recommendDiskThroughputInMbps?: number;
+    recommendedDiskIops?: number;
+    recommendedDiskSize?: AzureDiskSize;
+    recommendedDiskType?: AzureDiskType;
+    suitability?: CloudSuitability;
+    suitabilityDetail?: AzureDiskSuitabilityDetail;
+    suitabilityExplanation?: AzureDiskSuitabilityExplanation;
 }
 
 // @public
-export interface AssessedMachine {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties?: AssessedMachineProperties;
-    readonly type?: string;
+export interface AssessedDiskData {
+    displayName?: string;
+    gigabytesProvisioned?: number;
+    megabytesPerSecondOfRead?: number;
+    megabytesPerSecondOfWrite?: number;
+    monthlyStorageCost?: number;
+    name?: string;
+    numberOfReadOperationsPerSecond?: number;
+    numberOfWriteOperationsPerSecond?: number;
+    recommendDiskThroughputInMbps?: number;
+    recommendedDiskIops?: number;
+    recommendedDiskSize?: AzureDiskSize;
+    recommendedDiskSizeGigabytes?: number;
+    recommendedDiskType?: AzureDiskType;
+    suitability?: CloudSuitability;
+    suitabilityDetail?: AzureDiskSuitabilityDetail;
+    suitabilityExplanation?: AzureDiskSuitabilityExplanation;
 }
 
 // @public
-export interface AssessedMachineProperties {
+export interface AssessedMachine extends ProxyResource {
     readonly bootType?: MachineBootType;
     readonly confidenceRatingInPercentage?: number;
+    costComponents?: CostComponent[];
     readonly createdTimestamp?: Date;
     readonly datacenterMachineArmId?: string;
     readonly datacenterManagementServerArmId?: string;
@@ -48,253 +70,1074 @@ export interface AssessedMachineProperties {
         [propertyName: string]: AssessedDisk;
     };
     readonly displayName?: string;
+    readonly errors?: ErrorModel[];
+    hostProcessor?: ProcessorInfo;
     readonly megabytesOfMemory?: number;
     readonly megabytesOfMemoryForRecommendedSize?: number;
     readonly monthlyBandwidthCost?: number;
     readonly monthlyComputeCostForRecommendedSize?: number;
     readonly monthlyPremiumStorageCost?: number;
-    readonly monthlyStandardSSDStorageCost?: number;
+    readonly monthlyStandardSsdStorageCost?: number;
     readonly monthlyStorageCost?: number;
+    readonly monthlyUltraStorageCost?: number;
     readonly networkAdapters?: {
         [propertyName: string]: AssessedNetworkAdapter;
     };
     readonly numberOfCores?: number;
     readonly numberOfCoresForRecommendedSize?: number;
+    readonly operatingSystemArchitecture?: GuestOperatingSystemArchitecture;
     readonly operatingSystemName?: string;
     readonly operatingSystemType?: string;
     readonly operatingSystemVersion?: string;
     readonly percentageCoresUtilization?: number;
     readonly percentageMemoryUtilization?: number;
+    readonly productSupportStatus?: ProductSupportStatus;
     readonly recommendedSize?: AzureVmSize;
     readonly suitability?: CloudSuitability;
     readonly suitabilityDetail?: AzureVmSuitabilityDetail;
     readonly suitabilityExplanation?: AzureVmSuitabilityExplanation;
+    readonly typePropertiesType?: AssessedMachineType;
     readonly updatedTimestamp?: Date;
 }
 
 // @public
-export interface AssessedMachineResultList {
-    // (undocumented)
+export interface AssessedMachineListResult {
     nextLink?: string;
-    value?: AssessedMachine[];
+    value: AssessedMachine[];
 }
 
 // @public
-export interface AssessedMachines {
-    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options?: AssessedMachinesGetOptionalParams): Promise<AssessedMachinesGetResponse>;
-    listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessedMachinesListByAssessmentOptionalParams): PagedAsyncIterableIterator<AssessedMachine>;
+export interface AssessedMachinesOperations {
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options?: AssessedMachinesOperationsGetOptionalParams): Promise<AssessedMachinesOperationsGetResponse>;
+    listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessedMachinesOperationsListByAssessmentOptionalParams): PagedAsyncIterableIterator<AssessedMachine>;
 }
 
 // @public
-export interface AssessedMachinesGetHeaders {
-    xMsRequestId?: string;
+export interface AssessedMachinesOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AssessedMachinesGetOptionalParams extends coreClient.OperationOptions {
+export type AssessedMachinesOperationsGetResponse = AssessedMachine;
+
+// @public
+export interface AssessedMachinesOperationsListByAssessmentNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AssessedMachinesGetResponse = AssessedMachinesGetHeaders & AssessedMachine;
+export type AssessedMachinesOperationsListByAssessmentNextResponse = AssessedMachineListResult;
 
 // @public
-export interface AssessedMachinesListByAssessmentHeaders {
-    xMsRequestId?: string;
+export interface AssessedMachinesOperationsListByAssessmentOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    pageSize?: number;
+    totalRecordCount?: number;
 }
 
 // @public
-export interface AssessedMachinesListByAssessmentNextHeaders {
-    xMsRequestId?: string;
-}
+export type AssessedMachinesOperationsListByAssessmentResponse = AssessedMachineListResult;
 
 // @public
-export interface AssessedMachinesListByAssessmentNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessedMachinesListByAssessmentNextResponse = AssessedMachinesListByAssessmentNextHeaders & AssessedMachineResultList;
-
-// @public
-export interface AssessedMachinesListByAssessmentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessedMachinesListByAssessmentResponse = AssessedMachinesListByAssessmentHeaders & AssessedMachineResultList;
+export type AssessedMachineType = string;
 
 // @public
 export interface AssessedNetworkAdapter {
-    readonly displayName?: string;
+    displayName?: string;
     readonly ipAddresses?: string[];
-    readonly macAddress?: string;
-    readonly megabytesPerSecondReceived?: number;
-    readonly megabytesPerSecondTransmitted?: number;
-    readonly monthlyBandwidthCosts?: number;
+    macAddress?: string;
+    megabytesPerSecondReceived?: number;
+    megabytesPerSecondTransmitted?: number;
+    monthlyBandwidthCosts?: number;
     netGigabytesTransmittedPerMonth?: number;
+    suitability?: CloudSuitability;
+    suitabilityDetail?: AzureNetworkAdapterSuitabilityDetail;
+    suitabilityExplanation?: AzureNetworkAdapterSuitabilityExplanation;
+}
+
+// @public
+export interface AssessedSqlDatabaseV2 extends ProxyResource {
+    readonly assessedSqlInstanceArmId?: string;
+    readonly azureSqlDBSuitabilityDetails?: SqlAssessmentV2PaasSuitabilityData;
+    readonly azureSqlMISuitabilityDetails?: SqlAssessmentV2PaasSuitabilityData;
+    readonly bufferCacheSizeInMB?: number;
+    readonly compatibilityLevel?: CompatibilityLevel;
+    readonly confidenceRatingInPercentage?: number;
+    readonly createdTimestamp?: Date;
+    readonly databaseName?: string;
+    readonly databaseSizeInMB?: number;
+    readonly instanceName?: string;
+    readonly isDatabaseHighlyAvailable?: boolean;
+    readonly linkedAvailabilityGroupOverview?: SqlAvailabilityGroupDataOverview;
+    readonly machineArmId?: string;
+    readonly machineName?: string;
+    readonly megabytesPerSecondOfRead?: number;
+    readonly megabytesPerSecondOfWrite?: number;
+    readonly numberOfReadOperationsPerSecond?: number;
+    readonly numberOfWriteOperationsPerSecond?: number;
+    readonly percentageCoresUtilization?: number;
+    readonly productSupportStatus?: ProductSupportStatus;
+    readonly recommendedAzureSqlTargetType?: TargetType;
+    readonly recommendedSuitability?: RecommendedSuitability;
+    readonly sizingCriterion?: AssessmentSizingCriterion;
+    readonly sqlDatabaseSdsArmId?: string;
+    readonly updatedTimestamp?: Date;
+}
+
+// @public
+export interface AssessedSqlDatabaseV2ListResult {
+    nextLink?: string;
+    value: AssessedSqlDatabaseV2[];
+}
+
+// @public
+export interface AssessedSqlDatabaseV2Operations {
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedSqlDatabaseName: string, options?: AssessedSqlDatabaseV2OperationsGetOptionalParams): Promise<AssessedSqlDatabaseV2OperationsGetResponse>;
+    listBySqlAssessmentV2(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2OptionalParams): PagedAsyncIterableIterator<AssessedSqlDatabaseV2>;
+}
+
+// @public
+export interface AssessedSqlDatabaseV2OperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessedSqlDatabaseV2OperationsGetResponse = AssessedSqlDatabaseV2;
+
+// @public
+export interface AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2NextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2NextResponse = AssessedSqlDatabaseV2ListResult;
+
+// @public
+export interface AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2OptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    pageSize?: number;
+    totalRecordCount?: number;
+}
+
+// @public
+export type AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2Response = AssessedSqlDatabaseV2ListResult;
+
+// @public
+export interface AssessedSqlInstanceDatabaseSummary {
+    largestDatabaseSizeInMB?: number;
+    numberOfUserDatabases?: number;
+    totalDatabaseSizeInMB?: number;
+    totalDiscoveredUserDatabases?: number;
+}
+
+// @public
+export interface AssessedSqlInstanceDiskDetails {
+    diskId?: string;
+    diskSizeInMB?: number;
+    megabytesPerSecondOfRead?: number;
+    megabytesPerSecondOfWrite?: number;
+    numberOfReadOperationsPerSecond?: number;
+    numberOfWriteOperationsPerSecond?: number;
+}
+
+// @public
+export interface AssessedSqlInstanceStorageDetails {
+    diskSizeInMB?: number;
+    megabytesPerSecondOfRead?: number;
+    megabytesPerSecondOfWrite?: number;
+    numberOfReadOperationsPerSecond?: number;
+    numberOfWriteOperationsPerSecond?: number;
+    storageType?: string;
+}
+
+// @public
+export interface AssessedSqlInstanceSummary {
+    instanceId?: string;
+    instanceName?: string;
+    isClustered?: boolean;
+    isHighAvailabilityEnabled?: boolean;
+    sqlEdition?: string;
+    sqlFciState?: SqlFCIState;
+    sqlInstanceEntityId?: string;
+    sqlInstanceSdsArmId?: string;
+    sqlVersion?: string;
+}
+
+// @public
+export interface AssessedSqlInstanceV2 extends ProxyResource {
+    readonly availabilityReplicaSummary?: SqlAvailabilityReplicaSummary;
+    readonly azureSqlDBSuitabilityDetails?: SqlAssessmentV2PaasSuitabilityData;
+    readonly azureSqlMISuitabilityDetails?: SqlAssessmentV2PaasSuitabilityData;
+    readonly azureSqlVMSuitabilityDetails?: SqlAssessmentV2IaasSuitabilityData;
+    readonly confidenceRatingInPercentage?: number;
+    readonly createdTimestamp?: Date;
+    readonly databaseSummary?: AssessedSqlInstanceDatabaseSummary;
+    readonly fciMetadata?: SqlFCIMetadata;
+    readonly hasScanOccurred?: boolean;
+    readonly instanceName?: string;
+    readonly isClustered?: boolean;
+    readonly isHighAvailabilityEnabled?: boolean;
+    readonly logicalDisks?: AssessedSqlInstanceDiskDetails[];
+    readonly machineArmId?: string;
+    readonly machineName?: string;
+    readonly memoryInUseInMB?: number;
+    readonly numberOfCoresAllocated?: number;
+    readonly percentageCoresUtilization?: number;
+    readonly productSupportStatus?: ProductSupportStatus;
+    readonly recommendedAzureSqlTargetType?: TargetType;
+    readonly recommendedSuitability?: RecommendedSuitability;
+    readonly recommendedTargetReasonings?: SqlRecommendationReasoning[];
+    readonly sizingCriterion?: AssessmentSizingCriterion;
+    readonly sqlEdition?: string;
+    readonly sqlInstanceSdsArmId?: string;
+    readonly sqlVersion?: string;
+    readonly storageTypeBasedDetails?: AssessedSqlInstanceStorageDetails[];
+    readonly updatedTimestamp?: Date;
+}
+
+// @public
+export interface AssessedSqlInstanceV2ListResult {
+    nextLink?: string;
+    value: AssessedSqlInstanceV2[];
+}
+
+// @public
+export interface AssessedSqlInstanceV2Operations {
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedSqlInstanceName: string, options?: AssessedSqlInstanceV2OperationsGetOptionalParams): Promise<AssessedSqlInstanceV2OperationsGetResponse>;
+    listBySqlAssessmentV2(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessedSqlInstanceV2OperationsListBySqlAssessmentV2OptionalParams): PagedAsyncIterableIterator<AssessedSqlInstanceV2>;
+}
+
+// @public
+export interface AssessedSqlInstanceV2OperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessedSqlInstanceV2OperationsGetResponse = AssessedSqlInstanceV2;
+
+// @public
+export interface AssessedSqlInstanceV2OperationsListBySqlAssessmentV2NextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessedSqlInstanceV2OperationsListBySqlAssessmentV2NextResponse = AssessedSqlInstanceV2ListResult;
+
+// @public
+export interface AssessedSqlInstanceV2OperationsListBySqlAssessmentV2OptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    pageSize?: number;
+    totalRecordCount?: number;
+}
+
+// @public
+export type AssessedSqlInstanceV2OperationsListBySqlAssessmentV2Response = AssessedSqlInstanceV2ListResult;
+
+// @public
+export interface AssessedSqlMachine extends ProxyResource {
+    readonly biosGuid?: string;
+    readonly bootType?: MachineBootType;
+    readonly confidenceRatingInPercentage?: number;
+    costComponents?: CostComponent[];
+    readonly createdTimestamp?: Date;
+    readonly datacenterMachineArmId?: string;
+    readonly datacenterManagementServerArmId?: string;
+    readonly datacenterManagementServerName?: string;
+    readonly description?: string;
+    readonly disks?: {
+        [propertyName: string]: AssessedDiskData;
+    };
+    readonly displayName?: string;
+    readonly fqdn?: string;
+    readonly megabytesOfMemory?: number;
+    readonly migrationGuidelines?: SqlMigrationGuideline[];
+    readonly monthlyBandwidthCost?: number;
+    readonly monthlyComputeCost?: number;
+    readonly monthlyStorageCost?: number;
+    readonly networkAdapters?: {
+        [propertyName: string]: SqlAssessedNetworkAdapter;
+    };
+    readonly numberOfCores?: number;
+    readonly operatingSystemArchitecture?: GuestOperatingSystemArchitecture;
+    readonly operatingSystemName?: string;
+    readonly operatingSystemType?: string;
+    readonly operatingSystemVersion?: string;
+    readonly percentageCoresUtilization?: number;
+    readonly percentageMemoryUtilization?: number;
+    readonly productSupportStatus?: ProductSupportStatus;
+    readonly recommendedVmFamily?: AzureVmFamily;
+    readonly recommendedVmSize?: AzureVmSize;
+    readonly recommendedVmSizeMegabytesOfMemory?: number;
+    readonly recommendedVmSizeNumberOfCores?: number;
+    readonly securitySuitability?: CloudSuitability;
+    readonly sizingCriterion?: AssessmentSizingCriterion;
+    readonly sqlInstances?: AssessedSqlInstanceSummary[];
     readonly suitability?: CloudSuitability;
-    readonly suitabilityDetail?: AzureNetworkAdapterSuitabilityDetail;
-    readonly suitabilityExplanation?: AzureNetworkAdapterSuitabilityExplanation;
+    readonly suitabilityDetail?: AzureVmSuitabilityDetail;
+    readonly suitabilityExplanation?: AzureVmSuitabilityExplanation;
+    readonly typePropertiesType?: AssessedMachineType;
+    readonly updatedTimestamp?: Date;
 }
 
 // @public
-export interface Assessment {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties: AssessmentProperties;
-    readonly type?: string;
+export interface AssessedSqlMachineListResult {
+    nextLink?: string;
+    value: AssessedSqlMachine[];
 }
 
 // @public
-export interface AssessmentOptions {
-    readonly id?: string;
-    readonly name?: string;
-    properties: AssessmentOptionsProperties;
+export interface AssessedSqlMachinesOperations {
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedSqlMachineName: string, options?: AssessedSqlMachinesOperationsGetOptionalParams): Promise<AssessedSqlMachinesOperationsGetResponse>;
+    listBySqlAssessmentV2(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessedSqlMachinesOperationsListBySqlAssessmentV2OptionalParams): PagedAsyncIterableIterator<AssessedSqlMachine>;
 }
 
 // @public
-export interface AssessmentOptionsProperties {
+export interface AssessedSqlMachinesOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessedSqlMachinesOperationsGetResponse = AssessedSqlMachine;
+
+// @public
+export interface AssessedSqlMachinesOperationsListBySqlAssessmentV2NextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessedSqlMachinesOperationsListBySqlAssessmentV2NextResponse = AssessedSqlMachineListResult;
+
+// @public
+export interface AssessedSqlMachinesOperationsListBySqlAssessmentV2OptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    pageSize?: number;
+    totalRecordCount?: number;
+}
+
+// @public
+export type AssessedSqlMachinesOperationsListBySqlAssessmentV2Response = AssessedSqlMachineListResult;
+
+// @public
+export interface AssessedSqlRecommendedEntity extends ProxyResource {
+    assessedSqlEntityArmId?: string;
+    readonly azureSqlDBSuitabilityDetails?: SqlAssessmentV2PaasSuitabilityData;
+    readonly azureSqlMISuitabilityDetails?: SqlAssessmentV2PaasSuitabilityData;
+    readonly azureSqlVMSuitabilityDetails?: SqlAssessmentV2IaasSuitabilityData;
+    readonly dbCount?: number;
+    readonly discoveredDBCount?: number;
+    readonly hasScanOccurred?: boolean;
+    readonly instanceName?: string;
+    readonly isClustered?: boolean;
+    readonly isHighAvailabilityEnabled?: boolean;
+    readonly machineName?: string;
+    readonly productSupportStatus?: ProductSupportStatus;
+    readonly recommendedAzureSqlTargetType?: TargetType;
+    readonly recommendedSuitability?: RecommendedSuitability;
+    readonly sizingCriterion?: AssessmentSizingCriterion;
+    readonly sqlEdition?: string;
+    readonly sqlVersion?: string;
+}
+
+// @public
+export interface AssessedSqlRecommendedEntityListResult {
+    nextLink?: string;
+    value: AssessedSqlRecommendedEntity[];
+}
+
+// @public
+export interface AssessedSqlRecommendedEntityOperations {
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, recommendedAssessedEntityName: string, options?: AssessedSqlRecommendedEntityOperationsGetOptionalParams): Promise<AssessedSqlRecommendedEntityOperationsGetResponse>;
+    listBySqlAssessmentV2(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2OptionalParams): PagedAsyncIterableIterator<AssessedSqlRecommendedEntity>;
+}
+
+// @public
+export interface AssessedSqlRecommendedEntityOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessedSqlRecommendedEntityOperationsGetResponse = AssessedSqlRecommendedEntity;
+
+// @public
+export interface AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2NextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2NextResponse = AssessedSqlRecommendedEntityListResult;
+
+// @public
+export interface AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2OptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    pageSize?: number;
+    totalRecordCount?: number;
+}
+
+// @public
+export type AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2Response = AssessedSqlRecommendedEntityListResult;
+
+// @public
+export interface Assessment extends ProxyResource {
+    readonly assessmentErrorSummary?: {
+        [propertyName: string]: number;
+    };
+    readonly assessmentType?: AssessmentType;
+    azureDiskTypes?: AzureDiskType[];
+    azureHybridUseBenefit?: AzureHybridUseBenefit;
+    azureLocation?: string;
+    azureOfferCode?: AzureOfferCode;
+    azurePricingTier?: AzurePricingTier;
+    azureStorageRedundancy?: AzureStorageRedundancy;
+    azureVmFamilies?: AzureVmFamily[];
+    readonly confidenceRatingInPercentage?: number;
+    readonly costComponents?: CostComponent[];
+    readonly createdTimestamp?: Date;
+    currency?: AzureCurrency;
+    discountPercentage?: number;
+    readonly distributionByOsName?: {
+        [propertyName: string]: number;
+    };
+    readonly distributionByServicePackInsight?: {
+        [propertyName: string]: number;
+    };
+    readonly distributionBySupportStatus?: {
+        [propertyName: string]: number;
+    };
+    eaSubscriptionId?: string;
+    readonly groupType?: GroupType;
+    readonly monthlyBandwidthCost?: number;
+    readonly monthlyComputeCost?: number;
+    readonly monthlyPremiumStorageCost?: number;
+    readonly monthlyStandardSsdStorageCost?: number;
+    readonly monthlyStorageCost?: number;
+    readonly monthlyUltraStorageCost?: number;
+    readonly numberOfMachines?: number;
+    percentile?: Percentile;
+    perfDataEndTime?: Date;
+    perfDataStartTime?: Date;
+    readonly pricesTimestamp?: Date;
+    provisioningState?: ProvisioningState;
+    reservedInstance?: AzureReservedInstance;
+    scalingFactor?: number;
+    readonly schemaVersion?: string;
+    sizingCriterion?: AssessmentSizingCriterion;
+    readonly stage?: AssessmentStage;
+    readonly status?: AssessmentStatus;
+    readonly suitabilitySummary?: {
+        [propertyName: string]: number;
+    };
+    timeRange?: TimeRange;
+    readonly updatedTimestamp?: Date;
+    vmUptime?: VmUptime;
+}
+
+// @public
+export interface AssessmentListResult {
+    nextLink?: string;
+    value: Assessment[];
+}
+
+// @public
+export interface AssessmentOptions extends ProxyResource {
+    readonly premiumDiskVmFamilies?: string[];
     readonly reservedInstanceSupportedCurrencies?: string[];
     readonly reservedInstanceSupportedLocations?: string[];
     readonly reservedInstanceSupportedOffers?: string[];
     readonly reservedInstanceVmFamilies?: string[];
-    readonly vmFamilies?: VmFamily[];
+    readonly savingsPlanSupportedLocations?: string[];
+    readonly savingsPlanVmFamilies?: string[];
+    readonly ultraDiskVmFamilies?: UltraDiskAssessmentOptions[];
+    readonly vmFamilies?: VmFamilyOptions[];
 }
 
 // @public
-export interface AssessmentOptionsResultList {
-    value?: AssessmentOptions[];
+export interface AssessmentOptionsListResult {
+    nextLink?: string;
+    value: AssessmentOptions[];
 }
 
 // @public
-export interface AssessmentProperties {
-    azureDiskType: AzureDiskType;
-    azureHybridUseBenefit: AzureHybridUseBenefit;
-    azureLocation: AzureLocation;
-    azureOfferCode: AzureOfferCode;
-    azurePricingTier: AzurePricingTier;
-    azureStorageRedundancy: AzureStorageRedundancy;
-    azureVmFamilies: AzureVmFamily[];
-    readonly confidenceRatingInPercentage?: number;
+export interface AssessmentOptionsOperations {
+    get(resourceGroupName: string, projectName: string, assessmentOptionsName: string, options?: AssessmentOptionsOperationsGetOptionalParams): Promise<AssessmentOptionsOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: AssessmentOptionsOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<AssessmentOptions>;
+}
+
+// @public
+export interface AssessmentOptionsOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentOptionsOperationsGetResponse = AssessmentOptions;
+
+// @public
+export interface AssessmentOptionsOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentOptionsOperationsListByAssessmentProjectNextResponse = AssessmentOptionsListResult;
+
+// @public
+export interface AssessmentOptionsOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentOptionsOperationsListByAssessmentProjectResponse = AssessmentOptionsListResult;
+
+// @public
+export interface AssessmentProject extends TrackedResource {
+    assessmentSolutionId?: string;
     readonly createdTimestamp?: Date;
-    currency: Currency;
-    discountPercentage: number;
-    readonly eaSubscriptionId?: string;
-    readonly monthlyBandwidthCost?: number;
-    readonly monthlyComputeCost?: number;
-    readonly monthlyPremiumStorageCost?: number;
-    readonly monthlyStandardSSDStorageCost?: number;
-    readonly monthlyStorageCost?: number;
-    readonly numberOfMachines?: number;
-    percentile: Percentile;
-    readonly perfDataEndTime?: Date;
-    readonly perfDataStartTime?: Date;
-    readonly pricesTimestamp?: Date;
-    reservedInstance: ReservedInstance;
-    scalingFactor: number;
-    sizingCriterion: AssessmentSizingCriterion;
-    stage: AssessmentStage;
-    readonly status?: AssessmentStatus;
-    timeRange: TimeRange;
+    customerStorageAccountArmId?: string;
+    customerWorkspaceId?: string;
+    customerWorkspaceLocation?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    projectStatus?: ProjectStatus;
+    provisioningState?: ProvisioningState;
+    publicNetworkAccess?: string;
+    readonly serviceEndpoint?: string;
     readonly updatedTimestamp?: Date;
-    vmUptime: VmUptime;
 }
 
 // @public
-export interface AssessmentResultList {
-    value?: Assessment[];
+export interface AssessmentProjectListResult {
+    nextLink?: string;
+    value: AssessmentProject[];
 }
 
 // @public
-export interface Assessments {
-    create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsCreateOptionalParams): Promise<AssessmentsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsDeleteOptionalParams): Promise<AssessmentsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsGetOptionalParams): Promise<AssessmentsGetResponse>;
-    getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsGetReportDownloadUrlOptionalParams): Promise<AssessmentsGetReportDownloadUrlResponse>;
-    listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: AssessmentsListByGroupOptionalParams): PagedAsyncIterableIterator<Assessment>;
-    listByProject(resourceGroupName: string, projectName: string, options?: AssessmentsListByProjectOptionalParams): PagedAsyncIterableIterator<Assessment>;
+export interface AssessmentProjectsOperations {
+    beginCreate(resourceGroupName: string, projectName: string, resource: AssessmentProject, options?: AssessmentProjectsOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AssessmentProjectsOperationsCreateResponse>, AssessmentProjectsOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, resource: AssessmentProject, options?: AssessmentProjectsOperationsCreateOptionalParams): Promise<AssessmentProjectsOperationsCreateResponse>;
+    beginUpdate(resourceGroupName: string, projectName: string, properties: AssessmentProjectUpdate, options?: AssessmentProjectsOperationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AssessmentProjectsOperationsUpdateResponse>, AssessmentProjectsOperationsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, projectName: string, properties: AssessmentProjectUpdate, options?: AssessmentProjectsOperationsUpdateOptionalParams): Promise<AssessmentProjectsOperationsUpdateResponse>;
+    delete(resourceGroupName: string, projectName: string, options?: AssessmentProjectsOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, options?: AssessmentProjectsOperationsGetOptionalParams): Promise<AssessmentProjectsOperationsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: AssessmentProjectsOperationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AssessmentProject>;
+    listBySubscription(options?: AssessmentProjectsOperationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AssessmentProject>;
 }
 
 // @public
-export interface AssessmentsCreateHeaders {
-    xMsRequestId?: string;
+export interface AssessmentProjectsOperationsCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export interface AssessmentsCreateOptionalParams extends coreClient.OperationOptions {
-    assessment?: Assessment;
+export interface AssessmentProjectsOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type AssessmentsCreateResponse = AssessmentsCreateHeaders & Assessment;
+export type AssessmentProjectsOperationsCreateResponse = AssessmentProject;
 
 // @public
-export interface AssessmentsDeleteHeaders {
-    xMsRequestId?: string;
+export interface AssessmentProjectsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AssessmentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AssessmentProjectsOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AssessmentsDeleteResponse = AssessmentsDeleteHeaders;
+export type AssessmentProjectsOperationsGetResponse = AssessmentProject;
 
 // @public
-export interface AssessmentsGetHeaders {
-    xMsRequestId?: string;
+export interface AssessmentProjectsOperationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AssessmentsGetOptionalParams extends coreClient.OperationOptions {
+export type AssessmentProjectsOperationsListByResourceGroupNextResponse = AssessmentProjectListResult;
+
+// @public
+export interface AssessmentProjectsOperationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AssessmentsGetReportDownloadUrlHeaders {
-    xMsRequestId?: string;
+export type AssessmentProjectsOperationsListByResourceGroupResponse = AssessmentProjectListResult;
+
+// @public
+export interface AssessmentProjectsOperationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AssessmentsGetReportDownloadUrlOptionalParams extends coreClient.OperationOptions {
+export type AssessmentProjectsOperationsListBySubscriptionNextResponse = AssessmentProjectListResult;
+
+// @public
+export interface AssessmentProjectsOperationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AssessmentsGetReportDownloadUrlResponse = AssessmentsGetReportDownloadUrlHeaders & DownloadUrl;
+export type AssessmentProjectsOperationsListBySubscriptionResponse = AssessmentProjectListResult;
 
 // @public
-export type AssessmentsGetResponse = AssessmentsGetHeaders & Assessment;
+export interface AssessmentProjectsOperationsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AssessmentProjectsOperationsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AssessmentProjectsOperationsUpdateResponse = AssessmentProject;
+
+// @public
+export interface AssessmentProjectSummary extends ProxyResource {
+    readonly errorSummaryAffectedEntities?: ErrorSummary[];
+    readonly lastAssessmentTimestamp?: Date;
+    readonly numberOfAssessments?: number;
+    readonly numberOfGroups?: number;
+    readonly numberOfImportMachines?: number;
+    readonly numberOfMachines?: number;
+    readonly numberOfPrivateEndpointConnections?: number;
+}
+
+// @public
+export interface AssessmentProjectSummaryListResult {
+    nextLink?: string;
+    value: AssessmentProjectSummary[];
+}
+
+// @public
+export interface AssessmentProjectSummaryOperations {
+    get(resourceGroupName: string, projectName: string, projectSummaryName: string, options?: AssessmentProjectSummaryOperationsGetOptionalParams): Promise<AssessmentProjectSummaryOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: AssessmentProjectSummaryOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<AssessmentProjectSummary>;
+}
+
+// @public
+export interface AssessmentProjectSummaryOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentProjectSummaryOperationsGetResponse = AssessmentProjectSummary;
+
+// @public
+export interface AssessmentProjectSummaryOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentProjectSummaryOperationsListByAssessmentProjectNextResponse = AssessmentProjectSummaryListResult;
+
+// @public
+export interface AssessmentProjectSummaryOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentProjectSummaryOperationsListByAssessmentProjectResponse = AssessmentProjectSummaryListResult;
+
+// @public
+export interface AssessmentProjectUpdate {
+    assessmentSolutionId?: string;
+    customerStorageAccountArmId?: string;
+    customerWorkspaceId?: string;
+    customerWorkspaceLocation?: string;
+    projectStatus?: ProjectStatus;
+    provisioningState?: ProvisioningState;
+    publicNetworkAccess?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export type AssessmentSizingCriterion = string;
 
 // @public
-export interface AssessmentsListByGroupHeaders {
-    xMsRequestId?: string;
+export interface AssessmentsOperations {
+    beginCreate(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, resource: Assessment, options?: AssessmentsOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AssessmentsOperationsCreateResponse>, AssessmentsOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, resource: Assessment, options?: AssessmentsOperationsCreateOptionalParams): Promise<AssessmentsOperationsCreateResponse>;
+    beginDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, body: Record<string, unknown>, options?: AssessmentsOperationsDownloadUrlOptionalParams): Promise<SimplePollerLike<OperationState<AssessmentsOperationsDownloadUrlResponse>, AssessmentsOperationsDownloadUrlResponse>>;
+    beginDownloadUrlAndWait(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, body: Record<string, unknown>, options?: AssessmentsOperationsDownloadUrlOptionalParams): Promise<AssessmentsOperationsDownloadUrlResponse>;
+    delete(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsOperationsGetOptionalParams): Promise<AssessmentsOperationsGetResponse>;
+    listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: AssessmentsOperationsListByGroupOptionalParams): PagedAsyncIterableIterator<Assessment>;
 }
 
 // @public
-export interface AssessmentsListByGroupOptionalParams extends coreClient.OperationOptions {
+export interface AssessmentsOperationsCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export type AssessmentsListByGroupResponse = AssessmentsListByGroupHeaders & AssessmentResultList;
-
-// @public
-export interface AssessmentsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface AssessmentsOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface AssessmentsListByProjectOptionalParams extends coreClient.OperationOptions {
+export type AssessmentsOperationsCreateResponse = Assessment;
+
+// @public
+export interface AssessmentsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AssessmentsListByProjectResponse = AssessmentsListByProjectHeaders & AssessmentResultList;
+export interface AssessmentsOperationsDownloadUrlHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AssessmentsOperationsDownloadUrlOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AssessmentsOperationsDownloadUrlResponse = DownloadUrl;
+
+// @public
+export interface AssessmentsOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentsOperationsGetResponse = Assessment;
+
+// @public
+export interface AssessmentsOperationsListByGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentsOperationsListByGroupNextResponse = AssessmentListResult;
+
+// @public
+export interface AssessmentsOperationsListByGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentsOperationsListByGroupResponse = AssessmentListResult;
 
 // @public
 export type AssessmentStage = string;
 
 // @public
 export type AssessmentStatus = string;
+
+// @public
+export type AssessmentType = string;
+
+// @public
+export type AsyncCommitModeIntent = string;
+
+// @public
+export interface AvsAssessedDisk {
+    readonly displayName?: string;
+    readonly gigabytesProvisioned?: number;
+    readonly megabytesPerSecondOfRead?: number;
+    readonly megabytesPerSecondOfWrite?: number;
+    readonly name?: string;
+    readonly numberOfReadOperationsPerSecond?: number;
+    readonly numberOfWriteOperationsPerSecond?: number;
+}
+
+// @public
+export interface AvsAssessedMachine extends ProxyResource {
+    readonly bootType?: MachineBootType;
+    readonly confidenceRatingInPercentage?: number;
+    readonly createdTimestamp?: Date;
+    readonly datacenterMachineArmId?: string;
+    readonly datacenterManagementServerArmId?: string;
+    readonly datacenterManagementServerName?: string;
+    readonly description?: string;
+    readonly disks?: {
+        [propertyName: string]: AvsAssessedDisk;
+    };
+    readonly displayName?: string;
+    readonly errors?: ErrorModel[];
+    readonly megabytesOfMemory?: number;
+    readonly networkAdapters?: {
+        [propertyName: string]: AvsAssessedNetworkAdapter;
+    };
+    readonly numberOfCores?: number;
+    readonly operatingSystemArchitecture?: GuestOperatingSystemArchitecture;
+    readonly operatingSystemName?: string;
+    readonly operatingSystemType?: string;
+    readonly operatingSystemVersion?: string;
+    readonly percentageCoresUtilization?: number;
+    readonly percentageMemoryUtilization?: number;
+    readonly storageInUseGB?: number;
+    readonly suitability?: CloudSuitability;
+    readonly suitabilityDetail?: AzureAvsVmSuitabilityDetail;
+    readonly suitabilityExplanation?: AzureAvsVmSuitabilityExplanation;
+    readonly typePropertiesType?: AssessedMachineType;
+    readonly updatedTimestamp?: Date;
+}
+
+// @public
+export interface AvsAssessedMachineListResult {
+    nextLink?: string;
+    value: AvsAssessedMachine[];
+}
+
+// @public
+export interface AvsAssessedMachinesOperations {
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, avsAssessedMachineName: string, options?: AvsAssessedMachinesOperationsGetOptionalParams): Promise<AvsAssessedMachinesOperationsGetResponse>;
+    listByAvsAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AvsAssessedMachinesOperationsListByAvsAssessmentOptionalParams): PagedAsyncIterableIterator<AvsAssessedMachine>;
+}
+
+// @public
+export interface AvsAssessedMachinesOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvsAssessedMachinesOperationsGetResponse = AvsAssessedMachine;
+
+// @public
+export interface AvsAssessedMachinesOperationsListByAvsAssessmentNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvsAssessedMachinesOperationsListByAvsAssessmentNextResponse = AvsAssessedMachineListResult;
+
+// @public
+export interface AvsAssessedMachinesOperationsListByAvsAssessmentOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    pageSize?: number;
+    totalRecordCount?: number;
+}
+
+// @public
+export type AvsAssessedMachinesOperationsListByAvsAssessmentResponse = AvsAssessedMachineListResult;
+
+// @public
+export interface AvsAssessedNetworkAdapter {
+    readonly displayName?: string;
+    readonly ipAddresses?: string[];
+    readonly macAddress?: string;
+    readonly megabytesPerSecondReceived?: number;
+    readonly megabytesPerSecondTransmitted?: number;
+}
+
+// @public
+export interface AvsAssessment extends ProxyResource {
+    readonly assessmentErrorSummary?: {
+        [propertyName: string]: number;
+    };
+    readonly assessmentType?: AssessmentType;
+    azureLocation?: AzureLocation;
+    azureOfferCode?: AzureOfferCode;
+    readonly confidenceRatingInPercentage?: number;
+    readonly cpuUtilization?: number;
+    readonly createdTimestamp?: Date;
+    currency?: AzureCurrency;
+    dedupeCompression?: number;
+    discountPercentage?: number;
+    failuresToTolerateAndRaidLevel?: FttAndRaidLevel;
+    readonly groupType?: GroupType;
+    isStretchClusterEnabled?: boolean;
+    readonly limitingFactor?: string;
+    memOvercommit?: number;
+    nodeType?: AzureAvsNodeType;
+    readonly numberOfMachines?: number;
+    readonly numberOfNodes?: number;
+    percentile?: Percentile;
+    perfDataEndTime?: Date;
+    perfDataStartTime?: Date;
+    readonly pricesTimestamp?: Date;
+    provisioningState?: ProvisioningState;
+    readonly ramUtilization?: number;
+    reservedInstance?: AzureReservedInstance;
+    scalingFactor?: number;
+    readonly schemaVersion?: string;
+    sizingCriterion?: AssessmentSizingCriterion;
+    readonly stage?: AssessmentStage;
+    readonly status?: AssessmentStatus;
+    readonly storageUtilization?: number;
+    readonly suitability?: CloudSuitability;
+    readonly suitabilityExplanation?: AzureAvsSuitabilityExplanation;
+    readonly suitabilitySummary?: {
+        [propertyName: string]: number;
+    };
+    timeRange?: TimeRange;
+    readonly totalCpuCores?: number;
+    readonly totalMonthlyCost?: number;
+    readonly totalRamInGB?: number;
+    readonly totalStorageInGB?: number;
+    readonly updatedTimestamp?: Date;
+    vcpuOversubscription?: number;
+}
+
+// @public
+export interface AvsAssessmentListResult {
+    nextLink?: string;
+    value: AvsAssessment[];
+}
+
+// @public
+export interface AvsAssessmentOptions extends ProxyResource {
+    avsNodes?: AvsSkuOptions[];
+    failuresToTolerateAndRaidLevelValues?: FttAndRaidLevel[];
+    reservedInstanceAvsNodes?: AzureAvsNodeType[];
+    reservedInstanceSupportedCurrencies?: AzureCurrency[];
+    reservedInstanceSupportedLocations?: AzureLocation[];
+    reservedInstanceSupportedOffers?: AzureOfferCode[];
+}
+
+// @public
+export interface AvsAssessmentOptionsListResult {
+    nextLink?: string;
+    value: AvsAssessmentOptions[];
+}
+
+// @public
+export interface AvsAssessmentOptionsOperations {
+    get(resourceGroupName: string, projectName: string, avsAssessmentOptionsName: string, options?: AvsAssessmentOptionsOperationsGetOptionalParams): Promise<AvsAssessmentOptionsOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: AvsAssessmentOptionsOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<AvsAssessmentOptions>;
+}
+
+// @public
+export interface AvsAssessmentOptionsOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvsAssessmentOptionsOperationsGetResponse = AvsAssessmentOptions;
+
+// @public
+export interface AvsAssessmentOptionsOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvsAssessmentOptionsOperationsListByAssessmentProjectNextResponse = AvsAssessmentOptionsListResult;
+
+// @public
+export interface AvsAssessmentOptionsOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvsAssessmentOptionsOperationsListByAssessmentProjectResponse = AvsAssessmentOptionsListResult;
+
+// @public
+export interface AvsAssessmentProperties extends AzureResourceProperties {
+    readonly assessmentErrorSummary?: {
+        [propertyName: string]: number;
+    };
+    readonly assessmentType?: AssessmentType;
+    azureLocation?: AzureLocation;
+    azureOfferCode?: AzureOfferCode;
+    readonly confidenceRatingInPercentage?: number;
+    readonly cpuUtilization?: number;
+    readonly createdTimestamp?: Date;
+    currency?: AzureCurrency;
+    dedupeCompression?: number;
+    discountPercentage?: number;
+    failuresToTolerateAndRaidLevel?: FttAndRaidLevel;
+    readonly groupType?: GroupType;
+    isStretchClusterEnabled?: boolean;
+    readonly limitingFactor?: string;
+    memOvercommit?: number;
+    nodeType?: AzureAvsNodeType;
+    readonly numberOfMachines?: number;
+    readonly numberOfNodes?: number;
+    percentile?: Percentile;
+    perfDataEndTime?: Date;
+    perfDataStartTime?: Date;
+    readonly pricesTimestamp?: Date;
+    readonly ramUtilization?: number;
+    reservedInstance?: AzureReservedInstance;
+    scalingFactor?: number;
+    readonly schemaVersion?: string;
+    sizingCriterion?: AssessmentSizingCriterion;
+    readonly stage?: AssessmentStage;
+    readonly status?: AssessmentStatus;
+    readonly storageUtilization?: number;
+    readonly suitability?: CloudSuitability;
+    readonly suitabilityExplanation?: AzureAvsSuitabilityExplanation;
+    readonly suitabilitySummary?: {
+        [propertyName: string]: number;
+    };
+    timeRange?: TimeRange;
+    readonly totalCpuCores?: number;
+    readonly totalMonthlyCost?: number;
+    readonly totalRamInGB?: number;
+    readonly totalStorageInGB?: number;
+    readonly updatedTimestamp?: Date;
+    vcpuOversubscription?: number;
+}
+
+// @public
+export interface AvsAssessmentsOperations {
+    beginCreate(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, resource: AvsAssessment, options?: AvsAssessmentsOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AvsAssessmentsOperationsCreateResponse>, AvsAssessmentsOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, resource: AvsAssessment, options?: AvsAssessmentsOperationsCreateOptionalParams): Promise<AvsAssessmentsOperationsCreateResponse>;
+    beginDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, body: Record<string, unknown>, options?: AvsAssessmentsOperationsDownloadUrlOptionalParams): Promise<SimplePollerLike<OperationState<AvsAssessmentsOperationsDownloadUrlResponse>, AvsAssessmentsOperationsDownloadUrlResponse>>;
+    beginDownloadUrlAndWait(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, body: Record<string, unknown>, options?: AvsAssessmentsOperationsDownloadUrlOptionalParams): Promise<AvsAssessmentsOperationsDownloadUrlResponse>;
+    delete(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AvsAssessmentsOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AvsAssessmentsOperationsGetOptionalParams): Promise<AvsAssessmentsOperationsGetResponse>;
+    listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: AvsAssessmentsOperationsListByGroupOptionalParams): PagedAsyncIterableIterator<AvsAssessment>;
+}
+
+// @public
+export interface AvsAssessmentsOperationsCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface AvsAssessmentsOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AvsAssessmentsOperationsCreateResponse = AvsAssessment;
+
+// @public
+export interface AvsAssessmentsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AvsAssessmentsOperationsDownloadUrlHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AvsAssessmentsOperationsDownloadUrlOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AvsAssessmentsOperationsDownloadUrlResponse = DownloadUrl;
+
+// @public
+export interface AvsAssessmentsOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvsAssessmentsOperationsGetResponse = AvsAssessment;
+
+// @public
+export interface AvsAssessmentsOperationsListByGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvsAssessmentsOperationsListByGroupNextResponse = AvsAssessmentListResult;
+
+// @public
+export interface AvsAssessmentsOperationsListByGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvsAssessmentsOperationsListByGroupResponse = AvsAssessmentListResult;
+
+// @public
+export interface AvsSkuOptions {
+    nodeType?: AzureAvsNodeType;
+    targetLocations?: AzureLocation[];
+}
+
+// @public
+export type AzureAvsNodeType = string;
+
+// @public
+export type AzureAvsSuitabilityExplanation = string;
+
+// @public
+export type AzureAvsVmSuitabilityDetail = string;
+
+// @public
+export type AzureAvsVmSuitabilityExplanation = string;
+
+// @public
+export type AzureCurrency = string;
 
 // @public
 export type AzureDiskSize = string;
@@ -314,25 +1157,62 @@ export type AzureHybridUseBenefit = string;
 // @public
 export type AzureLocation = string;
 
+// @public
+export interface AzureManagedDiskSkuDTO {
+    readonly diskRedundancy?: AzureManagedDiskSkuDTODiskRedundancy;
+    readonly diskSize?: AzureDiskSize;
+    readonly diskType?: AzureManagedDiskSkuDTODiskType;
+    readonly recommendedIops?: number;
+    readonly recommendedSizeInGib?: number;
+    readonly recommendedThroughputInMbps?: number;
+    readonly storageCost?: number;
+}
+
+// @public
+export type AzureManagedDiskSkuDTODiskRedundancy = string;
+
+// @public
+export type AzureManagedDiskSkuDTODiskType = string;
+
 // @public (undocumented)
-export class AzureMigrateV2 extends coreClient.ServiceClient {
+export class AzureMigrateAssessmentService extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMigrateV2OptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMigrateAssessmentServiceOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    assessedMachines: AssessedMachines;
+    assessedMachinesOperations: AssessedMachinesOperations;
     // (undocumented)
-    assessments: Assessments;
+    assessedSqlDatabaseV2Operations: AssessedSqlDatabaseV2Operations;
     // (undocumented)
-    groups: Groups;
+    assessedSqlInstanceV2Operations: AssessedSqlInstanceV2Operations;
     // (undocumented)
-    hyperVCollectors: HyperVCollectors;
+    assessedSqlMachinesOperations: AssessedSqlMachinesOperations;
     // (undocumented)
-    importCollectors: ImportCollectors;
+    assessedSqlRecommendedEntityOperations: AssessedSqlRecommendedEntityOperations;
     // (undocumented)
-    machines: Machines;
+    assessmentOptionsOperations: AssessmentOptionsOperations;
+    // (undocumented)
+    assessmentProjectsOperations: AssessmentProjectsOperations;
+    // (undocumented)
+    assessmentProjectSummaryOperations: AssessmentProjectSummaryOperations;
+    // (undocumented)
+    assessmentsOperations: AssessmentsOperations;
+    // (undocumented)
+    avsAssessedMachinesOperations: AvsAssessedMachinesOperations;
+    // (undocumented)
+    avsAssessmentOptionsOperations: AvsAssessmentOptionsOperations;
+    // (undocumented)
+    avsAssessmentsOperations: AvsAssessmentsOperations;
+    // (undocumented)
+    groupsOperations: GroupsOperations;
+    // (undocumented)
+    hypervCollectorsOperations: HypervCollectorsOperations;
+    // (undocumented)
+    importCollectorsOperations: ImportCollectorsOperations;
+    // (undocumented)
+    machinesOperations: MachinesOperations;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -340,17 +1220,23 @@ export class AzureMigrateV2 extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResourceOperations: PrivateLinkResourceOperations;
     // (undocumented)
-    projects: Projects;
+    serverCollectorsOperations: ServerCollectorsOperations;
     // (undocumented)
-    serverCollectors: ServerCollectors;
+    sqlAssessmentOptionsOperations: SqlAssessmentOptionsOperations;
+    // (undocumented)
+    sqlAssessmentV2Operations: SqlAssessmentV2Operations;
+    // (undocumented)
+    sqlAssessmentV2SummaryOperations: SqlAssessmentV2SummaryOperations;
+    // (undocumented)
+    sqlCollectorOperations: SqlCollectorOperations;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
-    vMwareCollectors: VMwareCollectors;
+    vmwareCollectorsOperations: VmwareCollectorsOperations;
 }
 
 // @public
-export interface AzureMigrateV2OptionalParams extends coreClient.ServiceClientOptions {
+export interface AzureMigrateAssessmentServiceOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
@@ -369,7 +1255,67 @@ export type AzureOfferCode = string;
 export type AzurePricingTier = string;
 
 // @public
+export interface AzureQuorumWitnessDTO {
+    readonly quorumWitnessType?: AzureQuorumWitnessDTOQuorumWitnessType;
+}
+
+// @public
+export type AzureQuorumWitnessDTOQuorumWitnessType = string;
+
+// @public
+export type AzureReservedInstance = string;
+
+// @public
+export interface AzureResourceProperties {
+    provisioningState?: ProvisioningState;
+}
+
+// @public
+export type AzureSecurityOfferingType = string;
+
+// @public
+export type AzureSqlDataBaseType = string;
+
+// @public
+export interface AzureSqlIaasSkuDTO {
+    readonly azureSqlTargetType?: TargetType;
+    readonly dataDiskSizes?: AzureManagedDiskSkuDTO[];
+    readonly logDiskSizes?: AzureManagedDiskSkuDTO[];
+    readonly virtualMachineSize?: AzureVirtualMachineSkuDTO;
+}
+
+// @public
+export type AzureSqlInstanceType = string;
+
+// @public
+export interface AzureSqlPaasSkuDTO {
+    readonly azureSqlComputeTier?: ComputeTier;
+    readonly azureSqlHardwareGeneration?: HardwareGeneration;
+    readonly azureSqlServiceTier?: AzureSqlServiceTier;
+    readonly azureSqlTargetType?: TargetType;
+    readonly cores?: number;
+    readonly predictedDataSizeInMB?: number;
+    readonly predictedLogSizeInMB?: number;
+    readonly storageMaxSizeInMB?: number;
+}
+
+// @public
+export type AzureSqlPurchaseModel = string;
+
+// @public
+export type AzureSqlServiceTier = string;
+
+// @public
 export type AzureStorageRedundancy = string;
+
+// @public
+export interface AzureVirtualMachineSkuDTO {
+    readonly availableCores?: number;
+    readonly azureSkuName?: AzureVmSize;
+    readonly azureVmFamily?: AzureVmFamily;
+    readonly cores?: number;
+    readonly maxNetworkInterfaces?: number;
+}
 
 // @public
 export type AzureVmFamily = string;
@@ -384,32 +1330,18 @@ export type AzureVmSuitabilityDetail = string;
 export type AzureVmSuitabilityExplanation = string;
 
 // @public
-export interface CloudError {
-    error?: CloudErrorBody;
-}
-
-// @public
-export interface CloudErrorBody {
-    code?: string;
-    details?: CloudErrorBody[];
-    message?: string;
-    target?: string;
-}
-
-// @public
 export type CloudSuitability = string;
 
-// @public (undocumented)
-export interface CollectorAgentProperties {
-    readonly id?: string;
-    readonly lastHeartbeatUtc?: Date;
-    // (undocumented)
-    spnDetails?: CollectorBodyAgentSpnProperties;
-    readonly version?: string;
+// @public
+export interface CollectorAgentPropertiesBase {
+    id?: string;
+    lastHeartbeatUtc?: Date;
+    spnDetails?: CollectorAgentSpnPropertiesBase;
+    version?: string;
 }
 
-// @public (undocumented)
-export interface CollectorBodyAgentSpnProperties {
+// @public
+export interface CollectorAgentSpnPropertiesBase {
     applicationId?: string;
     audience?: string;
     authority?: string;
@@ -417,17 +1349,39 @@ export interface CollectorBodyAgentSpnProperties {
     tenantId?: string;
 }
 
-// @public (undocumented)
-export interface CollectorProperties {
-    // (undocumented)
-    agentProperties?: CollectorAgentProperties;
-    readonly createdTimestamp?: string;
+// @public
+export interface CollectorPropertiesBase extends AzureResourceProperties {
+    readonly createdTimestamp?: Date;
     discoverySiteId?: string;
-    readonly updatedTimestamp?: string;
+    readonly updatedTimestamp?: Date;
 }
 
 // @public
-export type Currency = string;
+export interface CollectorPropertiesBaseWithAgent extends AzureResourceProperties {
+    agentProperties?: CollectorAgentPropertiesBase;
+    readonly createdTimestamp?: Date;
+    discoverySiteId?: string;
+    readonly updatedTimestamp?: Date;
+}
+
+// @public
+export type CompatibilityLevel = string;
+
+// @public
+export type ComputeTier = string;
+
+// @public
+export interface CostComponent {
+    description?: string;
+    readonly name?: CostComponentName;
+    value?: number;
+}
+
+// @public
+export type CostComponentName = string;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface Disk {
@@ -437,20 +1391,81 @@ export interface Disk {
 
 // @public
 export interface DownloadUrl {
-    readonly assessmentReportUrl?: string;
-    readonly expirationTime?: Date;
+    readonly assessmentReportUrl: string;
+    readonly expirationTime: Date;
 }
+
+// @public
+export interface EntityUptime {
+    daysPerMonth?: number;
+    hoursPerDay?: number;
+}
+
+// @public
+export type EnvironmentType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorModel {
+    readonly agentScenario?: string;
+    readonly applianceName?: string;
+    readonly code?: string;
+    readonly id?: number;
+    readonly impactedAssessmentType?: string;
+    readonly message?: string;
+    readonly messageParameters?: {
+        [propertyName: string]: string;
+    };
+    readonly possibleCauses?: string;
+    readonly recommendedAction?: string;
+    readonly runAsAccountId?: string;
+    readonly severity?: string;
+    readonly summaryMessage?: string;
+    readonly updatedTimeStamp?: Date;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface ErrorSummary {
+    readonly assessmentType?: AssessmentType;
+    readonly count?: number;
+}
+
+// @public
+export type FttAndRaidLevel = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface Group {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties: GroupProperties;
-    readonly type?: string;
+export interface Group extends ProxyResource {
+    readonly areAssessmentsRunning?: boolean;
+    readonly assessments?: string[];
+    readonly createdTimestamp?: Date;
+    readonly groupStatus?: GroupStatus;
+    groupType?: GroupType;
+    readonly machineCount?: number;
+    provisioningState?: ProvisioningState;
+    supportedAssessmentTypes?: AssessmentType[];
+    readonly updatedTimestamp?: Date;
 }
 
 // @public
@@ -460,251 +1475,258 @@ export interface GroupBodyProperties {
 }
 
 // @public
-export interface GroupProperties {
+export interface GroupListResult {
+    nextLink?: string;
+    value: Group[];
+}
+
+// @public
+export interface GroupProperties extends AzureResourceProperties {
     readonly areAssessmentsRunning?: boolean;
     readonly assessments?: string[];
     readonly createdTimestamp?: Date;
     readonly groupStatus?: GroupStatus;
-    groupType?: string;
+    groupType?: GroupType;
     readonly machineCount?: number;
+    supportedAssessmentTypes?: AssessmentType[];
     readonly updatedTimestamp?: Date;
 }
 
 // @public
-export interface GroupResultList {
-    value?: Group[];
+export interface GroupsOperations {
+    beginCreate(resourceGroupName: string, projectName: string, groupName: string, resource: Group, options?: GroupsOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<GroupsOperationsCreateResponse>, GroupsOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, groupName: string, resource: Group, options?: GroupsOperationsCreateOptionalParams): Promise<GroupsOperationsCreateResponse>;
+    beginUpdateMachines(resourceGroupName: string, projectName: string, groupName: string, body: UpdateGroupBody, options?: GroupsOperationsUpdateMachinesOptionalParams): Promise<SimplePollerLike<OperationState<GroupsOperationsUpdateMachinesResponse>, GroupsOperationsUpdateMachinesResponse>>;
+    beginUpdateMachinesAndWait(resourceGroupName: string, projectName: string, groupName: string, body: UpdateGroupBody, options?: GroupsOperationsUpdateMachinesOptionalParams): Promise<GroupsOperationsUpdateMachinesResponse>;
+    delete(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsOperationsGetOptionalParams): Promise<GroupsOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: GroupsOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<Group>;
 }
 
 // @public
-export interface Groups {
-    create(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsCreateOptionalParams): Promise<GroupsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsDeleteOptionalParams): Promise<GroupsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsGetOptionalParams): Promise<GroupsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: GroupsListByProjectOptionalParams): PagedAsyncIterableIterator<Group>;
-    updateMachines(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsUpdateMachinesOptionalParams): Promise<GroupsUpdateMachinesResponse>;
+export interface GroupsOperationsCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export interface GroupsCreateHeaders {
-    xMsRequestId?: string;
+export interface GroupsOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface GroupsCreateOptionalParams extends coreClient.OperationOptions {
-    group?: Group;
+export type GroupsOperationsCreateResponse = Group;
+
+// @public
+export interface GroupsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type GroupsCreateResponse = GroupsCreateHeaders & Group;
-
-// @public
-export interface GroupsDeleteHeaders {
-    xMsRequestId?: string;
+export interface GroupsOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface GroupsDeleteOptionalParams extends coreClient.OperationOptions {
+export type GroupsOperationsGetResponse = Group;
+
+// @public
+export interface GroupsOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type GroupsDeleteResponse = GroupsDeleteHeaders;
+export type GroupsOperationsListByAssessmentProjectNextResponse = GroupListResult;
 
 // @public
-export interface GroupsGetHeaders {
-    xMsRequestId?: string;
+export interface GroupsOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface GroupsGetOptionalParams extends coreClient.OperationOptions {
+export type GroupsOperationsListByAssessmentProjectResponse = GroupListResult;
+
+// @public
+export interface GroupsOperationsUpdateMachinesHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export type GroupsGetResponse = GroupsGetHeaders & Group;
-
-// @public
-export interface GroupsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface GroupsOperationsUpdateMachinesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface GroupsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GroupsListByProjectResponse = GroupsListByProjectHeaders & GroupResultList;
+export type GroupsOperationsUpdateMachinesResponse = Group;
 
 // @public
 export type GroupStatus = string;
 
 // @public
-export interface GroupsUpdateMachinesHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsUpdateMachinesOptionalParams extends coreClient.OperationOptions {
-    groupUpdateProperties?: UpdateGroupBody;
-}
-
-// @public
-export type GroupsUpdateMachinesResponse = GroupsUpdateMachinesHeaders & Group;
+export type GroupType = string;
 
 // @public
 export type GroupUpdateOperation = string;
 
-// @public (undocumented)
-export interface HyperVCollector {
-    // (undocumented)
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
-    readonly type?: string;
-}
+// @public
+export type GuestOperatingSystemArchitecture = string;
 
 // @public
-export interface HyperVCollectorList {
-    value?: HyperVCollector[];
-}
+export type HardwareGeneration = string;
 
 // @public
-export interface HyperVCollectors {
-    create(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsCreateOptionalParams): Promise<HyperVCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsDeleteOptionalParams): Promise<HyperVCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsGetOptionalParams): Promise<HyperVCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: HyperVCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<HyperVCollector>;
-}
-
-// @public
-export interface HyperVCollectorsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: HyperVCollector;
-}
-
-// @public
-export type HyperVCollectorsCreateResponse = HyperVCollectorsCreateHeaders & HyperVCollector;
-
-// @public
-export interface HyperVCollectorsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsDeleteResponse = HyperVCollectorsDeleteHeaders;
-
-// @public
-export interface HyperVCollectorsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsGetResponse = HyperVCollectorsGetHeaders & HyperVCollector;
-
-// @public
-export interface HyperVCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsListByProjectResponse = HyperVCollectorsListByProjectHeaders & HyperVCollectorList;
-
-// @public (undocumented)
-export interface ImportCollector {
-    // (undocumented)
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: ImportCollectorProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface ImportCollectorList {
-    value?: ImportCollector[];
-}
-
-// @public (undocumented)
-export interface ImportCollectorProperties {
-    readonly createdTimestamp?: string;
-    // (undocumented)
+export interface HypervCollector extends ProxyResource {
+    agentProperties?: CollectorAgentPropertiesBase;
+    readonly createdTimestamp?: Date;
     discoverySiteId?: string;
-    readonly updatedTimestamp?: string;
+    provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: Date;
 }
 
 // @public
-export interface ImportCollectors {
-    create(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsCreateOptionalParams): Promise<ImportCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsDeleteOptionalParams): Promise<ImportCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsGetOptionalParams): Promise<ImportCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: ImportCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<ImportCollector>;
+export interface HypervCollectorListResult {
+    nextLink?: string;
+    value: HypervCollector[];
 }
 
 // @public
-export interface ImportCollectorsCreateHeaders {
-    xMsRequestId?: string;
+export interface HypervCollectorsOperations {
+    beginCreate(resourceGroupName: string, projectName: string, hypervCollectorName: string, resource: HypervCollector, options?: HypervCollectorsOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<HypervCollectorsOperationsCreateResponse>, HypervCollectorsOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, hypervCollectorName: string, resource: HypervCollector, options?: HypervCollectorsOperationsCreateOptionalParams): Promise<HypervCollectorsOperationsCreateResponse>;
+    delete(resourceGroupName: string, projectName: string, hypervCollectorName: string, options?: HypervCollectorsOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, hypervCollectorName: string, options?: HypervCollectorsOperationsGetOptionalParams): Promise<HypervCollectorsOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: HypervCollectorsOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<HypervCollector>;
 }
 
 // @public
-export interface ImportCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: ImportCollector;
+export interface HypervCollectorsOperationsCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export type ImportCollectorsCreateResponse = ImportCollectorsCreateHeaders & ImportCollector;
-
-// @public
-export interface ImportCollectorsDeleteHeaders {
-    xMsRequestId?: string;
+export interface HypervCollectorsOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface ImportCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
+export type HypervCollectorsOperationsCreateResponse = HypervCollector;
+
+// @public
+export interface HypervCollectorsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImportCollectorsDeleteResponse = ImportCollectorsDeleteHeaders;
-
-// @public
-export interface ImportCollectorsGetHeaders {
-    xMsRequestId?: string;
+export interface HypervCollectorsOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ImportCollectorsGetOptionalParams extends coreClient.OperationOptions {
+export type HypervCollectorsOperationsGetResponse = HypervCollector;
+
+// @public
+export interface HypervCollectorsOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImportCollectorsGetResponse = ImportCollectorsGetHeaders & ImportCollector;
+export type HypervCollectorsOperationsListByAssessmentProjectNextResponse = HypervCollectorListResult;
 
 // @public
-export interface ImportCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface HypervCollectorsOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ImportCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
+export type HypervCollectorsOperationsListByAssessmentProjectResponse = HypervCollectorListResult;
+
+// @public
+export interface ImpactedAssessmentObject {
+    readonly objectName?: string;
+    readonly objectType?: string;
 }
 
 // @public
-export type ImportCollectorsListByProjectResponse = ImportCollectorsListByProjectHeaders & ImportCollectorList;
+export interface ImportCollector extends ProxyResource {
+    readonly createdTimestamp?: Date;
+    discoverySiteId?: string;
+    provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: Date;
+}
+
+// @public
+export interface ImportCollectorListResult {
+    nextLink?: string;
+    value: ImportCollector[];
+}
+
+// @public
+export interface ImportCollectorsOperations {
+    beginCreate(resourceGroupName: string, projectName: string, importCollectorName: string, resource: ImportCollector, options?: ImportCollectorsOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ImportCollectorsOperationsCreateResponse>, ImportCollectorsOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, importCollectorName: string, resource: ImportCollector, options?: ImportCollectorsOperationsCreateOptionalParams): Promise<ImportCollectorsOperationsCreateResponse>;
+    delete(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsOperationsGetOptionalParams): Promise<ImportCollectorsOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: ImportCollectorsOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<ImportCollector>;
+}
+
+// @public
+export interface ImportCollectorsOperationsCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface ImportCollectorsOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ImportCollectorsOperationsCreateResponse = ImportCollector;
+
+// @public
+export interface ImportCollectorsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ImportCollectorsOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportCollectorsOperationsGetResponse = ImportCollector;
+
+// @public
+export interface ImportCollectorsOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportCollectorsOperationsListByAssessmentProjectNextResponse = ImportCollectorListResult;
+
+// @public
+export interface ImportCollectorsOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportCollectorsOperationsListByAssessmentProjectResponse = ImportCollectorListResult;
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
+export enum KnownApiVersions {
+    V20191001 = "2019-10-01",
+    V20200101 = "2020-01-01",
+    V20200501Preview = "2020-05-01-preview",
+    V20220202Preview = "2022-02-02-preview",
+    V20230303 = "2023-03-03",
+    V20230315 = "2023-03-15",
+    V20230401Preview = "2023-04-01-preview",
+    V20230707Preview = "2023-07-07-preview"
+}
+
+// @public
+export enum KnownAssessedMachineType {
+    AssessedMachine = "AssessedMachine",
+    AvsAssessedMachine = "AvsAssessedMachine",
+    SqlAssessedMachine = "SqlAssessedMachine",
+    Unknown = "Unknown"
+}
 
 // @public
 export enum KnownAssessmentSizingCriterion {
@@ -723,6 +1745,7 @@ export enum KnownAssessmentStage {
 export enum KnownAssessmentStatus {
     Completed = "Completed",
     Created = "Created",
+    Deleted = "Deleted",
     Invalid = "Invalid",
     OutDated = "OutDated",
     OutOfSync = "OutOfSync",
@@ -731,10 +1754,90 @@ export enum KnownAssessmentStatus {
 }
 
 // @public
+export enum KnownAssessmentType {
+    AvsAssessment = "AvsAssessment",
+    MachineAssessment = "MachineAssessment",
+    SqlAssessment = "SqlAssessment",
+    Unknown = "Unknown",
+    WebAppAssessment = "WebAppAssessment"
+}
+
+// @public
+export enum KnownAsyncCommitModeIntent {
+    DisasterRecovery = "DisasterRecovery",
+    HighAvailability = "HighAvailability",
+    None = "None"
+}
+
+// @public
+export enum KnownAzureAvsNodeType {
+    AV36 = "AV36",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownAzureAvsSuitabilityExplanation {
+    NotApplicable = "NotApplicable",
+    Unknown = "Unknown",
+    UnsupportedLocationForSelectedNode = "UnsupportedLocationForSelectedNode"
+}
+
+// @public
+export enum KnownAzureAvsVmSuitabilityDetail {
+    None = "None",
+    PercentageOfCoresUtilizedMissing = "PercentageOfCoresUtilizedMissing",
+    PercentageOfCoresUtilizedOutOfRange = "PercentageOfCoresUtilizedOutOfRange",
+    PercentageOfMemoryUtilizedMissing = "PercentageOfMemoryUtilizedMissing",
+    PercentageOfMemoryUtilizedOutOfRange = "PercentageOfMemoryUtilizedOutOfRange",
+    PercentageOfStorageUtilizedOutOfRange = "PercentageOfStorageUtilizedOutOfRange"
+}
+
+// @public
+export enum KnownAzureAvsVmSuitabilityExplanation {
+    IpV6NotSupported = "IpV6NotSupported",
+    NotApplicable = "NotApplicable",
+    Unknown = "Unknown",
+    UnsupportedOperatingSystem = "UnsupportedOperatingSystem"
+}
+
+// @public
+export enum KnownAzureCurrency {
+    ARS = "ARS",
+    AUD = "AUD",
+    BRL = "BRL",
+    CAD = "CAD",
+    CHF = "CHF",
+    CNY = "CNY",
+    DKK = "DKK",
+    EUR = "EUR",
+    GBP = "GBP",
+    HKD = "HKD",
+    IDR = "IDR",
+    INR = "INR",
+    JPY = "JPY",
+    KRW = "KRW",
+    MXN = "MXN",
+    MYR = "MYR",
+    NOK = "NOK",
+    NZD = "NZD",
+    RUB = "RUB",
+    SAR = "SAR",
+    SEK = "SEK",
+    TRY = "TRY",
+    TWD = "TWD",
+    Unknown = "Unknown",
+    USD = "USD",
+    ZAR = "ZAR"
+}
+
+// @public
 export enum KnownAzureDiskSize {
+    PremiumP1 = "Premium_P1",
     PremiumP10 = "Premium_P10",
     PremiumP15 = "Premium_P15",
+    PremiumP2 = "Premium_P2",
     PremiumP20 = "Premium_P20",
+    PremiumP3 = "Premium_P3",
     PremiumP30 = "Premium_P30",
     PremiumP4 = "Premium_P4",
     PremiumP40 = "Premium_P40",
@@ -743,6 +1846,7 @@ export enum KnownAzureDiskSize {
     PremiumP60 = "Premium_P60",
     PremiumP70 = "Premium_P70",
     PremiumP80 = "Premium_P80",
+    PremiumV2 = "PremiumV2",
     StandardS10 = "Standard_S10",
     StandardS15 = "Standard_S15",
     StandardS20 = "Standard_S20",
@@ -754,17 +1858,21 @@ export enum KnownAzureDiskSize {
     StandardS60 = "Standard_S60",
     StandardS70 = "Standard_S70",
     StandardS80 = "Standard_S80",
-    StandardSSDE10 = "StandardSSD_E10",
-    StandardSSDE15 = "StandardSSD_E15",
-    StandardSSDE20 = "StandardSSD_E20",
-    StandardSSDE30 = "StandardSSD_E30",
-    StandardSSDE4 = "StandardSSD_E4",
-    StandardSSDE40 = "StandardSSD_E40",
-    StandardSSDE50 = "StandardSSD_E50",
-    StandardSSDE6 = "StandardSSD_E6",
-    StandardSSDE60 = "StandardSSD_E60",
-    StandardSSDE70 = "StandardSSD_E70",
-    StandardSSDE80 = "StandardSSD_E80",
+    StandardSsde1 = "StandardSSD_E1",
+    StandardSsde10 = "StandardSSD_E10",
+    StandardSsde15 = "StandardSSD_E15",
+    StandardSsde2 = "StandardSSD_E2",
+    StandardSsde20 = "StandardSSD_E20",
+    StandardSsde3 = "StandardSSD_E3",
+    StandardSsde30 = "StandardSSD_E30",
+    StandardSsde4 = "StandardSSD_E4",
+    StandardSsde40 = "StandardSSD_E40",
+    StandardSsde50 = "StandardSSD_E50",
+    StandardSsde6 = "StandardSSD_E6",
+    StandardSsde60 = "StandardSSD_E60",
+    StandardSsde70 = "StandardSSD_E70",
+    StandardSsde80 = "StandardSSD_E80",
+    Ultra = "Ultra",
     Unknown = "Unknown"
 }
 
@@ -801,9 +1909,11 @@ export enum KnownAzureDiskSuitabilityExplanation {
 // @public
 export enum KnownAzureDiskType {
     Premium = "Premium",
+    PremiumV2 = "PremiumV2",
     Standard = "Standard",
     StandardOrPremium = "StandardOrPremium",
     StandardSSD = "StandardSSD",
+    Ultra = "Ultra",
     Unknown = "Unknown"
 }
 
@@ -816,6 +1926,8 @@ export enum KnownAzureHybridUseBenefit {
 
 // @public
 export enum KnownAzureLocation {
+    AustraliaCentral = "AustraliaCentral",
+    AustraliaCentral2 = "AustraliaCentral2",
     AustraliaEast = "AustraliaEast",
     AustraliaSoutheast = "AustraliaSoutheast",
     BrazilSouth = "BrazilSouth",
@@ -824,21 +1936,37 @@ export enum KnownAzureLocation {
     CentralIndia = "CentralIndia",
     CentralUs = "CentralUs",
     ChinaEast = "ChinaEast",
+    ChinaEast2 = "ChinaEast2",
     ChinaNorth = "ChinaNorth",
+    ChinaNorth2 = "ChinaNorth2",
     EastAsia = "EastAsia",
     EastUs = "EastUs",
     EastUs2 = "EastUs2",
+    FranceCentral = "FranceCentral",
+    FranceSouth = "FranceSouth",
     GermanyCentral = "GermanyCentral",
+    GermanyNorth = "GermanyNorth",
     GermanyNortheast = "GermanyNortheast",
+    GermanyWestCentral = "GermanyWestCentral",
     JapanEast = "JapanEast",
     JapanWest = "JapanWest",
     KoreaCentral = "KoreaCentral",
     KoreaSouth = "KoreaSouth",
     NorthCentralUs = "NorthCentralUs",
     NorthEurope = "NorthEurope",
+    NorwayEast = "NorwayEast",
+    NorwayWest = "NorwayWest",
+    QatarCentral = "QatarCentral",
+    SouthAfricaNorth = "SouthAfricaNorth",
+    SouthAfricaWest = "SouthAfricaWest",
     SouthCentralUs = "SouthCentralUs",
     SoutheastAsia = "SoutheastAsia",
     SouthIndia = "SouthIndia",
+    SwedenCentral = "SwedenCentral",
+    SwitzerlandNorth = "SwitzerlandNorth",
+    SwitzerlandWest = "SwitzerlandWest",
+    UAECentral = "UAECentral",
+    UAENorth = "UAENorth",
     UkSouth = "UkSouth",
     UkWest = "UkWest",
     Unknown = "Unknown",
@@ -848,6 +1976,11 @@ export enum KnownAzureLocation {
     USGovIowa = "USGovIowa",
     USGovTexas = "USGovTexas",
     USGovVirginia = "USGovVirginia",
+    UsNatEast = "UsNatEast",
+    UsNatWest = "UsNatWest",
+    UsSecCentral = "UsSecCentral",
+    UsSecEast = "UsSecEast",
+    UsSecWest = "UsSecWest",
     WestCentralUs = "WestCentralUs",
     WestEurope = "WestEurope",
     WestIndia = "WestIndia",
@@ -856,7 +1989,27 @@ export enum KnownAzureLocation {
 }
 
 // @public
+export enum KnownAzureManagedDiskSkuDTODiskRedundancy {
+    LRS = "LRS",
+    Unknown = "Unknown",
+    ZRS = "ZRS"
+}
+
+// @public
+export enum KnownAzureManagedDiskSkuDTODiskType {
+    Premium = "Premium",
+    PremiumV2 = "PremiumV2",
+    Standard = "Standard",
+    StandardOrPremium = "StandardOrPremium",
+    StandardSSD = "StandardSSD",
+    Ultra = "Ultra",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownAzureNetworkAdapterSuitabilityDetail {
+    MegabytesOfDataRecievedMissing = "MegabytesOfDataRecievedMissing",
+    MegabytesOfDataRecievedOutOfRange = "MegabytesOfDataRecievedOutOfRange",
     MegabytesOfDataTransmittedMissing = "MegabytesOfDataTransmittedMissing",
     MegabytesOfDataTransmittedOutOfRange = "MegabytesOfDataTransmittedOutOfRange",
     None = "None"
@@ -899,6 +2052,7 @@ export enum KnownAzureOfferCode {
     Msazr0144P = "MSAZR0144P",
     Msazr0148P = "MSAZR0148P",
     Msazr0149P = "MSAZR0149P",
+    Msazr0243P = "MSAZR0243P",
     Msazrde0003P = "MSAZRDE0003P",
     Msazrde0044P = "MSAZRDE0044P",
     Msazrusgov0003P = "MSAZRUSGOV0003P",
@@ -910,6 +2064,8 @@ export enum KnownAzureOfferCode {
     Msmcazr0121P = "MSMCAZR0121P",
     Msmcazr0125P = "MSMCAZR0125P",
     Msmcazr0128P = "MSMCAZR0128P",
+    SavingsPlan1Year = "SavingsPlan1Year",
+    SavingsPlan3Year = "SavingsPlan3Year",
     Unknown = "Unknown"
 }
 
@@ -917,6 +2073,58 @@ export enum KnownAzureOfferCode {
 export enum KnownAzurePricingTier {
     Basic = "Basic",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownAzureQuorumWitnessDTOQuorumWitnessType {
+    Cloud = "Cloud",
+    Disk = "Disk",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownAzureReservedInstance {
+    None = "None",
+    RI1Year = "RI1Year",
+    RI3Year = "RI3Year"
+}
+
+// @public
+export enum KnownAzureSecurityOfferingType {
+    MDC = "MDC",
+    NO = "NO"
+}
+
+// @public
+export enum KnownAzureSqlDataBaseType {
+    Automatic = "Automatic",
+    ElasticPool = "ElasticPool",
+    SingleDatabase = "SingleDatabase",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownAzureSqlInstanceType {
+    Automatic = "Automatic",
+    InstancePools = "InstancePools",
+    SingleInstance = "SingleInstance",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownAzureSqlPurchaseModel {
+    DTU = "DTU",
+    Unknown = "Unknown",
+    VCore = "VCore"
+}
+
+// @public
+export enum KnownAzureSqlServiceTier {
+    Automatic = "Automatic",
+    BusinessCritical = "BusinessCritical",
+    GeneralPurpose = "GeneralPurpose",
+    HyperScale = "HyperScale",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -932,15 +2140,41 @@ export enum KnownAzureStorageRedundancy {
 export enum KnownAzureVmFamily {
     Av2Series = "Av2_series",
     BasicA0A4 = "Basic_A0_A4",
+    Dadsv5Series = "Dadsv5_series",
+    Dasv4Series = "Dasv4_series",
+    Dasv5Series = "Dasv5_series",
+    Dav4Series = "Dav4_series",
     DCSeries = "DC_Series",
+    Ddsv4Series = "Ddsv4_series",
+    Ddsv5Series = "Ddsv5_series",
+    Ddv4Series = "Ddv4_series",
+    Ddv5Series = "Ddv5_series",
     DSeries = "D_series",
     DSSeries = "DS_series",
     DSv2Series = "DSv2_series",
     Dsv3Series = "Dsv3_series",
+    Dsv4Series = "Dsv4_series",
+    Dsv5Series = "Dsv5_series",
     Dv2Series = "Dv2_series",
     Dv3Series = "Dv3_series",
+    Dv4Series = "Dv4_series",
+    Dv5Series = "Dv5_series",
+    Eadsv5Series = "Eadsv5_series",
+    Easv4Series = "Easv4_series",
+    Easv5Series = "Easv5_series",
+    Eav4Series = "Eav4_series",
+    Ebdsv5Series = "Ebdsv5_series",
+    Ebsv5Series = "Ebsv5_series",
+    Edsv4Series = "Edsv4_series",
+    Edsv5Series = "Edsv5_series",
+    Edv4Series = "Edv4_series",
+    Edv5Series = "Edv5_series",
     Esv3Series = "Esv3_series",
+    Esv4Series = "Esv4_series",
+    Esv5Series = "Esv5_series",
     Ev3Series = "Ev3_series",
+    Ev4Series = "Ev4_series",
+    Ev5Series = "Ev5_series",
     FSeries = "F_series",
     FsSeries = "Fs_series",
     Fsv2Series = "Fsv2_series",
@@ -948,7 +2182,11 @@ export enum KnownAzureVmFamily {
     GSSeries = "GS_series",
     HSeries = "H_series",
     LsSeries = "Ls_series",
+    Lsv2Series = "Lsv2_series",
+    Mdsv2Series = "Mdsv2_series",
     MSeries = "M_series",
+    Msv2Series = "Msv2_series",
+    Mv2Series = "Mv2_series",
     StandardA0A7 = "Standard_A0_A7",
     StandardA8A11 = "Standard_A8_A11",
     Unknown = "Unknown"
@@ -990,34 +2228,135 @@ export enum KnownAzureVmSize {
     StandardD14 = "Standard_D14",
     StandardD14V2 = "Standard_D14_v2",
     StandardD15V2 = "Standard_D15_v2",
+    StandardD16AdsV5 = "Standard_D16ads_v5",
+    StandardD16AsV4 = "Standard_D16as_v4",
+    StandardD16AsV5 = "Standard_D16as_v5",
+    StandardD16AV4 = "Standard_D16a_v4",
+    StandardD16DsV4 = "Standard_D16ds_v4",
+    StandardD16DsV5 = "Standard_D16ds_v5",
+    StandardD16DV4 = "Standard_D16d_v4",
+    StandardD16DV5 = "Standard_D16d_v5",
     StandardD16SV3 = "Standard_D16s_v3",
+    StandardD16SV4 = "Standard_D16s_v4",
+    StandardD16SV5 = "Standard_D16s_v5",
     StandardD16V3 = "Standard_D16_v3",
+    StandardD16V4 = "Standard_D16_v4",
+    StandardD16V5 = "Standard_D16_v5",
     StandardD1V2 = "Standard_D1_v2",
     StandardD2 = "Standard_D2",
+    StandardD2AdsV5 = "Standard_D2ads_v5",
+    StandardD2AsV4 = "Standard_D2as_v4",
+    StandardD2AsV5 = "Standard_D2as_v5",
+    StandardD2AV4 = "Standard_D2a_v4",
+    StandardD2DsV4 = "Standard_D2ds_v4",
+    StandardD2DsV5 = "Standard_D2ds_v5",
+    StandardD2DV4 = "Standard_D2d_v4",
+    StandardD2DV5 = "Standard_D2d_v5",
     StandardD2SV3 = "Standard_D2s_v3",
+    StandardD2SV4 = "Standard_D2s_v4",
+    StandardD2SV5 = "Standard_D2s_v5",
     StandardD2V2 = "Standard_D2_v2",
     StandardD2V3 = "Standard_D2_v3",
+    StandardD2V4 = "Standard_D2_v4",
+    StandardD2V5 = "Standard_D2_v5",
     StandardD3 = "Standard_D3",
+    StandardD32AdsV5 = "Standard_D32ads_v5",
+    StandardD32AsV4 = "Standard_D32as_v4",
+    StandardD32AsV5 = "Standard_D32as_v5",
+    StandardD32AV4 = "Standard_D32a_v4",
+    StandardD32DsV4 = "Standard_D32ds_v4",
+    StandardD32DsV5 = "Standard_D32ds_v5",
+    StandardD32DV4 = "Standard_D32d_v4",
+    StandardD32DV5 = "Standard_D32d_v5",
     StandardD32SV3 = "Standard_D32s_v3",
+    StandardD32SV4 = "Standard_D32s_v4",
+    StandardD32SV5 = "Standard_D32s_v5",
     StandardD32V3 = "Standard_D32_v3",
+    StandardD32V4 = "Standard_D32_v4",
+    StandardD32V5 = "Standard_D32_v5",
     StandardD3V2 = "Standard_D3_v2",
     StandardD4 = "Standard_D4",
+    StandardD48AdsV5 = "Standard_D48ads_v5",
+    StandardD48AsV4 = "Standard_D48as_v4",
+    StandardD48AsV5 = "Standard_D48as_v5",
+    StandardD48AV4 = "Standard_D48a_v4",
+    StandardD48DsV4 = "Standard_D48ds_v4",
+    StandardD48DsV5 = "Standard_D48ds_v5",
+    StandardD48DV4 = "Standard_D48d_v4",
+    StandardD48DV5 = "Standard_D48d_v5",
+    StandardD48SV4 = "Standard_D48s_v4",
+    StandardD48SV5 = "Standard_D48s_v5",
+    StandardD48V4 = "Standard_D48_v4",
+    StandardD48V5 = "Standard_D48_v5",
+    StandardD4AdsV5 = "Standard_D4ads_v5",
+    StandardD4AsV4 = "Standard_D4as_v4",
+    StandardD4AsV5 = "Standard_D4as_v5",
+    StandardD4AV4 = "Standard_D4a_v4",
+    StandardD4DsV4 = "Standard_D4ds_v4",
+    StandardD4DsV5 = "Standard_D4ds_v5",
+    StandardD4DV4 = "Standard_D4d_v4",
+    StandardD4DV5 = "Standard_D4d_v5",
     StandardD4SV3 = "Standard_D4s_v3",
+    StandardD4SV4 = "Standard_D4s_v4",
+    StandardD4SV5 = "Standard_D4s_v5",
     StandardD4V2 = "Standard_D4_v2",
     StandardD4V3 = "Standard_D4_v3",
+    StandardD4V4 = "Standard_D4_v4",
+    StandardD4V5 = "Standard_D4_v5",
     StandardD5V2 = "Standard_D5_v2",
+    StandardD64AdsV5 = "Standard_D64ads_v5",
+    StandardD64AsV4 = "Standard_D64as_v4",
+    StandardD64AsV5 = "Standard_D64as_v5",
+    StandardD64AV4 = "Standard_D64a_v4",
+    StandardD64DsV4 = "Standard_D64ds_v4",
+    StandardD64DsV5 = "Standard_D64ds_v5",
+    StandardD64DV4 = "Standard_D64d_v4",
+    StandardD64DV5 = "Standard_D64d_v5",
     StandardD64SV3 = "Standard_D64s_v3",
+    StandardD64SV4 = "Standard_D64s_v4",
+    StandardD64SV5 = "Standard_D64s_v5",
     StandardD64V3 = "Standard_D64_v3",
+    StandardD64V4 = "Standard_D64_v4",
+    StandardD64V5 = "Standard_D64_v5",
+    StandardD8AdsV5 = "Standard_D8ads_v5",
+    StandardD8AsV4 = "Standard_D8as_v4",
+    StandardD8AsV5 = "Standard_D8as_v5",
+    StandardD8AV4 = "Standard_D8a_v4",
+    StandardD8DsV4 = "Standard_D8ds_v4",
+    StandardD8DsV5 = "Standard_D8ds_v5",
+    StandardD8DV4 = "Standard_D8d_v4",
+    StandardD8DV5 = "Standard_D8d_v5",
     StandardD8SV3 = "Standard_D8s_v3",
+    StandardD8SV4 = "Standard_D8s_v4",
+    StandardD8SV5 = "Standard_D8s_v5",
     StandardD8V3 = "Standard_D8_v3",
+    StandardD8V4 = "Standard_D8_v4",
+    StandardD8V5 = "Standard_D8_v5",
+    StandardD96AdsV5 = "Standard_D96ads_v5",
+    StandardD96AsV4 = "Standard_D96as_v4",
+    StandardD96AsV5 = "Standard_D96as_v5",
+    StandardD96AV4 = "Standard_D96a_v4",
+    StandardD96DsV5 = "Standard_D96ds_v5",
+    StandardD96DV5 = "Standard_D96d_v5",
+    StandardD96SV5 = "Standard_D96s_v5",
+    StandardD96V5 = "Standard_D96_v5",
+    StandardDC2S = "Standard_DC2s",
+    StandardDC4S = "Standard_DC4s",
     StandardDS1 = "Standard_DS1",
     StandardDS11 = "Standard_DS11",
+    StandardDS111V2 = "Standard_DS11_1_v2",
     StandardDS11V2 = "Standard_DS11_v2",
     StandardDS12 = "Standard_DS12",
+    StandardDS121V2 = "Standard_DS12_1_v2",
+    StandardDS122V2 = "Standard_DS12_2_v2",
     StandardDS12V2 = "Standard_DS12_v2",
     StandardDS13 = "Standard_DS13",
+    StandardDS132V2 = "Standard_DS13_2_v2",
+    StandardDS134V2 = "Standard_DS13_4_v2",
     StandardDS13V2 = "Standard_DS13_v2",
     StandardDS14 = "Standard_DS14",
+    StandardDS144V2 = "Standard_DS14_4_v2",
+    StandardDS148V2 = "Standard_DS14_8_v2",
     StandardDS14V2 = "Standard_DS14_v2",
     StandardDS15V2 = "Standard_DS15_v2",
     StandardDS1V2 = "Standard_DS1_v2",
@@ -1028,18 +2367,230 @@ export enum KnownAzureVmSize {
     StandardDS4 = "Standard_DS4",
     StandardDS4V2 = "Standard_DS4_v2",
     StandardDS5V2 = "Standard_DS5_v2",
+    StandardE104IdsV5 = "Standard_E104ids_v5",
+    StandardE104IdV5 = "Standard_E104id_v5",
+    StandardE104IsV5 = "Standard_E104is_v5",
+    StandardE104IV5 = "Standard_E104i_v5",
+    StandardE164AdsV5 = "Standard_E16_4ads_v5",
+    StandardE164AsV4 = "Standard_E16_4as_v4",
+    StandardE164AsV5 = "Standard_E16_4as_v5",
+    StandardE164DsV4 = "Standard_E16_4ds_v4",
+    StandardE164DsV5 = "Standard_E16_4ds_v5",
+    StandardE164SV3 = "Standard_E16_4s_v3",
+    StandardE164SV4 = "Standard_E16_4s_v4",
+    StandardE164SV5 = "Standard_E16_4s_v5",
+    StandardE168AdsV5 = "Standard_E16_8ads_v5",
+    StandardE168AsV4 = "Standard_E16_8as_v4",
+    StandardE168AsV5 = "Standard_E16_8as_v5",
+    StandardE168DsV4 = "Standard_E16_8ds_v4",
+    StandardE168DsV5 = "Standard_E16_8ds_v5",
+    StandardE168SV3 = "Standard_E16_8s_v3",
+    StandardE168SV4 = "Standard_E16_8s_v4",
+    StandardE168SV5 = "Standard_E16_8s_v5",
+    StandardE16AdsV5 = "Standard_E16ads_v5",
+    StandardE16AsV4 = "Standard_E16as_v4",
+    StandardE16AsV5 = "Standard_E16as_v5",
+    StandardE16AV4 = "Standard_E16a_v4",
+    StandardE16BdsV5 = "Standard_E16bds_v5",
+    StandardE16BsV5 = "Standard_E16bs_v5",
+    StandardE16DsV4 = "Standard_E16ds_v4",
+    StandardE16DsV5 = "Standard_E16ds_v5",
+    StandardE16DV4 = "Standard_E16d_v4",
+    StandardE16DV5 = "Standard_E16d_v5",
     StandardE16SV3 = "Standard_E16s_v3",
+    StandardE16SV4 = "Standard_E16s_v4",
+    StandardE16SV5 = "Standard_E16s_v5",
     StandardE16V3 = "Standard_E16_v3",
+    StandardE16V4 = "Standard_E16_v4",
+    StandardE16V5 = "Standard_E16_v5",
+    StandardE20AdsV5 = "Standard_E20ads_v5",
+    StandardE20AsV4 = "Standard_E20as_v4",
+    StandardE20AsV5 = "Standard_E20as_v5",
+    StandardE20AV4 = "Standard_E20a_v4",
+    StandardE20DsV4 = "Standard_E20ds_v4",
+    StandardE20DsV5 = "Standard_E20ds_v5",
+    StandardE20DV4 = "Standard_E20d_v4",
+    StandardE20DV5 = "Standard_E20d_v5",
+    StandardE20SV3 = "Standard_E20s_v3",
+    StandardE20SV4 = "Standard_E20s_v4",
+    StandardE20SV5 = "Standard_E20s_v5",
+    StandardE20V3 = "Standard_E20_v3",
+    StandardE20V4 = "Standard_E20_v4",
+    StandardE20V5 = "Standard_E20_v5",
+    StandardE2AdsV5 = "Standard_E2ads_v5",
+    StandardE2AsV4 = "Standard_E2as_v4",
+    StandardE2AsV5 = "Standard_E2as_v5",
+    StandardE2AV4 = "Standard_E2a_v4",
+    StandardE2BdsV5 = "Standard_E2bds_v5",
+    StandardE2BsV5 = "Standard_E2bs_v5",
+    StandardE2DsV4 = "Standard_E2ds_v4",
+    StandardE2DsV5 = "Standard_E2ds_v5",
+    StandardE2DV4 = "Standard_E2d_v4",
+    StandardE2DV5 = "Standard_E2d_v5",
     StandardE2SV3 = "Standard_E2s_v3",
+    StandardE2SV4 = "Standard_E2s_v4",
+    StandardE2SV5 = "Standard_E2s_v5",
     StandardE2V3 = "Standard_E2_v3",
+    StandardE2V4 = "Standard_E2_v4",
+    StandardE2V5 = "Standard_E2_v5",
+    StandardE3216AdsV5 = "Standard_E32_16ads_v5",
+    StandardE3216AsV4 = "Standard_E32_16as_v4",
+    StandardE3216AsV5 = "Standard_E32_16as_v5",
+    StandardE3216DsV4 = "Standard_E32_16ds_v4",
+    StandardE3216DsV5 = "Standard_E32_16ds_v5",
+    StandardE3216SV3 = "Standard_E32_16s_v3",
+    StandardE3216SV4 = "Standard_E32_16s_v4",
+    StandardE3216SV5 = "Standard_E32_16s_v5",
+    StandardE328AdsV5 = "Standard_E32_8ads_v5",
+    StandardE328AsV4 = "Standard_E32_8as_v4",
+    StandardE328AsV5 = "Standard_E32_8as_v5",
+    StandardE328DsV4 = "Standard_E32_8ds_v4",
+    StandardE328DsV5 = "Standard_E32_8ds_v5",
+    StandardE328SV3 = "Standard_E32_8s_v3",
+    StandardE328SV4 = "Standard_E32_8s_v4",
+    StandardE328SV5 = "Standard_E32_8s_v5",
+    StandardE32AdsV5 = "Standard_E32ads_v5",
+    StandardE32AsV4 = "Standard_E32as_v4",
+    StandardE32AsV5 = "Standard_E32as_v5",
+    StandardE32AV4 = "Standard_E32a_v4",
+    StandardE32BdsV5 = "Standard_E32bds_v5",
+    StandardE32BsV5 = "Standard_E32bs_v5",
+    StandardE32DsV4 = "Standard_E32ds_v4",
+    StandardE32DsV5 = "Standard_E32ds_v5",
+    StandardE32DV4 = "Standard_E32d_v4",
+    StandardE32DV5 = "Standard_E32d_v5",
     StandardE32SV3 = "Standard_E32s_v3",
+    StandardE32SV4 = "Standard_E32s_v4",
+    StandardE32SV5 = "Standard_E32s_v5",
     StandardE32V3 = "Standard_E32_v3",
+    StandardE32V4 = "Standard_E32_v4",
+    StandardE32V5 = "Standard_E32_v5",
+    StandardE42AdsV5 = "Standard_E4_2ads_v5",
+    StandardE42AsV4 = "Standard_E4_2as_v4",
+    StandardE42AsV5 = "Standard_E4_2as_v5",
+    StandardE42DsV4 = "Standard_E4_2ds_v4",
+    StandardE42DsV5 = "Standard_E4_2ds_v5",
+    StandardE42SV3 = "Standard_E4_2s_v3",
+    StandardE42SV4 = "Standard_E4_2s_v4",
+    StandardE42SV5 = "Standard_E4_2s_v5",
+    StandardE48AdsV5 = "Standard_E48ads_v5",
+    StandardE48AsV4 = "Standard_E48as_v4",
+    StandardE48AsV5 = "Standard_E48as_v5",
+    StandardE48AV4 = "Standard_E48a_v4",
+    StandardE48BdsV5 = "Standard_E48bds_v5",
+    StandardE48BsV5 = "Standard_E48bs_v5",
+    StandardE48DsV4 = "Standard_E48ds_v4",
+    StandardE48DsV5 = "Standard_E48ds_v5",
+    StandardE48DV4 = "Standard_E48d_v4",
+    StandardE48DV5 = "Standard_E48d_v5",
+    StandardE48SV3 = "Standard_E48s_v3",
+    StandardE48SV4 = "Standard_E48s_v4",
+    StandardE48SV5 = "Standard_E48s_v5",
+    StandardE48V3 = "Standard_E48_v3",
+    StandardE48V4 = "Standard_E48_v4",
+    StandardE48V5 = "Standard_E48_v5",
+    StandardE4AdsV5 = "Standard_E4ads_v5",
+    StandardE4AsV4 = "Standard_E4as_v4",
+    StandardE4AsV5 = "Standard_E4as_v5",
+    StandardE4AV4 = "Standard_E4a_v4",
+    StandardE4BdsV5 = "Standard_E4bds_v5",
+    StandardE4BsV5 = "Standard_E4bs_v5",
+    StandardE4DsV4 = "Standard_E4ds_v4",
+    StandardE4DsV5 = "Standard_E4ds_v5",
+    StandardE4DV4 = "Standard_E4d_v4",
+    StandardE4DV5 = "Standard_E4d_v5",
     StandardE4SV3 = "Standard_E4s_v3",
+    StandardE4SV4 = "Standard_E4s_v4",
+    StandardE4SV5 = "Standard_E4s_v5",
     StandardE4V3 = "Standard_E4_v3",
+    StandardE4V4 = "Standard_E4_v4",
+    StandardE4V5 = "Standard_E4_v5",
+    StandardE6416AdsV5 = "Standard_E64_16ads_v5",
+    StandardE6416AsV4 = "Standard_E64_16as_v4",
+    StandardE6416AsV5 = "Standard_E64_16as_v5",
+    StandardE6416DsV4 = "Standard_E64_16ds_v4",
+    StandardE6416DsV5 = "Standard_E64_16ds_v5",
+    StandardE6416SV3 = "Standard_E64_16s_v3",
+    StandardE6416SV4 = "Standard_E64_16s_v4",
+    StandardE6416SV5 = "Standard_E64_16s_v5",
+    StandardE6432AdsV5 = "Standard_E64_32ads_v5",
+    StandardE6432AsV4 = "Standard_E64_32as_v4",
+    StandardE6432AsV5 = "Standard_E64_32as_v5",
+    StandardE6432DsV4 = "Standard_E64_32ds_v4",
+    StandardE6432DsV5 = "Standard_E64_32ds_v5",
+    StandardE6432SV3 = "Standard_E64_32s_v3",
+    StandardE6432SV4 = "Standard_E64_32s_v4",
+    StandardE6432SV5 = "Standard_E64_32s_v5",
+    StandardE64AdsV5 = "Standard_E64ads_v5",
+    StandardE64AsV4 = "Standard_E64as_v4",
+    StandardE64AsV5 = "Standard_E64as_v5",
+    StandardE64AV4 = "Standard_E64a_v4",
+    StandardE64BdsV5 = "Standard_E64bds_v5",
+    StandardE64BsV5 = "Standard_E64bs_v5",
+    StandardE64DsV4 = "Standard_E64ds_v4",
+    StandardE64DsV5 = "Standard_E64ds_v5",
+    StandardE64DV4 = "Standard_E64d_v4",
+    StandardE64DV5 = "Standard_E64d_v5",
+    StandardE64IsV3 = "Standard_E64is_v3",
+    StandardE64IV3 = "Standard_E64i_v3",
     StandardE64SV3 = "Standard_E64s_v3",
+    StandardE64SV4 = "Standard_E64s_v4",
+    StandardE64SV5 = "Standard_E64s_v5",
     StandardE64V3 = "Standard_E64_v3",
+    StandardE64V4 = "Standard_E64_v4",
+    StandardE64V5 = "Standard_E64_v5",
+    StandardE80IdsV4 = "Standard_E80ids_v4",
+    StandardE80IsV4 = "Standard_E80is_v4",
+    StandardE82AdsV5 = "Standard_E8_2ads_v5",
+    StandardE82AsV4 = "Standard_E8_2as_v4",
+    StandardE82AsV5 = "Standard_E8_2as_v5",
+    StandardE82DsV4 = "Standard_E8_2ds_v4",
+    StandardE82DsV5 = "Standard_E8_2ds_v5",
+    StandardE82SV3 = "Standard_E8_2s_v3",
+    StandardE82SV4 = "Standard_E8_2s_v4",
+    StandardE82SV5 = "Standard_E8_2s_v5",
+    StandardE84AdsV5 = "Standard_E8_4ads_v5",
+    StandardE84AsV4 = "Standard_E8_4as_v4",
+    StandardE84AsV5 = "Standard_E8_4as_v5",
+    StandardE84DsV4 = "Standard_E8_4ds_v4",
+    StandardE84DsV5 = "Standard_E8_4ds_v5",
+    StandardE84SV3 = "Standard_E8_4s_v3",
+    StandardE84SV4 = "Standard_E8_4s_v4",
+    StandardE84SV5 = "Standard_E8_4s_v5",
+    StandardE8AdsV5 = "Standard_E8ads_v5",
+    StandardE8AsV4 = "Standard_E8as_v4",
+    StandardE8AsV5 = "Standard_E8as_v5",
+    StandardE8AV4 = "Standard_E8a_v4",
+    StandardE8BdsV5 = "Standard_E8bds_v5",
+    StandardE8BsV5 = "Standard_E8bs_v5",
+    StandardE8DsV4 = "Standard_E8ds_v4",
+    StandardE8DsV5 = "Standard_E8ds_v5",
+    StandardE8DV4 = "Standard_E8d_v4",
+    StandardE8DV5 = "Standard_E8d_v5",
     StandardE8SV3 = "Standard_E8s_v3",
+    StandardE8SV4 = "Standard_E8s_v4",
+    StandardE8SV5 = "Standard_E8s_v5",
     StandardE8V3 = "Standard_E8_v3",
+    StandardE8V4 = "Standard_E8_v4",
+    StandardE8V5 = "Standard_E8_v5",
+    StandardE9624AdsV5 = "Standard_E96_24ads_v5",
+    StandardE9624AsV4 = "Standard_E96_24as_v4",
+    StandardE9624AsV5 = "Standard_E96_24as_v5",
+    StandardE9624DsV5 = "Standard_E96_24ds_v5",
+    StandardE9624SV5 = "Standard_E96_24s_v5",
+    StandardE9648AdsV5 = "Standard_E96_48ads_v5",
+    StandardE9648AsV4 = "Standard_E96_48as_v4",
+    StandardE9648AsV5 = "Standard_E96_48as_v5",
+    StandardE9648DsV5 = "Standard_E96_48ds_v5",
+    StandardE9648SV5 = "Standard_E96_48s_v5",
+    StandardE96AdsV5 = "Standard_E96ads_v5",
+    StandardE96AsV4 = "Standard_E96as_v4",
+    StandardE96AsV5 = "Standard_E96as_v5",
+    StandardE96AV4 = "Standard_E96a_v4",
+    StandardE96DsV5 = "Standard_E96ds_v5",
+    StandardE96DV5 = "Standard_E96d_v5",
+    StandardE96SV5 = "Standard_E96s_v5",
+    StandardE96V5 = "Standard_E96_v5",
     StandardF1 = "Standard_F1",
     StandardF16 = "Standard_F16",
     StandardF16S = "Standard_F16s",
@@ -1050,6 +2601,7 @@ export enum KnownAzureVmSize {
     StandardF2SV2 = "Standard_F2s_v2",
     StandardF32SV2 = "Standard_F32s_v2",
     StandardF4 = "Standard_F4",
+    StandardF48SV2 = "Standard_F48s_v2",
     StandardF4S = "Standard_F4s",
     StandardF4SV2 = "Standard_F4s_v2",
     StandardF64SV2 = "Standard_F64s_v2",
@@ -1066,7 +2618,11 @@ export enum KnownAzureVmSize {
     StandardGS2 = "Standard_GS2",
     StandardGS3 = "Standard_GS3",
     StandardGS4 = "Standard_GS4",
+    StandardGS44 = "Standard_GS4_4",
+    StandardGS48 = "Standard_GS4_8",
     StandardGS5 = "Standard_GS5",
+    StandardGS516 = "Standard_GS5_16",
+    StandardGS58 = "Standard_GS5_8",
     StandardH16 = "Standard_H16",
     StandardH16M = "Standard_H16m",
     StandardH16Mr = "Standard_H16mr",
@@ -1074,13 +2630,59 @@ export enum KnownAzureVmSize {
     StandardH8 = "Standard_H8",
     StandardH8M = "Standard_H8m",
     StandardL16S = "Standard_L16s",
+    StandardL16SV2 = "Standard_L16s_v2",
     StandardL32S = "Standard_L32s",
+    StandardL32SV2 = "Standard_L32s_v2",
+    StandardL48SV2 = "Standard_L48s_v2",
     StandardL4S = "Standard_L4s",
+    StandardL64SV2 = "Standard_L64s_v2",
+    StandardL80SV2 = "Standard_L80s_v2",
     StandardL8S = "Standard_L8s",
+    StandardL8SV2 = "Standard_L8s_v2",
+    StandardM128 = "Standard_M128",
+    StandardM12832Ms = "Standard_M128_32ms",
+    StandardM12864Ms = "Standard_M128_64ms",
+    StandardM128DmsV2 = "Standard_M128dms_v2",
+    StandardM128DsV2 = "Standard_M128ds_v2",
+    StandardM128M = "Standard_M128m",
     StandardM128Ms = "Standard_M128ms",
+    StandardM128MsV2 = "Standard_M128ms_v2",
     StandardM128S = "Standard_M128s",
+    StandardM128SV2 = "Standard_M128s_v2",
+    StandardM164Ms = "Standard_M16_4ms",
+    StandardM168Ms = "Standard_M16_8ms",
+    StandardM16Ms = "Standard_M16ms",
+    StandardM192IdmsV2 = "Standard_M192idms_v2",
+    StandardM192IdsV2 = "Standard_M192ids_v2",
+    StandardM192ImsV2 = "Standard_M192ims_v2",
+    StandardM192IsV2 = "Standard_M192is_v2",
+    StandardM208MsV2 = "Standard_M208ms_v2",
+    StandardM208SV2 = "Standard_M208s_v2",
+    StandardM3216Ms = "Standard_M32_16ms",
+    StandardM328Ms = "Standard_M32_8ms",
+    StandardM32DmsV2 = "Standard_M32dms_v2",
+    StandardM32Ls = "Standard_M32ls",
+    StandardM32Ms = "Standard_M32ms",
+    StandardM32MsV2 = "Standard_M32ms_v2",
+    StandardM32Ts = "Standard_M32ts",
+    StandardM416208MsV2 = "Standard_M416_208ms_v2",
+    StandardM416208SV2 = "Standard_M416_208s_v2",
+    StandardM416MsV2 = "Standard_M416ms_v2",
+    StandardM416SV2 = "Standard_M416s_v2",
+    StandardM64 = "Standard_M64",
+    StandardM6416Ms = "Standard_M64_16ms",
+    StandardM6432Ms = "Standard_M64_32ms",
+    StandardM64DmsV2 = "Standard_M64dms_v2",
+    StandardM64DsV2 = "Standard_M64ds_v2",
+    StandardM64Ls = "Standard_M64ls",
+    StandardM64M = "Standard_M64m",
     StandardM64Ms = "Standard_M64ms",
+    StandardM64MsV2 = "Standard_M64ms_v2",
     StandardM64S = "Standard_M64s",
+    StandardM64SV2 = "Standard_M64s_v2",
+    StandardM82Ms = "Standard_M8_2ms",
+    StandardM84Ms = "Standard_M8_4ms",
+    StandardM8Ms = "Standard_M8ms",
     Unknown = "Unknown"
 }
 
@@ -1118,6 +2720,7 @@ export enum KnownAzureVmSuitabilityExplanation {
     InternalErrorOccurredDuringNetworkEvaluation = "InternalErrorOccurredDuringNetworkEvaluation",
     InternalErrorOccurredDuringStorageEvaluation = "InternalErrorOccurredDuringStorageEvaluation",
     MoreDisksThanSupported = "MoreDisksThanSupported",
+    NoEaPriceFoundForVmSize = "NoEaPriceFoundForVmSize",
     NoGuestOperatingSystemConditionallySupported = "NoGuestOperatingSystemConditionallySupported",
     NoSuitableVmSizeFound = "NoSuitableVmSizeFound",
     NotApplicable = "NotApplicable",
@@ -1125,6 +2728,8 @@ export enum KnownAzureVmSuitabilityExplanation {
     NoVmSizeForSelectedAzureLocation = "NoVmSizeForSelectedAzureLocation",
     NoVmSizeForSelectedPricingTier = "NoVmSizeForSelectedPricingTier",
     NoVmSizeForStandardPricingTier = "NoVmSizeForStandardPricingTier",
+    NoVmSizeFoundForOfferCurrencyReservedInstance = "NoVmSizeFoundForOfferCurrencyReservedInstance",
+    NoVmSizeInSelectedFamilyFound = "NoVmSizeInSelectedFamilyFound",
     NoVmSizeSupportsNetworkPerformance = "NoVmSizeSupportsNetworkPerformance",
     NoVmSizeSupportsStoragePerformance = "NoVmSizeSupportsStoragePerformance",
     OneOrMoreAdaptersNotSuitable = "OneOrMoreAdaptersNotSuitable",
@@ -1147,33 +2752,56 @@ export enum KnownCloudSuitability {
 }
 
 // @public
-export enum KnownCurrency {
-    ARS = "ARS",
-    AUD = "AUD",
-    BRL = "BRL",
-    CAD = "CAD",
-    CHF = "CHF",
-    CNY = "CNY",
-    DKK = "DKK",
-    EUR = "EUR",
-    GBP = "GBP",
-    HKD = "HKD",
-    IDR = "IDR",
-    INR = "INR",
-    JPY = "JPY",
-    KRW = "KRW",
-    MXN = "MXN",
-    MYR = "MYR",
-    NOK = "NOK",
-    NZD = "NZD",
-    RUB = "RUB",
-    SAR = "SAR",
-    SEK = "SEK",
-    TRY = "TRY",
-    TWD = "TWD",
-    Unknown = "Unknown",
-    USD = "USD",
-    ZAR = "ZAR"
+export enum KnownCompatibilityLevel {
+    CompatLevel100 = "CompatLevel100",
+    CompatLevel110 = "CompatLevel110",
+    CompatLevel120 = "CompatLevel120",
+    CompatLevel130 = "CompatLevel130",
+    CompatLevel140 = "CompatLevel140",
+    CompatLevel150 = "CompatLevel150",
+    CompatLevel80 = "CompatLevel80",
+    CompatLevel90 = "CompatLevel90",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownComputeTier {
+    Automatic = "Automatic",
+    Provisioned = "Provisioned",
+    Serverless = "Serverless",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownCostComponentName {
+    MonthlyAzureHybridCostSavings = "MonthlyAzureHybridCostSavings",
+    MonthlyPremiumV2StorageCost = "MonthlyPremiumV2StorageCost",
+    MonthlySecurityCost = "MonthlySecurityCost",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownEnvironmentType {
+    Production = "Production",
+    Test = "Test"
+}
+
+// @public
+export enum KnownFttAndRaidLevel {
+    Ftt1Raid1 = "Ftt1Raid1",
+    Ftt1Raid5 = "Ftt1Raid5",
+    Ftt2Raid1 = "Ftt2Raid1",
+    Ftt2Raid6 = "Ftt2Raid6",
+    Ftt3Raid1 = "Ftt3Raid1",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1186,16 +2814,69 @@ export enum KnownGroupStatus {
 }
 
 // @public
+export enum KnownGroupType {
+    Default = "Default",
+    Import = "Import"
+}
+
+// @public
 export enum KnownGroupUpdateOperation {
     Add = "Add",
     Remove = "Remove"
 }
 
 // @public
+export enum KnownGuestOperatingSystemArchitecture {
+    Unknown = "Unknown",
+    X64 = "X64",
+    X86 = "X86"
+}
+
+// @public
+export enum KnownHardwareGeneration {
+    Automatic = "Automatic",
+    DCSeries = "DC_series",
+    Fsv2Series = "Fsv2_series",
+    Gen5 = "Gen5",
+    MSeries = "M_series",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownMachineBootType {
     Bios = "BIOS",
     EFI = "EFI",
+    NotSpecified = "NotSpecified",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownMultiSubnetIntent {
+    DisasterRecovery = "DisasterRecovery",
+    HighAvailability = "HighAvailability",
+    None = "None"
+}
+
+// @public
+export enum KnownOptimizationLogic {
+    MinimizeCost = "MinimizeCost",
+    ModernizeToAzureSqlDb = "ModernizeToAzureSqlDb",
+    ModernizeToAzureSqlMi = "ModernizeToAzureSqlMi",
+    ModernizeToPaaS = "ModernizeToPaaS"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownOsLicense {
+    No = "No",
+    Unknown = "Unknown",
+    Yes = "Yes"
 }
 
 // @public
@@ -1207,17 +2888,16 @@ export enum KnownPercentile {
 }
 
 // @public
-export enum KnownPrivateEndpointConnectionPropertiesProvisioningState {
-    Accepted = "Accepted",
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
     Failed = "Failed",
-    InProgress = "InProgress",
     Succeeded = "Succeeded"
 }
 
 // @public
-export enum KnownPrivateLinkServiceConnectionStateStatus {
+export enum KnownPrivateEndpointServiceConnectionStatus {
     Approved = "Approved",
-    Disconnected = "Disconnected",
     Pending = "Pending",
     Rejected = "Rejected"
 }
@@ -1231,18 +2911,88 @@ export enum KnownProjectStatus {
 // @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
-    Creating = "Creating",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
-    Moving = "Moving",
-    Succeeded = "Succeeded"
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
-export enum KnownReservedInstance {
-    None = "None",
-    RI1Year = "RI1Year",
-    RI3Year = "RI3Year"
+export enum KnownRecommendedSuitability {
+    ConditionallySuitableForSqlDB = "ConditionallySuitableForSqlDB",
+    ConditionallySuitableForSqlMI = "ConditionallySuitableForSqlMI",
+    ConditionallySuitableForSqlVM = "ConditionallySuitableForSqlVM",
+    ConditionallySuitableForVM = "ConditionallySuitableForVM",
+    NotSuitable = "NotSuitable",
+    PotentiallySuitableForVM = "PotentiallySuitableForVM",
+    ReadinessUnknown = "ReadinessUnknown",
+    SuitableForSqlDB = "SuitableForSqlDB",
+    SuitableForSqlMI = "SuitableForSqlMI",
+    SuitableForSqlVM = "SuitableForSqlVM",
+    SuitableForVM = "SuitableForVM",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSkuReplicationMode {
+    ActiveGeoReplication = "ActiveGeoReplication",
+    FailoverGroupInstance = "FailoverGroupInstance",
+    NotApplicable = "NotApplicable"
+}
+
+// @public
+export enum KnownSqlAssessmentMigrationIssueCategory {
+    Internal = "Internal",
+    Issue = "Issue",
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownSqlFCIMetadataState {
+    Failed = "Failed",
+    Inherited = "Inherited",
+    Initializing = "Initializing",
+    Offline = "Offline",
+    OfflinePending = "OfflinePending",
+    Online = "Online",
+    OnlinePending = "OnlinePending",
+    Pending = "Pending",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlFCIState {
+    Active = "Active",
+    NotApplicable = "NotApplicable",
+    Passive = "Passive",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlMigrationGuidelineCategory {
+    AvailabilityGroupGuideline = "AvailabilityGroupGuideline",
+    FailoverCluterInstanceGuideLine = "FailoverCluterInstanceGuideLine",
+    General = "General",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlServerLicense {
+    No = "No",
+    Unknown = "Unknown",
+    Yes = "Yes"
+}
+
+// @public
+export enum KnownTargetType {
+    AzureSqlDatabase = "AzureSqlDatabase",
+    AzureSqlManagedInstance = "AzureSqlManagedInstance",
+    AzureSqlVirtualMachine = "AzureSqlVirtualMachine",
+    AzureVirtualMachine = "AzureVirtualMachine",
+    Recommended = "Recommended",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1254,19 +3004,7 @@ export enum KnownTimeRange {
 }
 
 // @public
-export interface Machine {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties?: MachineProperties;
-    readonly type?: string;
-}
-
-// @public
-export type MachineBootType = string;
-
-// @public
-export interface MachineProperties {
+export interface Machine extends ProxyResource {
     readonly bootType?: MachineBootType;
     readonly createdTimestamp?: Date;
     readonly datacenterManagementServerArmId?: string;
@@ -1277,7 +3015,9 @@ export interface MachineProperties {
         [propertyName: string]: Disk;
     };
     readonly displayName?: string;
+    readonly errors?: ErrorModel[];
     readonly groups?: string[];
+    readonly hostProcessor?: ProcessorInfo;
     readonly megabytesOfMemory?: number;
     readonly networkAdapters?: {
         [propertyName: string]: NetworkAdapter;
@@ -1286,57 +3026,115 @@ export interface MachineProperties {
     readonly operatingSystemName?: string;
     readonly operatingSystemType?: string;
     readonly operatingSystemVersion?: string;
+    readonly productSupportStatus?: ProductSupportStatus;
+    readonly sqlInstances?: string[];
     readonly updatedTimestamp?: Date;
+    readonly webApplications?: string[];
+    readonly workloadSummary?: WorkloadSummary;
 }
 
 // @public
-export interface MachineResultList {
-    // (undocumented)
+export interface MachineAssessmentProperties extends AzureResourceProperties {
+    readonly assessmentErrorSummary?: {
+        [propertyName: string]: number;
+    };
+    readonly assessmentType?: AssessmentType;
+    azureDiskTypes?: AzureDiskType[];
+    azureHybridUseBenefit?: AzureHybridUseBenefit;
+    azureLocation?: string;
+    azureOfferCode?: AzureOfferCode;
+    azurePricingTier?: AzurePricingTier;
+    azureStorageRedundancy?: AzureStorageRedundancy;
+    azureVmFamilies?: AzureVmFamily[];
+    readonly confidenceRatingInPercentage?: number;
+    readonly costComponents?: CostComponent[];
+    readonly createdTimestamp?: Date;
+    currency?: AzureCurrency;
+    discountPercentage?: number;
+    readonly distributionByOsName?: {
+        [propertyName: string]: number;
+    };
+    readonly distributionByServicePackInsight?: {
+        [propertyName: string]: number;
+    };
+    readonly distributionBySupportStatus?: {
+        [propertyName: string]: number;
+    };
+    eaSubscriptionId?: string;
+    readonly groupType?: GroupType;
+    readonly monthlyBandwidthCost?: number;
+    readonly monthlyComputeCost?: number;
+    readonly monthlyPremiumStorageCost?: number;
+    readonly monthlyStandardSsdStorageCost?: number;
+    readonly monthlyStorageCost?: number;
+    readonly monthlyUltraStorageCost?: number;
+    readonly numberOfMachines?: number;
+    percentile?: Percentile;
+    perfDataEndTime?: Date;
+    perfDataStartTime?: Date;
+    readonly pricesTimestamp?: Date;
+    reservedInstance?: AzureReservedInstance;
+    scalingFactor?: number;
+    readonly schemaVersion?: string;
+    sizingCriterion?: AssessmentSizingCriterion;
+    readonly stage?: AssessmentStage;
+    readonly status?: AssessmentStatus;
+    readonly suitabilitySummary?: {
+        [propertyName: string]: number;
+    };
+    timeRange?: TimeRange;
+    readonly updatedTimestamp?: Date;
+    vmUptime?: VmUptime;
+}
+
+// @public
+export type MachineBootType = string;
+
+// @public
+export interface MachineListResult {
     nextLink?: string;
-    value?: Machine[];
+    value: Machine[];
 }
 
 // @public
-export interface Machines {
-    get(resourceGroupName: string, projectName: string, machineName: string, options?: MachinesGetOptionalParams): Promise<MachinesGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: MachinesListByProjectOptionalParams): PagedAsyncIterableIterator<Machine>;
+export interface MachinesOperations {
+    get(resourceGroupName: string, projectName: string, machineName: string, options?: MachinesOperationsGetOptionalParams): Promise<MachinesOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: MachinesOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<Machine>;
 }
 
 // @public
-export interface MachinesGetHeaders {
-    xMsRequestId?: string;
+export interface MachinesOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface MachinesGetOptionalParams extends coreClient.OperationOptions {
+export type MachinesOperationsGetResponse = Machine;
+
+// @public
+export interface MachinesOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type MachinesGetResponse = MachinesGetHeaders & Machine;
+export type MachinesOperationsListByAssessmentProjectNextResponse = MachineListResult;
 
 // @public
-export interface MachinesListByProjectHeaders {
-    xMsRequestId?: string;
+export interface MachinesOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    pageSize?: number;
+    totalRecordCount?: number;
 }
 
 // @public
-export interface MachinesListByProjectNextHeaders {
-    xMsRequestId?: string;
+export type MachinesOperationsListByAssessmentProjectResponse = MachineListResult;
+
+// @public
+export interface MigrationGuidelineContext {
+    contextKey?: string;
+    contextValue?: string;
 }
 
 // @public
-export interface MachinesListByProjectNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MachinesListByProjectNextResponse = MachinesListByProjectNextHeaders & MachineResultList;
-
-// @public
-export interface MachinesListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MachinesListByProjectResponse = MachinesListByProjectHeaders & MachineResultList;
+export type MultiSubnetIntent = string;
 
 // @public
 export interface NetworkAdapter {
@@ -1347,9 +3145,11 @@ export interface NetworkAdapter {
 
 // @public
 export interface Operation {
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
-    readonly origin?: string;
+    readonly origin?: Origin;
 }
 
 // @public
@@ -1361,8 +3161,9 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationResultList {
-    value?: Operation[];
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
@@ -1371,418 +3172,807 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationResultList;
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type OptimizationLogic = string;
+
+// @public
+export type Origin = string;
+
+// @public
+export type OsLicense = string;
 
 // @public
 export type Percentile = string;
 
 // @public
-export interface PrivateEndpointConnection {
-    eTag?: string;
+export interface PrivateEndpoint {
     readonly id?: string;
-    readonly name?: string;
-    properties: PrivateEndpointConnectionProperties;
-    readonly type?: string;
 }
 
 // @public
-export interface PrivateEndpointConnectionCollection {
-    readonly nextLink?: string;
-    readonly value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnection extends ProxyResource {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
-export interface PrivateEndpointConnectionDeleteHeaders {
-    xMsRequestId?: string;
+export interface PrivateEndpointConnectionListResult {
+    nextLink?: string;
+    value: PrivateEndpointConnection[];
 }
-
-// @public
-export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
-
-// @public
-export interface PrivateEndpointConnectionGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionGetHeaders & PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionListByProjectResponse = PrivateEndpointConnectionListByProjectHeaders & PrivateEndpointConnectionCollection;
 
 // @public
 export interface PrivateEndpointConnectionOperations {
-    delete(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PrivateEndpointConnectionDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: PrivateEndpointConnectionListByProjectOptionalParams): Promise<PrivateEndpointConnectionListByProjectResponse>;
-    update(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PrivateEndpointConnectionUpdateResponse>;
+    beginUpdate(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: PrivateEndpointConnectionOperationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionOperationsUpdateResponse>, PrivateEndpointConnectionOperationsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: PrivateEndpointConnectionOperationsUpdateOptionalParams): Promise<PrivateEndpointConnectionOperationsUpdateResponse>;
+    delete(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsGetOptionalParams): Promise<PrivateEndpointConnectionOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
 // @public
-export interface PrivateEndpointConnectionProperties {
-    readonly privateEndpoint?: ResourceId;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState;
+export interface PrivateEndpointConnectionOperationsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionPropertiesProvisioningState = string;
-
-// @public
-export interface PrivateEndpointConnectionUpdateHeaders {
-    xMsRequestId?: string;
+export interface PrivateEndpointConnectionOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClient.OperationOptions {
-    privateEndpointConnectionBody?: PrivateEndpointConnection;
+export type PrivateEndpointConnectionOperationsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnectionUpdateHeaders & PrivateEndpointConnection;
+export type PrivateEndpointConnectionOperationsListByAssessmentProjectNextResponse = PrivateEndpointConnectionListResult;
 
 // @public
-export interface PrivateLinkResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly properties?: PrivateLinkResourceProperties;
-    readonly type?: string;
+export interface PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourceCollection {
-    readonly nextLink?: string;
-    readonly value?: PrivateLinkResource[];
+export type PrivateEndpointConnectionOperationsListByAssessmentProjectResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface PrivateEndpointConnectionOperationsUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export interface PrivateLinkResourceGetHeaders {
-    xMsRequestId?: string;
+export interface PrivateEndpointConnectionOperationsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateLinkResourceGetOptionalParams extends coreClient.OperationOptions {
+export type PrivateEndpointConnectionOperationsUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export type PrivateLinkResourceGetResponse = PrivateLinkResourceGetHeaders & PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourceListByProjectHeaders {
-    xMsRequestId?: string;
+export interface PrivateLinkResourceListResult {
+    nextLink?: string;
+    value: PrivateLinkResource[];
 }
-
-// @public
-export interface PrivateLinkResourceListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourceListByProjectResponse = PrivateLinkResourceListByProjectHeaders & PrivateLinkResourceCollection;
 
 // @public
 export interface PrivateLinkResourceOperations {
-    get(resourceGroupName: string, projectName: string, privateLinkResourceName: string, options?: PrivateLinkResourceGetOptionalParams): Promise<PrivateLinkResourceGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: PrivateLinkResourceListByProjectOptionalParams): Promise<PrivateLinkResourceListByProjectResponse>;
+    get(resourceGroupName: string, projectName: string, privateLinkResourceName: string, options?: PrivateLinkResourceOperationsGetOptionalParams): Promise<PrivateLinkResourceOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
 // @public
-export interface PrivateLinkResourceProperties {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    readonly requiredZoneNames?: string[];
+export interface PrivateLinkResourceOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type PrivateLinkResourceOperationsGetResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateLinkResourceOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourceOperationsListByAssessmentProjectNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourceOperationsListByAssessmentProjectResponse = PrivateLinkResourceListResult;
 
 // @public
 export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
-    status?: PrivateLinkServiceConnectionStateStatus;
+    status?: PrivateEndpointServiceConnectionStatus;
 }
 
 // @public
-export type PrivateLinkServiceConnectionStateStatus = string;
-
-// @public
-export interface Project {
-    eTag?: string;
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    properties?: ProjectProperties;
-    tags?: Record<string, unknown>;
-    readonly type?: string;
+export interface ProcessorInfo {
+    name?: string;
+    numberOfCoresPerSocket?: number;
+    numberOfSockets?: number;
 }
 
 // @public
-export interface ProjectProperties {
+export interface ProductSupportStatus {
+    readonly currentEsuYear?: string;
+    readonly currentVersion?: string;
+    readonly esuStatus?: string;
+    readonly eta?: number;
+    readonly extendedSecurityUpdateYear1EndDate?: Date;
+    readonly extendedSecurityUpdateYear2EndDate?: Date;
+    readonly extendedSecurityUpdateYear3EndDate?: Date;
+    readonly extendedSupportEndDate?: Date;
+    readonly mainstreamEndDate?: Date;
+    readonly servicePackStatus?: string;
+    readonly supportStatus?: string;
+}
+
+// @public
+export interface ProjectProperties extends AzureResourceProperties {
     assessmentSolutionId?: string;
     readonly createdTimestamp?: Date;
     customerStorageAccountArmId?: string;
     customerWorkspaceId?: string;
     customerWorkspaceLocation?: string;
-    readonly lastAssessmentTimestamp?: Date;
-    readonly numberOfAssessments?: number;
-    readonly numberOfGroups?: number;
-    readonly numberOfMachines?: number;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     projectStatus?: ProjectStatus;
-    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: string;
     readonly serviceEndpoint?: string;
     readonly updatedTimestamp?: Date;
 }
 
 // @public
-export interface ProjectResultList {
-    // (undocumented)
-    nextLink?: string;
-    value?: Project[];
-}
-
-// @public
-export interface Projects {
-    assessmentOptions(resourceGroupName: string, projectName: string, assessmentOptionsName: string, options?: ProjectsAssessmentOptionsOptionalParams): Promise<ProjectsAssessmentOptionsResponse>;
-    create(resourceGroupName: string, projectName: string, options?: ProjectsCreateOptionalParams): Promise<ProjectsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<ProjectsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
-    list(resourceGroupName: string, options?: ProjectsListOptionalParams): PagedAsyncIterableIterator<Project>;
-    listAssessmentOptionsList(resourceGroupName: string, projectName: string, options?: ProjectsAssessmentOptionsListOptionalParams): PagedAsyncIterableIterator<AssessmentOptions>;
-    listBySubscription(options?: ProjectsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Project>;
-    update(resourceGroupName: string, projectName: string, options?: ProjectsUpdateOptionalParams): Promise<ProjectsUpdateResponse>;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsListHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsAssessmentOptionsListResponse = ProjectsAssessmentOptionsListHeaders & AssessmentOptionsResultList;
-
-// @public
-export interface ProjectsAssessmentOptionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsAssessmentOptionsResponse = ProjectsAssessmentOptionsHeaders & AssessmentOptions;
-
-// @public
-export interface ProjectsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsCreateOptionalParams extends coreClient.OperationOptions {
-    project?: Project;
-}
-
-// @public
-export type ProjectsCreateResponse = ProjectsCreateHeaders & Project;
-
-// @public
-export interface ProjectsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsDeleteResponse = ProjectsDeleteHeaders;
-
-// @public
-export interface ProjectsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsGetResponse = ProjectsGetHeaders & Project;
-
-// @public
-export interface ProjectsListBySubscriptionHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListBySubscriptionNextHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListBySubscriptionNextResponse = ProjectsListBySubscriptionNextHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListBySubscriptionResponse = ProjectsListBySubscriptionHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListNextHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListNextResponse = ProjectsListNextHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListResponse = ProjectsListHeaders & ProjectResultList;
-
-// @public
 export type ProjectStatus = string;
-
-// @public
-export interface ProjectsUpdateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsUpdateOptionalParams extends coreClient.OperationOptions {
-    project?: Project;
-}
-
-// @public
-export type ProjectsUpdateResponse = ProjectsUpdateHeaders & Project;
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export type ReservedInstance = string;
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type RecommendedSuitability = string;
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
 
 // @public
 export interface ResourceId {
     readonly id?: string;
 }
 
-// @public (undocumented)
-export interface ServerCollector {
-    // (undocumented)
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
-    readonly type?: string;
+// @public
+export interface ServerCollector extends ProxyResource {
+    agentProperties?: CollectorAgentPropertiesBase;
+    readonly createdTimestamp?: Date;
+    discoverySiteId?: string;
+    provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: Date;
 }
 
 // @public
-export interface ServerCollectorList {
-    value?: ServerCollector[];
+export interface ServerCollectorListResult {
+    nextLink?: string;
+    value: ServerCollector[];
 }
 
 // @public
-export interface ServerCollectors {
-    create(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsCreateOptionalParams): Promise<ServerCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsDeleteOptionalParams): Promise<ServerCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsGetOptionalParams): Promise<ServerCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: ServerCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<ServerCollector>;
+export interface ServerCollectorsOperations {
+    beginCreate(resourceGroupName: string, projectName: string, serverCollectorName: string, resource: ServerCollector, options?: ServerCollectorsOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ServerCollectorsOperationsCreateResponse>, ServerCollectorsOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, serverCollectorName: string, resource: ServerCollector, options?: ServerCollectorsOperationsCreateOptionalParams): Promise<ServerCollectorsOperationsCreateResponse>;
+    delete(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsOperationsGetOptionalParams): Promise<ServerCollectorsOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: ServerCollectorsOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<ServerCollector>;
 }
 
 // @public
-export interface ServerCollectorsCreateHeaders {
-    xMsRequestId?: string;
+export interface ServerCollectorsOperationsCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export interface ServerCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: ServerCollector;
+export interface ServerCollectorsOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type ServerCollectorsCreateResponse = ServerCollectorsCreateHeaders & ServerCollector;
+export type ServerCollectorsOperationsCreateResponse = ServerCollector;
 
 // @public
-export interface ServerCollectorsDeleteHeaders {
-    xMsRequestId?: string;
+export interface ServerCollectorsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ServerCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ServerCollectorsOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ServerCollectorsDeleteResponse = ServerCollectorsDeleteHeaders;
+export type ServerCollectorsOperationsGetResponse = ServerCollector;
 
 // @public
-export interface ServerCollectorsGetHeaders {
-    xMsRequestId?: string;
+export interface ServerCollectorsOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ServerCollectorsGetOptionalParams extends coreClient.OperationOptions {
+export type ServerCollectorsOperationsListByAssessmentProjectNextResponse = ServerCollectorListResult;
+
+// @public
+export interface ServerCollectorsOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ServerCollectorsGetResponse = ServerCollectorsGetHeaders & ServerCollector;
+export type ServerCollectorsOperationsListByAssessmentProjectResponse = ServerCollectorListResult;
 
 // @public
-export interface ServerCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface SharedResourcesDTO {
+    readonly numberOfMounts?: number;
+    readonly quorumWitness?: AzureQuorumWitnessDTO;
+    readonly sharedDataDisks?: AzureManagedDiskSkuDTO[];
+    readonly sharedLogDisks?: AzureManagedDiskSkuDTO[];
+    readonly sharedTempDbDisks?: AzureManagedDiskSkuDTO[];
 }
 
 // @public
-export interface ServerCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
+export type SkuReplicationMode = string;
+
+// @public
+export interface SqlAssessedNetworkAdapter {
+    displayName?: string;
+    readonly ipAddresses?: string[];
+    macAddress?: string;
+    megabytesPerSecondReceived?: number;
+    megabytesPerSecondTransmitted?: number;
+    monthlyBandwidthCosts?: number;
+    name?: string;
+    netGigabytesTransmittedPerMonth?: number;
+    suitability?: CloudSuitability;
+    suitabilityDetail?: AzureNetworkAdapterSuitabilityDetail;
+    suitabilityExplanation?: AzureNetworkAdapterSuitabilityExplanation;
 }
 
 // @public
-export type ServerCollectorsListByProjectResponse = ServerCollectorsListByProjectHeaders & ServerCollectorList;
+export interface SqlAssessmentMigrationIssue {
+    readonly impactedObjects?: ImpactedAssessmentObject[];
+    readonly issueCategory?: SqlAssessmentMigrationIssueCategory;
+    readonly issueId?: string;
+}
+
+// @public
+export type SqlAssessmentMigrationIssueCategory = string;
+
+// @public
+export interface SqlAssessmentOptions extends ProxyResource {
+    readonly premiumDiskVmFamilies?: AzureVmFamily[];
+    reservedInstanceSqlTargets?: TargetType[];
+    reservedInstanceSupportedCurrencies?: AzureCurrency[];
+    reservedInstanceSupportedLocations?: AzureLocation[];
+    reservedInstanceSupportedLocationsForIaas?: AzureLocation[];
+    reservedInstanceSupportedOffers?: AzureOfferCode[];
+    readonly reservedInstanceVmFamilies?: AzureVmFamily[];
+    savingsPlanSupportedLocations?: AzureLocation[];
+    savingsPlanSupportedLocationsForPaas?: AzureLocation[];
+    savingsPlanSupportedOffers?: AzureOfferCode[];
+    savingsPlanVmFamilies?: AzureVmFamily[];
+    sqlSkus?: SqlPaaSTargetOptions[];
+    supportedOffers?: AzureOfferCode[];
+    readonly vmFamilies?: VmFamilyOptions[];
+}
+
+// @public
+export interface SqlAssessmentOptionsListResult {
+    nextLink?: string;
+    value: SqlAssessmentOptions[];
+}
+
+// @public
+export interface SqlAssessmentOptionsOperations {
+    get(resourceGroupName: string, projectName: string, assessmentOptionsName: string, options?: SqlAssessmentOptionsOperationsGetOptionalParams): Promise<SqlAssessmentOptionsOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: SqlAssessmentOptionsOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<SqlAssessmentOptions>;
+}
+
+// @public
+export interface SqlAssessmentOptionsOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentOptionsOperationsGetResponse = SqlAssessmentOptions;
+
+// @public
+export interface SqlAssessmentOptionsOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentOptionsOperationsListByAssessmentProjectNextResponse = SqlAssessmentOptionsListResult;
+
+// @public
+export interface SqlAssessmentOptionsOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentOptionsOperationsListByAssessmentProjectResponse = SqlAssessmentOptionsListResult;
+
+// @public
+export interface SqlAssessmentV2 extends ProxyResource {
+    assessmentType?: AssessmentType;
+    asyncCommitModeIntent?: AsyncCommitModeIntent;
+    azureLocation?: string;
+    azureOfferCode?: AzureOfferCode;
+    azureOfferCodeForVm?: AzureOfferCode;
+    azureSecurityOfferingType?: AzureSecurityOfferingType;
+    azureSqlDatabaseSettings?: SqlDbSettings;
+    azureSqlManagedInstanceSettings?: SqlMiSettings;
+    azureSqlVmSettings?: SqlVmSettings;
+    confidenceRatingInPercentage?: number;
+    readonly createdTimestamp?: Date;
+    currency?: AzureCurrency;
+    disasterRecoveryLocation?: AzureLocation;
+    discountPercentage?: number;
+    eaSubscriptionId?: string;
+    enableHadrAssessment?: boolean;
+    entityUptime?: EntityUptime;
+    environmentType?: EnvironmentType;
+    groupType?: GroupType;
+    isInternetAccessAvailable?: boolean;
+    multiSubnetIntent?: MultiSubnetIntent;
+    optimizationLogic?: OptimizationLogic;
+    osLicense?: OsLicense;
+    percentile?: Percentile;
+    perfDataEndTime?: Date;
+    perfDataStartTime?: Date;
+    readonly pricesTimestamp?: Date;
+    provisioningState?: ProvisioningState;
+    reservedInstance?: AzureReservedInstance;
+    reservedInstanceForVm?: AzureReservedInstance;
+    scalingFactor?: number;
+    readonly schemaVersion?: string;
+    sizingCriterion?: AssessmentSizingCriterion;
+    sqlServerLicense?: SqlServerLicense;
+    readonly stage?: AssessmentStage;
+    readonly status?: AssessmentStatus;
+    timeRange?: TimeRange;
+    readonly updatedTimestamp?: Date;
+}
+
+// @public
+export interface SqlAssessmentV2IaasSuitabilityData {
+    readonly azureSqlSku?: AzureSqlIaasSkuDTO;
+    costComponents?: CostComponent[];
+    readonly migrationGuidelines?: SqlMigrationGuideline[];
+    readonly migrationIssues?: SqlAssessmentMigrationIssue[];
+    readonly migrationTargetPlatform?: TargetType;
+    readonly monthlyComputeCost?: number;
+    readonly monthlyStorageCost?: number;
+    readonly recommendationReasonings?: SqlRecommendationReasoning[];
+    readonly replicaAzureSqlSku?: AzureSqlIaasSkuDTO[];
+    readonly securitySuitability?: CloudSuitability;
+    readonly sharedResources?: SharedResourcesDTO;
+    readonly shouldProvisionReplicas?: boolean;
+    readonly skuReplicationMode?: SkuReplicationMode;
+    readonly suitability?: CloudSuitability;
+}
+
+// @public
+export interface SqlAssessmentV2ListResult {
+    nextLink?: string;
+    value: SqlAssessmentV2[];
+}
+
+// @public
+export interface SqlAssessmentV2Operations {
+    beginCreate(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, resource: SqlAssessmentV2, options?: SqlAssessmentV2OperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SqlAssessmentV2OperationsCreateResponse>, SqlAssessmentV2OperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, resource: SqlAssessmentV2, options?: SqlAssessmentV2OperationsCreateOptionalParams): Promise<SqlAssessmentV2OperationsCreateResponse>;
+    beginDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, body: Record<string, unknown>, options?: SqlAssessmentV2OperationsDownloadUrlOptionalParams): Promise<SimplePollerLike<OperationState<SqlAssessmentV2OperationsDownloadUrlResponse>, SqlAssessmentV2OperationsDownloadUrlResponse>>;
+    beginDownloadUrlAndWait(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, body: Record<string, unknown>, options?: SqlAssessmentV2OperationsDownloadUrlOptionalParams): Promise<SqlAssessmentV2OperationsDownloadUrlResponse>;
+    delete(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: SqlAssessmentV2OperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: SqlAssessmentV2OperationsGetOptionalParams): Promise<SqlAssessmentV2OperationsGetResponse>;
+    listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: SqlAssessmentV2OperationsListByGroupOptionalParams): PagedAsyncIterableIterator<SqlAssessmentV2>;
+}
+
+// @public
+export interface SqlAssessmentV2OperationsCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlAssessmentV2OperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlAssessmentV2OperationsCreateResponse = SqlAssessmentV2;
+
+// @public
+export interface SqlAssessmentV2OperationsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SqlAssessmentV2OperationsDownloadUrlHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlAssessmentV2OperationsDownloadUrlOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlAssessmentV2OperationsDownloadUrlResponse = DownloadUrl;
+
+// @public
+export interface SqlAssessmentV2OperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentV2OperationsGetResponse = SqlAssessmentV2;
+
+// @public
+export interface SqlAssessmentV2OperationsListByGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentV2OperationsListByGroupNextResponse = SqlAssessmentV2ListResult;
+
+// @public
+export interface SqlAssessmentV2OperationsListByGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentV2OperationsListByGroupResponse = SqlAssessmentV2ListResult;
+
+// @public
+export interface SqlAssessmentV2PaasSuitabilityData {
+    readonly azureSqlSku?: AzureSqlPaasSkuDTO;
+    costComponents?: CostComponent[];
+    readonly migrationGuidelines?: SqlMigrationGuideline[];
+    readonly migrationIssues?: SqlAssessmentMigrationIssue[];
+    readonly migrationTargetPlatform?: TargetType;
+    readonly monthlyComputeCost?: number;
+    readonly monthlyStorageCost?: number;
+    readonly recommendationReasonings?: SqlRecommendationReasoning[];
+    readonly replicaAzureSqlSku?: AzureSqlPaasSkuDTO[];
+    readonly securitySuitability?: CloudSuitability;
+    readonly sharedResources?: SharedResourcesDTO;
+    readonly shouldProvisionReplicas?: boolean;
+    readonly skuReplicationMode?: SkuReplicationMode;
+    readonly suitability?: CloudSuitability;
+}
+
+// @public
+export interface SqlAssessmentV2Properties extends AzureResourceProperties {
+    assessmentType?: AssessmentType;
+    asyncCommitModeIntent?: AsyncCommitModeIntent;
+    azureLocation?: string;
+    azureOfferCode?: AzureOfferCode;
+    azureOfferCodeForVm?: AzureOfferCode;
+    azureSecurityOfferingType?: AzureSecurityOfferingType;
+    azureSqlDatabaseSettings?: SqlDbSettings;
+    azureSqlManagedInstanceSettings?: SqlMiSettings;
+    azureSqlVmSettings?: SqlVmSettings;
+    confidenceRatingInPercentage?: number;
+    readonly createdTimestamp?: Date;
+    currency?: AzureCurrency;
+    disasterRecoveryLocation?: AzureLocation;
+    discountPercentage?: number;
+    eaSubscriptionId?: string;
+    enableHadrAssessment?: boolean;
+    entityUptime?: EntityUptime;
+    environmentType?: EnvironmentType;
+    groupType?: GroupType;
+    isInternetAccessAvailable?: boolean;
+    multiSubnetIntent?: MultiSubnetIntent;
+    optimizationLogic?: OptimizationLogic;
+    osLicense?: OsLicense;
+    percentile?: Percentile;
+    perfDataEndTime?: Date;
+    perfDataStartTime?: Date;
+    readonly pricesTimestamp?: Date;
+    reservedInstance?: AzureReservedInstance;
+    reservedInstanceForVm?: AzureReservedInstance;
+    scalingFactor?: number;
+    readonly schemaVersion?: string;
+    sizingCriterion?: AssessmentSizingCriterion;
+    sqlServerLicense?: SqlServerLicense;
+    readonly stage?: AssessmentStage;
+    readonly status?: AssessmentStatus;
+    timeRange?: TimeRange;
+    readonly updatedTimestamp?: Date;
+}
+
+// @public
+export interface SqlAssessmentV2Summary extends ProxyResource {
+    readonly assessmentSummary?: {
+        [propertyName: string]: SqlAssessmentV2SummaryData;
+    };
+    readonly databaseDistributionBySizingCriterion?: {
+        [propertyName: string]: number;
+    };
+    readonly distributionByServicePackInsight?: {
+        [propertyName: string]: number;
+    };
+    readonly distributionBySqlEdition?: {
+        [propertyName: string]: number;
+    };
+    readonly distributionBySqlVersion?: {
+        [propertyName: string]: number;
+    };
+    readonly distributionBySupportStatus?: {
+        [propertyName: string]: number;
+    };
+    readonly instanceDistributionBySizingCriterion?: {
+        [propertyName: string]: number;
+    };
+    readonly numberOfFciInstances?: number;
+    readonly numberOfMachines?: number;
+    readonly numberOfSqlAvailabilityGroups?: number;
+    readonly numberOfSqlDatabases?: number;
+    readonly numberOfSqlInstances?: number;
+}
+
+// @public
+export interface SqlAssessmentV2SummaryData {
+    readonly confidenceScore?: number;
+    readonly monthlyComputeCost?: number;
+    readonly monthlyLicenseCost?: number;
+    readonly monthlySecurityCost?: number;
+    readonly monthlyStorageCost?: number;
+    readonly suitabilitySummary?: {
+        [propertyName: string]: number;
+    };
+}
+
+// @public
+export interface SqlAssessmentV2SummaryListResult {
+    nextLink?: string;
+    value: SqlAssessmentV2Summary[];
+}
+
+// @public
+export interface SqlAssessmentV2SummaryOperations {
+    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, summaryName: string, options?: SqlAssessmentV2SummaryOperationsGetOptionalParams): Promise<SqlAssessmentV2SummaryOperationsGetResponse>;
+    listBySqlAssessmentV2(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2OptionalParams): PagedAsyncIterableIterator<SqlAssessmentV2Summary>;
+}
+
+// @public
+export interface SqlAssessmentV2SummaryOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentV2SummaryOperationsGetResponse = SqlAssessmentV2Summary;
+
+// @public
+export interface SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2NextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2NextResponse = SqlAssessmentV2SummaryListResult;
+
+// @public
+export interface SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2OptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2Response = SqlAssessmentV2SummaryListResult;
+
+// @public
+export interface SqlAvailabilityGroupDataOverview {
+    availabilityGroupId?: string;
+    availabilityGroupName?: string;
+    sqlAvailabilityGroupEntityId?: string;
+    sqlAvailabilityGroupSdsArmId?: string;
+    sqlAvailabilityReplicaId?: string;
+}
+
+// @public
+export interface SqlAvailabilityReplicaSummary {
+    numberOfAsynchronousNonReadReplicas?: number;
+    numberOfAsynchronousReadReplicas?: number;
+    numberOfPrimaryReplicas?: number;
+    numberOfSynchronousNonReadReplicas?: number;
+    numberOfSynchronousReadReplicas?: number;
+}
+
+// @public
+export interface SqlCollector extends ProxyResource {
+    agentProperties?: CollectorAgentPropertiesBase;
+    readonly createdTimestamp?: Date;
+    discoverySiteId?: string;
+    provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: Date;
+}
+
+// @public
+export interface SqlCollectorListResult {
+    nextLink?: string;
+    value: SqlCollector[];
+}
+
+// @public
+export interface SqlCollectorOperations {
+    beginCreate(resourceGroupName: string, projectName: string, collectorName: string, resource: SqlCollector, options?: SqlCollectorOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SqlCollectorOperationsCreateResponse>, SqlCollectorOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, collectorName: string, resource: SqlCollector, options?: SqlCollectorOperationsCreateOptionalParams): Promise<SqlCollectorOperationsCreateResponse>;
+    delete(resourceGroupName: string, projectName: string, collectorName: string, options?: SqlCollectorOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, collectorName: string, options?: SqlCollectorOperationsGetOptionalParams): Promise<SqlCollectorOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: SqlCollectorOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<SqlCollector>;
+}
+
+// @public
+export interface SqlCollectorOperationsCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlCollectorOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlCollectorOperationsCreateResponse = SqlCollector;
+
+// @public
+export interface SqlCollectorOperationsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SqlCollectorOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlCollectorOperationsGetResponse = SqlCollector;
+
+// @public
+export interface SqlCollectorOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlCollectorOperationsListByAssessmentProjectNextResponse = SqlCollectorListResult;
+
+// @public
+export interface SqlCollectorOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlCollectorOperationsListByAssessmentProjectResponse = SqlCollectorListResult;
+
+// @public
+export interface SqlDbSettings {
+    azureSqlComputeTier?: ComputeTier;
+    azureSqlDataBaseType?: AzureSqlDataBaseType;
+    azureSqlPurchaseModel?: AzureSqlPurchaseModel;
+    azureSqlServiceTier?: AzureSqlServiceTier;
+}
+
+// @public
+export interface SqlFCIMetadata {
+    fciSharedDiskCount?: number;
+    isMultiSubnet?: boolean;
+    state?: SqlFCIMetadataState;
+}
+
+// @public
+export type SqlFCIMetadataState = string;
+
+// @public
+export type SqlFCIState = string;
+
+// @public
+export interface SqlMigrationGuideline {
+    guidelineId?: string;
+    migrationGuidelineCategory?: SqlMigrationGuidelineCategory;
+    readonly migrationGuidelineContext?: MigrationGuidelineContext[];
+}
+
+// @public
+export type SqlMigrationGuidelineCategory = string;
+
+// @public
+export interface SqlMiSettings {
+    azureSqlInstanceType?: AzureSqlInstanceType;
+    azureSqlServiceTier?: AzureSqlServiceTier;
+}
+
+// @public
+export interface SqlPaaSTargetOptions {
+    computeTier?: ComputeTier;
+    hardwareGeneration?: HardwareGeneration;
+    serviceTier?: AzureSqlServiceTier;
+    targetLocations?: AzureLocation[];
+    targetType?: TargetType;
+}
+
+// @public
+export interface SqlRecommendationReasoning {
+    readonly contextParameters?: SqlRecommendationReasoningContext[];
+    reasoningCategory?: string;
+    reasoningId?: string;
+    reasoningString?: string;
+}
+
+// @public
+export interface SqlRecommendationReasoningContext {
+    contextKey?: string;
+    contextValue?: string;
+}
+
+// @public
+export type SqlServerLicense = string;
+
+// @public
+export interface SqlVmSettings {
+    instanceSeries?: AzureVmFamily[];
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export type TargetType = string;
 
 // @public
 export type TimeRange = string;
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface UltraDiskAssessmentOptions {
+    familyName?: string;
+    targetLocations?: string[];
+}
 
 // @public
 export interface UpdateGroupBody {
@@ -1791,90 +3981,86 @@ export interface UpdateGroupBody {
 }
 
 // @public
-export interface VmFamily {
+export interface VmFamilyOptions {
     readonly category?: string[];
     readonly familyName?: string;
     readonly targetLocations?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface VmUptime {
     daysPerMonth?: number;
     hoursPerDay?: number;
 }
 
-// @public (undocumented)
-export interface VMwareCollector {
-    // (undocumented)
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
-    readonly type?: string;
+// @public
+export interface VmwareCollector extends ProxyResource {
+    agentProperties?: CollectorAgentPropertiesBase;
+    readonly createdTimestamp?: Date;
+    discoverySiteId?: string;
+    provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: Date;
 }
 
 // @public
-export interface VMwareCollectorList {
-    value?: VMwareCollector[];
+export interface VmwareCollectorListResult {
+    nextLink?: string;
+    value: VmwareCollector[];
 }
 
 // @public
-export interface VMwareCollectors {
-    create(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsCreateOptionalParams): Promise<VMwareCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsDeleteOptionalParams): Promise<VMwareCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsGetOptionalParams): Promise<VMwareCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: VMwareCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<VMwareCollector>;
+export interface VmwareCollectorsOperations {
+    beginCreate(resourceGroupName: string, projectName: string, vmWareCollectorName: string, resource: VmwareCollector, options?: VmwareCollectorsOperationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<VmwareCollectorsOperationsCreateResponse>, VmwareCollectorsOperationsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, projectName: string, vmWareCollectorName: string, resource: VmwareCollector, options?: VmwareCollectorsOperationsCreateOptionalParams): Promise<VmwareCollectorsOperationsCreateResponse>;
+    delete(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VmwareCollectorsOperationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VmwareCollectorsOperationsGetOptionalParams): Promise<VmwareCollectorsOperationsGetResponse>;
+    listByAssessmentProject(resourceGroupName: string, projectName: string, options?: VmwareCollectorsOperationsListByAssessmentProjectOptionalParams): PagedAsyncIterableIterator<VmwareCollector>;
 }
 
 // @public
-export interface VMwareCollectorsCreateHeaders {
-    xMsRequestId?: string;
+export interface VmwareCollectorsOperationsCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export interface VMwareCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: VMwareCollector;
+export interface VmwareCollectorsOperationsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type VMwareCollectorsCreateResponse = VMwareCollectorsCreateHeaders & VMwareCollector;
+export type VmwareCollectorsOperationsCreateResponse = VmwareCollector;
 
 // @public
-export interface VMwareCollectorsDeleteHeaders {
-    xMsRequestId?: string;
+export interface VmwareCollectorsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface VMwareCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface VmwareCollectorsOperationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VMwareCollectorsDeleteResponse = VMwareCollectorsDeleteHeaders;
+export type VmwareCollectorsOperationsGetResponse = VmwareCollector;
 
 // @public
-export interface VMwareCollectorsGetHeaders {
-    xMsRequestId?: string;
+export interface VmwareCollectorsOperationsListByAssessmentProjectNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface VMwareCollectorsGetOptionalParams extends coreClient.OperationOptions {
+export type VmwareCollectorsOperationsListByAssessmentProjectNextResponse = VmwareCollectorListResult;
+
+// @public
+export interface VmwareCollectorsOperationsListByAssessmentProjectOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VMwareCollectorsGetResponse = VMwareCollectorsGetHeaders & VMwareCollector;
+export type VmwareCollectorsOperationsListByAssessmentProjectResponse = VmwareCollectorListResult;
 
 // @public
-export interface VMwareCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface WorkloadSummary {
+    oracleInstances?: number;
+    springApps?: number;
 }
-
-// @public
-export interface VMwareCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VMwareCollectorsListByProjectResponse = VMwareCollectorsListByProjectHeaders & VMwareCollectorList;
 
 // (No @packageDocumentation comment for this package)
 
