@@ -13614,7 +13614,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-Zyj3R5XhvNOEb7j8nYkituAAm46UPh4V7WiY/QJgPOHVYLu3JsEkzFwUwoOQK9TZql5JFo6moGQK/iPOIqR7eA==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-d33pc/lfZfKobo+tEVMMJ/o6guZ5a+Uakgs1VWf8VDYgRaFhSXSdW8+KcpiXWmsU9SfXCkRLLiC2C/cxob8Erw==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -13622,12 +13622,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
