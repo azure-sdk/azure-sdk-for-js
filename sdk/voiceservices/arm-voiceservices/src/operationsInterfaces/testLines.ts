@@ -15,10 +15,10 @@ import {
   TestLinesGetResponse,
   TestLinesCreateOrUpdateOptionalParams,
   TestLinesCreateOrUpdateResponse,
-  TestLinesDeleteOptionalParams,
   TestLineUpdate,
   TestLinesUpdateOptionalParams,
-  TestLinesUpdateResponse
+  TestLinesUpdateResponse,
+  TestLinesDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -84,6 +84,21 @@ export interface TestLines {
     options?: TestLinesCreateOrUpdateOptionalParams
   ): Promise<TestLinesCreateOrUpdateResponse>;
   /**
+   * Update a TestLine
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationsGatewayName Unique identifier for this deployment
+   * @param testLineName Unique identifier for this test line
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    communicationsGatewayName: string,
+    testLineName: string,
+    properties: TestLineUpdate,
+    options?: TestLinesUpdateOptionalParams
+  ): Promise<TestLinesUpdateResponse>;
+  /**
    * Delete a TestLine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationsGatewayName Unique identifier for this deployment
@@ -109,19 +124,4 @@ export interface TestLines {
     testLineName: string,
     options?: TestLinesDeleteOptionalParams
   ): Promise<void>;
-  /**
-   * Update a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param properties The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    properties: TestLineUpdate,
-    options?: TestLinesUpdateOptionalParams
-  ): Promise<TestLinesUpdateResponse>;
 }
