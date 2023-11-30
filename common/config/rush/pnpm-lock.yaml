@@ -13813,20 +13813,23 @@ packages:
     dev: false
 
   file:projects/arm-maps.tgz:
-    resolution: {integrity: sha512-N3BPWnbKLHANDINbO6zeggn2qRXWWf+JLSwdxfOzWtWGs1Rx9qtsmpU1oRXBNDR5gxeYJ+CcvRWvdLmY0s/Y1g==, tarball: file:projects/arm-maps.tgz}
+    resolution: {integrity: sha512-7eZUZ1C1TguyO20fbh7tcrPXRmWFcNgxjPfeQGXF23ndXCrgeIDftOxV++euNFQHdOb24WqVhSnn7qE3FcR4CA==, tarball: file:projects/arm-maps.tgz}
     name: '@rush-temp/arm-maps'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2

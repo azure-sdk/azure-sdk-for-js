@@ -105,7 +105,7 @@ export interface Accounts {
    * Prerequisites:
    * 1. Create or have an existing User Assigned Managed Identity in the same Azure region as the
    * account.
-   * 2. Create or update an Azure Map account with the same Azure region as the User Assigned Managed
+   * 2. Create or update an Azure Maps account with the same Azure region as the User Assigned Managed
    * Identity is placed.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
