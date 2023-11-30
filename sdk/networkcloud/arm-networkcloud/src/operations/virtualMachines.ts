@@ -32,6 +32,7 @@ import {
   VirtualMachinesCreateOrUpdateOptionalParams,
   VirtualMachinesCreateOrUpdateResponse,
   VirtualMachinesDeleteOptionalParams,
+  VirtualMachinesDeleteResponse,
   VirtualMachinesUpdateOptionalParams,
   VirtualMachinesUpdateResponse,
   VirtualMachinesPowerOffOptionalParams,
@@ -338,11 +339,16 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesDeleteResponse>,
+      VirtualMachinesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<VirtualMachinesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -383,7 +389,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: { resourceGroupName, virtualMachineName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VirtualMachinesDeleteResponse,
+      OperationState<VirtualMachinesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -402,7 +411,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<VirtualMachinesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       virtualMachineName,
@@ -1001,10 +1010,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/virtualMachines/{virtualMachineName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

@@ -16,6 +16,7 @@ import {
   AgentPoolsCreateOrUpdateOptionalParams,
   AgentPoolsCreateOrUpdateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse
 } from "../models";
@@ -94,7 +95,12 @@ export interface AgentPools {
     kubernetesClusterName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  >;
   /**
    * Delete the provided Kubernetes cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -107,7 +113,7 @@ export interface AgentPools {
     kubernetesClusterName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<AgentPoolsDeleteResponse>;
   /**
    * Patch the properties of the provided Kubernetes cluster agent pool, or update the tags associated
    * with the Kubernetes cluster agent pool. Properties and tag updates can be done independently.

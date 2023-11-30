@@ -17,6 +17,7 @@ import {
   L2NetworksCreateOrUpdateOptionalParams,
   L2NetworksCreateOrUpdateResponse,
   L2NetworksDeleteOptionalParams,
+  L2NetworksDeleteResponse,
   L2NetworksUpdateOptionalParams,
   L2NetworksUpdateResponse
 } from "../models";
@@ -92,7 +93,12 @@ export interface L2Networks {
     resourceGroupName: string,
     l2NetworkName: string,
     options?: L2NetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<L2NetworksDeleteResponse>,
+      L2NetworksDeleteResponse
+    >
+  >;
   /**
    * Delete the provided layer 2 (L2) network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -103,7 +109,7 @@ export interface L2Networks {
     resourceGroupName: string,
     l2NetworkName: string,
     options?: L2NetworksDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<L2NetworksDeleteResponse>;
   /**
    * Update tags associated with the provided layer 2 (L2) network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

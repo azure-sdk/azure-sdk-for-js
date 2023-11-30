@@ -462,6 +462,50 @@ export const HardwareValidationStatus: coreClient.CompositeMapper = {
   }
 };
 
+export const RuntimeProtectionStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RuntimeProtectionStatus",
+    modelProperties: {
+      definitionsLastUpdated: {
+        serializedName: "definitionsLastUpdated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      definitionsVersion: {
+        serializedName: "definitionsVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      scanCompletedTime: {
+        serializedName: "scanCompletedTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      scanScheduledTime: {
+        serializedName: "scanScheduledTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      scanStartedTime: {
+        serializedName: "scanStartedTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1101,6 +1145,98 @@ export const ValidationThreshold: coreClient.CompositeMapper = {
         },
         serializedName: "value",
         required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RuntimeProtectionConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RuntimeProtectionConfiguration",
+    modelProperties: {
+      enforcementLevel: {
+        defaultValue: "Disabled",
+        serializedName: "enforcementLevel",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterSecretArchive: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterSecretArchive",
+    modelProperties: {
+      keyVaultId: {
+        serializedName: "keyVaultId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      useKeyVault: {
+        defaultValue: "False",
+        serializedName: "useKeyVault",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterUpdateStrategy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpdateStrategy",
+    modelProperties: {
+      maxUnavailable: {
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        serializedName: "maxUnavailable",
+        type: {
+          name: "Number"
+        }
+      },
+      strategyType: {
+        serializedName: "strategyType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      thresholdType: {
+        serializedName: "thresholdType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      thresholdValue: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "thresholdValue",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      waitTimeMinutes: {
+        defaultValue: 15,
+        constraints: {
+          InclusiveMaximum: 60,
+          InclusiveMinimum: 0
+        },
+        serializedName: "waitTimeMinutes",
         type: {
           name: "Number"
         }
@@ -2527,9 +2663,6 @@ export const VirtualMachinePlacementHint: coreClient.CompositeMapper = {
         }
       },
       resourceId: {
-        constraints: {
-          MinLength: 1
-        },
         serializedName: "resourceId",
         required: true,
         type: {
@@ -2674,47 +2807,6 @@ export const VolumeList: coreClient.CompositeMapper = {
   }
 };
 
-export const BareMetalMachinePatchParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BareMetalMachinePatchParameters",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      machineDetails: {
-        constraints: {
-          MaxLength: 256
-        },
-        serializedName: "properties.machineDetails",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BareMetalMachineCordonParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BareMetalMachineCordonParameters",
-    modelProperties: {
-      evacuate: {
-        defaultValue: "False",
-        serializedName: "evacuate",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const OperationStatusResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2785,6 +2877,47 @@ export const OperationStatusResult: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const BareMetalMachinePatchParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BareMetalMachinePatchParameters",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      machineDetails: {
+        constraints: {
+          MaxLength: 256
+        },
+        serializedName: "properties.machineDetails",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BareMetalMachineCordonParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BareMetalMachineCordonParameters",
+    modelProperties: {
+      evacuate: {
+        defaultValue: "False",
+        serializedName: "evacuate",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3097,6 +3230,27 @@ export const ClusterPatchParameters: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      runtimeProtectionConfiguration: {
+        serializedName: "properties.runtimeProtectionConfiguration",
+        type: {
+          name: "Composite",
+          className: "RuntimeProtectionConfiguration"
+        }
+      },
+      secretArchive: {
+        serializedName: "properties.secretArchive",
+        type: {
+          name: "Composite",
+          className: "ClusterSecretArchive"
+        }
+      },
+      updateStrategy: {
+        serializedName: "properties.updateStrategy",
+        type: {
+          name: "Composite",
+          className: "ClusterUpdateStrategy"
+        }
       }
     }
   }
@@ -3155,6 +3309,12 @@ export const KeySetUser: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SshPublicKey"
+        }
+      },
+      userPrincipalName: {
+        serializedName: "userPrincipalName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3384,6 +3544,22 @@ export const ClusterMetricsConfigurationPatchParameters: coreClient.CompositeMap
   }
 };
 
+export const ClusterScanRuntimeParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterScanRuntimeParameters",
+    modelProperties: {
+      scanActivity: {
+        defaultValue: "Scan",
+        serializedName: "scanActivity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ClusterUpdateVersionParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3412,6 +3588,13 @@ export const KubernetesClusterPatchParameters: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
+      administratorConfiguration: {
+        serializedName: "properties.administratorConfiguration",
+        type: {
+          name: "Composite",
+          className: "AdministratorConfigurationPatch"
+        }
+      },
       controlPlaneNodeConfiguration: {
         serializedName: "properties.controlPlaneNodeConfiguration",
         type: {
@@ -3429,11 +3612,39 @@ export const KubernetesClusterPatchParameters: coreClient.CompositeMapper = {
   }
 };
 
+export const AdministratorConfigurationPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdministratorConfigurationPatch",
+    modelProperties: {
+      sshPublicKeys: {
+        serializedName: "sshPublicKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SshPublicKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ControlPlaneNodePatchConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ControlPlaneNodePatchConfiguration",
     modelProperties: {
+      administratorConfiguration: {
+        serializedName: "administratorConfiguration",
+        type: {
+          name: "Composite",
+          className: "AdministratorConfigurationPatch"
+        }
+      },
       count: {
         constraints: {
           InclusiveMinimum: 1
@@ -3486,6 +3697,13 @@ export const AgentPoolPatchParameters: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
+      administratorConfiguration: {
+        serializedName: "properties.administratorConfiguration",
+        type: {
+          name: "Composite",
+          className: "NodePoolAdministratorConfigurationPatch"
+        }
+      },
       count: {
         serializedName: "properties.count",
         type: {
@@ -3497,6 +3715,27 @@ export const AgentPoolPatchParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AgentPoolUpgradeSettings"
+        }
+      }
+    }
+  }
+};
+
+export const NodePoolAdministratorConfigurationPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodePoolAdministratorConfigurationPatch",
+    modelProperties: {
+      sshPublicKeys: {
+        serializedName: "sshPublicKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SshPublicKey"
+            }
+          }
         }
       }
     }
@@ -4130,6 +4369,18 @@ export const BareMetalMachine: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      machineRoles: {
+        serializedName: "properties.machineRoles",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       machineSkuId: {
         serializedName: "properties.machineSkuId",
         required: true,
@@ -4195,6 +4446,13 @@ export const BareMetalMachine: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      runtimeProtectionStatus: {
+        serializedName: "properties.runtimeProtectionStatus",
+        type: {
+          name: "Composite",
+          className: "RuntimeProtectionStatus"
         }
       },
       serialNumber: {
@@ -4610,11 +4868,32 @@ export const Cluster: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      runtimeProtectionConfiguration: {
+        serializedName: "properties.runtimeProtectionConfiguration",
+        type: {
+          name: "Composite",
+          className: "RuntimeProtectionConfiguration"
+        }
+      },
+      secretArchive: {
+        serializedName: "properties.secretArchive",
+        type: {
+          name: "Composite",
+          className: "ClusterSecretArchive"
+        }
+      },
       supportExpiryDate: {
         serializedName: "properties.supportExpiryDate",
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      updateStrategy: {
+        serializedName: "properties.updateStrategy",
+        type: {
+          name: "Composite",
+          className: "ClusterUpdateStrategy"
         }
       },
       workloadResourceIds: {
@@ -6450,6 +6729,21 @@ export const ClustersDeployHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ClustersDeployHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClustersScanRuntimeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClustersScanRuntimeHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

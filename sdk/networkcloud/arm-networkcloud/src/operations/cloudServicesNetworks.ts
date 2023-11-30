@@ -32,6 +32,7 @@ import {
   CloudServicesNetworksCreateOrUpdateOptionalParams,
   CloudServicesNetworksCreateOrUpdateResponse,
   CloudServicesNetworksDeleteOptionalParams,
+  CloudServicesNetworksDeleteResponse,
   CloudServicesNetworksUpdateOptionalParams,
   CloudServicesNetworksUpdateResponse,
   CloudServicesNetworksListBySubscriptionNextResponse,
@@ -330,11 +331,16 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
     resourceGroupName: string,
     cloudServicesNetworkName: string,
     options?: CloudServicesNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CloudServicesNetworksDeleteResponse>,
+      CloudServicesNetworksDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<CloudServicesNetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -375,7 +381,10 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
       args: { resourceGroupName, cloudServicesNetworkName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      CloudServicesNetworksDeleteResponse,
+      OperationState<CloudServicesNetworksDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -394,7 +403,7 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
     resourceGroupName: string,
     cloudServicesNetworkName: string,
     options?: CloudServicesNetworksDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<CloudServicesNetworksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       cloudServicesNetworkName,
@@ -629,10 +638,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/cloudServicesNetworks/{cloudServicesNetworkName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

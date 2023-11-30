@@ -29,6 +29,7 @@ import {
   AgentPoolsCreateOrUpdateOptionalParams,
   AgentPoolsCreateOrUpdateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
   AgentPoolsListByKubernetesClusterNextResponse
@@ -286,11 +287,16 @@ export class AgentPoolsImpl implements AgentPools {
     kubernetesClusterName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<AgentPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -336,7 +342,10 @@ export class AgentPoolsImpl implements AgentPools {
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      AgentPoolsDeleteResponse,
+      OperationState<AgentPoolsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -357,7 +366,7 @@ export class AgentPoolsImpl implements AgentPools {
     kubernetesClusterName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<AgentPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       kubernetesClusterName,
@@ -577,10 +586,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

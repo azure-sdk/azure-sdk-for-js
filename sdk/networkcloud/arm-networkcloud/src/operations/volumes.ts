@@ -32,6 +32,7 @@ import {
   VolumesCreateOrUpdateOptionalParams,
   VolumesCreateOrUpdateResponse,
   VolumesDeleteOptionalParams,
+  VolumesDeleteResponse,
   VolumesUpdateOptionalParams,
   VolumesUpdateResponse,
   VolumesListBySubscriptionNextResponse,
@@ -325,11 +326,16 @@ export class VolumesImpl implements Volumes {
     resourceGroupName: string,
     volumeName: string,
     options?: VolumesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesDeleteResponse>,
+      VolumesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<VolumesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -370,7 +376,10 @@ export class VolumesImpl implements Volumes {
       args: { resourceGroupName, volumeName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VolumesDeleteResponse,
+      OperationState<VolumesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -389,7 +398,7 @@ export class VolumesImpl implements Volumes {
     resourceGroupName: string,
     volumeName: string,
     options?: VolumesDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<VolumesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       volumeName,
@@ -548,10 +557,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/volumes/{volumeName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

@@ -17,6 +17,7 @@ import {
   L3NetworksCreateOrUpdateOptionalParams,
   L3NetworksCreateOrUpdateResponse,
   L3NetworksDeleteOptionalParams,
+  L3NetworksDeleteResponse,
   L3NetworksUpdateOptionalParams,
   L3NetworksUpdateResponse
 } from "../models";
@@ -92,7 +93,12 @@ export interface L3Networks {
     resourceGroupName: string,
     l3NetworkName: string,
     options?: L3NetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<L3NetworksDeleteResponse>,
+      L3NetworksDeleteResponse
+    >
+  >;
   /**
    * Delete the provided layer 3 (L3) network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -103,7 +109,7 @@ export interface L3Networks {
     resourceGroupName: string,
     l3NetworkName: string,
     options?: L3NetworksDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<L3NetworksDeleteResponse>;
   /**
    * Update tags associated with the provided layer 3 (L3) network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

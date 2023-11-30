@@ -32,6 +32,7 @@ import {
   L3NetworksCreateOrUpdateOptionalParams,
   L3NetworksCreateOrUpdateResponse,
   L3NetworksDeleteOptionalParams,
+  L3NetworksDeleteResponse,
   L3NetworksUpdateOptionalParams,
   L3NetworksUpdateResponse,
   L3NetworksListBySubscriptionNextResponse,
@@ -325,11 +326,16 @@ export class L3NetworksImpl implements L3Networks {
     resourceGroupName: string,
     l3NetworkName: string,
     options?: L3NetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<L3NetworksDeleteResponse>,
+      L3NetworksDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<L3NetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -370,7 +376,10 @@ export class L3NetworksImpl implements L3Networks {
       args: { resourceGroupName, l3NetworkName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      L3NetworksDeleteResponse,
+      OperationState<L3NetworksDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -389,7 +398,7 @@ export class L3NetworksImpl implements L3Networks {
     resourceGroupName: string,
     l3NetworkName: string,
     options?: L3NetworksDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<L3NetworksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       l3NetworkName,
@@ -548,10 +557,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

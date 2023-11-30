@@ -32,6 +32,7 @@ import {
   TrunkedNetworksCreateOrUpdateOptionalParams,
   TrunkedNetworksCreateOrUpdateResponse,
   TrunkedNetworksDeleteOptionalParams,
+  TrunkedNetworksDeleteResponse,
   TrunkedNetworksUpdateOptionalParams,
   TrunkedNetworksUpdateResponse,
   TrunkedNetworksListBySubscriptionNextResponse,
@@ -330,11 +331,16 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
     resourceGroupName: string,
     trunkedNetworkName: string,
     options?: TrunkedNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrunkedNetworksDeleteResponse>,
+      TrunkedNetworksDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<TrunkedNetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -375,7 +381,10 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
       args: { resourceGroupName, trunkedNetworkName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      TrunkedNetworksDeleteResponse,
+      OperationState<TrunkedNetworksDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -394,7 +403,7 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
     resourceGroupName: string,
     trunkedNetworkName: string,
     options?: TrunkedNetworksDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<TrunkedNetworksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       trunkedNetworkName,
@@ -553,10 +562,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

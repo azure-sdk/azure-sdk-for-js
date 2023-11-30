@@ -32,6 +32,7 @@ import {
   L2NetworksCreateOrUpdateOptionalParams,
   L2NetworksCreateOrUpdateResponse,
   L2NetworksDeleteOptionalParams,
+  L2NetworksDeleteResponse,
   L2NetworksUpdateOptionalParams,
   L2NetworksUpdateResponse,
   L2NetworksListBySubscriptionNextResponse,
@@ -325,11 +326,16 @@ export class L2NetworksImpl implements L2Networks {
     resourceGroupName: string,
     l2NetworkName: string,
     options?: L2NetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<L2NetworksDeleteResponse>,
+      L2NetworksDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<L2NetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -370,7 +376,10 @@ export class L2NetworksImpl implements L2Networks {
       args: { resourceGroupName, l2NetworkName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      L2NetworksDeleteResponse,
+      OperationState<L2NetworksDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -389,7 +398,7 @@ export class L2NetworksImpl implements L2Networks {
     resourceGroupName: string,
     l2NetworkName: string,
     options?: L2NetworksDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<L2NetworksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       l2NetworkName,
@@ -548,10 +557,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l2Networks/{l2NetworkName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
