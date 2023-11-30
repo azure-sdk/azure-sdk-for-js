@@ -199,7 +199,7 @@ export interface DiskVolumeConfiguration {
   sku?: DiskSku;
 }
 
-/** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
+/** The disk sku. */
 export interface DiskSku {
   /** Defines the disk sku name. */
   name?: DiskSkuName;
@@ -207,7 +207,7 @@ export interface DiskSku {
 
 /** The supported disk size details for a disk type. */
 export interface DiskDetails {
-  /** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
+  /** The disk sku. */
   sku?: DiskSku;
   /** The disk size in GB. */
   sizeGB?: number;
@@ -247,7 +247,7 @@ export interface SAPAvailabilityZonePair {
   zoneB?: number;
 }
 
-/** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
+/** Managed service identity (user assigned identities) */
 export interface UserAssignedServiceIdentity {
   /** Type of manage identity */
   type: ManagedServiceIdentityType;
@@ -350,7 +350,7 @@ export interface SystemData {
 export interface UpdateSAPVirtualInstanceRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
+  /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
 }
 
@@ -653,7 +653,7 @@ export interface ErrorInnerError {
 export interface UpdateMonitorRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** [currently not in use] Managed service identity(user assigned identities) */
+  /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
 }
 
@@ -1333,7 +1333,7 @@ export interface SingleServerFullResourceNames
   virtualMachine?: VirtualMachineResourceNames;
 }
 
-/** Gets or sets the single server configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409) */
+/** Gets or sets the single server configuration. */
 export interface SingleServerConfiguration extends InfrastructureConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "SingleServer";
@@ -1351,7 +1351,7 @@ export interface SingleServerConfiguration extends InfrastructureConfiguration {
   customResourceNames?: SingleServerCustomResourceNamesUnion;
 }
 
-/** Gets or sets the three tier SAP configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409) */
+/** Gets or sets the three tier SAP configuration. */
 export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "ThreeTier";
@@ -1371,24 +1371,24 @@ export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   customResourceNames?: ThreeTierCustomResourceNamesUnion;
 }
 
-/** Gets or sets the file share configuration for scenarios where transport directory fileshare is not created or required. */
+/** Gets or sets the skip file share configuration */
 export interface SkipFileShareConfiguration extends FileShareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "Skip";
 }
 
-/** Gets or sets the file share configuration where the transport directory fileshare is created and mounted as a part of the create infra flow. Please pre-create the resource group you intend to place the transport directory in. The storage account and fileshare will be auto-created by the ACSS and doesn’t need to pre-created. */
+/** Gets or sets the file share configuration for file share created with the VIS case. */
 export interface CreateAndMountFileShareConfiguration
   extends FileShareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "CreateAndMount";
-  /** The name of transport file share resource group. This should be pre created by the customer. The app rg is used in case of missing input. */
+  /** The name of file share resource group. The app rg is used in case of missing input. */
   resourceGroup?: string;
   /** The name of file share storage account name . A custom name is used in case of missing input. */
   storageAccountName?: string;
 }
 
-/** Gets or sets the file share configuration where the transport directory fileshare already exists, and user wishes to mount the fileshare as a part of the create infra flow. */
+/** Gets or sets the file share configuration for externally mounted cases. */
 export interface MountFileShareConfiguration extends FileShareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "Mount";
@@ -1462,7 +1462,7 @@ export interface OperationsDefinitionDisplay
 
 /** Define the Virtual Instance for SAP solutions resource. */
 export interface SAPVirtualInstance extends TrackedResource {
-  /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
+  /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /** Defines the environment type - Production/Non Production. */
   environment: SAPEnvironmentType;
@@ -1691,7 +1691,7 @@ export interface SAPApplicationServerInstance extends TrackedResource {
 
 /** SAP monitor info on Azure (ARM properties and SAP monitor properties) */
 export interface Monitor extends TrackedResource {
-  /** [currently not in use] Managed service identity(user assigned identities) */
+  /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /**
    * State of provisioning of the SAP monitor.
@@ -1729,7 +1729,7 @@ export interface Monitor extends TrackedResource {
 
 /** A provider instance associated with SAP monitor. */
 export interface ProviderInstance extends ProxyResource {
-  /** [currently not in use] Managed service identity(user assigned identities) */
+  /** Managed service identity (user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /**
    * State of provisioning of the provider instance
@@ -1741,7 +1741,7 @@ export interface ProviderInstance extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: ProviderInstancePropertiesErrors;
-  /** Defines the provider specific properties. */
+  /** Defines the provider instance errors. */
   providerSettings?: ProviderSpecificPropertiesUnion;
 }
 
