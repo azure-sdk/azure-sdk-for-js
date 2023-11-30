@@ -9,20 +9,20 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ServiceConfigurationResource,
-  ServiceConfigurationsListByEndpointResourceOptionalParams,
-  ServiceConfigurationsGetOptionalParams,
-  ServiceConfigurationsGetResponse,
-  ServiceConfigurationsCreateOrupdateOptionalParams,
-  ServiceConfigurationsCreateOrupdateResponse,
+  ServiceconfigurationsListByEndpointResourceOptionalParams,
+  ServiceconfigurationsGetOptionalParams,
+  ServiceconfigurationsGetResponse,
+  ServiceconfigurationsCreateOptionalParams,
+  ServiceconfigurationsCreateResponse,
   ServiceConfigurationResourcePatch,
-  ServiceConfigurationsUpdateOptionalParams,
-  ServiceConfigurationsUpdateResponse,
-  ServiceConfigurationsDeleteOptionalParams
+  ServiceconfigurationsUpdateOptionalParams,
+  ServiceconfigurationsUpdateResponse,
+  ServiceconfigurationsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ServiceConfigurations. */
-export interface ServiceConfigurations {
+/** Interface representing a Serviceconfigurations. */
+export interface Serviceconfigurations {
   /**
    * API to enumerate registered services in service configurations under a Endpoint Resource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
@@ -33,7 +33,7 @@ export interface ServiceConfigurations {
   listByEndpointResource(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
+    options?: ServiceconfigurationsListByEndpointResourceOptionalParams
   ): PagedAsyncIterableIterator<ServiceConfigurationResource>;
   /**
    * Gets the details about the service to the resource.
@@ -47,10 +47,10 @@ export interface ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsGetOptionalParams
-  ): Promise<ServiceConfigurationsGetResponse>;
+    options?: ServiceconfigurationsGetOptionalParams
+  ): Promise<ServiceconfigurationsGetResponse>;
   /**
-   * Create or update a service in serviceConfiguration for the endpoint resource.
+   * Create a service in serviceConfiguration for the endpoint resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param endpointName The endpoint name.
@@ -58,13 +58,13 @@ export interface ServiceConfigurations {
    * @param serviceConfigurationResource Service details
    * @param options The options parameters.
    */
-  createOrupdate(
+  create(
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResource,
-    options?: ServiceConfigurationsCreateOrupdateOptionalParams
-  ): Promise<ServiceConfigurationsCreateOrupdateResponse>;
+    options?: ServiceconfigurationsCreateOptionalParams
+  ): Promise<ServiceconfigurationsCreateResponse>;
   /**
    * Update the service details in the service configurations of the target resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
@@ -79,8 +79,8 @@ export interface ServiceConfigurations {
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResourcePatch,
-    options?: ServiceConfigurationsUpdateOptionalParams
-  ): Promise<ServiceConfigurationsUpdateResponse>;
+    options?: ServiceconfigurationsUpdateOptionalParams
+  ): Promise<ServiceconfigurationsUpdateResponse>;
   /**
    * Deletes the service details to the target resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
@@ -93,6 +93,6 @@ export interface ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsDeleteOptionalParams
+    options?: ServiceconfigurationsDeleteOptionalParams
   ): Promise<void>;
 }

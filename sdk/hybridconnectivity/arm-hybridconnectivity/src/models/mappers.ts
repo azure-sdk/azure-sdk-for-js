@@ -241,35 +241,6 @@ export const EndpointsList: coreClient.CompositeMapper = {
   }
 };
 
-export const EndpointProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EndpointProperties",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      resourceId: {
-        serializedName: "resourceId",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -295,55 +266,54 @@ export const Resource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
       }
     }
   }
 };
 
-export const SystemData: coreClient.CompositeMapper = {
+export const ServiceConfigurationResourcePatch: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SystemData",
+    className: "ServiceConfigurationResourcePatch",
     modelProperties: {
+      port: {
+        serializedName: "properties.port",
+        type: {
+          name: "String"
+        }
+      },
       createdBy: {
-        serializedName: "createdBy",
+        serializedName: "systemData.createdBy",
         type: {
           name: "String"
         }
       },
       createdByType: {
-        serializedName: "createdByType",
+        serializedName: "systemData.createdByType",
         type: {
           name: "String"
         }
       },
       createdAt: {
-        serializedName: "createdAt",
+        serializedName: "systemData.createdAt",
         type: {
           name: "DateTime"
         }
       },
       lastModifiedBy: {
-        serializedName: "lastModifiedBy",
+        serializedName: "systemData.lastModifiedBy",
         type: {
           name: "String"
         }
       },
       lastModifiedByType: {
-        serializedName: "lastModifiedByType",
+        serializedName: "systemData.lastModifiedByType",
         type: {
           name: "String"
         }
       },
       lastModifiedAt: {
-        serializedName: "lastModifiedAt",
+        serializedName: "systemData.lastModifiedAt",
         type: {
           name: "DateTime"
         }
@@ -373,21 +343,6 @@ export const ServiceConfigurationList: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceConfigurationResourcePatch: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ServiceConfigurationResourcePatch",
-    modelProperties: {
-      port: {
-        serializedName: "properties.port",
-        type: {
-          name: "Number"
         }
       }
     }
@@ -455,21 +410,6 @@ export const EndpointAccessResource: coreClient.CompositeMapper = {
       },
       serviceConfigurationToken: {
         serializedName: "relay.serviceConfigurationToken",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ListIngressGatewayCredentialsRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ListIngressGatewayCredentialsRequest",
-    modelProperties: {
-      serviceName: {
-        serializedName: "serviceName",
         type: {
           name: "String"
         }
@@ -617,11 +557,59 @@ export const EndpointResource: coreClient.CompositeMapper = {
     className: "EndpointResource",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
+      typePropertiesType: {
+        serializedName: "properties.type",
         type: {
-          name: "Composite",
-          className: "EndpointProperties"
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "properties.resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdBy: {
+        serializedName: "systemData.createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "systemData.createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "systemData.createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "systemData.lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "systemData.lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "systemData.lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -649,7 +637,7 @@ export const ServiceConfigurationResource: coreClient.CompositeMapper = {
       port: {
         serializedName: "properties.port",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
       provisioningState: {
@@ -657,6 +645,42 @@ export const ServiceConfigurationResource: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      createdBy: {
+        serializedName: "systemData.createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "systemData.createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "systemData.createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "systemData.lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "systemData.lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "systemData.lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }

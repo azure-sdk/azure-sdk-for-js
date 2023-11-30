@@ -414,15 +414,13 @@ const listIngressGatewayCredentialsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.listIngressGatewayCredentialsRequest,
   queryParameters: [Parameters.apiVersion, Parameters.expiresin],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listManagedProxyDetailsOperationSpec: coreClient.OperationSpec = {

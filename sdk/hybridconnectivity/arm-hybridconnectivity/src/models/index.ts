@@ -129,23 +129,10 @@ export interface EndpointsList {
   value?: EndpointResource[];
 }
 
-/** Endpoint details */
-export interface EndpointProperties {
-  /** The type of endpoint. */
-  type: Type;
-  /** The resource Id of the connectivity endpoint (optional). */
-  resourceId?: string;
-  /**
-   * The resource provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -159,15 +146,12 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
+/** The service details under serviceconfiguration for the target resource. */
+export interface ServiceConfigurationResourcePatch {
+  /** The port on which service is enabled. */
+  port?: string;
   /** The identity that created the resource. */
   createdBy?: string;
   /** The type of identity that created the resource. */
@@ -190,15 +174,9 @@ export interface ServiceConfigurationList {
   nextLink?: string;
 }
 
-/** The service details under service configuration for the target endpoint resource. */
-export interface ServiceConfigurationResourcePatch {
-  /** The port on which service is enabled. */
-  port?: number;
-}
-
-/** The details of the service for which credentials needs to be returned. */
+/** Represent ListCredentials Request object. */
 export interface ListCredentialsRequest {
-  /** The name of the service. If not provided, the request will by pass the generation of service configuration token */
+  /** The name of the service. */
   serviceName?: ServiceName;
 }
 
@@ -219,12 +197,6 @@ export interface EndpointAccessResource {
   expiresOn?: number;
   /** The token to access the enabled service. */
   serviceConfigurationToken?: string;
-}
-
-/** Represent ListIngressGatewayCredentials Request object. */
-export interface ListIngressGatewayCredentialsRequest {
-  /** The name of the service. */
-  serviceName?: ServiceName;
 }
 
 /** The ingress gateway access credentials */
@@ -258,7 +230,7 @@ export interface ManagedProxyRequest {
   service: string;
   /** The target host name. */
   hostname?: string;
-  /** The name of the service. It is an optional property, if not provided, service configuration tokens issue code would be by passed. */
+  /** The name of the service. */
   serviceName?: ServiceName;
 }
 
@@ -275,8 +247,27 @@ export interface ProxyResource extends Resource {}
 
 /** The endpoint for the target resource. */
 export interface EndpointResource extends ProxyResource {
-  /** The endpoint properties. */
-  properties?: EndpointProperties;
+  /** The type of endpoint. */
+  typePropertiesType?: Type;
+  /** The resource Id of the connectivity endpoint (optional). */
+  resourceId?: string;
+  /**
+   * The resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The service configuration details associated with the target resource. */
@@ -286,12 +277,24 @@ export interface ServiceConfigurationResource extends ProxyResource {
   /** The resource Id of the connectivity endpoint (optional). */
   resourceId?: string;
   /** The port on which service is enabled. */
-  port?: number;
+  port?: string;
   /**
    * The resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: Result;
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -330,24 +333,6 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** Default */
-  Default = "default",
-  /** Custom */
-  Custom = "custom"
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default** \
- * **custom**
- */
-export type Type = string;
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -372,12 +357,32 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Default */
+  Default = "default",
+  /** Custom */
+  Custom = "custom"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default** \
+ * **custom**
+ */
+export type Type = string;
+
 /** Known values of {@link ServiceName} that the service accepts. */
 export enum KnownServiceName {
   /** SSH */
   SSH = "SSH",
   /** WAC */
-  WAC = "WAC"
+  WAC = "WAC",
+  /** Sqlmgmt */
+  Sqlmgmt = "SQLMGMT"
 }
 
 /**
@@ -386,18 +391,15 @@ export enum KnownServiceName {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SSH** \
- * **WAC**
+ * **WAC** \
+ * **SQLMGMT**
  */
 export type ServiceName = string;
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
+/** Known values of {@link Result} that the service accepts. */
+export enum KnownResult {
   /** Succeeded */
   Succeeded = "Succeeded",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
   /** Failed */
   Failed = "Failed",
   /** Canceled */
@@ -405,17 +407,15 @@ export enum KnownProvisioningState {
 }
 
 /**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ * Defines values for Result. \
+ * {@link KnownResult} can be used interchangeably with Result,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded** \
- * **Creating** \
- * **Updating** \
  * **Failed** \
  * **Canceled**
  */
-export type ProvisioningState = string;
+export type Result = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -480,8 +480,6 @@ export interface EndpointsListIngressGatewayCredentialsOptionalParams
   extends coreClient.OperationOptions {
   /** The is how long the endpoint access token is valid (in seconds). */
   expiresin?: number;
-  /** Object of type ListIngressGatewayCredentialsRequest */
-  listIngressGatewayCredentialsRequest?: ListIngressGatewayCredentialsRequest;
 }
 
 /** Contains response data for the listIngressGatewayCredentials operation. */
@@ -502,43 +500,43 @@ export interface EndpointsListNextOptionalParams
 export type EndpointsListNextResponse = EndpointsList;
 
 /** Optional parameters. */
-export interface ServiceConfigurationsListByEndpointResourceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByEndpointResource operation. */
-export type ServiceConfigurationsListByEndpointResourceResponse = ServiceConfigurationList;
-
-/** Optional parameters. */
-export interface ServiceConfigurationsGetOptionalParams
+export interface ServiceconfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ServiceConfigurationsGetResponse = ServiceConfigurationResource;
+export type ServiceconfigurationsGetResponse = ServiceConfigurationResource;
 
 /** Optional parameters. */
-export interface ServiceConfigurationsCreateOrupdateOptionalParams
+export interface ServiceconfigurationsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrupdate operation. */
-export type ServiceConfigurationsCreateOrupdateResponse = ServiceConfigurationResource;
+/** Contains response data for the create operation. */
+export type ServiceconfigurationsCreateResponse = ServiceConfigurationResource;
 
 /** Optional parameters. */
-export interface ServiceConfigurationsUpdateOptionalParams
+export interface ServiceconfigurationsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ServiceConfigurationsUpdateResponse = ServiceConfigurationResource;
+export type ServiceconfigurationsUpdateResponse = ServiceConfigurationResource;
 
 /** Optional parameters. */
-export interface ServiceConfigurationsDeleteOptionalParams
+export interface ServiceconfigurationsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ServiceConfigurationsListByEndpointResourceNextOptionalParams
+export interface ServiceconfigurationsListByEndpointResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEndpointResource operation. */
+export type ServiceconfigurationsListByEndpointResourceResponse = ServiceConfigurationList;
+
+/** Optional parameters. */
+export interface ServiceconfigurationsListByEndpointResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEndpointResourceNext operation. */
-export type ServiceConfigurationsListByEndpointResourceNextResponse = ServiceConfigurationList;
+export type ServiceconfigurationsListByEndpointResourceNextResponse = ServiceConfigurationList;
 
 /** Optional parameters. */
 export interface HybridConnectivityManagementAPIOptionalParams
