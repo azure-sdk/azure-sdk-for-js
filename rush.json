@@ -2155,6 +2155,11 @@
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mobilecore",
+      "projectFolder": "sdk/mobilecore/arm-mobilecore",
+      "versionPolicyName": "management"
     }
   ]
 }
