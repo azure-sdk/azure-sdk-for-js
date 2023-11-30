@@ -14,7 +14,6 @@ import {
 import {
   EndpointResource as EndpointResourceMapper,
   ListCredentialsRequest as ListCredentialsRequestMapper,
-  ListIngressGatewayCredentialsRequest as ListIngressGatewayCredentialsRequestMapper,
   ManagedProxyRequest as ManagedProxyRequestMapper,
   ServiceConfigurationResource as ServiceConfigurationResourceMapper,
   ServiceConfigurationResourcePatch as ServiceConfigurationResourcePatchMapper
@@ -127,11 +126,6 @@ export const expiresin: OperationQueryParameter = {
       name: "Number"
     }
   }
-};
-
-export const listIngressGatewayCredentialsRequest: OperationParameter = {
-  parameterPath: ["options", "listIngressGatewayCredentialsRequest"],
-  mapper: ListIngressGatewayCredentialsRequestMapper
 };
 
 export const managedProxyRequest: OperationParameter = {

@@ -8,4 +8,4 @@
 
 export * from "./operations";
 export * from "./endpoints";
-export * from "./serviceConfigurations";
+export * from "./serviceconfigurations";

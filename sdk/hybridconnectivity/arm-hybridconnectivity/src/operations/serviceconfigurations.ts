@@ -8,34 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ServiceConfigurations } from "../operationsInterfaces";
+import { Serviceconfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HybridConnectivityManagementAPI } from "../hybridConnectivityManagementAPI";
 import {
   ServiceConfigurationResource,
-  ServiceConfigurationsListByEndpointResourceNextOptionalParams,
-  ServiceConfigurationsListByEndpointResourceOptionalParams,
-  ServiceConfigurationsListByEndpointResourceResponse,
-  ServiceConfigurationsGetOptionalParams,
-  ServiceConfigurationsGetResponse,
-  ServiceConfigurationsCreateOrupdateOptionalParams,
-  ServiceConfigurationsCreateOrupdateResponse,
+  ServiceconfigurationsListByEndpointResourceNextOptionalParams,
+  ServiceconfigurationsListByEndpointResourceOptionalParams,
+  ServiceconfigurationsListByEndpointResourceResponse,
+  ServiceconfigurationsGetOptionalParams,
+  ServiceconfigurationsGetResponse,
+  ServiceconfigurationsCreateOptionalParams,
+  ServiceconfigurationsCreateResponse,
   ServiceConfigurationResourcePatch,
-  ServiceConfigurationsUpdateOptionalParams,
-  ServiceConfigurationsUpdateResponse,
-  ServiceConfigurationsDeleteOptionalParams,
-  ServiceConfigurationsListByEndpointResourceNextResponse
+  ServiceconfigurationsUpdateOptionalParams,
+  ServiceconfigurationsUpdateResponse,
+  ServiceconfigurationsDeleteOptionalParams,
+  ServiceconfigurationsListByEndpointResourceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ServiceConfigurations operations. */
-export class ServiceConfigurationsImpl implements ServiceConfigurations {
+/** Class containing Serviceconfigurations operations. */
+export class ServiceconfigurationsImpl implements Serviceconfigurations {
   private readonly client: HybridConnectivityManagementAPI;
 
   /**
-   * Initialize a new instance of the class ServiceConfigurations class.
+   * Initialize a new instance of the class Serviceconfigurations class.
    * @param client Reference to the service client
    */
   constructor(client: HybridConnectivityManagementAPI) {
@@ -52,7 +52,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
   public listByEndpointResource(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
+    options?: ServiceconfigurationsListByEndpointResourceOptionalParams
   ): PagedAsyncIterableIterator<ServiceConfigurationResource> {
     const iter = this.listByEndpointResourcePagingAll(
       resourceUri,
@@ -83,10 +83,10 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
   private async *listByEndpointResourcePagingPage(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
+    options?: ServiceconfigurationsListByEndpointResourceOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<ServiceConfigurationResource[]> {
-    let result: ServiceConfigurationsListByEndpointResourceResponse;
+    let result: ServiceconfigurationsListByEndpointResourceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByEndpointResource(
@@ -116,7 +116,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
   private async *listByEndpointResourcePagingAll(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
+    options?: ServiceconfigurationsListByEndpointResourceOptionalParams
   ): AsyncIterableIterator<ServiceConfigurationResource> {
     for await (const page of this.listByEndpointResourcePagingPage(
       resourceUri,
@@ -125,24 +125,6 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * API to enumerate registered services in service configurations under a Endpoint Resource
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param endpointName The endpoint name.
-   * @param options The options parameters.
-   */
-  private _listByEndpointResource(
-    resourceUri: string,
-    endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
-  ): Promise<ServiceConfigurationsListByEndpointResourceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, endpointName, options },
-      listByEndpointResourceOperationSpec
-    );
   }
 
   /**
@@ -157,8 +139,8 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsGetOptionalParams
-  ): Promise<ServiceConfigurationsGetResponse> {
+    options?: ServiceconfigurationsGetOptionalParams
+  ): Promise<ServiceconfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, serviceConfigurationName, options },
       getOperationSpec
@@ -166,7 +148,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
   }
 
   /**
-   * Create or update a service in serviceConfiguration for the endpoint resource.
+   * Create a service in serviceConfiguration for the endpoint resource.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param endpointName The endpoint name.
@@ -174,13 +156,13 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
    * @param serviceConfigurationResource Service details
    * @param options The options parameters.
    */
-  createOrupdate(
+  create(
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResource,
-    options?: ServiceConfigurationsCreateOrupdateOptionalParams
-  ): Promise<ServiceConfigurationsCreateOrupdateResponse> {
+    options?: ServiceconfigurationsCreateOptionalParams
+  ): Promise<ServiceconfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -189,7 +171,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
         serviceConfigurationResource,
         options
       },
-      createOrupdateOperationSpec
+      createOperationSpec
     );
   }
 
@@ -207,8 +189,8 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResourcePatch,
-    options?: ServiceConfigurationsUpdateOptionalParams
-  ): Promise<ServiceConfigurationsUpdateResponse> {
+    options?: ServiceconfigurationsUpdateOptionalParams
+  ): Promise<ServiceconfigurationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -233,11 +215,29 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsDeleteOptionalParams
+    options?: ServiceconfigurationsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, serviceConfigurationName, options },
       deleteOperationSpec
+    );
+  }
+
+  /**
+   * API to enumerate registered services in service configurations under a Endpoint Resource
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
+   *                    connected.
+   * @param endpointName The endpoint name.
+   * @param options The options parameters.
+   */
+  private _listByEndpointResource(
+    resourceUri: string,
+    endpointName: string,
+    options?: ServiceconfigurationsListByEndpointResourceOptionalParams
+  ): Promise<ServiceconfigurationsListByEndpointResourceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, endpointName, options },
+      listByEndpointResourceOperationSpec
     );
   }
 
@@ -253,8 +253,8 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     nextLink: string,
-    options?: ServiceConfigurationsListByEndpointResourceNextOptionalParams
-  ): Promise<ServiceConfigurationsListByEndpointResourceNextResponse> {
+    options?: ServiceconfigurationsListByEndpointResourceNextOptionalParams
+  ): Promise<ServiceconfigurationsListByEndpointResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, nextLink, options },
       listByEndpointResourceNextOperationSpec
@@ -264,30 +264,9 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByEndpointResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceConfigurationList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceconfigurations/{serviceConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -307,15 +286,12 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrupdateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceconfigurations/{serviceConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceConfigurationResource
-    },
-    201: {
       bodyMapper: Mappers.ServiceConfigurationResource
     },
     default: {
@@ -336,7 +312,7 @@ const createOrupdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceconfigurations/{serviceConfigurationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -360,7 +336,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceconfigurations/{serviceConfigurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -375,6 +351,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceUri,
     Parameters.endpointName,
     Parameters.serviceConfigurationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByEndpointResourceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceconfigurations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServiceConfigurationList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceUri,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -17,12 +17,12 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   EndpointsImpl,
-  ServiceConfigurationsImpl
+  ServiceconfigurationsImpl
 } from "./operations";
 import {
   Operations,
   Endpoints,
-  ServiceConfigurations
+  Serviceconfigurations
 } from "./operationsInterfaces";
 import { HybridConnectivityManagementAPIOptionalParams } from "./models";
 
@@ -52,7 +52,7 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hybridconnectivity/1.0.1`;
+    const packageDetails = `azsdk-js-arm-hybridconnectivity/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -106,7 +106,7 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
     this.apiVersion = options.apiVersion || "2023-03-15";
     this.operations = new OperationsImpl(this);
     this.endpoints = new EndpointsImpl(this);
-    this.serviceConfigurations = new ServiceConfigurationsImpl(this);
+    this.serviceconfigurations = new ServiceconfigurationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -140,5 +140,5 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
 
   operations: Operations;
   endpoints: Endpoints;
-  serviceConfigurations: ServiceConfigurations;
+  serviceconfigurations: Serviceconfigurations;
 }
