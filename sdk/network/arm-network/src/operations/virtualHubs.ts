@@ -36,13 +36,10 @@ import {
   VirtualHubsUpdateTagsResponse,
   VirtualHubsDeleteOptionalParams,
   VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams,
-  VirtualHubsGetEffectiveVirtualHubRoutesResponse,
   GetInboundRoutesParameters,
   VirtualHubsGetInboundRoutesOptionalParams,
-  VirtualHubsGetInboundRoutesResponse,
   GetOutboundRoutesParameters,
   VirtualHubsGetOutboundRoutesOptionalParams,
-  VirtualHubsGetOutboundRoutesResponse,
   VirtualHubsListByResourceGroupNextResponse,
   VirtualHubsListNextResponse
 } from "../models";
@@ -438,16 +435,11 @@ export class VirtualHubsImpl implements VirtualHubs {
     resourceGroupName: string,
     virtualHubName: string,
     options?: VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualHubsGetEffectiveVirtualHubRoutesResponse>,
-      VirtualHubsGetEffectiveVirtualHubRoutesResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<VirtualHubsGetEffectiveVirtualHubRoutesResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -488,10 +480,7 @@ export class VirtualHubsImpl implements VirtualHubs {
       args: { resourceGroupName, virtualHubName, options },
       spec: getEffectiveVirtualHubRoutesOperationSpec
     });
-    const poller = await createHttpPoller<
-      VirtualHubsGetEffectiveVirtualHubRoutesResponse,
-      OperationState<VirtualHubsGetEffectiveVirtualHubRoutesResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -510,7 +499,7 @@ export class VirtualHubsImpl implements VirtualHubs {
     resourceGroupName: string,
     virtualHubName: string,
     options?: VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams
-  ): Promise<VirtualHubsGetEffectiveVirtualHubRoutesResponse> {
+  ): Promise<void> {
     const poller = await this.beginGetEffectiveVirtualHubRoutes(
       resourceGroupName,
       virtualHubName,
@@ -532,16 +521,11 @@ export class VirtualHubsImpl implements VirtualHubs {
     virtualHubName: string,
     getInboundRoutesParameters: GetInboundRoutesParameters,
     options?: VirtualHubsGetInboundRoutesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualHubsGetInboundRoutesResponse>,
-      VirtualHubsGetInboundRoutesResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<VirtualHubsGetInboundRoutesResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -587,10 +571,7 @@ export class VirtualHubsImpl implements VirtualHubs {
       },
       spec: getInboundRoutesOperationSpec
     });
-    const poller = await createHttpPoller<
-      VirtualHubsGetInboundRoutesResponse,
-      OperationState<VirtualHubsGetInboundRoutesResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -612,7 +593,7 @@ export class VirtualHubsImpl implements VirtualHubs {
     virtualHubName: string,
     getInboundRoutesParameters: GetInboundRoutesParameters,
     options?: VirtualHubsGetInboundRoutesOptionalParams
-  ): Promise<VirtualHubsGetInboundRoutesResponse> {
+  ): Promise<void> {
     const poller = await this.beginGetInboundRoutes(
       resourceGroupName,
       virtualHubName,
@@ -635,16 +616,11 @@ export class VirtualHubsImpl implements VirtualHubs {
     virtualHubName: string,
     getOutboundRoutesParameters: GetOutboundRoutesParameters,
     options?: VirtualHubsGetOutboundRoutesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualHubsGetOutboundRoutesResponse>,
-      VirtualHubsGetOutboundRoutesResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<VirtualHubsGetOutboundRoutesResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -690,10 +666,7 @@ export class VirtualHubsImpl implements VirtualHubs {
       },
       spec: getOutboundRoutesOperationSpec
     });
-    const poller = await createHttpPoller<
-      VirtualHubsGetOutboundRoutesResponse,
-      OperationState<VirtualHubsGetOutboundRoutesResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -715,7 +688,7 @@ export class VirtualHubsImpl implements VirtualHubs {
     virtualHubName: string,
     getOutboundRoutesParameters: GetOutboundRoutesParameters,
     options?: VirtualHubsGetOutboundRoutesOptionalParams
-  ): Promise<VirtualHubsGetOutboundRoutesResponse> {
+  ): Promise<void> {
     const poller = await this.beginGetOutboundRoutes(
       resourceGroupName,
       virtualHubName,
@@ -905,18 +878,10 @@ const getEffectiveVirtualHubRoutesOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.VirtualHubEffectiveRouteList
-    },
-    201: {
-      bodyMapper: Mappers.VirtualHubEffectiveRouteList
-    },
-    202: {
-      bodyMapper: Mappers.VirtualHubEffectiveRouteList
-    },
-    204: {
-      bodyMapper: Mappers.VirtualHubEffectiveRouteList
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -938,18 +903,10 @@ const getInboundRoutesOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/inboundRoutes",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.EffectiveRouteMapRouteList
-    },
-    201: {
-      bodyMapper: Mappers.EffectiveRouteMapRouteList
-    },
-    202: {
-      bodyMapper: Mappers.EffectiveRouteMapRouteList
-    },
-    204: {
-      bodyMapper: Mappers.EffectiveRouteMapRouteList
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -971,18 +928,10 @@ const getOutboundRoutesOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.EffectiveRouteMapRouteList
-    },
-    201: {
-      bodyMapper: Mappers.EffectiveRouteMapRouteList
-    },
-    202: {
-      bodyMapper: Mappers.EffectiveRouteMapRouteList
-    },
-    204: {
-      bodyMapper: Mappers.EffectiveRouteMapRouteList
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

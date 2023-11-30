@@ -1,15 +1,92 @@
 # Release History
+    
+## 33.0.0 (2023-11-30)
+    
+**Features**
 
-## 32.2.1 (Unreleased)
+  - Added Interface PeerRouteList
+  - Interface DdosProtectionPlan has a new optional parameter publicIpAddresses
+  - Interface ExpressRouteCircuit has a new optional parameter enableDirectPortRateLimit
+  - Interface Subnet has a new optional parameter applicationGatewayIpConfigurations
+  - Enum KnownApplicationGatewaySkuName has a new value StandardBasic
+  - Enum KnownApplicationGatewayTier has a new value StandardBasic
+  - Enum KnownLoadBalancerBackendAddressAdminState has a new value Drain
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group NetworkVirtualApplianceConnections
+  - Removed operation AzureFirewalls.beginPacketCapture
+  - Removed operation AzureFirewalls.beginPacketCaptureAndWait
+  - Removed operation LoadBalancers.migrateToIpBased
+  - Interface ActiveDefaultSecurityAdminRule no longer has parameter resourceGuid
+  - Interface ActiveSecurityAdminRule no longer has parameter resourceGuid
+  - Interface AdminRule no longer has parameter resourceGuid
+  - Interface AdminRuleCollection no longer has parameter resourceGuid
+  - Interface ApplicationGateway no longer has parameter defaultPredefinedSslPolicy
+  - Interface ApplicationRule no longer has parameter httpHeadersToInsert
+  - Interface BackendAddressPool no longer has parameter syncMode
+  - Interface BastionHost no longer has parameter enableKerberos
+  - Interface BastionHost no longer has parameter networkAcls
+  - Interface BastionHost no longer has parameter virtualNetwork
+  - Interface ConfigurationGroup no longer has parameter resourceGuid
+  - Interface ConnectivityConfiguration no longer has parameter resourceGuid
+  - Interface DdosProtectionPlan no longer has parameter publicIPAddresses
+  - Interface DefaultAdminRule no longer has parameter resourceGuid
+  - Interface EffectiveConnectivityConfiguration no longer has parameter resourceGuid
+  - Interface EffectiveDefaultSecurityAdminRule no longer has parameter resourceGuid
+  - Interface EffectiveSecurityAdminRule no longer has parameter resourceGuid
+  - Interface ExpressRouteCircuit no longer has parameter authorizationStatus
+  - Interface FirewallPolicy no longer has parameter size
+  - Interface FirewallPolicyRuleCollectionGroup no longer has parameter size
+  - Interface NetworkGroup no longer has parameter resourceGuid
+  - Interface NetworkInterface no longer has parameter auxiliarySku
+  - Interface NetworkManager no longer has parameter resourceGuid
+  - Interface NetworkVirtualAppliance no longer has parameter additionalNics
+  - Interface NetworkVirtualAppliance no longer has parameter virtualApplianceConnections
+  - Interface PolicySettings no longer has parameter fileUploadEnforcement
+  - Interface PolicySettings no longer has parameter logScrubbing
+  - Interface PolicySettings no longer has parameter requestBodyEnforcement
+  - Interface PolicySettings no longer has parameter requestBodyInspectLimitInKB
+  - Interface PrivateEndpointConnection no longer has parameter privateEndpointLocation
+  - Interface PublicIPAddressDnsSettings no longer has parameter domainNameLabelScope
+  - Interface SecurityAdminConfiguration no longer has parameter resourceGuid
+  - Interface Subnet no longer has parameter applicationGatewayIPConfigurations
+  - Interface Subnet no longer has parameter defaultOutboundAccess
+  - Interface VirtualApplianceNicProperties no longer has parameter instanceName
+  - Interface VirtualNetwork no longer has parameter flowLogs
+  - Interface VirtualNetworkGateway no longer has parameter adminState
+  - Interface VirtualNetworkGateway no longer has parameter autoScaleConfiguration
+  - Interface VpnGatewaysResetOptionalParams no longer has parameter ipConfigurationId
+  - Interface WebApplicationFirewallCustomRule no longer has parameter groupByUserSession
+  - Interface WebApplicationFirewallCustomRule no longer has parameter rateLimitDuration
+  - Interface WebApplicationFirewallCustomRule no longer has parameter rateLimitThreshold
+  - Interface WebApplicationFirewallCustomRule no longer has parameter state
+  - Type of parameter prefix of interface EffectiveRouteMapRoute is changed from string to string[]
+  - Class NetworkManagementClient no longer has parameter networkVirtualApplianceConnections
+  - Removed Enum KnownAdminState
+  - Removed Enum KnownApplicationGatewayFirewallRateLimitDuration
+  - Removed Enum KnownApplicationGatewayFirewallUserSessionVariable
+  - Removed Enum KnownAzureFirewallPacketCaptureFlagsType
+  - Removed Enum KnownNetworkInterfaceAuxiliarySku
+  - Removed Enum KnownScrubbingRuleEntryMatchOperator
+  - Removed Enum KnownScrubbingRuleEntryMatchVariable
+  - Removed Enum KnownScrubbingRuleEntryState
+  - Removed Enum KnownSyncMode
+  - Removed Enum KnownWebApplicationFirewallScrubbingState
+  - Removed Enum KnownWebApplicationFirewallState
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus400
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus404
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus405
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus408
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus500
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus503
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus504
+  - Enum KnownApplicationGatewaySkuName no longer has value Basic
+  - Enum KnownApplicationGatewayTier no longer has value Basic
+  - Enum KnownNetworkInterfaceAuxiliaryMode no longer has value AcceleratedConnections
+  - Enum KnownWebApplicationFirewallRuleType no longer has value RateLimitRule
+    
+    
 ## 32.2.0 (2023-09-07)
     
 **Features**
@@ -901,4 +978,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

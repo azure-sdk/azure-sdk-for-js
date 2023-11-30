@@ -379,56 +379,16 @@ const listLearnedRoutesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: { type: { name: "Composite", className: "PeerRoute" } }
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.PeerRouteList
     },
     201: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: { type: { name: "Composite", className: "PeerRoute" } }
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.PeerRouteList
     },
     202: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: { type: { name: "Composite", className: "PeerRoute" } }
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.PeerRouteList
     },
     204: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: { type: { name: "Composite", className: "PeerRoute" } }
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.PeerRouteList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -451,56 +411,16 @@ const listAdvertisedRoutesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: { type: { name: "Composite", className: "PeerRoute" } }
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.PeerRouteList
     },
     201: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: { type: { name: "Composite", className: "PeerRoute" } }
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.PeerRouteList
     },
     202: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: { type: { name: "Composite", className: "PeerRoute" } }
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.PeerRouteList
     },
     204: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Sequence",
-              element: { type: { name: "Composite", className: "PeerRoute" } }
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.PeerRouteList
     },
     default: {
       bodyMapper: Mappers.CloudError

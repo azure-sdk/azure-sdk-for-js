@@ -21,10 +21,7 @@ import {
   AzureFirewallsUpdateTagsOptionalParams,
   AzureFirewallsUpdateTagsResponse,
   AzureFirewallsListLearnedPrefixesOptionalParams,
-  AzureFirewallsListLearnedPrefixesResponse,
-  FirewallPacketCaptureParameters,
-  AzureFirewallsPacketCaptureOptionalParams,
-  AzureFirewallsPacketCaptureResponse
+  AzureFirewallsListLearnedPrefixesResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -168,35 +165,4 @@ export interface AzureFirewalls {
     azureFirewallName: string,
     options?: AzureFirewallsListLearnedPrefixesOptionalParams
   ): Promise<AzureFirewallsListLearnedPrefixesResponse>;
-  /**
-   * Runs a packet capture on AzureFirewall.
-   * @param resourceGroupName The name of the resource group.
-   * @param azureFirewallName The name of the Azure Firewall.
-   * @param parameters Parameters supplied to run packet capture on azure firewall.
-   * @param options The options parameters.
-   */
-  beginPacketCapture(
-    resourceGroupName: string,
-    azureFirewallName: string,
-    parameters: FirewallPacketCaptureParameters,
-    options?: AzureFirewallsPacketCaptureOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AzureFirewallsPacketCaptureResponse>,
-      AzureFirewallsPacketCaptureResponse
-    >
-  >;
-  /**
-   * Runs a packet capture on AzureFirewall.
-   * @param resourceGroupName The name of the resource group.
-   * @param azureFirewallName The name of the Azure Firewall.
-   * @param parameters Parameters supplied to run packet capture on azure firewall.
-   * @param options The options parameters.
-   */
-  beginPacketCaptureAndWait(
-    resourceGroupName: string,
-    azureFirewallName: string,
-    parameters: FirewallPacketCaptureParameters,
-    options?: AzureFirewallsPacketCaptureOptionalParams
-  ): Promise<AzureFirewallsPacketCaptureResponse>;
 }
