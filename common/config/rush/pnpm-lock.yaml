@@ -4529,7 +4529,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231129
+      typescript: 5.4.0-dev.20231130
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4538,7 +4538,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231129
+      typescript: 5.4.0-dev.20231130
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9324,8 +9324,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231129:
-    resolution: {integrity: sha512-ff8qrYy50SbFp5yGxTKA4xnG/lyUm73GPKWNMYvigDEcwHbOq0ArkvGaHn4EIk6ina1ggsrLVIbBtyhhy2szVA==}
+  /typescript@5.4.0-dev.20231130:
+    resolution: {integrity: sha512-YDc4V66/MiOKq3LZh7onu6+VNKqQZrvzQEKAbWCjSmlVeK8TYEPYlbTmYFJvKbqDHwrxGBayl3egTG/IzyxZMQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15733,7 +15733,7 @@ packages:
     dev: false
 
   file:projects/arm-sphere.tgz:
-    resolution: {integrity: sha512-fRlA4jVRlu3pQ7HkwWVRTYCd0msB20m8xc7HWe8YB2VDC3dppNRoh2Jo0PDA4Lw7afxchBQA+oj/NoOu0+amOw==, tarball: file:projects/arm-sphere.tgz}
+    resolution: {integrity: sha512-zKYG0MIcLmbIPLpMQUg/IGHkqmkgVWFxRGHPLCXLkUbUyrTTBxw1ZFGvGAjfia3yIjV5Pr4uM8kkhVvB5OziqA==, tarball: file:projects/arm-sphere.tgz}
     name: '@rush-temp/arm-sphere'
     version: 0.0.0
     dependencies:
@@ -15741,13 +15741,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2

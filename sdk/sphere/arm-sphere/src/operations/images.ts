@@ -150,7 +150,7 @@ export class ImagesImpl implements Images {
    * Get a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param options The options parameters.
    */
   get(
@@ -169,7 +169,7 @@ export class ImagesImpl implements Images {
    * Create a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -245,7 +245,7 @@ export class ImagesImpl implements Images {
    * Create a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -270,7 +270,7 @@ export class ImagesImpl implements Images {
    * Delete a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param options The options parameters.
    */
   async beginDelete(
@@ -336,7 +336,7 @@ export class ImagesImpl implements Images {
    * Delete a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param options The options parameters.
    */
   async beginDeleteAndWait(

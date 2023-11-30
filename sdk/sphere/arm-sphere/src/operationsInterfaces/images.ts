@@ -36,7 +36,7 @@ export interface Images {
    * Get a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param options The options parameters.
    */
   get(
@@ -49,7 +49,7 @@ export interface Images {
    * Create a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -69,7 +69,7 @@ export interface Images {
    * Create a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -84,7 +84,7 @@ export interface Images {
    * Delete a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param options The options parameters.
    */
   beginDelete(
@@ -97,7 +97,7 @@ export interface Images {
    * Delete a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use .default for image creation..
    * @param options The options parameters.
    */
   beginDeleteAndWait(
