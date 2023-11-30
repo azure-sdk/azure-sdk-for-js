@@ -44,7 +44,7 @@ export interface Accounts {
   /**
    * Get a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param options The options parameters.
    */
   get(
@@ -55,7 +55,7 @@ export interface Accounts {
   /**
    * Create a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -73,7 +73,7 @@ export interface Accounts {
   /**
    * Create a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -86,7 +86,7 @@ export interface Accounts {
   /**
    * Update a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
@@ -99,7 +99,7 @@ export interface Accounts {
   /**
    * Delete a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param options The options parameters.
    */
   beginDelete(
@@ -110,7 +110,7 @@ export interface Accounts {
   /**
    * Delete a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param options The options parameters.
    */
   beginDeleteAndWait(

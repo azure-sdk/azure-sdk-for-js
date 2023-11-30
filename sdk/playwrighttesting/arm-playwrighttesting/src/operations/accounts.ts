@@ -206,7 +206,7 @@ export class AccountsImpl implements Accounts {
   /**
    * Get a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param options The options parameters.
    */
   get(
@@ -223,7 +223,7 @@ export class AccountsImpl implements Accounts {
   /**
    * Create a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -297,7 +297,7 @@ export class AccountsImpl implements Accounts {
   /**
    * Create a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -319,7 +319,7 @@ export class AccountsImpl implements Accounts {
   /**
    * Update a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
@@ -338,7 +338,7 @@ export class AccountsImpl implements Accounts {
   /**
    * Delete a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -402,7 +402,7 @@ export class AccountsImpl implements Accounts {
   /**
    * Delete a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param name Name of account.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
