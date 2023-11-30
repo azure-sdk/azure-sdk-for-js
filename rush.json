@@ -2155,6 +2155,11 @@
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/contoso-widgetmanager-rest",
+      "projectFolder": "sdk/contosowidgetmanager/contosowidgetmanager-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
