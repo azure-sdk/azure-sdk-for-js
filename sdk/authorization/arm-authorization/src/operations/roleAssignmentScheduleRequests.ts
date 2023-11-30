@@ -227,14 +227,14 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion5],
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.roleAssignmentScheduleRequestName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -250,7 +250,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -271,7 +271,7 @@ const listForScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -286,7 +286,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -307,14 +307,14 @@ const validateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion5],
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.roleAssignmentScheduleRequestName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -329,7 +329,7 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
