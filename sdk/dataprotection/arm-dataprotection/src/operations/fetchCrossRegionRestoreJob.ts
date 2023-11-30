@@ -6,23 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RestorableTimeRanges } from "../operationsInterfaces";
+import { FetchCrossRegionRestoreJob } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
 import {
-  AzureBackupFindRestorableTimeRangesRequest,
-  RestorableTimeRangesFindOptionalParams,
-  RestorableTimeRangesFindResponse
+  CrossRegionRestoreJobRequest,
+  FetchCrossRegionRestoreJobGetOptionalParams,
+  FetchCrossRegionRestoreJobGetResponse
 } from "../models";
 
-/** Class containing RestorableTimeRanges operations. */
-export class RestorableTimeRangesImpl implements RestorableTimeRanges {
+/** Class containing FetchCrossRegionRestoreJob operations. */
+export class FetchCrossRegionRestoreJobImpl
+  implements FetchCrossRegionRestoreJob {
   private readonly client: DataProtectionClient;
 
   /**
-   * Initialize a new instance of the class RestorableTimeRanges class.
+   * Initialize a new instance of the class FetchCrossRegionRestoreJob class.
    * @param client Reference to the service client
    */
   constructor(client: DataProtectionClient) {
@@ -30,48 +31,46 @@ export class RestorableTimeRangesImpl implements RestorableTimeRanges {
   }
 
   /**
+   * Fetches the Cross Region Restore Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The name of the backup vault.
-   * @param backupInstanceName The name of the backup instance.
+   * @param location The name of the Azure region.
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
-  find(
+  get(
     resourceGroupName: string,
-    vaultName: string,
-    backupInstanceName: string,
-    parameters: AzureBackupFindRestorableTimeRangesRequest,
-    options?: RestorableTimeRangesFindOptionalParams
-  ): Promise<RestorableTimeRangesFindResponse> {
+    location: string,
+    parameters: CrossRegionRestoreJobRequest,
+    options?: FetchCrossRegionRestoreJobGetOptionalParams
+  ): Promise<FetchCrossRegionRestoreJobGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      findOperationSpec
+      { resourceGroupName, location, parameters, options },
+      getOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const findOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/findRestorableTimeRanges",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchCrossRegionRestoreJob",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupFindRestorableTimeRangesResponseResource
+      bodyMapper: Mappers.AzureBackupJobResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
