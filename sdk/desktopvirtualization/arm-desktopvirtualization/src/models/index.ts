@@ -672,6 +672,127 @@ export interface MsixPackageList {
   readonly nextLink?: string;
 }
 
+/** Information to import app attach package */
+export interface ImportPackageInfoRequest {
+  /** URI to Image */
+  path?: string;
+  /** Possible device architectures that an app attach package can be configured for */
+  packageArchitecture?: AppAttachPackageArchitectures;
+}
+
+/** List of App Attach Package definitions. */
+export interface AppAttachPackageList {
+  /** List of App Attach Package definitions. */
+  value?: AppAttachPackage[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Schema for App Attach Package properties. */
+export interface AppAttachPackageProperties {
+  /**
+   * The provisioning state of the App Attach Package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Detailed properties for App Attach Package */
+  image?: AppAttachPackageInfoProperties;
+  /** List of Hostpool resource Ids. */
+  hostPoolReferences?: string[];
+  /** URL of keyvault location to store certificate */
+  keyVaultURL?: string;
+  /** Parameter indicating how the health check should behave if this package fails staging */
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
+}
+
+/** Schema for Import Package Information properties. */
+export interface AppAttachPackageInfoProperties {
+  /** Alias of App Attach Package. Assigned at import time */
+  packageAlias?: string;
+  /** VHD/CIM image path on Network Share. */
+  imagePath?: string;
+  /** Package Name from appxmanifest.xml. */
+  packageName?: string;
+  /** Package Family Name from appxmanifest.xml. Contains Package Name and Publisher name. */
+  packageFamilyName?: string;
+  /** Package Full Name from appxmanifest.xml. */
+  packageFullName?: string;
+  /** User friendly Name to be displayed in the portal. */
+  displayName?: string;
+  /** Relative Path to the package inside the image. */
+  packageRelativePath?: string;
+  /** Specifies how to register Package in feed. */
+  isRegularRegistration?: boolean;
+  /** Make this version of the package the active one across the hostpool. */
+  isActive?: boolean;
+  /** List of package dependencies. */
+  packageDependencies?: MsixPackageDependencies[];
+  /** Package Version found in the appxmanifest.xml. */
+  version?: string;
+  /** Date Package was last updated, found in the appxmanifest.xml. */
+  lastUpdated?: Date;
+  /** List of package applications. */
+  packageApplications?: MsixPackageApplications[];
+  /** Certificate name found in the appxmanifest.xml. */
+  certificateName?: string;
+  /** Date certificate expires, found in the appxmanifest.xml. */
+  certificateExpiry?: Date;
+  /** Is package timestamped so it can ignore the certificate expiry date */
+  isPackageTimestamped?: PackageTimestamped;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** Represents URI referring to MSIX Image */
 export interface MsixImageURI {
   /** URI to Image */
@@ -687,6 +808,18 @@ export interface ExpandMsixImageList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Schema for patchable fields on an App Attach Package. */
+export interface AppAttachPackagePatchProperties {
+  /** Detailed properties for App Attach Package */
+  image?: AppAttachPackageInfoProperties;
+  /** List of Hostpool resource Ids. */
+  hostPoolReferences?: string[];
+  /** URL of keyvault location to store certificate */
+  keyVaultURL?: string;
+  /** Parameter indicating how the health check should behave if this package fails staging */
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
 }
 
 /** Represents message sent to a UserSession. */
@@ -1116,6 +1249,18 @@ export interface ExpandMsixImage extends Resource {
   lastUpdated?: Date;
   /** List of package applications. */
   packageApplications?: MsixPackageApplications[];
+  /** Certificate name found in the appxmanifest.xml. */
+  certificateName?: string;
+  /** Date certificate expires, found in the appxmanifest.xml. */
+  certificateExpiry?: Date;
+}
+
+/** Schema for patchable App Attach Package properties. */
+export interface AppAttachPackagePatch extends Resource {
+  /** tags to be updated */
+  tags?: { [propertyName: string]: string };
+  /** Detailed properties for App Attach Package */
+  properties?: AppAttachPackagePatchProperties;
 }
 
 /** Represents a Workspace definition. */
@@ -1251,6 +1396,11 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly applicationGroupReferences?: string[];
+  /**
+   * List of App Attach Package links.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appAttachPackageReferences?: string[];
   /** URL to customer ADFS server for signing WVD SSO certificates. */
   ssoadfsAuthority?: string;
   /** ClientId for the registered Relying Party used to issue WVD SSO certificates. */
@@ -1277,6 +1427,17 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
+/** Schema for App Attach Package properties. */
+export interface AppAttachPackage extends ResourceModelWithAllowedPropertySet {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Detailed properties for App Attach Package */
+  properties: AppAttachPackageProperties;
 }
 
 export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {}
@@ -2003,6 +2164,102 @@ export enum KnownHealthCheckResult {
  * **SessionHostShutdown**: We received a Shutdown notification.
  */
 export type HealthCheckResult = string;
+
+/** Known values of {@link AppAttachPackageArchitectures} that the service accepts. */
+export enum KnownAppAttachPackageArchitectures {
+  /** ARM */
+  ARM = "ARM",
+  /** ARM64 */
+  ARM64 = "ARM64",
+  /** X86 */
+  X86 = "x86",
+  /** X64 */
+  X64 = "x64",
+  /** Neutral */
+  Neutral = "Neutral",
+  /** X86A64 */
+  X86A64 = "x86a64",
+  /** ALL */
+  ALL = "ALL"
+}
+
+/**
+ * Defines values for AppAttachPackageArchitectures. \
+ * {@link KnownAppAttachPackageArchitectures} can be used interchangeably with AppAttachPackageArchitectures,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ARM** \
+ * **ARM64** \
+ * **x86** \
+ * **x64** \
+ * **Neutral** \
+ * **x86a64** \
+ * **ALL**
+ */
+export type AppAttachPackageArchitectures = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Provisioning** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link PackageTimestamped} that the service accepts. */
+export enum KnownPackageTimestamped {
+  /** Timestamped */
+  Timestamped = "Timestamped",
+  /** NotTimestamped */
+  NotTimestamped = "NotTimestamped"
+}
+
+/**
+ * Defines values for PackageTimestamped. \
+ * {@link KnownPackageTimestamped} can be used interchangeably with PackageTimestamped,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Timestamped** \
+ * **NotTimestamped**
+ */
+export type PackageTimestamped = string;
+
+/** Known values of {@link FailHealthCheckOnStagingFailure} that the service accepts. */
+export enum KnownFailHealthCheckOnStagingFailure {
+  /** Unhealthy */
+  Unhealthy = "Unhealthy",
+  /** NeedsAssistance */
+  NeedsAssistance = "NeedsAssistance",
+  /** DoNotFail */
+  DoNotFail = "DoNotFail"
+}
+
+/**
+ * Defines values for FailHealthCheckOnStagingFailure. \
+ * {@link KnownFailHealthCheckOnStagingFailure} can be used interchangeably with FailHealthCheckOnStagingFailure,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unhealthy** \
+ * **NeedsAssistance** \
+ * **DoNotFail**
+ */
+export type FailHealthCheckOnStagingFailure = string;
 /** Defines values for SkuTier. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 /** Defines values for DayOfWeek. */
@@ -2816,6 +3073,20 @@ export interface MsixPackagesListNextOptionalParams
 export type MsixPackagesListNextResponse = MsixPackageList;
 
 /** Optional parameters. */
+export interface AppAttachPackageInfoImportOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the import operation. */
+export type AppAttachPackageInfoImportResponse = AppAttachPackageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageInfoImportNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the importNext operation. */
+export type AppAttachPackageInfoImportNextResponse = AppAttachPackageList;
+
+/** Optional parameters. */
 export interface MsixImagesExpandOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2828,6 +3099,71 @@ export interface MsixImagesExpandNextOptionalParams
 
 /** Contains response data for the expandNext operation. */
 export type MsixImagesExpandNextResponse = ExpandMsixImageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AppAttachPackageGetResponse = AppAttachPackage;
+
+/** Optional parameters. */
+export interface AppAttachPackageCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AppAttachPackageCreateOrUpdateResponse = AppAttachPackage;
+
+/** Optional parameters. */
+export interface AppAttachPackageDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Force flag to delete App Attach package. */
+  force?: boolean;
+}
+
+/** Optional parameters. */
+export interface AppAttachPackageUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing App Attach Package definition. */
+  appAttachPackagePatch?: AppAttachPackagePatch;
+}
+
+/** Contains response data for the update operation. */
+export type AppAttachPackageUpdateResponse = AppAttachPackage;
+
+/** Optional parameters. */
+export interface AppAttachPackageListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter expression. Valid properties for filtering are package name and host pool. */
+  filter?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AppAttachPackageListByResourceGroupResponse = AppAttachPackageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter expression. Valid properties for filtering are package name, host pool, and resource group. */
+  filter?: string;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type AppAttachPackageListBySubscriptionResponse = AppAttachPackageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AppAttachPackageListByResourceGroupNextResponse = AppAttachPackageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AppAttachPackageListBySubscriptionNextResponse = AppAttachPackageList;
 
 /** Optional parameters. */
 export interface DesktopVirtualizationAPIClientOptionalParams
