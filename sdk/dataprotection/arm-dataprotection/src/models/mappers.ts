@@ -1172,7 +1172,6 @@ export const Datasource: coreClient.CompositeMapper = {
 };
 
 export const BaseResourceProperties: coreClient.CompositeMapper = {
-  serializedName: "BaseResourceProperties",
   type: {
     name: "Composite",
     className: "BaseResourceProperties",
@@ -3671,6 +3670,20 @@ export const DeletedBackupInstance: coreClient.CompositeMapper = {
   }
 };
 
+export const DefaultResourceProperties: coreClient.CompositeMapper = {
+  serializedName: "DefaultResourceProperties",
+  type: {
+    name: "Composite",
+    className: "DefaultResourceProperties",
+    uberParent: "BaseResourceProperties",
+    polymorphicDiscriminator:
+      BaseResourceProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResourceProperties.type.modelProperties
+    }
+  }
+};
+
 export const AzureOperationalStoreParameters: coreClient.CompositeMapper = {
   serializedName: "AzureOperationalStoreParameters",
   type: {
@@ -4618,6 +4631,125 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
   }
 };
 
+export const KubernetesClusterVaultTierRestoreCriteria: coreClient.CompositeMapper = {
+  serializedName: "KubernetesClusterVaultTierRestoreCriteria",
+  type: {
+    name: "Composite",
+    className: "KubernetesClusterVaultTierRestoreCriteria",
+    uberParent: "ItemLevelRestoreCriteria",
+    polymorphicDiscriminator:
+      ItemLevelRestoreCriteria.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ItemLevelRestoreCriteria.type.modelProperties,
+      includeClusterScopeResources: {
+        serializedName: "includeClusterScopeResources",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      includedNamespaces: {
+        serializedName: "includedNamespaces",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      excludedNamespaces: {
+        serializedName: "excludedNamespaces",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      includedResourceTypes: {
+        serializedName: "includedResourceTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      excludedResourceTypes: {
+        serializedName: "excludedResourceTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      labelSelectors: {
+        serializedName: "labelSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      persistentVolumeRestoreMode: {
+        serializedName: "persistentVolumeRestoreMode",
+        type: {
+          name: "String"
+        }
+      },
+      conflictPolicy: {
+        serializedName: "conflictPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      namespaceMappings: {
+        serializedName: "namespaceMappings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      restoreHookReferences: {
+        serializedName: "restoreHookReferences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NamespacedNameResource"
+            }
+          }
+        }
+      },
+      stagingResourceGroupId: {
+        serializedName: "stagingResourceGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      stagingStorageAccountId: {
+        serializedName: "stagingStorageAccountId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BackupVaultResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5061,7 +5193,7 @@ export let discriminators = {
   FeatureValidationRequestBase: FeatureValidationRequestBase,
   FeatureValidationResponseBase: FeatureValidationResponseBase,
   BaseBackupPolicy: BaseBackupPolicy,
-  "BaseResourceProperties.BaseResourceProperties": BaseResourceProperties,
+  BaseResourceProperties: BaseResourceProperties,
   DataStoreParameters: DataStoreParameters,
   BackupDatasourceParameters: BackupDatasourceParameters,
   AuthCredentials: AuthCredentials,
@@ -5079,6 +5211,7 @@ export let discriminators = {
   "FeatureValidationRequestBase.FeatureValidationRequest": FeatureValidationRequest,
   "FeatureValidationResponseBase.FeatureValidationResponse": FeatureValidationResponse,
   "BaseBackupPolicy.BackupPolicy": BackupPolicy,
+  "BaseResourceProperties.DefaultResourceProperties": DefaultResourceProperties,
   "DataStoreParameters.AzureOperationalStoreParameters": AzureOperationalStoreParameters,
   "BackupDatasourceParameters.KubernetesClusterBackupDatasourceParameters": KubernetesClusterBackupDatasourceParameters,
   "BackupDatasourceParameters.BlobBackupDatasourceParameters": BlobBackupDatasourceParameters,
@@ -5104,5 +5237,6 @@ export let discriminators = {
   "ItemLevelRestoreCriteria.KubernetesStorageClassRestoreCriteria": KubernetesStorageClassRestoreCriteria,
   "ItemLevelRestoreCriteria.KubernetesPVRestoreCriteria": KubernetesPVRestoreCriteria,
   "ItemLevelRestoreCriteria.KubernetesClusterRestoreCriteria": KubernetesClusterRestoreCriteria,
+  "ItemLevelRestoreCriteria.KubernetesClusterVaultTierRestoreCriteria": KubernetesClusterVaultTierRestoreCriteria,
   "AzureBackupRecoveryPointBasedRestoreRequest.AzureBackupRestoreWithRehydrationRequest": AzureBackupRestoreWithRehydrationRequest
 };

@@ -448,7 +448,8 @@ export class BackupInstancesImpl implements BackupInstances {
       OperationState<BackupInstancesAdhocBackupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -546,7 +547,8 @@ export class BackupInstancesImpl implements BackupInstances {
       OperationState<BackupInstancesValidateForBackupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -782,7 +784,8 @@ export class BackupInstancesImpl implements BackupInstances {
       OperationState<BackupInstancesTriggerRestoreResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1338,7 +1341,8 @@ export class BackupInstancesImpl implements BackupInstances {
       OperationState<BackupInstancesValidateForRestoreResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
