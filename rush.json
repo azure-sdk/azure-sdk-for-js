@@ -2155,6 +2155,11 @@
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-fairfieldgardens",
+      "projectFolder": "sdk/fairfieldgardens/arm-fairfieldgardens",
+      "versionPolicyName": "management"
     }
   ]
 }
