@@ -8,34 +8,32 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Certificates } from "../operationsInterfaces";
+import { DaprComponentResiliencyPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  Certificate,
-  CertificatesListNextOptionalParams,
-  CertificatesListOptionalParams,
-  CertificatesListResponse,
-  CertificatesGetOptionalParams,
-  CertificatesGetResponse,
-  CertificatesCreateOrUpdateOptionalParams,
-  CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams,
-  CertificatePatch,
-  CertificatesUpdateOptionalParams,
-  CertificatesUpdateResponse,
-  CertificatesListNextResponse
+  DaprComponentResiliencyPolicy,
+  DaprComponentResiliencyPoliciesListNextOptionalParams,
+  DaprComponentResiliencyPoliciesListOptionalParams,
+  DaprComponentResiliencyPoliciesListResponse,
+  DaprComponentResiliencyPoliciesGetOptionalParams,
+  DaprComponentResiliencyPoliciesGetResponse,
+  DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams,
+  DaprComponentResiliencyPoliciesCreateOrUpdateResponse,
+  DaprComponentResiliencyPoliciesDeleteOptionalParams,
+  DaprComponentResiliencyPoliciesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Certificates operations. */
-export class CertificatesImpl implements Certificates {
+/** Class containing DaprComponentResiliencyPolicies operations. */
+export class DaprComponentResiliencyPoliciesImpl
+  implements DaprComponentResiliencyPolicies {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class Certificates class.
+   * Initialize a new instance of the class DaprComponentResiliencyPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -43,19 +41,22 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the Certificates in a given managed environment.
+   * Get the resiliency policies for a Dapr component.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
+   * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): PagedAsyncIterableIterator<Certificate> {
+    componentName: string,
+    options?: DaprComponentResiliencyPoliciesListOptionalParams
+  ): PagedAsyncIterableIterator<DaprComponentResiliencyPolicy> {
     const iter = this.listPagingAll(
       resourceGroupName,
       environmentName,
+      componentName,
       options
     );
     return {
@@ -72,6 +73,7 @@ export class CertificatesImpl implements Certificates {
         return this.listPagingPage(
           resourceGroupName,
           environmentName,
+          componentName,
           options,
           settings
         );
@@ -82,13 +84,19 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingPage(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams,
+    componentName: string,
+    options?: DaprComponentResiliencyPoliciesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Certificate[]> {
-    let result: CertificatesListResponse;
+  ): AsyncIterableIterator<DaprComponentResiliencyPolicy[]> {
+    let result: DaprComponentResiliencyPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, environmentName, options);
+      result = await this._list(
+        resourceGroupName,
+        environmentName,
+        componentName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -98,6 +106,7 @@ export class CertificatesImpl implements Certificates {
       result = await this._listNext(
         resourceGroupName,
         environmentName,
+        componentName,
         continuationToken,
         options
       );
@@ -111,11 +120,13 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingAll(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): AsyncIterableIterator<Certificate> {
+    componentName: string,
+    options?: DaprComponentResiliencyPoliciesListOptionalParams
+  ): AsyncIterableIterator<DaprComponentResiliencyPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       environmentName,
+      componentName,
       options
     )) {
       yield* page;
@@ -123,103 +134,94 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the Certificates in a given managed environment.
+   * Get the resiliency policies for a Dapr component.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
+   * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): Promise<CertificatesListResponse> {
+    componentName: string,
+    options?: DaprComponentResiliencyPoliciesListOptionalParams
+  ): Promise<DaprComponentResiliencyPoliciesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, options },
+      { resourceGroupName, environmentName, componentName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get the specified Certificate.
+   * Get a Dapr component resiliency policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param componentName Name of the Dapr Component.
+   * @param name Name of the Dapr Component Resiliency Policy.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesGetOptionalParams
-  ): Promise<CertificatesGetResponse> {
+    componentName: string,
+    name: string,
+    options?: DaprComponentResiliencyPoliciesGetOptionalParams
+  ): Promise<DaprComponentResiliencyPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, environmentName, componentName, name, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or Update a Certificate.
+   * Creates or updates a resiliency policy for a Dapr component.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param componentName Name of the Dapr Component.
+   * @param name Name of the Dapr Component Resiliency Policy.
+   * @param daprComponentResiliencyPolicyEnvelope Configuration details of the Dapr Component Resiliency
+   *                                              Policy.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
-  ): Promise<CertificatesCreateOrUpdateResponse> {
+    componentName: string,
+    name: string,
+    daprComponentResiliencyPolicyEnvelope: DaprComponentResiliencyPolicy,
+    options?: DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams
+  ): Promise<DaprComponentResiliencyPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      {
+        resourceGroupName,
+        environmentName,
+        componentName,
+        name,
+        daprComponentResiliencyPolicyEnvelope,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Deletes the specified Certificate.
+   * Delete a resiliency policy for a Dapr component.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param componentName Name of the Dapr Component.
+   * @param name Name of the Dapr Component Resiliency Policy.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    componentName: string,
+    name: string,
+    options?: DaprComponentResiliencyPoliciesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, environmentName, componentName, name, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Patches a certificate. Currently only patching of tags is supported
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
-   * @param certificateEnvelope Properties of a certificate that need to be updated
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    environmentName: string,
-    certificateName: string,
-    certificateEnvelope: CertificatePatch,
-    options?: CertificatesUpdateOptionalParams
-  ): Promise<CertificatesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        environmentName,
-        certificateName,
-        certificateEnvelope,
-        options
-      },
-      updateOperationSpec
     );
   }
 
@@ -227,17 +229,19 @@ export class CertificatesImpl implements Certificates {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
+   * @param componentName Name of the Dapr Component.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     environmentName: string,
+    componentName: string,
     nextLink: string,
-    options?: CertificatesListNextOptionalParams
-  ): Promise<CertificatesListNextResponse> {
+    options?: DaprComponentResiliencyPoliciesListNextOptionalParams
+  ): Promise<DaprComponentResiliencyPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, nextLink, options },
+      { resourceGroupName, environmentName, componentName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -247,11 +251,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.DaprComponentResiliencyPoliciesCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -262,18 +266,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.componentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.DaprComponentResiliencyPolicy
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -284,32 +289,37 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.componentName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.DaprComponentResiliencyPolicy
+    },
+    201: {
+      bodyMapper: Mappers.DaprComponentResiliencyPolicy
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.certificateEnvelope,
+  requestBody: Parameters.daprComponentResiliencyPolicyEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.componentName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -317,7 +327,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -331,35 +341,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.componentName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Certificate
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  requestBody: Parameters.certificateEnvelope1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -367,7 +353,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.DaprComponentResiliencyPoliciesCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -378,7 +364,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.componentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
