@@ -1,15 +1,1104 @@
 # Release History
+    
+## 3.0.0 (2023-12-01)
+    
+**Features**
 
-## 2.0.4 (Unreleased)
+  - Added operation group AssessedMachinesOperations
+  - Added operation group AssessedSqlDatabaseV2Operations
+  - Added operation group AssessedSqlInstanceV2Operations
+  - Added operation group AssessedSqlMachinesOperations
+  - Added operation group AssessedSqlRecommendedEntityOperations
+  - Added operation group AssessmentOptionsOperations
+  - Added operation group AssessmentProjectsOperations
+  - Added operation group AssessmentProjectSummaryOperations
+  - Added operation group AssessmentsOperations
+  - Added operation group AvsAssessedMachinesOperations
+  - Added operation group AvsAssessmentOptionsOperations
+  - Added operation group AvsAssessmentsOperations
+  - Added operation group GroupsOperations
+  - Added operation group HypervCollectorsOperations
+  - Added operation group ImportCollectorsOperations
+  - Added operation group MachinesOperations
+  - Added operation group ServerCollectorsOperations
+  - Added operation group SqlAssessmentOptionsOperations
+  - Added operation group SqlAssessmentV2Operations
+  - Added operation group SqlAssessmentV2SummaryOperations
+  - Added operation group SqlCollectorOperations
+  - Added operation group VmwareCollectorsOperations
+  - Added operation PrivateEndpointConnectionOperations.beginUpdate
+  - Added operation PrivateEndpointConnectionOperations.beginUpdateAndWait
+  - Added operation PrivateEndpointConnectionOperations.listByAssessmentProject
+  - Added operation PrivateLinkResourceOperations.listByAssessmentProject
+  - Added Interface AssessedDiskData
+  - Added Interface AssessedMachineListResult
+  - Added Interface AssessedMachinesOperationsGetOptionalParams
+  - Added Interface AssessedMachinesOperationsListByAssessmentNextOptionalParams
+  - Added Interface AssessedMachinesOperationsListByAssessmentOptionalParams
+  - Added Interface AssessedSqlDatabaseV2
+  - Added Interface AssessedSqlDatabaseV2ListResult
+  - Added Interface AssessedSqlDatabaseV2OperationsGetOptionalParams
+  - Added Interface AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2NextOptionalParams
+  - Added Interface AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2OptionalParams
+  - Added Interface AssessedSqlInstanceDatabaseSummary
+  - Added Interface AssessedSqlInstanceDiskDetails
+  - Added Interface AssessedSqlInstanceStorageDetails
+  - Added Interface AssessedSqlInstanceSummary
+  - Added Interface AssessedSqlInstanceV2
+  - Added Interface AssessedSqlInstanceV2ListResult
+  - Added Interface AssessedSqlInstanceV2OperationsGetOptionalParams
+  - Added Interface AssessedSqlInstanceV2OperationsListBySqlAssessmentV2NextOptionalParams
+  - Added Interface AssessedSqlInstanceV2OperationsListBySqlAssessmentV2OptionalParams
+  - Added Interface AssessedSqlMachine
+  - Added Interface AssessedSqlMachineListResult
+  - Added Interface AssessedSqlMachinesOperationsGetOptionalParams
+  - Added Interface AssessedSqlMachinesOperationsListBySqlAssessmentV2NextOptionalParams
+  - Added Interface AssessedSqlMachinesOperationsListBySqlAssessmentV2OptionalParams
+  - Added Interface AssessedSqlRecommendedEntity
+  - Added Interface AssessedSqlRecommendedEntityListResult
+  - Added Interface AssessedSqlRecommendedEntityOperationsGetOptionalParams
+  - Added Interface AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2NextOptionalParams
+  - Added Interface AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2OptionalParams
+  - Added Interface AssessmentListResult
+  - Added Interface AssessmentOptionsListResult
+  - Added Interface AssessmentOptionsOperationsGetOptionalParams
+  - Added Interface AssessmentOptionsOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface AssessmentOptionsOperationsListByAssessmentProjectOptionalParams
+  - Added Interface AssessmentProject
+  - Added Interface AssessmentProjectListResult
+  - Added Interface AssessmentProjectsOperationsCreateHeaders
+  - Added Interface AssessmentProjectsOperationsCreateOptionalParams
+  - Added Interface AssessmentProjectsOperationsDeleteOptionalParams
+  - Added Interface AssessmentProjectsOperationsGetOptionalParams
+  - Added Interface AssessmentProjectsOperationsListByResourceGroupNextOptionalParams
+  - Added Interface AssessmentProjectsOperationsListByResourceGroupOptionalParams
+  - Added Interface AssessmentProjectsOperationsListBySubscriptionNextOptionalParams
+  - Added Interface AssessmentProjectsOperationsListBySubscriptionOptionalParams
+  - Added Interface AssessmentProjectsOperationsUpdateHeaders
+  - Added Interface AssessmentProjectsOperationsUpdateOptionalParams
+  - Added Interface AssessmentProjectSummary
+  - Added Interface AssessmentProjectSummaryListResult
+  - Added Interface AssessmentProjectSummaryOperationsGetOptionalParams
+  - Added Interface AssessmentProjectSummaryOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface AssessmentProjectSummaryOperationsListByAssessmentProjectOptionalParams
+  - Added Interface AssessmentProjectUpdate
+  - Added Interface AssessmentsOperationsCreateHeaders
+  - Added Interface AssessmentsOperationsCreateOptionalParams
+  - Added Interface AssessmentsOperationsDeleteOptionalParams
+  - Added Interface AssessmentsOperationsDownloadUrlHeaders
+  - Added Interface AssessmentsOperationsDownloadUrlOptionalParams
+  - Added Interface AssessmentsOperationsGetOptionalParams
+  - Added Interface AssessmentsOperationsListByGroupNextOptionalParams
+  - Added Interface AssessmentsOperationsListByGroupOptionalParams
+  - Added Interface AvsAssessedDisk
+  - Added Interface AvsAssessedMachine
+  - Added Interface AvsAssessedMachineListResult
+  - Added Interface AvsAssessedMachinesOperationsGetOptionalParams
+  - Added Interface AvsAssessedMachinesOperationsListByAvsAssessmentNextOptionalParams
+  - Added Interface AvsAssessedMachinesOperationsListByAvsAssessmentOptionalParams
+  - Added Interface AvsAssessedNetworkAdapter
+  - Added Interface AvsAssessment
+  - Added Interface AvsAssessmentListResult
+  - Added Interface AvsAssessmentOptions
+  - Added Interface AvsAssessmentOptionsListResult
+  - Added Interface AvsAssessmentOptionsOperationsGetOptionalParams
+  - Added Interface AvsAssessmentOptionsOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface AvsAssessmentOptionsOperationsListByAssessmentProjectOptionalParams
+  - Added Interface AvsAssessmentProperties
+  - Added Interface AvsAssessmentsOperationsCreateHeaders
+  - Added Interface AvsAssessmentsOperationsCreateOptionalParams
+  - Added Interface AvsAssessmentsOperationsDeleteOptionalParams
+  - Added Interface AvsAssessmentsOperationsDownloadUrlHeaders
+  - Added Interface AvsAssessmentsOperationsDownloadUrlOptionalParams
+  - Added Interface AvsAssessmentsOperationsGetOptionalParams
+  - Added Interface AvsAssessmentsOperationsListByGroupNextOptionalParams
+  - Added Interface AvsAssessmentsOperationsListByGroupOptionalParams
+  - Added Interface AvsSkuOptions
+  - Added Interface AzureManagedDiskSkuDTO
+  - Added Interface AzureMigrateAssessmentServiceOptionalParams
+  - Added Interface AzureQuorumWitnessDTO
+  - Added Interface AzureResourceProperties
+  - Added Interface AzureSqlIaasSkuDTO
+  - Added Interface AzureSqlPaasSkuDTO
+  - Added Interface AzureVirtualMachineSkuDTO
+  - Added Interface CollectorAgentPropertiesBase
+  - Added Interface CollectorAgentSpnPropertiesBase
+  - Added Interface CollectorPropertiesBase
+  - Added Interface CollectorPropertiesBaseWithAgent
+  - Added Interface CostComponent
+  - Added Interface EntityUptime
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorModel
+  - Added Interface ErrorResponse
+  - Added Interface ErrorSummary
+  - Added Interface GroupListResult
+  - Added Interface GroupsOperationsCreateHeaders
+  - Added Interface GroupsOperationsCreateOptionalParams
+  - Added Interface GroupsOperationsDeleteOptionalParams
+  - Added Interface GroupsOperationsGetOptionalParams
+  - Added Interface GroupsOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface GroupsOperationsListByAssessmentProjectOptionalParams
+  - Added Interface GroupsOperationsUpdateMachinesHeaders
+  - Added Interface GroupsOperationsUpdateMachinesOptionalParams
+  - Added Interface HypervCollector
+  - Added Interface HypervCollectorListResult
+  - Added Interface HypervCollectorsOperationsCreateHeaders
+  - Added Interface HypervCollectorsOperationsCreateOptionalParams
+  - Added Interface HypervCollectorsOperationsDeleteOptionalParams
+  - Added Interface HypervCollectorsOperationsGetOptionalParams
+  - Added Interface HypervCollectorsOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface HypervCollectorsOperationsListByAssessmentProjectOptionalParams
+  - Added Interface ImpactedAssessmentObject
+  - Added Interface ImportCollectorListResult
+  - Added Interface ImportCollectorsOperationsCreateHeaders
+  - Added Interface ImportCollectorsOperationsCreateOptionalParams
+  - Added Interface ImportCollectorsOperationsDeleteOptionalParams
+  - Added Interface ImportCollectorsOperationsGetOptionalParams
+  - Added Interface ImportCollectorsOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface ImportCollectorsOperationsListByAssessmentProjectOptionalParams
+  - Added Interface MachineAssessmentProperties
+  - Added Interface MachineListResult
+  - Added Interface MachinesOperationsGetOptionalParams
+  - Added Interface MachinesOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface MachinesOperationsListByAssessmentProjectOptionalParams
+  - Added Interface MigrationGuidelineContext
+  - Added Interface OperationListResult
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnectionListResult
+  - Added Interface PrivateEndpointConnectionOperationsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsUpdateHeaders
+  - Added Interface PrivateEndpointConnectionOperationsUpdateOptionalParams
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkResourceOperationsGetOptionalParams
+  - Added Interface PrivateLinkResourceOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams
+  - Added Interface ProcessorInfo
+  - Added Interface ProductSupportStatus
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface ServerCollectorListResult
+  - Added Interface ServerCollectorsOperationsCreateHeaders
+  - Added Interface ServerCollectorsOperationsCreateOptionalParams
+  - Added Interface ServerCollectorsOperationsDeleteOptionalParams
+  - Added Interface ServerCollectorsOperationsGetOptionalParams
+  - Added Interface ServerCollectorsOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface ServerCollectorsOperationsListByAssessmentProjectOptionalParams
+  - Added Interface SharedResourcesDTO
+  - Added Interface SqlAssessedNetworkAdapter
+  - Added Interface SqlAssessmentMigrationIssue
+  - Added Interface SqlAssessmentOptions
+  - Added Interface SqlAssessmentOptionsListResult
+  - Added Interface SqlAssessmentOptionsOperationsGetOptionalParams
+  - Added Interface SqlAssessmentOptionsOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface SqlAssessmentOptionsOperationsListByAssessmentProjectOptionalParams
+  - Added Interface SqlAssessmentV2
+  - Added Interface SqlAssessmentV2IaasSuitabilityData
+  - Added Interface SqlAssessmentV2ListResult
+  - Added Interface SqlAssessmentV2OperationsCreateHeaders
+  - Added Interface SqlAssessmentV2OperationsCreateOptionalParams
+  - Added Interface SqlAssessmentV2OperationsDeleteOptionalParams
+  - Added Interface SqlAssessmentV2OperationsDownloadUrlHeaders
+  - Added Interface SqlAssessmentV2OperationsDownloadUrlOptionalParams
+  - Added Interface SqlAssessmentV2OperationsGetOptionalParams
+  - Added Interface SqlAssessmentV2OperationsListByGroupNextOptionalParams
+  - Added Interface SqlAssessmentV2OperationsListByGroupOptionalParams
+  - Added Interface SqlAssessmentV2PaasSuitabilityData
+  - Added Interface SqlAssessmentV2Properties
+  - Added Interface SqlAssessmentV2Summary
+  - Added Interface SqlAssessmentV2SummaryData
+  - Added Interface SqlAssessmentV2SummaryListResult
+  - Added Interface SqlAssessmentV2SummaryOperationsGetOptionalParams
+  - Added Interface SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2NextOptionalParams
+  - Added Interface SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2OptionalParams
+  - Added Interface SqlAvailabilityGroupDataOverview
+  - Added Interface SqlAvailabilityReplicaSummary
+  - Added Interface SqlCollector
+  - Added Interface SqlCollectorListResult
+  - Added Interface SqlCollectorOperationsCreateHeaders
+  - Added Interface SqlCollectorOperationsCreateOptionalParams
+  - Added Interface SqlCollectorOperationsDeleteOptionalParams
+  - Added Interface SqlCollectorOperationsGetOptionalParams
+  - Added Interface SqlCollectorOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface SqlCollectorOperationsListByAssessmentProjectOptionalParams
+  - Added Interface SqlDbSettings
+  - Added Interface SqlFCIMetadata
+  - Added Interface SqlMigrationGuideline
+  - Added Interface SqlMiSettings
+  - Added Interface SqlPaaSTargetOptions
+  - Added Interface SqlRecommendationReasoning
+  - Added Interface SqlRecommendationReasoningContext
+  - Added Interface SqlVmSettings
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface UltraDiskAssessmentOptions
+  - Added Interface VmFamilyOptions
+  - Added Interface VmwareCollector
+  - Added Interface VmwareCollectorListResult
+  - Added Interface VmwareCollectorsOperationsCreateHeaders
+  - Added Interface VmwareCollectorsOperationsCreateOptionalParams
+  - Added Interface VmwareCollectorsOperationsDeleteOptionalParams
+  - Added Interface VmwareCollectorsOperationsGetOptionalParams
+  - Added Interface VmwareCollectorsOperationsListByAssessmentProjectNextOptionalParams
+  - Added Interface VmwareCollectorsOperationsListByAssessmentProjectOptionalParams
+  - Added Interface WorkloadSummary
+  - Added Class AzureMigrateAssessmentService
+  - Added Type Alias ActionType
+  - Added Type Alias ApiVersions
+  - Added Type Alias AssessedMachinesOperationsGetResponse
+  - Added Type Alias AssessedMachinesOperationsListByAssessmentNextResponse
+  - Added Type Alias AssessedMachinesOperationsListByAssessmentResponse
+  - Added Type Alias AssessedMachineType
+  - Added Type Alias AssessedSqlDatabaseV2OperationsGetResponse
+  - Added Type Alias AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2NextResponse
+  - Added Type Alias AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2Response
+  - Added Type Alias AssessedSqlInstanceV2OperationsGetResponse
+  - Added Type Alias AssessedSqlInstanceV2OperationsListBySqlAssessmentV2NextResponse
+  - Added Type Alias AssessedSqlInstanceV2OperationsListBySqlAssessmentV2Response
+  - Added Type Alias AssessedSqlMachinesOperationsGetResponse
+  - Added Type Alias AssessedSqlMachinesOperationsListBySqlAssessmentV2NextResponse
+  - Added Type Alias AssessedSqlMachinesOperationsListBySqlAssessmentV2Response
+  - Added Type Alias AssessedSqlRecommendedEntityOperationsGetResponse
+  - Added Type Alias AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2NextResponse
+  - Added Type Alias AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2Response
+  - Added Type Alias AssessmentOptionsOperationsGetResponse
+  - Added Type Alias AssessmentOptionsOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias AssessmentOptionsOperationsListByAssessmentProjectResponse
+  - Added Type Alias AssessmentProjectsOperationsCreateResponse
+  - Added Type Alias AssessmentProjectsOperationsGetResponse
+  - Added Type Alias AssessmentProjectsOperationsListByResourceGroupNextResponse
+  - Added Type Alias AssessmentProjectsOperationsListByResourceGroupResponse
+  - Added Type Alias AssessmentProjectsOperationsListBySubscriptionNextResponse
+  - Added Type Alias AssessmentProjectsOperationsListBySubscriptionResponse
+  - Added Type Alias AssessmentProjectsOperationsUpdateResponse
+  - Added Type Alias AssessmentProjectSummaryOperationsGetResponse
+  - Added Type Alias AssessmentProjectSummaryOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias AssessmentProjectSummaryOperationsListByAssessmentProjectResponse
+  - Added Type Alias AssessmentsOperationsCreateResponse
+  - Added Type Alias AssessmentsOperationsDownloadUrlResponse
+  - Added Type Alias AssessmentsOperationsGetResponse
+  - Added Type Alias AssessmentsOperationsListByGroupNextResponse
+  - Added Type Alias AssessmentsOperationsListByGroupResponse
+  - Added Type Alias AssessmentType
+  - Added Type Alias AsyncCommitModeIntent
+  - Added Type Alias AvsAssessedMachinesOperationsGetResponse
+  - Added Type Alias AvsAssessedMachinesOperationsListByAvsAssessmentNextResponse
+  - Added Type Alias AvsAssessedMachinesOperationsListByAvsAssessmentResponse
+  - Added Type Alias AvsAssessmentOptionsOperationsGetResponse
+  - Added Type Alias AvsAssessmentOptionsOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias AvsAssessmentOptionsOperationsListByAssessmentProjectResponse
+  - Added Type Alias AvsAssessmentsOperationsCreateResponse
+  - Added Type Alias AvsAssessmentsOperationsDownloadUrlResponse
+  - Added Type Alias AvsAssessmentsOperationsGetResponse
+  - Added Type Alias AvsAssessmentsOperationsListByGroupNextResponse
+  - Added Type Alias AvsAssessmentsOperationsListByGroupResponse
+  - Added Type Alias AzureAvsNodeType
+  - Added Type Alias AzureAvsSuitabilityExplanation
+  - Added Type Alias AzureAvsVmSuitabilityDetail
+  - Added Type Alias AzureAvsVmSuitabilityExplanation
+  - Added Type Alias AzureCurrency
+  - Added Type Alias AzureManagedDiskSkuDTODiskRedundancy
+  - Added Type Alias AzureManagedDiskSkuDTODiskType
+  - Added Type Alias AzureQuorumWitnessDTOQuorumWitnessType
+  - Added Type Alias AzureReservedInstance
+  - Added Type Alias AzureSecurityOfferingType
+  - Added Type Alias AzureSqlDataBaseType
+  - Added Type Alias AzureSqlInstanceType
+  - Added Type Alias AzureSqlPurchaseModel
+  - Added Type Alias AzureSqlServiceTier
+  - Added Type Alias CompatibilityLevel
+  - Added Type Alias ComputeTier
+  - Added Type Alias CostComponentName
+  - Added Type Alias CreatedByType
+  - Added Type Alias EnvironmentType
+  - Added Type Alias FttAndRaidLevel
+  - Added Type Alias GroupsOperationsCreateResponse
+  - Added Type Alias GroupsOperationsGetResponse
+  - Added Type Alias GroupsOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias GroupsOperationsListByAssessmentProjectResponse
+  - Added Type Alias GroupsOperationsUpdateMachinesResponse
+  - Added Type Alias GroupType
+  - Added Type Alias GuestOperatingSystemArchitecture
+  - Added Type Alias HardwareGeneration
+  - Added Type Alias HypervCollectorsOperationsCreateResponse
+  - Added Type Alias HypervCollectorsOperationsGetResponse
+  - Added Type Alias HypervCollectorsOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias HypervCollectorsOperationsListByAssessmentProjectResponse
+  - Added Type Alias ImportCollectorsOperationsCreateResponse
+  - Added Type Alias ImportCollectorsOperationsGetResponse
+  - Added Type Alias ImportCollectorsOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias ImportCollectorsOperationsListByAssessmentProjectResponse
+  - Added Type Alias MachinesOperationsGetResponse
+  - Added Type Alias MachinesOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias MachinesOperationsListByAssessmentProjectResponse
+  - Added Type Alias MultiSubnetIntent
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias OptimizationLogic
+  - Added Type Alias Origin
+  - Added Type Alias OsLicense
+  - Added Type Alias PrivateEndpointConnectionOperationsGetResponse
+  - Added Type Alias PrivateEndpointConnectionOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias PrivateEndpointConnectionOperationsListByAssessmentProjectResponse
+  - Added Type Alias PrivateEndpointConnectionOperationsUpdateResponse
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias PrivateLinkResourceOperationsGetResponse
+  - Added Type Alias PrivateLinkResourceOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias PrivateLinkResourceOperationsListByAssessmentProjectResponse
+  - Added Type Alias RecommendedSuitability
+  - Added Type Alias ServerCollectorsOperationsCreateResponse
+  - Added Type Alias ServerCollectorsOperationsGetResponse
+  - Added Type Alias ServerCollectorsOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias ServerCollectorsOperationsListByAssessmentProjectResponse
+  - Added Type Alias SkuReplicationMode
+  - Added Type Alias SqlAssessmentMigrationIssueCategory
+  - Added Type Alias SqlAssessmentOptionsOperationsGetResponse
+  - Added Type Alias SqlAssessmentOptionsOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias SqlAssessmentOptionsOperationsListByAssessmentProjectResponse
+  - Added Type Alias SqlAssessmentV2OperationsCreateResponse
+  - Added Type Alias SqlAssessmentV2OperationsDownloadUrlResponse
+  - Added Type Alias SqlAssessmentV2OperationsGetResponse
+  - Added Type Alias SqlAssessmentV2OperationsListByGroupNextResponse
+  - Added Type Alias SqlAssessmentV2OperationsListByGroupResponse
+  - Added Type Alias SqlAssessmentV2SummaryOperationsGetResponse
+  - Added Type Alias SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2NextResponse
+  - Added Type Alias SqlAssessmentV2SummaryOperationsListBySqlAssessmentV2Response
+  - Added Type Alias SqlCollectorOperationsCreateResponse
+  - Added Type Alias SqlCollectorOperationsGetResponse
+  - Added Type Alias SqlCollectorOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias SqlCollectorOperationsListByAssessmentProjectResponse
+  - Added Type Alias SqlFCIMetadataState
+  - Added Type Alias SqlFCIState
+  - Added Type Alias SqlMigrationGuidelineCategory
+  - Added Type Alias SqlServerLicense
+  - Added Type Alias TargetType
+  - Added Type Alias VmwareCollectorsOperationsCreateResponse
+  - Added Type Alias VmwareCollectorsOperationsGetResponse
+  - Added Type Alias VmwareCollectorsOperationsListByAssessmentProjectNextResponse
+  - Added Type Alias VmwareCollectorsOperationsListByAssessmentProjectResponse
+  - Interface AssessedDisk has a new optional parameter recommendDiskThroughputInMbps
+  - Interface AssessedDisk has a new optional parameter recommendedDiskIops
+  - Interface AssessedMachine has a new optional parameter bootType
+  - Interface AssessedMachine has a new optional parameter confidenceRatingInPercentage
+  - Interface AssessedMachine has a new optional parameter costComponents
+  - Interface AssessedMachine has a new optional parameter createdTimestamp
+  - Interface AssessedMachine has a new optional parameter datacenterMachineArmId
+  - Interface AssessedMachine has a new optional parameter datacenterManagementServerArmId
+  - Interface AssessedMachine has a new optional parameter datacenterManagementServerName
+  - Interface AssessedMachine has a new optional parameter description
+  - Interface AssessedMachine has a new optional parameter disks
+  - Interface AssessedMachine has a new optional parameter displayName
+  - Interface AssessedMachine has a new optional parameter errors
+  - Interface AssessedMachine has a new optional parameter hostProcessor
+  - Interface AssessedMachine has a new optional parameter megabytesOfMemory
+  - Interface AssessedMachine has a new optional parameter megabytesOfMemoryForRecommendedSize
+  - Interface AssessedMachine has a new optional parameter monthlyBandwidthCost
+  - Interface AssessedMachine has a new optional parameter monthlyComputeCostForRecommendedSize
+  - Interface AssessedMachine has a new optional parameter monthlyPremiumStorageCost
+  - Interface AssessedMachine has a new optional parameter monthlyStandardSsdStorageCost
+  - Interface AssessedMachine has a new optional parameter monthlyStorageCost
+  - Interface AssessedMachine has a new optional parameter monthlyUltraStorageCost
+  - Interface AssessedMachine has a new optional parameter networkAdapters
+  - Interface AssessedMachine has a new optional parameter numberOfCores
+  - Interface AssessedMachine has a new optional parameter numberOfCoresForRecommendedSize
+  - Interface AssessedMachine has a new optional parameter operatingSystemArchitecture
+  - Interface AssessedMachine has a new optional parameter operatingSystemName
+  - Interface AssessedMachine has a new optional parameter operatingSystemType
+  - Interface AssessedMachine has a new optional parameter operatingSystemVersion
+  - Interface AssessedMachine has a new optional parameter percentageCoresUtilization
+  - Interface AssessedMachine has a new optional parameter percentageMemoryUtilization
+  - Interface AssessedMachine has a new optional parameter productSupportStatus
+  - Interface AssessedMachine has a new optional parameter recommendedSize
+  - Interface AssessedMachine has a new optional parameter suitability
+  - Interface AssessedMachine has a new optional parameter suitabilityDetail
+  - Interface AssessedMachine has a new optional parameter suitabilityExplanation
+  - Interface AssessedMachine has a new optional parameter typePropertiesType
+  - Interface AssessedMachine has a new optional parameter updatedTimestamp
+  - Interface Assessment has a new optional parameter assessmentErrorSummary
+  - Interface Assessment has a new optional parameter assessmentType
+  - Interface Assessment has a new optional parameter azureDiskTypes
+  - Interface Assessment has a new optional parameter azureHybridUseBenefit
+  - Interface Assessment has a new optional parameter azureLocation
+  - Interface Assessment has a new optional parameter azureOfferCode
+  - Interface Assessment has a new optional parameter azurePricingTier
+  - Interface Assessment has a new optional parameter azureStorageRedundancy
+  - Interface Assessment has a new optional parameter azureVmFamilies
+  - Interface Assessment has a new optional parameter confidenceRatingInPercentage
+  - Interface Assessment has a new optional parameter costComponents
+  - Interface Assessment has a new optional parameter createdTimestamp
+  - Interface Assessment has a new optional parameter currency
+  - Interface Assessment has a new optional parameter discountPercentage
+  - Interface Assessment has a new optional parameter distributionByOsName
+  - Interface Assessment has a new optional parameter distributionByServicePackInsight
+  - Interface Assessment has a new optional parameter distributionBySupportStatus
+  - Interface Assessment has a new optional parameter eaSubscriptionId
+  - Interface Assessment has a new optional parameter groupType
+  - Interface Assessment has a new optional parameter monthlyBandwidthCost
+  - Interface Assessment has a new optional parameter monthlyComputeCost
+  - Interface Assessment has a new optional parameter monthlyPremiumStorageCost
+  - Interface Assessment has a new optional parameter monthlyStandardSsdStorageCost
+  - Interface Assessment has a new optional parameter monthlyStorageCost
+  - Interface Assessment has a new optional parameter monthlyUltraStorageCost
+  - Interface Assessment has a new optional parameter numberOfMachines
+  - Interface Assessment has a new optional parameter percentile
+  - Interface Assessment has a new optional parameter perfDataEndTime
+  - Interface Assessment has a new optional parameter perfDataStartTime
+  - Interface Assessment has a new optional parameter pricesTimestamp
+  - Interface Assessment has a new optional parameter provisioningState
+  - Interface Assessment has a new optional parameter reservedInstance
+  - Interface Assessment has a new optional parameter scalingFactor
+  - Interface Assessment has a new optional parameter schemaVersion
+  - Interface Assessment has a new optional parameter sizingCriterion
+  - Interface Assessment has a new optional parameter stage
+  - Interface Assessment has a new optional parameter status
+  - Interface Assessment has a new optional parameter suitabilitySummary
+  - Interface Assessment has a new optional parameter timeRange
+  - Interface Assessment has a new optional parameter updatedTimestamp
+  - Interface Assessment has a new optional parameter vmUptime
+  - Interface AssessmentOptions has a new optional parameter premiumDiskVmFamilies
+  - Interface AssessmentOptions has a new optional parameter reservedInstanceSupportedCurrencies
+  - Interface AssessmentOptions has a new optional parameter reservedInstanceSupportedLocations
+  - Interface AssessmentOptions has a new optional parameter reservedInstanceSupportedOffers
+  - Interface AssessmentOptions has a new optional parameter reservedInstanceVmFamilies
+  - Interface AssessmentOptions has a new optional parameter savingsPlanSupportedLocations
+  - Interface AssessmentOptions has a new optional parameter savingsPlanVmFamilies
+  - Interface AssessmentOptions has a new optional parameter ultraDiskVmFamilies
+  - Interface AssessmentOptions has a new optional parameter vmFamilies
+  - Interface Group has a new optional parameter areAssessmentsRunning
+  - Interface Group has a new optional parameter assessments
+  - Interface Group has a new optional parameter createdTimestamp
+  - Interface Group has a new optional parameter groupStatus
+  - Interface Group has a new optional parameter groupType
+  - Interface Group has a new optional parameter machineCount
+  - Interface Group has a new optional parameter provisioningState
+  - Interface Group has a new optional parameter supportedAssessmentTypes
+  - Interface Group has a new optional parameter updatedTimestamp
+  - Interface GroupProperties has a new optional parameter supportedAssessmentTypes
+  - Interface ImportCollector has a new optional parameter createdTimestamp
+  - Interface ImportCollector has a new optional parameter discoverySiteId
+  - Interface ImportCollector has a new optional parameter provisioningState
+  - Interface ImportCollector has a new optional parameter updatedTimestamp
+  - Interface Machine has a new optional parameter bootType
+  - Interface Machine has a new optional parameter createdTimestamp
+  - Interface Machine has a new optional parameter datacenterManagementServerArmId
+  - Interface Machine has a new optional parameter datacenterManagementServerName
+  - Interface Machine has a new optional parameter description
+  - Interface Machine has a new optional parameter discoveryMachineArmId
+  - Interface Machine has a new optional parameter disks
+  - Interface Machine has a new optional parameter displayName
+  - Interface Machine has a new optional parameter errors
+  - Interface Machine has a new optional parameter groups
+  - Interface Machine has a new optional parameter hostProcessor
+  - Interface Machine has a new optional parameter megabytesOfMemory
+  - Interface Machine has a new optional parameter networkAdapters
+  - Interface Machine has a new optional parameter numberOfCores
+  - Interface Machine has a new optional parameter operatingSystemName
+  - Interface Machine has a new optional parameter operatingSystemType
+  - Interface Machine has a new optional parameter operatingSystemVersion
+  - Interface Machine has a new optional parameter productSupportStatus
+  - Interface Machine has a new optional parameter sqlInstances
+  - Interface Machine has a new optional parameter updatedTimestamp
+  - Interface Machine has a new optional parameter webApplications
+  - Interface Machine has a new optional parameter workloadSummary
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter privateEndpoint
+  - Interface PrivateEndpointConnection has a new optional parameter privateLinkServiceConnectionState
+  - Interface PrivateEndpointConnection has a new optional parameter provisioningState
+  - Interface PrivateLinkResource has a new optional parameter groupId
+  - Interface PrivateLinkResource has a new optional parameter requiredMembers
+  - Interface PrivateLinkResource has a new optional parameter requiredZoneNames
+  - Interface ServerCollector has a new optional parameter agentProperties
+  - Interface ServerCollector has a new optional parameter createdTimestamp
+  - Interface ServerCollector has a new optional parameter discoverySiteId
+  - Interface ServerCollector has a new optional parameter provisioningState
+  - Interface ServerCollector has a new optional parameter updatedTimestamp
+  - Added Enum KnownActionType
+  - Added Enum KnownApiVersions
+  - Added Enum KnownAssessedMachineType
+  - Added Enum KnownAssessmentType
+  - Added Enum KnownAsyncCommitModeIntent
+  - Added Enum KnownAzureAvsNodeType
+  - Added Enum KnownAzureAvsSuitabilityExplanation
+  - Added Enum KnownAzureAvsVmSuitabilityDetail
+  - Added Enum KnownAzureAvsVmSuitabilityExplanation
+  - Added Enum KnownAzureCurrency
+  - Added Enum KnownAzureManagedDiskSkuDTODiskRedundancy
+  - Added Enum KnownAzureManagedDiskSkuDTODiskType
+  - Added Enum KnownAzureQuorumWitnessDTOQuorumWitnessType
+  - Added Enum KnownAzureReservedInstance
+  - Added Enum KnownAzureSecurityOfferingType
+  - Added Enum KnownAzureSqlDataBaseType
+  - Added Enum KnownAzureSqlInstanceType
+  - Added Enum KnownAzureSqlPurchaseModel
+  - Added Enum KnownAzureSqlServiceTier
+  - Added Enum KnownCompatibilityLevel
+  - Added Enum KnownComputeTier
+  - Added Enum KnownCostComponentName
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownEnvironmentType
+  - Added Enum KnownFttAndRaidLevel
+  - Added Enum KnownGroupType
+  - Added Enum KnownGuestOperatingSystemArchitecture
+  - Added Enum KnownHardwareGeneration
+  - Added Enum KnownMultiSubnetIntent
+  - Added Enum KnownOptimizationLogic
+  - Added Enum KnownOrigin
+  - Added Enum KnownOsLicense
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownRecommendedSuitability
+  - Added Enum KnownSkuReplicationMode
+  - Added Enum KnownSqlAssessmentMigrationIssueCategory
+  - Added Enum KnownSqlFCIMetadataState
+  - Added Enum KnownSqlFCIState
+  - Added Enum KnownSqlMigrationGuidelineCategory
+  - Added Enum KnownSqlServerLicense
+  - Added Enum KnownTargetType
+  - Enum KnownAssessmentStatus has a new value Deleted
+  - Enum KnownAzureDiskSize has a new value PremiumP1
+  - Enum KnownAzureDiskSize has a new value PremiumP2
+  - Enum KnownAzureDiskSize has a new value PremiumP3
+  - Enum KnownAzureDiskSize has a new value PremiumV2
+  - Enum KnownAzureDiskSize has a new value StandardSsde1
+  - Enum KnownAzureDiskSize has a new value StandardSsde10
+  - Enum KnownAzureDiskSize has a new value StandardSsde15
+  - Enum KnownAzureDiskSize has a new value StandardSsde2
+  - Enum KnownAzureDiskSize has a new value StandardSsde20
+  - Enum KnownAzureDiskSize has a new value StandardSsde3
+  - Enum KnownAzureDiskSize has a new value StandardSsde30
+  - Enum KnownAzureDiskSize has a new value StandardSsde4
+  - Enum KnownAzureDiskSize has a new value StandardSsde40
+  - Enum KnownAzureDiskSize has a new value StandardSsde50
+  - Enum KnownAzureDiskSize has a new value StandardSsde6
+  - Enum KnownAzureDiskSize has a new value StandardSsde60
+  - Enum KnownAzureDiskSize has a new value StandardSsde70
+  - Enum KnownAzureDiskSize has a new value StandardSsde80
+  - Enum KnownAzureDiskSize has a new value Ultra
+  - Enum KnownAzureDiskType has a new value PremiumV2
+  - Enum KnownAzureDiskType has a new value Ultra
+  - Enum KnownAzureLocation has a new value AustraliaCentral
+  - Enum KnownAzureLocation has a new value AustraliaCentral2
+  - Enum KnownAzureLocation has a new value ChinaEast2
+  - Enum KnownAzureLocation has a new value ChinaNorth2
+  - Enum KnownAzureLocation has a new value FranceCentral
+  - Enum KnownAzureLocation has a new value FranceSouth
+  - Enum KnownAzureLocation has a new value GermanyNorth
+  - Enum KnownAzureLocation has a new value GermanyWestCentral
+  - Enum KnownAzureLocation has a new value NorwayEast
+  - Enum KnownAzureLocation has a new value NorwayWest
+  - Enum KnownAzureLocation has a new value QatarCentral
+  - Enum KnownAzureLocation has a new value SouthAfricaNorth
+  - Enum KnownAzureLocation has a new value SouthAfricaWest
+  - Enum KnownAzureLocation has a new value SwedenCentral
+  - Enum KnownAzureLocation has a new value SwitzerlandNorth
+  - Enum KnownAzureLocation has a new value SwitzerlandWest
+  - Enum KnownAzureLocation has a new value UAECentral
+  - Enum KnownAzureLocation has a new value UAENorth
+  - Enum KnownAzureLocation has a new value UsNatEast
+  - Enum KnownAzureLocation has a new value UsNatWest
+  - Enum KnownAzureLocation has a new value UsSecCentral
+  - Enum KnownAzureLocation has a new value UsSecEast
+  - Enum KnownAzureLocation has a new value UsSecWest
+  - Enum KnownAzureNetworkAdapterSuitabilityDetail has a new value MegabytesOfDataRecievedMissing
+  - Enum KnownAzureNetworkAdapterSuitabilityDetail has a new value MegabytesOfDataRecievedOutOfRange
+  - Enum KnownAzureOfferCode has a new value Msazr0243P
+  - Enum KnownAzureOfferCode has a new value SavingsPlan1Year
+  - Enum KnownAzureOfferCode has a new value SavingsPlan3Year
+  - Enum KnownAzureVmFamily has a new value Dadsv5Series
+  - Enum KnownAzureVmFamily has a new value Dasv4Series
+  - Enum KnownAzureVmFamily has a new value Dasv5Series
+  - Enum KnownAzureVmFamily has a new value Dav4Series
+  - Enum KnownAzureVmFamily has a new value Ddsv4Series
+  - Enum KnownAzureVmFamily has a new value Ddsv5Series
+  - Enum KnownAzureVmFamily has a new value Ddv4Series
+  - Enum KnownAzureVmFamily has a new value Ddv5Series
+  - Enum KnownAzureVmFamily has a new value Dsv4Series
+  - Enum KnownAzureVmFamily has a new value Dsv5Series
+  - Enum KnownAzureVmFamily has a new value Dv4Series
+  - Enum KnownAzureVmFamily has a new value Dv5Series
+  - Enum KnownAzureVmFamily has a new value Eadsv5Series
+  - Enum KnownAzureVmFamily has a new value Easv4Series
+  - Enum KnownAzureVmFamily has a new value Easv5Series
+  - Enum KnownAzureVmFamily has a new value Eav4Series
+  - Enum KnownAzureVmFamily has a new value Ebdsv5Series
+  - Enum KnownAzureVmFamily has a new value Ebsv5Series
+  - Enum KnownAzureVmFamily has a new value Edsv4Series
+  - Enum KnownAzureVmFamily has a new value Edsv5Series
+  - Enum KnownAzureVmFamily has a new value Edv4Series
+  - Enum KnownAzureVmFamily has a new value Edv5Series
+  - Enum KnownAzureVmFamily has a new value Esv4Series
+  - Enum KnownAzureVmFamily has a new value Esv5Series
+  - Enum KnownAzureVmFamily has a new value Ev4Series
+  - Enum KnownAzureVmFamily has a new value Ev5Series
+  - Enum KnownAzureVmFamily has a new value Lsv2Series
+  - Enum KnownAzureVmFamily has a new value Mdsv2Series
+  - Enum KnownAzureVmFamily has a new value Msv2Series
+  - Enum KnownAzureVmFamily has a new value Mv2Series
+  - Enum KnownAzureVmSize has a new value StandardD16AdsV5
+  - Enum KnownAzureVmSize has a new value StandardD16AsV4
+  - Enum KnownAzureVmSize has a new value StandardD16AsV5
+  - Enum KnownAzureVmSize has a new value StandardD16AV4
+  - Enum KnownAzureVmSize has a new value StandardD16DsV4
+  - Enum KnownAzureVmSize has a new value StandardD16DsV5
+  - Enum KnownAzureVmSize has a new value StandardD16DV4
+  - Enum KnownAzureVmSize has a new value StandardD16DV5
+  - Enum KnownAzureVmSize has a new value StandardD16SV4
+  - Enum KnownAzureVmSize has a new value StandardD16SV5
+  - Enum KnownAzureVmSize has a new value StandardD16V4
+  - Enum KnownAzureVmSize has a new value StandardD16V5
+  - Enum KnownAzureVmSize has a new value StandardD2AdsV5
+  - Enum KnownAzureVmSize has a new value StandardD2AsV4
+  - Enum KnownAzureVmSize has a new value StandardD2AsV5
+  - Enum KnownAzureVmSize has a new value StandardD2AV4
+  - Enum KnownAzureVmSize has a new value StandardD2DsV4
+  - Enum KnownAzureVmSize has a new value StandardD2DsV5
+  - Enum KnownAzureVmSize has a new value StandardD2DV4
+  - Enum KnownAzureVmSize has a new value StandardD2DV5
+  - Enum KnownAzureVmSize has a new value StandardD2SV4
+  - Enum KnownAzureVmSize has a new value StandardD2SV5
+  - Enum KnownAzureVmSize has a new value StandardD2V4
+  - Enum KnownAzureVmSize has a new value StandardD2V5
+  - Enum KnownAzureVmSize has a new value StandardD32AdsV5
+  - Enum KnownAzureVmSize has a new value StandardD32AsV4
+  - Enum KnownAzureVmSize has a new value StandardD32AsV5
+  - Enum KnownAzureVmSize has a new value StandardD32AV4
+  - Enum KnownAzureVmSize has a new value StandardD32DsV4
+  - Enum KnownAzureVmSize has a new value StandardD32DsV5
+  - Enum KnownAzureVmSize has a new value StandardD32DV4
+  - Enum KnownAzureVmSize has a new value StandardD32DV5
+  - Enum KnownAzureVmSize has a new value StandardD32SV4
+  - Enum KnownAzureVmSize has a new value StandardD32SV5
+  - Enum KnownAzureVmSize has a new value StandardD32V4
+  - Enum KnownAzureVmSize has a new value StandardD32V5
+  - Enum KnownAzureVmSize has a new value StandardD48AdsV5
+  - Enum KnownAzureVmSize has a new value StandardD48AsV4
+  - Enum KnownAzureVmSize has a new value StandardD48AsV5
+  - Enum KnownAzureVmSize has a new value StandardD48AV4
+  - Enum KnownAzureVmSize has a new value StandardD48DsV4
+  - Enum KnownAzureVmSize has a new value StandardD48DsV5
+  - Enum KnownAzureVmSize has a new value StandardD48DV4
+  - Enum KnownAzureVmSize has a new value StandardD48DV5
+  - Enum KnownAzureVmSize has a new value StandardD48SV4
+  - Enum KnownAzureVmSize has a new value StandardD48SV5
+  - Enum KnownAzureVmSize has a new value StandardD48V4
+  - Enum KnownAzureVmSize has a new value StandardD48V5
+  - Enum KnownAzureVmSize has a new value StandardD4AdsV5
+  - Enum KnownAzureVmSize has a new value StandardD4AsV4
+  - Enum KnownAzureVmSize has a new value StandardD4AsV5
+  - Enum KnownAzureVmSize has a new value StandardD4AV4
+  - Enum KnownAzureVmSize has a new value StandardD4DsV4
+  - Enum KnownAzureVmSize has a new value StandardD4DsV5
+  - Enum KnownAzureVmSize has a new value StandardD4DV4
+  - Enum KnownAzureVmSize has a new value StandardD4DV5
+  - Enum KnownAzureVmSize has a new value StandardD4SV4
+  - Enum KnownAzureVmSize has a new value StandardD4SV5
+  - Enum KnownAzureVmSize has a new value StandardD4V4
+  - Enum KnownAzureVmSize has a new value StandardD4V5
+  - Enum KnownAzureVmSize has a new value StandardD64AdsV5
+  - Enum KnownAzureVmSize has a new value StandardD64AsV4
+  - Enum KnownAzureVmSize has a new value StandardD64AsV5
+  - Enum KnownAzureVmSize has a new value StandardD64AV4
+  - Enum KnownAzureVmSize has a new value StandardD64DsV4
+  - Enum KnownAzureVmSize has a new value StandardD64DsV5
+  - Enum KnownAzureVmSize has a new value StandardD64DV4
+  - Enum KnownAzureVmSize has a new value StandardD64DV5
+  - Enum KnownAzureVmSize has a new value StandardD64SV4
+  - Enum KnownAzureVmSize has a new value StandardD64SV5
+  - Enum KnownAzureVmSize has a new value StandardD64V4
+  - Enum KnownAzureVmSize has a new value StandardD64V5
+  - Enum KnownAzureVmSize has a new value StandardD8AdsV5
+  - Enum KnownAzureVmSize has a new value StandardD8AsV4
+  - Enum KnownAzureVmSize has a new value StandardD8AsV5
+  - Enum KnownAzureVmSize has a new value StandardD8AV4
+  - Enum KnownAzureVmSize has a new value StandardD8DsV4
+  - Enum KnownAzureVmSize has a new value StandardD8DsV5
+  - Enum KnownAzureVmSize has a new value StandardD8DV4
+  - Enum KnownAzureVmSize has a new value StandardD8DV5
+  - Enum KnownAzureVmSize has a new value StandardD8SV4
+  - Enum KnownAzureVmSize has a new value StandardD8SV5
+  - Enum KnownAzureVmSize has a new value StandardD8V4
+  - Enum KnownAzureVmSize has a new value StandardD8V5
+  - Enum KnownAzureVmSize has a new value StandardD96AdsV5
+  - Enum KnownAzureVmSize has a new value StandardD96AsV4
+  - Enum KnownAzureVmSize has a new value StandardD96AsV5
+  - Enum KnownAzureVmSize has a new value StandardD96AV4
+  - Enum KnownAzureVmSize has a new value StandardD96DsV5
+  - Enum KnownAzureVmSize has a new value StandardD96DV5
+  - Enum KnownAzureVmSize has a new value StandardD96SV5
+  - Enum KnownAzureVmSize has a new value StandardD96V5
+  - Enum KnownAzureVmSize has a new value StandardDC2S
+  - Enum KnownAzureVmSize has a new value StandardDC4S
+  - Enum KnownAzureVmSize has a new value StandardDS111V2
+  - Enum KnownAzureVmSize has a new value StandardDS121V2
+  - Enum KnownAzureVmSize has a new value StandardDS122V2
+  - Enum KnownAzureVmSize has a new value StandardDS132V2
+  - Enum KnownAzureVmSize has a new value StandardDS134V2
+  - Enum KnownAzureVmSize has a new value StandardDS144V2
+  - Enum KnownAzureVmSize has a new value StandardDS148V2
+  - Enum KnownAzureVmSize has a new value StandardE104IdsV5
+  - Enum KnownAzureVmSize has a new value StandardE104IdV5
+  - Enum KnownAzureVmSize has a new value StandardE104IsV5
+  - Enum KnownAzureVmSize has a new value StandardE104IV5
+  - Enum KnownAzureVmSize has a new value StandardE164AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE164AsV4
+  - Enum KnownAzureVmSize has a new value StandardE164AsV5
+  - Enum KnownAzureVmSize has a new value StandardE164DsV4
+  - Enum KnownAzureVmSize has a new value StandardE164DsV5
+  - Enum KnownAzureVmSize has a new value StandardE164SV3
+  - Enum KnownAzureVmSize has a new value StandardE164SV4
+  - Enum KnownAzureVmSize has a new value StandardE164SV5
+  - Enum KnownAzureVmSize has a new value StandardE168AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE168AsV4
+  - Enum KnownAzureVmSize has a new value StandardE168AsV5
+  - Enum KnownAzureVmSize has a new value StandardE168DsV4
+  - Enum KnownAzureVmSize has a new value StandardE168DsV5
+  - Enum KnownAzureVmSize has a new value StandardE168SV3
+  - Enum KnownAzureVmSize has a new value StandardE168SV4
+  - Enum KnownAzureVmSize has a new value StandardE168SV5
+  - Enum KnownAzureVmSize has a new value StandardE16AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE16AsV4
+  - Enum KnownAzureVmSize has a new value StandardE16AsV5
+  - Enum KnownAzureVmSize has a new value StandardE16AV4
+  - Enum KnownAzureVmSize has a new value StandardE16BdsV5
+  - Enum KnownAzureVmSize has a new value StandardE16BsV5
+  - Enum KnownAzureVmSize has a new value StandardE16DsV4
+  - Enum KnownAzureVmSize has a new value StandardE16DsV5
+  - Enum KnownAzureVmSize has a new value StandardE16DV4
+  - Enum KnownAzureVmSize has a new value StandardE16DV5
+  - Enum KnownAzureVmSize has a new value StandardE16SV4
+  - Enum KnownAzureVmSize has a new value StandardE16SV5
+  - Enum KnownAzureVmSize has a new value StandardE16V4
+  - Enum KnownAzureVmSize has a new value StandardE16V5
+  - Enum KnownAzureVmSize has a new value StandardE20AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE20AsV4
+  - Enum KnownAzureVmSize has a new value StandardE20AsV5
+  - Enum KnownAzureVmSize has a new value StandardE20AV4
+  - Enum KnownAzureVmSize has a new value StandardE20DsV4
+  - Enum KnownAzureVmSize has a new value StandardE20DsV5
+  - Enum KnownAzureVmSize has a new value StandardE20DV4
+  - Enum KnownAzureVmSize has a new value StandardE20DV5
+  - Enum KnownAzureVmSize has a new value StandardE20SV3
+  - Enum KnownAzureVmSize has a new value StandardE20SV4
+  - Enum KnownAzureVmSize has a new value StandardE20SV5
+  - Enum KnownAzureVmSize has a new value StandardE20V3
+  - Enum KnownAzureVmSize has a new value StandardE20V4
+  - Enum KnownAzureVmSize has a new value StandardE20V5
+  - Enum KnownAzureVmSize has a new value StandardE2AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE2AsV4
+  - Enum KnownAzureVmSize has a new value StandardE2AsV5
+  - Enum KnownAzureVmSize has a new value StandardE2AV4
+  - Enum KnownAzureVmSize has a new value StandardE2BdsV5
+  - Enum KnownAzureVmSize has a new value StandardE2BsV5
+  - Enum KnownAzureVmSize has a new value StandardE2DsV4
+  - Enum KnownAzureVmSize has a new value StandardE2DsV5
+  - Enum KnownAzureVmSize has a new value StandardE2DV4
+  - Enum KnownAzureVmSize has a new value StandardE2DV5
+  - Enum KnownAzureVmSize has a new value StandardE2SV4
+  - Enum KnownAzureVmSize has a new value StandardE2SV5
+  - Enum KnownAzureVmSize has a new value StandardE2V4
+  - Enum KnownAzureVmSize has a new value StandardE2V5
+  - Enum KnownAzureVmSize has a new value StandardE3216AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE3216AsV4
+  - Enum KnownAzureVmSize has a new value StandardE3216AsV5
+  - Enum KnownAzureVmSize has a new value StandardE3216DsV4
+  - Enum KnownAzureVmSize has a new value StandardE3216DsV5
+  - Enum KnownAzureVmSize has a new value StandardE3216SV3
+  - Enum KnownAzureVmSize has a new value StandardE3216SV4
+  - Enum KnownAzureVmSize has a new value StandardE3216SV5
+  - Enum KnownAzureVmSize has a new value StandardE328AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE328AsV4
+  - Enum KnownAzureVmSize has a new value StandardE328AsV5
+  - Enum KnownAzureVmSize has a new value StandardE328DsV4
+  - Enum KnownAzureVmSize has a new value StandardE328DsV5
+  - Enum KnownAzureVmSize has a new value StandardE328SV3
+  - Enum KnownAzureVmSize has a new value StandardE328SV4
+  - Enum KnownAzureVmSize has a new value StandardE328SV5
+  - Enum KnownAzureVmSize has a new value StandardE32AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE32AsV4
+  - Enum KnownAzureVmSize has a new value StandardE32AsV5
+  - Enum KnownAzureVmSize has a new value StandardE32AV4
+  - Enum KnownAzureVmSize has a new value StandardE32BdsV5
+  - Enum KnownAzureVmSize has a new value StandardE32BsV5
+  - Enum KnownAzureVmSize has a new value StandardE32DsV4
+  - Enum KnownAzureVmSize has a new value StandardE32DsV5
+  - Enum KnownAzureVmSize has a new value StandardE32DV4
+  - Enum KnownAzureVmSize has a new value StandardE32DV5
+  - Enum KnownAzureVmSize has a new value StandardE32SV4
+  - Enum KnownAzureVmSize has a new value StandardE32SV5
+  - Enum KnownAzureVmSize has a new value StandardE32V4
+  - Enum KnownAzureVmSize has a new value StandardE32V5
+  - Enum KnownAzureVmSize has a new value StandardE42AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE42AsV4
+  - Enum KnownAzureVmSize has a new value StandardE42AsV5
+  - Enum KnownAzureVmSize has a new value StandardE42DsV4
+  - Enum KnownAzureVmSize has a new value StandardE42DsV5
+  - Enum KnownAzureVmSize has a new value StandardE42SV3
+  - Enum KnownAzureVmSize has a new value StandardE42SV4
+  - Enum KnownAzureVmSize has a new value StandardE42SV5
+  - Enum KnownAzureVmSize has a new value StandardE48AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE48AsV4
+  - Enum KnownAzureVmSize has a new value StandardE48AsV5
+  - Enum KnownAzureVmSize has a new value StandardE48AV4
+  - Enum KnownAzureVmSize has a new value StandardE48BdsV5
+  - Enum KnownAzureVmSize has a new value StandardE48BsV5
+  - Enum KnownAzureVmSize has a new value StandardE48DsV4
+  - Enum KnownAzureVmSize has a new value StandardE48DsV5
+  - Enum KnownAzureVmSize has a new value StandardE48DV4
+  - Enum KnownAzureVmSize has a new value StandardE48DV5
+  - Enum KnownAzureVmSize has a new value StandardE48SV3
+  - Enum KnownAzureVmSize has a new value StandardE48SV4
+  - Enum KnownAzureVmSize has a new value StandardE48SV5
+  - Enum KnownAzureVmSize has a new value StandardE48V3
+  - Enum KnownAzureVmSize has a new value StandardE48V4
+  - Enum KnownAzureVmSize has a new value StandardE48V5
+  - Enum KnownAzureVmSize has a new value StandardE4AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE4AsV4
+  - Enum KnownAzureVmSize has a new value StandardE4AsV5
+  - Enum KnownAzureVmSize has a new value StandardE4AV4
+  - Enum KnownAzureVmSize has a new value StandardE4BdsV5
+  - Enum KnownAzureVmSize has a new value StandardE4BsV5
+  - Enum KnownAzureVmSize has a new value StandardE4DsV4
+  - Enum KnownAzureVmSize has a new value StandardE4DsV5
+  - Enum KnownAzureVmSize has a new value StandardE4DV4
+  - Enum KnownAzureVmSize has a new value StandardE4DV5
+  - Enum KnownAzureVmSize has a new value StandardE4SV4
+  - Enum KnownAzureVmSize has a new value StandardE4SV5
+  - Enum KnownAzureVmSize has a new value StandardE4V4
+  - Enum KnownAzureVmSize has a new value StandardE4V5
+  - Enum KnownAzureVmSize has a new value StandardE6416AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE6416AsV4
+  - Enum KnownAzureVmSize has a new value StandardE6416AsV5
+  - Enum KnownAzureVmSize has a new value StandardE6416DsV4
+  - Enum KnownAzureVmSize has a new value StandardE6416DsV5
+  - Enum KnownAzureVmSize has a new value StandardE6416SV3
+  - Enum KnownAzureVmSize has a new value StandardE6416SV4
+  - Enum KnownAzureVmSize has a new value StandardE6416SV5
+  - Enum KnownAzureVmSize has a new value StandardE6432AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE6432AsV4
+  - Enum KnownAzureVmSize has a new value StandardE6432AsV5
+  - Enum KnownAzureVmSize has a new value StandardE6432DsV4
+  - Enum KnownAzureVmSize has a new value StandardE6432DsV5
+  - Enum KnownAzureVmSize has a new value StandardE6432SV3
+  - Enum KnownAzureVmSize has a new value StandardE6432SV4
+  - Enum KnownAzureVmSize has a new value StandardE6432SV5
+  - Enum KnownAzureVmSize has a new value StandardE64AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE64AsV4
+  - Enum KnownAzureVmSize has a new value StandardE64AsV5
+  - Enum KnownAzureVmSize has a new value StandardE64AV4
+  - Enum KnownAzureVmSize has a new value StandardE64BdsV5
+  - Enum KnownAzureVmSize has a new value StandardE64BsV5
+  - Enum KnownAzureVmSize has a new value StandardE64DsV4
+  - Enum KnownAzureVmSize has a new value StandardE64DsV5
+  - Enum KnownAzureVmSize has a new value StandardE64DV4
+  - Enum KnownAzureVmSize has a new value StandardE64DV5
+  - Enum KnownAzureVmSize has a new value StandardE64IsV3
+  - Enum KnownAzureVmSize has a new value StandardE64IV3
+  - Enum KnownAzureVmSize has a new value StandardE64SV4
+  - Enum KnownAzureVmSize has a new value StandardE64SV5
+  - Enum KnownAzureVmSize has a new value StandardE64V4
+  - Enum KnownAzureVmSize has a new value StandardE64V5
+  - Enum KnownAzureVmSize has a new value StandardE80IdsV4
+  - Enum KnownAzureVmSize has a new value StandardE80IsV4
+  - Enum KnownAzureVmSize has a new value StandardE82AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE82AsV4
+  - Enum KnownAzureVmSize has a new value StandardE82AsV5
+  - Enum KnownAzureVmSize has a new value StandardE82DsV4
+  - Enum KnownAzureVmSize has a new value StandardE82DsV5
+  - Enum KnownAzureVmSize has a new value StandardE82SV3
+  - Enum KnownAzureVmSize has a new value StandardE82SV4
+  - Enum KnownAzureVmSize has a new value StandardE82SV5
+  - Enum KnownAzureVmSize has a new value StandardE84AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE84AsV4
+  - Enum KnownAzureVmSize has a new value StandardE84AsV5
+  - Enum KnownAzureVmSize has a new value StandardE84DsV4
+  - Enum KnownAzureVmSize has a new value StandardE84DsV5
+  - Enum KnownAzureVmSize has a new value StandardE84SV3
+  - Enum KnownAzureVmSize has a new value StandardE84SV4
+  - Enum KnownAzureVmSize has a new value StandardE84SV5
+  - Enum KnownAzureVmSize has a new value StandardE8AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE8AsV4
+  - Enum KnownAzureVmSize has a new value StandardE8AsV5
+  - Enum KnownAzureVmSize has a new value StandardE8AV4
+  - Enum KnownAzureVmSize has a new value StandardE8BdsV5
+  - Enum KnownAzureVmSize has a new value StandardE8BsV5
+  - Enum KnownAzureVmSize has a new value StandardE8DsV4
+  - Enum KnownAzureVmSize has a new value StandardE8DsV5
+  - Enum KnownAzureVmSize has a new value StandardE8DV4
+  - Enum KnownAzureVmSize has a new value StandardE8DV5
+  - Enum KnownAzureVmSize has a new value StandardE8SV4
+  - Enum KnownAzureVmSize has a new value StandardE8SV5
+  - Enum KnownAzureVmSize has a new value StandardE8V4
+  - Enum KnownAzureVmSize has a new value StandardE8V5
+  - Enum KnownAzureVmSize has a new value StandardE9624AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE9624AsV4
+  - Enum KnownAzureVmSize has a new value StandardE9624AsV5
+  - Enum KnownAzureVmSize has a new value StandardE9624DsV5
+  - Enum KnownAzureVmSize has a new value StandardE9624SV5
+  - Enum KnownAzureVmSize has a new value StandardE9648AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE9648AsV4
+  - Enum KnownAzureVmSize has a new value StandardE9648AsV5
+  - Enum KnownAzureVmSize has a new value StandardE9648DsV5
+  - Enum KnownAzureVmSize has a new value StandardE9648SV5
+  - Enum KnownAzureVmSize has a new value StandardE96AdsV5
+  - Enum KnownAzureVmSize has a new value StandardE96AsV4
+  - Enum KnownAzureVmSize has a new value StandardE96AsV5
+  - Enum KnownAzureVmSize has a new value StandardE96AV4
+  - Enum KnownAzureVmSize has a new value StandardE96DsV5
+  - Enum KnownAzureVmSize has a new value StandardE96DV5
+  - Enum KnownAzureVmSize has a new value StandardE96SV5
+  - Enum KnownAzureVmSize has a new value StandardE96V5
+  - Enum KnownAzureVmSize has a new value StandardF48SV2
+  - Enum KnownAzureVmSize has a new value StandardGS44
+  - Enum KnownAzureVmSize has a new value StandardGS48
+  - Enum KnownAzureVmSize has a new value StandardGS516
+  - Enum KnownAzureVmSize has a new value StandardGS58
+  - Enum KnownAzureVmSize has a new value StandardL16SV2
+  - Enum KnownAzureVmSize has a new value StandardL32SV2
+  - Enum KnownAzureVmSize has a new value StandardL48SV2
+  - Enum KnownAzureVmSize has a new value StandardL64SV2
+  - Enum KnownAzureVmSize has a new value StandardL80SV2
+  - Enum KnownAzureVmSize has a new value StandardL8SV2
+  - Enum KnownAzureVmSize has a new value StandardM128
+  - Enum KnownAzureVmSize has a new value StandardM12832Ms
+  - Enum KnownAzureVmSize has a new value StandardM12864Ms
+  - Enum KnownAzureVmSize has a new value StandardM128DmsV2
+  - Enum KnownAzureVmSize has a new value StandardM128DsV2
+  - Enum KnownAzureVmSize has a new value StandardM128M
+  - Enum KnownAzureVmSize has a new value StandardM128MsV2
+  - Enum KnownAzureVmSize has a new value StandardM128SV2
+  - Enum KnownAzureVmSize has a new value StandardM164Ms
+  - Enum KnownAzureVmSize has a new value StandardM168Ms
+  - Enum KnownAzureVmSize has a new value StandardM16Ms
+  - Enum KnownAzureVmSize has a new value StandardM192IdmsV2
+  - Enum KnownAzureVmSize has a new value StandardM192IdsV2
+  - Enum KnownAzureVmSize has a new value StandardM192ImsV2
+  - Enum KnownAzureVmSize has a new value StandardM192IsV2
+  - Enum KnownAzureVmSize has a new value StandardM208MsV2
+  - Enum KnownAzureVmSize has a new value StandardM208SV2
+  - Enum KnownAzureVmSize has a new value StandardM3216Ms
+  - Enum KnownAzureVmSize has a new value StandardM328Ms
+  - Enum KnownAzureVmSize has a new value StandardM32DmsV2
+  - Enum KnownAzureVmSize has a new value StandardM32Ls
+  - Enum KnownAzureVmSize has a new value StandardM32Ms
+  - Enum KnownAzureVmSize has a new value StandardM32MsV2
+  - Enum KnownAzureVmSize has a new value StandardM32Ts
+  - Enum KnownAzureVmSize has a new value StandardM416208MsV2
+  - Enum KnownAzureVmSize has a new value StandardM416208SV2
+  - Enum KnownAzureVmSize has a new value StandardM416MsV2
+  - Enum KnownAzureVmSize has a new value StandardM416SV2
+  - Enum KnownAzureVmSize has a new value StandardM64
+  - Enum KnownAzureVmSize has a new value StandardM6416Ms
+  - Enum KnownAzureVmSize has a new value StandardM6432Ms
+  - Enum KnownAzureVmSize has a new value StandardM64DmsV2
+  - Enum KnownAzureVmSize has a new value StandardM64DsV2
+  - Enum KnownAzureVmSize has a new value StandardM64Ls
+  - Enum KnownAzureVmSize has a new value StandardM64M
+  - Enum KnownAzureVmSize has a new value StandardM64MsV2
+  - Enum KnownAzureVmSize has a new value StandardM64SV2
+  - Enum KnownAzureVmSize has a new value StandardM82Ms
+  - Enum KnownAzureVmSize has a new value StandardM84Ms
+  - Enum KnownAzureVmSize has a new value StandardM8Ms
+  - Enum KnownAzureVmSuitabilityExplanation has a new value NoEaPriceFoundForVmSize
+  - Enum KnownAzureVmSuitabilityExplanation has a new value NoVmSizeFoundForOfferCurrencyReservedInstance
+  - Enum KnownAzureVmSuitabilityExplanation has a new value NoVmSizeInSelectedFamilyFound
+  - Enum KnownMachineBootType has a new value NotSpecified
+  - Enum KnownProvisioningState has a new value Canceled
+  - Enum KnownProvisioningState has a new value Provisioning
+  - Enum KnownProvisioningState has a new value Updating
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AssessedMachines
+  - Removed operation group Assessments
+  - Removed operation group Groups
+  - Removed operation group HyperVCollectors
+  - Removed operation group ImportCollectors
+  - Removed operation group Machines
+  - Removed operation group Projects
+  - Removed operation group ServerCollectors
+  - Removed operation group VMwareCollectors
+  - Removed operation PrivateEndpointConnectionOperations.listByProject
+  - Removed operation PrivateEndpointConnectionOperations.update
+  - Removed operation PrivateLinkResourceOperations.listByProject
+  - Operation PrivateEndpointConnectionOperations.delete has a new signature
+  - Operation PrivateEndpointConnectionOperations.get has a new signature
+  - Operation PrivateLinkResourceOperations.get has a new signature
+  - Deleted Class AzureMigrateV2
+  - Interface AssessedMachine no longer has parameter eTag
+  - Interface AssessedMachine no longer has parameter id
+  - Interface AssessedMachine no longer has parameter name
+  - Interface AssessedMachine no longer has parameter properties
+  - Interface AssessedMachine no longer has parameter type
+  - Interface Assessment no longer has parameter eTag
+  - Interface Assessment no longer has parameter id
+  - Interface Assessment no longer has parameter name
+  - Interface Assessment no longer has parameter properties
+  - Interface Assessment no longer has parameter type
+  - Interface AssessmentOptions no longer has parameter id
+  - Interface AssessmentOptions no longer has parameter name
+  - Interface AssessmentOptions no longer has parameter properties
+  - Interface Group no longer has parameter eTag
+  - Interface Group no longer has parameter id
+  - Interface Group no longer has parameter name
+  - Interface Group no longer has parameter properties
+  - Interface Group no longer has parameter type
+  - Interface ImportCollector no longer has parameter eTag
+  - Interface ImportCollector no longer has parameter id
+  - Interface ImportCollector no longer has parameter name
+  - Interface ImportCollector no longer has parameter properties
+  - Interface ImportCollector no longer has parameter type
+  - Interface Machine no longer has parameter eTag
+  - Interface Machine no longer has parameter id
+  - Interface Machine no longer has parameter name
+  - Interface Machine no longer has parameter properties
+  - Interface Machine no longer has parameter type
+  - Interface PrivateEndpointConnection no longer has parameter eTag
+  - Interface PrivateEndpointConnection no longer has parameter id
+  - Interface PrivateEndpointConnection no longer has parameter name
+  - Interface PrivateEndpointConnection no longer has parameter properties
+  - Interface PrivateEndpointConnection no longer has parameter type
+  - Interface PrivateLinkResource no longer has parameter id
+  - Interface PrivateLinkResource no longer has parameter name
+  - Interface PrivateLinkResource no longer has parameter properties
+  - Interface PrivateLinkResource no longer has parameter type
+  - Interface ProjectProperties no longer has parameter lastAssessmentTimestamp
+  - Interface ProjectProperties no longer has parameter numberOfAssessments
+  - Interface ProjectProperties no longer has parameter numberOfGroups
+  - Interface ProjectProperties no longer has parameter numberOfMachines
+  - Interface ServerCollector no longer has parameter eTag
+  - Interface ServerCollector no longer has parameter id
+  - Interface ServerCollector no longer has parameter name
+  - Interface ServerCollector no longer has parameter properties
+  - Interface ServerCollector no longer has parameter type
+  - Parameter assessmentReportUrl of interface DownloadUrl is now required
+  - Parameter expirationTime of interface DownloadUrl is now required
+  - Type of parameter groupType of interface GroupProperties is changed from string to GroupType
+  - Type of parameter origin of interface Operation is changed from string to Origin
+  - Type of parameter status of interface PrivateLinkServiceConnectionState is changed from PrivateLinkServiceConnectionStateStatus to PrivateEndpointServiceConnectionStatus
+  - Removed Enum KnownCurrency
+  - Removed Enum KnownPrivateEndpointConnectionPropertiesProvisioningState
+  - Removed Enum KnownPrivateLinkServiceConnectionStateStatus
+  - Removed Enum KnownReservedInstance
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE10
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE15
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE20
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE30
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE4
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE40
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE50
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE6
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE60
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE70
+  - Enum KnownAzureDiskSize no longer has value StandardSSDE80
+  - Enum KnownProvisioningState no longer has value Creating
+  - Enum KnownProvisioningState no longer has value Moving
+    
 ## 2.0.3 (2023-01-29)
 
 **Features**
@@ -40,4 +1129,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
