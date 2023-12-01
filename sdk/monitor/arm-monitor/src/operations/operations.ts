@@ -47,9 +47,12 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
