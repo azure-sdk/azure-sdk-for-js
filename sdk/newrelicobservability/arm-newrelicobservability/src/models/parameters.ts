@@ -50,7 +50,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01",
+    defaultValue: "2023-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -194,6 +194,20 @@ export const organizationId: OperationQueryParameter = {
   parameterPath: ["options", "organizationId"],
   mapper: {
     serializedName: "organizationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const monitorName1: OperationURLParameter = {
+  parameterPath: "monitorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
+    serializedName: "monitorName",
+    required: true,
     type: {
       name: "String"
     }
