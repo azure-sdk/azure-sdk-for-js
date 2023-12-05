@@ -389,7 +389,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.environmentName,
     Parameters.managedCertificateName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -436,7 +436,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.environmentName,
     Parameters.managedCertificateName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
