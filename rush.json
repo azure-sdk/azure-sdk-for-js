@@ -2155,6 +2155,11 @@
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/analytics-purview-datamap",
+      "projectFolder": "sdk/purview/analytics-purview-datamap",
+      "versionPolicyName": "client"
     }
   ]
 }
