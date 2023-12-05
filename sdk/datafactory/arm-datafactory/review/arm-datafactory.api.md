@@ -8579,8 +8579,10 @@ export interface WebActivity extends ExecutionActivity {
     datasets?: DatasetReference[];
     disableCertValidation?: boolean;
     headers?: any;
+    httpRequestTimeout?: any;
     linkedServices?: LinkedServiceReference[];
     method: WebActivityMethod;
+    turnOffAsync?: boolean;
     type: "WebActivity";
     url: any;
 }
