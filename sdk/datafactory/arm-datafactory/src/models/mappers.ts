@@ -10042,9 +10042,50 @@ export const MySqlLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      driverVersion: {
+        serializedName: "typeProperties.driverVersion",
+        type: {
+          name: "any"
+        }
+      },
       connectionString: {
         serializedName: "typeProperties.connectionString",
-        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any"
+        }
+      },
+      port: {
+        serializedName: "typeProperties.port",
+        type: {
+          name: "any"
+        }
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        type: {
+          name: "any"
+        }
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any"
+        }
+      },
+      sslMode: {
+        serializedName: "typeProperties.sslMode",
+        type: {
+          name: "any"
+        }
+      },
+      useSystemTrustStore: {
+        serializedName: "typeProperties.useSystemTrustStore",
         type: {
           name: "any"
         }
@@ -13401,14 +13442,44 @@ export const MariaDBLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      driverVersion: {
+        serializedName: "typeProperties.driverVersion",
+        type: {
+          name: "any"
+        }
+      },
       connectionString: {
         serializedName: "typeProperties.connectionString",
         type: {
           name: "any"
         }
       },
-      pwd: {
-        serializedName: "typeProperties.pwd",
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any"
+        }
+      },
+      port: {
+        serializedName: "typeProperties.port",
+        type: {
+          name: "any"
+        }
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        type: {
+          name: "any"
+        }
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any"
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
         type: {
           name: "Composite",
           className: "AzureKeyVaultSecretReference"
@@ -25205,6 +25276,18 @@ export const WebActivity: coreClient.CompositeMapper = {
       },
       disableCertValidation: {
         serializedName: "typeProperties.disableCertValidation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      httpRequestTimeout: {
+        serializedName: "typeProperties.httpRequestTimeout",
+        type: {
+          name: "any"
+        }
+      },
+      turnOffAsync: {
+        serializedName: "typeProperties.turnOffAsync",
         type: {
           name: "Boolean"
         }

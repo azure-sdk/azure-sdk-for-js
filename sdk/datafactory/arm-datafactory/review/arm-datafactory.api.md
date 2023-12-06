@@ -5574,9 +5574,14 @@ export type MappingType = string;
 // @public
 export interface MariaDBLinkedService extends LinkedService {
     connectionString?: any;
+    database?: any;
+    driverVersion?: any;
     encryptedCredential?: string;
-    pwd?: AzureKeyVaultSecretReference;
+    password?: AzureKeyVaultSecretReference;
+    port?: any;
+    server?: any;
     type: "MariaDB";
+    username?: any;
 }
 
 // @public
@@ -5761,10 +5766,17 @@ export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | ScheduleTri
 
 // @public
 export interface MySqlLinkedService extends LinkedService {
-    connectionString: any;
+    connectionString?: any;
+    database?: any;
+    driverVersion?: any;
     encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
+    port?: any;
+    server?: any;
+    sslMode?: any;
     type: "MySql";
+    username?: any;
+    useSystemTrustStore?: any;
 }
 
 // @public
@@ -8579,8 +8591,10 @@ export interface WebActivity extends ExecutionActivity {
     datasets?: DatasetReference[];
     disableCertValidation?: boolean;
     headers?: any;
+    httpRequestTimeout?: any;
     linkedServices?: LinkedServiceReference[];
     method: WebActivityMethod;
+    turnOffAsync?: boolean;
     type: "WebActivity";
     url: any;
 }

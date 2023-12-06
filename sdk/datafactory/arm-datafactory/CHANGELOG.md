@@ -1,15 +1,30 @@
 # Release History
+    
+## 13.0.0 (2023-12-06)
+    
+**Features**
 
-## 12.0.1 (Unreleased)
+  - Interface MariaDBLinkedService has a new optional parameter database
+  - Interface MariaDBLinkedService has a new optional parameter driverVersion
+  - Interface MariaDBLinkedService has a new optional parameter password
+  - Interface MariaDBLinkedService has a new optional parameter port
+  - Interface MariaDBLinkedService has a new optional parameter server
+  - Interface MariaDBLinkedService has a new optional parameter username
+  - Interface MySqlLinkedService has a new optional parameter database
+  - Interface MySqlLinkedService has a new optional parameter driverVersion
+  - Interface MySqlLinkedService has a new optional parameter port
+  - Interface MySqlLinkedService has a new optional parameter server
+  - Interface MySqlLinkedService has a new optional parameter sslMode
+  - Interface MySqlLinkedService has a new optional parameter username
+  - Interface MySqlLinkedService has a new optional parameter useSystemTrustStore
+  - Interface WebActivity has a new optional parameter httpRequestTimeout
+  - Interface WebActivity has a new optional parameter turnOffAsync
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface MariaDBLinkedService no longer has parameter pwd
+    
+    
 ## 12.0.0 (2023-11-10)
     
 **Features**
