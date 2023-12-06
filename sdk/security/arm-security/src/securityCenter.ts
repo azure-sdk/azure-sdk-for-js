@@ -51,9 +51,9 @@ import {
   SecureScoreControlDefinitionsImpl,
   SecuritySolutionsImpl,
   ConnectorsImpl,
+  SensitivitySettingsImpl,
   AlertsImpl,
   SettingsImpl,
-  IngestionSettingsImpl,
   SoftwareInventoriesImpl,
   GovernanceRulesImpl,
   GovernanceAssignmentsImpl,
@@ -61,16 +61,25 @@ import {
   ApplicationOperationsImpl,
   SecurityConnectorApplicationsImpl,
   SecurityConnectorApplicationImpl,
-  APICollectionImpl,
-  APICollectionOnboardingImpl,
-  APICollectionOffboardingImpl,
-  HealthReportsImpl,
-  HealthReportOperationsImpl,
+  APICollectionsImpl,
   SqlVulnerabilityAssessmentScansImpl,
   SqlVulnerabilityAssessmentScanResultsImpl,
   SqlVulnerabilityAssessmentBaselineRulesImpl,
-  SecurityConnectorsImpl,
-  SecurityOperatorsImpl
+  SecurityOperatorsImpl,
+  ServerVulnerabilityAssessmentsSettingsImpl,
+  HealthReportsImpl,
+  DefenderForStorageImpl,
+  AzureDevOpsOrgsImpl,
+  AzureDevOpsProjectsImpl,
+  AzureDevOpsReposImpl,
+  DevOpsConfigurationsImpl,
+  GitHubOwnersImpl,
+  GitHubReposImpl,
+  GitLabGroupsImpl,
+  GitLabSubgroupsImpl,
+  GitLabProjectsImpl,
+  DevOpsOperationResultsImpl,
+  SecurityConnectorsImpl
 } from "./operations";
 import {
   MdeOnboardings,
@@ -114,9 +123,9 @@ import {
   SecureScoreControlDefinitions,
   SecuritySolutions,
   Connectors,
+  SensitivitySettings,
   Alerts,
   Settings,
-  IngestionSettings,
   SoftwareInventories,
   GovernanceRules,
   GovernanceAssignments,
@@ -124,22 +133,40 @@ import {
   ApplicationOperations,
   SecurityConnectorApplications,
   SecurityConnectorApplication,
-  APICollection,
-  APICollectionOnboarding,
-  APICollectionOffboarding,
-  HealthReports,
-  HealthReportOperations,
+  APICollections,
   SqlVulnerabilityAssessmentScans,
   SqlVulnerabilityAssessmentScanResults,
   SqlVulnerabilityAssessmentBaselineRules,
-  SecurityConnectors,
-  SecurityOperators
+  SecurityOperators,
+  ServerVulnerabilityAssessmentsSettings,
+  HealthReports,
+  DefenderForStorage,
+  AzureDevOpsOrgs,
+  AzureDevOpsProjects,
+  AzureDevOpsRepos,
+  DevOpsConfigurations,
+  GitHubOwners,
+  GitHubRepos,
+  GitLabGroups,
+  GitLabSubgroups,
+  GitLabProjects,
+  DevOpsOperationResults,
+  SecurityConnectors
 } from "./operationsInterfaces";
-import { SecurityCenterOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  SecurityCenterOptionalParams,
+  UpdateSensitivitySettingsRequest,
+  UpdateSensitivitySettingsOptionalParams,
+  UpdateSensitivitySettingsResponse,
+  GetSensitivitySettingsOptionalParams,
+  GetSensitivitySettingsOperationResponse
+} from "./models";
 
 export class SecurityCenter extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
@@ -151,12 +178,26 @@ export class SecurityCenter extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: SecurityCenterOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: SecurityCenterOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: SecurityCenterOptionalParams | string,
+    options?: SecurityCenterOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -290,9 +331,9 @@ export class SecurityCenter extends coreClient.ServiceClient {
     );
     this.securitySolutions = new SecuritySolutionsImpl(this);
     this.connectors = new ConnectorsImpl(this);
+    this.sensitivitySettings = new SensitivitySettingsImpl(this);
     this.alerts = new AlertsImpl(this);
     this.settings = new SettingsImpl(this);
-    this.ingestionSettings = new IngestionSettingsImpl(this);
     this.softwareInventories = new SoftwareInventoriesImpl(this);
     this.governanceRules = new GovernanceRulesImpl(this);
     this.governanceAssignments = new GovernanceAssignmentsImpl(this);
@@ -304,11 +345,7 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.securityConnectorApplication = new SecurityConnectorApplicationImpl(
       this
     );
-    this.aPICollection = new APICollectionImpl(this);
-    this.aPICollectionOnboarding = new APICollectionOnboardingImpl(this);
-    this.aPICollectionOffboarding = new APICollectionOffboardingImpl(this);
-    this.healthReports = new HealthReportsImpl(this);
-    this.healthReportOperations = new HealthReportOperationsImpl(this);
+    this.aPICollections = new APICollectionsImpl(this);
     this.sqlVulnerabilityAssessmentScans = new SqlVulnerabilityAssessmentScansImpl(
       this
     );
@@ -318,8 +355,51 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.sqlVulnerabilityAssessmentBaselineRules = new SqlVulnerabilityAssessmentBaselineRulesImpl(
       this
     );
-    this.securityConnectors = new SecurityConnectorsImpl(this);
     this.securityOperators = new SecurityOperatorsImpl(this);
+    this.serverVulnerabilityAssessmentsSettings = new ServerVulnerabilityAssessmentsSettingsImpl(
+      this
+    );
+    this.healthReports = new HealthReportsImpl(this);
+    this.defenderForStorage = new DefenderForStorageImpl(this);
+    this.azureDevOpsOrgs = new AzureDevOpsOrgsImpl(this);
+    this.azureDevOpsProjects = new AzureDevOpsProjectsImpl(this);
+    this.azureDevOpsRepos = new AzureDevOpsReposImpl(this);
+    this.devOpsConfigurations = new DevOpsConfigurationsImpl(this);
+    this.gitHubOwners = new GitHubOwnersImpl(this);
+    this.gitHubRepos = new GitHubReposImpl(this);
+    this.gitLabGroups = new GitLabGroupsImpl(this);
+    this.gitLabSubgroups = new GitLabSubgroupsImpl(this);
+    this.gitLabProjects = new GitLabProjectsImpl(this);
+    this.devOpsOperationResults = new DevOpsOperationResultsImpl(this);
+    this.securityConnectors = new SecurityConnectorsImpl(this);
+  }
+
+  /**
+   * Updates data sensitivity settings for sensitive data discovery
+   * @param sensitivitySettings The data sensitivity settings to update
+   * @param options The options parameters.
+   */
+  updateSensitivitySettings(
+    sensitivitySettings: UpdateSensitivitySettingsRequest,
+    options?: UpdateSensitivitySettingsOptionalParams
+  ): Promise<UpdateSensitivitySettingsResponse> {
+    return this.sendOperationRequest(
+      { sensitivitySettings, options },
+      updateSensitivitySettingsOperationSpec
+    );
+  }
+
+  /**
+   * Gets data sensitivity settings for sensitive data discovery
+   * @param options The options parameters.
+   */
+  getSensitivitySettings(
+    options?: GetSensitivitySettingsOptionalParams
+  ): Promise<GetSensitivitySettingsOperationResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getSensitivitySettingsOperationSpec
+    );
   }
 
   mdeOnboardings: MdeOnboardings;
@@ -363,9 +443,9 @@ export class SecurityCenter extends coreClient.ServiceClient {
   secureScoreControlDefinitions: SecureScoreControlDefinitions;
   securitySolutions: SecuritySolutions;
   connectors: Connectors;
+  sensitivitySettings: SensitivitySettings;
   alerts: Alerts;
   settings: Settings;
-  ingestionSettings: IngestionSettings;
   softwareInventories: SoftwareInventories;
   governanceRules: GovernanceRules;
   governanceAssignments: GovernanceAssignments;
@@ -373,14 +453,60 @@ export class SecurityCenter extends coreClient.ServiceClient {
   applicationOperations: ApplicationOperations;
   securityConnectorApplications: SecurityConnectorApplications;
   securityConnectorApplication: SecurityConnectorApplication;
-  aPICollection: APICollection;
-  aPICollectionOnboarding: APICollectionOnboarding;
-  aPICollectionOffboarding: APICollectionOffboarding;
-  healthReports: HealthReports;
-  healthReportOperations: HealthReportOperations;
+  aPICollections: APICollections;
   sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
   sqlVulnerabilityAssessmentScanResults: SqlVulnerabilityAssessmentScanResults;
   sqlVulnerabilityAssessmentBaselineRules: SqlVulnerabilityAssessmentBaselineRules;
-  securityConnectors: SecurityConnectors;
   securityOperators: SecurityOperators;
+  serverVulnerabilityAssessmentsSettings: ServerVulnerabilityAssessmentsSettings;
+  healthReports: HealthReports;
+  defenderForStorage: DefenderForStorage;
+  azureDevOpsOrgs: AzureDevOpsOrgs;
+  azureDevOpsProjects: AzureDevOpsProjects;
+  azureDevOpsRepos: AzureDevOpsRepos;
+  devOpsConfigurations: DevOpsConfigurations;
+  gitHubOwners: GitHubOwners;
+  gitHubRepos: GitHubRepos;
+  gitLabGroups: GitLabGroups;
+  gitLabSubgroups: GitLabSubgroups;
+  gitLabProjects: GitLabProjects;
+  devOpsOperationResults: DevOpsOperationResults;
+  securityConnectors: SecurityConnectors;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const updateSensitivitySettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Security/sensitivitySettings/current",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetSensitivitySettingsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.sensitivitySettings,
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getSensitivitySettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Security/sensitivitySettings/current",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetSensitivitySettingsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};
