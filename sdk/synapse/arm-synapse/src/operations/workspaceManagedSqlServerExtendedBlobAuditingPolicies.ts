@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ExtendedServerBlobAuditingPolicy,
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextOptionalParams,
@@ -160,8 +164,8 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
     parameters: ExtendedServerBlobAuditingPolicy,
     options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
       >,
       WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
@@ -173,7 +177,7 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
     ): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -206,19 +210,24 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         blobAuditingPolicyName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse,
+      OperationState<
+        WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
+      >
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -335,7 +344,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkloadClassifier,
   SqlPoolWorkloadClassifierListOptionalParams,
@@ -72,8 +72,8 @@ export interface SqlPoolWorkloadClassifier {
     parameters: WorkloadClassifier,
     options?: SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolWorkloadClassifierCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolWorkloadClassifierCreateOrUpdateResponse>,
       SqlPoolWorkloadClassifierCreateOrUpdateResponse
     >
   >;
@@ -112,7 +112,7 @@ export interface SqlPoolWorkloadClassifier {
     workloadGroupName: string,
     workloadClassifierName: string,
     options?: SqlPoolWorkloadClassifierDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Remove workload classifier of a Sql pool's workload group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

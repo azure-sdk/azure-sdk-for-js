@@ -1,16 +1,6 @@
 # Release History
-
-## 9.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 9.0.0-beta.1 (2023-02-08)
+    
+## 9.0.0-beta.2 (2023-12-06)
     
 **Features**
 
@@ -144,7 +134,9 @@
 
   - Removed operation group PrivateLinkResources
   - Removed operation SqlPoolOperationResults.getLocationHeaderResult
+  - Removed operation SqlPools.rename
   - Removed operation SqlPools.update
+  - Class SynapseManagementClient has a new signature
   - Interface IntegrationRuntimeStatusResponse no longer has parameter properties
   - Interface SqlPoolSchemasListNextOptionalParams no longer has parameter filter
   - Interface SqlPoolSensitivityLabelsListCurrentNextOptionalParams no longer has parameter filter
@@ -169,4 +161,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

@@ -4572,7 +4572,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231205
+      typescript: 5.4.0-dev.20231206
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4581,7 +4581,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231205
+      typescript: 5.4.0-dev.20231206
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9083,14 +9083,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.2:
-    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+  /typescript@5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231205:
-    resolution: {integrity: sha512-jeYaYMtVCDclulasTrZlhlF9k/Xu88FCpff6+BP3YVNbWefdRy/3nmmrAFVC/TqGSrLhhjSRHBn6bw49b9Jxdw==}
+  /typescript@5.4.0-dev.20231206:
+    resolution: {integrity: sha512-bKJ5+3jwj4qTzNg7C97rCVLgyyYuzjYh/Pf0zlpOyyq9vpI3TVLO09d1gQ8jS5M+BSLONojTijei0KHmFoBezw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15851,7 +15851,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-3gH25UaonoWa+UH0Nnml6B/h1wEkzujbz538Nr9mTcccuRZzrkLd7icD3fhx3wLof36b3sHPMER1KWpJAVUEGg==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-yluLtckeM+QJ3eKMOwROORZkey/iqS/FvjFN450Ove+Y4y6juLAIwX02ppu35/DEVcqMU7GX7Quh60UgN22Z8g==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -15859,13 +15859,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17636,7 +17638,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.3.2
+      '@_ts/max': /typescript@5.3.3
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.6.1)
