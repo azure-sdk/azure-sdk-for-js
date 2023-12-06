@@ -15,30 +15,34 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  GalleryImagesOperationsImpl,
+  ArcSettingsImpl,
+  ClustersImpl,
+  DeploymentSettingsImpl,
+  EdgeDevicesImpl,
+  ExtensionsImpl,
+  OffersImpl,
   OperationsImpl,
-  LogicalNetworksOperationsImpl,
-  MarketplaceGalleryImagesOperationsImpl,
-  NetworkInterfacesOperationsImpl,
-  StorageContainersOperationsImpl,
-  VirtualHardDisksOperationsImpl,
-  VirtualMachineInstancesImpl,
-  HybridIdentityMetadataOperationsImpl,
-  GuestAgentOperationsImpl,
-  GuestAgentsImpl
+  PublishersImpl,
+  SecuritySettingsImpl,
+  SkusImpl,
+  UpdateRunsImpl,
+  UpdateSummariesOperationsImpl,
+  UpdatesImpl
 } from "./operations";
 import {
-  GalleryImagesOperations,
+  ArcSettings,
+  Clusters,
+  DeploymentSettings,
+  EdgeDevices,
+  Extensions,
+  Offers,
   Operations,
-  LogicalNetworksOperations,
-  MarketplaceGalleryImagesOperations,
-  NetworkInterfacesOperations,
-  StorageContainersOperations,
-  VirtualHardDisksOperations,
-  VirtualMachineInstances,
-  HybridIdentityMetadataOperations,
-  GuestAgentOperations,
-  GuestAgents
+  Publishers,
+  SecuritySettings,
+  Skus,
+  UpdateRuns,
+  UpdateSummariesOperations,
+  Updates
 } from "./operationsInterfaces";
 import { AzureStackHCIClientOptionalParams } from "./models";
 
@@ -88,7 +92,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-azurestackhci/4.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-azurestackhci/4.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -141,26 +145,20 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-01-preview";
-    this.galleryImagesOperations = new GalleryImagesOperationsImpl(this);
+    this.apiVersion = options.apiVersion || "2023-11-01-preview";
+    this.arcSettings = new ArcSettingsImpl(this);
+    this.clusters = new ClustersImpl(this);
+    this.deploymentSettings = new DeploymentSettingsImpl(this);
+    this.edgeDevices = new EdgeDevicesImpl(this);
+    this.extensions = new ExtensionsImpl(this);
+    this.offers = new OffersImpl(this);
     this.operations = new OperationsImpl(this);
-    this.logicalNetworksOperations = new LogicalNetworksOperationsImpl(this);
-    this.marketplaceGalleryImagesOperations = new MarketplaceGalleryImagesOperationsImpl(
-      this
-    );
-    this.networkInterfacesOperations = new NetworkInterfacesOperationsImpl(
-      this
-    );
-    this.storageContainersOperations = new StorageContainersOperationsImpl(
-      this
-    );
-    this.virtualHardDisksOperations = new VirtualHardDisksOperationsImpl(this);
-    this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
-    this.hybridIdentityMetadataOperations = new HybridIdentityMetadataOperationsImpl(
-      this
-    );
-    this.guestAgentOperations = new GuestAgentOperationsImpl(this);
-    this.guestAgents = new GuestAgentsImpl(this);
+    this.publishers = new PublishersImpl(this);
+    this.securitySettings = new SecuritySettingsImpl(this);
+    this.skus = new SkusImpl(this);
+    this.updateRuns = new UpdateRunsImpl(this);
+    this.updateSummariesOperations = new UpdateSummariesOperationsImpl(this);
+    this.updates = new UpdatesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -192,15 +190,17 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  galleryImagesOperations: GalleryImagesOperations;
+  arcSettings: ArcSettings;
+  clusters: Clusters;
+  deploymentSettings: DeploymentSettings;
+  edgeDevices: EdgeDevices;
+  extensions: Extensions;
+  offers: Offers;
   operations: Operations;
-  logicalNetworksOperations: LogicalNetworksOperations;
-  marketplaceGalleryImagesOperations: MarketplaceGalleryImagesOperations;
-  networkInterfacesOperations: NetworkInterfacesOperations;
-  storageContainersOperations: StorageContainersOperations;
-  virtualHardDisksOperations: VirtualHardDisksOperations;
-  virtualMachineInstances: VirtualMachineInstances;
-  hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
-  guestAgentOperations: GuestAgentOperations;
-  guestAgents: GuestAgents;
+  publishers: Publishers;
+  securitySettings: SecuritySettings;
+  skus: Skus;
+  updateRuns: UpdateRuns;
+  updateSummariesOperations: UpdateSummariesOperations;
+  updates: Updates;
 }
