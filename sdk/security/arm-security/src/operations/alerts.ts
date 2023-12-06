@@ -780,7 +780,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -797,7 +797,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -818,7 +818,7 @@ const listSubscriptionLevelByRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -839,12 +839,12 @@ const listResourceGroupLevelByRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ascLocation
+    Parameters.ascLocation,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -861,7 +861,7 @@ const getSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -883,12 +883,12 @@ const getResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.alertName
   ],
   headerParameters: [Parameters.accept],
@@ -904,7 +904,7 @@ const updateSubscriptionLevelStateToDismissOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -924,7 +924,7 @@ const updateSubscriptionLevelStateToResolveOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -944,7 +944,7 @@ const updateSubscriptionLevelStateToActivateOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -964,7 +964,7 @@ const updateSubscriptionLevelStateToInProgressOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -984,12 +984,12 @@ const updateResourceGroupLevelStateToResolveOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.alertName
   ],
   headerParameters: [Parameters.accept],
@@ -1005,12 +1005,12 @@ const updateResourceGroupLevelStateToDismissOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.alertName
   ],
   headerParameters: [Parameters.accept],
@@ -1026,12 +1026,12 @@ const updateResourceGroupLevelStateToActivateOperationSpec: coreClient.Operation
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.alertName
   ],
   headerParameters: [Parameters.accept],
@@ -1047,12 +1047,12 @@ const updateResourceGroupLevelStateToInProgressOperationSpec: coreClient.Operati
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
+    Parameters.resourceGroupName,
     Parameters.alertName
   ],
   headerParameters: [Parameters.accept],
@@ -1072,7 +1072,7 @@ const simulateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.alertSimulatorRequestBody,
-  queryParameters: [Parameters.apiVersion12],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1115,8 +1115,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1135,8 +1135,8 @@ const listSubscriptionLevelByRegionNextOperationSpec: coreClient.OperationSpec =
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.ascLocation
+    Parameters.ascLocation,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1155,9 +1155,9 @@ const listResourceGroupLevelByRegionNextOperationSpec: coreClient.OperationSpec 
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.ascLocation,
     Parameters.nextLink,
-    Parameters.ascLocation
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
