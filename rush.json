@@ -2147,6 +2147,11 @@
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/defender-easm-rest",
+      "projectFolder": "sdk/easm/defendereasm-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
