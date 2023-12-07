@@ -2147,6 +2147,11 @@
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-scom",
+      "projectFolder": "sdk/scom/arm-scom",
+      "versionPolicyName": "management"
     }
   ]
 }
