@@ -17,41 +17,15 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
-export interface AddOrUpdateBlocklistItems {
-    post(options: AddOrUpdateBlocklistItemsParameters): StreamableMethod<AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse>;
+// @public
+export interface AddImageIncidentSamplesOptions {
+    incidentSamples: Array<ImageIncidentSample>;
 }
 
 // @public
-export interface AddOrUpdateBlocklistItems200Response extends HttpResponse {
-    // (undocumented)
-    body: AddOrUpdateTextBlocklistItemsResultOutput;
-    // (undocumented)
-    status: "200";
+export interface AddImageIncidentSamplesResultOutput {
+    incidentSamples: Array<ListImageIncidentSampleResultOutput>;
 }
-
-// @public (undocumented)
-export interface AddOrUpdateBlocklistItemsBodyParam {
-    body: AddOrUpdateTextBlocklistItemsOptions;
-}
-
-// @public (undocumented)
-export interface AddOrUpdateBlocklistItemsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface AddOrUpdateBlocklistItemsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & AddOrUpdateBlocklistItemsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type AddOrUpdateBlocklistItemsParameters = AddOrUpdateBlocklistItemsBodyParam & RequestParameters;
 
 // @public
 export interface AddOrUpdateTextBlocklistItemsOptions {
@@ -63,43 +37,21 @@ export interface AddOrUpdateTextBlocklistItemsResultOutput {
     blocklistItems: Array<TextBlocklistItemOutput>;
 }
 
-// @public (undocumented)
-export interface AnalyzeImage {
-    post(options: AnalyzeImageParameters): StreamableMethod<AnalyzeImage200Response | AnalyzeImageDefaultResponse>;
+// @public
+export interface AddTextIncidentSamplesOptions {
+    incidentSamples: Array<TextIncidentSample>;
 }
 
 // @public
-export interface AnalyzeImage200Response extends HttpResponse {
-    // (undocumented)
-    body: AnalyzeImageResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface AnalyzeImageBodyParam {
-    body: AnalyzeImageOptions;
-}
-
-// @public (undocumented)
-export interface AnalyzeImageDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface AnalyzeImageDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & AnalyzeImageDefaultHeaders;
-    // (undocumented)
-    status: string;
+export interface AddTextIncidentSamplesResultOutput {
+    incidentSamples: Array<TextIncidentSampleOutput>;
 }
 
 // @public
 export interface AnalyzeImageOptions {
     categories?: string[];
     image: ImageData_2;
+    incidents?: IncidentOptions;
     outputType?: string;
 }
 
@@ -107,48 +59,50 @@ export interface AnalyzeImageOptions {
 export interface AnalyzeImageOptionsOutput {
     categories?: string[];
     image: ImageDataOutput;
+    incidents?: IncidentOptionsOutput;
     outputType?: string;
 }
-
-// @public (undocumented)
-export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
 
 // @public
 export interface AnalyzeImageResultOutput {
     categoriesAnalysis: Array<ImageCategoriesAnalysisOutput>;
-}
-
-// @public (undocumented)
-export interface AnalyzeText {
-    post(options: AnalyzeTextParameters): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
+    incidentMatches?: Array<IncidentMatchOutput>;
 }
 
 // @public
-export interface AnalyzeText200Response extends HttpResponse {
-    // (undocumented)
-    body: AnalyzeTextResultOutput;
-    // (undocumented)
-    status: "200";
+export interface AnalyzeImageWithTextOptions {
+    categories?: string[];
+    enableOcr: boolean;
+    image: ImageData_2;
+    text?: string;
 }
 
-// @public (undocumented)
-export interface AnalyzeTextBodyParam {
-    body: AnalyzeTextOptions;
+// @public
+export interface AnalyzeImageWithTextOptionsOutput {
+    categories?: string[];
+    enableOcr: boolean;
+    image: ImageDataOutput;
+    text?: string;
 }
 
-// @public (undocumented)
-export interface AnalyzeTextDefaultHeaders {
-    "x-ms-error-code"?: string;
+// @public
+export interface AnalyzeImageWithTextResultOutput {
+    categoriesAnalysis: Array<ImageWithTextCategoriesAnalysisOutput>;
 }
 
-// @public (undocumented)
-export interface AnalyzeTextDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & AnalyzeTextDefaultHeaders;
-    // (undocumented)
-    status: string;
+// @public
+export interface AnalyzeTextJailbreakOptions {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextJailbreakOptionsOutput {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextJailbreakResultOutput {
+    jailbreakAnalysis: JailbreakAnalysisResultOutput;
 }
 
 // @public
@@ -156,6 +110,7 @@ export interface AnalyzeTextOptions {
     blocklistNames?: string[];
     categories?: string[];
     haltOnBlocklistHit?: boolean;
+    incidents?: IncidentOptions;
     outputType?: string;
     text: string;
 }
@@ -165,17 +120,51 @@ export interface AnalyzeTextOptionsOutput {
     blocklistNames?: string[];
     categories?: string[];
     haltOnBlocklistHit?: boolean;
+    incidents?: IncidentOptionsOutput;
     outputType?: string;
     text: string;
 }
 
-// @public (undocumented)
-export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
+// @public
+export interface AnalyzeTextProtectedMaterialOptions {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextProtectedMaterialOptionsOutput {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextProtectedMaterialResultOutput {
+    protectedMaterialAnalysis: ProtectedMaterialAnalysisResultOutput;
+}
 
 // @public
 export interface AnalyzeTextResultOutput {
     blocklistsMatch?: Array<TextBlocklistMatchOutput>;
     categoriesAnalysis: Array<TextCategoriesAnalysisOutput>;
+    incidentMatches?: Array<IncidentMatchOutput>;
+    reason?: string[];
+}
+
+// @public
+export interface AnnotateTextOptions {
+    category: string;
+    text: string;
+}
+
+// @public
+export interface AnnotateTextOptionsOutput {
+    category: string;
+    text: string;
+}
+
+// @public
+export interface AnnotateTextResultOutput {
+    id: number;
+    name: string;
+    reasoning?: string;
 }
 
 // @public (undocumented)
@@ -188,72 +177,32 @@ function createClient(endpoint: string, credentials: TokenCredential | KeyCreden
 export default createClient;
 
 // @public
-export interface CreateOrUpdateTextBlocklist200Response extends HttpResponse {
-    // (undocumented)
-    body: TextBlocklistOutput;
-    // (undocumented)
-    status: "200";
+export interface DetectUngroundednessOptions {
+    domain?: string;
+    gptResource?: GptResource;
+    groundingSources: string[];
+    query?: string;
+    task?: string;
+    text: string;
 }
 
 // @public
-export interface CreateOrUpdateTextBlocklist201Response extends HttpResponse {
-    // (undocumented)
-    body: TextBlocklistOutput;
-    // (undocumented)
-    status: "201";
+export interface DetectUngroundednessOptionsOutput {
+    domain?: string;
+    gptResource?: GptResourceOutput;
+    groundingSources: string[];
+    query?: string;
+    task?: string;
+    text: string;
 }
-
-// @public (undocumented)
-export interface CreateOrUpdateTextBlocklistBodyParam {
-    body: TextBlocklistResourceMergeAndPatch;
-}
-
-// @public (undocumented)
-export interface CreateOrUpdateTextBlocklistDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface CreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & CreateOrUpdateTextBlocklistDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface CreateOrUpdateTextBlocklistMediaTypesParam {
-    contentType: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type CreateOrUpdateTextBlocklistParameters = CreateOrUpdateTextBlocklistMediaTypesParam & CreateOrUpdateTextBlocklistBodyParam & RequestParameters;
 
 // @public
-export interface DeleteTextBlocklist204Response extends HttpResponse {
-    // (undocumented)
-    status: "204";
+export interface DetectUngroundednessResultOutput {
+    confidenceScore: number;
+    ungrounded: boolean;
+    ungroundedDetails: Array<UngroundedDetailsOutput>;
+    ungroundedPercentage: number;
 }
-
-// @public (undocumented)
-export interface DeleteTextBlocklistDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface DeleteTextBlocklistDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & DeleteTextBlocklistDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type DeleteTextBlocklistParameters = RequestParameters;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -264,69 +213,17 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
     nextPageLink?: string;
 }>;
 
-// @public (undocumented)
-export interface GetTextBlocklist {
-    delete(options?: DeleteTextBlocklistParameters): StreamableMethod<DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse>;
-    get(options?: GetTextBlocklistParameters): StreamableMethod<GetTextBlocklist200Response | GetTextBlocklistDefaultResponse>;
-    patch(options: CreateOrUpdateTextBlocklistParameters): StreamableMethod<CreateOrUpdateTextBlocklist200Response | CreateOrUpdateTextBlocklist201Response | CreateOrUpdateTextBlocklistDefaultResponse>;
+// @public
+export interface GptResource {
+    azureOpenAIEndpoint: string;
+    deploymentName: string;
 }
 
 // @public
-export interface GetTextBlocklist200Response extends HttpResponse {
-    // (undocumented)
-    body: TextBlocklistOutput;
-    // (undocumented)
-    status: "200";
+export interface GptResourceOutput {
+    azureOpenAIEndpoint: string;
+    deploymentName: string;
 }
-
-// @public (undocumented)
-export interface GetTextBlocklistDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & GetTextBlocklistDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistItem {
-    get(options?: GetTextBlocklistItemParameters): StreamableMethod<GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse>;
-}
-
-// @public
-export interface GetTextBlocklistItem200Response extends HttpResponse {
-    // (undocumented)
-    body: TextBlocklistItemOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistItemDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistItemDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & GetTextBlocklistItemDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type GetTextBlocklistItemParameters = RequestParameters;
-
-// @public (undocumented)
-export type GetTextBlocklistParameters = RequestParameters;
 
 // @public
 export interface ImageCategoriesAnalysisOutput {
@@ -347,116 +244,563 @@ export interface ImageDataOutput {
     content?: string;
 }
 
-// @public (undocumented)
-export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse): response is GetTextBlocklistDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: CreateOrUpdateTextBlocklist200Response | CreateOrUpdateTextBlocklist201Response | CreateOrUpdateTextBlocklistDefaultResponse): response is CreateOrUpdateTextBlocklistDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse): response is DeleteTextBlocklistDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse): response is ListTextBlocklistsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse): response is AddOrUpdateBlocklistItemsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse): response is RemoveBlocklistItemsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse): response is GetTextBlocklistItemDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse): response is ListTextBlocklistItemsDefaultResponse;
-
-// @public (undocumented)
-export interface ListTextBlocklistItems {
-    get(options?: ListTextBlocklistItemsParameters): StreamableMethod<ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse>;
+// @public
+export interface ImageDataResultOutput {
+    content?: string;
 }
 
 // @public
-export interface ListTextBlocklistItems200Response extends HttpResponse {
+export interface ImageIncident {
+    created: Date | string;
+    description?: string;
+    incidentName: string;
+    lastUpdated: Date | string;
+}
+
+// @public
+export interface ImageIncidentOutput {
+    created: string;
+    description?: string;
+    incidentName: string;
+    lastUpdated: string;
+}
+
+// @public
+export type ImageIncidentResourceMergeAndPatch = Partial<ImageIncident>;
+
+// @public (undocumented)
+export interface ImageIncidentsAddIncidentSamples {
+    post(options?: ImageIncidentsAddIncidentSamplesParameters): StreamableMethod<ImageIncidentsAddIncidentSamples200Response | ImageIncidentsAddIncidentSamplesDefaultResponse>;
+}
+
+// @public
+export interface ImageIncidentsAddIncidentSamples200Response extends HttpResponse {
     // (undocumented)
-    body: PagedTextBlocklistItemOutput;
+    body: AddImageIncidentSamplesResultOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface ListTextBlocklistItemsDefaultHeaders {
+export interface ImageIncidentsAddIncidentSamplesBodyParam {
+    // (undocumented)
+    body?: AddImageIncidentSamplesOptions;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsAddIncidentSamplesDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface ListTextBlocklistItemsDefaultResponse extends HttpResponse {
+export interface ImageIncidentsAddIncidentSamplesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & ListTextBlocklistItemsDefaultHeaders;
+    headers: RawHttpHeaders & ImageIncidentsAddIncidentSamplesDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type ListTextBlocklistItemsParameters = ListTextBlocklistItemsQueryParam & RequestParameters;
+export type ImageIncidentsAddIncidentSamplesParameters = ImageIncidentsAddIncidentSamplesBodyParam & RequestParameters;
 
-// @public (undocumented)
-export interface ListTextBlocklistItemsQueryParam {
+// @public
+export interface ImageIncidentSample {
+    image?: ImageData_2;
+}
+
+// @public
+export interface ImageIncidentSampleResultOutput {
+    image?: ImageDataResultOutput;
+    readonly incidentSampleId: string;
+}
+
+// @public
+export interface ImageIncidentsCreateOrUpdateIncident200Response extends HttpResponse {
     // (undocumented)
-    queryParameters?: ListTextBlocklistItemsQueryParamProperties;
+    body: ImageIncidentOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface ImageIncidentsCreateOrUpdateIncident201Response extends HttpResponse {
+    // (undocumented)
+    body: ImageIncidentOutput;
+    // (undocumented)
+    status: "201";
 }
 
 // @public (undocumented)
-export interface ListTextBlocklistItemsQueryParamProperties {
+export interface ImageIncidentsCreateOrUpdateIncidentBodyParam {
+    body: ImageIncidentResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsCreateOrUpdateIncidentDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsCreateOrUpdateIncidentDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageIncidentsCreateOrUpdateIncidentDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsCreateOrUpdateIncidentMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type ImageIncidentsCreateOrUpdateIncidentParameters = ImageIncidentsCreateOrUpdateIncidentMediaTypesParam & ImageIncidentsCreateOrUpdateIncidentBodyParam & RequestParameters;
+
+// @public
+export interface ImageIncidentsDeleteIncident204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface ImageIncidentsDeleteIncidentDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsDeleteIncidentDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageIncidentsDeleteIncidentDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ImageIncidentsDeleteIncidentParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ImageIncidentsGetIncidents {
+    delete(options?: ImageIncidentsDeleteIncidentParameters): StreamableMethod<ImageIncidentsDeleteIncident204Response | ImageIncidentsDeleteIncidentDefaultResponse>;
+    get(options?: ImageIncidentsGetIncidentsParameters): StreamableMethod<ImageIncidentsGetIncidents200Response | ImageIncidentsGetIncidentsDefaultResponse>;
+    patch(options: ImageIncidentsCreateOrUpdateIncidentParameters): StreamableMethod<ImageIncidentsCreateOrUpdateIncident200Response | ImageIncidentsCreateOrUpdateIncident201Response | ImageIncidentsCreateOrUpdateIncidentDefaultResponse>;
+}
+
+// @public
+export interface ImageIncidentsGetIncidents200Response extends HttpResponse {
+    // (undocumented)
+    body: ImageIncidentOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ImageIncidentsGetIncidentSample {
+    get(options?: ImageIncidentsGetIncidentSampleParameters): StreamableMethod<ImageIncidentsGetIncidentSample200Response | ImageIncidentsGetIncidentSampleDefaultResponse>;
+}
+
+// @public
+export interface ImageIncidentsGetIncidentSample200Response extends HttpResponse {
+    // (undocumented)
+    body: ImageIncidentSampleResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ImageIncidentsGetIncidentSampleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsGetIncidentSampleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageIncidentsGetIncidentSampleDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ImageIncidentsGetIncidentSampleParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ImageIncidentsGetIncidentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsGetIncidentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageIncidentsGetIncidentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ImageIncidentsGetIncidentsParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ImageIncidentsListIncidents {
+    get(options?: ImageIncidentsListIncidentsParameters): StreamableMethod<ImageIncidentsListIncidents200Response | ImageIncidentsListIncidentsDefaultResponse>;
+}
+
+// @public
+export interface ImageIncidentsListIncidents200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedImageIncidentOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ImageIncidentsListIncidentSamples {
+    get(options?: ImageIncidentsListIncidentSamplesParameters): StreamableMethod<ImageIncidentsListIncidentSamples200Response | ImageIncidentsListIncidentSamplesDefaultResponse>;
+}
+
+// @public
+export interface ImageIncidentsListIncidentSamples200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedListImageIncidentSampleResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ImageIncidentsListIncidentSamplesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsListIncidentSamplesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageIncidentsListIncidentSamplesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ImageIncidentsListIncidentSamplesParameters = ImageIncidentsListIncidentSamplesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface ImageIncidentsListIncidentSamplesQueryParam {
+    // (undocumented)
+    queryParameters?: ImageIncidentsListIncidentSamplesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsListIncidentSamplesQueryParamProperties {
     maxpagesize?: number;
     skip?: number;
     top?: number;
 }
 
 // @public (undocumented)
-export interface ListTextBlocklists {
-    get(options?: ListTextBlocklistsParameters): StreamableMethod<ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse>;
-}
-
-// @public
-export interface ListTextBlocklists200Response extends HttpResponse {
-    // (undocumented)
-    body: PagedTextBlocklistOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface ListTextBlocklistsDefaultHeaders {
+export interface ImageIncidentsListIncidentsDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface ListTextBlocklistsDefaultResponse extends HttpResponse {
+export interface ImageIncidentsListIncidentsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & ListTextBlocklistsDefaultHeaders;
+    headers: RawHttpHeaders & ImageIncidentsListIncidentsDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type ListTextBlocklistsParameters = RequestParameters;
+export type ImageIncidentsListIncidentsParameters = ImageIncidentsListIncidentsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface ImageIncidentsListIncidentsQueryParam {
+    // (undocumented)
+    queryParameters?: ImageIncidentsListIncidentsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsListIncidentsQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsRemoveIncidentSamples {
+    post(options?: ImageIncidentsRemoveIncidentSamplesParameters): StreamableMethod<ImageIncidentsRemoveIncidentSamples204Response | ImageIncidentsRemoveIncidentSamplesDefaultResponse>;
+}
+
+// @public
+export interface ImageIncidentsRemoveIncidentSamples204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface ImageIncidentsRemoveIncidentSamplesBodyParam {
+    // (undocumented)
+    body?: RemoveImageIncidentSamplesOptions;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsRemoveIncidentSamplesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ImageIncidentsRemoveIncidentSamplesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageIncidentsRemoveIncidentSamplesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ImageIncidentsRemoveIncidentSamplesParameters = ImageIncidentsRemoveIncidentSamplesBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ImageOperationsAnalyzeImage {
+    post(options: ImageOperationsAnalyzeImageParameters): StreamableMethod<ImageOperationsAnalyzeImage200Response | ImageOperationsAnalyzeImageDefaultResponse>;
+}
+
+// @public
+export interface ImageOperationsAnalyzeImage200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeImageResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ImageOperationsAnalyzeImageBodyParam {
+    body: AnalyzeImageOptions;
+}
+
+// @public (undocumented)
+export interface ImageOperationsAnalyzeImageDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ImageOperationsAnalyzeImageDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageOperationsAnalyzeImageDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ImageOperationsAnalyzeImageParameters = ImageOperationsAnalyzeImageBodyParam & RequestParameters;
+
+// @public
+export interface ImageWithTextCategoriesAnalysisOutput {
+    category: string;
+    severity?: number;
+}
+
+// @public (undocumented)
+export interface ImageWithTextOperationsAnalyzeImageWithText {
+    post(options: ImageWithTextOperationsAnalyzeImageWithTextParameters): StreamableMethod<ImageWithTextOperationsAnalyzeImageWithText200Response | ImageWithTextOperationsAnalyzeImageWithTextDefaultResponse>;
+}
+
+// @public
+export interface ImageWithTextOperationsAnalyzeImageWithText200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeImageWithTextResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ImageWithTextOperationsAnalyzeImageWithTextBodyParam {
+    body: AnalyzeImageWithTextOptions;
+}
+
+// @public (undocumented)
+export interface ImageWithTextOperationsAnalyzeImageWithTextDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ImageWithTextOperationsAnalyzeImageWithTextDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ImageWithTextOperationsAnalyzeImageWithTextDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ImageWithTextOperationsAnalyzeImageWithTextParameters = ImageWithTextOperationsAnalyzeImageWithTextBodyParam & RequestParameters;
+
+// @public
+export interface IncidentMatchOutput {
+    incidentName: string;
+}
+
+// @public
+export interface IncidentOptions {
+    haltOnIncidentHit?: boolean;
+    incidentNames?: string[];
+}
+
+// @public
+export interface IncidentOptionsOutput {
+    haltOnIncidentHit?: boolean;
+    incidentNames?: string[];
+}
+
+// @public (undocumented)
+export function isUnexpected(response: TextOperationsAnalyzeText200Response | TextOperationsAnalyzeTextDefaultResponse): response is TextOperationsAnalyzeTextDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextOperationsDetectTextJailbreak200Response | TextOperationsDetectTextJailbreakDefaultResponse): response is TextOperationsDetectTextJailbreakDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextOperationsDetectTextProtectedMaterial200Response | TextOperationsDetectTextProtectedMaterialDefaultResponse): response is TextOperationsDetectTextProtectedMaterialDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageOperationsAnalyzeImage200Response | ImageOperationsAnalyzeImageDefaultResponse): response is ImageOperationsAnalyzeImageDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextBlocklistsGetTextBlocklist200Response | TextBlocklistsGetTextBlocklistDefaultResponse): response is TextBlocklistsGetTextBlocklistDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextBlocklistsCreateOrUpdateTextBlocklist200Response | TextBlocklistsCreateOrUpdateTextBlocklist201Response | TextBlocklistsCreateOrUpdateTextBlocklistDefaultResponse): response is TextBlocklistsCreateOrUpdateTextBlocklistDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextBlocklistsDeleteTextBlocklist204Response | TextBlocklistsDeleteTextBlocklistDefaultResponse): response is TextBlocklistsDeleteTextBlocklistDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextBlocklistsListTextBlocklists200Response | TextBlocklistsListTextBlocklistsDefaultResponse): response is TextBlocklistsListTextBlocklistsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextBlocklistsAddOrUpdateBlocklistItems200Response | TextBlocklistsAddOrUpdateBlocklistItemsDefaultResponse): response is TextBlocklistsAddOrUpdateBlocklistItemsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextBlocklistsRemoveBlocklistItems204Response | TextBlocklistsRemoveBlocklistItemsDefaultResponse): response is TextBlocklistsRemoveBlocklistItemsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextBlocklistsGetTextBlocklistItem200Response | TextBlocklistsGetTextBlocklistItemDefaultResponse): response is TextBlocklistsGetTextBlocklistItemDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextBlocklistsListTextBlocklistItems200Response | TextBlocklistsListTextBlocklistItemsDefaultResponse): response is TextBlocklistsListTextBlocklistItemsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextIncidentsGetIncidents200Response | TextIncidentsGetIncidentsDefaultResponse): response is TextIncidentsGetIncidentsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextIncidentsCreateOrUpdateIncident200Response | TextIncidentsCreateOrUpdateIncident201Response | TextIncidentsCreateOrUpdateIncidentDefaultResponse): response is TextIncidentsCreateOrUpdateIncidentDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextIncidentsDeleteIncident204Response | TextIncidentsDeleteIncidentDefaultResponse): response is TextIncidentsDeleteIncidentDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextIncidentsListIncidents200Response | TextIncidentsListIncidentsDefaultResponse): response is TextIncidentsListIncidentsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextIncidentsAddIncidentSamples200Response | TextIncidentsAddIncidentSamplesDefaultResponse): response is TextIncidentsAddIncidentSamplesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextIncidentsRemoveIncidentSamples204Response | TextIncidentsRemoveIncidentSamplesDefaultResponse): response is TextIncidentsRemoveIncidentSamplesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextIncidentsGetIncidentSample200Response | TextIncidentsGetIncidentSampleDefaultResponse): response is TextIncidentsGetIncidentSampleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextIncidentsListIncidentSamples200Response | TextIncidentsListIncidentSamplesDefaultResponse): response is TextIncidentsListIncidentSamplesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageIncidentsGetIncidents200Response | ImageIncidentsGetIncidentsDefaultResponse): response is ImageIncidentsGetIncidentsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageIncidentsCreateOrUpdateIncident200Response | ImageIncidentsCreateOrUpdateIncident201Response | ImageIncidentsCreateOrUpdateIncidentDefaultResponse): response is ImageIncidentsCreateOrUpdateIncidentDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageIncidentsDeleteIncident204Response | ImageIncidentsDeleteIncidentDefaultResponse): response is ImageIncidentsDeleteIncidentDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageIncidentsListIncidents200Response | ImageIncidentsListIncidentsDefaultResponse): response is ImageIncidentsListIncidentsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageIncidentsAddIncidentSamples200Response | ImageIncidentsAddIncidentSamplesDefaultResponse): response is ImageIncidentsAddIncidentSamplesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageIncidentsRemoveIncidentSamples204Response | ImageIncidentsRemoveIncidentSamplesDefaultResponse): response is ImageIncidentsRemoveIncidentSamplesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageIncidentsGetIncidentSample200Response | ImageIncidentsGetIncidentSampleDefaultResponse): response is ImageIncidentsGetIncidentSampleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageIncidentsListIncidentSamples200Response | ImageIncidentsListIncidentSamplesDefaultResponse): response is ImageIncidentsListIncidentSamplesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: PromptTextOperationsAnnotateText200Response | PromptTextOperationsAnnotateTextDefaultResponse): response is PromptTextOperationsAnnotateTextDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextCategoryCustomizationCreateOrReplaceTextCustomizedCategory200Response | TextCategoryCustomizationCreateOrReplaceTextCustomizedCategory201Response | TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryDefaultResponse): response is TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextCategoryCustomizationGetTextCustomizedCategory200Response | TextCategoryCustomizationGetTextCustomizedCategoryDefaultResponse): response is TextCategoryCustomizationGetTextCustomizedCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextCategoryCustomizationDeleteTextCustomizedCategory204Response | TextCategoryCustomizationDeleteTextCustomizedCategoryDefaultResponse): response is TextCategoryCustomizationDeleteTextCustomizedCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextCategoryCustomizationListTextCustomizedCategory200Response | TextCategoryCustomizationListTextCustomizedCategoryDefaultResponse): response is TextCategoryCustomizationListTextCustomizedCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ImageWithTextOperationsAnalyzeImageWithText200Response | ImageWithTextOperationsAnalyzeImageWithTextDefaultResponse): response is ImageWithTextOperationsAnalyzeImageWithTextDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TextUngroundednessDetectionOperationsDetectUngroundedness200Response | TextUngroundednessDetectionOperationsDetectUngroundednessDefaultResponse): response is TextUngroundednessDetectionOperationsDetectUngroundednessDefaultResponse;
+
+// @public
+export interface JailbreakAnalysisResultOutput {
+    detected: boolean;
+}
+
+// @public
+export interface ListImageIncidentSampleResultOutput {
+    readonly incidentSampleId: string;
+}
+
+// @public
+export type PagedImageIncidentOutput = Paged<ImageIncidentOutput>;
+
+// @public
+export type PagedListImageIncidentSampleResultOutput = Paged<ListImageIncidentSampleResultOutput>;
 
 // @public
 export type PagedTextBlocklistItemOutput = Paged<TextBlocklistItemOutput>;
 
 // @public
 export type PagedTextBlocklistOutput = Paged<TextBlocklistOutput>;
+
+// @public
+export type PagedTextCustomizedCategoryOutput = Paged<TextCustomizedCategoryOutput>;
+
+// @public
+export type PagedTextIncidentOutput = Paged<TextIncidentOutput>;
+
+// @public
+export type PagedTextIncidentSampleOutput = Paged<TextIncidentSampleOutput>;
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -473,55 +817,127 @@ export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
-// @public (undocumented)
-export interface RemoveBlocklistItems {
-    post(options: RemoveBlocklistItemsParameters): StreamableMethod<RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse>;
+// @public
+export interface PreDefinedConcept {
+    // (undocumented)
+    concept: string;
+    // (undocumented)
+    description: string;
 }
 
 // @public
-export interface RemoveBlocklistItems204Response extends HttpResponse {
+export interface PreDefinedConceptOutput {
     // (undocumented)
-    status: "204";
+    concept: string;
+    // (undocumented)
+    description: string;
 }
 
 // @public (undocumented)
-export interface RemoveBlocklistItemsBodyParam {
-    body: RemoveTextBlocklistItemsOptions;
+export interface PromptTextOperationsAnnotateText {
+    post(options: PromptTextOperationsAnnotateTextParameters): StreamableMethod<PromptTextOperationsAnnotateText200Response | PromptTextOperationsAnnotateTextDefaultResponse>;
+}
+
+// @public
+export interface PromptTextOperationsAnnotateText200Response extends HttpResponse {
+    // (undocumented)
+    body: AnnotateTextResultOutput;
+    // (undocumented)
+    status: "200";
 }
 
 // @public (undocumented)
-export interface RemoveBlocklistItemsDefaultHeaders {
+export interface PromptTextOperationsAnnotateTextBodyParam {
+    body: AnnotateTextOptions;
+}
+
+// @public (undocumented)
+export interface PromptTextOperationsAnnotateTextDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface RemoveBlocklistItemsDefaultResponse extends HttpResponse {
+export interface PromptTextOperationsAnnotateTextDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & RemoveBlocklistItemsDefaultHeaders;
+    headers: RawHttpHeaders & PromptTextOperationsAnnotateTextDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type RemoveBlocklistItemsParameters = RemoveBlocklistItemsBodyParam & RequestParameters;
+export type PromptTextOperationsAnnotateTextParameters = PromptTextOperationsAnnotateTextBodyParam & RequestParameters;
+
+// @public
+export interface ProtectedMaterialAnalysisResultOutput {
+    detected: boolean;
+}
+
+// @public
+export interface RemoveImageIncidentSamplesOptions {
+    incidentSampleIds: string[];
+}
 
 // @public
 export interface RemoveTextBlocklistItemsOptions {
     blocklistItemIds: string[];
 }
 
+// @public
+export interface RemoveTextIncidentSamplesOptions {
+    incidentSampleIds: string[];
+}
+
 // @public (undocumented)
 export interface Routes {
-    (path: "/text:analyze"): AnalyzeText;
-    (path: "/image:analyze"): AnalyzeImage;
-    (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
-    (path: "/text/blocklists"): ListTextBlocklists;
-    (path: "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName: string): AddOrUpdateBlocklistItems;
-    (path: "/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName: string): RemoveBlocklistItems;
-    (path: "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName: string, blocklistItemId: string): GetTextBlocklistItem;
-    (path: "/text/blocklists/{blocklistName}/blocklistItems", blocklistName: string): ListTextBlocklistItems;
+    (path: "/text:analyze"): TextOperationsAnalyzeText;
+    (path: "/text:detectJailbreak"): TextOperationsDetectTextJailbreak;
+    (path: "/text:detectProtectedMaterial"): TextOperationsDetectTextProtectedMaterial;
+    (path: "/image:analyze"): ImageOperationsAnalyzeImage;
+    (path: "/text/blocklists/{blocklistName}", blocklistName: string): TextBlocklistsGetTextBlocklist;
+    (path: "/text/blocklists"): TextBlocklistsListTextBlocklists;
+    (path: "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName: string): TextBlocklistsAddOrUpdateBlocklistItems;
+    (path: "/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName: string): TextBlocklistsRemoveBlocklistItems;
+    (path: "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName: string, blocklistItemId: string): TextBlocklistsGetTextBlocklistItem;
+    (path: "/text/blocklists/{blocklistName}/blocklistItems", blocklistName: string): TextBlocklistsListTextBlocklistItems;
+    (path: "/text/incidents/{incidentName}", incidentName: string): TextIncidentsGetIncidents;
+    (path: "/text/incidents"): TextIncidentsListIncidents;
+    (path: "/text/incidents/{incidentName}:addIncidentSamples", incidentName: string): TextIncidentsAddIncidentSamples;
+    (path: "/text/incidents/{incidentName}:removeIncidentSamples", incidentName: string): TextIncidentsRemoveIncidentSamples;
+    (path: "/text/incidents/{incidentName}/incidentSamples/{incidentSampleId}", incidentName: string, incidentSampleId: string): TextIncidentsGetIncidentSample;
+    (path: "/text/incidents/{incidentName}/incidentSamples", incidentName: string): TextIncidentsListIncidentSamples;
+    (path: "/image/incidents/{incidentName}", incidentName: string): ImageIncidentsGetIncidents;
+    (path: "/image/incidents"): ImageIncidentsListIncidents;
+    (path: "/image/incidents/{incidentName}:addIncidentSamples", incidentName: string): ImageIncidentsAddIncidentSamples;
+    (path: "/image/incidents/{incidentName}:removeIncidentSamples", incidentName: string): ImageIncidentsRemoveIncidentSamples;
+    (path: "/image/incidents/{incidentName}/incidentSamples/{incidentSampleId}", incidentName: string, incidentSampleId: string): ImageIncidentsGetIncidentSample;
+    (path: "/image/incidents/{incidentName}/incidentSamples", incidentName: string): ImageIncidentsListIncidentSamples;
+    (path: "/text:adaptiveAnnotate"): PromptTextOperationsAnnotateText;
+    (path: "/text/categories/{categoryName}", categoryName: string): TextCategoryCustomizationCreateOrReplaceTextCustomizedCategory;
+    (path: "/text/categories"): TextCategoryCustomizationListTextCustomizedCategory;
+    (path: "/imageWithText:analyze"): ImageWithTextOperationsAnalyzeImageWithText;
+    (path: "/text:detectUngroundedness"): TextUngroundednessDetectionOperationsDetectUngroundedness;
+}
+
+// @public
+export interface SubCategory {
+    // (undocumented)
+    id: number;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    statements: string[];
+}
+
+// @public
+export interface SubCategoryOutput {
+    // (undocumented)
+    id: number;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    statements: string[];
 }
 
 // @public
@@ -559,10 +975,925 @@ export interface TextBlocklistOutput {
 // @public
 export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
 
+// @public (undocumented)
+export interface TextBlocklistsAddOrUpdateBlocklistItems {
+    post(options: TextBlocklistsAddOrUpdateBlocklistItemsParameters): StreamableMethod<TextBlocklistsAddOrUpdateBlocklistItems200Response | TextBlocklistsAddOrUpdateBlocklistItemsDefaultResponse>;
+}
+
+// @public
+export interface TextBlocklistsAddOrUpdateBlocklistItems200Response extends HttpResponse {
+    // (undocumented)
+    body: AddOrUpdateTextBlocklistItemsResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextBlocklistsAddOrUpdateBlocklistItemsBodyParam {
+    body: AddOrUpdateTextBlocklistItemsOptions;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsAddOrUpdateBlocklistItemsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsAddOrUpdateBlocklistItemsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextBlocklistsAddOrUpdateBlocklistItemsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextBlocklistsAddOrUpdateBlocklistItemsParameters = TextBlocklistsAddOrUpdateBlocklistItemsBodyParam & RequestParameters;
+
+// @public
+export interface TextBlocklistsCreateOrUpdateTextBlocklist200Response extends HttpResponse {
+    // (undocumented)
+    body: TextBlocklistOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface TextBlocklistsCreateOrUpdateTextBlocklist201Response extends HttpResponse {
+    // (undocumented)
+    body: TextBlocklistOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface TextBlocklistsCreateOrUpdateTextBlocklistBodyParam {
+    body: TextBlocklistResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsCreateOrUpdateTextBlocklistDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsCreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextBlocklistsCreateOrUpdateTextBlocklistDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsCreateOrUpdateTextBlocklistMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type TextBlocklistsCreateOrUpdateTextBlocklistParameters = TextBlocklistsCreateOrUpdateTextBlocklistMediaTypesParam & TextBlocklistsCreateOrUpdateTextBlocklistBodyParam & RequestParameters;
+
+// @public
+export interface TextBlocklistsDeleteTextBlocklist204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface TextBlocklistsDeleteTextBlocklistDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsDeleteTextBlocklistDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextBlocklistsDeleteTextBlocklistDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextBlocklistsDeleteTextBlocklistParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TextBlocklistsGetTextBlocklist {
+    delete(options?: TextBlocklistsDeleteTextBlocklistParameters): StreamableMethod<TextBlocklistsDeleteTextBlocklist204Response | TextBlocklistsDeleteTextBlocklistDefaultResponse>;
+    get(options?: TextBlocklistsGetTextBlocklistParameters): StreamableMethod<TextBlocklistsGetTextBlocklist200Response | TextBlocklistsGetTextBlocklistDefaultResponse>;
+    patch(options: TextBlocklistsCreateOrUpdateTextBlocklistParameters): StreamableMethod<TextBlocklistsCreateOrUpdateTextBlocklist200Response | TextBlocklistsCreateOrUpdateTextBlocklist201Response | TextBlocklistsCreateOrUpdateTextBlocklistDefaultResponse>;
+}
+
+// @public
+export interface TextBlocklistsGetTextBlocklist200Response extends HttpResponse {
+    // (undocumented)
+    body: TextBlocklistOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextBlocklistsGetTextBlocklistDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsGetTextBlocklistDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextBlocklistsGetTextBlocklistDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsGetTextBlocklistItem {
+    get(options?: TextBlocklistsGetTextBlocklistItemParameters): StreamableMethod<TextBlocklistsGetTextBlocklistItem200Response | TextBlocklistsGetTextBlocklistItemDefaultResponse>;
+}
+
+// @public
+export interface TextBlocklistsGetTextBlocklistItem200Response extends HttpResponse {
+    // (undocumented)
+    body: TextBlocklistItemOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextBlocklistsGetTextBlocklistItemDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsGetTextBlocklistItemDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextBlocklistsGetTextBlocklistItemDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextBlocklistsGetTextBlocklistItemParameters = RequestParameters;
+
+// @public (undocumented)
+export type TextBlocklistsGetTextBlocklistParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TextBlocklistsListTextBlocklistItems {
+    get(options?: TextBlocklistsListTextBlocklistItemsParameters): StreamableMethod<TextBlocklistsListTextBlocklistItems200Response | TextBlocklistsListTextBlocklistItemsDefaultResponse>;
+}
+
+// @public
+export interface TextBlocklistsListTextBlocklistItems200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTextBlocklistItemOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextBlocklistsListTextBlocklistItemsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsListTextBlocklistItemsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextBlocklistsListTextBlocklistItemsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextBlocklistsListTextBlocklistItemsParameters = TextBlocklistsListTextBlocklistItemsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface TextBlocklistsListTextBlocklistItemsQueryParam {
+    // (undocumented)
+    queryParameters?: TextBlocklistsListTextBlocklistItemsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsListTextBlocklistItemsQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsListTextBlocklists {
+    get(options?: TextBlocklistsListTextBlocklistsParameters): StreamableMethod<TextBlocklistsListTextBlocklists200Response | TextBlocklistsListTextBlocklistsDefaultResponse>;
+}
+
+// @public
+export interface TextBlocklistsListTextBlocklists200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTextBlocklistOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextBlocklistsListTextBlocklistsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsListTextBlocklistsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextBlocklistsListTextBlocklistsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextBlocklistsListTextBlocklistsParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TextBlocklistsRemoveBlocklistItems {
+    post(options: TextBlocklistsRemoveBlocklistItemsParameters): StreamableMethod<TextBlocklistsRemoveBlocklistItems204Response | TextBlocklistsRemoveBlocklistItemsDefaultResponse>;
+}
+
+// @public
+export interface TextBlocklistsRemoveBlocklistItems204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface TextBlocklistsRemoveBlocklistItemsBodyParam {
+    body: RemoveTextBlocklistItemsOptions;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsRemoveBlocklistItemsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextBlocklistsRemoveBlocklistItemsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextBlocklistsRemoveBlocklistItemsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextBlocklistsRemoveBlocklistItemsParameters = TextBlocklistsRemoveBlocklistItemsBodyParam & RequestParameters;
+
 // @public
 export interface TextCategoriesAnalysisOutput {
     category: string;
     severity?: number;
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationCreateOrReplaceTextCustomizedCategory {
+    delete(options?: TextCategoryCustomizationDeleteTextCustomizedCategoryParameters): StreamableMethod<TextCategoryCustomizationDeleteTextCustomizedCategory204Response | TextCategoryCustomizationDeleteTextCustomizedCategoryDefaultResponse>;
+    get(options?: TextCategoryCustomizationGetTextCustomizedCategoryParameters): StreamableMethod<TextCategoryCustomizationGetTextCustomizedCategory200Response | TextCategoryCustomizationGetTextCustomizedCategoryDefaultResponse>;
+    put(options: TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryParameters): StreamableMethod<TextCategoryCustomizationCreateOrReplaceTextCustomizedCategory200Response | TextCategoryCustomizationCreateOrReplaceTextCustomizedCategory201Response | TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryDefaultResponse>;
+}
+
+// @public
+export interface TextCategoryCustomizationCreateOrReplaceTextCustomizedCategory200Response extends HttpResponse {
+    // (undocumented)
+    body: TextCustomizedCategoryOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface TextCategoryCustomizationCreateOrReplaceTextCustomizedCategory201Response extends HttpResponse {
+    // (undocumented)
+    body: TextCustomizedCategoryOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryBodyParam {
+    body: TextCustomizedCategory;
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryParameters = TextCategoryCustomizationCreateOrReplaceTextCustomizedCategoryBodyParam & RequestParameters;
+
+// @public
+export interface TextCategoryCustomizationDeleteTextCustomizedCategory204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationDeleteTextCustomizedCategoryDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationDeleteTextCustomizedCategoryDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextCategoryCustomizationDeleteTextCustomizedCategoryDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextCategoryCustomizationDeleteTextCustomizedCategoryParameters = RequestParameters;
+
+// @public
+export interface TextCategoryCustomizationGetTextCustomizedCategory200Response extends HttpResponse {
+    // (undocumented)
+    body: TextCustomizedCategoryOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationGetTextCustomizedCategoryDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationGetTextCustomizedCategoryDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextCategoryCustomizationGetTextCustomizedCategoryDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextCategoryCustomizationGetTextCustomizedCategoryParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TextCategoryCustomizationListTextCustomizedCategory {
+    get(options?: TextCategoryCustomizationListTextCustomizedCategoryParameters): StreamableMethod<TextCategoryCustomizationListTextCustomizedCategory200Response | TextCategoryCustomizationListTextCustomizedCategoryDefaultResponse>;
+}
+
+// @public
+export interface TextCategoryCustomizationListTextCustomizedCategory200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTextCustomizedCategoryOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationListTextCustomizedCategoryDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationListTextCustomizedCategoryDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextCategoryCustomizationListTextCustomizedCategoryDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextCategoryCustomizationListTextCustomizedCategoryParameters = TextCategoryCustomizationListTextCustomizedCategoryQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface TextCategoryCustomizationListTextCustomizedCategoryQueryParam {
+    // (undocumented)
+    queryParameters?: TextCategoryCustomizationListTextCustomizedCategoryQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface TextCategoryCustomizationListTextCustomizedCategoryQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface TextCustomizedCategory {
+    categoryName: string;
+    // (undocumented)
+    emphases?: string[];
+    // (undocumented)
+    exampleBlobUrl?: string;
+    // (undocumented)
+    preDefinedConcepts?: Array<PreDefinedConcept>;
+    // (undocumented)
+    subCategories: Array<SubCategory>;
+}
+
+// @public
+export interface TextCustomizedCategoryOutput {
+    categoryName: string;
+    // (undocumented)
+    emphases?: string[];
+    // (undocumented)
+    exampleBlobUrl?: string;
+    // (undocumented)
+    preDefinedConcepts?: Array<PreDefinedConceptOutput>;
+    // (undocumented)
+    subCategories: Array<SubCategoryOutput>;
+}
+
+// @public
+export interface TextIncident {
+    created: Date | string;
+    description?: string;
+    incidentName: string;
+    lastUpdated: Date | string;
+}
+
+// @public
+export interface TextIncidentOutput {
+    created: string;
+    description?: string;
+    incidentName: string;
+    lastUpdated: string;
+}
+
+// @public
+export type TextIncidentResourceMergeAndPatch = Partial<TextIncident>;
+
+// @public (undocumented)
+export interface TextIncidentsAddIncidentSamples {
+    post(options?: TextIncidentsAddIncidentSamplesParameters): StreamableMethod<TextIncidentsAddIncidentSamples200Response | TextIncidentsAddIncidentSamplesDefaultResponse>;
+}
+
+// @public
+export interface TextIncidentsAddIncidentSamples200Response extends HttpResponse {
+    // (undocumented)
+    body: AddTextIncidentSamplesResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextIncidentsAddIncidentSamplesBodyParam {
+    // (undocumented)
+    body?: AddTextIncidentSamplesOptions;
+}
+
+// @public (undocumented)
+export interface TextIncidentsAddIncidentSamplesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsAddIncidentSamplesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextIncidentsAddIncidentSamplesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextIncidentsAddIncidentSamplesParameters = TextIncidentsAddIncidentSamplesBodyParam & RequestParameters;
+
+// @public
+export interface TextIncidentSample {
+    text?: string;
+}
+
+// @public
+export interface TextIncidentSampleOutput {
+    readonly incidentSampleId: string;
+    text?: string;
+}
+
+// @public
+export interface TextIncidentsCreateOrUpdateIncident200Response extends HttpResponse {
+    // (undocumented)
+    body: TextIncidentOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface TextIncidentsCreateOrUpdateIncident201Response extends HttpResponse {
+    // (undocumented)
+    body: TextIncidentOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface TextIncidentsCreateOrUpdateIncidentBodyParam {
+    body: TextIncidentResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface TextIncidentsCreateOrUpdateIncidentDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsCreateOrUpdateIncidentDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextIncidentsCreateOrUpdateIncidentDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsCreateOrUpdateIncidentMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type TextIncidentsCreateOrUpdateIncidentParameters = TextIncidentsCreateOrUpdateIncidentMediaTypesParam & TextIncidentsCreateOrUpdateIncidentBodyParam & RequestParameters;
+
+// @public
+export interface TextIncidentsDeleteIncident204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface TextIncidentsDeleteIncidentDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsDeleteIncidentDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextIncidentsDeleteIncidentDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextIncidentsDeleteIncidentParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TextIncidentsGetIncidents {
+    delete(options?: TextIncidentsDeleteIncidentParameters): StreamableMethod<TextIncidentsDeleteIncident204Response | TextIncidentsDeleteIncidentDefaultResponse>;
+    get(options?: TextIncidentsGetIncidentsParameters): StreamableMethod<TextIncidentsGetIncidents200Response | TextIncidentsGetIncidentsDefaultResponse>;
+    patch(options: TextIncidentsCreateOrUpdateIncidentParameters): StreamableMethod<TextIncidentsCreateOrUpdateIncident200Response | TextIncidentsCreateOrUpdateIncident201Response | TextIncidentsCreateOrUpdateIncidentDefaultResponse>;
+}
+
+// @public
+export interface TextIncidentsGetIncidents200Response extends HttpResponse {
+    // (undocumented)
+    body: TextIncidentOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextIncidentsGetIncidentSample {
+    get(options?: TextIncidentsGetIncidentSampleParameters): StreamableMethod<TextIncidentsGetIncidentSample200Response | TextIncidentsGetIncidentSampleDefaultResponse>;
+}
+
+// @public
+export interface TextIncidentsGetIncidentSample200Response extends HttpResponse {
+    // (undocumented)
+    body: TextIncidentSampleOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextIncidentsGetIncidentSampleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsGetIncidentSampleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextIncidentsGetIncidentSampleDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextIncidentsGetIncidentSampleParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TextIncidentsGetIncidentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsGetIncidentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextIncidentsGetIncidentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextIncidentsGetIncidentsParameters = RequestParameters;
+
+// @public (undocumented)
+export interface TextIncidentsListIncidents {
+    get(options?: TextIncidentsListIncidentsParameters): StreamableMethod<TextIncidentsListIncidents200Response | TextIncidentsListIncidentsDefaultResponse>;
+}
+
+// @public
+export interface TextIncidentsListIncidents200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTextIncidentOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentSamples {
+    get(options?: TextIncidentsListIncidentSamplesParameters): StreamableMethod<TextIncidentsListIncidentSamples200Response | TextIncidentsListIncidentSamplesDefaultResponse>;
+}
+
+// @public
+export interface TextIncidentsListIncidentSamples200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedTextIncidentSampleOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentSamplesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentSamplesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextIncidentsListIncidentSamplesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextIncidentsListIncidentSamplesParameters = TextIncidentsListIncidentSamplesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentSamplesQueryParam {
+    // (undocumented)
+    queryParameters?: TextIncidentsListIncidentSamplesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentSamplesQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
+}
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextIncidentsListIncidentsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextIncidentsListIncidentsParameters = TextIncidentsListIncidentsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentsQueryParam {
+    // (undocumented)
+    queryParameters?: TextIncidentsListIncidentsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface TextIncidentsListIncidentsQueryParamProperties {
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
+}
+
+// @public (undocumented)
+export interface TextIncidentsRemoveIncidentSamples {
+    post(options?: TextIncidentsRemoveIncidentSamplesParameters): StreamableMethod<TextIncidentsRemoveIncidentSamples204Response | TextIncidentsRemoveIncidentSamplesDefaultResponse>;
+}
+
+// @public
+export interface TextIncidentsRemoveIncidentSamples204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface TextIncidentsRemoveIncidentSamplesBodyParam {
+    // (undocumented)
+    body?: RemoveTextIncidentSamplesOptions;
+}
+
+// @public (undocumented)
+export interface TextIncidentsRemoveIncidentSamplesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextIncidentsRemoveIncidentSamplesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextIncidentsRemoveIncidentSamplesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextIncidentsRemoveIncidentSamplesParameters = TextIncidentsRemoveIncidentSamplesBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface TextOperationsAnalyzeText {
+    post(options: TextOperationsAnalyzeTextParameters): StreamableMethod<TextOperationsAnalyzeText200Response | TextOperationsAnalyzeTextDefaultResponse>;
+}
+
+// @public
+export interface TextOperationsAnalyzeText200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextOperationsAnalyzeTextBodyParam {
+    body: AnalyzeTextOptions;
+}
+
+// @public (undocumented)
+export interface TextOperationsAnalyzeTextDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextOperationsAnalyzeTextDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextOperationsAnalyzeTextDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextOperationsAnalyzeTextParameters = TextOperationsAnalyzeTextBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface TextOperationsDetectTextJailbreak {
+    post(options: TextOperationsDetectTextJailbreakParameters): StreamableMethod<TextOperationsDetectTextJailbreak200Response | TextOperationsDetectTextJailbreakDefaultResponse>;
+}
+
+// @public
+export interface TextOperationsDetectTextJailbreak200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextJailbreakResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextOperationsDetectTextJailbreakBodyParam {
+    body: AnalyzeTextJailbreakOptions;
+}
+
+// @public (undocumented)
+export interface TextOperationsDetectTextJailbreakDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextOperationsDetectTextJailbreakDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextOperationsDetectTextJailbreakDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextOperationsDetectTextJailbreakParameters = TextOperationsDetectTextJailbreakBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface TextOperationsDetectTextProtectedMaterial {
+    post(options: TextOperationsDetectTextProtectedMaterialParameters): StreamableMethod<TextOperationsDetectTextProtectedMaterial200Response | TextOperationsDetectTextProtectedMaterialDefaultResponse>;
+}
+
+// @public
+export interface TextOperationsDetectTextProtectedMaterial200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextProtectedMaterialResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextOperationsDetectTextProtectedMaterialBodyParam {
+    body: AnalyzeTextProtectedMaterialOptions;
+}
+
+// @public (undocumented)
+export interface TextOperationsDetectTextProtectedMaterialDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextOperationsDetectTextProtectedMaterialDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextOperationsDetectTextProtectedMaterialDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextOperationsDetectTextProtectedMaterialParameters = TextOperationsDetectTextProtectedMaterialBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface TextUngroundednessDetectionOperationsDetectUngroundedness {
+    post(options: TextUngroundednessDetectionOperationsDetectUngroundednessParameters): StreamableMethod<TextUngroundednessDetectionOperationsDetectUngroundedness200Response | TextUngroundednessDetectionOperationsDetectUngroundednessDefaultResponse>;
+}
+
+// @public
+export interface TextUngroundednessDetectionOperationsDetectUngroundedness200Response extends HttpResponse {
+    // (undocumented)
+    body: DetectUngroundednessResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TextUngroundednessDetectionOperationsDetectUngroundednessBodyParam {
+    body: DetectUngroundednessOptions;
+}
+
+// @public (undocumented)
+export interface TextUngroundednessDetectionOperationsDetectUngroundednessDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TextUngroundednessDetectionOperationsDetectUngroundednessDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TextUngroundednessDetectionOperationsDetectUngroundednessDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type TextUngroundednessDetectionOperationsDetectUngroundednessParameters = TextUngroundednessDetectionOperationsDetectUngroundednessBodyParam & RequestParameters;
+
+// @public
+export interface UngroundedDetailsOutput {
+    reason: string;
+    text: string;
 }
 
 // (No @packageDocumentation comment for this package)

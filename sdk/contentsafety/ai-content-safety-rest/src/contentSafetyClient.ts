@@ -19,7 +19,7 @@ export default function createClient(
   options: ClientOptions = {}
 ): ContentSafetyClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/contentsafety`;
-  options.apiVersion = options.apiVersion ?? "2023-10-01";
+  options.apiVersion = options.apiVersion ?? "2023-11-30-preview";
   const userAgentInfo = `azsdk-js-ai-content-safety-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -34,12 +34,19 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      scopes: options.credentials?.scopes ?? [
+        "https://cognitiveservices.azure.com/.default",
+      ],
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as ContentSafetyClient;
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options
+  ) as ContentSafetyClient;
 
   return client;
 }
