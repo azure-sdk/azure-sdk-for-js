@@ -543,6 +543,63 @@ export const JobStages: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      delayInformation: {
+        serializedName: "delayInformation",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "JobDelayDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const JobDelayDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JobDelayDetails",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "errorCode",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      resolutionTime: {
+        serializedName: "resolutionTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -2496,6 +2553,13 @@ export const RegionConfigurationRequest: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DatacenterAddressRequest"
         }
+      },
+      deviceCapabilityRequest: {
+        serializedName: "deviceCapabilityRequest",
+        type: {
+          name: "Composite",
+          className: "DeviceCapabilityRequest"
+        }
       }
     }
   }
@@ -2591,6 +2655,27 @@ export const DatacenterAddressRequest: coreClient.CompositeMapper = {
   }
 };
 
+export const DeviceCapabilityRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeviceCapabilityRequest",
+    modelProperties: {
+      skuName: {
+        serializedName: "skuName",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DataBox",
+            "DataBoxDisk",
+            "DataBoxHeavy",
+            "DataBoxCustomerDisk"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const RegionConfigurationResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2615,6 +2700,13 @@ export const RegionConfigurationResponse: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DatacenterAddressResponse"
+        }
+      },
+      deviceCapabilityResponse: {
+        serializedName: "deviceCapabilityResponse",
+        type: {
+          name: "Composite",
+          className: "DeviceCapabilityResponse"
         }
       }
     }
@@ -2675,6 +2767,45 @@ export const TransportAvailabilityDetails: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["CustomerManaged", "MicrosoftManaged"]
+        }
+      }
+    }
+  }
+};
+
+export const DeviceCapabilityResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeviceCapabilityResponse",
+    modelProperties: {
+      deviceCapabilityDetails: {
+        serializedName: "deviceCapabilityDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeviceCapabilityDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeviceCapabilityDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeviceCapabilityDetails",
+    modelProperties: {
+      hardwareEncryption: {
+        serializedName: "hardwareEncryption",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled"]
         }
       }
     }
@@ -4018,6 +4149,13 @@ export const JobResource: coreClient.CompositeMapper = {
       },
       status: {
         serializedName: "properties.status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      delayedStage: {
+        serializedName: "properties.delayedStage",
         readOnly: true,
         type: {
           name: "String"
