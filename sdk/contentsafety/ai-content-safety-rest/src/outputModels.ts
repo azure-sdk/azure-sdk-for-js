@@ -19,6 +19,16 @@ export interface AnalyzeTextOptionsOutput {
    * Possible values: FourSeverityLevels, EightSeverityLevels
    */
   outputType?: string;
+  /** The incidents to detect. */
+  incidents?: IncidentOptionsOutput;
+}
+
+/** The text analysis request. */
+export interface IncidentOptionsOutput {
+  /** The accept decision made by service. */
+  incidentNames?: string[];
+  /** When set to true, further analyses of harmful content will not be performed in cases where incidents are hit. When set to false, all analyses of harmful content will be performed, whether or not incidents are hit. */
+  haltOnIncidentHit?: boolean;
 }
 
 /** The text analysis response. */
@@ -27,6 +37,10 @@ export interface AnalyzeTextResultOutput {
   blocklistsMatch?: Array<TextBlocklistMatchOutput>;
   /** Analysis result for categories. */
   categoriesAnalysis: Array<TextCategoriesAnalysisOutput>;
+  /** The incident match details. */
+  incidentMatches?: Array<IncidentMatchOutput>;
+  /** Chunks in the original text detected as harmful content. Analysis result and scores are caused by these. */
+  citation?: string[];
 }
 
 /** The result of blocklist match. */
@@ -51,6 +65,48 @@ export interface TextCategoriesAnalysisOutput {
   severity?: number;
 }
 
+/** The result of text incident match. */
+export interface IncidentMatchOutput {
+  /** The name of the matched incident. */
+  incidentName: string;
+}
+
+/** The text jailbreak analysis request. */
+export interface AnalyzeTextJailbreakOptionsOutput {
+  /** The text needs to be analyzed if it attempt to jailbreak. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
+/** The text jailbreak analysis request. */
+export interface AnalyzeTextJailbreakResultOutput {
+  /** Analysis result for jailbreak. */
+  jailbreakAnalysis: JailbreakAnalysisResultOutput;
+}
+
+/** The text jailbreak analysis response. */
+export interface JailbreakAnalysisResultOutput {
+  /** Analysis result for jailbreak. */
+  detected: boolean;
+}
+
+/** The protected material analysis request. */
+export interface AnalyzeTextProtectedMaterialOptionsOutput {
+  /** The text needs to be analyzed. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
+/** The protected material analysis response. */
+export interface AnalyzeTextProtectedMaterialResultOutput {
+  /** Analysis result for protected material. */
+  protectedMaterialAnalysis: ProtectedMaterialAnalysisResultOutput;
+}
+
+/** The text protected material analysis response. */
+export interface ProtectedMaterialAnalysisResultOutput {
+  /** Analysis result for protected material.. */
+  detected: boolean;
+}
+
 /** The image analysis request. */
 export interface AnalyzeImageOptionsOutput {
   /** The image needs to be analyzed. */
@@ -63,6 +119,8 @@ export interface AnalyzeImageOptionsOutput {
    * Possible values: FourSeverityLevels
    */
   outputType?: string;
+  /** The incidents to detect. */
+  incidents?: IncidentOptionsOutput;
 }
 
 /** The image can be either base64 encoded bytes or a blob URL. You can choose only one of these options. If both are provided, the request will be refused. The maximum image size is 2048 x 2048 pixels and should not exceed 4 MB, while the minimum image size is 50 x 50 pixels. */
@@ -77,6 +135,8 @@ export interface ImageDataOutput {
 export interface AnalyzeImageResultOutput {
   /** Analysis result for categories. */
   categoriesAnalysis: Array<ImageCategoriesAnalysisOutput>;
+  /** The incident match details. */
+  incidentMatches?: Array<IncidentMatchOutput>;
 }
 
 /** Image analysis result. */
@@ -115,7 +175,206 @@ export interface AddOrUpdateTextBlocklistItemsResultOutput {
   blocklistItems: Array<TextBlocklistItemOutput>;
 }
 
+/** Text Incident. */
+export interface TextIncidentOutput {
+  /** incident name. */
+  incidentName: string;
+  /** Incident description. */
+  description?: string;
+  /** Incident created time. */
+  created: string;
+  /** Incident updated time. */
+  lastUpdated: string;
+}
+
+/** Sample in a Text Incident. */
+export interface TextIncidentSampleOutput {
+  /** incident name. */
+  readonly incidentSampleId: string;
+  /** IncidentSample text content. */
+  text?: string;
+}
+
+/** The response of adding incidentSamples to the incident. */
+export interface AddTextIncidentSamplesResultOutput {
+  /** Array of incidentSamples have been added. */
+  incidentSamples: Array<TextIncidentSampleOutput>;
+}
+
+/** Image Incident. */
+export interface ImageIncidentOutput {
+  /** incident name. */
+  incidentName: string;
+  /** Incident description. */
+  description?: string;
+  /** Incident created time. */
+  created: string;
+  /** Incident updated time. */
+  lastUpdated: string;
+}
+
+/** The response of adding incidentSamples to the incident. */
+export interface AddImageIncidentSamplesResultOutput {
+  /** Array of incidentSamples have been added. */
+  incidentSamples: Array<ListImageIncidentSampleResultOutput>;
+}
+
+/** Sample in a Image Incident. */
+export interface ListImageIncidentSampleResultOutput {
+  /** incident name. */
+  readonly incidentSampleId: string;
+}
+
+/** Sample Result in an Image Incident. */
+export interface ImageIncidentSampleResultOutput {
+  /** incident name. */
+  readonly incidentSampleId: string;
+  /** IncidentSample image content. */
+  image?: ImageDataResultOutput;
+}
+
+/** The image result is base64 encoded bytes */
+export interface ImageDataResultOutput {
+  /** The Base64 encoding of the image. */
+  content?: string;
+}
+
+/** Annotate text options */
+export interface AnnotateTextOptionsOutput {
+  /** The text needs to be analyzed. We support a maximum of 10k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+  /** The category will be analyzed, you can set your customized category or one of built-in categories in 'Hate','Selfharm', 'Sexual' and 'Violence'. */
+  category: string;
+}
+
+/** The text annotation response. */
+export interface AnnotateTextResultOutput {
+  /** The id of annotated subcategory. */
+  id: number;
+  /** The name of annotated subcategory. */
+  name: string;
+  /** The reasoning. */
+  reasoning?: string;
+}
+
+/** Text Customized categories. */
+export interface TextCustomizedCategoryOutput {
+  /** Text customizedCategories name. */
+  categoryName: string;
+  preDefinedConcepts?: Array<PreDefinedConceptOutput>;
+  subCategories: Array<SubCategoryOutput>;
+  emphases?: string[];
+  exampleBlobUrl?: string;
+}
+
+/** Pre-defined concept. */
+export interface PreDefinedConceptOutput {
+  concept: string;
+  description: string;
+}
+
+/** Label definition. */
+export interface SubCategoryOutput {
+  id: number;
+  name: string;
+  statements: string[];
+}
+
+/** The analysis request of the image with text. */
+export interface AnalyzeImageWithTextOptionsOutput {
+  /** The image needs to be analyzed. */
+  image: ImageDataOutput;
+  /** The text attached to the image. We support at most 1k characters (unicode code points) in one text request. */
+  text?: string;
+  /** The categories will be analyzed. If they are not assigned, a default set of analysis results for the categories will be returned. */
+  categories?: string[];
+  /** When set to true, our service will perform OCR and concatenate the recognized text with input text before analyzing. We will recognize at most 256 characters (unicode code points) from input image. The others will be truncated. */
+  enableOcr: boolean;
+}
+
+/** The analysis response of the image with text. */
+export interface AnalyzeImageWithTextResultOutput {
+  /** Analysis result for categories. */
+  categoriesAnalysis: Array<ImageWithTextCategoriesAnalysisOutput>;
+}
+
+/** ImageWithText analysis result. */
+export interface ImageWithTextCategoriesAnalysisOutput {
+  /**
+   * The imageWithtext analysis category.
+   *
+   * Possible values: Hate, SelfHarm, Sexual, Violence
+   */
+  category: string;
+  /** The higher the severity of input content, the larger this value is. The values could be: 0,2,4,6. */
+  severity?: number;
+}
+
+/** The request of ungroudedness detection. */
+export interface DetectUngroundednessOptionsOutput {
+  /**
+   * Domain of the text to be analyzed.
+   *
+   * Possible values: Generic, Medical
+   */
+  domain?: string;
+  /**
+   * Task type of the text to be analyzed.
+   *
+   * Possible values: Summarization, QnA
+   */
+  task?: string;
+  /** This is optional and only required for QnA task. */
+  query?: string;
+  /** The text needs to be analyzed. */
+  text: string;
+  /** Source information that serves as grounding source. */
+  groundingSources: string[];
+  /** GPT resource connection information. */
+  gptResource?: GptResourceOutput;
+}
+
+/** Connection information for GPT resource. */
+export interface GptResourceOutput {
+  /** Endpoint of Azure OpenAI resource. */
+  azureOpenAIEndpoint: string;
+  /** Deployment name of GPT model. */
+  deploymentName: string;
+}
+
+/** The response of ungroudedness detection. */
+export interface DetectUngroundednessResultOutput {
+  /** Detection result for ungrouded text. */
+  ungrounded: boolean;
+  /** Model confidence store in the analysis results. */
+  confidenceScore: number;
+  /** Percentage of Ungrounded Text. */
+  ungroundedPercentage: number;
+  /** The detailed information about a text identified as ungroundness. */
+  ungroundedDetails: Array<UngroundedDetailsOutput>;
+}
+
+/** The detailed information about a text identified as ungroundness. */
+export interface UngroundedDetailsOutput {
+  /** The ungrounded text. */
+  text: string;
+  /** The reason or explanation for identifying the text as ungrounded. */
+  reason: string;
+}
+
 /** Paged collection of TextBlocklist items */
 export type PagedTextBlocklistOutput = Paged<TextBlocklistOutput>;
 /** Paged collection of TextBlocklistItem items */
 export type PagedTextBlocklistItemOutput = Paged<TextBlocklistItemOutput>;
+/** Paged collection of TextIncident items */
+export type PagedTextIncidentOutput = Paged<TextIncidentOutput>;
+/** Paged collection of TextIncidentSample items */
+export type PagedTextIncidentSampleOutput = Paged<TextIncidentSampleOutput>;
+/** Paged collection of ImageIncident items */
+export type PagedImageIncidentOutput = Paged<ImageIncidentOutput>;
+/** Paged collection of ListImageIncidentSampleResult items */
+export type PagedListImageIncidentSampleResultOutput =
+  Paged<ListImageIncidentSampleResultOutput>;
+/** Paged collection of TextCustomizedCategory items */
+export type PagedTextCustomizedCategoryOutput =
+  Paged<TextCustomizedCategoryOutput>;
