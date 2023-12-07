@@ -36,7 +36,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current limits for quotas
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -81,7 +81,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current limits for quotas
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -96,7 +96,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current subscription quota limit
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param quotaLimitName The name of the Quota Limit
    * @param options The options parameters.
    */
@@ -122,7 +122,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SubscriptionQuotaItemList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -141,7 +143,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SubscriptionQuotaItem
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [

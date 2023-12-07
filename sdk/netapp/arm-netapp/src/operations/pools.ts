@@ -477,7 +477,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CapacityPoolList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -497,7 +499,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CapacityPool
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -527,7 +531,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.CapacityPool
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
@@ -559,7 +565,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.CapacityPool
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
@@ -578,7 +586,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -587,6 +603,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -596,7 +613,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CapacityPoolList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,

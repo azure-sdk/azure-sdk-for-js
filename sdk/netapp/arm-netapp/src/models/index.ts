@@ -98,6 +98,55 @@ export interface LogSpecification {
   displayName?: string;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** Resource name availability request content. */
 export interface ResourceNameAvailabilityRequest {
   /** Resource name to verify. */
@@ -145,7 +194,7 @@ export interface SubscriptionQuotaItemList {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -233,55 +282,6 @@ export interface NicInfo {
   readonly ipAddress?: string;
   /** Volume resource Ids */
   volumeResourceIds?: string[];
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
 }
 
 /** Network sibling set update. */
@@ -426,7 +426,9 @@ export interface ManagedServiceIdentity {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** User assigned identity properties */
@@ -480,20 +482,6 @@ export interface NetAppAccountPatch {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disableShowmount?: boolean;
-}
-
-/** An error response from the service. */
-export interface CloudError {
-  /** Cloud error body. */
-  error?: CloudErrorBody;
-}
-
-/** An error response from the service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
 }
 
 /** List of capacity pool resources */
@@ -1091,8 +1079,6 @@ export interface VolumeGroupMetaData {
   applicationIdentifier?: string;
   /** Application specific placement rules for the volume group */
   globalPlacementRules?: PlacementKeyValuePairs[];
-  /** Application specific identifier of deployment rules for the volume group */
-  deploymentSpecId?: string;
   /**
    * Number of volumes in volume group
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1455,6 +1441,20 @@ export interface SnapshotPolicyDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+}
+
+/** An error response from the service. */
+export interface CloudError {
+  /** Cloud error body. */
+  error?: CloudErrorBody;
+}
+
+/** An error response from the service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -2428,7 +2428,11 @@ export enum KnownRelationshipStatus {
   /** Idle */
   Idle = "Idle",
   /** Transferring */
-  Transferring = "Transferring"
+  Transferring = "Transferring",
+  /** Failed */
+  Failed = "Failed",
+  /** Unknown */
+  Unknown = "Unknown"
 }
 
 /**
@@ -2437,7 +2441,9 @@ export enum KnownRelationshipStatus {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Idle** \
- * **Transferring**
+ * **Transferring** \
+ * **Failed** \
+ * **Unknown**
  */
 export type RelationshipStatus = string;
 

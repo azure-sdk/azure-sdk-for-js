@@ -60,7 +60,9 @@ const getVolumeRestoreStatusOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RestoreStatus
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [

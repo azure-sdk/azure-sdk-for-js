@@ -1,5 +1,22 @@
 # Release History
     
+## 20.0.0 (2023-12-07)
+    
+**Features**
+
+  - Enum KnownRelationshipStatus has a new value Failed
+  - Enum KnownRelationshipStatus has a new value Unknown
+
+**Breaking Changes**
+
+  - Interface VolumeGroupMetaData no longer has parameter deploymentSpecId
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentity | null;
+    }
+    
+    
 ## 19.0.0 (2023-09-25)
     
 **Features**

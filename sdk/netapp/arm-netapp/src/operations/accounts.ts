@@ -619,7 +619,9 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccountList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -634,7 +636,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccountList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -653,7 +657,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccount
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -682,7 +688,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.NetAppAccount
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -700,7 +708,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -708,6 +724,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -728,7 +745,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetAppAccount
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.body6,
@@ -747,7 +764,15 @@ const renewCredentialsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/renewCredentials",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -755,6 +780,7 @@ const renewCredentialsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -764,7 +790,9 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccountList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
@@ -781,7 +809,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccountList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,

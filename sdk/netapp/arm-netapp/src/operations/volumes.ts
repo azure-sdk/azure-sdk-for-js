@@ -2158,7 +2158,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.VolumeList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2179,7 +2181,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Volume
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2210,7 +2214,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.Volume
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
@@ -2244,7 +2250,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Volume
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.body10,
@@ -2265,7 +2271,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion, Parameters.forceDelete],
   urlParameters: [
     Parameters.$host,
@@ -2275,6 +2289,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const populateAvailabilityZoneOperationSpec: coreClient.OperationSpec = {
@@ -2314,7 +2329,15 @@ const revertOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revert",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2325,7 +2348,7 @@ const revertOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2333,7 +2356,15 @@ const resetCifsPasswordOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resetCifsPassword",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2343,13 +2374,22 @@ const resetCifsPasswordOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const breakFileLocksOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakFileLocks",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2360,7 +2400,7 @@ const breakFileLocksOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2403,7 +2443,15 @@ const breakReplicationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakReplication",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2414,7 +2462,7 @@ const breakReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2422,7 +2470,15 @@ const reestablishReplicationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reestablishReplication",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   requestBody: Parameters.body15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2433,7 +2489,7 @@ const reestablishReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2445,7 +2501,9 @@ const replicationStatusOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ReplicationStatus
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2467,7 +2525,9 @@ const listReplicationsOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ListReplications
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2485,7 +2545,15 @@ const resyncReplicationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resyncReplication",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2495,13 +2563,22 @@ const resyncReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const deleteReplicationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/deleteReplication",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2511,13 +2588,22 @@ const deleteReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const authorizeReplicationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2528,7 +2614,7 @@ const authorizeReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2536,7 +2622,15 @@ const reInitializeReplicationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reinitializeReplication",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2546,13 +2640,22 @@ const reInitializeReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const poolChangeOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2563,7 +2666,7 @@ const poolChangeOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2571,7 +2674,15 @@ const relocateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2582,7 +2693,7 @@ const relocateOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2590,7 +2701,15 @@ const finalizeRelocationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/finalizeRelocation",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2600,13 +2719,22 @@ const finalizeRelocationOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const revertRelocationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revertRelocation",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2616,6 +2744,7 @@ const revertRelocationOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -2625,7 +2754,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.VolumeList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,

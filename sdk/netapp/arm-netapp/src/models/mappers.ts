@@ -293,6 +293,102 @@ export const LogSpecification: coreClient.CompositeMapper = {
   }
 };
 
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const ResourceNameAvailabilityRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -665,102 +761,6 @@ export const NicInfo: coreClient.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -1330,43 +1330,6 @@ export const NetAppAccountPatch: coreClient.CompositeMapper = {
   }
 };
 
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "CloudErrorBody"
-        }
-      }
-    }
-  }
-};
-
-export const CloudErrorBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudErrorBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CapacityPoolList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1909,7 +1872,7 @@ export const VolumePatch: coreClient.CompositeMapper = {
       },
       coolnessPeriod: {
         constraints: {
-          InclusiveMaximum: 63,
+          InclusiveMaximum: 183,
           InclusiveMinimum: 7
         },
         serializedName: "properties.coolnessPeriod",
@@ -2932,12 +2895,6 @@ export const VolumeGroupMetaData: coreClient.CompositeMapper = {
           }
         }
       },
-      deploymentSpecId: {
-        serializedName: "deploymentSpecId",
-        type: {
-          name: "String"
-        }
-      },
       volumesCount: {
         serializedName: "volumesCount",
         readOnly: true,
@@ -3313,7 +3270,7 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
       },
       coolnessPeriod: {
         constraints: {
-          InclusiveMaximum: 63,
+          InclusiveMaximum: 183,
           InclusiveMinimum: 7
         },
         serializedName: "properties.coolnessPeriod",
@@ -3815,6 +3772,43 @@ export const SnapshotPolicyDetails: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
         type: {
           name: "String"
         }
@@ -4393,7 +4387,7 @@ export const Volume: coreClient.CompositeMapper = {
       },
       coolnessPeriod: {
         constraints: {
-          InclusiveMaximum: 63,
+          InclusiveMaximum: 183,
           InclusiveMinimum: 7
         },
         serializedName: "properties.coolnessPeriod",

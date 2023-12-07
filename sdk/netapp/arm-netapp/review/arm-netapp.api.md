@@ -598,8 +598,10 @@ export enum KnownRegionStorageToNetworkProximity {
 
 // @public
 export enum KnownRelationshipStatus {
+    Failed = "Failed",
     Idle = "Idle",
-    Transferring = "Transferring"
+    Transferring = "Transferring",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -675,7 +677,7 @@ export interface ManagedServiceIdentity {
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentity | null;
     };
 }
 
@@ -1585,7 +1587,6 @@ export interface VolumeGroupList {
 export interface VolumeGroupMetaData {
     applicationIdentifier?: string;
     applicationType?: ApplicationType;
-    deploymentSpecId?: string;
     globalPlacementRules?: PlacementKeyValuePairs[];
     groupDescription?: string;
     readonly volumesCount?: number;
