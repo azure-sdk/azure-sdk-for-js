@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DscNodeConfigurationOperations } from "../operationsInterfaces";
+import { PowerShell72Module } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  DscNodeConfiguration,
-  DscNodeConfigurationListByAutomationAccountNextOptionalParams,
-  DscNodeConfigurationListByAutomationAccountOptionalParams,
-  DscNodeConfigurationListByAutomationAccountResponse,
-  DscNodeConfigurationDeleteOptionalParams,
-  DscNodeConfigurationGetOptionalParams,
-  DscNodeConfigurationGetResponse,
-  DscNodeConfigurationCreateOrUpdateParameters,
-  DscNodeConfigurationCreateOrUpdateOptionalParams,
-  DscNodeConfigurationListByAutomationAccountNextResponse
+  Module,
+  PowerShell72ModuleListByAutomationAccountNextOptionalParams,
+  PowerShell72ModuleListByAutomationAccountOptionalParams,
+  PowerShell72ModuleListByAutomationAccountResponse,
+  PowerShell72ModuleDeleteOptionalParams,
+  PowerShell72ModuleGetOptionalParams,
+  PowerShell72ModuleGetResponse,
+  ModuleCreateOrUpdateParameters,
+  PowerShell72ModuleCreateOrUpdateOptionalParams,
+  PowerShell72ModuleCreateOrUpdateResponse,
+  ModuleUpdateParameters,
+  PowerShell72ModuleUpdateOptionalParams,
+  PowerShell72ModuleUpdateResponse,
+  PowerShell72ModuleListByAutomationAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DscNodeConfigurationOperations operations. */
-export class DscNodeConfigurationOperationsImpl
-  implements DscNodeConfigurationOperations {
+/** Class containing PowerShell72Module operations. */
+export class PowerShell72ModuleImpl implements PowerShell72Module {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class DscNodeConfigurationOperations class.
+   * Initialize a new instance of the class PowerShell72Module class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -47,16 +50,16 @@ export class DscNodeConfigurationOperationsImpl
   }
 
   /**
-   * Retrieve a list of dsc node configurations.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Retrieve a list of PowerShell72 modules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
    */
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeConfigurationListByAutomationAccountOptionalParams
-  ): PagedAsyncIterableIterator<DscNodeConfiguration> {
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams
+  ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -86,10 +89,10 @@ export class DscNodeConfigurationOperationsImpl
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeConfigurationListByAutomationAccountOptionalParams,
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<DscNodeConfiguration[]> {
-    let result: DscNodeConfigurationListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Module[]> {
+    let result: PowerShell72ModuleListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -119,8 +122,8 @@ export class DscNodeConfigurationOperationsImpl
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeConfigurationListByAutomationAccountOptionalParams
-  ): AsyncIterableIterator<DscNodeConfiguration> {
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams
+  ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -131,72 +134,67 @@ export class DscNodeConfigurationOperationsImpl
   }
 
   /**
-   * Delete the Dsc node configurations by node configuration.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Delete the module by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param nodeConfigurationName The Dsc node configuration name.
+   * @param moduleName The name of module.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    nodeConfigurationName: string,
-    options?: DscNodeConfigurationDeleteOptionalParams
+    moduleName: string,
+    options?: PowerShell72ModuleDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        automationAccountName,
-        nodeConfigurationName,
-        options
-      },
+      { resourceGroupName, automationAccountName, moduleName, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Retrieve the Dsc node configurations by node configuration.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Retrieve the module identified by module name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param nodeConfigurationName The Dsc node configuration name.
+   * @param moduleName The name of module.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    nodeConfigurationName: string,
-    options?: DscNodeConfigurationGetOptionalParams
-  ): Promise<DscNodeConfigurationGetResponse> {
+    moduleName: string,
+    options?: PowerShell72ModuleGetOptionalParams
+  ): Promise<PowerShell72ModuleGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        automationAccountName,
-        nodeConfigurationName,
-        options
-      },
+      { resourceGroupName, automationAccountName, moduleName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create the node configuration identified by node configuration name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Create or Update the module identified by module name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param nodeConfigurationName The Dsc node configuration name.
-   * @param parameters The create or update parameters for configuration.
+   * @param moduleName The name of module.
+   * @param parameters The create or update parameters for module.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    nodeConfigurationName: string,
-    parameters: DscNodeConfigurationCreateOrUpdateParameters,
-    options?: DscNodeConfigurationCreateOrUpdateOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    moduleName: string,
+    parameters: ModuleCreateOrUpdateParameters,
+    options?: PowerShell72ModuleCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PowerShell72ModuleCreateOrUpdateResponse>,
+      PowerShell72ModuleCreateOrUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<PowerShell72ModuleCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -237,39 +235,43 @@ export class DscNodeConfigurationOperationsImpl
       args: {
         resourceGroupName,
         automationAccountName,
-        nodeConfigurationName,
+        moduleName,
         parameters,
         options
       },
       spec: createOrUpdateOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      PowerShell72ModuleCreateOrUpdateResponse,
+      OperationState<PowerShell72ModuleCreateOrUpdateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create the node configuration identified by node configuration name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Create or Update the module identified by module name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param nodeConfigurationName The Dsc node configuration name.
-   * @param parameters The create or update parameters for configuration.
+   * @param moduleName The name of module.
+   * @param parameters The create or update parameters for module.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     automationAccountName: string,
-    nodeConfigurationName: string,
-    parameters: DscNodeConfigurationCreateOrUpdateParameters,
-    options?: DscNodeConfigurationCreateOrUpdateOptionalParams
-  ): Promise<void> {
+    moduleName: string,
+    parameters: ModuleCreateOrUpdateParameters,
+    options?: PowerShell72ModuleCreateOrUpdateOptionalParams
+  ): Promise<PowerShell72ModuleCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       automationAccountName,
-      nodeConfigurationName,
+      moduleName,
       parameters,
       options
     );
@@ -277,16 +279,43 @@ export class DscNodeConfigurationOperationsImpl
   }
 
   /**
-   * Retrieve a list of dsc node configurations.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Update the module identified by module name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param automationAccountName The name of the automation account.
+   * @param moduleName The name of module.
+   * @param parameters The update parameters for module.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    parameters: ModuleUpdateParameters,
+    options?: PowerShell72ModuleUpdateOptionalParams
+  ): Promise<PowerShell72ModuleUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        automationAccountName,
+        moduleName,
+        parameters,
+        options
+      },
+      updateOperationSpec
+    );
+  }
+
+  /**
+   * Retrieve a list of PowerShell72 modules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
    */
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeConfigurationListByAutomationAccountOptionalParams
-  ): Promise<DscNodeConfigurationListByAutomationAccountResponse> {
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams
+  ): Promise<PowerShell72ModuleListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec
@@ -295,7 +324,7 @@ export class DscNodeConfigurationOperationsImpl
 
   /**
    * ListByAutomationAccountNext
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param nextLink The nextLink from the previous successful call to the ListByAutomationAccount
    *                 method.
@@ -305,8 +334,8 @@ export class DscNodeConfigurationOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: DscNodeConfigurationListByAutomationAccountNextOptionalParams
-  ): Promise<DscNodeConfigurationListByAutomationAccountNextResponse> {
+    options?: PowerShell72ModuleListByAutomationAccountNextOptionalParams
+  ): Promise<PowerShell72ModuleListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec
@@ -318,10 +347,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations/{nodeConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -330,20 +360,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.nodeConfigurationName
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations/{nodeConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeConfiguration
+      bodyMapper: Mappers.Module
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -353,34 +383,67 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.nodeConfigurationName
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations/{nodeConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "PUT",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.Module
+    },
+    201: {
+      bodyMapper: Mappers.Module
+    },
+    202: {
+      bodyMapper: Mappers.Module
+    },
+    204: {
+      bodyMapper: Mappers.Module
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.nodeConfigurationName
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Module
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters25,
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -388,28 +451,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeConfigurationListResult
+      bodyMapper: Mappers.ModuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.skip,
-    Parameters.top,
-    Parameters.inlinecount,
-    Parameters.apiVersion4
-  ],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -419,7 +476,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeConfigurationListResult
+      bodyMapper: Mappers.ModuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -428,9 +485,9 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1
   ],
   headerParameters: [Parameters.accept],
   serializer
