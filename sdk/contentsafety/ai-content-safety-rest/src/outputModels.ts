@@ -51,6 +51,42 @@ export interface TextCategoriesAnalysisOutput {
   severity?: number;
 }
 
+/** The text jailbreak analysis request. */
+export interface AnalyzeTextJailbreakOptionsOutput {
+  /** The text needs to be analyzed if it attempt to jailbreak. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
+/** The text jailbreak analysis request. */
+export interface AnalyzeTextJailbreakResultOutput {
+  /** Analysis result for jailbreak. */
+  jailbreakAnalysis: JailbreakAnalysisResultOutput;
+}
+
+/** The text jailbreak analysis response. */
+export interface JailbreakAnalysisResultOutput {
+  /** Analysis result for jailbreak. */
+  detected: boolean;
+}
+
+/** The protected material analysis request. */
+export interface AnalyzeTextProtectedMaterialOptionsOutput {
+  /** The text needs to be analyzed. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
+/** The protected material analysis response. */
+export interface AnalyzeTextProtectedMaterialResultOutput {
+  /** Analysis result for protected material. */
+  protectedMaterialAnalysis: ProtectedMaterialAnalysisResultOutput;
+}
+
+/** The text protected material analysis response. */
+export interface ProtectedMaterialAnalysisResultOutput {
+  /** Analysis result for protected material.. */
+  detected: boolean;
+}
+
 /** The image analysis request. */
 export interface AnalyzeImageOptionsOutput {
   /** The image needs to be analyzed. */

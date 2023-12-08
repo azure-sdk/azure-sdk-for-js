@@ -4,6 +4,8 @@
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   AnalyzeTextOptions,
+  AnalyzeTextJailbreakOptions,
+  AnalyzeTextProtectedMaterialOptions,
   AnalyzeImageOptions,
   TextBlocklist,
   AddOrUpdateTextBlocklistItemsOptions,
@@ -16,6 +18,22 @@ export interface AnalyzeTextBodyParam {
 }
 
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
+
+export interface DetectTextJailbreakBodyParam {
+  /** The text jailbreak analysis request. */
+  body: AnalyzeTextJailbreakOptions;
+}
+
+export type DetectTextJailbreakParameters = DetectTextJailbreakBodyParam &
+  RequestParameters;
+
+export interface DetectTextProtectedMaterialBodyParam {
+  /** The text protected material analysis request. */
+  body: AnalyzeTextProtectedMaterialOptions;
+}
+
+export type DetectTextProtectedMaterialParameters =
+  DetectTextProtectedMaterialBodyParam & RequestParameters;
 
 export interface AnalyzeImageBodyParam {
   /** The image analysis request. */
@@ -37,9 +55,10 @@ export interface CreateOrUpdateTextBlocklistMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateTextBlocklistParameters = CreateOrUpdateTextBlocklistMediaTypesParam &
-  CreateOrUpdateTextBlocklistBodyParam &
-  RequestParameters;
+export type CreateOrUpdateTextBlocklistParameters =
+  CreateOrUpdateTextBlocklistMediaTypesParam &
+    CreateOrUpdateTextBlocklistBodyParam &
+    RequestParameters;
 export type DeleteTextBlocklistParameters = RequestParameters;
 export type ListTextBlocklistsParameters = RequestParameters;
 
@@ -48,15 +67,16 @@ export interface AddOrUpdateBlocklistItemsBodyParam {
   body: AddOrUpdateTextBlocklistItemsOptions;
 }
 
-export type AddOrUpdateBlocklistItemsParameters = AddOrUpdateBlocklistItemsBodyParam &
-  RequestParameters;
+export type AddOrUpdateBlocklistItemsParameters =
+  AddOrUpdateBlocklistItemsBodyParam & RequestParameters;
 
 export interface RemoveBlocklistItemsBodyParam {
   /** Options for removing blocklist items. */
   body: RemoveTextBlocklistItemsOptions;
 }
 
-export type RemoveBlocklistItemsParameters = RemoveBlocklistItemsBodyParam & RequestParameters;
+export type RemoveBlocklistItemsParameters = RemoveBlocklistItemsBodyParam &
+  RequestParameters;
 export type GetTextBlocklistItemParameters = RequestParameters;
 
 export interface ListTextBlocklistItemsQueryParamProperties {
@@ -72,4 +92,5 @@ export interface ListTextBlocklistItemsQueryParam {
   queryParameters?: ListTextBlocklistItemsQueryParamProperties;
 }
 
-export type ListTextBlocklistItemsParameters = ListTextBlocklistItemsQueryParam & RequestParameters;
+export type ListTextBlocklistItemsParameters =
+  ListTextBlocklistItemsQueryParam & RequestParameters;

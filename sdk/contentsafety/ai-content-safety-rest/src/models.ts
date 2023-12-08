@@ -19,6 +19,18 @@ export interface AnalyzeTextOptions {
   outputType?: string;
 }
 
+/** The text jailbreak analysis request. */
+export interface AnalyzeTextJailbreakOptions {
+  /** The text needs to be analyzed if it attempt to jailbreak. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
+/** The protected material analysis request. */
+export interface AnalyzeTextProtectedMaterialOptions {
+  /** The text needs to be analyzed. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
 /** The image analysis request. */
 export interface AnalyzeImageOptions {
   /** The image needs to be analyzed. */
