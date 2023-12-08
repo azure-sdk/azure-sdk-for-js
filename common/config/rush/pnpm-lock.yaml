@@ -10368,7 +10368,7 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-fqYXvfpbFKsXYet59+XcC6z8bhcxNXwXBK06s3t97gnCJ2fYitjtYmlJo21ybVa0u5QNky/fDIMDloZmg6IVLg==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-U0WIWtLJbNBqdZLhZt3WxgFrOsZD9FPQSB2nXkLvR987aazVFDn23kgEv3rlfmdH6TC0sCcJlW43n9GMJqQkEQ==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
@@ -10376,12 +10376,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17252,7 +17255,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-qQLlASe7L1wkWCK0onmD56p8UV+w6TvtdOH+MkMPugjrUMQAgbyCUZLm6eKlnjEYGLwwjmRuv034XG8PbRc9Ww==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-gFQKfmG3QlSOg3UWSdUHqF0HxP2esDhV+uGXU3Xf8qltBnMYowGEPdVi91jg//H3HKl2CRA1mn6bjEZ2w76Ppg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
