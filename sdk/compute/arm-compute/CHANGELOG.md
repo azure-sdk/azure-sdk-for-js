@@ -1,5 +1,34 @@
 # Release History
     
+## 21.3.0 (2023-12-08)
+    
+**Features**
+
+  - Added Interface CommunityGalleryMetadata
+  - Added Interface GalleryImageVersionUefiSettings
+  - Added Interface ImageVersionSecurityProfile
+  - Added Interface UefiKey
+  - Added Interface UefiKeySignatures
+  - Added Type Alias UefiKeyType
+  - Added Type Alias UefiSignatureTemplateName
+  - Interface CommunityGallery has a new optional parameter artifactTags
+  - Interface CommunityGallery has a new optional parameter communityMetadata
+  - Interface CommunityGallery has a new optional parameter disclaimer
+  - Interface CommunityGalleryImage has a new optional parameter artifactTags
+  - Interface CommunityGalleryImage has a new optional parameter disclaimer
+  - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
+  - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
+  - Interface GalleryImageVersion has a new optional parameter securityProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter securityProfile
+  - Interface SharedGallery has a new optional parameter artifactTags
+  - Interface SharedGalleryImage has a new optional parameter artifactTags
+  - Interface SharedGalleryImageVersion has a new optional parameter artifactTags
+  - Added Enum KnownUefiKeyType
+  - Added Enum KnownUefiSignatureTemplateName
+  - Enum KnownConfidentialVMEncryptionType has a new value NonPersistedTPM
+  - Enum KnownReplicationStatusTypes has a new value UefiSettings
+    
+    
 ## 21.2.0 (2023-08-14)
     
 **Features**
@@ -515,4 +544,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
