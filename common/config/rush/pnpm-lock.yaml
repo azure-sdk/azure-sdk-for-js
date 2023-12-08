@@ -10567,7 +10567,7 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-Yi+mt51sh8fmOKAR5sKV2YuuvmKkx46Rm/+C1MYcc5K8G/vgMc1ot2RxqjQxcmqCYXKrKU6QIid9dDMbQm8iFA==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-3D9Wbh/fT78nRerX8kwHk9ocuu9e4bGH3C8XmKuPNVZhIHPVpANASJ2ZShW4cCfvbdq5JnsiePPlRLZaJ7AFOQ==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -10575,13 +10575,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17252,7 +17254,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-qQLlASe7L1wkWCK0onmD56p8UV+w6TvtdOH+MkMPugjrUMQAgbyCUZLm6eKlnjEYGLwwjmRuv034XG8PbRc9Ww==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-gFQKfmG3QlSOg3UWSdUHqF0HxP2esDhV+uGXU3Xf8qltBnMYowGEPdVi91jg//H3HKl2CRA1mn6bjEZ2w76Ppg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
