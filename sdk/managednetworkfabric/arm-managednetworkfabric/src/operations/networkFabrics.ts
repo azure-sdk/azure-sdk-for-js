@@ -40,7 +40,7 @@ import {
   NetworkFabricsProvisionResponse,
   NetworkFabricsDeprovisionOptionalParams,
   NetworkFabricsDeprovisionResponse,
-  UpdateVersion,
+  UpgradeNetworkFabricProperties,
   NetworkFabricsUpgradeOptionalParams,
   NetworkFabricsUpgradeResponse,
   NetworkFabricsRefreshConfigurationOptionalParams,
@@ -717,7 +717,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginUpgrade(
     resourceGroupName: string,
     networkFabricName: string,
-    body: UpdateVersion,
+    body: UpgradeNetworkFabricProperties,
     options?: NetworkFabricsUpgradeOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -791,7 +791,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginUpgradeAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    body: UpdateVersion,
+    body: UpgradeNetworkFabricProperties,
     options?: NetworkFabricsUpgradeOptionalParams
   ): Promise<NetworkFabricsUpgradeResponse> {
     const poller = await this.beginUpgrade(
@@ -1651,7 +1651,7 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body27,
+  requestBody: Parameters.body34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1781,7 +1781,7 @@ const validateConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body34,
+  requestBody: Parameters.body35,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

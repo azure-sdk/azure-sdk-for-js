@@ -43,6 +43,12 @@ export const AccessControlListPatchableProperties: coreClient.CompositeMapper = 
           name: "String"
         }
       },
+      defaultAction: {
+        serializedName: "defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       matchConfigurations: {
         constraints: {
           MinItems: 1
@@ -2029,6 +2035,12 @@ export const ExternalNetworkPatchableProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ExternalNetworkPatchableProperties",
     modelProperties: {
+      networkToNetworkInterconnectId: {
+        serializedName: "networkToNetworkInterconnectId",
+        type: {
+          name: "String"
+        }
+      },
       importRoutePolicyId: {
         serializedName: "importRoutePolicyId",
         type: {
@@ -2066,6 +2078,12 @@ export const ExternalNetworkPatch: coreClient.CompositeMapper = {
     modelProperties: {
       annotation: {
         serializedName: "properties.annotation",
+        type: {
+          name: "String"
+        }
+      },
+      networkToNetworkInterconnectId: {
+        serializedName: "properties.networkToNetworkInterconnectId",
         type: {
           name: "String"
         }
@@ -3598,6 +3616,12 @@ export const RoutePolicyPatchableProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "RoutePolicyPatchableProperties",
     modelProperties: {
+      defaultAction: {
+        serializedName: "defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       statements: {
         serializedName: "statements",
         type: {
@@ -4450,13 +4474,6 @@ export const ExternalNetworkProperties: coreClient.CompositeMapper = {
     modelProperties: {
       ...AnnotationResource.type.modelProperties,
       ...ExternalNetworkPatchableProperties.type.modelProperties,
-      networkToNetworkInterconnectId: {
-        serializedName: "networkToNetworkInterconnectId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       peeringOption: {
         serializedName: "peeringOption",
         required: true,
@@ -4862,8 +4879,10 @@ export const NetworkFabricProperties: coreClient.CompositeMapper = {
         }
       },
       fabricVersion: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "fabricVersion",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -5587,6 +5606,12 @@ export const AccessControlListPatch: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       matchConfigurations: {
         constraints: {
           MinItems: 1
@@ -6083,6 +6108,12 @@ export const RoutePolicyPatch: coreClient.CompositeMapper = {
     className: "RoutePolicyPatch",
     modelProperties: {
       ...TagsUpdate.type.modelProperties,
+      defaultAction: {
+        serializedName: "properties.defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       statements: {
         serializedName: "properties.statements",
         type: {
@@ -6252,6 +6283,22 @@ export const OptionBLayer3Configuration: coreClient.CompositeMapper = {
   }
 };
 
+export const UpgradeNetworkFabricProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpgradeNetworkFabricProperties",
+    modelProperties: {
+      ...UpdateVersion.type.modelProperties,
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NetworkTapPropertiesDestinationsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6353,6 +6400,12 @@ export const AccessControlList: coreClient.CompositeMapper = {
           MinLength: 1
         },
         serializedName: "properties.aclsUrl",
+        type: {
+          name: "String"
+        }
+      },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
         type: {
           name: "String"
         }
@@ -7111,8 +7164,10 @@ export const NetworkFabric: coreClient.CompositeMapper = {
         }
       },
       fabricVersion: {
+        constraints: {
+          MinLength: 1
+        },
         serializedName: "properties.fabricVersion",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -7570,6 +7625,12 @@ export const RoutePolicy: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      defaultAction: {
+        serializedName: "properties.defaultAction",
+        type: {
+          name: "String"
+        }
+      },
       statements: {
         serializedName: "properties.statements",
         type: {
@@ -7788,6 +7849,12 @@ export const ExternalNetwork: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      networkToNetworkInterconnectId: {
+        serializedName: "properties.networkToNetworkInterconnectId",
+        type: {
+          name: "String"
+        }
+      },
       importRoutePolicyId: {
         serializedName: "properties.importRoutePolicyId",
         type: {
@@ -7812,13 +7879,6 @@ export const ExternalNetwork: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ExportRoutePolicy"
-        }
-      },
-      networkToNetworkInterconnectId: {
-        serializedName: "properties.networkToNetworkInterconnectId",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       },
       peeringOption: {
