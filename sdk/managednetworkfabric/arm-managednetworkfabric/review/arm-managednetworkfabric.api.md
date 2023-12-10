@@ -17,6 +17,7 @@ export interface AccessControlList extends TrackedResource {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     configurationType?: ConfigurationType;
+    defaultAction?: CommunityActionTypes;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
     readonly lastSyncedTime?: Date;
     matchConfigurations?: AccessControlListMatchConfiguration[];
@@ -53,6 +54,7 @@ export interface AccessControlListPatch extends TagsUpdate {
     aclsUrl?: string;
     annotation?: string;
     configurationType?: ConfigurationType;
+    defaultAction?: CommunityActionTypes;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
     matchConfigurations?: AccessControlListMatchConfiguration[];
 }
@@ -61,6 +63,7 @@ export interface AccessControlListPatch extends TagsUpdate {
 export interface AccessControlListPatchableProperties {
     aclsUrl?: string;
     configurationType?: ConfigurationType;
+    defaultAction?: CommunityActionTypes;
     dynamicMatchConfigurations?: CommonDynamicMatchConfiguration[];
     matchConfigurations?: AccessControlListMatchConfiguration[];
 }
@@ -516,7 +519,7 @@ export interface ExternalNetwork extends ProxyResource {
     exportRoutePolicyId?: string;
     importRoutePolicy?: ImportRoutePolicy;
     importRoutePolicyId?: string;
-    readonly networkToNetworkInterconnectId?: string;
+    networkToNetworkInterconnectId?: string;
     optionAProperties?: ExternalNetworkPropertiesOptionAProperties;
     optionBProperties?: L3OptionBProperties;
     peeringOption: PeeringOption;
@@ -530,6 +533,7 @@ export interface ExternalNetworkPatch {
     exportRoutePolicyId?: string;
     importRoutePolicy?: ImportRoutePolicy;
     importRoutePolicyId?: string;
+    networkToNetworkInterconnectId?: string;
     optionAProperties?: ExternalNetworkPatchPropertiesOptionAProperties;
     optionBProperties?: L3OptionBProperties;
     peeringOption?: PeeringOption;
@@ -541,6 +545,7 @@ export interface ExternalNetworkPatchableProperties {
     exportRoutePolicyId?: string;
     importRoutePolicy?: ImportRoutePolicy;
     importRoutePolicyId?: string;
+    networkToNetworkInterconnectId?: string;
 }
 
 // @public
@@ -558,7 +563,6 @@ export interface ExternalNetworkPatchPropertiesOptionAProperties extends Layer3I
 export interface ExternalNetworkProperties extends AnnotationResource, ExternalNetworkPatchableProperties {
     readonly administrativeState?: AdministrativeState;
     readonly configurationState?: ConfigurationState;
-    readonly networkToNetworkInterconnectId?: string;
     optionAProperties?: ExternalNetworkPropertiesOptionAProperties;
     optionBProperties?: L3OptionBProperties;
     peeringOption: PeeringOption;
@@ -1667,7 +1671,9 @@ export enum KnownConfigurationState {
     ErrorDeprovisioning = "ErrorDeprovisioning",
     ErrorProvisioning = "ErrorProvisioning",
     Failed = "Failed",
+    PendingCommit = "PendingCommit",
     Provisioned = "Provisioned",
+    Provisioning = "Provisioning",
     Rejected = "Rejected",
     Succeeded = "Succeeded"
 }
@@ -1788,6 +1794,12 @@ export enum KnownNetworkDeviceRoleName {
     NPB = "NPB",
     ToR = "ToR",
     TS = "TS"
+}
+
+// @public
+export enum KnownNetworkFabricUpgradeAction {
+    Complete = "Complete",
+    Start = "Start"
 }
 
 // @public
@@ -2694,7 +2706,7 @@ export interface NetworkFabric extends TrackedResource {
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     fabricASN: number;
-    readonly fabricVersion?: string;
+    fabricVersion?: string;
     ipv4Prefix: string;
     ipv6Prefix?: string;
     readonly l2IsolationDomains?: string[];
@@ -2882,7 +2894,7 @@ export interface NetworkFabricProperties extends AnnotationResource {
     readonly administrativeState?: AdministrativeState;
     readonly configurationState?: ConfigurationState;
     fabricASN: number;
-    readonly fabricVersion?: string;
+    fabricVersion?: string;
     ipv4Prefix: string;
     ipv6Prefix?: string;
     readonly l2IsolationDomains?: string[];
@@ -2920,8 +2932,8 @@ export interface NetworkFabrics {
     beginUpdateInfraManagementBfdConfigurationAndWait(resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams): Promise<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse>;
     beginUpdateWorkloadManagementBfdConfiguration(resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse>, NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse>>;
     beginUpdateWorkloadManagementBfdConfigurationAndWait(resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams): Promise<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse>;
-    beginUpgrade(resourceGroupName: string, networkFabricName: string, body: UpdateVersion, options?: NetworkFabricsUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<NetworkFabricsUpgradeResponse>, NetworkFabricsUpgradeResponse>>;
-    beginUpgradeAndWait(resourceGroupName: string, networkFabricName: string, body: UpdateVersion, options?: NetworkFabricsUpgradeOptionalParams): Promise<NetworkFabricsUpgradeResponse>;
+    beginUpgrade(resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<NetworkFabricsUpgradeResponse>, NetworkFabricsUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams): Promise<NetworkFabricsUpgradeResponse>;
     beginValidateConfiguration(resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<NetworkFabricsValidateConfigurationResponse>, NetworkFabricsValidateConfigurationResponse>>;
     beginValidateConfigurationAndWait(resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams): Promise<NetworkFabricsValidateConfigurationResponse>;
     get(resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsGetOptionalParams): Promise<NetworkFabricsGetResponse>;
@@ -3180,6 +3192,9 @@ export interface NetworkFabricsValidateConfigurationOptionalParams extends coreC
 
 // @public
 export type NetworkFabricsValidateConfigurationResponse = ValidateConfigurationResponse;
+
+// @public
+export type NetworkFabricUpgradeAction = string;
 
 // @public
 export interface NetworkInterface extends ProxyResource {
@@ -4277,6 +4292,7 @@ export interface RoutePolicy extends TrackedResource {
     readonly administrativeState?: AdministrativeState;
     annotation?: string;
     readonly configurationState?: ConfigurationState;
+    defaultAction?: CommunityActionTypes;
     networkFabricId: string;
     readonly provisioningState?: ProvisioningState;
     statements?: RoutePolicyStatementProperties[];
@@ -4290,11 +4306,13 @@ export type RoutePolicyConditionType = string;
 
 // @public
 export interface RoutePolicyPatch extends TagsUpdate {
+    defaultAction?: CommunityActionTypes;
     statements?: RoutePolicyStatementProperties[];
 }
 
 // @public
 export interface RoutePolicyPatchableProperties {
+    defaultAction?: CommunityActionTypes;
     statements?: RoutePolicyStatementProperties[];
 }
 
@@ -4425,6 +4443,11 @@ export interface UpdateDeviceAdministrativeState extends EnableDisableOnResource
 // @public
 export interface UpdateVersion {
     version?: string;
+}
+
+// @public (undocumented)
+export interface UpgradeNetworkFabricProperties extends UpdateVersion {
+    action?: NetworkFabricUpgradeAction;
 }
 
 // @public
