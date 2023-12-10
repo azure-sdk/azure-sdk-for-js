@@ -1361,23 +1361,23 @@ export const ClusterListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const Identity: coreClient.CompositeMapper = {
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Identity",
+    className: "ManagedServiceIdentity",
     modelProperties: {
       principalId: {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       tenantId: {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       type: {
@@ -1392,7 +1392,7 @@ export const Identity: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "UserIdentityProperties" }
+            type: { name: "Composite", className: "UserAssignedIdentity" }
           }
         }
       }
@@ -1400,23 +1400,23 @@ export const Identity: coreClient.CompositeMapper = {
   }
 };
 
-export const UserIdentityProperties: coreClient.CompositeMapper = {
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UserIdentityProperties",
+    className: "UserAssignedIdentity",
     modelProperties: {
       principalId: {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       clientId: {
         serializedName: "clientId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       }
     }
@@ -1432,7 +1432,19 @@ export const ClusterSku: coreClient.CompositeMapper = {
         serializedName: "capacity",
         type: {
           name: "Enum",
-          allowedValues: [500, 1000, 2000, 5000]
+          allowedValues: [
+            100,
+            200,
+            300,
+            400,
+            500,
+            1000,
+            2000,
+            5000,
+            10000,
+            25000,
+            50000
+          ]
         }
       },
       name: {
@@ -1547,7 +1559,7 @@ export const ClusterPatch: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "Identity"
+          className: "ManagedServiceIdentity"
         }
       },
       sku: {
@@ -1804,6 +1816,68 @@ export const WorkspaceFeatures: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const Identity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Identity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserIdentityProperties" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserIdentityProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserIdentityProperties",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -2667,7 +2741,7 @@ export const Table: coreClient.CompositeMapper = {
       },
       totalRetentionInDays: {
         constraints: {
-          InclusiveMaximum: 2555,
+          InclusiveMaximum: 4383,
           InclusiveMinimum: 4
         },
         serializedName: "properties.totalRetentionInDays",
@@ -2758,7 +2832,7 @@ export const Cluster: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "Identity"
+          className: "ManagedServiceIdentity"
         }
       },
       sku: {

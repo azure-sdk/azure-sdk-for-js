@@ -510,33 +510,35 @@ export interface ClusterListResult {
   value?: Cluster[];
 }
 
-/** Identity for the resource. */
-export interface Identity {
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /**
-   * The principal ID of resource identity.
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** Type of managed service identity. */
-  type: IdentityType;
-  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
-/** User assigned identity properties. */
-export interface UserIdentityProperties {
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
   /**
-   * The principal id of user assigned identity.
+   * The principal ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The client id of user assigned identity.
+   * The client ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
@@ -544,9 +546,9 @@ export interface UserIdentityProperties {
 
 /** The cluster sku definition. */
 export interface ClusterSku {
-  /** The capacity value */
+  /** The capacity reservation level in Gigabytes for this cluster. */
   capacity?: Capacity;
-  /** The name of the SKU. */
+  /** The SKU (tier) of a cluster. */
   name?: ClusterSkuNameEnum;
 }
 
@@ -565,17 +567,17 @@ export interface KeyVaultProperties {
 /** The list of Log Analytics workspaces associated with the cluster. */
 export interface AssociatedWorkspace {
   /**
-   * The id of the assigned workspace.
+   * Associated workspace immutable id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workspaceId?: string;
   /**
-   * The name id the assigned workspace.
+   * Associated workspace resource name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workspaceName?: string;
   /**
-   * The ResourceId id the assigned workspace.
+   * Associated workspace arm resource id, in the form of: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceId?: string;
@@ -594,7 +596,7 @@ export interface CapacityReservationProperties {
    */
   readonly lastSkuUpdate?: string;
   /**
-   * Minimum CapacityReservation value in GB.
+   * Minimum CapacityReservation value in Gigabytes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly minCapacity?: number;
@@ -602,8 +604,8 @@ export interface CapacityReservationProperties {
 
 /** The top level Log Analytics cluster resource container. */
 export interface ClusterPatch {
-  /** The identity of the resource. */
-  identity?: Identity;
+  /** Resource's identity. */
+  identity?: ManagedServiceIdentity;
   /** The sku properties. */
   sku?: ClusterSku;
   /** Resource tags. */
@@ -702,6 +704,38 @@ export interface WorkspaceFeatures {
   clusterResourceId?: string;
   /** Disable Non-AAD based Auth. */
   disableLocalAuth?: boolean;
+}
+
+/** Identity for the resource. */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity. */
+  type: IdentityType;
+  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+/** User assigned identity properties. */
+export interface UserIdentityProperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -1047,7 +1081,7 @@ export interface Table extends ProxyResource {
   readonly systemData?: SystemDataAutoGenerated;
   /** The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention. */
   retentionInDays?: number;
-  /** The table total retention in days, between 4 and 2555. Setting this property to -1 will default to table retention. */
+  /** The table total retention in days, between 4 and 4383. Setting this property to -1 will default to table retention. */
   totalRetentionInDays?: number;
   /**
    * The table data archive retention in days. Calculated as (totalRetentionInDays-retentionInDays)
@@ -1091,8 +1125,8 @@ export interface Table extends ProxyResource {
 
 /** The top level Log Analytics cluster resource container. */
 export interface Cluster extends TrackedResource {
-  /** The identity of the resource. */
-  identity?: Identity;
+  /** Resource's identity. */
+  identity?: ManagedServiceIdentity;
   /** The sku properties. */
   sku?: ClusterSku;
   /**
@@ -1511,6 +1545,30 @@ export enum KnownPurgeState {
  */
 export type PurgeState = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link ClusterSkuNameEnum} that the service accepts. */
 export enum KnownClusterSkuNameEnum {
   /** CapacityReservation */
@@ -1774,13 +1832,13 @@ export type ColumnTypeEnum = string;
 
 /** Known values of {@link ColumnDataTypeHintEnum} that the service accepts. */
 export enum KnownColumnDataTypeHintEnum {
-  /** A string that matches the pattern of a URI, for example, scheme://username:password@host:1234/this/is/a/path?k1=v1&k2=v2#fragment */
+  /** A string that matches the pattern of a URI, for example, scheme:\//username:password@host:1234\/this\/is\/a\/path?k1=v1&k2=v2#fragment */
   Uri = "uri",
   /** A standard 128-bit GUID following the standard shape, xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx */
   Guid = "guid",
-  /** An Azure Resource Model (ARM) path: /subscriptions/{...}/resourceGroups/{...}/providers/Microsoft.{...}/{...}/{...}/{...}... */
+  /** An Azure Resource Model (ARM) path: \/subscriptions\/{...}\/resourceGroups\/{...}\/providers\/Microsoft.{...}\/{...}\/{...}\/{...}... */
   ArmPath = "armPath",
-  /** A standard V4/V6 ip address following the standard shape, x.x.x.x/y:y:y:y:y:y:y:y */
+  /** A standard V4\/V6 ip address following the standard shape, x.x.x.x\/y:y:y:y:y:y:y:y */
   Ip = "ip"
 }
 
@@ -1866,7 +1924,9 @@ export enum KnownProvisioningStateEnum {
   /** Table schema is stable and without changes, table data is being updated. */
   InProgress = "InProgress",
   /** Table state is stable and without changes, table is unlocked and open for new updates. */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
+  /** Table state is deleting. */
+  Deleting = "Deleting"
 }
 
 /**
@@ -1876,7 +1936,8 @@ export enum KnownProvisioningStateEnum {
  * ### Known values supported by the service
  * **Updating**: Table schema is still being built and updated, table is currently locked for any changes till the procedure is done. \
  * **InProgress**: Table schema is stable and without changes, table data is being updated. \
- * **Succeeded**: Table state is stable and without changes, table is unlocked and open for new updates.
+ * **Succeeded**: Table state is stable and without changes, table is unlocked and open for new updates. \
+ * **Deleting**: Table state is deleting.
  */
 export type ProvisioningStateEnum = string;
 /** Defines values for DataSourceType. */
@@ -1887,7 +1948,18 @@ export type DataSourceType =
   | "Ingestion"
   | "Alerts";
 /** Defines values for Capacity. */
-export type Capacity = 500 | 1000 | 2000 | 5000;
+export type Capacity =
+  | 100
+  | 200
+  | 300
+  | 400
+  | 500
+  | 1000
+  | 2000
+  | 5000
+  | 10000
+  | 25000
+  | 50000;
 /** Defines values for CapacityReservationLevel. */
 export type CapacityReservationLevel =
   | 100
