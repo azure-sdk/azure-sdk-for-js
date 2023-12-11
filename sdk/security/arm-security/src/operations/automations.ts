@@ -25,6 +25,9 @@ import {
   AutomationsGetResponse,
   AutomationsCreateOrUpdateOptionalParams,
   AutomationsCreateOrUpdateResponse,
+  AutomationUpdateModel,
+  AutomationsUpdateOptionalParams,
+  AutomationsUpdateResponse,
   AutomationsDeleteOptionalParams,
   AutomationsValidateOptionalParams,
   AutomationsValidateResponse,
@@ -239,6 +242,26 @@ export class AutomationsImpl implements Automations {
   }
 
   /**
+   * Updates a security automation
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param automationName The security automation name.
+   * @param automation The update model of security automation resource
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    automationName: string,
+    automation: AutomationUpdateModel,
+    options?: AutomationsUpdateOptionalParams
+  ): Promise<AutomationsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, automationName, automation, options },
+      updateOperationSpec
+    );
+  }
+
+  /**
    * Deletes a security automation.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
@@ -325,7 +348,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -342,7 +365,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -363,7 +386,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -389,7 +412,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.automation,
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.automationName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Automation
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.automation1,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -405,12 +452,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
   httpMethod: "DELETE",
   responses: {
+    200: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -433,7 +481,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.automation,
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -477,8 +525,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer

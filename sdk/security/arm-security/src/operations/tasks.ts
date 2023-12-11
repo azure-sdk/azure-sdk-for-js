@@ -454,7 +454,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -471,7 +471,7 @@ const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -492,7 +492,7 @@ const getSubscriptionLevelTaskOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -512,7 +512,7 @@ const updateSubscriptionLevelTaskStateOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -535,12 +535,12 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ascLocation
+    Parameters.ascLocation,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -557,13 +557,13 @@ const getResourceGroupLevelTaskOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
-    Parameters.taskName
+    Parameters.taskName,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -578,14 +578,14 @@ const updateResourceGroupLevelTaskStateOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.ascLocation,
     Parameters.taskName,
-    Parameters.taskUpdateActionType
+    Parameters.taskUpdateActionType,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -623,8 +623,8 @@ const listByHomeRegionNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.ascLocation
+    Parameters.ascLocation,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -643,9 +643,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.ascLocation,
     Parameters.nextLink,
-    Parameters.ascLocation
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer

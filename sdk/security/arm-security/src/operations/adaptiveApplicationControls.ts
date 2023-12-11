@@ -117,7 +117,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion10,
+    Parameters.apiVersion20,
     Parameters.includePathRecommendations,
     Parameters.summary
   ],
@@ -137,7 +137,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -159,8 +159,8 @@ const putOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion10],
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -183,7 +183,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

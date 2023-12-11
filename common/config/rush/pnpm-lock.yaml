@@ -15101,7 +15101,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-BgTvWlnx24iABUAjVhOFXeG341+nKojsKGIjBfJ90dxJvLY92qZHfDi3RkEZHd0GoJuSFotEW7BSfoeUWyefRg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-nxI5WXKOvH6M3VPzb4bqn7/v6QtGmej7VNWkbCJkjPg8rSN2g6uVzgkfZ218LjTPYt9lI8X9yIsavvUmRbDpbw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -15109,13 +15109,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17252,7 +17254,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-qQLlASe7L1wkWCK0onmD56p8UV+w6TvtdOH+MkMPugjrUMQAgbyCUZLm6eKlnjEYGLwwjmRuv034XG8PbRc9Ww==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-PV5E9f7Vdto/8RUYJn+hhwAGuEOMlf5KEMlEaYmwwRWFnT4zRGk/pohg3lhbuDBEWjwAub6CAIzacvybAvsqZg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -20303,7 +20305,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-7ydGCD7a/xwpSa8juyxMibTpjJ7vK+9X4JlhI9p/45Dz0o1leumfdBGS+ag/qM20eH6KeLDkLXVvYddI68Pa6w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-9k4LApml/j2nEyblv8gd9mS02fzEjFmskLW7HONO5Ft8L9DdWk1ndUAGpqx1ggbol07QnBWAo24j3eIDCQHnGQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:

@@ -283,7 +283,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
@@ -300,7 +300,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept],
   serializer
@@ -317,7 +317,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -334,7 +334,7 @@ const getInSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -356,7 +356,7 @@ const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.assessmentMetadata,
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -376,7 +376,7 @@ const deleteInSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion21],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

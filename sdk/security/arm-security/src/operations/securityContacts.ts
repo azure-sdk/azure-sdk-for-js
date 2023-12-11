@@ -18,6 +18,7 @@ import {
   SecurityContactsListNextOptionalParams,
   SecurityContactsListOptionalParams,
   SecurityContactsListResponse,
+  SecurityContactName,
   SecurityContactsGetOptionalParams,
   SecurityContactsGetResponse,
   SecurityContactsCreateOptionalParams,
@@ -109,7 +110,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * @param options The options parameters.
    */
   get(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     options?: SecurityContactsGetOptionalParams
   ): Promise<SecurityContactsGetResponse> {
     return this.client.sendOperationRequest(
@@ -125,7 +126,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * @param options The options parameters.
    */
   create(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     securityContact: SecurityContact,
     options?: SecurityContactsCreateOptionalParams
   ): Promise<SecurityContactsCreateResponse> {
@@ -141,7 +142,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * @param options The options parameters.
    */
   delete(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     options?: SecurityContactsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
@@ -180,7 +181,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -197,7 +198,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -222,7 +223,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.securityContact,
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -243,7 +244,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

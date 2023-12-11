@@ -308,7 +308,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -334,7 +334,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.customAssessmentAutomationBody,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -356,7 +356,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -378,7 +378,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -399,7 +399,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -418,8 +418,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
