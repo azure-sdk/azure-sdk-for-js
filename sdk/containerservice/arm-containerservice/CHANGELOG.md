@@ -1,15 +1,24 @@
 # Release History
+    
+## 19.6.0 (2023-12-11)
+    
+**Features**
 
-## 19.5.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AgentPoolNetworkProfile
+  - Added Interface IPTag
+  - Added Interface PortRange
+  - Added Type Alias BackendPoolType
+  - Added Type Alias Protocol
+  - Interface AgentPool has a new optional parameter capacityReservationGroupID
+  - Interface AgentPool has a new optional parameter networkProfile
+  - Interface AgentPoolUpgradeSettings has a new optional parameter nodeSoakDurationInMinutes
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter networkProfile
+  - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
+  - Added Enum KnownBackendPoolType
+  - Added Enum KnownProtocol
+    
+    
 ## 19.5.0 (2023-11-22)
     
 **Features**
