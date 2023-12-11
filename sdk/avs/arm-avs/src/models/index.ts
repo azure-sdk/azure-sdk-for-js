@@ -249,65 +249,6 @@ export interface PrivateCloudList {
   readonly nextLink?: string;
 }
 
-/** An ExpressRoute Circuit */
-export interface Circuit {
-  /**
-   * CIDR of primary subnet
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primarySubnet?: string;
-  /**
-   * CIDR of secondary subnet
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondarySubnet?: string;
-  /**
-   * Identifier of the ExpressRoute Circuit (Microsoft Colo only)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expressRouteID?: string;
-  /**
-   * ExpressRoute Circuit private peering identifier
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expressRoutePrivatePeeringID?: string;
-}
-
-/** Endpoint addresses */
-export interface Endpoints {
-  /**
-   * Endpoint for the NSX-T Data Center manager
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nsxtManager?: string;
-  /**
-   * Endpoint for Virtual Center Server Appliance
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vcsa?: string;
-  /**
-   * Endpoint for the HCX Cloud Manager
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hcxCloudManager?: string;
-}
-
-/** The properties of a private cloud resource that may be updated */
-export interface PrivateCloudUpdateProperties {
-  /** The default cluster used for management */
-  managementCluster?: ManagementCluster;
-  /** Connectivity to internet is enabled or disabled */
-  internet?: InternetEnum;
-  /** vCenter Single Sign On Identity Sources */
-  identitySources?: IdentitySource[];
-  /** Properties describing how the cloud is distributed across availability zones */
-  availability?: AvailabilityProperties;
-  /** Customer managed key encryption, can be enabled or disabled */
-  encryption?: Encryption;
-  /** Array of additional networks noncontiguous with networkBlock. Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X). */
-  extendedNetworkBlocks?: string[];
-}
-
 /** The common properties of a cluster */
 export interface CommonClusterProperties {
   /** The cluster size */
@@ -391,6 +332,49 @@ export interface EncryptionKeyVaultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly versionType?: EncryptionVersionType;
+}
+
+/** An ExpressRoute Circuit */
+export interface Circuit {
+  /**
+   * CIDR of primary subnet
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primarySubnet?: string;
+  /**
+   * CIDR of secondary subnet
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondarySubnet?: string;
+  /**
+   * Identifier of the ExpressRoute Circuit (Microsoft Colo only)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expressRouteID?: string;
+  /**
+   * ExpressRoute Circuit private peering identifier
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expressRoutePrivatePeeringID?: string;
+}
+
+/** Endpoint addresses */
+export interface Endpoints {
+  /**
+   * Endpoint for the NSX-T Data Center manager
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nsxtManager?: string;
+  /**
+   * Endpoint for Virtual Center Server Appliance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vcsa?: string;
+  /**
+   * Endpoint for the HCX Cloud Manager
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hcxCloudManager?: string;
 }
 
 /** Identity for the virtual machine. */
@@ -943,65 +927,6 @@ export interface ScriptExecutionParameter {
   name: string;
 }
 
-/** The properties of a private cloud resource */
-export interface PrivateCloudProperties extends PrivateCloudUpdateProperties {
-  /**
-   * The provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateCloudProvisioningState;
-  /** An ExpressRoute Circuit */
-  circuit?: Circuit;
-  /**
-   * The endpoints
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endpoints?: Endpoints;
-  /** The block of addresses should be unique across VNet in your subscription as well as on-premise. Make sure the CIDR format is conformed to (A.B.C.D/X) where A,B,C,D are between 0 and 255, and X is between 0 and 22 */
-  networkBlock: string;
-  /**
-   * Network used to access vCenter Server and NSX-T Manager
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managementNetwork?: string;
-  /**
-   * Used for virtual machine cold migration, cloning, and snapshot migration
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningNetwork?: string;
-  /**
-   * Used for live migration of virtual machines
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vmotionNetwork?: string;
-  /** Optionally, set the vCenter admin password when the private cloud is created */
-  vcenterPassword?: string;
-  /** Optionally, set the NSX-T Manager password when the private cloud is created */
-  nsxtPassword?: string;
-  /**
-   * Thumbprint of the vCenter Server SSL certificate
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vcenterCertificateThumbprint?: string;
-  /**
-   * Thumbprint of the NSX-T Manager SSL certificate
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nsxtCertificateThumbprint?: string;
-  /**
-   * Array of cloud link IDs from other clouds that connect to this one
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly externalCloudLinks?: string[];
-  /** A secondary expressRoute circuit from a separate AZ. Only present in a stretched private cloud */
-  secondaryCircuit?: Circuit;
-  /**
-   * Flag to indicate whether the private cloud has the quota for provisioned NSX Public IP count raised from 64 to 1024
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
-}
-
 /** The properties of a management cluster */
 export interface ManagementCluster extends CommonClusterProperties {}
 
@@ -1262,8 +1187,6 @@ export interface PrivateCloud extends TrackedResource {
   availability?: AvailabilityProperties;
   /** Customer managed key encryption, can be enabled or disabled */
   encryption?: Encryption;
-  /** Array of additional networks noncontiguous with networkBlock. Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X). */
-  extendedNetworkBlocks?: string[];
   /**
    * The provisioning state
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1319,6 +1242,8 @@ export interface PrivateCloud extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
+  /** Array of additional networks noncontiguous with networkBlock. Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X). */
+  extendedNetworkBlocks?: string[];
 }
 
 /** Workload Network */
@@ -1649,60 +1574,6 @@ export enum KnownQuotaEnabled {
  */
 export type QuotaEnabled = string;
 
-/** Known values of {@link PrivateCloudProvisioningState} that the service accepts. */
-export enum KnownPrivateCloudProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Cancelled */
-  Cancelled = "Cancelled",
-  /** Pending */
-  Pending = "Pending",
-  /** Building */
-  Building = "Building",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Updating */
-  Updating = "Updating",
-  /** Canceled */
-  Canceled = "Canceled"
-}
-
-/**
- * Defines values for PrivateCloudProvisioningState. \
- * {@link KnownPrivateCloudProvisioningState} can be used interchangeably with PrivateCloudProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Cancelled** \
- * **Pending** \
- * **Building** \
- * **Deleting** \
- * **Updating** \
- * **Canceled**
- */
-export type PrivateCloudProvisioningState = string;
-
-/** Known values of {@link NsxPublicIpQuotaRaisedEnum} that the service accepts. */
-export enum KnownNsxPublicIpQuotaRaisedEnum {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for NsxPublicIpQuotaRaisedEnum. \
- * {@link KnownNsxPublicIpQuotaRaisedEnum} can be used interchangeably with NsxPublicIpQuotaRaisedEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type NsxPublicIpQuotaRaisedEnum = string;
-
 /** Known values of {@link ClusterProvisioningState} that the service accepts. */
 export enum KnownClusterProvisioningState {
   /** Succeeded */
@@ -1840,6 +1711,60 @@ export enum KnownEncryptionVersionType {
  * **AutoDetected**
  */
 export type EncryptionVersionType = string;
+
+/** Known values of {@link PrivateCloudProvisioningState} that the service accepts. */
+export enum KnownPrivateCloudProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** Pending */
+  Pending = "Pending",
+  /** Building */
+  Building = "Building",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for PrivateCloudProvisioningState. \
+ * {@link KnownPrivateCloudProvisioningState} can be used interchangeably with PrivateCloudProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Cancelled** \
+ * **Pending** \
+ * **Building** \
+ * **Deleting** \
+ * **Updating** \
+ * **Canceled**
+ */
+export type PrivateCloudProvisioningState = string;
+
+/** Known values of {@link NsxPublicIpQuotaRaisedEnum} that the service accepts. */
+export enum KnownNsxPublicIpQuotaRaisedEnum {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for NsxPublicIpQuotaRaisedEnum. \
+ * {@link KnownNsxPublicIpQuotaRaisedEnum} can be used interchangeably with NsxPublicIpQuotaRaisedEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type NsxPublicIpQuotaRaisedEnum = string;
 
 /** Known values of {@link ResourceIdentityType} that the service accepts. */
 export enum KnownResourceIdentityType {

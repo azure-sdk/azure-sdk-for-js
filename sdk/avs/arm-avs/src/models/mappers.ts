@@ -516,133 +516,6 @@ export const PrivateCloudList: coreClient.CompositeMapper = {
   }
 };
 
-export const Circuit: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Circuit",
-    modelProperties: {
-      primarySubnet: {
-        serializedName: "primarySubnet",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      secondarySubnet: {
-        serializedName: "secondarySubnet",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      expressRouteID: {
-        serializedName: "expressRouteID",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      expressRoutePrivatePeeringID: {
-        serializedName: "expressRoutePrivatePeeringID",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Endpoints: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Endpoints",
-    modelProperties: {
-      nsxtManager: {
-        serializedName: "nsxtManager",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      vcsa: {
-        serializedName: "vcsa",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      hcxCloudManager: {
-        serializedName: "hcxCloudManager",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateCloudUpdateProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateCloudUpdateProperties",
-    modelProperties: {
-      managementCluster: {
-        serializedName: "managementCluster",
-        type: {
-          name: "Composite",
-          className: "ManagementCluster"
-        }
-      },
-      internet: {
-        defaultValue: "Disabled",
-        serializedName: "internet",
-        type: {
-          name: "String"
-        }
-      },
-      identitySources: {
-        serializedName: "identitySources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IdentitySource"
-            }
-          }
-        }
-      },
-      availability: {
-        serializedName: "availability",
-        type: {
-          name: "Composite",
-          className: "AvailabilityProperties"
-        }
-      },
-      encryption: {
-        serializedName: "encryption",
-        type: {
-          name: "Composite",
-          className: "Encryption"
-        }
-      },
-      extendedNetworkBlocks: {
-        serializedName: "extendedNetworkBlocks",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const CommonClusterProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -849,6 +722,73 @@ export const EncryptionKeyVaultProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const Circuit: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Circuit",
+    modelProperties: {
+      primarySubnet: {
+        serializedName: "primarySubnet",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      secondarySubnet: {
+        serializedName: "secondarySubnet",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      expressRouteID: {
+        serializedName: "expressRouteID",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      expressRoutePrivatePeeringID: {
+        serializedName: "expressRoutePrivatePeeringID",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Endpoints: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Endpoints",
+    modelProperties: {
+      nsxtManager: {
+        serializedName: "nsxtManager",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      vcsa: {
+        serializedName: "vcsa",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      hcxCloudManager: {
+        serializedName: "hcxCloudManager",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PrivateCloudIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -935,7 +875,6 @@ export const PrivateCloudUpdate: coreClient.CompositeMapper = {
         }
       },
       internet: {
-        defaultValue: "Disabled",
         serializedName: "properties.internet",
         type: {
           name: "String"
@@ -2081,117 +2020,6 @@ export const ScriptExecutionParameter: coreClient.CompositeMapper = {
   }
 };
 
-export const PrivateCloudProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateCloudProperties",
-    modelProperties: {
-      ...PrivateCloudUpdateProperties.type.modelProperties,
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      circuit: {
-        serializedName: "circuit",
-        type: {
-          name: "Composite",
-          className: "Circuit"
-        }
-      },
-      endpoints: {
-        serializedName: "endpoints",
-        type: {
-          name: "Composite",
-          className: "Endpoints"
-        }
-      },
-      networkBlock: {
-        serializedName: "networkBlock",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      managementNetwork: {
-        serializedName: "managementNetwork",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      provisioningNetwork: {
-        serializedName: "provisioningNetwork",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      vmotionNetwork: {
-        serializedName: "vmotionNetwork",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      vcenterPassword: {
-        serializedName: "vcenterPassword",
-        type: {
-          name: "String"
-        }
-      },
-      nsxtPassword: {
-        serializedName: "nsxtPassword",
-        type: {
-          name: "String"
-        }
-      },
-      vcenterCertificateThumbprint: {
-        serializedName: "vcenterCertificateThumbprint",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      nsxtCertificateThumbprint: {
-        serializedName: "nsxtCertificateThumbprint",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      externalCloudLinks: {
-        serializedName: "externalCloudLinks",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      secondaryCircuit: {
-        serializedName: "secondaryCircuit",
-        type: {
-          name: "Composite",
-          className: "Circuit"
-        }
-      },
-      nsxPublicIpQuotaRaised: {
-        serializedName: "nsxPublicIpQuotaRaised",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ManagementCluster: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2815,7 +2643,6 @@ export const PrivateCloud: coreClient.CompositeMapper = {
         }
       },
       internet: {
-        defaultValue: "Disabled",
         serializedName: "properties.internet",
         type: {
           name: "String"
@@ -2845,17 +2672,6 @@ export const PrivateCloud: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
-        }
-      },
-      extendedNetworkBlocks: {
-        serializedName: "properties.extendedNetworkBlocks",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       },
       provisioningState: {
@@ -2956,6 +2772,17 @@ export const PrivateCloud: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      extendedNetworkBlocks: {
+        serializedName: "properties.extendedNetworkBlocks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

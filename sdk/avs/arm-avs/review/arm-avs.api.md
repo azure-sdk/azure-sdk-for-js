@@ -1360,24 +1360,6 @@ export interface PrivateCloudList {
 }
 
 // @public
-export interface PrivateCloudProperties extends PrivateCloudUpdateProperties {
-    circuit?: Circuit;
-    readonly endpoints?: Endpoints;
-    readonly externalCloudLinks?: string[];
-    readonly managementNetwork?: string;
-    networkBlock: string;
-    readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
-    readonly nsxtCertificateThumbprint?: string;
-    nsxtPassword?: string;
-    readonly provisioningNetwork?: string;
-    readonly provisioningState?: PrivateCloudProvisioningState;
-    secondaryCircuit?: Circuit;
-    readonly vcenterCertificateThumbprint?: string;
-    vcenterPassword?: string;
-    readonly vmotionNetwork?: string;
-}
-
-// @public
 export type PrivateCloudProvisioningState = string;
 
 // @public
@@ -1488,16 +1470,6 @@ export interface PrivateCloudUpdate {
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface PrivateCloudUpdateProperties {
-    availability?: AvailabilityProperties;
-    encryption?: Encryption;
-    extendedNetworkBlocks?: string[];
-    identitySources?: IdentitySource[];
-    internet?: InternetEnum;
-    managementCluster?: ManagementCluster;
 }
 
 // @public
