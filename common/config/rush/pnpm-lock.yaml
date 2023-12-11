@@ -1172,6 +1172,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@32.2.0:
+    resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.13.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.22:
     resolution: {integrity: sha512-0ispnIoRERypuNck90C+QaMTRC4v8owOOV+MbNec72HWCuPz+ndribcc8kIfCgplgwXDFsghskHkD6CaPyYdsA==}
     engines: {node: '>=8.0.0'}
@@ -11170,11 +11185,12 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-5URTevdmyUD/dKTTw1++D2MNpFOIAziwXmcTnF5QqCWpY0+dLQLSl60A9ZTTN7k38RhFM9vaXPJho86PY9T0WQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-c4341NW/UpKUCdlW7t2sqxfZsXKbTTf0f3cmClVUfoNLuG8jIaVF+Sg94fzr0UOGtju8pVeTolRbOWejd7/qrg==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-network': 32.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -11222,10 +11238,11 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-8cJu4UHtcnIh2lCNdq3lex17IkAA0sWTcKMdj1q6gJAgrbcFR0Cc+NJHZLeDXbDTI5ksKA3G1WNRxRyM0i9zBA==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-8g+B3wrTWs7SQFMC06gie/oMDgyOK+xk5OHtSgN42Nkfjl4DkpvcQlpCaa1nNXFDhCPAXgIs/DbCz6eFlVpZcQ==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -12431,11 +12448,12 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-bsuT6G4XNabaxdggAHerWLlKMzk85NCe56SRiUBDAbr/Kk5wq4X2xacb8ZQBbDjRco8hbr9xW2AIwmNf4+W7Ew==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-/0Dt8GdT0Kq/J2aVy6c9IFrMLKhtUznzBH1SXbE5GgNVJO9SfQELBH/aS1Wn8xQXfZJm87upR7sBKvq5XJevvw==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-network': 32.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -13757,7 +13775,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-EOkTKTuakf2YQ3NwxPkQskyW7VeYgnmwq+gRfnHBWRSFaUc7569ZKEutSsnVzxnnoppnwGDPLEsw9A2B2KtNhw==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-5D2VRd1D4H1NhU4A7q3CCH39v+MTzCKrLVp5GXRaoW9S5HCjIIcNozdhTBlbttgsEih2jpwqmRFwCuYUZ+6D4w==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -13765,13 +13783,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -14632,11 +14652,12 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-rhIodN3fKfqJTu7Bf+fgdxA9Dv5fqhgix83TC2SrEPLN7nuPa0+SL1QojGczqf51srmfx4sPZ2nIhVkE7htmwQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-K/RVN8w/MKBtFXuvl10Ni41ajQ/At592hXMof4WGPTvV8nbHfU5clg+ma0EnKz8lv4FovCn5iSDP5fNaNvOMyA==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-network': 32.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
