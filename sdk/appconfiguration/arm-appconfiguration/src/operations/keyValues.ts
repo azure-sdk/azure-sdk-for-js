@@ -38,7 +38,9 @@ export class KeyValuesImpl implements KeyValues {
   }
 
   /**
-   * Gets the properties of the specified key-value.
+   * Gets the properties of the specified key-value. NOTE: This operation is intended for use in ARM
+   * Template deployments. For all other scenarios involving App Configuration key-values the data plane
+   * API should be used instead.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param keyValueName Identifier of key and label combination. Key and label are joined by $
@@ -58,7 +60,8 @@ export class KeyValuesImpl implements KeyValues {
   }
 
   /**
-   * Creates a key-value.
+   * Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all
+   * other scenarios involving App Configuration key-values the data plane API should be used instead.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param keyValueName Identifier of key and label combination. Key and label are joined by $
@@ -78,7 +81,8 @@ export class KeyValuesImpl implements KeyValues {
   }
 
   /**
-   * Deletes a key-value.
+   * Deletes a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all
+   * other scenarios involving App Configuration key-values the data plane API should be used instead.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param keyValueName Identifier of key and label combination. Key and label are joined by $
@@ -144,7 +148,8 @@ export class KeyValuesImpl implements KeyValues {
   }
 
   /**
-   * Deletes a key-value.
+   * Deletes a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all
+   * other scenarios involving App Configuration key-values the data plane API should be used instead.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param keyValueName Identifier of key and label combination. Key and label are joined by $

@@ -18,7 +18,8 @@ import {
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   KeyValue as KeyValueMapper,
-  Replica as ReplicaMapper
+  Replica as ReplicaMapper,
+  Snapshot as SnapshotMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -59,7 +60,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-01",
+    defaultValue: "2023-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -231,4 +232,38 @@ export const replicaName1: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const snapshotName: OperationURLParameter = {
+  parameterPath: "snapshotName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^\\x00-\\x1F\\x7F]+$")
+    },
+    serializedName: "snapshotName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: SnapshotMapper
 };
