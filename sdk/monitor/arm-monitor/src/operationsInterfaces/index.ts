@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./azureMonitorWorkspaces";
+export * from "./monitorOperations";
 export * from "./autoscaleSettings";
 export * from "./predictiveMetric";
 export * from "./operations";
@@ -15,6 +17,7 @@ export * from "./logProfiles";
 export * from "./diagnosticSettings";
 export * from "./diagnosticSettingsCategory";
 export * from "./actionGroups";
+export * from "./tenantActionGroups";
 export * from "./activityLogs";
 export * from "./eventCategories";
 export * from "./tenantActivityLogs";
@@ -35,5 +38,3 @@ export * from "./activityLogAlerts";
 export * from "./dataCollectionEndpoints";
 export * from "./dataCollectionRuleAssociations";
 export * from "./dataCollectionRules";
-export * from "./azureMonitorWorkspaces";
-export * from "./monitorOperations";
