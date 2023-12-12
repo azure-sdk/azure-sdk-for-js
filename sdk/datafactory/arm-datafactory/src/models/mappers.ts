@@ -5800,6 +5800,39 @@ export const StoreWriteSettings: coreClient.CompositeMapper = {
         type: {
           name: "any"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MetadataItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetadataItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "any"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "any"
+        }
       }
     }
   }
@@ -6517,27 +6550,6 @@ export const StoredProcedureParameter: coreClient.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MetadataItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MetadataItem",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "any"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "any"
         }
       }
     }
@@ -25205,6 +25217,18 @@ export const WebActivity: coreClient.CompositeMapper = {
       },
       disableCertValidation: {
         serializedName: "typeProperties.disableCertValidation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      httpRequestTimeout: {
+        serializedName: "typeProperties.httpRequestTimeout",
+        type: {
+          name: "any"
+        }
+      },
+      turnOffAsync: {
+        serializedName: "typeProperties.turnOffAsync",
         type: {
           name: "Boolean"
         }

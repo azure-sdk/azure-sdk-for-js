@@ -1,15 +1,14 @@
 # Release History
+    
+## 12.1.0 (2023-12-12)
+    
+**Features**
 
-## 12.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface StoreWriteSettings has a new optional parameter metadata
+  - Interface WebActivity has a new optional parameter httpRequestTimeout
+  - Interface WebActivity has a new optional parameter turnOffAsync
+    
+    
 ## 12.0.0 (2023-11-10)
     
 **Features**

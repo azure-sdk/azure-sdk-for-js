@@ -8002,6 +8002,7 @@ export interface StoreWriteSettings {
     copyBehavior?: any;
     disableMetricsCollection?: any;
     maxConcurrentConnections?: any;
+    metadata?: MetadataItem[];
     type: "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings" | "AzureFileStorageWriteSettings" | "LakeHouseWriteSettings";
 }
 
@@ -8579,8 +8580,10 @@ export interface WebActivity extends ExecutionActivity {
     datasets?: DatasetReference[];
     disableCertValidation?: boolean;
     headers?: any;
+    httpRequestTimeout?: any;
     linkedServices?: LinkedServiceReference[];
     method: WebActivityMethod;
+    turnOffAsync?: boolean;
     type: "WebActivity";
     url: any;
 }
