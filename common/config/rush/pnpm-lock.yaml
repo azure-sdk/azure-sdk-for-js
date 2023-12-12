@@ -11968,17 +11968,20 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-PCPedV/PuxGgESNuEKTPdRHDon5WHZknD/yPvCGIuDFraL8VXe+vgjABNurZzfpYjqPbDLYoS1ollsEk3jug4g==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-lhL5j2Zq4v8eLkTf3N//kaPbLkNhXc9D6jWl8oSpEP5Sra9aJapVPSjAwBwSZu4w6pi82qh3tv/LCQcm9oN5bg==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
