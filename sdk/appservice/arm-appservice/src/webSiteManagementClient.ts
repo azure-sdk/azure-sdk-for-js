@@ -129,6 +129,11 @@ import {
   GetSubscriptionDeploymentLocationsResponse,
   ListSkusOptionalParams,
   ListSkusResponse,
+  VirtualNetworkIntegrationRequest,
+  VirtualNetworkIntegrationsOptionalParams,
+  VirtualNetworkIntegrationsResponse,
+  PurgeUnusedVirtualNetworkIntegrationsOptionalParams,
+  PurgeUnusedVirtualNetworkIntegrationsResponse,
   VnetParameters,
   VerifyHostingEnvironmentVnetOptionalParams,
   VerifyHostingEnvironmentVnetResponse,
@@ -195,7 +200,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/14.1.1`;
+    const packageDetails = `azsdk-js-arm-appservice/15.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -915,6 +920,42 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Retrieve information regarding the provided virtual network integration, such as its allocated
+   * resources and its allocated IP
+   * @param location The name of the Azure region.
+   * @param request Object contains the subnetResourceId
+   * @param options The options parameters.
+   */
+  virtualNetworkIntegrations(
+    location: string,
+    request: VirtualNetworkIntegrationRequest,
+    options?: VirtualNetworkIntegrationsOptionalParams
+  ): Promise<VirtualNetworkIntegrationsResponse> {
+    return this.sendOperationRequest(
+      { location, request, options },
+      virtualNetworkIntegrationsOperationSpec
+    );
+  }
+
+  /**
+   * Delete orphaned (unused) VNET, otherwise fail the call if there are sites that are still using the
+   * VNET
+   * @param location The name of the Azure region.
+   * @param request Object contains the subnetResourceId
+   * @param options The options parameters.
+   */
+  purgeUnusedVirtualNetworkIntegrations(
+    location: string,
+    request: VirtualNetworkIntegrationRequest,
+    options?: PurgeUnusedVirtualNetworkIntegrationsOptionalParams
+  ): Promise<PurgeUnusedVirtualNetworkIntegrationsResponse> {
+    return this.sendOperationRequest(
+      { location, request, options },
+      purgeUnusedVirtualNetworkIntegrationsOperationSpec
+    );
+  }
+
+  /**
    * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the
    * Network Security Group rules.
    * @param parameters VNET information
@@ -1377,6 +1418,52 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const virtualNetworkIntegrationsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/virtualNetworkIntegrations",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.request1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const purgeUnusedVirtualNetworkIntegrationsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/purgeUnusedVirtualNetworkIntegration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: { type: { name: "String" } }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.request1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const verifyHostingEnvironmentVnetOperationSpec: coreClient.OperationSpec = {
