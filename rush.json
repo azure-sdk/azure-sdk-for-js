@@ -2147,6 +2147,11 @@
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devopsinfrastructure",
+      "projectFolder": "sdk/devopsinfrastructure/arm-devopsinfrastructure",
+      "versionPolicyName": "management"
     }
   ]
 }
