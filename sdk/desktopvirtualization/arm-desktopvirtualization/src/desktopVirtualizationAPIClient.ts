@@ -27,10 +27,21 @@ import {
   ApplicationsImpl,
   DesktopsImpl,
   HostPoolsImpl,
+  SessionHostManagementsImpl,
+  ValidateSessionHostUpdateImpl,
+  InitiateSessionHostUpdateImpl,
+  ControlSessionHostUpdateImpl,
+  SessionHostManagementsOperationStatusImpl,
+  SessionHostConfigurationsImpl,
+  SessionHostConfigurationsOperationStatusImpl,
+  ActiveSessionHostConfigurationsImpl,
   UserSessionsImpl,
   SessionHostsImpl,
+  SessionHostOperationsImpl,
   MsixPackagesImpl,
-  MsixImagesImpl
+  AppAttachPackageInfoImpl,
+  MsixImagesImpl,
+  AppAttachPackageOperationsImpl
 } from "./operations";
 import {
   Operations,
@@ -45,10 +56,21 @@ import {
   Applications,
   Desktops,
   HostPools,
+  SessionHostManagements,
+  ValidateSessionHostUpdate,
+  InitiateSessionHostUpdate,
+  ControlSessionHostUpdate,
+  SessionHostManagementsOperationStatus,
+  SessionHostConfigurations,
+  SessionHostConfigurationsOperationStatus,
+  ActiveSessionHostConfigurations,
   UserSessions,
   SessionHosts,
+  SessionHostOperations,
   MsixPackages,
-  MsixImages
+  AppAttachPackageInfo,
+  MsixImages,
+  AppAttachPackageOperations
 } from "./operationsInterfaces";
 import { DesktopVirtualizationAPIClientOptionalParams } from "./models";
 
@@ -84,7 +106,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.1.1`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -137,7 +159,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-05";
+    this.apiVersion = options.apiVersion || "2023-11-01-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -152,10 +174,27 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     this.applications = new ApplicationsImpl(this);
     this.desktops = new DesktopsImpl(this);
     this.hostPools = new HostPoolsImpl(this);
+    this.sessionHostManagements = new SessionHostManagementsImpl(this);
+    this.validateSessionHostUpdate = new ValidateSessionHostUpdateImpl(this);
+    this.initiateSessionHostUpdate = new InitiateSessionHostUpdateImpl(this);
+    this.controlSessionHostUpdate = new ControlSessionHostUpdateImpl(this);
+    this.sessionHostManagementsOperationStatus = new SessionHostManagementsOperationStatusImpl(
+      this
+    );
+    this.sessionHostConfigurations = new SessionHostConfigurationsImpl(this);
+    this.sessionHostConfigurationsOperationStatus = new SessionHostConfigurationsOperationStatusImpl(
+      this
+    );
+    this.activeSessionHostConfigurations = new ActiveSessionHostConfigurationsImpl(
+      this
+    );
     this.userSessions = new UserSessionsImpl(this);
     this.sessionHosts = new SessionHostsImpl(this);
+    this.sessionHostOperations = new SessionHostOperationsImpl(this);
     this.msixPackages = new MsixPackagesImpl(this);
+    this.appAttachPackageInfo = new AppAttachPackageInfoImpl(this);
     this.msixImages = new MsixImagesImpl(this);
+    this.appAttachPackageOperations = new AppAttachPackageOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -199,8 +238,19 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   applications: Applications;
   desktops: Desktops;
   hostPools: HostPools;
+  sessionHostManagements: SessionHostManagements;
+  validateSessionHostUpdate: ValidateSessionHostUpdate;
+  initiateSessionHostUpdate: InitiateSessionHostUpdate;
+  controlSessionHostUpdate: ControlSessionHostUpdate;
+  sessionHostManagementsOperationStatus: SessionHostManagementsOperationStatus;
+  sessionHostConfigurations: SessionHostConfigurations;
+  sessionHostConfigurationsOperationStatus: SessionHostConfigurationsOperationStatus;
+  activeSessionHostConfigurations: ActiveSessionHostConfigurations;
   userSessions: UserSessions;
   sessionHosts: SessionHosts;
+  sessionHostOperations: SessionHostOperations;
   msixPackages: MsixPackages;
+  appAttachPackageInfo: AppAttachPackageInfo;
   msixImages: MsixImages;
+  appAttachPackageOperations: AppAttachPackageOperations;
 }
