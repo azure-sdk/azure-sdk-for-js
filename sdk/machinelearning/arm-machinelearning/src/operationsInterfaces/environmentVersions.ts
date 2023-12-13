@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EnvironmentVersion,
   EnvironmentVersionsListOptionalParams,
@@ -14,7 +15,10 @@ import {
   EnvironmentVersionsGetOptionalParams,
   EnvironmentVersionsGetResponse,
   EnvironmentVersionsCreateOrUpdateOptionalParams,
-  EnvironmentVersionsCreateOrUpdateResponse
+  EnvironmentVersionsCreateOrUpdateResponse,
+  DestinationAsset,
+  EnvironmentVersionsPublishOptionalParams,
+  EnvironmentVersionsPublishResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,4 +84,43 @@ export interface EnvironmentVersions {
     body: EnvironmentVersion,
     options?: EnvironmentVersionsCreateOrUpdateOptionalParams
   ): Promise<EnvironmentVersionsCreateOrUpdateResponse>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublish(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: EnvironmentVersionsPublishOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<EnvironmentVersionsPublishResponse>,
+      EnvironmentVersionsPublishResponse
+    >
+  >;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublishAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: EnvironmentVersionsPublishOptionalParams
+  ): Promise<EnvironmentVersionsPublishResponse>;
 }

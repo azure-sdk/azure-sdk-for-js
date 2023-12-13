@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OnlineDeployment,
   OnlineDeploymentsListOptionalParams,
@@ -71,7 +71,7 @@ export interface OnlineDeployments {
     endpointName: string,
     deploymentName: string,
     options?: OnlineDeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Inference Endpoint Deployment (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -119,8 +119,8 @@ export interface OnlineDeployments {
     body: PartialMinimalTrackedResourceWithSku,
     options?: OnlineDeploymentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineDeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineDeploymentsUpdateResponse>,
       OnlineDeploymentsUpdateResponse
     >
   >;
@@ -158,8 +158,8 @@ export interface OnlineDeployments {
     body: OnlineDeployment,
     options?: OnlineDeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineDeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineDeploymentsCreateOrUpdateResponse>,
       OnlineDeploymentsCreateOrUpdateResponse
     >
   >;
