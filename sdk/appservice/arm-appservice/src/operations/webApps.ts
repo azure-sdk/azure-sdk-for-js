@@ -500,7 +500,6 @@ import {
   WebAppsPutPrivateAccessVnetResponse,
   WebAppsGetPrivateEndpointConnectionOptionalParams,
   WebAppsGetPrivateEndpointConnectionResponse,
-  PrivateLinkConnectionApprovalRequestResource,
   WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
   WebAppsApproveOrRejectPrivateEndpointConnectionResponse,
   WebAppsDeletePrivateEndpointConnectionOptionalParams,
@@ -10547,14 +10546,14 @@ export class WebAppsImpl implements WebApps {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   async beginApproveOrRejectPrivateEndpointConnection(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -10628,14 +10627,14 @@ export class WebAppsImpl implements WebApps {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   async beginApproveOrRejectPrivateEndpointConnectionAndWait(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionResponse> {
     const poller = await this.beginApproveOrRejectPrivateEndpointConnection(
@@ -15210,7 +15209,7 @@ export class WebAppsImpl implements WebApps {
    * @param name Name of the site.
    * @param privateEndpointConnectionName
    * @param slot
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   async beginApproveOrRejectPrivateEndpointConnectionSlot(
@@ -15218,7 +15217,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     privateEndpointConnectionName: string,
     slot: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -15298,7 +15297,7 @@ export class WebAppsImpl implements WebApps {
    * @param name Name of the site.
    * @param privateEndpointConnectionName
    * @param slot
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   async beginApproveOrRejectPrivateEndpointConnectionSlotAndWait(
@@ -15306,7 +15305,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     privateEndpointConnectionName: string,
     slot: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams
   ): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse> {
     const poller = await this.beginApproveOrRejectPrivateEndpointConnectionSlot(

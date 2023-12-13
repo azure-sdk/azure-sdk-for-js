@@ -6249,13 +6249,6 @@ export interface RemotePrivateEndpointConnectionARMResource
   ipAddresses?: string[];
 }
 
-/** Private Endpoint Connection Approval ARM resource. */
-export interface PrivateLinkConnectionApprovalRequestResource
-  extends ProxyOnlyResource {
-  /** The state of a private link connection */
-  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
-}
-
 /** ARM resource for a app service plan. */
 export interface AppServicePlanPatchResource extends ProxyOnlyResource {
   /** Target worker tier assigned to the App Service plan. */
@@ -8830,6 +8823,13 @@ export interface WebJob extends ProxyOnlyResource {
   usingSdk?: boolean;
   /** Job settings. */
   settings?: { [propertyName: string]: Record<string, unknown> };
+}
+
+/** Private Endpoint Connection Approval ARM resource. */
+export interface PrivateLinkConnectionApprovalRequestResource
+  extends ProxyOnlyResource {
+  /** The state of a private link connection */
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
 /** The workflow output parameter. */

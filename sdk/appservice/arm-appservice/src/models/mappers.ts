@@ -18364,25 +18364,6 @@ export const RemotePrivateEndpointConnectionARMResource: coreClient.CompositeMap
   }
 };
 
-export const PrivateLinkConnectionApprovalRequestResource: coreClient.CompositeMapper = {
-  serializedName: "PrivateLinkConnectionApprovalRequestResource",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkConnectionApprovalRequestResource",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
-        xmlName: "properties.privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkConnectionState"
-        }
-      }
-    }
-  }
-};
-
 export const AppServicePlanPatchResource: coreClient.CompositeMapper = {
   serializedName: "AppServicePlanPatchResource",
   type: {
@@ -25561,6 +25542,25 @@ export const WebJob: coreClient.CompositeMapper = {
           value: {
             type: { name: "Dictionary", value: { type: { name: "any" } } }
           }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkConnectionApprovalRequestResource: coreClient.CompositeMapper = {
+  serializedName: "PrivateLinkConnectionApprovalRequestResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkConnectionApprovalRequestResource",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        xmlName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkConnectionState"
         }
       }
     }

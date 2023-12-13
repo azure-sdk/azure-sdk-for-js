@@ -118,7 +118,6 @@ import {
   StaticSitesListStaticSiteSecretsResponse,
   StaticSitesGetPrivateEndpointConnectionOptionalParams,
   StaticSitesGetPrivateEndpointConnectionResponse,
-  PrivateLinkConnectionApprovalRequestResource,
   StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
   StaticSitesApproveOrRejectPrivateEndpointConnectionResponse,
   StaticSitesDeletePrivateEndpointConnectionOptionalParams,
@@ -1093,7 +1092,7 @@ export interface StaticSites {
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -1115,7 +1114,7 @@ export interface StaticSites {
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>;
   /**

@@ -163,7 +163,6 @@ import {
   StaticSitesListStaticSiteSecretsResponse,
   StaticSitesGetPrivateEndpointConnectionOptionalParams,
   StaticSitesGetPrivateEndpointConnectionResponse,
-  PrivateLinkConnectionApprovalRequestResource,
   StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
   StaticSitesApproveOrRejectPrivateEndpointConnectionResponse,
   StaticSitesDeletePrivateEndpointConnectionOptionalParams,
@@ -3468,7 +3467,7 @@ export class StaticSitesImpl implements StaticSites {
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -3553,7 +3552,7 @@ export class StaticSitesImpl implements StaticSites {
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse> {
     const poller = await this.beginApproveOrRejectPrivateEndpointConnection(

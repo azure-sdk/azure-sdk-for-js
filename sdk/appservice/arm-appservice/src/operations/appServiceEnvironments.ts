@@ -137,7 +137,6 @@ import {
   AppServiceEnvironmentsListOperationsResponse,
   AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsGetPrivateEndpointConnectionResponse,
-  PrivateLinkConnectionApprovalRequestResource,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse,
   AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
@@ -2895,14 +2894,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   async beginApproveOrRejectPrivateEndpointConnection(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -2980,14 +2979,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   async beginApproveOrRejectPrivateEndpointConnectionAndWait(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
     AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse
