@@ -15,11 +15,13 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  DnssecConfigsImpl,
   RecordSetsImpl,
   ZonesImpl,
   DnsResourceReferenceOperationsImpl
 } from "./operations";
 import {
+  DnssecConfigs,
   RecordSets,
   Zones,
   DnsResourceReferenceOperations
@@ -34,8 +36,7 @@ export class DnsManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the DnsManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Specifies the Azure subscription ID, which uniquely identifies the Microsoft
-   *                       Azure subscription.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -59,7 +60,7 @@ export class DnsManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dns/5.1.1`;
+    const packageDetails = `azsdk-js-arm-dns/6.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -112,7 +113,8 @@ export class DnsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2018-05-01";
+    this.apiVersion = options.apiVersion || "2023-07-01-preview";
+    this.dnssecConfigs = new DnssecConfigsImpl(this);
     this.recordSets = new RecordSetsImpl(this);
     this.zones = new ZonesImpl(this);
     this.dnsResourceReferenceOperations = new DnsResourceReferenceOperationsImpl(
@@ -149,6 +151,7 @@ export class DnsManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  dnssecConfigs: DnssecConfigs;
   recordSets: RecordSets;
   zones: Zones;
   dnsResourceReferenceOperations: DnsResourceReferenceOperations;
