@@ -40,6 +40,30 @@ export interface QuantumWorkspaceIdentity {
   type?: ResourceIdentityType;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -54,25 +78,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -155,7 +160,7 @@ export interface ProviderDescription {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** A list of provider-specific properties. */
+  /** Provider properties. */
   properties?: ProviderProperties;
 }
 
@@ -346,6 +351,43 @@ export interface CheckNameAvailabilityResult {
   readonly message?: string;
 }
 
+/** Result of list Api keys and connection strings. */
+export interface ListKeysResult {
+  /** Indicator of enablement of the Quantum workspace Api keys. */
+  apiKeyEnabled?: boolean;
+  /** The quantum workspace primary api key. */
+  primaryKey?: ApiKey;
+  /** The quantum workspace secondary api key. */
+  secondaryKey?: ApiKey;
+  /**
+   * The connection string of the primary api key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryConnectionString?: string;
+  /**
+   * The connection string of the secondary api key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryConnectionString?: string;
+}
+
+/** Azure quantum workspace Api key details. */
+export interface ApiKey {
+  /** The creation time of the api key. */
+  createdAt?: Date;
+  /**
+   * The Api key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly key?: string;
+}
+
+/** List of api keys to be generated. */
+export interface APIKeys {
+  /** A list of api key names. */
+  keys?: KeyType[];
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -358,11 +400,6 @@ export interface TrackedResource extends Resource {
 export interface QuantumWorkspace extends TrackedResource {
   /** Managed Identity information. */
   identity?: QuantumWorkspaceIdentity;
-  /**
-   * System metadata
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** List of Providers selected for this Workspace */
   providers?: Provider[];
   /**
@@ -382,6 +419,8 @@ export interface QuantumWorkspace extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly endpointUri?: string;
+  /** Indicator of enablement of the Quantum workspace Api keys. */
+  apiKeyEnabled?: boolean;
 }
 
 /** Known values of {@link Status} that the service accepts. */
@@ -507,6 +546,24 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link KeyType} that the service accepts. */
+export enum KnownKeyType {
+  /** Primary */
+  Primary = "Primary",
+  /** Secondary */
+  Secondary = "Secondary"
+}
+
+/**
+ * Defines values for KeyType. \
+ * {@link KnownKeyType} can be used interchangeably with KeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **Secondary**
+ */
+export type KeyType = string;
+
 /** Optional parameters. */
 export interface WorkspacesGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -604,6 +661,17 @@ export interface WorkspaceCheckNameAvailabilityOptionalParams
 
 /** Contains response data for the checkNameAvailability operation. */
 export type WorkspaceCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+
+/** Optional parameters. */
+export interface WorkspaceListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type WorkspaceListKeysResponse = ListKeysResult;
+
+/** Optional parameters. */
+export interface WorkspaceRegenerateKeysOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AzureQuantumManagementClientOptionalParams

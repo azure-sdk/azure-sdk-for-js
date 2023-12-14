@@ -14,7 +14,8 @@ import {
 import {
   QuantumWorkspace as QuantumWorkspaceMapper,
   TagsObject as TagsObjectMapper,
-  CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper
+  CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
+  APIKeys as APIKeysMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -44,6 +45,10 @@ export const $host: OperationURLParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -55,7 +60,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-10-preview",
+    defaultValue: "2023-11-13-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -70,7 +75,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -78,6 +83,9 @@ export const subscriptionId: OperationURLParameter = {
 export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$")
+    },
     serializedName: "workspaceName",
     required: true,
     type: {
@@ -134,4 +142,9 @@ export const locationName: OperationURLParameter = {
 export const checkNameAvailabilityParameters: OperationParameter = {
   parameterPath: "checkNameAvailabilityParameters",
   mapper: CheckNameAvailabilityParametersMapper
+};
+
+export const keySpecification: OperationParameter = {
+  parameterPath: "keySpecification",
+  mapper: APIKeysMapper
 };

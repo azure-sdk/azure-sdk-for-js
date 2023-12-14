@@ -82,6 +82,43 @@ export const QuantumWorkspaceIdentity: coreClient.CompositeMapper = {
   }
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
 export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -121,36 +158,6 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -864,6 +871,92 @@ export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
   }
 };
 
+export const ListKeysResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListKeysResult",
+    modelProperties: {
+      apiKeyEnabled: {
+        serializedName: "apiKeyEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      primaryKey: {
+        serializedName: "primaryKey",
+        type: {
+          name: "Composite",
+          className: "ApiKey"
+        }
+      },
+      secondaryKey: {
+        serializedName: "secondaryKey",
+        type: {
+          name: "Composite",
+          className: "ApiKey"
+        }
+      },
+      primaryConnectionString: {
+        serializedName: "primaryConnectionString",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      secondaryConnectionString: {
+        serializedName: "secondaryConnectionString",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiKey",
+    modelProperties: {
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      key: {
+        serializedName: "key",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const APIKeys: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "APIKeys",
+    modelProperties: {
+      keys: {
+        serializedName: "keys",
+        type: {
+          name: "Sequence",
+          element: {
+            defaultValue: "Primary",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -899,13 +992,6 @@ export const QuantumWorkspace: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "QuantumWorkspaceIdentity"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       },
       providers: {
@@ -945,6 +1031,12 @@ export const QuantumWorkspace: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      apiKeyEnabled: {
+        serializedName: "properties.apiKeyEnabled",
+        type: {
+          name: "Boolean"
         }
       }
     }

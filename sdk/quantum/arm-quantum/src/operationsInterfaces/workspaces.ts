@@ -34,7 +34,7 @@ export interface Workspaces {
   ): PagedAsyncIterableIterator<QuantumWorkspace>;
   /**
    * Gets the list of Workspaces within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -43,7 +43,7 @@ export interface Workspaces {
   ): PagedAsyncIterableIterator<QuantumWorkspace>;
   /**
    * Returns the Workspace resource associated with the given name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
@@ -54,7 +54,7 @@ export interface Workspaces {
   ): Promise<WorkspacesGetResponse>;
   /**
    * Creates or updates a workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param quantumWorkspace Workspace details.
    * @param options The options parameters.
@@ -72,7 +72,7 @@ export interface Workspaces {
   >;
   /**
    * Creates or updates a workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param quantumWorkspace Workspace details.
    * @param options The options parameters.
@@ -85,7 +85,7 @@ export interface Workspaces {
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
    * Updates an existing workspace's tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param workspaceTags Parameters supplied to update tags.
    * @param options The options parameters.
@@ -98,7 +98,7 @@ export interface Workspaces {
   ): Promise<WorkspacesUpdateTagsResponse>;
   /**
    * Deletes a Workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
@@ -109,7 +109,7 @@ export interface Workspaces {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */

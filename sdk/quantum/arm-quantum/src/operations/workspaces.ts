@@ -108,7 +108,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * Gets the list of Workspaces within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -177,7 +177,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * Returns the Workspace resource associated with the given name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
@@ -194,7 +194,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * Creates or updates a workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param quantumWorkspace Workspace details.
    * @param options The options parameters.
@@ -268,7 +268,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * Creates or updates a workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param quantumWorkspace Workspace details.
    * @param options The options parameters.
@@ -290,7 +290,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * Updates an existing workspace's tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param workspaceTags Parameters supplied to update tags.
    * @param options The options parameters.
@@ -309,7 +309,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * Deletes a Workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
@@ -364,7 +364,8 @@ export class WorkspacesImpl implements Workspaces {
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -372,7 +373,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * Deletes a Workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
@@ -404,7 +405,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * Gets the list of Workspaces within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -434,7 +435,7 @@ export class WorkspacesImpl implements Workspaces {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */

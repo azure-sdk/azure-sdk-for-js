@@ -36,7 +36,7 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the AzureQuantumManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -113,7 +113,7 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-10-preview";
+    this.apiVersion = options.apiVersion || "2023-11-13-preview";
     this.workspaces = new WorkspacesImpl(this);
     this.offerings = new OfferingsImpl(this);
     this.operations = new OperationsImpl(this);
