@@ -293,10 +293,10 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
+    Parameters.skip
   ],
   urlParameters: [
     Parameters.$host,
@@ -369,7 +369,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters43,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -399,7 +399,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters43,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

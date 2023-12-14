@@ -413,11 +413,11 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
     Parameters.tags,
-    Parameters.apiVersion,
     Parameters.expandGroups
   ],
   urlParameters: [
@@ -493,7 +493,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters63,
+  requestBody: Parameters.parameters70,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -523,7 +523,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters64,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -575,10 +575,10 @@ const listByTagsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.includeNotTaggedProducts
   ],
   urlParameters: [

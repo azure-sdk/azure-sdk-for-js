@@ -1236,9 +1236,9 @@ const listByApiOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.filter1
   ],
@@ -1264,9 +1264,9 @@ const listByUserOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.filter1
   ],
@@ -1292,9 +1292,9 @@ const listByOperationOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.filter1
   ],
@@ -1320,9 +1320,9 @@ const listByProductOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.filter1
   ],
@@ -1348,9 +1348,9 @@ const listByGeoOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.filter1
   ],
   urlParameters: [
@@ -1375,9 +1375,9 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.filter1
   ],
@@ -1403,9 +1403,9 @@ const listByTimeOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.filter1,
     Parameters.interval
@@ -1432,9 +1432,9 @@ const listByRequestOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.filter1
   ],
   urlParameters: [

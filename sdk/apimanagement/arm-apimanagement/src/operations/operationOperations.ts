@@ -186,10 +186,10 @@ const listByTagsOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.includeNotTaggedOperations
   ],
   urlParameters: [
@@ -218,8 +218,8 @@ const listByTagsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.apiId
   ],
   headerParameters: [Parameters.accept],
   serializer

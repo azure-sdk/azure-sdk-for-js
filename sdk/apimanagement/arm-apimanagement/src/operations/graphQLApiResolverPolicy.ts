@@ -469,8 +469,8 @@ const listByResolverNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId,
     Parameters.nextLink,
+    Parameters.apiId,
     Parameters.resolverId
   ],
   headerParameters: [Parameters.accept],
