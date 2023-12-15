@@ -28,11 +28,21 @@ import {
   DesktopPatch as DesktopPatchMapper,
   HostPool as HostPoolMapper,
   HostPoolPatch as HostPoolPatchMapper,
+  SessionHostManagement as SessionHostManagementMapper,
+  SessionHostManagementPatch as SessionHostManagementPatchMapper,
+  ValidateSessionHostUpdateRequestBody as ValidateSessionHostUpdateRequestBodyMapper,
+  UpdateSessionHostsRequestBody as UpdateSessionHostsRequestBodyMapper,
+  HostPoolControlParameter as HostPoolControlParameterMapper,
+  SessionHostConfiguration as SessionHostConfigurationMapper,
+  SessionHostConfigurationPatch as SessionHostConfigurationPatchMapper,
   SendMessage as SendMessageMapper,
   SessionHostPatch as SessionHostPatchMapper,
   MsixPackage as MsixPackageMapper,
   MsixPackagePatch as MsixPackagePatchMapper,
-  MsixImageURI as MsixImageURIMapper
+  ImportPackageInfoRequest as ImportPackageInfoRequestMapper,
+  MsixImageURI as MsixImageURIMapper,
+  AppAttachPackage as AppAttachPackageMapper,
+  AppAttachPackagePatch as AppAttachPackagePatchMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -62,7 +72,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-05",
+    defaultValue: "2023-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -370,6 +380,116 @@ export const hostPool1: OperationParameter = {
   mapper: HostPoolPatchMapper
 };
 
+export const sessionHostManagement: OperationParameter = {
+  parameterPath: "sessionHostManagement",
+  mapper: SessionHostManagementMapper
+};
+
+export const sessionHostManagement1: OperationParameter = {
+  parameterPath: ["options", "sessionHostManagement"],
+  mapper: SessionHostManagementPatchMapper
+};
+
+export const validateSessionHostUpdateRequestBody: OperationParameter = {
+  parameterPath: ["options", "validateSessionHostUpdateRequestBody"],
+  mapper: ValidateSessionHostUpdateRequestBodyMapper
+};
+
+export const updateSessionHostsRequestBody: OperationParameter = {
+  parameterPath: ["options", "updateSessionHostsRequestBody"],
+  mapper: UpdateSessionHostsRequestBodyMapper
+};
+
+export const hostPoolControlParameter: OperationParameter = {
+  parameterPath: "hostPoolControlParameter",
+  mapper: HostPoolControlParameterMapper
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MaxLength: 36,
+      MinLength: 36
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const isLatest: OperationQueryParameter = {
+  parameterPath: ["options", "isLatest"],
+  mapper: {
+    serializedName: "isLatest",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const type: OperationQueryParameter = {
+  parameterPath: ["options", "type"],
+  mapper: {
+    serializedName: "type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const isNonTerminal: OperationQueryParameter = {
+  parameterPath: ["options", "isNonTerminal"],
+  mapper: {
+    serializedName: "isNonTerminal",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const correlationId: OperationQueryParameter = {
+  parameterPath: ["options", "correlationId"],
+  mapper: {
+    serializedName: "correlationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const action: OperationQueryParameter = {
+  parameterPath: ["options", "action"],
+  mapper: {
+    serializedName: "action",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const isInitiatingOperation: OperationQueryParameter = {
+  parameterPath: ["options", "isInitiatingOperation"],
+  mapper: {
+    serializedName: "isInitiatingOperation",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const sessionHostConfiguration: OperationParameter = {
+  parameterPath: "sessionHostConfiguration",
+  mapper: SessionHostConfigurationMapper
+};
+
+export const sessionHostConfiguration1: OperationParameter = {
+  parameterPath: ["options", "sessionHostConfiguration"],
+  mapper: SessionHostConfigurationPatchMapper
+};
+
 export const sessionHostName: OperationURLParameter = {
   parameterPath: "sessionHostName",
   mapper: {
@@ -435,7 +555,38 @@ export const msixPackage1: OperationParameter = {
   mapper: MsixPackagePatchMapper
 };
 
+export const importPackageInfoRequest: OperationParameter = {
+  parameterPath: "importPackageInfoRequest",
+  mapper: ImportPackageInfoRequestMapper
+};
+
 export const msixImageURI: OperationParameter = {
   parameterPath: "msixImageURI",
   mapper: MsixImageURIMapper
+};
+
+export const appAttachPackageName: OperationURLParameter = {
+  parameterPath: "appAttachPackageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$"),
+      MaxLength: 100,
+      MinLength: 3
+    },
+    serializedName: "appAttachPackageName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const appAttachPackage: OperationParameter = {
+  parameterPath: "appAttachPackage",
+  mapper: AppAttachPackageMapper
+};
+
+export const appAttachPackagePatch: OperationParameter = {
+  parameterPath: ["options", "appAttachPackagePatch"],
+  mapper: AppAttachPackagePatchMapper
 };
