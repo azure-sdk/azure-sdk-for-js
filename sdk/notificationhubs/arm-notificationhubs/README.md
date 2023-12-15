@@ -1,12 +1,12 @@
-# Azure NotificationHubsManagement client library for JavaScript
+# Azure NotificationHubs RP client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure NotificationHubsManagement client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure NotificationHubs RP client.
 
-Azure NotificationHub client
+Microsoft Notification Hubs Resource Provider REST API.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/arm-notificationhubs) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-notificationhubs) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-notificationhubs) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-notificationhubs?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-notificationhubs` package
 
-Install the Azure NotificationHubsManagement client library for JavaScript with `npm`:
+Install the Azure NotificationHubs RP client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-notificationhubs
 ```
 
-### Create and authenticate a `NotificationHubsManagementClient`
+### Create and authenticate a `NotificationHubsRPClient`
 
-To create a client object to access the Azure NotificationHubsManagement API, you will need the `endpoint` of your Azure NotificationHubsManagement resource and a `credential`. The Azure NotificationHubsManagement client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure NotificationHubsManagement resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure NotificationHubs RP API, you will need the `endpoint` of your Azure NotificationHubs RP resource and a `credential`. The Azure NotificationHubs RP client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure NotificationHubs RP resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,25 +43,25 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure NotificationHubsManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure NotificationHubs RP** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
+const { NotificationHubsRPClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new NotificationHubsManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new NotificationHubsRPClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new NotificationHubsManagementClient(credential, subscriptionId);
+// const client = new NotificationHubsRPClient(credential, subscriptionId);
 ```
 
 
@@ -70,9 +70,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### NotificationHubsManagementClient
+### NotificationHubsRPClient
 
-`NotificationHubsManagementClient` is the primary interface for developers using the Azure NotificationHubsManagement client library. Explore the methods on this client object to understand the different features of the Azure NotificationHubsManagement service that you can access.
+`NotificationHubsRPClient` is the primary interface for developers using the Azure NotificationHubs RP client library. Explore the methods on this client object to understand the different features of the Azure NotificationHubs RP service that you can access.
 
 ## Troubleshooting
 
