@@ -8,34 +8,31 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Certificates } from "../operationsInterfaces";
+import { DaprSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  Certificate,
-  CertificatesListNextOptionalParams,
-  CertificatesListOptionalParams,
-  CertificatesListResponse,
-  CertificatesGetOptionalParams,
-  CertificatesGetResponse,
-  CertificatesCreateOrUpdateOptionalParams,
-  CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams,
-  CertificatePatch,
-  CertificatesUpdateOptionalParams,
-  CertificatesUpdateResponse,
-  CertificatesListNextResponse
+  DaprSubscription,
+  DaprSubscriptionsListNextOptionalParams,
+  DaprSubscriptionsListOptionalParams,
+  DaprSubscriptionsListResponse,
+  DaprSubscriptionsGetOptionalParams,
+  DaprSubscriptionsGetResponse,
+  DaprSubscriptionsCreateOrUpdateOptionalParams,
+  DaprSubscriptionsCreateOrUpdateResponse,
+  DaprSubscriptionsDeleteOptionalParams,
+  DaprSubscriptionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Certificates operations. */
-export class CertificatesImpl implements Certificates {
+/** Class containing DaprSubscriptions operations. */
+export class DaprSubscriptionsImpl implements DaprSubscriptions {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class Certificates class.
+   * Initialize a new instance of the class DaprSubscriptions class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -43,7 +40,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the Certificates in a given managed environment.
+   * Get the Dapr subscriptions for a managed environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
@@ -51,8 +48,8 @@ export class CertificatesImpl implements Certificates {
   public list(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): PagedAsyncIterableIterator<Certificate> {
+    options?: DaprSubscriptionsListOptionalParams
+  ): PagedAsyncIterableIterator<DaprSubscription> {
     const iter = this.listPagingAll(
       resourceGroupName,
       environmentName,
@@ -82,10 +79,10 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingPage(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams,
+    options?: DaprSubscriptionsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Certificate[]> {
-    let result: CertificatesListResponse;
+  ): AsyncIterableIterator<DaprSubscription[]> {
+    let result: DaprSubscriptionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, environmentName, options);
@@ -111,8 +108,8 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingAll(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): AsyncIterableIterator<Certificate> {
+    options?: DaprSubscriptionsListOptionalParams
+  ): AsyncIterableIterator<DaprSubscription> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       environmentName,
@@ -123,7 +120,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the Certificates in a given managed environment.
+   * Get the Dapr subscriptions for a managed environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
@@ -131,8 +128,8 @@ export class CertificatesImpl implements Certificates {
   private _list(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): Promise<CertificatesListResponse> {
+    options?: DaprSubscriptionsListOptionalParams
+  ): Promise<DaprSubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, options },
       listOperationSpec
@@ -140,86 +137,67 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the specified Certificate.
+   * Get a dapr subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param name Name of the Dapr subscription.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesGetOptionalParams
-  ): Promise<CertificatesGetResponse> {
+    name: string,
+    options?: DaprSubscriptionsGetOptionalParams
+  ): Promise<DaprSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, environmentName, name, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or Update a Certificate.
+   * Creates or updates a Dapr subscription in a Managed Environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param name Name of the Dapr subscription.
+   * @param daprSubscriptionEnvelope Configuration details of the Dapr subscription.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
-  ): Promise<CertificatesCreateOrUpdateResponse> {
+    name: string,
+    daprSubscriptionEnvelope: DaprSubscription,
+    options?: DaprSubscriptionsCreateOrUpdateOptionalParams
+  ): Promise<DaprSubscriptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      {
+        resourceGroupName,
+        environmentName,
+        name,
+        daprSubscriptionEnvelope,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Deletes the specified Certificate.
+   * Delete a Dapr subscription from a Managed Environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param name Name of the Dapr subscription.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    name: string,
+    options?: DaprSubscriptionsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, environmentName, name, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Patches a certificate. Currently only patching of tags is supported
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
-   * @param certificateEnvelope Properties of a certificate that need to be updated
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    environmentName: string,
-    certificateName: string,
-    certificateEnvelope: CertificatePatch,
-    options?: CertificatesUpdateOptionalParams
-  ): Promise<CertificatesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        environmentName,
-        certificateName,
-        certificateEnvelope,
-        options
-      },
-      updateOperationSpec
     );
   }
 
@@ -234,8 +212,8 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     environmentName: string,
     nextLink: string,
-    options?: CertificatesListNextOptionalParams
-  ): Promise<CertificatesListNextResponse> {
+    options?: DaprSubscriptionsListNextOptionalParams
+  ): Promise<DaprSubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, nextLink, options },
       listNextOperationSpec
@@ -247,11 +225,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.DaprSubscriptionsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -262,18 +240,18 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.environmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprSubscriptions/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.DaprSubscription
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -284,32 +262,35 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprSubscriptions/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.DaprSubscription
+    },
+    201: {
+      bodyMapper: Mappers.DaprSubscription
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.certificateEnvelope,
+  requestBody: Parameters.daprSubscriptionEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -317,7 +298,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprSubscriptions/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -331,35 +312,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Certificate
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  requestBody: Parameters.certificateEnvelope1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -367,7 +323,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.DaprSubscriptionsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -378,7 +334,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName
+    Parameters.environmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
