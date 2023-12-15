@@ -293,7 +293,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.authConfigName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -334,8 +334,8 @@ const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.containerAppName
   ],
   headerParameters: [Parameters.accept],
   serializer
