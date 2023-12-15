@@ -41,6 +41,10 @@ import {
   MonitorsListMonitoredResourcesNextOptionalParams,
   MonitorsListMonitoredResourcesOptionalParams,
   MonitorsListMonitoredResourcesResponse,
+  LinkedResource,
+  MonitorsListLinkedResourcesNextOptionalParams,
+  MonitorsListLinkedResourcesOptionalParams,
+  MonitorsListLinkedResourcesResponse,
   MonitorsGetOptionalParams,
   MonitorsGetResponse,
   MonitorsCreateOrUpdateOptionalParams,
@@ -64,7 +68,8 @@ import {
   MonitorsListByResourceGroupNextResponse,
   MonitorsListAppServicesNextResponse,
   MonitorsListHostsNextResponse,
-  MonitorsListMonitoredResourcesNextResponse
+  MonitorsListMonitoredResourcesNextResponse,
+  MonitorsListLinkedResourcesNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -474,6 +479,91 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
+   * List all Azure resources associated to the same NewRelic organization and account as the target
+   * resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitors resource
+   * @param options The options parameters.
+   */
+  public listLinkedResources(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListLinkedResourcesOptionalParams
+  ): PagedAsyncIterableIterator<LinkedResource> {
+    const iter = this.listLinkedResourcesPagingAll(
+      resourceGroupName,
+      monitorName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listLinkedResourcesPagingPage(
+          resourceGroupName,
+          monitorName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listLinkedResourcesPagingPage(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListLinkedResourcesOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<LinkedResource[]> {
+    let result: MonitorsListLinkedResourcesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listLinkedResources(
+        resourceGroupName,
+        monitorName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listLinkedResourcesNext(
+        resourceGroupName,
+        monitorName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listLinkedResourcesPagingAll(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListLinkedResourcesOptionalParams
+  ): AsyncIterableIterator<LinkedResource> {
+    for await (const page of this.listLinkedResourcesPagingPage(
+      resourceGroupName,
+      monitorName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * List NewRelicMonitorResource resources by subscription ID
    * @param options The options parameters.
    */
@@ -834,6 +924,24 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
+   * List all Azure resources associated to the same NewRelic organization and account as the target
+   * resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitors resource
+   * @param options The options parameters.
+   */
+  private _listLinkedResources(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListLinkedResourcesOptionalParams
+  ): Promise<MonitorsListLinkedResourcesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      listLinkedResourcesOperationSpec
+    );
+  }
+
+  /**
    * Returns the payload that needs to be passed in the request body for installing NewRelic agent on a
    * VM.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -941,6 +1049,25 @@ export class MonitorsImpl implements Monitors {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
       listMonitoredResourcesNextOperationSpec
+    );
+  }
+
+  /**
+   * ListLinkedResourcesNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitors resource
+   * @param nextLink The nextLink from the previous successful call to the ListLinkedResources method.
+   * @param options The options parameters.
+   */
+  private _listLinkedResourcesNext(
+    resourceGroupName: string,
+    monitorName: string,
+    nextLink: string,
+    options?: MonitorsListLinkedResourcesNextOptionalParams
+  ): Promise<MonitorsListLinkedResourcesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, nextLink, options },
+      listLinkedResourcesNextOperationSpec
     );
   }
 }
@@ -1233,6 +1360,28 @@ const listMonitoredResourcesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listLinkedResourcesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listLinkedResources",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LinkedResourceListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const vmHostPayloadOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/vmHostPayloads",
@@ -1355,6 +1504,27 @@ const listMonitoredResourcesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listLinkedResourcesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LinkedResourceListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName1
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -20,6 +20,8 @@ import {
   MonitorsListHostsOptionalParams,
   MonitoredResource,
   MonitorsListMonitoredResourcesOptionalParams,
+  LinkedResource,
+  MonitorsListLinkedResourcesOptionalParams,
   MonitorsGetOptionalParams,
   MonitorsGetResponse,
   MonitorsCreateOrUpdateOptionalParams,
@@ -97,6 +99,18 @@ export interface Monitors {
     monitorName: string,
     options?: MonitorsListMonitoredResourcesOptionalParams
   ): PagedAsyncIterableIterator<MonitoredResource>;
+  /**
+   * List all Azure resources associated to the same NewRelic organization and account as the target
+   * resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitors resource
+   * @param options The options parameters.
+   */
+  listLinkedResources(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListLinkedResourcesOptionalParams
+  ): PagedAsyncIterableIterator<LinkedResource>;
   /**
    * Get a NewRelicMonitorResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

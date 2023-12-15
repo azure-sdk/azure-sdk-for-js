@@ -20,7 +20,8 @@ import {
   SwitchBillingRequest as SwitchBillingRequestMapper,
   HostsGetRequest as HostsGetRequestMapper,
   TagRule as TagRuleMapper,
-  TagRuleUpdate as TagRuleUpdateMapper
+  TagRuleUpdate as TagRuleUpdateMapper,
+  MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -50,7 +51,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01",
+    defaultValue: "2023-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -180,6 +181,20 @@ export const request4: OperationParameter = {
   mapper: HostsGetRequestMapper
 };
 
+export const monitorName1: OperationURLParameter = {
+  parameterPath: "monitorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
+    serializedName: "monitorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const accountId: OperationQueryParameter = {
   parameterPath: ["options", "accountId"],
   mapper: {
@@ -194,6 +209,21 @@ export const organizationId: OperationQueryParameter = {
   parameterPath: ["options", "organizationId"],
   mapper: {
     serializedName: "organizationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"
+      )
+    },
+    serializedName: "body",
     type: {
       name: "String"
     }
@@ -219,4 +249,20 @@ export const resource1: OperationParameter = {
 export const properties1: OperationParameter = {
   parameterPath: "properties",
   mapper: TagRuleUpdateMapper
+};
+
+export const configurationName: OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    serializedName: "configurationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: MonitoredSubscriptionPropertiesMapper
 };
