@@ -248,7 +248,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01";
+    this.apiVersion = options.apiVersion || "2023-12-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
