@@ -64,7 +64,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
       }
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

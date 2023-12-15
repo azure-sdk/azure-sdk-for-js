@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workspace,
   WorkspacesListOptionalParams,
@@ -54,8 +54,8 @@ export interface Workspaces {
     parameters: Workspace,
     options?: WorkspacesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
       WorkspacesCreateOrUpdateResponse
     >
   >;
@@ -84,7 +84,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workspace resource. To recover the workspace, create it again with the same name, in the
    * same subscription, resource group and location. The name is kept for 14 days and cannot be used for

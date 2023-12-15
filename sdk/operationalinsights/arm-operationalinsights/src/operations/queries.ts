@@ -400,7 +400,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion2,
     Parameters.top,
     Parameters.includeBody,
     Parameters.skipToken
@@ -428,7 +428,7 @@ const searchOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.querySearchProperties,
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion2,
     Parameters.top,
     Parameters.includeBody,
     Parameters.skipToken
@@ -455,7 +455,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -479,7 +479,7 @@ const putOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.queryPayload,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -504,7 +504,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.queryPayload,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -527,7 +527,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -551,10 +551,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.queryPackName,
-    Parameters.nextLink
+    Parameters.queryPackName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -572,10 +572,10 @@ const searchNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.queryPackName,
-    Parameters.nextLink
+    Parameters.queryPackName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
