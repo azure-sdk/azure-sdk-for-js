@@ -14,7 +14,10 @@ import {
 import {
   ServiceResource as ServiceResourceMapper,
   RegenerateTestKeyRequestPayload as RegenerateTestKeyRequestPayloadMapper,
+  ApmReference as ApmReferenceMapper,
   NameAvailabilityParameters as NameAvailabilityParametersMapper,
+  ApmResource as ApmResourceMapper,
+  EurekaServerResource as EurekaServerResourceMapper,
   ConfigServerResource as ConfigServerResourceMapper,
   ConfigServerSettings as ConfigServerSettingsMapper,
   ConfigurationServiceResource as ConfigurationServiceResourceMapper,
@@ -22,6 +25,7 @@ import {
   ApplicationLiveViewResource as ApplicationLiveViewResourceMapper,
   DevToolPortalResource as DevToolPortalResourceMapper,
   ContainerRegistryResource as ContainerRegistryResourceMapper,
+  ContainerRegistryProperties as ContainerRegistryPropertiesMapper,
   BuildService as BuildServiceMapper,
   Build as BuildMapper,
   BuildpackBindingResource as BuildpackBindingResourceMapper,
@@ -76,7 +80,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-01-preview",
+    defaultValue: "2024-01-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -143,6 +147,11 @@ export const regenerateTestKeyRequest: OperationParameter = {
   mapper: RegenerateTestKeyRequestPayloadMapper
 };
 
+export const apm: OperationParameter = {
+  parameterPath: "apm",
+  mapper: ApmReferenceMapper
+};
+
 export const availabilityParameters: OperationParameter = {
   parameterPath: "availabilityParameters",
   mapper: NameAvailabilityParametersMapper
@@ -171,6 +180,30 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const apmName: OperationURLParameter = {
+  parameterPath: "apmName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9-]*[a-z0-9]$")
+    },
+    serializedName: "apmName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apmResource: OperationParameter = {
+  parameterPath: "apmResource",
+  mapper: ApmResourceMapper
+};
+
+export const eurekaServerResource: OperationParameter = {
+  parameterPath: "eurekaServerResource",
+  mapper: EurekaServerResourceMapper
+};
+
 export const configServerResource: OperationParameter = {
   parameterPath: "configServerResource",
   mapper: ConfigServerResourceMapper
@@ -184,6 +217,9 @@ export const configServerSettings: OperationParameter = {
 export const configurationServiceName: OperationURLParameter = {
   parameterPath: "configurationServiceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$")
+    },
     serializedName: "configurationServiceName",
     required: true,
     type: {
@@ -216,6 +252,9 @@ export const serviceRegistryName: OperationURLParameter = {
 export const applicationLiveViewName: OperationURLParameter = {
   parameterPath: "applicationLiveViewName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$")
+    },
     serializedName: "applicationLiveViewName",
     required: true,
     type: {
@@ -232,6 +271,9 @@ export const applicationLiveViewResource: OperationParameter = {
 export const devToolPortalName: OperationURLParameter = {
   parameterPath: "devToolPortalName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$")
+    },
     serializedName: "devToolPortalName",
     required: true,
     type: {
@@ -262,6 +304,11 @@ export const containerRegistryName: OperationURLParameter = {
 export const containerRegistryResource: OperationParameter = {
   parameterPath: "containerRegistryResource",
   mapper: ContainerRegistryResourceMapper
+};
+
+export const containerRegistryProperties: OperationParameter = {
+  parameterPath: "containerRegistryProperties",
+  mapper: ContainerRegistryPropertiesMapper
 };
 
 export const buildServiceName: OperationURLParameter = {
@@ -514,6 +561,16 @@ export const version: OperationQueryParameter = {
   collectionFormat: "Multi"
 };
 
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const remoteDebuggingPayload: OperationParameter = {
   parameterPath: ["options", "remoteDebuggingPayload"],
   mapper: RemoteDebuggingPayloadMapper
@@ -593,6 +650,9 @@ export const apiPortalCustomDomainResource: OperationParameter = {
 export const applicationAcceleratorName: OperationURLParameter = {
   parameterPath: "applicationAcceleratorName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9-]*[a-z0-9]$")
+    },
     serializedName: "applicationAcceleratorName",
     required: true,
     type: {
@@ -609,6 +669,9 @@ export const applicationAcceleratorResource: OperationParameter = {
 export const customizedAcceleratorName: OperationURLParameter = {
   parameterPath: "customizedAcceleratorName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])$")
+    },
     serializedName: "customizedAcceleratorName",
     required: true,
     type: {
@@ -630,6 +693,9 @@ export const properties: OperationParameter = {
 export const predefinedAcceleratorName: OperationURLParameter = {
   parameterPath: "predefinedAcceleratorName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9-]*[a-z0-9]$")
+    },
     serializedName: "predefinedAcceleratorName",
     required: true,
     type: {
