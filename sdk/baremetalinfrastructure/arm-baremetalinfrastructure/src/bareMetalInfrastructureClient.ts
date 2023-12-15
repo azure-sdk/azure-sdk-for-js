@@ -111,7 +111,7 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-08-04-preview";
+    this.apiVersion = options.apiVersion || "2023-11-01-preview";
     this.azureBareMetalInstances = new AzureBareMetalInstancesImpl(this);
     this.operations = new OperationsImpl(this);
     this.azureBareMetalStorageInstances = new AzureBareMetalStorageInstancesImpl(

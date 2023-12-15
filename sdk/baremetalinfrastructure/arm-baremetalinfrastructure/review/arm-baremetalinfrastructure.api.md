@@ -153,7 +153,23 @@ export type AzureBareMetalProvisioningStatesEnum = string;
 // @public
 export interface AzureBareMetalStorageInstance extends TrackedResource {
     azureBareMetalStorageInstanceUniqueIdentifier?: string;
+    identity?: AzureBareMetalStorageInstanceIdentity;
     storageProperties?: StorageProperties;
+}
+
+// @public
+export interface AzureBareMetalStorageInstanceBody {
+    identity?: AzureBareMetalStorageInstanceIdentity;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface AzureBareMetalStorageInstanceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
 }
 
 // @public
@@ -163,7 +179,7 @@ export interface AzureBareMetalStorageInstances {
     get(resourceGroupName: string, azureBareMetalStorageInstanceName: string, options?: AzureBareMetalStorageInstancesGetOptionalParams): Promise<AzureBareMetalStorageInstancesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AzureBareMetalStorageInstance>;
     listBySubscription(options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AzureBareMetalStorageInstance>;
-    update(resourceGroupName: string, azureBareMetalStorageInstanceName: string, tagsParameter: Tags, options?: AzureBareMetalStorageInstancesUpdateOptionalParams): Promise<AzureBareMetalStorageInstancesUpdateResponse>;
+    update(resourceGroupName: string, azureBareMetalStorageInstanceName: string, azureBareMetalStorageInstanceBodyParameter: AzureBareMetalStorageInstanceBody, options?: AzureBareMetalStorageInstancesUpdateOptionalParams): Promise<AzureBareMetalStorageInstancesUpdateResponse>;
 }
 
 // @public
@@ -416,6 +432,12 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownResourceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
 export interface NetworkInterface {
     ipAddress?: string;
 }
@@ -496,6 +518,9 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceIdentityType = string;
 
 // @public
 export interface StorageBillingProperties {

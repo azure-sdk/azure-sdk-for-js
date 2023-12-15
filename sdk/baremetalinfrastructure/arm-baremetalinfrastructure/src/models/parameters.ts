@@ -14,7 +14,8 @@ import {
 import {
   ForceState as ForceStateMapper,
   Tags as TagsMapper,
-  AzureBareMetalStorageInstance as AzureBareMetalStorageInstanceMapper
+  AzureBareMetalStorageInstance as AzureBareMetalStorageInstanceMapper,
+  AzureBareMetalStorageInstanceBody as AzureBareMetalStorageInstanceBodyMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -44,7 +45,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-04-preview",
+    defaultValue: "2023-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -144,4 +145,9 @@ export const azureBareMetalStorageInstanceName: OperationURLParameter = {
 export const requestBodyParameters: OperationParameter = {
   parameterPath: "requestBodyParameters",
   mapper: AzureBareMetalStorageInstanceMapper
+};
+
+export const azureBareMetalStorageInstanceBodyParameter: OperationParameter = {
+  parameterPath: "azureBareMetalStorageInstanceBodyParameter",
+  mapper: AzureBareMetalStorageInstanceBodyMapper
 };

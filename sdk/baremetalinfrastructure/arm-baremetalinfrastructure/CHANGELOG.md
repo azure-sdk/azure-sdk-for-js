@@ -1,15 +1,20 @@
 # Release History
+    
+## 1.0.0-beta.3 (2023-12-15)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
+  - Added Interface AzureBareMetalStorageInstanceBody
+  - Added Interface AzureBareMetalStorageInstanceIdentity
+  - Added Type Alias ResourceIdentityType
+  - Interface AzureBareMetalStorageInstance has a new optional parameter identity
+  - Added Enum KnownResourceIdentityType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AzureBareMetalStorageInstances.update has a new signature
+    
+    
 ## 1.0.0-beta.2 (2023-11-07)
     
 **Features**

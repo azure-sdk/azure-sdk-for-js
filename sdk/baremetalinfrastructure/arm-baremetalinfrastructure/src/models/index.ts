@@ -308,6 +308,30 @@ export interface StorageBillingProperties {
   azureBareMetalStorageInstanceSize?: string;
 }
 
+/** Identity for Azure Bare Metal Storage Instance. */
+export interface AzureBareMetalStorageInstanceIdentity {
+  /**
+   * The principal ID of Azure Bare Metal Storage Instance identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID associated with the Azure Bare Metal Storage Instance. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the Azure Bare Metal Storage Instance. The type 'SystemAssigned' refers to an implicitly created identity. The type 'None' will remove any identities from the Azure Bare Metal Storage Instance. */
+  type?: ResourceIdentityType;
+}
+
+/** properties of body during PUT/PATCH for an AzureBareMetalStorageInstance. */
+export interface AzureBareMetalStorageInstanceBody {
+  /** The identity of Azure Bare Metal Storage Instance, if configured. */
+  identity?: AzureBareMetalStorageInstanceIdentity;
+  /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
+  tags?: { [propertyName: string]: string };
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -357,6 +381,8 @@ export interface AzureBareMetalInstance extends TrackedResource {
 
 /** AzureBareMetalStorageInstance info on Azure (ARM properties and AzureBareMetalStorage properties) */
 export interface AzureBareMetalStorageInstance extends TrackedResource {
+  /** The identity of Azure Bare Metal Storage Instance, if configured. */
+  identity?: AzureBareMetalStorageInstanceIdentity;
   /** Specifies the AzureBareMetaStorageInstance unique ID. */
   azureBareMetalStorageInstanceUniqueIdentifier?: string;
   /** Specifies the storage properties for the AzureBareMetalStorage instance. */
@@ -746,6 +772,24 @@ export enum KnownProvisioningState {
  * **Migrating**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link ResourceIdentityType} that the service accepts. */
+export enum KnownResourceIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** None */
+  None = "None"
+}
+
+/**
+ * Defines values for ResourceIdentityType. \
+ * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **None**
+ */
+export type ResourceIdentityType = string;
 
 /** Optional parameters. */
 export interface AzureBareMetalInstancesStartOptionalParams

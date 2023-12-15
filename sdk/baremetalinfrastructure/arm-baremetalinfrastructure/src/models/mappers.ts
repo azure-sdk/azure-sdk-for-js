@@ -666,6 +666,58 @@ export const StorageBillingProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureBareMetalStorageInstanceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBareMetalStorageInstanceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureBareMetalStorageInstanceBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBareMetalStorageInstanceBody",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "AzureBareMetalStorageInstanceIdentity"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -775,6 +827,13 @@ export const AzureBareMetalStorageInstance: coreClient.CompositeMapper = {
     className: "AzureBareMetalStorageInstance",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "AzureBareMetalStorageInstanceIdentity"
+        }
+      },
       azureBareMetalStorageInstanceUniqueIdentifier: {
         serializedName:
           "properties.azureBareMetalStorageInstanceUniqueIdentifier",
