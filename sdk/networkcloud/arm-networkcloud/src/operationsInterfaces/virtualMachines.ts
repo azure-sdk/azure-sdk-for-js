@@ -17,6 +17,7 @@ import {
   VirtualMachinesCreateOrUpdateOptionalParams,
   VirtualMachinesCreateOrUpdateResponse,
   VirtualMachinesDeleteOptionalParams,
+  VirtualMachinesDeleteResponse,
   VirtualMachinesUpdateOptionalParams,
   VirtualMachinesUpdateResponse,
   VirtualMachinesPowerOffOptionalParams,
@@ -100,7 +101,12 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesDeleteResponse>,
+      VirtualMachinesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -111,7 +117,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<VirtualMachinesDeleteResponse>;
   /**
    * Patch the properties of the provided virtual machine, or update the tags associated with the virtual
    * machine. Properties and tag updates can be done independently.

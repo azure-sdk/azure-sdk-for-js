@@ -32,6 +32,7 @@ import {
   StorageAppliancesCreateOrUpdateOptionalParams,
   StorageAppliancesCreateOrUpdateResponse,
   StorageAppliancesDeleteOptionalParams,
+  StorageAppliancesDeleteResponse,
   StorageAppliancesUpdateOptionalParams,
   StorageAppliancesUpdateResponse,
   StorageAppliancesDisableRemoteVendorManagementOptionalParams,
@@ -340,11 +341,16 @@ export class StorageAppliancesImpl implements StorageAppliances {
     resourceGroupName: string,
     storageApplianceName: string,
     options?: StorageAppliancesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageAppliancesDeleteResponse>,
+      StorageAppliancesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<StorageAppliancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -385,7 +391,10 @@ export class StorageAppliancesImpl implements StorageAppliances {
       args: { resourceGroupName, storageApplianceName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      StorageAppliancesDeleteResponse,
+      OperationState<StorageAppliancesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -406,7 +415,7 @@ export class StorageAppliancesImpl implements StorageAppliances {
     resourceGroupName: string,
     storageApplianceName: string,
     options?: StorageAppliancesDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<StorageAppliancesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       storageApplianceName,
@@ -823,10 +832,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/storageAppliances/{storageApplianceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

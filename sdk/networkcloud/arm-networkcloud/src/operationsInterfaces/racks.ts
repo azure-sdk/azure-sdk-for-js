@@ -17,6 +17,7 @@ import {
   RacksCreateOrUpdateOptionalParams,
   RacksCreateOrUpdateResponse,
   RacksDeleteOptionalParams,
+  RacksDeleteResponse,
   RacksUpdateOptionalParams,
   RacksUpdateResponse
 } from "../models";
@@ -98,7 +99,9 @@ export interface Racks {
     resourceGroupName: string,
     rackName: string,
     options?: RacksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<OperationState<RacksDeleteResponse>, RacksDeleteResponse>
+  >;
   /**
    * Delete the provided rack.
    * All customer initiated requests will be rejected as the life cycle of this resource is managed by
@@ -111,7 +114,7 @@ export interface Racks {
     resourceGroupName: string,
     rackName: string,
     options?: RacksDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<RacksDeleteResponse>;
   /**
    * Patch properties of the provided rack, or update the tags associated with the rack. Properties and
    * tag updates can be done independently.

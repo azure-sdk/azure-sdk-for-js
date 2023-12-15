@@ -17,6 +17,7 @@ import {
   VolumesCreateOrUpdateOptionalParams,
   VolumesCreateOrUpdateResponse,
   VolumesDeleteOptionalParams,
+  VolumesDeleteResponse,
   VolumesUpdateOptionalParams,
   VolumesUpdateResponse
 } from "../models";
@@ -92,7 +93,12 @@ export interface Volumes {
     resourceGroupName: string,
     volumeName: string,
     options?: VolumesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesDeleteResponse>,
+      VolumesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided volume.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -103,7 +109,7 @@ export interface Volumes {
     resourceGroupName: string,
     volumeName: string,
     options?: VolumesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<VolumesDeleteResponse>;
   /**
    * Update tags associated with the provided volume.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

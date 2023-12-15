@@ -32,6 +32,7 @@ import {
   ClusterManagersCreateOrUpdateOptionalParams,
   ClusterManagersCreateOrUpdateResponse,
   ClusterManagersDeleteOptionalParams,
+  ClusterManagersDeleteResponse,
   ClusterManagersUpdateOptionalParams,
   ClusterManagersUpdateResponse,
   ClusterManagersListBySubscriptionNextResponse,
@@ -330,11 +331,16 @@ export class ClusterManagersImpl implements ClusterManagers {
     resourceGroupName: string,
     clusterManagerName: string,
     options?: ClusterManagersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClusterManagersDeleteResponse>,
+      ClusterManagersDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ClusterManagersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -375,7 +381,10 @@ export class ClusterManagersImpl implements ClusterManagers {
       args: { resourceGroupName, clusterManagerName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ClusterManagersDeleteResponse,
+      OperationState<ClusterManagersDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -394,7 +403,7 @@ export class ClusterManagersImpl implements ClusterManagers {
     resourceGroupName: string,
     clusterManagerName: string,
     options?: ClusterManagersDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<ClusterManagersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterManagerName,
@@ -554,10 +563,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusterManagers/{clusterManagerName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

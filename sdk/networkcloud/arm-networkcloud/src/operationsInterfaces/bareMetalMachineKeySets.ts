@@ -16,6 +16,7 @@ import {
   BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
   BareMetalMachineKeySetsCreateOrUpdateResponse,
   BareMetalMachineKeySetsDeleteOptionalParams,
+  BareMetalMachineKeySetsDeleteResponse,
   BareMetalMachineKeySetsUpdateOptionalParams,
   BareMetalMachineKeySetsUpdateResponse
 } from "../models";
@@ -94,7 +95,12 @@ export interface BareMetalMachineKeySets {
     clusterName: string,
     bareMetalMachineKeySetName: string,
     options?: BareMetalMachineKeySetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BareMetalMachineKeySetsDeleteResponse>,
+      BareMetalMachineKeySetsDeleteResponse
+    >
+  >;
   /**
    * Delete the bare metal machine key set of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -107,7 +113,7 @@ export interface BareMetalMachineKeySets {
     clusterName: string,
     bareMetalMachineKeySetName: string,
     options?: BareMetalMachineKeySetsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<BareMetalMachineKeySetsDeleteResponse>;
   /**
    * Patch properties of bare metal machine key set for the provided cluster, or update the tags
    * associated with it. Properties and tag updates can be done independently.

@@ -29,6 +29,7 @@ import {
   BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
   BareMetalMachineKeySetsCreateOrUpdateResponse,
   BareMetalMachineKeySetsDeleteOptionalParams,
+  BareMetalMachineKeySetsDeleteResponse,
   BareMetalMachineKeySetsUpdateOptionalParams,
   BareMetalMachineKeySetsUpdateResponse,
   BareMetalMachineKeySetsListByClusterNextResponse
@@ -286,11 +287,16 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     clusterName: string,
     bareMetalMachineKeySetName: string,
     options?: BareMetalMachineKeySetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BareMetalMachineKeySetsDeleteResponse>,
+      BareMetalMachineKeySetsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<BareMetalMachineKeySetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -336,7 +342,10 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      BareMetalMachineKeySetsDeleteResponse,
+      OperationState<BareMetalMachineKeySetsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -357,7 +366,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     clusterName: string,
     bareMetalMachineKeySetName: string,
     options?: BareMetalMachineKeySetsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<BareMetalMachineKeySetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
@@ -576,10 +585,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

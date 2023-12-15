@@ -32,6 +32,7 @@ import {
   KubernetesClustersCreateOrUpdateOptionalParams,
   KubernetesClustersCreateOrUpdateResponse,
   KubernetesClustersDeleteOptionalParams,
+  KubernetesClustersDeleteResponse,
   KubernetesClustersUpdateOptionalParams,
   KubernetesClustersUpdateResponse,
   KubernetesClusterRestartNodeParameters,
@@ -333,11 +334,16 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     resourceGroupName: string,
     kubernetesClusterName: string,
     options?: KubernetesClustersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<KubernetesClustersDeleteResponse>,
+      KubernetesClustersDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<KubernetesClustersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -378,7 +384,10 @@ export class KubernetesClustersImpl implements KubernetesClusters {
       args: { resourceGroupName, kubernetesClusterName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      KubernetesClustersDeleteResponse,
+      OperationState<KubernetesClustersDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -397,7 +406,7 @@ export class KubernetesClustersImpl implements KubernetesClusters {
     resourceGroupName: string,
     kubernetesClusterName: string,
     options?: KubernetesClustersDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<KubernetesClustersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       kubernetesClusterName,
@@ -733,10 +742,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

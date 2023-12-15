@@ -17,6 +17,7 @@ import {
   ClusterManagersCreateOrUpdateOptionalParams,
   ClusterManagersCreateOrUpdateResponse,
   ClusterManagersDeleteOptionalParams,
+  ClusterManagersDeleteResponse,
   ClusterManagersUpdateOptionalParams,
   ClusterManagersUpdateResponse
 } from "../models";
@@ -92,7 +93,12 @@ export interface ClusterManagers {
     resourceGroupName: string,
     clusterManagerName: string,
     options?: ClusterManagersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClusterManagersDeleteResponse>,
+      ClusterManagersDeleteResponse
+    >
+  >;
   /**
    * Delete the provided cluster manager.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -103,7 +109,7 @@ export interface ClusterManagers {
     resourceGroupName: string,
     clusterManagerName: string,
     options?: ClusterManagersDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<ClusterManagersDeleteResponse>;
   /**
    * Patch properties of the provided cluster manager, or update the tags assigned to the cluster
    * manager. Properties and tag updates can be done independently.

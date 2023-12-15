@@ -29,6 +29,7 @@ import {
   MetricsConfigurationsCreateOrUpdateOptionalParams,
   MetricsConfigurationsCreateOrUpdateResponse,
   MetricsConfigurationsDeleteOptionalParams,
+  MetricsConfigurationsDeleteResponse,
   MetricsConfigurationsUpdateOptionalParams,
   MetricsConfigurationsUpdateResponse,
   MetricsConfigurationsListByClusterNextResponse
@@ -286,11 +287,16 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     clusterName: string,
     metricsConfigurationName: string,
     options?: MetricsConfigurationsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MetricsConfigurationsDeleteResponse>,
+      MetricsConfigurationsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<MetricsConfigurationsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -336,7 +342,10 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      MetricsConfigurationsDeleteResponse,
+      OperationState<MetricsConfigurationsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -357,7 +366,7 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     clusterName: string,
     metricsConfigurationName: string,
     options?: MetricsConfigurationsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<MetricsConfigurationsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
@@ -576,10 +585,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

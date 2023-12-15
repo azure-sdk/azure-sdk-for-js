@@ -17,10 +17,13 @@ import {
   ClustersCreateOrUpdateOptionalParams,
   ClustersCreateOrUpdateResponse,
   ClustersDeleteOptionalParams,
+  ClustersDeleteResponse,
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
   ClustersDeployOptionalParams,
   ClustersDeployResponse,
+  ClustersScanRuntimeOptionalParams,
+  ClustersScanRuntimeResponse,
   ClusterUpdateVersionParameters,
   ClustersUpdateVersionOptionalParams,
   ClustersUpdateVersionResponse
@@ -97,7 +100,12 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersDeleteResponse>,
+      ClustersDeleteResponse
+    >
+  >;
   /**
    * Delete the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -108,7 +116,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<ClustersDeleteResponse>;
   /**
    * Patch the properties of the provided cluster, or update the tags associated with the cluster.
    * Properties and tag updates can be done independently.
@@ -139,7 +147,7 @@ export interface Clusters {
     options?: ClustersUpdateOptionalParams
   ): Promise<ClustersUpdateResponse>;
   /**
-   * Deploy the cluster to the provided rack.
+   * Deploy the cluster using the rack configuration provided during creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
@@ -155,7 +163,7 @@ export interface Clusters {
     >
   >;
   /**
-   * Deploy the cluster to the provided rack.
+   * Deploy the cluster using the rack configuration provided during creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
@@ -165,6 +173,35 @@ export interface Clusters {
     clusterName: string,
     options?: ClustersDeployOptionalParams
   ): Promise<ClustersDeployResponse>;
+  /**
+   * Triggers the execution of a runtime protection scan to detect and remediate detected issues, in
+   * accordance with the cluster configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginScanRuntime(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersScanRuntimeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersScanRuntimeResponse>,
+      ClustersScanRuntimeResponse
+    >
+  >;
+  /**
+   * Triggers the execution of a runtime protection scan to detect and remediate detected issues, in
+   * accordance with the cluster configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginScanRuntimeAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersScanRuntimeOptionalParams
+  ): Promise<ClustersScanRuntimeResponse>;
   /**
    * Update the version of the provided cluster to one of the available supported versions.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

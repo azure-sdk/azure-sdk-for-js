@@ -16,6 +16,7 @@ import {
   MetricsConfigurationsCreateOrUpdateOptionalParams,
   MetricsConfigurationsCreateOrUpdateResponse,
   MetricsConfigurationsDeleteOptionalParams,
+  MetricsConfigurationsDeleteResponse,
   MetricsConfigurationsUpdateOptionalParams,
   MetricsConfigurationsUpdateResponse
 } from "../models";
@@ -94,7 +95,12 @@ export interface MetricsConfigurations {
     clusterName: string,
     metricsConfigurationName: string,
     options?: MetricsConfigurationsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MetricsConfigurationsDeleteResponse>,
+      MetricsConfigurationsDeleteResponse
+    >
+  >;
   /**
    * Delete the metrics configuration of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -107,7 +113,7 @@ export interface MetricsConfigurations {
     clusterName: string,
     metricsConfigurationName: string,
     options?: MetricsConfigurationsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<MetricsConfigurationsDeleteResponse>;
   /**
    * Patch properties of metrics configuration for the provided cluster, or update the tags associated
    * with it. Properties and tag updates can be done independently.

@@ -32,6 +32,7 @@ import {
   BareMetalMachinesCreateOrUpdateOptionalParams,
   BareMetalMachinesCreateOrUpdateResponse,
   BareMetalMachinesDeleteOptionalParams,
+  BareMetalMachinesDeleteResponse,
   BareMetalMachinesUpdateOptionalParams,
   BareMetalMachinesUpdateResponse,
   BareMetalMachinesCordonOptionalParams,
@@ -359,11 +360,16 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     options?: BareMetalMachinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BareMetalMachinesDeleteResponse>,
+      BareMetalMachinesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<BareMetalMachinesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -404,7 +410,10 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
       args: { resourceGroupName, bareMetalMachineName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      BareMetalMachinesDeleteResponse,
+      OperationState<BareMetalMachinesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -425,7 +434,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     options?: BareMetalMachinesDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<BareMetalMachinesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       bareMetalMachineName,
@@ -1612,10 +1621,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

@@ -17,6 +17,7 @@ import {
   CloudServicesNetworksCreateOrUpdateOptionalParams,
   CloudServicesNetworksCreateOrUpdateResponse,
   CloudServicesNetworksDeleteOptionalParams,
+  CloudServicesNetworksDeleteResponse,
   CloudServicesNetworksUpdateOptionalParams,
   CloudServicesNetworksUpdateResponse
 } from "../models";
@@ -92,7 +93,12 @@ export interface CloudServicesNetworks {
     resourceGroupName: string,
     cloudServicesNetworkName: string,
     options?: CloudServicesNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CloudServicesNetworksDeleteResponse>,
+      CloudServicesNetworksDeleteResponse
+    >
+  >;
   /**
    * Delete the provided cloud services network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -103,7 +109,7 @@ export interface CloudServicesNetworks {
     resourceGroupName: string,
     cloudServicesNetworkName: string,
     options?: CloudServicesNetworksDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<CloudServicesNetworksDeleteResponse>;
   /**
    * Update properties of the provided cloud services network, or update the tags associated with it.
    * Properties and tag updates can be done independently.

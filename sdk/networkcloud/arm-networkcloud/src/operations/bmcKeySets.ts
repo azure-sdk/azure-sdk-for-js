@@ -29,6 +29,7 @@ import {
   BmcKeySetsCreateOrUpdateOptionalParams,
   BmcKeySetsCreateOrUpdateResponse,
   BmcKeySetsDeleteOptionalParams,
+  BmcKeySetsDeleteResponse,
   BmcKeySetsUpdateOptionalParams,
   BmcKeySetsUpdateResponse,
   BmcKeySetsListByClusterNextResponse
@@ -288,11 +289,16 @@ export class BmcKeySetsImpl implements BmcKeySets {
     clusterName: string,
     bmcKeySetName: string,
     options?: BmcKeySetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BmcKeySetsDeleteResponse>,
+      BmcKeySetsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<BmcKeySetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -333,7 +339,10 @@ export class BmcKeySetsImpl implements BmcKeySets {
       args: { resourceGroupName, clusterName, bmcKeySetName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      BmcKeySetsDeleteResponse,
+      OperationState<BmcKeySetsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -354,7 +363,7 @@ export class BmcKeySetsImpl implements BmcKeySets {
     clusterName: string,
     bmcKeySetName: string,
     options?: BmcKeySetsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<BmcKeySetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
@@ -568,10 +577,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

@@ -17,6 +17,7 @@ import {
   TrunkedNetworksCreateOrUpdateOptionalParams,
   TrunkedNetworksCreateOrUpdateResponse,
   TrunkedNetworksDeleteOptionalParams,
+  TrunkedNetworksDeleteResponse,
   TrunkedNetworksUpdateOptionalParams,
   TrunkedNetworksUpdateResponse
 } from "../models";
@@ -92,7 +93,12 @@ export interface TrunkedNetworks {
     resourceGroupName: string,
     trunkedNetworkName: string,
     options?: TrunkedNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrunkedNetworksDeleteResponse>,
+      TrunkedNetworksDeleteResponse
+    >
+  >;
   /**
    * Delete the provided trunked network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -103,7 +109,7 @@ export interface TrunkedNetworks {
     resourceGroupName: string,
     trunkedNetworkName: string,
     options?: TrunkedNetworksDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<TrunkedNetworksDeleteResponse>;
   /**
    * Update tags associated with the provided trunked network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

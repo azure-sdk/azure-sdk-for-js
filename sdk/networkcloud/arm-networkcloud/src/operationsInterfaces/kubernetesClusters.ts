@@ -17,6 +17,7 @@ import {
   KubernetesClustersCreateOrUpdateOptionalParams,
   KubernetesClustersCreateOrUpdateResponse,
   KubernetesClustersDeleteOptionalParams,
+  KubernetesClustersDeleteResponse,
   KubernetesClustersUpdateOptionalParams,
   KubernetesClustersUpdateResponse,
   KubernetesClusterRestartNodeParameters,
@@ -95,7 +96,12 @@ export interface KubernetesClusters {
     resourceGroupName: string,
     kubernetesClusterName: string,
     options?: KubernetesClustersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<KubernetesClustersDeleteResponse>,
+      KubernetesClustersDeleteResponse
+    >
+  >;
   /**
    * Delete the provided Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -106,7 +112,7 @@ export interface KubernetesClusters {
     resourceGroupName: string,
     kubernetesClusterName: string,
     options?: KubernetesClustersDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<KubernetesClustersDeleteResponse>;
   /**
    * Patch the properties of the provided Kubernetes cluster, or update the tags associated with the
    * Kubernetes cluster. Properties and tag updates can be done independently.

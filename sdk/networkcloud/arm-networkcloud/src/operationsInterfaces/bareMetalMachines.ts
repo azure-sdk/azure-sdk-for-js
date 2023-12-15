@@ -17,6 +17,7 @@ import {
   BareMetalMachinesCreateOrUpdateOptionalParams,
   BareMetalMachinesCreateOrUpdateResponse,
   BareMetalMachinesDeleteOptionalParams,
+  BareMetalMachinesDeleteResponse,
   BareMetalMachinesUpdateOptionalParams,
   BareMetalMachinesUpdateResponse,
   BareMetalMachinesCordonOptionalParams,
@@ -121,7 +122,12 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     options?: BareMetalMachinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BareMetalMachinesDeleteResponse>,
+      BareMetalMachinesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided bare metal machine.
    * All customer initiated requests will be rejected as the life cycle of this resource is managed by
@@ -134,7 +140,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     options?: BareMetalMachinesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<BareMetalMachinesDeleteResponse>;
   /**
    * Patch properties of the provided bare metal machine, or update tags associated with the bare metal
    * machine. Properties and tag updates can be done independently.

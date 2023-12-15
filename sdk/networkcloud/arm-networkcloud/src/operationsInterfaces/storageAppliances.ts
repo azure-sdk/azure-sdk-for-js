@@ -17,6 +17,7 @@ import {
   StorageAppliancesCreateOrUpdateOptionalParams,
   StorageAppliancesCreateOrUpdateResponse,
   StorageAppliancesDeleteOptionalParams,
+  StorageAppliancesDeleteResponse,
   StorageAppliancesUpdateOptionalParams,
   StorageAppliancesUpdateResponse,
   StorageAppliancesDisableRemoteVendorManagementOptionalParams,
@@ -102,7 +103,12 @@ export interface StorageAppliances {
     resourceGroupName: string,
     storageApplianceName: string,
     options?: StorageAppliancesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageAppliancesDeleteResponse>,
+      StorageAppliancesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided storage appliance.
    * All customer initiated requests will be rejected as the life cycle of this resource is managed by
@@ -115,7 +121,7 @@ export interface StorageAppliances {
     resourceGroupName: string,
     storageApplianceName: string,
     options?: StorageAppliancesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<StorageAppliancesDeleteResponse>;
   /**
    * Update properties of the provided storage appliance, or update tags associated with the storage
    * appliance Properties and tag updates can be done independently.

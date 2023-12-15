@@ -16,6 +16,7 @@ import {
   ConsolesCreateOrUpdateOptionalParams,
   ConsolesCreateOrUpdateResponse,
   ConsolesDeleteOptionalParams,
+  ConsolesDeleteResponse,
   ConsolesUpdateOptionalParams,
   ConsolesUpdateResponse
 } from "../models";
@@ -96,7 +97,12 @@ export interface Consoles {
     virtualMachineName: string,
     consoleName: string,
     options?: ConsolesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConsolesDeleteResponse>,
+      ConsolesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided virtual machine console.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -109,7 +115,7 @@ export interface Consoles {
     virtualMachineName: string,
     consoleName: string,
     options?: ConsolesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<ConsolesDeleteResponse>;
   /**
    * Patch the properties of the provided virtual machine console, or update the tags associated with the
    * virtual machine console. Properties and tag updates can be done independently.
