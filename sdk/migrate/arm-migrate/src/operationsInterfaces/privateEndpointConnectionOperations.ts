@@ -6,70 +6,91 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  PrivateEndpointConnectionListByProjectOptionalParams,
-  PrivateEndpointConnectionListByProjectResponse,
-  PrivateEndpointConnectionGetOptionalParams,
-  PrivateEndpointConnectionGetResponse,
-  PrivateEndpointConnectionUpdateOptionalParams,
-  PrivateEndpointConnectionUpdateResponse,
-  PrivateEndpointConnectionDeleteOptionalParams,
-  PrivateEndpointConnectionDeleteResponse
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
+  PrivateEndpointConnectionOperationsGetOptionalParams,
+  PrivateEndpointConnectionOperationsGetResponse,
+  PrivateEndpointConnectionOperationsUpdateOptionalParams,
+  PrivateEndpointConnectionOperationsUpdateResponse,
+  PrivateEndpointConnectionOperationsDeleteOptionalParams
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnectionOperations. */
 export interface PrivateEndpointConnectionOperations {
   /**
-   * Get all private endpoint connections in the project. Returns a json array of objects of type
-   * 'privateEndpointConnections' as specified in the Models section.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
+   * List PrivateEndpointConnection resources by AssessmentProject
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
    * @param options The options parameters.
    */
-  listByProject(
+  listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionListByProjectOptionalParams
-  ): Promise<PrivateEndpointConnectionListByProjectResponse>;
+    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams
+  ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
-   * Get information related to a specific private endpoint connection in the project. Returns a json
-   * object of type 'privateEndpointConnections' as specified in the models section.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param privateEndpointConnectionName Unique name of a private endpoint connection within a project.
+   * Get a PrivateEndpointConnection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param privateEndpointConnectionName Private endpoint connection ARM name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionGetOptionalParams
-  ): Promise<PrivateEndpointConnectionGetResponse>;
+    options?: PrivateEndpointConnectionOperationsGetOptionalParams
+  ): Promise<PrivateEndpointConnectionOperationsGetResponse>;
   /**
-   * Update a specific private endpoint connection in the project.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param privateEndpointConnectionName Unique name of a private endpoint connection within a project.
+   * Create a PrivateEndpointConnection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
     projectName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionUpdateResponse>;
+    resource: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionOperationsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionOperationsUpdateResponse>,
+      PrivateEndpointConnectionOperationsUpdateResponse
+    >
+  >;
   /**
-   * Delete the private endpoint connection from the project. T.
-   *
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param privateEndpointConnectionName Unique name of a private endpoint connection within a project.
+   * Create a PrivateEndpointConnection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    projectName: string,
+    privateEndpointConnectionName: string,
+    resource: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionOperationsUpdateOptionalParams
+  ): Promise<PrivateEndpointConnectionOperationsUpdateResponse>;
+  /**
+   * Delete a PrivateEndpointConnection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param privateEndpointConnectionName Private endpoint connection ARM name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     projectName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
-  ): Promise<PrivateEndpointConnectionDeleteResponse>;
+    options?: PrivateEndpointConnectionOperationsDeleteOptionalParams
+  ): Promise<void>;
 }

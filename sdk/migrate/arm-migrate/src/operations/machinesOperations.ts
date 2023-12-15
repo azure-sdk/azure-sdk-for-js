@@ -8,47 +8,46 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Machines } from "../operationsInterfaces";
+import { MachinesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMigrateV2 } from "../azureMigrateV2";
+import { AzureMigrateAssessmentService } from "../azureMigrateAssessmentService";
 import {
   Machine,
-  MachinesListByProjectNextOptionalParams,
-  MachinesListByProjectOptionalParams,
-  MachinesListByProjectResponse,
-  MachinesGetOptionalParams,
-  MachinesGetResponse,
-  MachinesListByProjectNextResponse
+  MachinesOperationsListByAssessmentProjectNextOptionalParams,
+  MachinesOperationsListByAssessmentProjectOptionalParams,
+  MachinesOperationsListByAssessmentProjectResponse,
+  MachinesOperationsGetOptionalParams,
+  MachinesOperationsGetResponse,
+  MachinesOperationsListByAssessmentProjectNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Machines operations. */
-export class MachinesImpl implements Machines {
-  private readonly client: AzureMigrateV2;
+/** Class containing MachinesOperations operations. */
+export class MachinesOperationsImpl implements MachinesOperations {
+  private readonly client: AzureMigrateAssessmentService;
 
   /**
-   * Initialize a new instance of the class Machines class.
+   * Initialize a new instance of the class MachinesOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMigrateV2) {
+  constructor(client: AzureMigrateAssessmentService) {
     this.client = client;
   }
 
   /**
-   * Get data of all the machines available in the project. Returns a json array of objects of type
-   * 'machine' defined in Models section.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
+   * List Machine resources by AssessmentProject
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
    * @param options The options parameters.
    */
-  public listByProject(
+  public listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: MachinesListByProjectOptionalParams
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams
   ): PagedAsyncIterableIterator<Machine> {
-    const iter = this.listByProjectPagingAll(
+    const iter = this.listByAssessmentProjectPagingAll(
       resourceGroupName,
       projectName,
       options
@@ -64,7 +63,7 @@ export class MachinesImpl implements Machines {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByProjectPagingPage(
+        return this.listByAssessmentProjectPagingPage(
           resourceGroupName,
           projectName,
           options,
@@ -74,16 +73,16 @@ export class MachinesImpl implements Machines {
     };
   }
 
-  private async *listByProjectPagingPage(
+  private async *listByAssessmentProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: MachinesListByProjectOptionalParams,
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Machine[]> {
-    let result: MachinesListByProjectResponse;
+    let result: MachinesOperationsListByAssessmentProjectResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProject(
+      result = await this._listByAssessmentProject(
         resourceGroupName,
         projectName,
         options
@@ -94,7 +93,7 @@ export class MachinesImpl implements Machines {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByProjectNext(
+      result = await this._listByAssessmentProjectNext(
         resourceGroupName,
         projectName,
         continuationToken,
@@ -107,12 +106,12 @@ export class MachinesImpl implements Machines {
     }
   }
 
-  private async *listByProjectPagingAll(
+  private async *listByAssessmentProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: MachinesListByProjectOptionalParams
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams
   ): AsyncIterableIterator<Machine> {
-    for await (const page of this.listByProjectPagingPage(
+    for await (const page of this.listByAssessmentProjectPagingPage(
       resourceGroupName,
       projectName,
       options
@@ -122,37 +121,35 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Get data of all the machines available in the project. Returns a json array of objects of type
-   * 'machine' defined in Models section.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
+   * List Machine resources by AssessmentProject
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
    * @param options The options parameters.
    */
-  private _listByProject(
+  private _listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: MachinesListByProjectOptionalParams
-  ): Promise<MachinesListByProjectResponse> {
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams
+  ): Promise<MachinesOperationsListByAssessmentProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
-      listByProjectOperationSpec
+      listByAssessmentProjectOperationSpec
     );
   }
 
   /**
-   * Get the machine with the specified name. Returns a json object of type 'machine' defined in Models
-   * section.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param machineName Unique name of a machine in private datacenter.
+   * Get a Machine
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param machineName Assessible Machine ARM name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
     machineName: string,
-    options?: MachinesGetOptionalParams
-  ): Promise<MachinesGetResponse> {
+    options?: MachinesOperationsGetOptionalParams
+  ): Promise<MachinesOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, machineName, options },
       getOperationSpec
@@ -160,41 +157,47 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * ListByProjectNext
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param nextLink The nextLink from the previous successful call to the ListByProject method.
+   * ListByAssessmentProjectNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param nextLink The nextLink from the previous successful call to the ListByAssessmentProject
+   *                 method.
    * @param options The options parameters.
    */
-  private _listByProjectNext(
+  private _listByAssessmentProjectNext(
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: MachinesListByProjectNextOptionalParams
-  ): Promise<MachinesListByProjectNextResponse> {
+    options?: MachinesOperationsListByAssessmentProjectNextOptionalParams
+  ): Promise<MachinesOperationsListByAssessmentProjectNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
-      listByProjectNextOperationSpec
+      listByAssessmentProjectNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByProjectOperationSpec: coreClient.OperationSpec = {
+const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/machines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineResultList,
-      headersMapper: Mappers.MachinesListByProjectHeaders
+      bodyMapper: Mappers.MachineListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.pageSize,
+    Parameters.continuationToken,
+    Parameters.totalRecordCount
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -210,11 +213,10 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesGetHeaders
+      bodyMapper: Mappers.Machine
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -228,24 +230,23 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByProjectNextOperationSpec: coreClient.OperationSpec = {
+const listByAssessmentProjectNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineResultList,
-      headersMapper: Mappers.MachinesListByProjectNextHeaders
+      bodyMapper: Mappers.MachineListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.nextLink
+    Parameters.projectName
   ],
   headerParameters: [Parameters.accept],
   serializer

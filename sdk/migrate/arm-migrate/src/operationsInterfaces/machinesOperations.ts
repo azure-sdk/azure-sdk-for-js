@@ -8,17 +8,17 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  PrivateLinkResource,
-  PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams,
-  PrivateLinkResourceOperationsGetOptionalParams,
-  PrivateLinkResourceOperationsGetResponse
+  Machine,
+  MachinesOperationsListByAssessmentProjectOptionalParams,
+  MachinesOperationsGetOptionalParams,
+  MachinesOperationsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a PrivateLinkResourceOperations. */
-export interface PrivateLinkResourceOperations {
+/** Interface representing a MachinesOperations. */
+export interface MachinesOperations {
   /**
-   * List PrivateLinkResource resources by AssessmentProject
+   * List Machine resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -26,19 +26,19 @@ export interface PrivateLinkResourceOperations {
   listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams
+  ): PagedAsyncIterableIterator<Machine>;
   /**
-   * Get a PrivateLinkResource
+   * Get a Machine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateLinkResourceName Private link resource ARM name
+   * @param machineName Assessible Machine ARM name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    privateLinkResourceName: string,
-    options?: PrivateLinkResourceOperationsGetOptionalParams
-  ): Promise<PrivateLinkResourceOperationsGetResponse>;
+    machineName: string,
+    options?: MachinesOperationsGetOptionalParams
+  ): Promise<MachinesOperationsGetResponse>;
 }

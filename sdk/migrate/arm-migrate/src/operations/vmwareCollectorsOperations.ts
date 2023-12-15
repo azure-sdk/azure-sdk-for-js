@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnectionOperations } from "../operationsInterfaces";
+import { VmwareCollectorsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectNextOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectResponse,
-  PrivateEndpointConnectionOperationsGetOptionalParams,
-  PrivateEndpointConnectionOperationsGetResponse,
-  PrivateEndpointConnectionOperationsUpdateOptionalParams,
-  PrivateEndpointConnectionOperationsUpdateResponse,
-  PrivateEndpointConnectionOperationsDeleteOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectNextResponse
+  VmwareCollector,
+  VmwareCollectorsOperationsListByAssessmentProjectNextOptionalParams,
+  VmwareCollectorsOperationsListByAssessmentProjectOptionalParams,
+  VmwareCollectorsOperationsListByAssessmentProjectResponse,
+  VmwareCollectorsOperationsGetOptionalParams,
+  VmwareCollectorsOperationsGetResponse,
+  VmwareCollectorsOperationsCreateOptionalParams,
+  VmwareCollectorsOperationsCreateResponse,
+  VmwareCollectorsOperationsDeleteOptionalParams,
+  VmwareCollectorsOperationsListByAssessmentProjectNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnectionOperations operations. */
-export class PrivateEndpointConnectionOperationsImpl
-  implements PrivateEndpointConnectionOperations {
+/** Class containing VmwareCollectorsOperations operations. */
+export class VmwareCollectorsOperationsImpl
+  implements VmwareCollectorsOperations {
   private readonly client: AzureMigrateAssessmentService;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnectionOperations class.
+   * Initialize a new instance of the class VmwareCollectorsOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMigrateAssessmentService) {
@@ -47,7 +47,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * List PrivateEndpointConnection resources by AssessmentProject
+   * List VmwareCollector resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -55,8 +55,8 @@ export class PrivateEndpointConnectionOperationsImpl
   public listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: VmwareCollectorsOperationsListByAssessmentProjectOptionalParams
+  ): PagedAsyncIterableIterator<VmwareCollector> {
     const iter = this.listByAssessmentProjectPagingAll(
       resourceGroupName,
       projectName,
@@ -86,10 +86,10 @@ export class PrivateEndpointConnectionOperationsImpl
   private async *listByAssessmentProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
+    options?: VmwareCollectorsOperationsListByAssessmentProjectOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionOperationsListByAssessmentProjectResponse;
+  ): AsyncIterableIterator<VmwareCollector[]> {
+    let result: VmwareCollectorsOperationsListByAssessmentProjectResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAssessmentProject(
@@ -119,8 +119,8 @@ export class PrivateEndpointConnectionOperationsImpl
   private async *listByAssessmentProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: VmwareCollectorsOperationsListByAssessmentProjectOptionalParams
+  ): AsyncIterableIterator<VmwareCollector> {
     for await (const page of this.listByAssessmentProjectPagingPage(
       resourceGroupName,
       projectName,
@@ -131,7 +131,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * List PrivateEndpointConnection resources by AssessmentProject
+   * List VmwareCollector resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -139,10 +139,8 @@ export class PrivateEndpointConnectionOperationsImpl
   private _listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams
-  ): Promise<
-    PrivateEndpointConnectionOperationsListByAssessmentProjectResponse
-  > {
+    options?: VmwareCollectorsOperationsListByAssessmentProjectOptionalParams
+  ): Promise<VmwareCollectorsOperationsListByAssessmentProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
       listByAssessmentProjectOperationSpec
@@ -150,53 +148,48 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Get a PrivateEndpointConnection
+   * Get a VmwareCollector
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param vmWareCollectorName VMware collector ARM name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionOperationsGetOptionalParams
-  ): Promise<PrivateEndpointConnectionOperationsGetResponse> {
+    vmWareCollectorName: string,
+    options?: VmwareCollectorsOperationsGetOptionalParams
+  ): Promise<VmwareCollectorsOperationsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        projectName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, projectName, vmWareCollectorName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a PrivateEndpointConnection
+   * Create a VmwareCollector
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param vmWareCollectorName VMware collector ARM name
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  async beginCreate(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    resource: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionOperationsUpdateOptionalParams
+    vmWareCollectorName: string,
+    resource: VmwareCollector,
+    options?: VmwareCollectorsOperationsCreateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<PrivateEndpointConnectionOperationsUpdateResponse>,
-      PrivateEndpointConnectionOperationsUpdateResponse
+      OperationState<VmwareCollectorsOperationsCreateResponse>,
+      VmwareCollectorsOperationsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionOperationsUpdateResponse> => {
+    ): Promise<VmwareCollectorsOperationsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -237,15 +230,15 @@ export class PrivateEndpointConnectionOperationsImpl
       args: {
         resourceGroupName,
         projectName,
-        privateEndpointConnectionName,
+        vmWareCollectorName,
         resource,
         options
       },
-      spec: updateOperationSpec
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
-      PrivateEndpointConnectionOperationsUpdateResponse,
-      OperationState<PrivateEndpointConnectionOperationsUpdateResponse>
+      VmwareCollectorsOperationsCreateResponse,
+      OperationState<VmwareCollectorsOperationsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -256,24 +249,24 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Create a PrivateEndpointConnection
+   * Create a VmwareCollector
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param vmWareCollectorName VMware collector ARM name
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    resource: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionOperationsUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionOperationsUpdateResponse> {
-    const poller = await this.beginUpdate(
+    vmWareCollectorName: string,
+    resource: VmwareCollector,
+    options?: VmwareCollectorsOperationsCreateOptionalParams
+  ): Promise<VmwareCollectorsOperationsCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       projectName,
-      privateEndpointConnectionName,
+      vmWareCollectorName,
       resource,
       options
     );
@@ -281,25 +274,20 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Delete a PrivateEndpointConnection
+   * Delete a VmwareCollector
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param vmWareCollectorName VMware collector ARM name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionOperationsDeleteOptionalParams
+    vmWareCollectorName: string,
+    options?: VmwareCollectorsOperationsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        projectName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, projectName, vmWareCollectorName, options },
       deleteOperationSpec
     );
   }
@@ -316,10 +304,8 @@ export class PrivateEndpointConnectionOperationsImpl
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectNextOptionalParams
-  ): Promise<
-    PrivateEndpointConnectionOperationsListByAssessmentProjectNextResponse
-  > {
+    options?: VmwareCollectorsOperationsListByAssessmentProjectNextOptionalParams
+  ): Promise<VmwareCollectorsOperationsListByAssessmentProjectNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
       listByAssessmentProjectNextOperationSpec
@@ -331,11 +317,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/vmwarecollectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.VmwareCollectorListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -353,11 +339,11 @@ const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/vmwarecollectors/{vmWareCollectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.VmwareCollector
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -369,40 +355,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName
+    Parameters.vmWareCollectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/vmwarecollectors/{vmWareCollectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.VmwareCollector
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.VmwareCollector
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.VmwareCollector
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.VmwareCollector
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.resource7,
+  requestBody: Parameters.resource10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName
+    Parameters.vmWareCollectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -410,7 +396,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/vmwarecollectors/{vmWareCollectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -425,7 +411,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName
+    Parameters.vmWareCollectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -435,7 +421,7 @@ const listByAssessmentProjectNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.VmwareCollectorListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
