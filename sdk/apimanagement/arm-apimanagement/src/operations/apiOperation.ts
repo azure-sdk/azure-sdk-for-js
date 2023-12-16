@@ -336,11 +336,11 @@ const listByApiOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.tags,
-    Parameters.apiVersion
+    Parameters.tags
   ],
   urlParameters: [
     Parameters.$host,
@@ -506,8 +506,8 @@ const listByApiNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.apiId
   ],
   headerParameters: [Parameters.accept],
   serializer
