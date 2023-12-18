@@ -14,19 +14,31 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { AccountsImpl, MapsImpl, CreatorsImpl } from "./operations";
-import { Accounts, Maps, Creators } from "./operationsInterfaces";
+import {
+  AccountsImpl,
+  MapsImpl,
+  CreatorsImpl,
+  PrivateLinkResourcesImpl,
+  PrivateEndpointConnectionsImpl
+} from "./operations";
+import {
+  Accounts,
+  Maps,
+  Creators,
+  PrivateLinkResources,
+  PrivateEndpointConnections
+} from "./operationsInterfaces";
 import { AzureMapsManagementClientOptionalParams } from "./models";
 
 export class AzureMapsManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId?: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the AzureMapsManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -64,7 +76,7 @@ export class AzureMapsManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-maps/3.1.1`;
+    const packageDetails = `azsdk-js-arm-maps/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,10 +129,12 @@ export class AzureMapsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01";
+    this.apiVersion = options.apiVersion || "2023-12-01-preview";
     this.accounts = new AccountsImpl(this);
     this.maps = new MapsImpl(this);
     this.creators = new CreatorsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -155,4 +169,6 @@ export class AzureMapsManagementClient extends coreClient.ServiceClient {
   accounts: Accounts;
   maps: Maps;
   creators: Creators;
+  privateLinkResources: PrivateLinkResources;
+  privateEndpointConnections: PrivateEndpointConnections;
 }
