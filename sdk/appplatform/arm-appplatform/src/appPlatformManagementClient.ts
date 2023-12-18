@@ -8,14 +8,18 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  JavaAppsImpl,
+  RevisionsImpl,
+  RevisionReplicasImpl,
+  JavaEnvironmentsImpl,
+  NamespacesImpl,
+  MiddlewareEurekaServersImpl,
+  MiddlewareConfigServersImpl,
   ServicesImpl,
+  ApmsImpl,
+  EurekaServersImpl,
   ConfigServersImpl,
   ConfigurationServicesImpl,
   ServiceRegistriesImpl,
@@ -46,7 +50,16 @@ import {
   PredefinedAcceleratorsImpl
 } from "./operations";
 import {
+  JavaApps,
+  Revisions,
+  RevisionReplicas,
+  JavaEnvironments,
+  Namespaces,
+  MiddlewareEurekaServers,
+  MiddlewareConfigServers,
   Services,
+  Apms,
+  EurekaServers,
   ConfigServers,
   ConfigurationServices,
   ServiceRegistries,
@@ -80,26 +93,89 @@ import { AppPlatformManagementClientOptionalParams } from "./models";
 
 export class AppPlatformManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
+  appName: string;
+  filter?: string;
+  revisionName: string;
+  replicaName: string;
+  javaEnvironmentName: string;
+  eurekaServerName: string;
+  configServerName: string;
 
   /**
    * Initializes a new instance of the AppPlatformManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription ID which uniquely identify the Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
+   * @param appName Name of the App.
+   * @param revisionName Name of the Revision.
+   * @param replicaName Name of the Revision Replica.
+   * @param javaEnvironmentName Name of the Java Environment.
+   * @param eurekaServerName Name of the Eureka Server.
+   * @param configServerName Name of the Config Server.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    appName: string,
+    revisionName: string,
+    replicaName: string,
+    javaEnvironmentName: string,
+    eurekaServerName: string,
+    configServerName: string,
+    options?: AppPlatformManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    appName: string,
+    revisionName: string,
+    replicaName: string,
+    javaEnvironmentName: string,
+    eurekaServerName: string,
+    configServerName: string,
+    options?: AppPlatformManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    appName: string,
+    revisionName: string,
+    replicaName: string,
+    javaEnvironmentName: string,
+    eurekaServerName: string,
+    configServerName: string,
+    subscriptionIdOrOptions?:
+      | AppPlatformManagementClientOptionalParams
+      | string,
     options?: AppPlatformManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+    if (appName === undefined) {
+      throw new Error("'appName' cannot be null");
+    }
+    if (revisionName === undefined) {
+      throw new Error("'revisionName' cannot be null");
+    }
+    if (replicaName === undefined) {
+      throw new Error("'replicaName' cannot be null");
+    }
+    if (javaEnvironmentName === undefined) {
+      throw new Error("'javaEnvironmentName' cannot be null");
+    }
+    if (eurekaServerName === undefined) {
+      throw new Error("'eurekaServerName' cannot be null");
+    }
+    if (configServerName === undefined) {
+      throw new Error("'configServerName' cannot be null");
+    }
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -161,11 +237,25 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.appName = appName;
+    this.revisionName = revisionName;
+    this.replicaName = replicaName;
+    this.javaEnvironmentName = javaEnvironmentName;
+    this.eurekaServerName = eurekaServerName;
+    this.configServerName = configServerName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.javaApps = new JavaAppsImpl(this);
+    this.revisions = new RevisionsImpl(this);
+    this.revisionReplicas = new RevisionReplicasImpl(this);
+    this.javaEnvironments = new JavaEnvironmentsImpl(this);
+    this.namespaces = new NamespacesImpl(this);
+    this.middlewareEurekaServers = new MiddlewareEurekaServersImpl(this);
+    this.middlewareConfigServers = new MiddlewareConfigServersImpl(this);
     this.services = new ServicesImpl(this);
+    this.apms = new ApmsImpl(this);
+    this.eurekaServers = new EurekaServersImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
     this.serviceRegistries = new ServiceRegistriesImpl(this);
@@ -194,38 +284,18 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     this.applicationAccelerators = new ApplicationAcceleratorsImpl(this);
     this.customizedAccelerators = new CustomizedAcceleratorsImpl(this);
     this.predefinedAccelerators = new PredefinedAcceleratorsImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      }
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
-  }
-
+  javaApps: JavaApps;
+  revisions: Revisions;
+  revisionReplicas: RevisionReplicas;
+  javaEnvironments: JavaEnvironments;
+  namespaces: Namespaces;
+  middlewareEurekaServers: MiddlewareEurekaServers;
+  middlewareConfigServers: MiddlewareConfigServers;
   services: Services;
+  apms: Apms;
+  eurekaServers: EurekaServers;
   configServers: ConfigServers;
   configurationServices: ConfigurationServices;
   serviceRegistries: ServiceRegistries;
