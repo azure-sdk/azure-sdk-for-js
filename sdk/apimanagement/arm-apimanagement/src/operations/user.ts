@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   UserContract,
   UserListByServiceNextOptionalParams,
   UserListByServiceOptionalParams,
@@ -29,6 +35,7 @@ import {
   UserUpdateOptionalParams,
   UserUpdateResponse,
   UserDeleteOptionalParams,
+  UserDeleteResponse,
   UserGenerateSsoUrlOptionalParams,
   UserGenerateSsoUrlResponse,
   UserTokenParameters,
@@ -243,17 +250,95 @@ export class UserImpl implements User {
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     serviceName: string,
     userId: string,
     ifMatch: string,
     options?: UserDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, userId, ifMatch, options },
-      deleteOperationSpec
+  ): Promise<
+    SimplePollerLike<OperationState<UserDeleteResponse>, UserDeleteResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<UserDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, userId, ifMatch, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      UserDeleteResponse,
+      OperationState<UserDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes specific user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: UserDeleteOptionalParams
+  ): Promise<UserDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      serviceName,
+      userId,
+      ifMatch,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -332,10 +417,10 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
     Parameters.expandGroups
   ],
   urlParameters: [
@@ -411,7 +496,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters73,
+  requestBody: Parameters.parameters85,
   queryParameters: [Parameters.apiVersion, Parameters.notify],
   urlParameters: [
     Parameters.$host,
@@ -441,7 +526,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters74,
+  requestBody: Parameters.parameters86,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -463,8 +548,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.UserDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.UserDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.UserDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.UserDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -520,7 +615,7 @@ const getSharedAccessTokenOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters75,
+  requestBody: Parameters.parameters87,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

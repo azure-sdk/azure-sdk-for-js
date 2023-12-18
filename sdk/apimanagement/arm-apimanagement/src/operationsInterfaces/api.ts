@@ -23,7 +23,8 @@ import {
   ApiUpdateContract,
   ApiUpdateOptionalParams,
   ApiUpdateResponse,
-  ApiDeleteOptionalParams
+  ApiDeleteOptionalParams,
+  ApiDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -145,11 +146,30 @@ export interface Api {
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
     ifMatch: string,
     options?: ApiDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<OperationState<ApiDeleteResponse>, ApiDeleteResponse>
+  >;
+  /**
+   * Deletes the specified API of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    ifMatch: string,
+    options?: ApiDeleteOptionalParams
+  ): Promise<ApiDeleteResponse>;
 }

@@ -34,6 +34,13 @@ import {
   GatewayTokenRequestContract,
   GatewayGenerateTokenOptionalParams,
   GatewayGenerateTokenResponse,
+  GatewayInvalidateDebugCredentialsOptionalParams,
+  GatewayListDebugCredentialsContract,
+  GatewayListDebugCredentialsOptionalParams,
+  GatewayListDebugCredentialsResponse,
+  GatewayListTraceContract,
+  GatewayListTraceOptionalParams,
+  GatewayListTraceResponse,
   GatewayListByServiceNextResponse
 } from "../models";
 
@@ -333,6 +340,70 @@ export class GatewayImpl implements Gateway {
   }
 
   /**
+   * Action is invalidating all debug credentials issued for gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param options The options parameters.
+   */
+  invalidateDebugCredentials(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: GatewayInvalidateDebugCredentialsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayId, options },
+      invalidateDebugCredentialsOperationSpec
+    );
+  }
+
+  /**
+   * Create new debug credentials for gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param parameters List debug credentials properties.
+   * @param options The options parameters.
+   */
+  listDebugCredentials(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    parameters: GatewayListDebugCredentialsContract,
+    options?: GatewayListDebugCredentialsOptionalParams
+  ): Promise<GatewayListDebugCredentialsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayId, parameters, options },
+      listDebugCredentialsOperationSpec
+    );
+  }
+
+  /**
+   * Fetches trace collected by gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param parameters List trace properties.
+   * @param options The options parameters.
+   */
+  listTrace(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    parameters: GatewayListTraceContract,
+    options?: GatewayListTraceOptionalParams
+  ): Promise<GatewayListTraceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayId, parameters, options },
+      listTraceOperationSpec
+    );
+  }
+
+  /**
    * ListByServiceNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
@@ -367,10 +438,10 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
+    Parameters.skip
   ],
   urlParameters: [
     Parameters.$host,
@@ -445,7 +516,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters41,
+  requestBody: Parameters.parameters44,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -475,7 +546,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters41,
+  requestBody: Parameters.parameters44,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -548,7 +619,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters42,
+  requestBody: Parameters.parameters45,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -573,7 +644,80 @@ const generateTokenOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters43,
+  requestBody: Parameters.parameters46,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.gatewayId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const invalidateDebugCredentialsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/invalidateDebugCredentials",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.gatewayId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listDebugCredentialsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/listDebugCredentials",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayDebugCredentialsContract
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters47,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.gatewayId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listTraceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/listTrace",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters48,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
