@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  PolicyContract,
   PolicyListByServiceOptionalParams,
-  PolicyListByServiceResponse,
   PolicyIdName,
   PolicyGetEntityTagOptionalParams,
   PolicyGetEntityTagResponse,
   PolicyGetOptionalParams,
   PolicyGetResponse,
-  PolicyContract,
   PolicyCreateOrUpdateOptionalParams,
   PolicyCreateOrUpdateResponse,
   PolicyDeleteOptionalParams
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Policy. */
 export interface Policy {
   /**
@@ -32,7 +33,7 @@ export interface Policy {
     resourceGroupName: string,
     serviceName: string,
     options?: PolicyListByServiceOptionalParams
-  ): Promise<PolicyListByServiceResponse>;
+  ): PagedAsyncIterableIterator<PolicyContract>;
   /**
    * Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
