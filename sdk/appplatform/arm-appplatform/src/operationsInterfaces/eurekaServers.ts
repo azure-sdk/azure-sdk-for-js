@@ -6,24 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ApplicationLiveViewResource,
-  ApplicationLiveViewsListOptionalParams,
-  ApplicationLiveViewsGetOptionalParams,
-  ApplicationLiveViewsGetResponse,
-  ApplicationLiveViewsCreateOrUpdateOptionalParams,
-  ApplicationLiveViewsCreateOrUpdateResponse,
-  ApplicationLiveViewsDeleteOptionalParams,
-  ApplicationLiveViewsDeleteResponse
+  EurekaServersListOptionalParams,
+  EurekaServersListResponse,
+  EurekaServersGetOptionalParams,
+  EurekaServersGetResponse,
+  EurekaServerResource,
+  EurekaServersUpdatePutOptionalParams,
+  EurekaServersUpdatePutResponse,
+  EurekaServersUpdatePatchOptionalParams,
+  EurekaServersUpdatePatchResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a ApplicationLiveViews. */
-export interface ApplicationLiveViews {
+/** Interface representing a EurekaServers. */
+export interface EurekaServers {
   /**
-   * Handles requests to list all resources in a Service.
+   * List the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -32,90 +31,84 @@ export interface ApplicationLiveViews {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationLiveViewResource>;
+    options?: EurekaServersListOptionalParams
+  ): Promise<EurekaServersListResponse>;
   /**
-   * Get the Application Live  and its properties.
+   * Get the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsGetOptionalParams
-  ): Promise<ApplicationLiveViewsGetResponse>;
+    options?: EurekaServersGetOptionalParams
+  ): Promise<EurekaServersGetResponse>;
   /**
-   * Create the default Application Live View or update the existing Application Live View.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
-   * @param applicationLiveViewResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
+  beginUpdatePut(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePutOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
-      ApplicationLiveViewsCreateOrUpdateResponse
+      OperationState<EurekaServersUpdatePutResponse>,
+      EurekaServersUpdatePutResponse
     >
   >;
   /**
-   * Create the default Application Live View or update the existing Application Live View.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
-   * @param applicationLiveViewResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  beginCreateOrUpdateAndWait(
+  beginUpdatePutAndWait(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
-  ): Promise<ApplicationLiveViewsCreateOrUpdateResponse>;
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePutOptionalParams
+  ): Promise<EurekaServersUpdatePutResponse>;
   /**
-   * Disable the default Application Live View.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  beginDelete(
+  beginUpdatePatch(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePatchOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ApplicationLiveViewsDeleteResponse>,
-      ApplicationLiveViewsDeleteResponse
+      OperationState<EurekaServersUpdatePatchResponse>,
+      EurekaServersUpdatePatchResponse
     >
   >;
   /**
-   * Disable the default Application Live View.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  beginDeleteAndWait(
+  beginUpdatePatchAndWait(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<ApplicationLiveViewsDeleteResponse>;
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePatchOptionalParams
+  ): Promise<EurekaServersUpdatePatchResponse>;
 }
