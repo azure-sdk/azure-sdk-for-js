@@ -5157,6 +5157,8 @@ export type LongTermRetentionPoliciesListByDatabaseResponse = LongTermRetentionP
 
 // @public
 export interface LongTermRetentionPolicy extends ProxyResource {
+    backupStorageAccessTier?: BackupStorageAccessTier;
+    makeBackupsImmutable?: boolean;
     monthlyRetention?: string;
     weeklyRetention?: string;
     weekOfYear?: number;

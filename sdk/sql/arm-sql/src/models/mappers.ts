@@ -9529,29 +9529,6 @@ export const LongTermRetentionBackupListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const ChangeLongTermRetentionBackupAccessTierParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChangeLongTermRetentionBackupAccessTierParameters",
-    modelProperties: {
-      backupStorageAccessTier: {
-        serializedName: "backupStorageAccessTier",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      operationMode: {
-        serializedName: "operationMode",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9642,6 +9619,29 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ChangeLongTermRetentionBackupAccessTierParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChangeLongTermRetentionBackupAccessTierParameters",
+    modelProperties: {
+      backupStorageAccessTier: {
+        serializedName: "backupStorageAccessTier",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operationMode: {
+        serializedName: "operationMode",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -16123,6 +16123,18 @@ export const LongTermRetentionPolicy: coreClient.CompositeMapper = {
     className: "LongTermRetentionPolicy",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      makeBackupsImmutable: {
+        serializedName: "properties.makeBackupsImmutable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      backupStorageAccessTier: {
+        serializedName: "properties.backupStorageAccessTier",
+        type: {
+          name: "String"
+        }
+      },
       weeklyRetention: {
         serializedName: "properties.weeklyRetention",
         type: {

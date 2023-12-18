@@ -4595,14 +4595,6 @@ export interface LongTermRetentionBackupListResult {
   readonly nextLink?: string;
 }
 
-/** Contains the information necessary to change long term retention backup access tier and related operation mode. */
-export interface ChangeLongTermRetentionBackupAccessTierParameters {
-  /** The long term retention backup storage access tier */
-  backupStorageAccessTier: string;
-  /** The operation mode when updating ltr backup storage access tier */
-  operationMode: string;
-}
-
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -4650,6 +4642,14 @@ export interface ErrorAdditionalInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly info?: Record<string, unknown>;
+}
+
+/** Contains the information necessary to change long term retention backup access tier and related operation mode. */
+export interface ChangeLongTermRetentionBackupAccessTierParameters {
+  /** The long term retention backup storage access tier */
+  backupStorageAccessTier: string;
+  /** The operation mode when updating ltr backup storage access tier */
+  operationMode: string;
 }
 
 /** Contains the information necessary to perform long term retention backup copy operation. */
@@ -8315,6 +8315,10 @@ export interface LongTermRetentionBackupOperationResult extends ProxyResource {
 
 /** A long term retention policy. */
 export interface LongTermRetentionPolicy extends ProxyResource {
+  /** The setting whether to make LTR backups immutable */
+  makeBackupsImmutable?: boolean;
+  /** The BackupStorageAccessTier for the LTR backups */
+  backupStorageAccessTier?: BackupStorageAccessTier;
   /** The weekly retention policy for an LTR backup in an ISO 8601 format. */
   weeklyRetention?: string;
   /** The monthly retention policy for an LTR backup in an ISO 8601 format. */
