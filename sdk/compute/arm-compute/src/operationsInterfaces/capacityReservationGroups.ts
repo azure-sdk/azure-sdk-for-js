@@ -9,7 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   CapacityReservationGroup,
-  CapacityReservationGroupsListByResourceGroupOptionalParams,
   CapacityReservationGroupsListBySubscriptionOptionalParams,
   CapacityReservationGroupsCreateOrUpdateOptionalParams,
   CapacityReservationGroupsCreateOrUpdateResponse,
@@ -25,16 +24,6 @@ import {
 /** Interface representing a CapacityReservationGroups. */
 export interface CapacityReservationGroups {
   /**
-   * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
-   * property in the response to get the next page of capacity reservation groups.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: CapacityReservationGroupsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<CapacityReservationGroup>;
-  /**
    * Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the
    * response to get the next page of capacity reservation groups.
    * @param options The options parameters.
@@ -44,8 +33,8 @@ export interface CapacityReservationGroups {
   ): PagedAsyncIterableIterator<CapacityReservationGroup>;
   /**
    * The operation to create or update a capacity reservation group. When updating a capacity reservation
-   * group, only tags may be modified. Please refer to https://aka.ms/CapacityReservation for more
-   * details.
+   * group, only tags and sharing profile may be modified. Please refer to
+   * https://aka.ms/CapacityReservation for more details.
    * @param resourceGroupName The name of the resource group.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param parameters Parameters supplied to the Create capacity reservation Group.
@@ -59,7 +48,7 @@ export interface CapacityReservationGroups {
   ): Promise<CapacityReservationGroupsCreateOrUpdateResponse>;
   /**
    * The operation to update a capacity reservation group. When updating a capacity reservation group,
-   * only tags may be modified.
+   * only tags and sharing profile may be modified.
    * @param resourceGroupName The name of the resource group.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param parameters Parameters supplied to the Update capacity reservation Group operation.
