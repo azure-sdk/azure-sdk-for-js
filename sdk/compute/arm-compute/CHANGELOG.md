@@ -1,6 +1,6 @@
 # Release History
     
-## 21.3.0 (2023-12-08)
+## 21.3.0 (2023-12-18)
     
 **Features**
 
@@ -41,6 +41,7 @@
   - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
   - Added Type Alias DedicatedHostsRedeployResponse
   - Added Type Alias Mode
+  - Added Type Alias ProvisionedBandwidthCopyOption
   - Added Type Alias SshEncryptionTypes
   - Added Type Alias UefiKeyType
   - Added Type Alias UefiSignatureTemplateName
@@ -59,6 +60,7 @@
   - Interface CommunityGalleryImage has a new optional parameter disclaimer
   - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
   - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
+  - Interface CreationData has a new optional parameter provisionedBandwidthCopySpeed
   - Interface GalleryImageVersion has a new optional parameter securityProfile
   - Interface GalleryImageVersionUpdate has a new optional parameter securityProfile
   - Interface RestorePointSourceVMStorageProfile has a new optional parameter diskControllerType
@@ -87,10 +89,12 @@
   - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifMatch
   - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifNoneMatch
   - Added Enum KnownMode
+  - Added Enum KnownProvisionedBandwidthCopyOption
   - Added Enum KnownSshEncryptionTypes
   - Added Enum KnownUefiKeyType
   - Added Enum KnownUefiSignatureTemplateName
   - Enum KnownConfidentialVMEncryptionType has a new value NonPersistedTPM
+  - Enum KnownDiskSecurityTypes has a new value ConfidentialVMNonPersistedTPM
   - Enum KnownReplicationStatusTypes has a new value UefiSettings
   - Enum KnownSecurityEncryptionTypes has a new value NonPersistedTPM
     
@@ -610,4 +614,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
