@@ -6,39 +6,41 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EntityQueryTemplateUnion,
-  EntityQueryTemplatesListOptionalParams,
-  EntityQueryTemplatesGetOptionalParams,
-  EntityQueryTemplatesGetResponse
+  PackageModel,
+  ContentPackageInstallOptionalParams,
+  ContentPackageInstallResponse,
+  ContentPackageUninstallOptionalParams
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a EntityQueryTemplates. */
-export interface EntityQueryTemplates {
+/** Interface representing a ContentPackage. */
+export interface ContentPackage {
   /**
-   * Gets all entity query templates.
+   * Install a package to the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param packageId package Id
+   * @param packageInstallationProperties Package installation properties
    * @param options The options parameters.
    */
-  list(
+  install(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityQueryTemplateUnion>;
+    packageId: string,
+    packageInstallationProperties: PackageModel,
+    options?: ContentPackageInstallOptionalParams
+  ): Promise<ContentPackageInstallResponse>;
   /**
-   * Gets an entity query.
+   * Uninstall a package from the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryTemplateId entity query template ID
+   * @param packageId package Id
    * @param options The options parameters.
    */
-  get(
+  uninstall(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryTemplateId: string,
-    options?: EntityQueryTemplatesGetOptionalParams
-  ): Promise<EntityQueryTemplatesGetResponse>;
+    packageId: string,
+    options?: ContentPackageUninstallOptionalParams
+  ): Promise<void>;
 }

@@ -7,26 +7,23 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  Repo,
-  RepositoryAccessProperties,
-  SourceControlListRepositoriesOptionalParams
-} from "../models";
+import { TemplateModel, ContentTemplatesListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a SourceControlOperations. */
-export interface SourceControlOperations {
+/** Interface representing a ContentTemplates. */
+export interface ContentTemplates {
   /**
-   * Gets a list of repositories metadata.
+   * Gets all installed templates.
+   * Expandable properties:
+   * - properties/mainTemplate
+   * - properties/dependantTemplates
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param repositoryAccess The repository access credentials.
    * @param options The options parameters.
    */
-  listRepositories(
+  list(
     resourceGroupName: string,
     workspaceName: string,
-    repositoryAccess: RepositoryAccessProperties,
-    options?: SourceControlListRepositoriesOptionalParams
-  ): PagedAsyncIterableIterator<Repo>;
+    options?: ContentTemplatesListOptionalParams
+  ): PagedAsyncIterableIterator<TemplateModel>;
 }

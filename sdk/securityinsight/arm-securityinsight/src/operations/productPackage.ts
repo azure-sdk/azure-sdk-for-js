@@ -6,23 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { EntitiesGetTimeline } from "../operationsInterfaces";
+import { ProductPackage } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  EntityTimelineParameters,
-  EntitiesGetTimelineListOptionalParams,
-  EntitiesGetTimelineListResponse
+  ProductPackageGetOptionalParams,
+  ProductPackageGetResponse
 } from "../models";
 
-/** Class containing EntitiesGetTimeline operations. */
-export class EntitiesGetTimelineImpl implements EntitiesGetTimeline {
+/** Class containing ProductPackage operations. */
+export class ProductPackageImpl implements ProductPackage {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class EntitiesGetTimeline class.
+   * Initialize a new instance of the class ProductPackage class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -30,51 +29,47 @@ export class EntitiesGetTimelineImpl implements EntitiesGetTimeline {
   }
 
   /**
-   * Timeline for an entity.
+   * Gets a package by its identifier from the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
-   * @param parameters The parameters required to execute an timeline operation on the given entity.
+   * @param packageId package Id
    * @param options The options parameters.
    */
-  list(
+  get(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    parameters: EntityTimelineParameters,
-    options?: EntitiesGetTimelineListOptionalParams
-  ): Promise<EntitiesGetTimelineListResponse> {
+    packageId: string,
+    options?: ProductPackageGetOptionalParams
+  ): Promise<ProductPackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, parameters, options },
-      listOperationSpec
+      { resourceGroupName, workspaceName, packageId, options },
+      getOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getTimeline",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentProductPackages/{packageId}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityTimelineResponse
+      bodyMapper: Mappers.ProductPackageModel
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId
+    Parameters.packageId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };

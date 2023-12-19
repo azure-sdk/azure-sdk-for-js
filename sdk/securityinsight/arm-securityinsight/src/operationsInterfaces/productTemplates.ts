@@ -6,26 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EntityRelationsGetRelationOptionalParams,
-  EntityRelationsGetRelationResponse
+  ProductTemplateModel,
+  ProductTemplatesListOptionalParams
 } from "../models";
 
-/** Interface representing a EntityRelations. */
-export interface EntityRelations {
+/// <reference lib="esnext.asynciterable" />
+/** Interface representing a ProductTemplates. */
+export interface ProductTemplates {
   /**
-   * Gets an entity relation.
+   * Gets all templates in the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
-   * @param relationName Relation Name
    * @param options The options parameters.
    */
-  getRelation(
+  list(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    relationName: string,
-    options?: EntityRelationsGetRelationOptionalParams
-  ): Promise<EntityRelationsGetRelationResponse>;
+    options?: ProductTemplatesListOptionalParams
+  ): PagedAsyncIterableIterator<ProductTemplateModel>;
 }
