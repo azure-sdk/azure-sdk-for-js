@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ApplicationLiveViews } from "../operationsInterfaces";
+import { Apms } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ApplicationLiveViewResource,
-  ApplicationLiveViewsListNextOptionalParams,
-  ApplicationLiveViewsListOptionalParams,
-  ApplicationLiveViewsListResponse,
-  ApplicationLiveViewsGetOptionalParams,
-  ApplicationLiveViewsGetResponse,
-  ApplicationLiveViewsCreateOrUpdateOptionalParams,
-  ApplicationLiveViewsCreateOrUpdateResponse,
-  ApplicationLiveViewsDeleteOptionalParams,
-  ApplicationLiveViewsDeleteResponse,
-  ApplicationLiveViewsListNextResponse
+  ApmResource,
+  ApmsListNextOptionalParams,
+  ApmsListOptionalParams,
+  ApmsListResponse,
+  ApmsGetOptionalParams,
+  ApmsGetResponse,
+  ApmsCreateOrUpdateOptionalParams,
+  ApmsCreateOrUpdateResponse,
+  ApmsDeleteOptionalParams,
+  ApmsDeleteResponse,
+  ApmsListSecretKeysOptionalParams,
+  ApmsListSecretKeysResponse,
+  ApmsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ApplicationLiveViews operations. */
-export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
+/** Class containing Apms operations. */
+export class ApmsImpl implements Apms {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class ApplicationLiveViews class.
+   * Initialize a new instance of the class Apms class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -47,7 +49,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Get collection of APMs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -56,8 +58,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationLiveViewResource> {
+    options?: ApmsListOptionalParams
+  ): PagedAsyncIterableIterator<ApmResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -83,10 +85,10 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams,
+    options?: ApmsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ApplicationLiveViewResource[]> {
-    let result: ApplicationLiveViewsListResponse;
+  ): AsyncIterableIterator<ApmResource[]> {
+    let result: ApmsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, serviceName, options);
@@ -112,8 +114,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
-  ): AsyncIterableIterator<ApplicationLiveViewResource> {
+    options?: ApmsListOptionalParams
+  ): AsyncIterableIterator<ApmResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -124,7 +126,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Get collection of APMs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -133,8 +135,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
-  ): Promise<ApplicationLiveViewsListResponse> {
+    options?: ApmsListOptionalParams
+  ): Promise<ApmsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       listOperationSpec
@@ -142,50 +144,50 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Get the Application Live  and its properties.
+   * Get the APM by name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsGetOptionalParams
-  ): Promise<ApplicationLiveViewsGetResponse> {
+    apmName: string,
+    options?: ApmsGetOptionalParams
+  ): Promise<ApmsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, applicationLiveViewName, options },
+      { resourceGroupName, serviceName, apmName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create the default Application Live View or update the existing Application Live View.
+   * Create or update an APM.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
-   * @param applicationLiveViewResource Parameters for the update operation
+   * @param apmName The name of the APM
+   * @param apmResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+    apmName: string,
+    apmResource: ApmResource,
+    options?: ApmsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
-      ApplicationLiveViewsCreateOrUpdateResponse
+      OperationState<ApmsCreateOrUpdateResponse>,
+      ApmsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> => {
+    ): Promise<ApmsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -223,18 +225,12 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        applicationLiveViewName,
-        applicationLiveViewResource,
-        options
-      },
+      args: { resourceGroupName, serviceName, apmName, apmResource, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ApplicationLiveViewsCreateOrUpdateResponse,
-      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>
+      ApmsCreateOrUpdateResponse,
+      OperationState<ApmsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -244,54 +240,51 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Create the default Application Live View or update the existing Application Live View.
+   * Create or update an APM.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
-   * @param applicationLiveViewResource Parameters for the update operation
+   * @param apmName The name of the APM
+   * @param apmResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
-  ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> {
+    apmName: string,
+    apmResource: ApmResource,
+    options?: ApmsCreateOrUpdateOptionalParams
+  ): Promise<ApmsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      applicationLiveViewName,
-      applicationLiveViewResource,
+      apmName,
+      apmResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Application Live View.
+   * Operation to delete an APM
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
+    apmName: string,
+    options?: ApmsDeleteOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationLiveViewsDeleteResponse>,
-      ApplicationLiveViewsDeleteResponse
-    >
+    SimplePollerLike<OperationState<ApmsDeleteResponse>, ApmsDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApplicationLiveViewsDeleteResponse> => {
+    ): Promise<ApmsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -329,46 +322,62 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        applicationLiveViewName,
-        options
-      },
+      args: { resourceGroupName, serviceName, apmName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<
-      ApplicationLiveViewsDeleteResponse,
-      OperationState<ApplicationLiveViewsDeleteResponse>
+      ApmsDeleteResponse,
+      OperationState<ApmsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Disable the default Application Live View.
+   * Operation to delete an APM
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<ApplicationLiveViewsDeleteResponse> {
+    apmName: string,
+    options?: ApmsDeleteOptionalParams
+  ): Promise<ApmsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      applicationLiveViewName,
+      apmName,
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * List keys of APM sensitive properties.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param apmName The name of the APM
+   * @param options The options parameters.
+   */
+  listSecretKeys(
+    resourceGroupName: string,
+    serviceName: string,
+    apmName: string,
+    options?: ApmsListSecretKeysOptionalParams
+  ): Promise<ApmsListSecretKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apmName, options },
+      listSecretKeysOperationSpec
+    );
   }
 
   /**
@@ -383,8 +392,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ApplicationLiveViewsListNextOptionalParams
-  ): Promise<ApplicationLiveViewsListNextResponse> {
+    options?: ApmsListNextOptionalParams
+  ): Promise<ApmsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -396,11 +405,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResourceCollection
+      bodyMapper: Mappers.ApmResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -418,11 +427,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApmResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -434,40 +443,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApmResource
     },
     201: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApmResource
     },
     202: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApmResource
     },
     204: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApmResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.applicationLiveViewResource,
+  requestBody: Parameters.apmResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -475,20 +484,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.ApmsDeleteHeaders
     },
     201: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.ApmsDeleteHeaders
     },
     202: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.ApmsDeleteHeaders
     },
     204: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.ApmsDeleteHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -500,7 +509,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
+    Parameters.apmName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSecretKeysOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}/listSecretKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApmSecretKeys
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.apmName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -510,7 +542,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResourceCollection
+      bodyMapper: Mappers.ApmResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
