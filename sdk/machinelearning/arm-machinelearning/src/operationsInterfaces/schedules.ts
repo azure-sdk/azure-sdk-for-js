@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   SchedulesListOptionalParams,
@@ -15,7 +15,10 @@ import {
   SchedulesGetOptionalParams,
   SchedulesGetResponse,
   SchedulesCreateOrUpdateOptionalParams,
-  SchedulesCreateOrUpdateResponse
+  SchedulesCreateOrUpdateResponse,
+  TriggerOnceRequest,
+  SchedulesTriggerOptionalParams,
+  SchedulesTriggerResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +47,7 @@ export interface Schedules {
     workspaceName: string,
     name: string,
     options?: SchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -86,8 +89,8 @@ export interface Schedules {
     body: Schedule,
     options?: SchedulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SchedulesCreateOrUpdateResponse>,
       SchedulesCreateOrUpdateResponse
     >
   >;
@@ -106,4 +109,19 @@ export interface Schedules {
     body: Schedule,
     options?: SchedulesCreateOrUpdateOptionalParams
   ): Promise<SchedulesCreateOrUpdateResponse>;
+  /**
+   * Trigger run.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Schedule name.
+   * @param body Request body for trigger once
+   * @param options The options parameters.
+   */
+  trigger(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    body: TriggerOnceRequest,
+    options?: SchedulesTriggerOptionalParams
+  ): Promise<SchedulesTriggerResponse>;
 }
