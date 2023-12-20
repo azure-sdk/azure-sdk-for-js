@@ -15824,7 +15824,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-wUbYgWNXqfHog+3/i+FyIxH+itiu1hq9LmoJ9LFskzRzC3dhVUxSwdcACEsP1OP4n/0OC97FOd+MP4QpAOoJHA==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-Lhs6NbUth5J9WVZD2QhLl7+1aR1RfJlPl0Zkk4kZ92ZmPFebssp6pbcSPj44RxstOMEgx9bFX1O7MEJn/0rnHQ==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -15832,13 +15832,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
