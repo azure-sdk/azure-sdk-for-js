@@ -5800,6 +5800,39 @@ export const StoreWriteSettings: coreClient.CompositeMapper = {
         type: {
           name: "any"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MetadataItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetadataItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "any"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "any"
+        }
       }
     }
   }
@@ -6517,27 +6550,6 @@ export const StoredProcedureParameter: coreClient.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MetadataItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MetadataItem",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "any"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "any"
         }
       }
     }
@@ -15833,6 +15845,12 @@ export const JsonDataset: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
     modelProperties: {
       ...Dataset.type.modelProperties,
+      schema1: {
+        serializedName: "schema1",
+        type: {
+          name: "any"
+        }
+      },
       location: {
         serializedName: "typeProperties.location",
         type: {
@@ -24269,7 +24287,8 @@ export const WebHookActivity: coreClient.CompositeMapper = {
       headers: {
         serializedName: "typeProperties.headers",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       body: {
@@ -25187,7 +25206,8 @@ export const WebActivity: coreClient.CompositeMapper = {
       headers: {
         serializedName: "typeProperties.headers",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       body: {
@@ -25205,6 +25225,18 @@ export const WebActivity: coreClient.CompositeMapper = {
       },
       disableCertValidation: {
         serializedName: "typeProperties.disableCertValidation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      httpRequestTimeout: {
+        serializedName: "typeProperties.httpRequestTimeout",
+        type: {
+          name: "any"
+        }
+      },
+      turnOffAsync: {
+        serializedName: "typeProperties.turnOffAsync",
         type: {
           name: "Boolean"
         }
@@ -25640,7 +25672,8 @@ export const AzureFunctionActivity: coreClient.CompositeMapper = {
       headers: {
         serializedName: "typeProperties.headers",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       body: {

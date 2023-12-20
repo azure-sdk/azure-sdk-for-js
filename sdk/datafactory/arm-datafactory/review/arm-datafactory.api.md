@@ -746,7 +746,9 @@ export interface AzureFileStorageWriteSettings extends StoreWriteSettings {
 export interface AzureFunctionActivity extends ExecutionActivity {
     body?: any;
     functionName: any;
-    headers?: any;
+    headers?: {
+        [propertyName: string]: string;
+    };
     method: AzureFunctionActivityMethod;
     type: "AzureFunctionActivity";
 }
@@ -4178,6 +4180,7 @@ export interface JsonDataset extends Dataset {
     compression?: DatasetCompression;
     encodingName?: any;
     location?: DatasetLocationUnion;
+    schema1?: any;
     type: "Json";
 }
 
@@ -8002,6 +8005,7 @@ export interface StoreWriteSettings {
     copyBehavior?: any;
     disableMetricsCollection?: any;
     maxConcurrentConnections?: any;
+    metadata?: MetadataItem[];
     type: "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings" | "AzureFileStorageWriteSettings" | "LakeHouseWriteSettings";
 }
 
@@ -8578,9 +8582,13 @@ export interface WebActivity extends ExecutionActivity {
     connectVia?: IntegrationRuntimeReference;
     datasets?: DatasetReference[];
     disableCertValidation?: boolean;
-    headers?: any;
+    headers?: {
+        [propertyName: string]: string;
+    };
+    httpRequestTimeout?: any;
     linkedServices?: LinkedServiceReference[];
     method: WebActivityMethod;
+    turnOffAsync?: boolean;
     type: "WebActivity";
     url: any;
 }
@@ -8625,7 +8633,9 @@ export interface WebClientCertificateAuthentication extends WebLinkedServiceType
 export interface WebHookActivity extends ControlActivity {
     authentication?: WebActivityAuthentication;
     body?: any;
-    headers?: any;
+    headers?: {
+        [propertyName: string]: string;
+    };
     method: WebHookActivityMethod;
     policy?: SecureInputOutputPolicy;
     reportStatusOnCallBack?: any;

@@ -1,15 +1,27 @@
 # Release History
+    
+## 13.0.0 (2023-12-20)
+    
+**Features**
 
-## 12.0.1 (Unreleased)
+  - Interface JsonDataset has a new optional parameter schema1
+  - Interface StoreWriteSettings has a new optional parameter metadata
+  - Interface WebActivity has a new optional parameter httpRequestTimeout
+  - Interface WebActivity has a new optional parameter turnOffAsync
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter headers of interface AzureFunctionActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+  - Type of parameter headers of interface WebActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+  - Type of parameter headers of interface WebHookActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+    
+    
 ## 12.0.0 (2023-11-10)
     
 **Features**

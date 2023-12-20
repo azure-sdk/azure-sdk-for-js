@@ -3110,6 +3110,16 @@ export interface StoreWriteSettings {
   disableMetricsCollection?: any;
   /** The type of copy behavior for copy sink. */
   copyBehavior?: any;
+  /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
+  metadata?: MetadataItem[];
+}
+
+/** Specify the name and value of custom metadata item. */
+export interface MetadataItem {
+  /** Metadata item key name. Type: string (or Expression with resultType string). */
+  name?: any;
+  /** Metadata item value. Type: string (or Expression with resultType string). */
+  value?: any;
 }
 
 /** Distcp settings. */
@@ -3521,14 +3531,6 @@ export interface StoredProcedureParameter {
   value?: any;
   /** Stored procedure parameter type. */
   type?: StoredProcedureParameterType;
-}
-
-/** Specify the name and value of custom metadata item. */
-export interface MetadataItem {
-  /** Metadata item key name. Type: string (or Expression with resultType string). */
-  name?: any;
-  /** Metadata item value. Type: string (or Expression with resultType string). */
-  value?: any;
 }
 
 /** Sql upsert option settings */
@@ -4966,7 +4968,7 @@ export interface ODataLinkedService extends LinkedService {
   userName?: any;
   /** Password of the OData service. */
   password?: SecretBaseUnion;
-  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
+  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: key value pairs (value should be string type). */
   authHeaders?: any;
   /** Specify the tenant information (domain name or tenant ID) under which your application resides. Type: string (or Expression with resultType string). */
   tenant?: any;
@@ -5502,7 +5504,7 @@ export interface HttpLinkedService extends LinkedService {
   userName?: any;
   /** Password for Basic, Digest, Windows, or ClientCertificate with EmbeddedCertData authentication. */
   password?: SecretBaseUnion;
-  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
+  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: key value pairs (value should be string type). */
   authHeaders?: any;
   /** Base64 encoded certificate data for ClientCertificate authentication. For on-premises copy with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression with resultType string). */
   embeddedCertData?: any;
@@ -6251,7 +6253,7 @@ export interface SalesforceMarketingCloudLinkedService extends LinkedService {
 export interface HDInsightOnDemandLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightOnDemand";
-  /** Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or Expression with resultType string). */
+  /** Number of worker/data nodes in the cluster. Suggestion value: 4. Type: int (or Expression with resultType int). */
   clusterSize: any;
   /** The allowed idle time for the on-demand HDInsight cluster. Specifies how long the on-demand HDInsight cluster stays alive after completion of an activity run if there are no other active jobs in the cluster. The minimum value is 5 mins. Type: string (or Expression with resultType string). */
   timeToLive: any;
@@ -6561,7 +6563,7 @@ export interface AzureDataExplorerLinkedService extends LinkedService {
 export interface AzureFunctionLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFunction";
-  /** The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net. */
+  /** The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net. Type: string (or Expression with resultType string). */
   functionAppUrl: any;
   /** Function or Host key for Azure Function App. */
   functionKey?: SecretBaseUnion;
@@ -6569,7 +6571,7 @@ export interface AzureFunctionLinkedService extends LinkedService {
   encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-  /** Allowed token audiences for azure function. */
+  /** Allowed token audiences for azure function. Type: string (or Expression with resultType string). */
   resourceId?: any;
   /** Type of authentication (Required to specify MSI) used to connect to AzureFunction. Type: string (or Expression with resultType string). */
   authentication?: any;
@@ -6730,6 +6732,8 @@ export interface DelimitedTextDataset extends Dataset {
 export interface JsonDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Json";
+  /** Anything */
+  schema1?: any;
   /** The location of the json data storage. */
   location?: DatasetLocationUnion;
   /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
@@ -8072,9 +8076,9 @@ export interface ParquetFormat extends DatasetStorageFormat {
 export interface CmdkeySetup extends CustomSetupBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CmdkeySetup";
-  /** The server name of data source access. */
+  /** The server name of data source access. Type: string. */
   targetName: any;
-  /** The user name of data source access. */
+  /** The user name of data source access. Type: string. */
   userName: any;
   /** The password of data source access. */
   password: SecretBaseUnion;
@@ -8978,7 +8982,7 @@ export interface RestSource extends CopySource {
   httpRequestTimeout?: any;
   /** The time to await before sending next page request. */
   requestInterval?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  /** Specifies the additional columns to be added to source data. Type: key value pairs (value should be string type). */
   additionalColumns?: any;
 }
 
@@ -9238,13 +9242,13 @@ export interface RestSink extends CopySink {
   type: "RestSink";
   /** The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression with resultType string). */
   requestMethod?: any;
-  /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
+  /** The additional HTTP headers in the request to the RESTful API. Type: key value pairs (value should be string type). */
   additionalHeaders?: any;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:01:40. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
   /** The time to await before sending next request, in milliseconds */
   requestInterval?: any;
-  /** Http Compression Type to Send data in compressed format with Optimal Compression Level, Default is None. And The Only Supported option is Gzip. */
+  /** Http Compression Type to Send data in compressed format with Optimal Compression Level, Default is None. And The Only Supported option is Gzip. Type: string (or Expression with resultType string). */
   httpCompressionType?: any;
 }
 
@@ -9392,7 +9396,7 @@ export interface SqlSink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** Write behavior when copying data into sql. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** Write behavior when copying data into sql. Type: string (or Expression with resultType string). */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9416,7 +9420,7 @@ export interface SqlServerSink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** Write behavior when copying data into sql server. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** Write behavior when copying data into sql server. Type: string (or Expression with resultType string). */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9464,7 +9468,7 @@ export interface SqlMISink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** White behavior when copying data into azure SQL MI. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** White behavior when copying data into azure SQL MI. Type: string (or Expression with resultType string) */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9907,7 +9911,7 @@ export interface WebHookActivity extends ControlActivity {
   /** The timeout within which the webhook should be called back. If there is no value specified, it defaults to 10 minutes. Type: string. Pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   timeout?: string;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: { [propertyName: string]: string };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
   /** Authentication method used for calling the endpoint. */
@@ -10183,13 +10187,17 @@ export interface WebActivity extends ExecutionActivity {
   /** Web activity target endpoint and path. Type: string (or Expression with resultType string). */
   url: any;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: { [propertyName: string]: string };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
   /** Authentication method used for calling the endpoint. */
   authentication?: WebActivityAuthentication;
   /** When set to true, Certificate validation will be disabled. */
   disableCertValidation?: boolean;
+  /** Timeout for the HTTP request to get a response. Format is in TimeSpan (hh:mm:ss). This value is the timeout to get a response, not the activity timeout. The default value is 00:01:00 (1 minute). The range is from 1 to 10 minutes */
+  httpRequestTimeout?: any;
+  /** Option to disable invoking HTTP GET on location given in response header of a HTTP 202 Response. If set true, it stops invoking HTTP GET on http location given in response header. If set false then continues to invoke HTTP GET call on location given in http response headers. */
+  turnOffAsync?: boolean;
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */
@@ -10250,7 +10258,7 @@ export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
   experimentName?: any;
   /** Key,Value pairs to be passed to the published Azure ML pipeline endpoint. Keys must match the names of pipeline parameters defined in the published pipeline. Values will be passed in the ParameterAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object). */
   mlPipelineParameters?: any;
-  /** Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object). */
+  /** Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object (or Expression with resultType object). */
   dataPathAssignments?: any;
   /** The parent Azure ML Service pipeline run id. This information will be passed in the ParentRunId property of the published pipeline execution request. Type: string (or Expression with resultType string). */
   mlParentRunId?: any;
@@ -10323,7 +10331,7 @@ export interface AzureFunctionActivity extends ExecutionActivity {
   /** Name of the Function that the Azure Function Activity will call. Type: string (or Expression with resultType string) */
   functionName: any;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: { [propertyName: string]: string };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
 }
@@ -10662,7 +10670,7 @@ export interface SqlSource extends TabularSource {
   storedProcedureParameters?: any;
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10682,7 +10690,7 @@ export interface SqlServerSource extends TabularSource {
   isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10722,7 +10730,7 @@ export interface AzureSqlSource extends TabularSource {
   isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10742,7 +10750,7 @@ export interface SqlMISource extends TabularSource {
   isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10760,7 +10768,7 @@ export interface SqlDWSource extends TabularSource {
   storedProcedureParameters?: any;
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
