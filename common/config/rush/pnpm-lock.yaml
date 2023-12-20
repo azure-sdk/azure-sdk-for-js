@@ -116,6 +116,9 @@ dependencies:
   '@rush-temp/arm-azureadexternalidentities':
     specifier: file:./projects/arm-azureadexternalidentities.tgz
     version: file:projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azurelargeinstance':
+    specifier: file:./projects/arm-azurelargeinstance.tgz
+    version: file:projects/arm-azurelargeinstance.tgz
   '@rush-temp/arm-azurestack':
     specifier: file:./projects/arm-azurestack.tgz
     version: file:projects/arm-azurestack.tgz
@@ -11523,6 +11526,34 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-azurelargeinstance.tgz:
+    resolution: {integrity: sha512-rldQIgTtuLfGaaxNGOYEInCAKHkAfdlarusKSHYuXq60dujQ4GPQgszT0cG/RNIhx2aumJrkjvX80cQXFhbZkw==, tarball: file:projects/arm-azurelargeinstance.tgz}
+    name: '@rush-temp/arm-azurelargeinstance'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.3
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
