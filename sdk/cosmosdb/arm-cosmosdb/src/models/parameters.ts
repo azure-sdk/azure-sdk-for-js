@@ -51,7 +51,10 @@ import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   NotebookWorkspaceCreateUpdateParameters as NotebookWorkspaceCreateUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  ServiceResourceCreateUpdateParameters as ServiceResourceCreateUpdateParametersMapper
+  ServiceResourceCreateUpdateParameters as ServiceResourceCreateUpdateParametersMapper,
+  ThroughputPoolResource as ThroughputPoolResourceMapper,
+  ThroughputPoolUpdate as ThroughputPoolUpdateMapper,
+  ThroughputPoolAccountResource as ThroughputPoolAccountResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -126,7 +129,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-15-preview",
+    defaultValue: "2023-11-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -614,6 +617,22 @@ export const body1: OperationParameter = {
   mapper: CommandPostBodyMapper
 };
 
+export const commandId: OperationURLParameter = {
+  parameterPath: "commandId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"),
+      MaxLength: 100,
+      MinLength: 1
+    },
+    serializedName: "commandId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const backupId: OperationURLParameter = {
   parameterPath: "backupId",
   mapper: {
@@ -869,4 +888,51 @@ export const serviceName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const throughputPoolName: OperationURLParameter = {
+  parameterPath: "throughputPoolName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]+(-[a-z0-9]+)*"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "throughputPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: ThroughputPoolResourceMapper
+};
+
+export const body4: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ThroughputPoolUpdateMapper
+};
+
+export const throughputPoolAccountName: OperationURLParameter = {
+  parameterPath: "throughputPoolAccountName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]+(-[a-z0-9]+)*"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "throughputPoolAccountName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: ThroughputPoolAccountResourceMapper
 };

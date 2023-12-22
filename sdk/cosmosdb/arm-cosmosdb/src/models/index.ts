@@ -14,9 +14,7 @@ export type BackupPolicyUnion =
   | ContinuousModeBackupPolicy;
 export type DataTransferDataSourceSinkUnion =
   | DataTransferDataSourceSink
-  | CosmosCassandraDataTransferDataSourceSink
-  | CosmosMongoDataTransferDataSourceSink
-  | CosmosSqlDataTransferDataSourceSink
+  | BaseCosmosDataTransferDataSourceSinkUnion
   | AzureBlobDataTransferDataSourceSink;
 export type ServiceResourcePropertiesUnion =
   | ServiceResourceProperties
@@ -24,6 +22,11 @@ export type ServiceResourcePropertiesUnion =
   | SqlDedicatedGatewayServiceResourceProperties
   | GraphAPIComputeServiceResourceProperties
   | MaterializedViewsBuilderServiceResourceProperties;
+export type BaseCosmosDataTransferDataSourceSinkUnion =
+  | BaseCosmosDataTransferDataSourceSink
+  | CosmosCassandraDataTransferDataSourceSink
+  | CosmosMongoDataTransferDataSourceSink
+  | CosmosSqlDataTransferDataSourceSink;
 
 /** IpAddressOrRange object */
 export interface IpAddressOrRange {
@@ -389,7 +392,7 @@ export interface DatabaseAccountUpdateParameters {
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  customerManagedKeyStatus?: string;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
   enablePriorityBasedExecution?: boolean;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
@@ -971,6 +974,8 @@ export interface SqlContainerResource {
   createMode?: CreateMode;
   /** The configuration for defining Materialized Views. This must be specified only for creating a Materialized View container. */
   materializedViewDefinition?: MaterializedViewDefinition;
+  /** List of computed properties */
+  computedProperties?: ComputedProperty[];
 }
 
 /** Cosmos DB indexing policy */
@@ -1094,6 +1099,14 @@ export interface MaterializedViewDefinition {
   sourceCollectionId: string;
   /** The definition should be an SQL query which would be used to fetch data from the source container to populate into the Materialized View container. */
   definition: string;
+}
+
+/** The definition of a computed property */
+export interface ComputedProperty {
+  /** The name of a computed property, for example - "cp_lowerName" */
+  name?: string;
+  /** The query that evaluates the value for computed property, for example - "SELECT VALUE LOWER(c.name) FROM c" */
+  query?: string;
 }
 
 /** The properties of an Azure Cosmos DB merge operations */
@@ -1517,12 +1530,20 @@ export interface DataTransferJobProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ErrorResponse;
+  /**
+   * Total Duration of Job
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly duration?: string;
+  /** Mode of job execution */
+  mode?: DataTransferJobMode;
 }
 
 /** Base class for all DataTransfer source/sink */
 export interface DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component:
+    | "BaseCosmosDataTransferDataSourceSink"
     | "CosmosDBCassandra"
     | "CosmosDBMongo"
     | "CosmosDBSql"
@@ -1569,6 +1590,8 @@ export interface ClusterResourceProperties {
   prometheusEndpoint?: SeedNode;
   /** Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs. */
   repairEnabled?: boolean;
+  /** The form of AutoReplicate that is being used by this cluster. */
+  autoReplicate?: AutoReplicate;
   /** List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property. */
   clientCertificates?: Certificate[];
   /** List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property. */
@@ -1585,6 +1608,8 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly seedNodes?: SeedNode[];
+  /** List of the data center names for unmanaged data centers in this cluster to be included in auto-replication. */
+  externalDataCenters?: string[];
   /** (Deprecated) Number of hours to wait between taking a backup of the cluster. */
   hoursBetweenBackups?: number;
   /** Whether the cluster and associated data centers has been deallocated. */
@@ -1599,6 +1624,15 @@ export interface ClusterResourceProperties {
   extensions?: string[];
   /** List of backup schedules that define when you want to back up your data. */
   backupSchedules?: BackupSchedule[];
+  /** How the nodes in the cluster react to scheduled events */
+  scheduledEventStrategy?: ScheduledEventStrategy;
+  /** How to connect to the azure services needed for running the cluster */
+  azureConnectionMethod?: AzureConnectionType;
+  /**
+   * If the Connection Method is Vpn, this is the Id of the private link resource that the datacenters need to connect to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkResourceId?: string;
 }
 
 export interface SeedNode {
@@ -1677,19 +1711,52 @@ export interface CommandPostBody {
   /** The command which should be run */
   command: string;
   /** The arguments for the command to be run */
-  arguments?: { [propertyName: string]: string };
+  arguments?: Record<string, unknown>;
   /** IP address of the cassandra host to run the command on */
   host: string;
   /** If true, stops cassandra before executing the command and then start it again */
   cassandraStopStart?: boolean;
   /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
-  readwrite?: boolean;
+  readWrite?: boolean;
 }
 
 /** Response of /command api */
 export interface CommandOutput {
   /** Output of the command. */
   commandOutput?: string;
+}
+
+/** resource representing a command */
+export interface CommandPublicResource {
+  /** The command which should be run */
+  command?: string;
+  /** The unique id of command */
+  commandId?: string;
+  /** The arguments for the command to be run */
+  arguments?: Record<string, unknown>;
+  /** IP address of the cassandra host to run the command on */
+  host?: string;
+  /** Whether command has admin privileges */
+  isAdmin?: boolean;
+  /** If true, stops cassandra before executing the command and then start it again */
+  cassandraStopStart?: boolean;
+  /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
+  readWrite?: boolean;
+  /** Result output of the command. */
+  result?: string;
+  /** Status of the command. */
+  status?: CommandStatus;
+  /** The name of the file where the result is written. */
+  outputFile?: string;
+}
+
+/** List of commands for cluster. */
+export interface ListCommands {
+  /**
+   * Container for array of commands.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: CommandPublicResource[];
 }
 
 /** List of restorable backups for a Cassandra cluster. */
@@ -1759,6 +1826,8 @@ export interface DataCenterResourceProperties {
   deallocated?: boolean;
   /** Error related to resource provisioning. */
   provisionError?: CassandraError;
+  /** Ip of the VPN Endpoint for this data center. */
+  privateEndpointIpAddress?: string;
 }
 
 /** Ldap authentication method properties. This feature is in preview. */
@@ -2341,6 +2410,16 @@ export interface RestorableSqlDatabasePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
+   * A state of this database to identify if this database is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this database can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
+  /**
    * The time when this database event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2401,6 +2480,16 @@ export interface RestorableSqlContainerPropertiesResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationType?: OperationType;
+  /**
+   * A state of this container to identify if this container is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this container can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
   /**
    * The when this container event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2495,6 +2584,16 @@ export interface RestorableMongodbDatabasePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
+   * A state of this database to identify if this database is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this database can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
+  /**
    * The time when this database event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2553,6 +2652,16 @@ export interface RestorableMongodbCollectionPropertiesResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationType?: OperationType;
+  /**
+   * A state of this collection to identify if this container is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this collection can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
   /**
    * The time when this collection event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2645,6 +2754,16 @@ export interface RestorableGremlinDatabasePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
+   * A state of this database to identify if this database is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this database can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
+  /**
    * The time when this database event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2703,6 +2822,16 @@ export interface RestorableGremlinGraphPropertiesResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationType?: OperationType;
+  /**
+   * A state of this graph to identify if this graph is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this graph can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
   /**
    * The time when this graph event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2795,6 +2924,16 @@ export interface RestorableTablePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
+   * A state of this table to identify if this table is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this table can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
+  /**
    * The time when this table event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2884,6 +3023,42 @@ export interface ServiceResourceCreateUpdateParameters {
   serviceType?: ServiceType;
 }
 
+/** The List operation response, that contains the throughput pools and their properties. */
+export interface ThroughputPoolsListResult {
+  /**
+   * List of throughput pools and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ThroughputPoolResource[];
+  /**
+   * The link used to get the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Represents a throughput pool resource for updates. */
+export interface ThroughputPoolUpdate {
+  /** A provisioning state of the ThroughputPool. */
+  provisioningState?: Status;
+  /** Value for throughput to be shared among CosmosDB resources in the pool. */
+  maxThroughput?: number;
+}
+
+/** The List operation response, that contains the global database accounts and their properties. */
+export interface ThroughputPoolAccountsListResult {
+  /**
+   * List of global database accounts in a throughput pool and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ThroughputPoolAccountResource[];
+  /**
+   * The link used to get the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Configuration values for periodic mode backup */
 export interface PeriodicModeProperties {
   /** An integer representing the interval in minutes between two backups */
@@ -2898,11 +3073,6 @@ export interface PeriodicModeProperties {
 export interface ContinuousModeProperties {
   /** Enum to indicate type of Continuos backup mode */
   tier?: ContinuousTier;
-}
-
-/** A base CosmosDB data source/sink */
-export interface BaseCosmosDataTransferDataSourceSink {
-  remoteAccountName?: string;
 }
 
 /** Describes the service response property. */
@@ -2946,6 +3116,16 @@ export interface GraphAPIComputeServiceResource {
 export interface MaterializedViewsBuilderServiceResource {
   /** Properties for MaterializedViewsBuilderServiceResource. */
   properties?: MaterializedViewsBuilderServiceResourceProperties;
+}
+
+/** Parameters for creating a Azure Cosmos DB throughput pool account. */
+export interface ThroughputPoolAccountCreateParameters {
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
+  tags?: { [propertyName: string]: string };
+  /** The resource identifier of global database account in the throughputPool. */
+  accountResourceIdentifier?: string;
+  /** The location of global database account in the throughputPool. */
+  accountLocation?: string;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -3104,7 +3284,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  customerManagedKeyStatus?: string;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
   enablePriorityBasedExecution?: boolean;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
@@ -3186,7 +3366,7 @@ export interface DatabaseAccountCreateUpdateParameters
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  customerManagedKeyStatus?: string;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
   enablePriorityBasedExecution?: boolean;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
@@ -3692,6 +3872,13 @@ export interface DataTransferJobGetResults extends ARMProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ErrorResponse;
+  /**
+   * Total Duration of Job
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly duration?: string;
+  /** Mode of job execution */
+  mode?: DataTransferJobMode;
 }
 
 /** A managed Cassandra data center. */
@@ -3799,34 +3986,16 @@ export interface ServiceResource extends ARMProxyResource {
 export interface PhysicalPartitionThroughputInfoResultPropertiesResource
   extends PhysicalPartitionThroughputInfoProperties {}
 
-/** A CosmosDB Cassandra API data source/sink */
-export interface CosmosCassandraDataTransferDataSourceSink
-  extends DataTransferDataSourceSink,
-    BaseCosmosDataTransferDataSourceSink {
+/** A base CosmosDB data source/sink */
+export interface BaseCosmosDataTransferDataSourceSink
+  extends DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBCassandra";
-  keyspaceName: string;
-  tableName: string;
-}
-
-/** A CosmosDB Mongo API data source/sink */
-export interface CosmosMongoDataTransferDataSourceSink
-  extends DataTransferDataSourceSink,
-    BaseCosmosDataTransferDataSourceSink {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBMongo";
-  databaseName: string;
-  collectionName: string;
-}
-
-/** A CosmosDB No Sql API data source/sink */
-export interface CosmosSqlDataTransferDataSourceSink
-  extends DataTransferDataSourceSink,
-    BaseCosmosDataTransferDataSourceSink {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBSql";
-  databaseName: string;
-  containerName: string;
+  component:
+    | "BaseCosmosDataTransferDataSourceSink"
+    | "CosmosDBCassandra"
+    | "CosmosDBMongo"
+    | "CosmosDBSql";
+  remoteAccountName?: string;
 }
 
 /** An Azure Blob Storage data source/sink */
@@ -3955,6 +4124,33 @@ export interface PrivateEndpointConnection extends ProxyResource {
   provisioningState?: string;
 }
 
+/** A CosmosDB Cassandra API data source/sink */
+export interface CosmosCassandraDataTransferDataSourceSink
+  extends BaseCosmosDataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBCassandra";
+  keyspaceName: string;
+  tableName: string;
+}
+
+/** A CosmosDB Mongo API data source/sink */
+export interface CosmosMongoDataTransferDataSourceSink
+  extends BaseCosmosDataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBMongo";
+  databaseName: string;
+  collectionName: string;
+}
+
+/** A CosmosDB No Sql API data source/sink */
+export interface CosmosSqlDataTransferDataSourceSink
+  extends BaseCosmosDataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBSql";
+  databaseName: string;
+  containerName: string;
+}
+
 /** Represents a mongo cluster resource. */
 export interface MongoCluster extends TrackedResource {
   /** The mode to create a mongo cluster. */
@@ -3994,6 +4190,14 @@ export interface MongoCluster extends TrackedResource {
   nodeGroupSpecs?: NodeGroupSpec[];
 }
 
+/** An Azure Cosmos DB Throughputpool. */
+export interface ThroughputPoolResource extends TrackedResource {
+  /** A provisioning state of the ThroughputPool. */
+  provisioningState?: Status;
+  /** Value for throughput to be shared among CosmosDB resources in the pool. */
+  maxThroughput?: number;
+}
+
 /** Represents a mongo cluster firewall rule. */
 export interface FirewallRule extends ProxyResourceAutoGenerated {
   /**
@@ -4005,6 +4209,22 @@ export interface FirewallRule extends ProxyResourceAutoGenerated {
   startIpAddress: string;
   /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
   endIpAddress: string;
+}
+
+/** An Azure Cosmos DB Throughputpool Account */
+export interface ThroughputPoolAccountResource
+  extends ProxyResourceAutoGenerated {
+  /** A provisioning state of the ThroughputPool Account. */
+  provisioningState?: Status;
+  /** The resource identifier of global database account in the throughputPool. */
+  accountResourceIdentifier?: string;
+  /** The location of  global database account in the throughputPool. */
+  accountLocation?: string;
+  /**
+   * The instance id of global database account in the throughputPool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountInstanceId?: string;
 }
 
 /** Defines headers for DatabaseAccounts_delete operation. */
@@ -4615,6 +4835,14 @@ export interface GremlinResourcesMigrateGremlinGraphToManualThroughputHeaders {
   location?: string;
 }
 
+/** Defines headers for CassandraClusters_invokeCommandAsync operation. */
+export interface CassandraClustersInvokeCommandAsyncHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
 /** Defines headers for MongoClusters_delete operation. */
 export interface MongoClustersDeleteHeaders {
   location?: string;
@@ -4632,6 +4860,30 @@ export interface MongoClustersDeleteFirewallRuleHeaders {
 
 /** Defines headers for Service_delete operation. */
 export interface ServiceDeleteHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ThroughputPool_update operation. */
+export interface ThroughputPoolUpdateHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ThroughputPool_delete operation. */
+export interface ThroughputPoolDeleteHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ThroughputPoolAccount_delete operation. */
+export interface ThroughputPoolAccountDeleteHeaders {
   /** URI to poll for completion status. */
   azureAsyncOperation?: string;
   /** URI to poll for completion status. */
@@ -4835,51 +5087,6 @@ export enum KnownMinimalTlsVersion {
  * **Tls12**
  */
 export type MinimalTlsVersion = string;
-
-/** Known values of {@link CustomerManagedKeyStatus} that the service accepts. */
-export enum KnownCustomerManagedKeyStatus {
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToObtainTheAADAuthenticationTokenForTheAccountSDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureActiveDirectoryTokenAcquisitionError4000 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToObtainTheAADAuthenticationTokenForTheAccountSDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureActiveDirectoryTokenAcquisitionError4000 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to obtain the AAD authentication token for the account's default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error (4000).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountSKeyVaultKeyURIDoesNotFollowTheExpectedFormatForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideImproperSyntaxDetectedOnTheKeyVaultUriProperty4006 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountSKeyVaultKeyURIDoesNotFollowTheExpectedFormatForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideImproperSyntaxDetectedOnTheKeyVaultUriProperty4006 = "Access to your account is currently revoked because the Azure Cosmos DB account's key vault key URI does not follow the expected format; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property (4006).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCurrentDefaultIdentityNoLongerHasPermissionToTheAssociatedKeyVaultKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideDefaultIdentityIsUnauthorizedToAccessTheAzureKeyVaultKey4002 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheCurrentDefaultIdentityNoLongerHasPermissionToTheAssociatedKeyVaultKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideDefaultIdentityIsUnauthorizedToAccessTheAzureKeyVaultKey4002 = "Access to your account is currently revoked because the current default identity no longer has permission to the associated Key Vault key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key (4002).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureKeyVaultDNSNameSpecifiedByTheAccountSKeyvaultkeyuriPropertyCouldNotBeResolvedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideUnableToResolveTheKeyVaultsDns4009 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureKeyVaultDNSNameSpecifiedByTheAccountSKeyvaultkeyuriPropertyCouldNotBeResolvedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideUnableToResolveTheKeyVaultsDns4009 = "Access to your account is currently revoked because the Azure Key Vault DNS name specified by the account's keyvaultkeyuri property could not be resolved; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns (4009).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentKeyIsNotFoundOnTheSpecifiedKeyVaultForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4003 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentKeyIsNotFoundOnTheSpecifiedKeyVaultForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4003 = "Access to your account is currently revoked because the correspondent key is not found on the specified Key Vault; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4003).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToWrapOrUnwrapTheKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInternalUnwrappingProcedureError4005 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToWrapOrUnwrapTheKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInternalUnwrappingProcedureError4005 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to wrap or unwrap the key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error (4005).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountHasAnUndefinedDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInvalidAzureCosmosDbDefaultIdentity4015 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountHasAnUndefinedDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInvalidAzureCosmosDbDefaultIdentity4015 = "Access to your account is currently revoked because the Azure Cosmos DB account has an undefined default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity (4015).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAccessRulesAreBlockingOutboundRequestsToTheAzureKeyVaultServiceForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide4016 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAccessRulesAreBlockingOutboundRequestsToTheAzureKeyVaultServiceForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide4016 = "Access to your account is currently revoked because the access rules are blocking outbound requests to the Azure Key Vault service; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentAzureKeyVaultWasNotFoundForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4017 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentAzureKeyVaultWasNotFoundForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4017 = "Access to your account is currently revoked because the correspondent Azure Key Vault was not found; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4017).",
-  /** AccessToYourAccountIsCurrentlyRevokedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide */
-  AccessToYourAccountIsCurrentlyRevokedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide = "Access to your account is currently revoked; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide",
-  /** AccessToTheConfiguredCustomerManagedKeyConfirmed */
-  AccessToTheConfiguredCustomerManagedKeyConfirmed = "Access to the configured customer managed key confirmed."
-}
-
-/**
- * Defines values for CustomerManagedKeyStatus. \
- * {@link KnownCustomerManagedKeyStatus} can be used interchangeably with CustomerManagedKeyStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Access to your account is currently revoked because the Azure Cosmos DB service is unable to obtain the AAD authentication token for the account's default identity; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error (4000).** \
- * **Access to your account is currently revoked because the Azure Cosmos DB account's key vault key URI does not follow the expected format; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property (4006).** \
- * **Access to your account is currently revoked because the current default identity no longer has permission to the associated Key Vault key; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key (4002).** \
- * **Access to your account is currently revoked because the Azure Key Vault DNS name specified by the account's keyvaultkeyuri property could not be resolved; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns (4009).** \
- * **Access to your account is currently revoked because the correspondent key is not found on the specified Key Vault; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4003).** \
- * **Access to your account is currently revoked because the Azure Cosmos DB service is unable to wrap or unwrap the key; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#internal-unwrapping-procedure-error (4005).** \
- * **Access to your account is currently revoked because the Azure Cosmos DB account has an undefined default identity; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity (4015).** \
- * **Access to your account is currently revoked because the access rules are blocking outbound requests to the Azure Key Vault service; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide (4016).** \
- * **Access to your account is currently revoked because the correspondent Azure Key Vault was not found; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4017).** \
- * **Access to your account is currently revoked; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide** \
- * **Access to the configured customer managed key confirmed.**
- */
-export type CustomerManagedKeyStatus = string;
 
 /** Known values of {@link DefaultPriorityLevel} that the service accepts. */
 export enum KnownDefaultPriorityLevel {
@@ -5324,7 +5531,15 @@ export enum KnownStatus {
   /** Online */
   Online = "Online",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Updating */
+  Updating = "Updating"
 }
 
 /**
@@ -5336,7 +5551,11 @@ export enum KnownStatus {
  * **Initializing** \
  * **InternallyReady** \
  * **Online** \
- * **Deleting**
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Updating**
  */
 export type Status = string;
 
@@ -5363,6 +5582,24 @@ export enum KnownDataTransferComponent {
  * **AzureBlobStorage**
  */
 export type DataTransferComponent = string;
+
+/** Known values of {@link DataTransferJobMode} that the service accepts. */
+export enum KnownDataTransferJobMode {
+  /** Offline */
+  Offline = "Offline",
+  /** Online */
+  Online = "Online"
+}
+
+/**
+ * Defines values for DataTransferJobMode. \
+ * {@link KnownDataTransferJobMode} can be used interchangeably with DataTransferJobMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Offline** \
+ * **Online**
+ */
+export type DataTransferJobMode = string;
 
 /** Known values of {@link ManagedCassandraProvisioningState} that the service accepts. */
 export enum KnownManagedCassandraProvisioningState {
@@ -5415,6 +5652,27 @@ export enum KnownAuthenticationMethod {
  */
 export type AuthenticationMethod = string;
 
+/** Known values of {@link AutoReplicate} that the service accepts. */
+export enum KnownAutoReplicate {
+  /** None */
+  None = "None",
+  /** SystemKeyspaces */
+  SystemKeyspaces = "SystemKeyspaces",
+  /** AllKeyspaces */
+  AllKeyspaces = "AllKeyspaces"
+}
+
+/**
+ * Defines values for AutoReplicate. \
+ * {@link KnownAutoReplicate} can be used interchangeably with AutoReplicate,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemKeyspaces** \
+ * **AllKeyspaces**
+ */
+export type AutoReplicate = string;
+
 /** Known values of {@link ClusterType} that the service accepts. */
 export enum KnownClusterType {
   /** Production */
@@ -5433,6 +5691,45 @@ export enum KnownClusterType {
  */
 export type ClusterType = string;
 
+/** Known values of {@link ScheduledEventStrategy} that the service accepts. */
+export enum KnownScheduledEventStrategy {
+  /** Ignore */
+  Ignore = "Ignore",
+  /** StopAny */
+  StopAny = "StopAny",
+  /** StopByRack */
+  StopByRack = "StopByRack"
+}
+
+/**
+ * Defines values for ScheduledEventStrategy. \
+ * {@link KnownScheduledEventStrategy} can be used interchangeably with ScheduledEventStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ignore** \
+ * **StopAny** \
+ * **StopByRack**
+ */
+export type ScheduledEventStrategy = string;
+
+/** Known values of {@link AzureConnectionType} that the service accepts. */
+export enum KnownAzureConnectionType {
+  /** None */
+  None = "None",
+  /** VPN */
+  VPN = "VPN"
+}
+
+/**
+ * Defines values for AzureConnectionType. \
+ * {@link KnownAzureConnectionType} can be used interchangeably with AzureConnectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **VPN**
+ */
+export type AzureConnectionType = string;
+
 /** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
 export enum KnownManagedCassandraResourceIdentityType {
   /** SystemAssigned */
@@ -5450,6 +5747,36 @@ export enum KnownManagedCassandraResourceIdentityType {
  * **None**
  */
 export type ManagedCassandraResourceIdentityType = string;
+
+/** Known values of {@link CommandStatus} that the service accepts. */
+export enum KnownCommandStatus {
+  /** Done */
+  Done = "Done",
+  /** Running */
+  Running = "Running",
+  /** Enqueue */
+  Enqueue = "Enqueue",
+  /** Processing */
+  Processing = "Processing",
+  /** Finished */
+  Finished = "Finished",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for CommandStatus. \
+ * {@link KnownCommandStatus} can be used interchangeably with CommandStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Done** \
+ * **Running** \
+ * **Enqueue** \
+ * **Processing** \
+ * **Finished** \
+ * **Failed**
+ */
+export type CommandStatus = string;
 
 /** Known values of {@link BackupState} that the service accepts. */
 export enum KnownBackupState {
@@ -7568,6 +7895,32 @@ export interface CassandraClustersInvokeCommandOptionalParams
 export type CassandraClustersInvokeCommandResponse = CommandOutput;
 
 /** Optional parameters. */
+export interface CassandraClustersInvokeCommandAsyncOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the invokeCommandAsync operation. */
+export type CassandraClustersInvokeCommandAsyncResponse = CommandPublicResource;
+
+/** Optional parameters. */
+export interface CassandraClustersListCommandOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCommand operation. */
+export type CassandraClustersListCommandResponse = ListCommands;
+
+/** Optional parameters. */
+export interface CassandraClustersGetCommandAsyncOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCommandAsync operation. */
+export type CassandraClustersGetCommandAsyncResponse = ListCommands;
+
+/** Optional parameters. */
 export interface CassandraClustersListBackupsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -8071,6 +8424,124 @@ export interface ServiceDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ThroughputPoolsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ThroughputPoolsListResponse = ThroughputPoolsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ThroughputPoolsListByResourceGroupResponse = ThroughputPoolsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ThroughputPoolsListNextResponse = ThroughputPoolsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ThroughputPoolsListByResourceGroupNextResponse = ThroughputPoolsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ThroughputPoolGetResponse = ThroughputPoolResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ThroughputPoolCreateOrUpdateResponse = ThroughputPoolResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The parameters to provide for the current Throughput Pool. */
+  body?: ThroughputPoolUpdate;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ThroughputPoolUpdateResponse = ThroughputPoolResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ThroughputPoolDeleteResponse = ThroughputPoolDeleteHeaders;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ThroughputPoolAccountsListResponse = ThroughputPoolAccountsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ThroughputPoolAccountsListNextResponse = ThroughputPoolAccountsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ThroughputPoolAccountGetResponse = ThroughputPoolAccountResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ThroughputPoolAccountCreateResponse = ThroughputPoolAccountResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ThroughputPoolAccountDeleteResponse = ThroughputPoolAccountDeleteHeaders;
 
 /** Optional parameters. */
 export interface CosmosDBManagementClientOptionalParams
