@@ -4128,15 +4128,6 @@ export enum KnownMetricType {
 }
 
 // @public
-export enum KnownMinimalTlsVersion {
-    None = "None",
-    One0 = "1.0",
-    One1 = "1.1",
-    One2 = "1.2",
-    One3 = "1.3"
-}
-
-// @public
 export enum KnownMoveOperationMode {
     Copy = "Copy",
     Move = "Move"
@@ -7454,9 +7445,6 @@ export interface MinCapacityCapability {
 }
 
 // @public
-export type MinimalTlsVersion = string;
-
-// @public
 export type MoveOperationMode = string;
 
 // @public
@@ -8554,7 +8542,7 @@ export interface Server extends TrackedResource {
     isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
     readonly kind?: string;
-    minimalTlsVersion?: MinimalTlsVersion;
+    minimalTlsVersion?: string;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
     publicNetworkAccess?: ServerPublicNetworkAccessFlag;
@@ -9560,7 +9548,7 @@ export interface ServerUpdate {
     identity?: ResourceIdentity;
     isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
-    minimalTlsVersion?: MinimalTlsVersion;
+    minimalTlsVersion?: string;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
     publicNetworkAccess?: ServerPublicNetworkAccessFlag;
