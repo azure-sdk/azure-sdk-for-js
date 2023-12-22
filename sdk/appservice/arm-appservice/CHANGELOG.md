@@ -1,15 +1,36 @@
 # Release History
+    
+## 15.0.0 (2023-12-22)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Added Interface FunctionAppConfig
+  - Added Interface FunctionsAlwaysReadyConfig
+  - Added Interface FunctionsDeployment
+  - Added Interface FunctionsDeploymentStorage
+  - Added Interface FunctionsDeploymentStorageAuthentication
+  - Added Interface FunctionsScaleAndConcurrency
+  - Added Interface FunctionsScaleAndConcurrencyTriggers
+  - Added Interface FunctionsScaleAndConcurrencyTriggersHttp
+  - Interface Site has a new optional parameter functionAppConfig
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AppServiceCertificateOrders
+  - Removed operation group CertificateOrdersDiagnostics
+  - Removed operation group CertificateRegistrationProvider
+  - Removed operation group DomainRegistrationProvider
+  - Removed operation group Domains
+  - Removed operation group TopLevelDomains
+  - Class WebSiteManagementClient no longer has parameter appServiceCertificateOrders
+  - Class WebSiteManagementClient no longer has parameter certificateOrdersDiagnostics
+  - Class WebSiteManagementClient no longer has parameter certificateRegistrationProvider
+  - Class WebSiteManagementClient no longer has parameter domainRegistrationProvider
+  - Class WebSiteManagementClient no longer has parameter domains
+  - Class WebSiteManagementClient no longer has parameter topLevelDomains
+  - Removed Enum KnownResourceNotRenewableReason
+    
+    
 ## 14.1.0 (2023-11-16)
     
 **Features**

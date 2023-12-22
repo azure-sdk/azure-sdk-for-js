@@ -21170,7 +21170,7 @@ const createOrUpdateDomainOwnershipIdentifierOperationSpec: coreClient.Operation
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.domainOwnershipIdentifier1,
+  requestBody: Parameters.domainOwnershipIdentifier,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -21217,7 +21217,7 @@ const updateDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.domainOwnershipIdentifier1,
+  requestBody: Parameters.domainOwnershipIdentifier,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -25406,7 +25406,7 @@ const createOrUpdateDomainOwnershipIdentifierSlotOperationSpec: coreClient.Opera
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.domainOwnershipIdentifier1,
+  requestBody: Parameters.domainOwnershipIdentifier,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -25455,7 +25455,7 @@ const updateDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.domainOwnershipIdentifier1,
+  requestBody: Parameters.domainOwnershipIdentifier,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

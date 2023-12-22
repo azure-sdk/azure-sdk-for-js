@@ -5356,8 +5356,8 @@ const listMultiRolePoolInstanceMetricDefinitionsNextOperationSpec: coreClient.Op
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.nextLink,
-    Parameters.instance
+    Parameters.instance,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -5615,9 +5615,9 @@ const listWorkerPoolInstanceMetricDefinitionsNextOperationSpec: coreClient.Opera
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.nextLink,
     Parameters.instance,
-    Parameters.workerPoolName
+    Parameters.workerPoolName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -5638,8 +5638,8 @@ const listWebWorkerMetricDefinitionsNextOperationSpec: coreClient.OperationSpec 
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.nextLink,
-    Parameters.workerPoolName
+    Parameters.workerPoolName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -5660,8 +5660,8 @@ const listWorkerPoolSkusNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.nextLink,
-    Parameters.workerPoolName
+    Parameters.workerPoolName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -5682,8 +5682,8 @@ const listWebWorkerUsagesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.nextLink,
-    Parameters.workerPoolName
+    Parameters.workerPoolName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -24,16 +24,6 @@ export interface AbnormalTimePeriod {
 export type ActiveRevisionsMode = string;
 
 // @public
-export interface Address {
-    address1: string;
-    address2?: string;
-    city: string;
-    country: string;
-    postalCode: string;
-    state: string;
-}
-
-// @public
 export interface AddressResponse extends ProxyOnlyResource {
     internalIpAddress?: string;
     outboundIpAddresses?: string[];
@@ -167,258 +157,6 @@ export interface AppLogsConfiguration {
 export interface AppRegistration {
     appId?: string;
     appSecretSettingName?: string;
-}
-
-// @public
-export interface AppServiceCertificate {
-    keyVaultId?: string;
-    keyVaultSecretName?: string;
-    readonly provisioningState?: KeyVaultSecretStatus;
-}
-
-// @public
-export interface AppServiceCertificateCollection {
-    readonly nextLink?: string;
-    value: AppServiceCertificateResource[];
-}
-
-// @public
-export interface AppServiceCertificateOrder extends Resource {
-    readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
-    autoRenew?: boolean;
-    certificates?: {
-        [propertyName: string]: AppServiceCertificate;
-    };
-    readonly contact?: CertificateOrderContact;
-    csr?: string;
-    distinguishedName?: string;
-    readonly domainVerificationToken?: string;
-    readonly expirationTime?: Date;
-    readonly intermediate?: CertificateDetails;
-    readonly isPrivateKeyExternal?: boolean;
-    keySize?: number;
-    readonly lastCertificateIssuanceTime?: Date;
-    readonly nextAutoRenewalTimeStamp?: Date;
-    productType?: CertificateProductType;
-    readonly provisioningState?: ProvisioningState;
-    readonly root?: CertificateDetails;
-    readonly serialNumber?: string;
-    readonly signedCertificate?: CertificateDetails;
-    readonly status?: CertificateOrderStatus;
-    validityInYears?: number;
-}
-
-// @public
-export interface AppServiceCertificateOrderCollection {
-    readonly nextLink?: string;
-    value: AppServiceCertificateOrder[];
-}
-
-// @public
-export interface AppServiceCertificateOrderPatchResource extends ProxyOnlyResource {
-    readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
-    autoRenew?: boolean;
-    certificates?: {
-        [propertyName: string]: AppServiceCertificate;
-    };
-    readonly contact?: CertificateOrderContact;
-    csr?: string;
-    distinguishedName?: string;
-    readonly domainVerificationToken?: string;
-    readonly expirationTime?: Date;
-    readonly intermediate?: CertificateDetails;
-    readonly isPrivateKeyExternal?: boolean;
-    keySize?: number;
-    readonly lastCertificateIssuanceTime?: Date;
-    readonly nextAutoRenewalTimeStamp?: Date;
-    productType?: CertificateProductType;
-    readonly provisioningState?: ProvisioningState;
-    readonly root?: CertificateDetails;
-    readonly serialNumber?: string;
-    readonly signedCertificate?: CertificateDetails;
-    readonly status?: CertificateOrderStatus;
-    validityInYears?: number;
-}
-
-// @public
-export interface AppServiceCertificateOrders {
-    beginCreateOrUpdate(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: AppServiceCertificateOrder, options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceCertificateOrdersCreateOrUpdateResponse>, AppServiceCertificateOrdersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: AppServiceCertificateOrder, options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams): Promise<AppServiceCertificateOrdersCreateOrUpdateResponse>;
-    beginCreateOrUpdateCertificate(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: AppServiceCertificateResource, options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceCertificateOrdersCreateOrUpdateCertificateResponse>, AppServiceCertificateOrdersCreateOrUpdateCertificateResponse>>;
-    beginCreateOrUpdateCertificateAndWait(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: AppServiceCertificateResource, options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams): Promise<AppServiceCertificateOrdersCreateOrUpdateCertificateResponse>;
-    delete(resourceGroupName: string, certificateOrderName: string, options?: AppServiceCertificateOrdersDeleteOptionalParams): Promise<void>;
-    deleteCertificate(resourceGroupName: string, certificateOrderName: string, name: string, options?: AppServiceCertificateOrdersDeleteCertificateOptionalParams): Promise<void>;
-    get(resourceGroupName: string, certificateOrderName: string, options?: AppServiceCertificateOrdersGetOptionalParams): Promise<AppServiceCertificateOrdersGetResponse>;
-    getCertificate(resourceGroupName: string, certificateOrderName: string, name: string, options?: AppServiceCertificateOrdersGetCertificateOptionalParams): Promise<AppServiceCertificateOrdersGetCertificateResponse>;
-    list(options?: AppServiceCertificateOrdersListOptionalParams): PagedAsyncIterableIterator<AppServiceCertificateOrder>;
-    listByResourceGroup(resourceGroupName: string, options?: AppServiceCertificateOrdersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AppServiceCertificateOrder>;
-    listCertificates(resourceGroupName: string, certificateOrderName: string, options?: AppServiceCertificateOrdersListCertificatesOptionalParams): PagedAsyncIterableIterator<AppServiceCertificateResource>;
-    reissue(resourceGroupName: string, certificateOrderName: string, reissueCertificateOrderRequest: ReissueCertificateOrderRequest, options?: AppServiceCertificateOrdersReissueOptionalParams): Promise<void>;
-    renew(resourceGroupName: string, certificateOrderName: string, renewCertificateOrderRequest: RenewCertificateOrderRequest, options?: AppServiceCertificateOrdersRenewOptionalParams): Promise<void>;
-    resendEmail(resourceGroupName: string, certificateOrderName: string, options?: AppServiceCertificateOrdersResendEmailOptionalParams): Promise<void>;
-    resendRequestEmails(resourceGroupName: string, certificateOrderName: string, nameIdentifier: NameIdentifier, options?: AppServiceCertificateOrdersResendRequestEmailsOptionalParams): Promise<void>;
-    retrieveCertificateActions(resourceGroupName: string, name: string, options?: AppServiceCertificateOrdersRetrieveCertificateActionsOptionalParams): Promise<AppServiceCertificateOrdersRetrieveCertificateActionsResponse>;
-    retrieveCertificateEmailHistory(resourceGroupName: string, name: string, options?: AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams): Promise<AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse>;
-    retrieveSiteSeal(resourceGroupName: string, certificateOrderName: string, siteSealRequest: SiteSealRequest, options?: AppServiceCertificateOrdersRetrieveSiteSealOptionalParams): Promise<AppServiceCertificateOrdersRetrieveSiteSealResponse>;
-    update(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: AppServiceCertificateOrderPatchResource, options?: AppServiceCertificateOrdersUpdateOptionalParams): Promise<AppServiceCertificateOrdersUpdateResponse>;
-    updateCertificate(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: AppServiceCertificatePatchResource, options?: AppServiceCertificateOrdersUpdateCertificateOptionalParams): Promise<AppServiceCertificateOrdersUpdateCertificateResponse>;
-    validatePurchaseInformation(appServiceCertificateOrder: AppServiceCertificateOrder, options?: AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams): Promise<void>;
-    verifyDomainOwnership(resourceGroupName: string, certificateOrderName: string, options?: AppServiceCertificateOrdersVerifyDomainOwnershipOptionalParams): Promise<void>;
-}
-
-// @public
-export interface AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type AppServiceCertificateOrdersCreateOrUpdateCertificateResponse = AppServiceCertificateResource;
-
-// @public
-export interface AppServiceCertificateOrdersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type AppServiceCertificateOrdersCreateOrUpdateResponse = AppServiceCertificateOrder;
-
-// @public
-export interface AppServiceCertificateOrdersDeleteCertificateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceCertificateOrdersDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceCertificateOrdersGetCertificateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersGetCertificateResponse = AppServiceCertificateResource;
-
-// @public
-export interface AppServiceCertificateOrdersGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersGetResponse = AppServiceCertificateOrder;
-
-// @public
-export interface AppServiceCertificateOrdersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersListByResourceGroupNextResponse = AppServiceCertificateOrderCollection;
-
-// @public
-export interface AppServiceCertificateOrdersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersListByResourceGroupResponse = AppServiceCertificateOrderCollection;
-
-// @public
-export interface AppServiceCertificateOrdersListCertificatesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersListCertificatesNextResponse = AppServiceCertificateCollection;
-
-// @public
-export interface AppServiceCertificateOrdersListCertificatesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersListCertificatesResponse = AppServiceCertificateCollection;
-
-// @public
-export interface AppServiceCertificateOrdersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersListNextResponse = AppServiceCertificateOrderCollection;
-
-// @public
-export interface AppServiceCertificateOrdersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersListResponse = AppServiceCertificateOrderCollection;
-
-// @public
-export interface AppServiceCertificateOrdersReissueOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceCertificateOrdersRenewOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceCertificateOrdersResendEmailOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceCertificateOrdersResendRequestEmailsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceCertificateOrdersRetrieveCertificateActionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersRetrieveCertificateActionsResponse = CertificateOrderAction[];
-
-// @public
-export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse = CertificateEmail[];
-
-// @public
-export interface AppServiceCertificateOrdersRetrieveSiteSealOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersRetrieveSiteSealResponse = SiteSeal;
-
-// @public
-export interface AppServiceCertificateOrdersUpdateCertificateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersUpdateCertificateResponse = AppServiceCertificateResource;
-
-// @public
-export interface AppServiceCertificateOrdersUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceCertificateOrdersUpdateResponse = AppServiceCertificateOrder;
-
-// @public
-export interface AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceCertificateOrdersVerifyDomainOwnershipOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceCertificatePatchResource extends ProxyOnlyResource {
-    keyVaultId?: string;
-    keyVaultSecretName?: string;
-    readonly provisioningState?: KeyVaultSecretStatus;
-}
-
-// @public
-export interface AppServiceCertificateResource extends Resource {
-    keyVaultId?: string;
-    keyVaultSecretName?: string;
-    readonly provisioningState?: KeyVaultSecretStatus;
 }
 
 // @public
@@ -1713,79 +1451,6 @@ export interface CertificateCollection {
 }
 
 // @public
-export interface CertificateDetails {
-    readonly issuer?: string;
-    readonly notAfter?: Date;
-    readonly notBefore?: Date;
-    readonly rawData?: string;
-    readonly serialNumber?: string;
-    readonly signatureAlgorithm?: string;
-    readonly subject?: string;
-    readonly thumbprint?: string;
-    readonly version?: number;
-}
-
-// @public
-export interface CertificateEmail {
-    emailId?: string;
-    timeStamp?: Date;
-}
-
-// @public
-export interface CertificateOrderAction {
-    readonly actionType?: CertificateOrderActionType;
-    readonly createdAt?: Date;
-}
-
-// @public
-export type CertificateOrderActionType = "CertificateIssued" | "CertificateOrderCanceled" | "CertificateOrderCreated" | "CertificateRevoked" | "DomainValidationComplete" | "FraudDetected" | "OrgNameChange" | "OrgValidationComplete" | "SanDrop" | "FraudCleared" | "CertificateExpired" | "CertificateExpirationWarning" | "FraudDocumentationRequired" | "Unknown";
-
-// @public (undocumented)
-export interface CertificateOrderContact {
-    // (undocumented)
-    email?: string;
-    // (undocumented)
-    nameFirst?: string;
-    // (undocumented)
-    nameLast?: string;
-    // (undocumented)
-    phone?: string;
-}
-
-// @public
-export interface CertificateOrdersDiagnostics {
-    getAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, detectorName: string, options?: CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams): Promise<CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse>;
-    listAppServiceCertificateOrderDetectorResponse(resourceGroupName: string, certificateOrderName: string, options?: CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
-}
-
-// @public
-export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
-    timeGrain?: string;
-}
-
-// @public
-export type CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse = DetectorResponse;
-
-// @public
-export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse = DetectorResponseCollection;
-
-// @public
-export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse = DetectorResponseCollection;
-
-// @public
-export type CertificateOrderStatus = "Pendingissuance" | "Issued" | "Revoked" | "Canceled" | "Denied" | "Pendingrevocation" | "PendingRekey" | "Unused" | "Expired" | "NotSubmitted";
-
-// @public
 export interface CertificatePatchResource extends ProxyOnlyResource {
     canonicalName?: string;
     readonly cerBlob?: Uint8Array;
@@ -1809,28 +1474,6 @@ export interface CertificatePatchResource extends ProxyOnlyResource {
     readonly thumbprint?: string;
     readonly valid?: boolean;
 }
-
-// @public
-export type CertificateProductType = "StandardDomainValidatedSsl" | "StandardDomainValidatedWildCardSsl";
-
-// @public
-export interface CertificateRegistrationProvider {
-    listOperations(options?: CertificateRegistrationProviderListOperationsOptionalParams): PagedAsyncIterableIterator<CsmOperationDescription>;
-}
-
-// @public
-export interface CertificateRegistrationProviderListOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificateRegistrationProviderListOperationsNextResponse = CsmOperationCollection;
-
-// @public
-export interface CertificateRegistrationProviderListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificateRegistrationProviderListOperationsResponse = CsmOperationCollection;
 
 // @public
 export interface Certificates {
@@ -1972,19 +1615,6 @@ export interface ConnStringInfo {
 export interface ConnStringValueTypePair {
     type: ConnectionStringType;
     value: string;
-}
-
-// @public
-export interface Contact {
-    addressMailing?: Address;
-    email: string;
-    fax?: string;
-    jobTitle?: string;
-    nameFirst: string;
-    nameLast: string;
-    nameMiddle?: string;
-    organization?: string;
-    phone: string;
 }
 
 // @public
@@ -3099,284 +2729,7 @@ export interface Dimension {
 }
 
 // @public
-export type DnsType = "AzureDns" | "DefaultDomainRegistrarDns";
-
-// @public
 export type DnsVerificationTestResult = "Passed" | "Failed" | "Skipped";
-
-// @public
-export interface Domain extends Resource {
-    // (undocumented)
-    authCode?: string;
-    autoRenew?: boolean;
-    consent?: DomainPurchaseConsent;
-    contactAdmin?: Contact;
-    contactBilling?: Contact;
-    contactRegistrant?: Contact;
-    contactTech?: Contact;
-    readonly createdTime?: Date;
-    dnsType?: DnsType;
-    dnsZoneId?: string;
-    readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
-    readonly expirationTime?: Date;
-    readonly lastRenewedTime?: Date;
-    readonly managedHostNames?: HostName[];
-    readonly nameServers?: string[];
-    privacy?: boolean;
-    readonly provisioningState?: ProvisioningState;
-    readonly readyForDnsRecordManagement?: boolean;
-    readonly registrationStatus?: DomainStatus;
-    targetDnsType?: DnsType;
-}
-
-// @public
-export interface DomainAvailabilityCheckResult {
-    available?: boolean;
-    domainType?: DomainType;
-    name?: string;
-}
-
-// @public
-export interface DomainCollection {
-    readonly nextLink?: string;
-    value: Domain[];
-}
-
-// @public
-export interface DomainControlCenterSsoRequest {
-    readonly postParameterKey?: string;
-    readonly postParameterValue?: string;
-    readonly url?: string;
-}
-
-// @public
-export interface DomainOwnershipIdentifier extends ProxyOnlyResource {
-    ownershipId?: string;
-}
-
-// @public
-export interface DomainOwnershipIdentifierCollection {
-    readonly nextLink?: string;
-    value: DomainOwnershipIdentifier[];
-}
-
-// @public
-export interface DomainPatchResource extends ProxyOnlyResource {
-    // (undocumented)
-    authCode?: string;
-    autoRenew?: boolean;
-    consent?: DomainPurchaseConsent;
-    contactAdmin?: Contact;
-    contactBilling?: Contact;
-    contactRegistrant?: Contact;
-    contactTech?: Contact;
-    readonly createdTime?: Date;
-    dnsType?: DnsType;
-    dnsZoneId?: string;
-    readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
-    readonly expirationTime?: Date;
-    readonly lastRenewedTime?: Date;
-    readonly managedHostNames?: HostName[];
-    readonly nameServers?: string[];
-    privacy?: boolean;
-    readonly provisioningState?: ProvisioningState;
-    readonly readyForDnsRecordManagement?: boolean;
-    readonly registrationStatus?: DomainStatus;
-    targetDnsType?: DnsType;
-}
-
-// @public
-export interface DomainPurchaseConsent {
-    agreedAt?: Date;
-    agreedBy?: string;
-    agreementKeys?: string[];
-}
-
-// @public
-export interface DomainRecommendationSearchParameters {
-    keywords?: string;
-    maxDomainRecommendations?: number;
-}
-
-// @public
-export interface DomainRegistrationProvider {
-    listOperations(options?: DomainRegistrationProviderListOperationsOptionalParams): PagedAsyncIterableIterator<CsmOperationDescription>;
-}
-
-// @public
-export interface DomainRegistrationProviderListOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainRegistrationProviderListOperationsNextResponse = CsmOperationCollection;
-
-// @public
-export interface DomainRegistrationProviderListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainRegistrationProviderListOperationsResponse = CsmOperationCollection;
-
-// @public
-export interface Domains {
-    beginCreateOrUpdate(resourceGroupName: string, domainName: string, domain: Domain, options?: DomainsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, domainName: string, domain: Domain, options?: DomainsCreateOrUpdateOptionalParams): Promise<DomainsCreateOrUpdateResponse>;
-    checkAvailability(identifier: NameIdentifier, options?: DomainsCheckAvailabilityOptionalParams): Promise<DomainsCheckAvailabilityResponse>;
-    createOrUpdateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: DomainOwnershipIdentifier, options?: DomainsCreateOrUpdateOwnershipIdentifierOptionalParams): Promise<DomainsCreateOrUpdateOwnershipIdentifierResponse>;
-    delete(resourceGroupName: string, domainName: string, options?: DomainsDeleteOptionalParams): Promise<void>;
-    deleteOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options?: DomainsDeleteOwnershipIdentifierOptionalParams): Promise<void>;
-    get(resourceGroupName: string, domainName: string, options?: DomainsGetOptionalParams): Promise<DomainsGetResponse>;
-    getControlCenterSsoRequest(options?: DomainsGetControlCenterSsoRequestOptionalParams): Promise<DomainsGetControlCenterSsoRequestResponse>;
-    getOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options?: DomainsGetOwnershipIdentifierOptionalParams): Promise<DomainsGetOwnershipIdentifierResponse>;
-    list(options?: DomainsListOptionalParams): PagedAsyncIterableIterator<Domain>;
-    listByResourceGroup(resourceGroupName: string, options?: DomainsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Domain>;
-    listOwnershipIdentifiers(resourceGroupName: string, domainName: string, options?: DomainsListOwnershipIdentifiersOptionalParams): PagedAsyncIterableIterator<DomainOwnershipIdentifier>;
-    listRecommendations(parameters: DomainRecommendationSearchParameters, options?: DomainsListRecommendationsOptionalParams): PagedAsyncIterableIterator<NameIdentifier>;
-    renew(resourceGroupName: string, domainName: string, options?: DomainsRenewOptionalParams): Promise<void>;
-    transferOut(resourceGroupName: string, domainName: string, options?: DomainsTransferOutOptionalParams): Promise<DomainsTransferOutResponse>;
-    update(resourceGroupName: string, domainName: string, domain: DomainPatchResource, options?: DomainsUpdateOptionalParams): Promise<DomainsUpdateResponse>;
-    updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: DomainOwnershipIdentifier, options?: DomainsUpdateOwnershipIdentifierOptionalParams): Promise<DomainsUpdateOwnershipIdentifierResponse>;
-}
-
-// @public
-export interface DomainsCheckAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsCheckAvailabilityResponse = DomainAvailabilityCheckResult;
-
-// @public
-export interface DomainsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DomainsCreateOrUpdateOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsCreateOrUpdateOwnershipIdentifierResponse = DomainOwnershipIdentifier;
-
-// @public
-export type DomainsCreateOrUpdateResponse = Domain;
-
-// @public
-export interface DomainsDeleteOptionalParams extends coreClient.OperationOptions {
-    forceHardDeleteDomain?: boolean;
-}
-
-// @public
-export interface DomainsDeleteOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DomainsGetControlCenterSsoRequestOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsGetControlCenterSsoRequestResponse = DomainControlCenterSsoRequest;
-
-// @public
-export interface DomainsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DomainsGetOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsGetOwnershipIdentifierResponse = DomainOwnershipIdentifier;
-
-// @public
-export type DomainsGetResponse = Domain;
-
-// @public
-export interface DomainsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsListByResourceGroupNextResponse = DomainCollection;
-
-// @public
-export interface DomainsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsListByResourceGroupResponse = DomainCollection;
-
-// @public
-export interface DomainsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsListNextResponse = DomainCollection;
-
-// @public
-export interface DomainsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DomainsListOwnershipIdentifiersNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsListOwnershipIdentifiersNextResponse = DomainOwnershipIdentifierCollection;
-
-// @public
-export interface DomainsListOwnershipIdentifiersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsListOwnershipIdentifiersResponse = DomainOwnershipIdentifierCollection;
-
-// @public
-export interface DomainsListRecommendationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsListRecommendationsNextResponse = NameIdentifierCollection;
-
-// @public
-export interface DomainsListRecommendationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsListRecommendationsResponse = NameIdentifierCollection;
-
-// @public
-export type DomainsListResponse = DomainCollection;
-
-// @public
-export interface DomainsRenewOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainStatus = "Active" | "Awaiting" | "Cancelled" | "Confiscated" | "Disabled" | "Excluded" | "Expired" | "Failed" | "Held" | "Locked" | "Parked" | "Pending" | "Reserved" | "Reverted" | "Suspended" | "Transferred" | "Unknown" | "Unlocked" | "Unparked" | "Updated" | "JsonConverterFailed";
-
-// @public
-export interface DomainsTransferOutOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsTransferOutResponse = Domain;
-
-// @public
-export interface DomainsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DomainsUpdateOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainsUpdateOwnershipIdentifierResponse = DomainOwnershipIdentifier;
-
-// @public
-export type DomainsUpdateResponse = Domain;
-
-// @public
-export type DomainType = "Regular" | "SoftDeleted";
 
 // @public
 export interface EnabledConfig {
@@ -3544,6 +2897,12 @@ export type FrontEndServiceType = "NodePort" | "LoadBalancer";
 export type FtpsState = string;
 
 // @public
+export interface FunctionAppConfig {
+    deployment?: FunctionsDeployment;
+    scaleAndConcurrency?: FunctionsScaleAndConcurrency;
+}
+
+// @public
 export interface FunctionAppMajorVersion {
     readonly displayText?: string;
     readonly minorVersions?: FunctionAppMinorVersion[];
@@ -3624,9 +2983,51 @@ export interface FunctionEnvelopeCollection {
 }
 
 // @public
+export interface FunctionsAlwaysReadyConfig {
+    instanceCount?: number;
+    name?: string;
+}
+
+// @public
+export interface FunctionsDeployment {
+    storage?: FunctionsDeploymentStorage;
+}
+
+// @public
+export interface FunctionsDeploymentStorage {
+    authentication?: FunctionsDeploymentStorageAuthentication;
+    type?: string;
+    value?: string;
+}
+
+// @public
+export interface FunctionsDeploymentStorageAuthentication {
+    type?: string;
+    value?: string;
+}
+
+// @public
 export interface FunctionSecrets {
     key?: string;
     triggerUrl?: string;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrency {
+    alwaysReady?: FunctionsAlwaysReadyConfig[];
+    instanceMemoryMB?: number;
+    maximumInstanceCount?: number;
+    triggers?: FunctionsScaleAndConcurrencyTriggers;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrencyTriggers {
+    http?: FunctionsScaleAndConcurrencyTriggersHttp;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrencyTriggersHttp {
+    perInstanceConcurrency?: number;
 }
 
 // @public
@@ -3811,16 +3212,6 @@ export interface HostKeys {
     systemKeys?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface HostName {
-    azureResourceName?: string;
-    azureResourceType?: AzureResourceType;
-    customHostNameDnsRecordType?: CustomHostNameDnsRecordType;
-    hostNameType?: HostNameType;
-    name?: string;
-    siteNames?: string[];
 }
 
 // @public
@@ -4239,13 +3630,6 @@ export enum KnownRecurrenceFrequency {
     Second = "Second",
     Week = "Week",
     Year = "Year"
-}
-
-// @public
-export enum KnownResourceNotRenewableReason {
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    SubscriptionNotActive = "SubscriptionNotActive"
 }
 
 // @public
@@ -4877,12 +4261,6 @@ export type MySqlMigrationType = "LocalToRemote" | "RemoteToLocal";
 // @public
 export interface NameIdentifier {
     name?: string;
-}
-
-// @public
-export interface NameIdentifierCollection {
-    readonly nextLink?: string;
-    value: NameIdentifier[];
 }
 
 // @public
@@ -5668,14 +5046,6 @@ export interface RegistryCredentials {
 }
 
 // @public
-export interface ReissueCertificateOrderRequest extends ProxyOnlyResource {
-    csr?: string;
-    delayExistingRevokeInHours?: number;
-    isPrivateKeyExternal?: boolean;
-    keySize?: number;
-}
-
-// @public
 export interface RelayServiceConnectionEntity extends ProxyOnlyResource {
     // (undocumented)
     biztalkUri?: string;
@@ -5718,13 +5088,6 @@ export interface Rendering {
 
 // @public
 export type RenderingType = "NoGraph" | "Table" | "TimeSeries" | "TimeSeriesPerInstance" | "PieChart" | "DataSummary" | "Email" | "Insights" | "DynamicInsight" | "Markdown" | "Detector" | "DropDown" | "Card" | "Solution" | "Guage" | "Form" | "ChangeSets" | "ChangeAnalysisOnboarding" | "ChangesView" | "AppInsight" | "DependencyGraph" | "DownTime" | "SummaryCard" | "SearchComponent" | "AppInsightEnablement";
-
-// @public
-export interface RenewCertificateOrderRequest extends ProxyOnlyResource {
-    csr?: string;
-    isPrivateKeyExternal?: boolean;
-    keySize?: number;
-}
 
 // @public
 export interface RepetitionIndex {
@@ -5923,9 +5286,6 @@ export interface ResourceNameAvailabilityRequest {
 }
 
 // @public
-export type ResourceNotRenewableReason = string;
-
-// @public
 export interface ResourceReference {
     id?: string;
     readonly name?: string;
@@ -6096,6 +5456,7 @@ export interface Site extends Resource {
     enabled?: boolean;
     readonly enabledHostNames?: string[];
     extendedLocation?: ExtendedLocation;
+    functionAppConfig?: FunctionAppConfig;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
     readonly hostNames?: string[];
     hostNamesDisabled?: boolean;
@@ -6501,17 +5862,6 @@ export interface SitePhpErrorLogFlag extends ProxyOnlyResource {
 
 // @public
 export type SiteRuntimeState = "READY" | "STOPPED" | "UNKNOWN";
-
-// @public
-export interface SiteSeal {
-    html: string;
-}
-
-// @public
-export interface SiteSealRequest {
-    lightTheme?: boolean;
-    locale?: string;
-}
 
 // @public
 export interface SiteSourceControl extends ProxyOnlyResource {
@@ -7775,20 +7125,6 @@ export interface Template {
 }
 
 // @public
-export interface TldLegalAgreement {
-    agreementKey: string;
-    content: string;
-    title: string;
-    url?: string;
-}
-
-// @public
-export interface TldLegalAgreementCollection {
-    readonly nextLink?: string;
-    value: TldLegalAgreement[];
-}
-
-// @public
 export type TlsCipherSuites = string;
 
 // @public
@@ -7798,65 +7134,6 @@ export interface TokenStore {
     fileSystem?: FileSystemTokenStore;
     tokenRefreshExtensionHours?: number;
 }
-
-// @public
-export interface TopLevelDomain extends ProxyOnlyResource {
-    privacy?: boolean;
-}
-
-// @public
-export interface TopLevelDomainAgreementOption {
-    forTransfer?: boolean;
-    includePrivacy?: boolean;
-}
-
-// @public
-export interface TopLevelDomainCollection {
-    readonly nextLink?: string;
-    value: TopLevelDomain[];
-}
-
-// @public
-export interface TopLevelDomains {
-    get(name: string, options?: TopLevelDomainsGetOptionalParams): Promise<TopLevelDomainsGetResponse>;
-    list(options?: TopLevelDomainsListOptionalParams): PagedAsyncIterableIterator<TopLevelDomain>;
-    listAgreements(name: string, agreementOption: TopLevelDomainAgreementOption, options?: TopLevelDomainsListAgreementsOptionalParams): PagedAsyncIterableIterator<TldLegalAgreement>;
-}
-
-// @public
-export interface TopLevelDomainsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TopLevelDomainsGetResponse = TopLevelDomain;
-
-// @public
-export interface TopLevelDomainsListAgreementsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TopLevelDomainsListAgreementsNextResponse = TldLegalAgreementCollection;
-
-// @public
-export interface TopLevelDomainsListAgreementsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TopLevelDomainsListAgreementsResponse = TldLegalAgreementCollection;
-
-// @public
-export interface TopLevelDomainsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TopLevelDomainsListNextResponse = TopLevelDomainCollection;
-
-// @public
-export interface TopLevelDomainsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TopLevelDomainsListResponse = TopLevelDomainCollection;
 
 // @public
 export interface TrafficWeight {
@@ -11900,15 +11177,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    appServiceCertificateOrders: AppServiceCertificateOrders;
-    // (undocumented)
     appServiceEnvironments: AppServiceEnvironments;
     // (undocumented)
     appServicePlans: AppServicePlans;
-    // (undocumented)
-    certificateOrdersDiagnostics: CertificateOrdersDiagnostics;
-    // (undocumented)
-    certificateRegistrationProvider: CertificateRegistrationProvider;
     // (undocumented)
     certificates: Certificates;
     checkNameAvailability(name: string, typeParam: CheckNameResourceTypes, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
@@ -11920,10 +11191,6 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     deletedWebApps: DeletedWebApps;
     // (undocumented)
     diagnostics: Diagnostics;
-    // (undocumented)
-    domainRegistrationProvider: DomainRegistrationProvider;
-    // (undocumented)
-    domains: Domains;
     getPublishingUser(options?: GetPublishingUserOptionalParams): Promise<GetPublishingUserResponse>;
     getSourceControl(sourceControlType: string, options?: GetSourceControlOptionalParams): Promise<GetSourceControlResponse>;
     getSubscriptionDeploymentLocations(options?: GetSubscriptionDeploymentLocationsOptionalParams): Promise<GetSubscriptionDeploymentLocationsResponse>;
@@ -11952,8 +11219,6 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     staticSites: StaticSites;
     // (undocumented)
     subscriptionId?: string;
-    // (undocumented)
-    topLevelDomains: TopLevelDomains;
     updatePublishingUser(userDetails: User, options?: UpdatePublishingUserOptionalParams): Promise<UpdatePublishingUserResponse>;
     updateSourceControl(sourceControlType: string, requestMessage: SourceControl, options?: UpdateSourceControlOptionalParams): Promise<UpdateSourceControlResponse>;
     validate(resourceGroupName: string, validateRequest: ValidateRequest, options?: ValidateOptionalParams): Promise<ValidateOperationResponse>;

@@ -6,12 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./appServiceCertificateOrders";
-export * from "./certificateOrdersDiagnostics";
-export * from "./certificateRegistrationProvider";
-export * from "./domains";
-export * from "./topLevelDomains";
-export * from "./domainRegistrationProvider";
 export * from "./appServiceEnvironments";
 export * from "./appServicePlans";
 export * from "./certificates";

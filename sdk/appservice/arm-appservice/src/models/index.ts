@@ -8,671 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Collection of certificate orders. */
-export interface AppServiceCertificateOrderCollection {
-  /** Collection of resources. */
-  value: AppServiceCertificateOrder[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Key Vault container for a certificate that is purchased through Azure. */
-export interface AppServiceCertificate {
-  /** Key Vault resource Id. */
-  keyVaultId?: string;
-  /** Key Vault secret name. */
-  keyVaultSecretName?: string;
-  /**
-   * Status of the Key Vault secret.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: KeyVaultSecretStatus;
-}
-
-/** SSL certificate details. */
-export interface CertificateDetails {
-  /**
-   * Certificate Version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: number;
-  /**
-   * Certificate Serial Number.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serialNumber?: string;
-  /**
-   * Certificate Thumbprint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly thumbprint?: string;
-  /**
-   * Certificate Subject.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subject?: string;
-  /**
-   * Date Certificate is valid from.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly notBefore?: Date;
-  /**
-   * Date Certificate is valid to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly notAfter?: Date;
-  /**
-   * Certificate Signature algorithm.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly signatureAlgorithm?: string;
-  /**
-   * Certificate Issuer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly issuer?: string;
-  /**
-   * Raw certificate data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rawData?: string;
-}
-
-export interface CertificateOrderContact {
-  email?: string;
-  nameFirst?: string;
-  nameLast?: string;
-  phone?: string;
-}
-
-/** Azure resource. This resource is tracked in Azure Resource Manager */
-export interface Resource {
-  /**
-   * Resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource Name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Kind of resource. */
-  kind?: string;
-  /** Resource Location. */
-  location: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** App Service error response. */
-export interface DefaultErrorResponse {
-  /**
-   * Error model.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: DefaultErrorResponseError;
-}
-
-/** Error model. */
-export interface DefaultErrorResponseError {
-  /**
-   * Standardized string to programmatically identify the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  details?: DefaultErrorResponseErrorDetailsItem[];
-  /**
-   * More information to debug error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innererror?: string;
-}
-
-/** Detailed errors. */
-export interface DefaultErrorResponseErrorDetailsItem {
-  /**
-   * Standardized string to programmatically identify the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-}
-
-/** Azure proxy only resource. This resource is not tracked by Azure Resource Manager. */
-export interface ProxyOnlyResource {
-  /**
-   * Resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource Name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Kind of resource. */
-  kind?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
-/** Collection of certificate order certificates. */
-export interface AppServiceCertificateCollection {
-  /** Collection of resources. */
-  value: AppServiceCertificateResource[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Identifies an object. */
-export interface NameIdentifier {
-  /** Name of the object. */
-  name?: string;
-}
-
-/** Site seal request. */
-export interface SiteSealRequest {
-  /** If <code>true</code> use the light color theme for site seal; otherwise, use the default color theme. */
-  lightTheme?: boolean;
-  /** Locale of site seal. */
-  locale?: string;
-}
-
-/** Site seal */
-export interface SiteSeal {
-  /** HTML snippet */
-  html: string;
-}
-
-/** Certificate order action. */
-export interface CertificateOrderAction {
-  /**
-   * Action type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: CertificateOrderActionType;
-  /**
-   * Time at which the certificate action was performed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-}
-
-/** SSL certificate email. */
-export interface CertificateEmail {
-  /** Email id. */
-  emailId?: string;
-  /** Time stamp. */
-  timeStamp?: Date;
-}
-
-/** Collection of detector responses */
-export interface DetectorResponseCollection {
-  /** Collection of resources. */
-  value: DetectorResponse[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Definition of Detector */
-export interface DetectorInfo {
-  /**
-   * Id of detector
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of detector
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Short description of the detector and its purpose.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * Author of the detector.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly author?: string;
-  /**
-   * Problem category. This serves for organizing group for detectors.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly category?: string;
-  /**
-   * List of Support Topics for which this detector is enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly supportTopicList?: SupportTopic[];
-  /**
-   * Analysis Types for which this detector should apply to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly analysisType?: string[];
-  /**
-   * Whether this detector is an Analysis Detector or not.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: DetectorType;
-  /**
-   * Defines score of a detector to power ML based matching.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly score?: number;
-}
-
-/** Defines a unique Support Topic */
-export interface SupportTopic {
-  /**
-   * Support Topic Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Unique resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pesId?: string;
-}
-
-/** Set of data with rendering instructions */
-export interface DiagnosticData {
-  /** Data in table form */
-  table?: DataTableResponseObject;
-  /** Properties that describe how the table should be rendered */
-  renderingProperties?: Rendering;
-}
-
-/** Data Table which defines columns and raw row values */
-export interface DataTableResponseObject {
-  /** Name of the table */
-  tableName?: string;
-  /** List of columns with data types */
-  columns?: DataTableResponseColumn[];
-  /** Raw row values */
-  rows?: string[][];
-}
-
-/** Column definition */
-export interface DataTableResponseColumn {
-  /** Name of the column */
-  columnName?: string;
-  /** Data type which looks like 'String' or 'Int32'. */
-  dataType?: string;
-  /** Column Type */
-  columnType?: string;
-}
-
-/** Instructions for rendering the data */
-export interface Rendering {
-  /** Rendering Type */
-  type?: RenderingType;
-  /** Title of data */
-  title?: string;
-  /** Description of the data that will help it be interpreted */
-  description?: string;
-}
-
-/** Identify the status of the most severe insight generated by the detector. */
-export interface Status {
-  /** Descriptive message. */
-  message?: string;
-  /** Level of the most severe insight generated by the detector. */
-  statusId?: InsightStatus;
-}
-
-/** Additional configuration for a data providers */
-export interface DataProviderMetadata {
-  providerName?: string;
-  /**
-   * Settings for the data provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly propertyBag?: KeyValuePairStringObject[];
-}
-
-export interface KeyValuePairStringObject {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly key?: string;
-  /**
-   * Any object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Record<string, unknown>;
-}
-
-/** Suggested utterances where the detector can be applicable */
-export interface QueryUtterancesResults {
-  /** Search Query. */
-  query?: string;
-  /** Array of utterance results for search query. */
-  results?: QueryUtterancesResult[];
-}
-
-/** Result for utterances query. */
-export interface QueryUtterancesResult {
-  /** A sample utterance. */
-  sampleUtterance?: SampleUtterance;
-  /** Score of a sample utterance. */
-  score?: number;
-}
-
-/** Sample utterance. */
-export interface SampleUtterance {
-  /** Text attribute of sample utterance. */
-  text?: string;
-  /** Links attribute of sample utterance. */
-  links?: string[];
-  /** Question id of sample utterance (for stackoverflow questions titles). */
-  qid?: string;
-}
-
-/** Collection of Azure resource manager operation metadata. */
-export interface CsmOperationCollection {
-  /** Collection of resources. */
-  value: CsmOperationDescription[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Description of an operation available for Microsoft.Web resource provider. */
-export interface CsmOperationDescription {
-  name?: string;
-  isDataAction?: boolean;
-  /** Meta data about operation used for display in portal. */
-  display?: CsmOperationDisplay;
-  origin?: string;
-  /** Properties available for a Microsoft.Web resource provider operation. */
-  properties?: CsmOperationDescriptionProperties;
-}
-
-/** Meta data about operation used for display in portal. */
-export interface CsmOperationDisplay {
-  provider?: string;
-  resource?: string;
-  operation?: string;
-  description?: string;
-}
-
-/** Properties available for a Microsoft.Web resource provider operation. */
-export interface CsmOperationDescriptionProperties {
-  /** Resource metrics service provided by Microsoft.Insights resource provider. */
-  serviceSpecification?: ServiceSpecification;
-}
-
-/** Resource metrics service provided by Microsoft.Insights resource provider. */
-export interface ServiceSpecification {
-  metricSpecifications?: MetricSpecification[];
-  logSpecifications?: LogSpecification[];
-}
-
-/** Definition of a single resource metric. */
-export interface MetricSpecification {
-  name?: string;
-  displayName?: string;
-  displayDescription?: string;
-  unit?: string;
-  aggregationType?: string;
-  supportsInstanceLevelAggregation?: boolean;
-  enableRegionalMdmAccount?: boolean;
-  sourceMdmAccount?: string;
-  sourceMdmNamespace?: string;
-  metricFilterPattern?: string;
-  fillGapWithZero?: boolean;
-  isInternal?: boolean;
-  dimensions?: Dimension[];
-  category?: string;
-  availabilities?: MetricAvailability[];
-  supportedTimeGrainTypes?: string[];
-  supportedAggregationTypes?: string[];
-}
-
-/**
- * Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app,
- * where instance name is dimension of the metric HTTP request
- */
-export interface Dimension {
-  name?: string;
-  displayName?: string;
-  internalName?: string;
-  toBeExportedForShoebox?: boolean;
-}
-
-/** Retention policy of a resource metric. */
-export interface MetricAvailability {
-  timeGrain?: string;
-  blobDuration?: string;
-}
-
-/** Log Definition of a single resource metric. */
-export interface LogSpecification {
-  name?: string;
-  displayName?: string;
-  blobDuration?: string;
-  logFilterPattern?: string;
-}
-
-/** Domain availability check result. */
-export interface DomainAvailabilityCheckResult {
-  /** Name of the domain. */
-  name?: string;
-  /** <code>true</code> if domain can be purchased using CreateDomain API; otherwise, <code>false</code>. */
-  available?: boolean;
-  /** Valid values are Regular domain: Azure will charge the full price of domain registration, SoftDeleted: Purchasing this domain will simply restore it and this operation will not cost anything. */
-  domainType?: DomainType;
-}
-
-/** Collection of domains. */
-export interface DomainCollection {
-  /** Collection of resources. */
-  value: Domain[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * Contact information for domain registration. If 'Domain Privacy' option is not selected then the contact information is made publicly available through the Whois
- * directories as per ICANN requirements.
- */
-export interface Contact {
-  /** Mailing address. */
-  addressMailing?: Address;
-  /** Email address. */
-  email: string;
-  /** Fax number. */
-  fax?: string;
-  /** Job title. */
-  jobTitle?: string;
-  /** First name. */
-  nameFirst: string;
-  /** Last name. */
-  nameLast: string;
-  /** Middle name. */
-  nameMiddle?: string;
-  /** Organization contact belongs to. */
-  organization?: string;
-  /** Phone number. */
-  phone: string;
-}
-
-/** Address information for domain registration. */
-export interface Address {
-  /** First line of an Address. */
-  address1: string;
-  /** The second line of the Address. Optional. */
-  address2?: string;
-  /** The city for the address. */
-  city: string;
-  /** The country for the address. */
-  country: string;
-  /** The postal code for the address. */
-  postalCode: string;
-  /** The state or province for the address. */
-  state: string;
-}
-
-/** Details of a hostname derived from a domain. */
-export interface HostName {
-  /** Name of the hostname. */
-  name?: string;
-  /** List of apps the hostname is assigned to. This list will have more than one app only if the hostname is pointing to a Traffic Manager. */
-  siteNames?: string[];
-  /** Name of the Azure resource the hostname is assigned to. If it is assigned to a Traffic Manager then it will be the Traffic Manager name otherwise it will be the app name. */
-  azureResourceName?: string;
-  /** Type of the Azure resource the hostname is assigned to. */
-  azureResourceType?: AzureResourceType;
-  /** Type of the DNS record. */
-  customHostNameDnsRecordType?: CustomHostNameDnsRecordType;
-  /** Type of the hostname. */
-  hostNameType?: HostNameType;
-}
-
-/** Domain purchase consent object, representing acceptance of applicable legal agreements. */
-export interface DomainPurchaseConsent {
-  /** List of applicable legal agreement keys. This list can be retrieved using ListLegalAgreements API under <code>TopLevelDomain</code> resource. */
-  agreementKeys?: string[];
-  /** Client IP address. */
-  agreedBy?: string;
-  /** Timestamp when the agreements were accepted. */
-  agreedAt?: Date;
-}
-
-/** Single sign-on request information for domain management. */
-export interface DomainControlCenterSsoRequest {
-  /**
-   * URL where the single sign-on request is to be made.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly url?: string;
-  /**
-   * Post parameter key.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly postParameterKey?: string;
-  /**
-   * Post parameter value. Client should use 'application/x-www-form-urlencoded' encoding for this value.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly postParameterValue?: string;
-}
-
-/** Domain recommendation search parameters. */
-export interface DomainRecommendationSearchParameters {
-  /** Keywords to be used for generating domain recommendations. */
-  keywords?: string;
-  /** Maximum number of recommendations. */
-  maxDomainRecommendations?: number;
-}
-
-/** Collection of domain name identifiers. */
-export interface NameIdentifierCollection {
-  /** Collection of resources. */
-  value: NameIdentifier[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Collection of domain ownership identifiers. */
-export interface DomainOwnershipIdentifierCollection {
-  /** Collection of resources. */
-  value: DomainOwnershipIdentifier[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Collection of Top-level domains. */
-export interface TopLevelDomainCollection {
-  /** Collection of resources. */
-  value: TopLevelDomain[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Options for retrieving the list of top level domain legal agreements. */
-export interface TopLevelDomainAgreementOption {
-  /** If <code>true</code>, then the list of agreements will include agreements for domain privacy as well; otherwise, <code>false</code>. */
-  includePrivacy?: boolean;
-  /** If <code>true</code>, then the list of agreements will include agreements for domain transfer as well; otherwise, <code>false</code>. */
-  forTransfer?: boolean;
-}
-
-/** Collection of top-level domain legal agreements. */
-export interface TldLegalAgreementCollection {
-  /** Collection of resources. */
-  value: TldLegalAgreement[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Legal agreement for a top level domain. */
-export interface TldLegalAgreement {
-  /** Unique identifier for the agreement. */
-  agreementKey: string;
-  /** Agreement title. */
-  title: string;
-  /** Agreement details. */
-  content: string;
-  /** URL where a copy of the agreement details is hosted. */
-  url?: string;
-}
-
 /** Collection of App Service Environments. */
 export interface AppServiceEnvironmentCollection {
   /** Collection of resources. */
@@ -774,6 +109,105 @@ export interface NameValuePair {
   name?: string;
   /** Pair value. */
   value?: string;
+}
+
+/** Azure proxy only resource. This resource is not tracked by Azure Resource Manager. */
+export interface ProxyOnlyResource {
+  /**
+   * Resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Kind of resource. */
+  kind?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Azure resource. This resource is tracked in Azure Resource Manager */
+export interface Resource {
+  /**
+   * Resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Kind of resource. */
+  kind?: string;
+  /** Resource Location. */
+  location: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** App Service error response. */
+export interface DefaultErrorResponse {
+  /**
+   * Error model.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: DefaultErrorResponseError;
+}
+
+/** Error model. */
+export interface DefaultErrorResponseError {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  details?: DefaultErrorResponseErrorDetailsItem[];
+  /**
+   * More information to debug error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innererror?: string;
+}
+
+/** Detailed errors. */
+export interface DefaultErrorResponseErrorDetailsItem {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
 }
 
 /** Collection of stamp capacities. */
@@ -1314,6 +748,70 @@ export interface AzureStorageInfoValue {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: AzureStorageState;
+}
+
+/** Function App configuration. */
+export interface FunctionAppConfig {
+  /** Azure Functions deployment configuration. */
+  deployment?: FunctionsDeployment;
+  /** Azure Functions scale and concurrency settings. */
+  scaleAndConcurrency?: FunctionsScaleAndConcurrency;
+}
+
+/** Configuration section for Azure Function app deployment. */
+export interface FunctionsDeployment {
+  /** Storage for deployed package used by the Azure Function app. */
+  storage?: FunctionsDeploymentStorage;
+}
+
+/** Storage for deployed package used by the Azure Function app. */
+export interface FunctionsDeploymentStorage {
+  /** Property to select Azure Storage Type. Available option: blobContainer. */
+  type?: string;
+  /** Property to set the URL for the selected Azure Storage Type. Example: For blobContainer, value will be like https://<storageAccountName>.blob.core.windows.net/<containerName>. */
+  value?: string;
+  /** Authentication method to access the storage for deployment. */
+  authentication?: FunctionsDeploymentStorageAuthentication;
+}
+
+/** Authentication method to access the storage for deployment. */
+export interface FunctionsDeploymentStorageAuthentication {
+  /** Property to select Authentication Type to access the selected storage. Available options: SystemAssignedIdentity, UserAssignedIdentity, StorageAccountAccessKey. */
+  type?: string;
+  /** Property to set the value for the selected Authentication Type. Example: For SystemAssignedIdentity, do not set value. For UserAssignedIdentity, set resource ID of identity. For StorageAccountAccessKey, set name of the app setting that has the storage account access key. */
+  value?: string;
+}
+
+/** Scale and concurrency settings for an Azure Functions app. */
+export interface FunctionsScaleAndConcurrency {
+  /** 'Always Ready' configuration for an Azure Function app. */
+  alwaysReady?: FunctionsAlwaysReadyConfig[];
+  /** The maximum number of VM instances for the Azure Functions app. */
+  maximumInstanceCount?: number;
+  /** Set the amount of memory allocated to each instance of the function app in MiB; CPU and network bandwidth are allocated proportionally. */
+  instanceMemoryMB?: number;
+  /** Scale and concurrency settings for Azure Functions triggers. */
+  triggers?: FunctionsScaleAndConcurrencyTriggers;
+}
+
+/** Sets the number of 'Always Ready' instances for a specific Azure Function or a specific trigger type. */
+export interface FunctionsAlwaysReadyConfig {
+  /** Either an Azure Functions trigger or an Azure Function name. */
+  name?: string;
+  /** Sets the number of 'Always Ready' instances for a given trigger or a specific Azure Function. */
+  instanceCount?: number;
+}
+
+/** Scale and concurrency settings for Azure Functions triggers. */
+export interface FunctionsScaleAndConcurrencyTriggers {
+  /** Scale and concurrency settings for the HTTP trigger. */
+  http?: FunctionsScaleAndConcurrencyTriggersHttp;
+}
+
+/** Scale and concurrency settings for the HTTP trigger. */
+export interface FunctionsScaleAndConcurrencyTriggersHttp {
+  /** The maximum number of concurrent HTTP trigger invocations per VM instance. */
+  perInstanceConcurrency?: number;
 }
 
 /** App Dapr configuration. */
@@ -2121,6 +1619,172 @@ export interface DeletedWebAppCollection {
   readonly nextLink?: string;
 }
 
+/** Collection of detector responses */
+export interface DetectorResponseCollection {
+  /** Collection of resources. */
+  value: DetectorResponse[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Definition of Detector */
+export interface DetectorInfo {
+  /**
+   * Id of detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Name of detector
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Short description of the detector and its purpose.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Author of the detector.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly author?: string;
+  /**
+   * Problem category. This serves for organizing group for detectors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: string;
+  /**
+   * List of Support Topics for which this detector is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportTopicList?: SupportTopic[];
+  /**
+   * Analysis Types for which this detector should apply to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly analysisType?: string[];
+  /**
+   * Whether this detector is an Analysis Detector or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: DetectorType;
+  /**
+   * Defines score of a detector to power ML based matching.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly score?: number;
+}
+
+/** Defines a unique Support Topic */
+export interface SupportTopic {
+  /**
+   * Support Topic Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Unique resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pesId?: string;
+}
+
+/** Set of data with rendering instructions */
+export interface DiagnosticData {
+  /** Data in table form */
+  table?: DataTableResponseObject;
+  /** Properties that describe how the table should be rendered */
+  renderingProperties?: Rendering;
+}
+
+/** Data Table which defines columns and raw row values */
+export interface DataTableResponseObject {
+  /** Name of the table */
+  tableName?: string;
+  /** List of columns with data types */
+  columns?: DataTableResponseColumn[];
+  /** Raw row values */
+  rows?: string[][];
+}
+
+/** Column definition */
+export interface DataTableResponseColumn {
+  /** Name of the column */
+  columnName?: string;
+  /** Data type which looks like 'String' or 'Int32'. */
+  dataType?: string;
+  /** Column Type */
+  columnType?: string;
+}
+
+/** Instructions for rendering the data */
+export interface Rendering {
+  /** Rendering Type */
+  type?: RenderingType;
+  /** Title of data */
+  title?: string;
+  /** Description of the data that will help it be interpreted */
+  description?: string;
+}
+
+/** Identify the status of the most severe insight generated by the detector. */
+export interface Status {
+  /** Descriptive message. */
+  message?: string;
+  /** Level of the most severe insight generated by the detector. */
+  statusId?: InsightStatus;
+}
+
+/** Additional configuration for a data providers */
+export interface DataProviderMetadata {
+  providerName?: string;
+  /**
+   * Settings for the data provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly propertyBag?: KeyValuePairStringObject[];
+}
+
+export interface KeyValuePairStringObject {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly key?: string;
+  /**
+   * Any object
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Record<string, unknown>;
+}
+
+/** Suggested utterances where the detector can be applicable */
+export interface QueryUtterancesResults {
+  /** Search Query. */
+  query?: string;
+  /** Array of utterance results for search query. */
+  results?: QueryUtterancesResult[];
+}
+
+/** Result for utterances query. */
+export interface QueryUtterancesResult {
+  /** A sample utterance. */
+  sampleUtterance?: SampleUtterance;
+  /** Score of a sample utterance. */
+  score?: number;
+}
+
+/** Sample utterance. */
+export interface SampleUtterance {
+  /** Text attribute of sample utterance. */
+  text?: string;
+  /** Links attribute of sample utterance. */
+  links?: string[];
+  /** Question id of sample utterance (for stackoverflow questions titles). */
+  qid?: string;
+}
+
 /** Collection of Diagnostic Categories */
 export interface DiagnosticCategoryCollection {
   /** Collection of resources. */
@@ -2821,6 +2485,94 @@ export interface WindowsJavaContainerSettings {
   readonly isEarlyAccess?: boolean;
 }
 
+/** Collection of Azure resource manager operation metadata. */
+export interface CsmOperationCollection {
+  /** Collection of resources. */
+  value: CsmOperationDescription[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Description of an operation available for Microsoft.Web resource provider. */
+export interface CsmOperationDescription {
+  name?: string;
+  isDataAction?: boolean;
+  /** Meta data about operation used for display in portal. */
+  display?: CsmOperationDisplay;
+  origin?: string;
+  /** Properties available for a Microsoft.Web resource provider operation. */
+  properties?: CsmOperationDescriptionProperties;
+}
+
+/** Meta data about operation used for display in portal. */
+export interface CsmOperationDisplay {
+  provider?: string;
+  resource?: string;
+  operation?: string;
+  description?: string;
+}
+
+/** Properties available for a Microsoft.Web resource provider operation. */
+export interface CsmOperationDescriptionProperties {
+  /** Resource metrics service provided by Microsoft.Insights resource provider. */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Resource metrics service provided by Microsoft.Insights resource provider. */
+export interface ServiceSpecification {
+  metricSpecifications?: MetricSpecification[];
+  logSpecifications?: LogSpecification[];
+}
+
+/** Definition of a single resource metric. */
+export interface MetricSpecification {
+  name?: string;
+  displayName?: string;
+  displayDescription?: string;
+  unit?: string;
+  aggregationType?: string;
+  supportsInstanceLevelAggregation?: boolean;
+  enableRegionalMdmAccount?: boolean;
+  sourceMdmAccount?: string;
+  sourceMdmNamespace?: string;
+  metricFilterPattern?: string;
+  fillGapWithZero?: boolean;
+  isInternal?: boolean;
+  dimensions?: Dimension[];
+  category?: string;
+  availabilities?: MetricAvailability[];
+  supportedTimeGrainTypes?: string[];
+  supportedAggregationTypes?: string[];
+}
+
+/**
+ * Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app,
+ * where instance name is dimension of the metric HTTP request
+ */
+export interface Dimension {
+  name?: string;
+  displayName?: string;
+  internalName?: string;
+  toBeExportedForShoebox?: boolean;
+}
+
+/** Retention policy of a resource metric. */
+export interface MetricAvailability {
+  timeGrain?: string;
+  blobDuration?: string;
+}
+
+/** Log Definition of a single resource metric. */
+export interface LogSpecification {
+  name?: string;
+  displayName?: string;
+  blobDuration?: string;
+  logFilterPattern?: string;
+}
+
 /** Collection of recommendations. */
 export interface RecommendationCollection {
   /** Collection of resources. */
@@ -2939,6 +2691,12 @@ export interface GeoRegionCollection {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Identifies an object. */
+export interface NameIdentifier {
+  /** Name of the object. */
+  name?: string;
 }
 
 /** Collection of identifiers. */
@@ -5020,1001 +4778,6 @@ export interface WorkflowTriggerHistoryFilter {
   status?: WorkflowStatus;
 }
 
-/** SSL certificate purchase order. */
-export interface AppServiceCertificateOrder extends Resource {
-  /** State of the Key Vault secret. */
-  certificates?: { [propertyName: string]: AppServiceCertificate };
-  /** Certificate distinguished name. */
-  distinguishedName?: string;
-  /**
-   * Domain verification token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly domainVerificationToken?: string;
-  /** Duration in years (must be 1). */
-  validityInYears?: number;
-  /** Certificate key size. */
-  keySize?: number;
-  /** Certificate product type. */
-  productType?: CertificateProductType;
-  /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
-  /**
-   * Status of certificate order.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Current order status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: CertificateOrderStatus;
-  /**
-   * Signed certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly signedCertificate?: CertificateDetails;
-  /** Last CSR that was created for this order. */
-  csr?: string;
-  /**
-   * Intermediate certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intermediate?: CertificateDetails;
-  /**
-   * Root certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly root?: CertificateDetails;
-  /**
-   * Current serial number of the certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serialNumber?: string;
-  /**
-   * Certificate last issuance time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastCertificateIssuanceTime?: Date;
-  /**
-   * Certificate expiration time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationTime?: Date;
-  /**
-   * <code>true</code> if private key is external; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isPrivateKeyExternal?: boolean;
-  /**
-   * Reasons why App Service Certificate is not renewable at the current moment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
-  /**
-   * Time stamp when the certificate would be auto renewed next
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextAutoRenewalTimeStamp?: Date;
-  /**
-   * Contact info
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contact?: CertificateOrderContact;
-}
-
-/** Key Vault container ARM resource for a certificate that is purchased through Azure. */
-export interface AppServiceCertificateResource extends Resource {
-  /** Key Vault resource Id. */
-  keyVaultId?: string;
-  /** Key Vault secret name. */
-  keyVaultSecretName?: string;
-  /**
-   * Status of the Key Vault secret.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: KeyVaultSecretStatus;
-}
-
-/** Information about a domain. */
-export interface Domain extends Resource {
-  /** Administrative contact. */
-  contactAdmin?: Contact;
-  /** Billing contact. */
-  contactBilling?: Contact;
-  /** Registrant contact. */
-  contactRegistrant?: Contact;
-  /** Technical contact. */
-  contactTech?: Contact;
-  /**
-   * Domain registration status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registrationStatus?: DomainStatus;
-  /**
-   * Domain provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Name servers.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nameServers?: string[];
-  /** <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>. */
-  privacy?: boolean;
-  /**
-   * Domain creation timestamp.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
-  /**
-   * Domain expiration timestamp.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationTime?: Date;
-  /**
-   * Timestamp when the domain was renewed last time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastRenewedTime?: Date;
-  /** <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
-  /**
-   * <code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and
-   *  it is hosted on name servers Azure has programmatic access to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly readyForDnsRecordManagement?: boolean;
-  /**
-   * All hostnames derived from the domain and assigned to Azure resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedHostNames?: HostName[];
-  /** Legal agreement consent. */
-  consent?: DomainPurchaseConsent;
-  /**
-   * Reasons why domain is not renewable.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
-  /** Current DNS type */
-  dnsType?: DnsType;
-  /** Azure DNS Zone to use */
-  dnsZoneId?: string;
-  /** Target DNS type (would be used for migration) */
-  targetDnsType?: DnsType;
-  authCode?: string;
-}
-
-/** App Service Environment ARM resource. */
-export interface AppServiceEnvironmentResource extends Resource {
-  /**
-   * Provisioning state of the App Service Environment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Current status of the App Service Environment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: HostingEnvironmentStatus;
-  /** Description of the Virtual Network. */
-  virtualNetwork?: VirtualNetworkProfile;
-  /** Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment. */
-  internalLoadBalancingMode?: LoadBalancingMode;
-  /** Front-end VM size, e.g. "Medium", "Large". */
-  multiSize?: string;
-  /**
-   * Number of front-end instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly multiRoleCount?: number;
-  /** Number of IP SSL addresses reserved for the App Service Environment. */
-  ipsslAddressCount?: number;
-  /** DNS suffix of the App Service Environment. */
-  dnsSuffix?: string;
-  /**
-   * Maximum number of VMs in the App Service Environment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximumNumberOfMachines?: number;
-  /** Scale factor for front-ends. */
-  frontEndScaleFactor?: number;
-  /**
-   * <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment can be suspended, e.g. when the management endpoint is no longer available
-   *  (most likely because NSG blocked the incoming traffic).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suspended?: boolean;
-  /** Custom settings for changing the behavior of the App Service Environment. */
-  clusterSettings?: NameValuePair[];
-  /** User added ip ranges to whitelist on ASE db */
-  userWhitelistedIpRanges?: string[];
-  /**
-   * Flag that displays whether an ASE has linux workers or not
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hasLinuxWorkers?: boolean;
-  /** Upgrade Preference */
-  upgradePreference?: UpgradePreference;
-  /** Dedicated Host Count */
-  dedicatedHostCount?: number;
-  /** Whether or not this App Service Environment is zone-redundant. */
-  zoneRedundant?: boolean;
-  /** Full view of the custom domain suffix configuration for ASEv3. */
-  customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
-  /** Full view of networking configuration for an ASE. */
-  networkingConfiguration?: AseV3NetworkingConfiguration;
-  /**
-   * Whether an upgrade is available for this App Service Environment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly upgradeAvailability?: UpgradeAvailability;
-}
-
-/** A web app, a mobile app backend, or an API app. */
-export interface Site extends Resource {
-  /** Managed service identity. */
-  identity?: ManagedServiceIdentity;
-  /** Extended Location. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * Current state of the app.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: string;
-  /**
-   * Hostnames associated with the app.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostNames?: string[];
-  /**
-   * Name of the repository site.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly repositorySiteName?: string;
-  /**
-   * State indicating whether the app has exceeded its quota usage. Read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly usageState?: UsageState;
-  /** <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline). */
-  enabled?: boolean;
-  /**
-   * Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
-   * the app is not served on those hostnames.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enabledHostNames?: string[];
-  /**
-   * Management information availability state for the app.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availabilityState?: SiteAvailabilityState;
-  /** Hostname SSL states are used to manage the SSL bindings for app's hostnames. */
-  hostNameSslStates?: HostNameSslState[];
-  /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
-  serverFarmId?: string;
-  /** <code>true</code> if reserved; otherwise, <code>false</code>. */
-  reserved?: boolean;
-  /** Obsolete: Hyper-V sandbox. */
-  isXenon?: boolean;
-  /** Hyper-V sandbox. */
-  hyperV?: boolean;
-  /**
-   * Last time the app was modified, in UTC. Read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedTimeUtc?: Date;
-  /** Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied. */
-  vnetRouteAllEnabled?: boolean;
-  /** To enable pulling image over Virtual Network */
-  vnetImagePullEnabled?: boolean;
-  /** To enable accessing content over virtual network */
-  vnetContentShareEnabled?: boolean;
-  /** Configuration of the app. */
-  siteConfig?: SiteConfig;
-  /** Dapr configuration of the app. */
-  daprConfig?: DaprConfig;
-  /** Workload profile name for function app to execute on. */
-  workloadProfileName?: string;
-  /** Function app resource requirements. */
-  resourceConfig?: ResourceConfig;
-  /**
-   * Azure Traffic Manager hostnames associated with the app. Read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trafficManagerHostNames?: string[];
-  /** <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>. */
-  scmSiteAlsoStopped?: boolean;
-  /**
-   * Specifies which deployment slot this app will swap into. Read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetSwapSlot?: string;
-  /** App Service Environment to use for the app. */
-  hostingEnvironmentProfile?: HostingEnvironmentProfile;
-  /** <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is <code>true</code>. */
-  clientAffinityEnabled?: boolean;
-  /** <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise, <code>false</code>. Default is <code>false</code>. */
-  clientCertEnabled?: boolean;
-  /**
-   * This composes with ClientCertEnabled setting.
-   * - ClientCertEnabled: false means ClientCert is ignored.
-   * - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
-   * - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
-   */
-  clientCertMode?: ClientCertMode;
-  /** client certificate authentication comma-separated exclusion paths */
-  clientCertExclusionPaths?: string;
-  /**
-   * <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
-   *  If <code>true</code>, the app is only accessible via API management process.
-   */
-  hostNamesDisabled?: boolean;
-  /** Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification. */
-  customDomainVerificationId?: string;
-  /**
-   * List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outboundIpAddresses?: string;
-  /**
-   * List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly possibleOutboundIpAddresses?: string;
-  /** Size of the function container. */
-  containerSize?: number;
-  /** Maximum allowed daily memory-time quota (applicable on dynamic apps only). */
-  dailyMemoryTimeQuota?: number;
-  /**
-   * App suspended till in case memory-time quota is exceeded.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suspendedTill?: Date;
-  /**
-   * Maximum number of workers.
-   * This only applies to Functions container.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maxNumberOfWorkers?: number;
-  /** If specified during app creation, the app is cloned from a source app. */
-  cloningInfo?: CloningInfo;
-  /**
-   * Name of the resource group the app belongs to. Read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGroup?: string;
-  /**
-   * <code>true</code> if the app is a default container; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDefaultContainer?: boolean;
-  /**
-   * Default hostname of the app. Read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultHostName?: string;
-  /**
-   * Status of the last deployment slot swap operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly slotSwapStatus?: SlotSwapStatus;
-  /**
-   * HttpsOnly: configures a web site to accept only https requests. Issues redirect for
-   * http requests
-   */
-  httpsOnly?: boolean;
-  /** Site redundancy mode */
-  redundancyMode?: RedundancyMode;
-  /**
-   * Specifies an operation id if this site has a pending operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inProgressOperationId?: string;
-  /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled' or an empty string. */
-  publicNetworkAccess?: string;
-  /** Checks if Customer provided storage account is required */
-  storageAccountRequired?: boolean;
-  /** Identity to use for Key Vault Reference authentication. */
-  keyVaultReferenceIdentity?: string;
-  /**
-   * Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration.
-   * This must be of the form /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
-   */
-  virtualNetworkSubnetId?: string;
-  /** Azure Resource Manager ID of the customer's selected Managed Environment on which to host this app. This must be of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName} */
-  managedEnvironmentId?: string;
-}
-
-/** App Service plan. */
-export interface AppServicePlan extends Resource {
-  /** Description of a SKU for a scalable resource. */
-  sku?: SkuDescription;
-  /** Extended Location. */
-  extendedLocation?: ExtendedLocation;
-  /** Target worker tier assigned to the App Service plan. */
-  workerTierName?: string;
-  /**
-   * App Service plan status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: StatusOptions;
-  /**
-   * App Service plan subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscription?: string;
-  /** Specification for the App Service Environment to use for the App Service plan. */
-  hostingEnvironmentProfile?: HostingEnvironmentProfile;
-  /**
-   * Maximum number of instances that can be assigned to this App Service plan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximumNumberOfWorkers?: number;
-  /**
-   * The number of instances that are assigned to this App Service plan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfWorkers?: number;
-  /**
-   * Geographical location for the App Service plan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly geoRegion?: string;
-  /**
-   * If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
-   * If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
-   */
-  perSiteScaling?: boolean;
-  /** ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku */
-  elasticScaleEnabled?: boolean;
-  /** Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan */
-  maximumElasticWorkerCount?: number;
-  /**
-   * Number of apps assigned to this App Service plan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfSites?: number;
-  /** If <code>true</code>, this App Service Plan owns spot instances. */
-  isSpot?: boolean;
-  /** The time when the server farm expires. Valid only if it is a spot server farm. */
-  spotExpirationTime?: Date;
-  /** The time when the server farm free offer expires. */
-  freeOfferExpirationTime?: Date;
-  /**
-   * Resource group of the App Service plan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGroup?: string;
-  /** If Linux app service plan <code>true</code>, <code>false</code> otherwise. */
-  reserved?: boolean;
-  /** Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise. */
-  isXenon?: boolean;
-  /** If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise. */
-  hyperV?: boolean;
-  /** Scaling worker count. */
-  targetWorkerCount?: number;
-  /** Scaling worker size ID. */
-  targetWorkerSizeId?: number;
-  /**
-   * Provisioning state of the App Service Plan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Specification for the Kubernetes Environment to use for the App Service plan. */
-  kubeEnvironmentProfile?: KubeEnvironmentProfile;
-  /**
-   * If <code>true</code>, this App Service Plan will perform availability zone balancing.
-   * If <code>false</code>, this App Service Plan will not perform availability zone balancing.
-   */
-  zoneRedundant?: boolean;
-}
-
-/** SSL certificate for an app. */
-export interface Certificate extends Resource {
-  /** Certificate password. */
-  password?: string;
-  /**
-   * Friendly name of the certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly friendlyName?: string;
-  /**
-   * Subject name of the certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subjectName?: string;
-  /** Host names the certificate applies to. */
-  hostNames?: string[];
-  /** Pfx blob. */
-  pfxBlob?: Uint8Array;
-  /**
-   * App name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly siteName?: string;
-  /**
-   * Self link.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly selfLink?: string;
-  /**
-   * Certificate issuer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly issuer?: string;
-  /**
-   * Certificate issue Date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly issueDate?: Date;
-  /**
-   * Certificate expiration date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationDate?: Date;
-  /**
-   * Certificate thumbprint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly thumbprint?: string;
-  /**
-   * Is the certificate valid?.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly valid?: boolean;
-  /**
-   * Raw bytes of .cer file
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cerBlob?: Uint8Array;
-  /**
-   * Public key hash.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicKeyHash?: string;
-  /**
-   * Specification for the App Service Environment to use for the certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostingEnvironmentProfile?: HostingEnvironmentProfile;
-  /** Key Vault Csm resource Id. */
-  keyVaultId?: string;
-  /** Key Vault secret name. */
-  keyVaultSecretName?: string;
-  /**
-   * Status of the Key Vault secret.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
-  /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
-  serverFarmId?: string;
-  /** CNAME of the certificate to be issued via free certificate */
-  canonicalName?: string;
-  /** Method of domain validation for free cert */
-  domainValidationMethod?: string;
-}
-
-/** Container App. */
-export interface ContainerApp extends Resource {
-  /**
-   * Provisioning state of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ContainerAppProvisioningState;
-  /** Resource ID of the Container App's KubeEnvironment. */
-  kubeEnvironmentId?: string;
-  /**
-   * Name of the latest revision of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestRevisionName?: string;
-  /**
-   * Fully Qualified Domain Name of the latest revision of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestRevisionFqdn?: string;
-  /** Non versioned Container App configuration properties. */
-  configuration?: Configuration;
-  /** Container App versioned application definition. */
-  template?: Template;
-}
-
-/** Container App Revision. */
-export interface Revision extends Resource {
-  /**
-   * Timestamp describing when the revision was created
-   * by controller
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
-  /**
-   * Fully qualified domain name of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /**
-   * Container App Revision Template with all possible settings and the
-   * defaults if user did not provide them. The defaults are populated
-   * as they were at the creation time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly template?: Template;
-  /**
-   * Boolean describing if the Revision is Active
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly active?: boolean;
-  /**
-   * Number of pods currently running for this revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicas?: number;
-  /**
-   * Traffic weight assigned to this revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trafficWeight?: number;
-  /**
-   * Optional Field - Platform Error Message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningError?: string;
-  /**
-   * Current health State of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly healthState?: RevisionHealthState;
-  /**
-   * Current provisioning State of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: RevisionProvisioningState;
-}
-
-/** A Kubernetes cluster specialized for web workloads by Azure App Service */
-export interface KubeEnvironment extends Resource {
-  /** Extended Location. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * Provisioning state of the Kubernetes Environment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: KubeEnvironmentProvisioningState;
-  /**
-   * Any errors that occurred during deployment or deployment validation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deploymentErrors?: string;
-  /** Only visible within Vnet/Subnet */
-  internalLoadBalancerEnabled?: boolean;
-  /**
-   * Default Domain Name for the cluster
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultDomain?: string;
-  /** Static IP of the KubeEnvironment */
-  staticIp?: string;
-  /** Type of Kubernetes Environment. Only supported for Container App Environments with value as Managed */
-  environmentType?: string;
-  /**
-   * Cluster configuration which determines the ARC cluster
-   * components types. Eg: Choosing between BuildService kind,
-   * FrontEnd Service ArtifactsStorageType etc.
-   */
-  arcConfiguration?: ArcConfiguration;
-  /**
-   * Cluster configuration which enables the log daemon to export
-   * app logs to a destination. Currently only "log-analytics" is
-   * supported
-   */
-  appLogsConfiguration?: AppLogsConfiguration;
-  /** Cluster configuration for Container Apps Environments to configure Dapr Instrumentation Key and VNET Configuration */
-  containerAppsConfiguration?: ContainerAppsConfiguration;
-  aksResourceID?: string;
-}
-
-/** Static Site ARM resource. */
-export interface StaticSiteARMResource extends Resource {
-  /** Description of a SKU for a scalable resource. */
-  sku?: SkuDescription;
-  /** Managed service identity. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * The default autogenerated hostname for the static site.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultHostname?: string;
-  /** URL for the repository of the static site. */
-  repositoryUrl?: string;
-  /** The target branch in the repository. */
-  branch?: string;
-  /**
-   * The custom domains associated with this static site.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customDomains?: string[];
-  /** A user's github repository token. This is used to setup the Github Actions workflow file and API secrets. */
-  repositoryToken?: string;
-  /** Build properties to configure on the repository. */
-  buildProperties?: StaticSiteBuildProperties;
-  /**
-   * Private endpoint connections
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: ResponseMessageEnvelopeRemotePrivateEndpointConnection[];
-  /** State indicating whether staging environments are allowed or not allowed for a static web app. */
-  stagingEnvironmentPolicy?: StagingEnvironmentPolicy;
-  /** <code>false</code> if config file is locked for this static web app; otherwise, <code>true</code>. */
-  allowConfigFileUpdates?: boolean;
-  /** Template options for generating a new repository. */
-  templateProperties?: StaticSiteTemplateOptions;
-  /**
-   * The content distribution endpoint for the static site.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contentDistributionEndpoint?: string;
-  /**
-   * Identity to use for Key Vault Reference authentication.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keyVaultReferenceIdentity?: string;
-  /**
-   * User provided function apps registered with the static site
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
-  /**
-   * Backends linked to the static side
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly linkedBackends?: StaticSiteLinkedBackend[];
-  /** The provider that submitted the last deployment to the primary environment of the static site. */
-  provider?: string;
-  /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
-  enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
-  /** State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled', 'Disabled' or an empty string. */
-  publicNetworkAccess?: string;
-  /**
-   * Database connections for the static site
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseConnections?: DatabaseConnectionOverview[];
-}
-
-/** Premier add-on. */
-export interface PremierAddOn extends Resource {
-  /** Premier add on SKU. */
-  sku?: string;
-  /** Premier add on Product. */
-  product?: string;
-  /** Premier add on Vendor. */
-  vendor?: string;
-  /** Premier add on Marketplace publisher. */
-  marketplacePublisher?: string;
-  /** Premier add on Marketplace offer. */
-  marketplaceOffer?: string;
-}
-
-/** ARM resource for a certificate order that is purchased through Azure. */
-export interface AppServiceCertificateOrderPatchResource
-  extends ProxyOnlyResource {
-  /** State of the Key Vault secret. */
-  certificates?: { [propertyName: string]: AppServiceCertificate };
-  /** Certificate distinguished name. */
-  distinguishedName?: string;
-  /**
-   * Domain verification token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly domainVerificationToken?: string;
-  /** Duration in years (must be 1). */
-  validityInYears?: number;
-  /** Certificate key size. */
-  keySize?: number;
-  /** Certificate product type. */
-  productType?: CertificateProductType;
-  /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
-  /**
-   * Status of certificate order.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Current order status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: CertificateOrderStatus;
-  /**
-   * Signed certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly signedCertificate?: CertificateDetails;
-  /** Last CSR that was created for this order. */
-  csr?: string;
-  /**
-   * Intermediate certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intermediate?: CertificateDetails;
-  /**
-   * Root certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly root?: CertificateDetails;
-  /**
-   * Current serial number of the certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serialNumber?: string;
-  /**
-   * Certificate last issuance time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastCertificateIssuanceTime?: Date;
-  /**
-   * Certificate expiration time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationTime?: Date;
-  /**
-   * <code>true</code> if private key is external; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isPrivateKeyExternal?: boolean;
-  /**
-   * Reasons why App Service Certificate is not renewable at the current moment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
-  /**
-   * Time stamp when the certificate would be auto renewed next
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextAutoRenewalTimeStamp?: Date;
-  /**
-   * Contact info
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contact?: CertificateOrderContact;
-}
-
-/** Key Vault container ARM resource for a certificate that is purchased through Azure. */
-export interface AppServiceCertificatePatchResource extends ProxyOnlyResource {
-  /** Key Vault resource Id. */
-  keyVaultId?: string;
-  /** Key Vault secret name. */
-  keyVaultSecretName?: string;
-  /**
-   * Status of the Key Vault secret.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: KeyVaultSecretStatus;
-}
-
-/** Class representing certificate reissue request. */
-export interface ReissueCertificateOrderRequest extends ProxyOnlyResource {
-  /** Certificate Key Size. */
-  keySize?: number;
-  /** Delay in hours to revoke existing certificate after the new certificate is issued. */
-  delayExistingRevokeInHours?: number;
-  /** Csr to be used for re-key operation. */
-  csr?: string;
-  /** Should we change the ASC type (from managed private key to external private key and vice versa). */
-  isPrivateKeyExternal?: boolean;
-}
-
-/** Class representing certificate renew request. */
-export interface RenewCertificateOrderRequest extends ProxyOnlyResource {
-  /** Certificate Key Size. */
-  keySize?: number;
-  /** Csr to be used for re-key operation. */
-  csr?: string;
-  /** Should we change the ASC type (from managed private key to external private key and vice versa). */
-  isPrivateKeyExternal?: boolean;
-}
-
-/** Class representing Response from Detector */
-export interface DetectorResponse extends ProxyOnlyResource {
-  /** metadata for the detector */
-  metadata?: DetectorInfo;
-  /** Data Set */
-  dataset?: DiagnosticData[];
-  /** Indicates status of the most severe insight. */
-  status?: Status;
-  /** Additional configuration for different data providers to be used by the UI */
-  dataProvidersMetadata?: DataProviderMetadata[];
-  /** Suggested utterances where the detector can be applicable. */
-  suggestedUtterances?: QueryUtterancesResults;
-}
-
-/** ARM resource for a domain. */
-export interface DomainPatchResource extends ProxyOnlyResource {
-  /** Administrative contact. */
-  contactAdmin?: Contact;
-  /** Billing contact. */
-  contactBilling?: Contact;
-  /** Registrant contact. */
-  contactRegistrant?: Contact;
-  /** Technical contact. */
-  contactTech?: Contact;
-  /**
-   * Domain registration status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registrationStatus?: DomainStatus;
-  /**
-   * Domain provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Name servers.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nameServers?: string[];
-  /** <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>. */
-  privacy?: boolean;
-  /**
-   * Domain creation timestamp.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
-  /**
-   * Domain expiration timestamp.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationTime?: Date;
-  /**
-   * Timestamp when the domain was renewed last time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastRenewedTime?: Date;
-  /** <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
-  /**
-   * <code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and
-   *  it is hosted on name servers Azure has programmatic access to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly readyForDnsRecordManagement?: boolean;
-  /**
-   * All hostnames derived from the domain and assigned to Azure resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedHostNames?: HostName[];
-  /** Legal agreement consent. */
-  consent?: DomainPurchaseConsent;
-  /**
-   * Reasons why domain is not renewable.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
-  /** Current DNS type */
-  dnsType?: DnsType;
-  /** Azure DNS Zone to use */
-  dnsZoneId?: string;
-  /** Target DNS type (would be used for migration) */
-  targetDnsType?: DnsType;
-  authCode?: string;
-}
-
-/** Domain ownership Identifier. */
-export interface DomainOwnershipIdentifier extends ProxyOnlyResource {
-  /** Ownership Id. */
-  ownershipId?: string;
-}
-
-/** A top level domain object. */
-export interface TopLevelDomain extends ProxyOnlyResource {
-  /** If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>. */
-  privacy?: boolean;
-}
-
 /** Full view of the custom domain suffix configuration for ASEv3. */
 export interface CustomDnsSuffixConfiguration extends ProxyOnlyResource {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
@@ -6569,6 +5332,20 @@ export interface DeletedSite extends ProxyOnlyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly geoRegionName?: string;
+}
+
+/** Class representing Response from Detector */
+export interface DetectorResponse extends ProxyOnlyResource {
+  /** metadata for the detector */
+  metadata?: DetectorInfo;
+  /** Data Set */
+  dataset?: DiagnosticData[];
+  /** Indicates status of the most severe insight. */
+  status?: Status;
+  /** Additional configuration for different data providers to be used by the UI */
+  dataProvidersMetadata?: DataProviderMetadata[];
+  /** Suggested utterances where the detector can be applicable. */
+  suggestedUtterances?: QueryUtterancesResults;
 }
 
 /** Class representing detector definition */
@@ -8832,6 +7609,620 @@ export interface WebJob extends ProxyOnlyResource {
   settings?: { [propertyName: string]: Record<string, unknown> };
 }
 
+/** App Service Environment ARM resource. */
+export interface AppServiceEnvironmentResource extends Resource {
+  /**
+   * Provisioning state of the App Service Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Current status of the App Service Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: HostingEnvironmentStatus;
+  /** Description of the Virtual Network. */
+  virtualNetwork?: VirtualNetworkProfile;
+  /** Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment. */
+  internalLoadBalancingMode?: LoadBalancingMode;
+  /** Front-end VM size, e.g. "Medium", "Large". */
+  multiSize?: string;
+  /**
+   * Number of front-end instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly multiRoleCount?: number;
+  /** Number of IP SSL addresses reserved for the App Service Environment. */
+  ipsslAddressCount?: number;
+  /** DNS suffix of the App Service Environment. */
+  dnsSuffix?: string;
+  /**
+   * Maximum number of VMs in the App Service Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maximumNumberOfMachines?: number;
+  /** Scale factor for front-ends. */
+  frontEndScaleFactor?: number;
+  /**
+   * <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment can be suspended, e.g. when the management endpoint is no longer available
+   *  (most likely because NSG blocked the incoming traffic).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspended?: boolean;
+  /** Custom settings for changing the behavior of the App Service Environment. */
+  clusterSettings?: NameValuePair[];
+  /** User added ip ranges to whitelist on ASE db */
+  userWhitelistedIpRanges?: string[];
+  /**
+   * Flag that displays whether an ASE has linux workers or not
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasLinuxWorkers?: boolean;
+  /** Upgrade Preference */
+  upgradePreference?: UpgradePreference;
+  /** Dedicated Host Count */
+  dedicatedHostCount?: number;
+  /** Whether or not this App Service Environment is zone-redundant. */
+  zoneRedundant?: boolean;
+  /** Full view of the custom domain suffix configuration for ASEv3. */
+  customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
+  /** Full view of networking configuration for an ASE. */
+  networkingConfiguration?: AseV3NetworkingConfiguration;
+  /**
+   * Whether an upgrade is available for this App Service Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailability?: UpgradeAvailability;
+}
+
+/** A web app, a mobile app backend, or an API app. */
+export interface Site extends Resource {
+  /** Managed service identity. */
+  identity?: ManagedServiceIdentity;
+  /** Extended Location. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * Current state of the app.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: string;
+  /**
+   * Hostnames associated with the app.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostNames?: string[];
+  /**
+   * Name of the repository site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly repositorySiteName?: string;
+  /**
+   * State indicating whether the app has exceeded its quota usage. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usageState?: UsageState;
+  /** <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline). */
+  enabled?: boolean;
+  /**
+   * Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
+   * the app is not served on those hostnames.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enabledHostNames?: string[];
+  /**
+   * Management information availability state for the app.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityState?: SiteAvailabilityState;
+  /** Hostname SSL states are used to manage the SSL bindings for app's hostnames. */
+  hostNameSslStates?: HostNameSslState[];
+  /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
+  serverFarmId?: string;
+  /** <code>true</code> if reserved; otherwise, <code>false</code>. */
+  reserved?: boolean;
+  /** Obsolete: Hyper-V sandbox. */
+  isXenon?: boolean;
+  /** Hyper-V sandbox. */
+  hyperV?: boolean;
+  /**
+   * Last time the app was modified, in UTC. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTimeUtc?: Date;
+  /** Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied. */
+  vnetRouteAllEnabled?: boolean;
+  /** To enable pulling image over Virtual Network */
+  vnetImagePullEnabled?: boolean;
+  /** To enable accessing content over virtual network */
+  vnetContentShareEnabled?: boolean;
+  /** Configuration of the app. */
+  siteConfig?: SiteConfig;
+  /** Configuration specific to an Azure Functions app. */
+  functionAppConfig?: FunctionAppConfig;
+  /** Dapr configuration of the app. */
+  daprConfig?: DaprConfig;
+  /** Workload profile name for function app to execute on. */
+  workloadProfileName?: string;
+  /** Function app resource requirements. */
+  resourceConfig?: ResourceConfig;
+  /**
+   * Azure Traffic Manager hostnames associated with the app. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trafficManagerHostNames?: string[];
+  /** <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>. */
+  scmSiteAlsoStopped?: boolean;
+  /**
+   * Specifies which deployment slot this app will swap into. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetSwapSlot?: string;
+  /** App Service Environment to use for the app. */
+  hostingEnvironmentProfile?: HostingEnvironmentProfile;
+  /** <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is <code>true</code>. */
+  clientAffinityEnabled?: boolean;
+  /** <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise, <code>false</code>. Default is <code>false</code>. */
+  clientCertEnabled?: boolean;
+  /**
+   * This composes with ClientCertEnabled setting.
+   * - ClientCertEnabled: false means ClientCert is ignored.
+   * - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
+   * - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
+   */
+  clientCertMode?: ClientCertMode;
+  /** client certificate authentication comma-separated exclusion paths */
+  clientCertExclusionPaths?: string;
+  /**
+   * <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
+   *  If <code>true</code>, the app is only accessible via API management process.
+   */
+  hostNamesDisabled?: boolean;
+  /** Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification. */
+  customDomainVerificationId?: string;
+  /**
+   * List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outboundIpAddresses?: string;
+  /**
+   * List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly possibleOutboundIpAddresses?: string;
+  /** Size of the function container. */
+  containerSize?: number;
+  /** Maximum allowed daily memory-time quota (applicable on dynamic apps only). */
+  dailyMemoryTimeQuota?: number;
+  /**
+   * App suspended till in case memory-time quota is exceeded.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspendedTill?: Date;
+  /**
+   * Maximum number of workers.
+   * This only applies to Functions container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxNumberOfWorkers?: number;
+  /** If specified during app creation, the app is cloned from a source app. */
+  cloningInfo?: CloningInfo;
+  /**
+   * Name of the resource group the app belongs to. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGroup?: string;
+  /**
+   * <code>true</code> if the app is a default container; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDefaultContainer?: boolean;
+  /**
+   * Default hostname of the app. Read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultHostName?: string;
+  /**
+   * Status of the last deployment slot swap operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly slotSwapStatus?: SlotSwapStatus;
+  /**
+   * HttpsOnly: configures a web site to accept only https requests. Issues redirect for
+   * http requests
+   */
+  httpsOnly?: boolean;
+  /** Site redundancy mode */
+  redundancyMode?: RedundancyMode;
+  /**
+   * Specifies an operation id if this site has a pending operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inProgressOperationId?: string;
+  /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled' or an empty string. */
+  publicNetworkAccess?: string;
+  /** Checks if Customer provided storage account is required */
+  storageAccountRequired?: boolean;
+  /** Identity to use for Key Vault Reference authentication. */
+  keyVaultReferenceIdentity?: string;
+  /**
+   * Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration.
+   * This must be of the form /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
+   */
+  virtualNetworkSubnetId?: string;
+  /** Azure Resource Manager ID of the customer's selected Managed Environment on which to host this app. This must be of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName} */
+  managedEnvironmentId?: string;
+}
+
+/** App Service plan. */
+export interface AppServicePlan extends Resource {
+  /** Description of a SKU for a scalable resource. */
+  sku?: SkuDescription;
+  /** Extended Location. */
+  extendedLocation?: ExtendedLocation;
+  /** Target worker tier assigned to the App Service plan. */
+  workerTierName?: string;
+  /**
+   * App Service plan status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: StatusOptions;
+  /**
+   * App Service plan subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscription?: string;
+  /** Specification for the App Service Environment to use for the App Service plan. */
+  hostingEnvironmentProfile?: HostingEnvironmentProfile;
+  /**
+   * Maximum number of instances that can be assigned to this App Service plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maximumNumberOfWorkers?: number;
+  /**
+   * The number of instances that are assigned to this App Service plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfWorkers?: number;
+  /**
+   * Geographical location for the App Service plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geoRegion?: string;
+  /**
+   * If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
+   * If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
+   */
+  perSiteScaling?: boolean;
+  /** ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku */
+  elasticScaleEnabled?: boolean;
+  /** Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan */
+  maximumElasticWorkerCount?: number;
+  /**
+   * Number of apps assigned to this App Service plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfSites?: number;
+  /** If <code>true</code>, this App Service Plan owns spot instances. */
+  isSpot?: boolean;
+  /** The time when the server farm expires. Valid only if it is a spot server farm. */
+  spotExpirationTime?: Date;
+  /** The time when the server farm free offer expires. */
+  freeOfferExpirationTime?: Date;
+  /**
+   * Resource group of the App Service plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGroup?: string;
+  /** If Linux app service plan <code>true</code>, <code>false</code> otherwise. */
+  reserved?: boolean;
+  /** Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise. */
+  isXenon?: boolean;
+  /** If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise. */
+  hyperV?: boolean;
+  /** Scaling worker count. */
+  targetWorkerCount?: number;
+  /** Scaling worker size ID. */
+  targetWorkerSizeId?: number;
+  /**
+   * Provisioning state of the App Service Plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Specification for the Kubernetes Environment to use for the App Service plan. */
+  kubeEnvironmentProfile?: KubeEnvironmentProfile;
+  /**
+   * If <code>true</code>, this App Service Plan will perform availability zone balancing.
+   * If <code>false</code>, this App Service Plan will not perform availability zone balancing.
+   */
+  zoneRedundant?: boolean;
+}
+
+/** SSL certificate for an app. */
+export interface Certificate extends Resource {
+  /** Certificate password. */
+  password?: string;
+  /**
+   * Friendly name of the certificate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
+  /**
+   * Subject name of the certificate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subjectName?: string;
+  /** Host names the certificate applies to. */
+  hostNames?: string[];
+  /** Pfx blob. */
+  pfxBlob?: Uint8Array;
+  /**
+   * App name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly siteName?: string;
+  /**
+   * Self link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly selfLink?: string;
+  /**
+   * Certificate issuer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issuer?: string;
+  /**
+   * Certificate issue Date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issueDate?: Date;
+  /**
+   * Certificate expiration date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationDate?: Date;
+  /**
+   * Certificate thumbprint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly thumbprint?: string;
+  /**
+   * Is the certificate valid?.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly valid?: boolean;
+  /**
+   * Raw bytes of .cer file
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cerBlob?: Uint8Array;
+  /**
+   * Public key hash.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicKeyHash?: string;
+  /**
+   * Specification for the App Service Environment to use for the certificate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostingEnvironmentProfile?: HostingEnvironmentProfile;
+  /** Key Vault Csm resource Id. */
+  keyVaultId?: string;
+  /** Key Vault secret name. */
+  keyVaultSecretName?: string;
+  /**
+   * Status of the Key Vault secret.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
+  /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
+  serverFarmId?: string;
+  /** CNAME of the certificate to be issued via free certificate */
+  canonicalName?: string;
+  /** Method of domain validation for free cert */
+  domainValidationMethod?: string;
+}
+
+/** Container App. */
+export interface ContainerApp extends Resource {
+  /**
+   * Provisioning state of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ContainerAppProvisioningState;
+  /** Resource ID of the Container App's KubeEnvironment. */
+  kubeEnvironmentId?: string;
+  /**
+   * Name of the latest revision of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestRevisionName?: string;
+  /**
+   * Fully Qualified Domain Name of the latest revision of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestRevisionFqdn?: string;
+  /** Non versioned Container App configuration properties. */
+  configuration?: Configuration;
+  /** Container App versioned application definition. */
+  template?: Template;
+}
+
+/** Container App Revision. */
+export interface Revision extends Resource {
+  /**
+   * Timestamp describing when the revision was created
+   * by controller
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Fully qualified domain name of the revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * Container App Revision Template with all possible settings and the
+   * defaults if user did not provide them. The defaults are populated
+   * as they were at the creation time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly template?: Template;
+  /**
+   * Boolean describing if the Revision is Active
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly active?: boolean;
+  /**
+   * Number of pods currently running for this revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicas?: number;
+  /**
+   * Traffic weight assigned to this revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trafficWeight?: number;
+  /**
+   * Optional Field - Platform Error Message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: string;
+  /**
+   * Current health State of the revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthState?: RevisionHealthState;
+  /**
+   * Current provisioning State of the revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RevisionProvisioningState;
+}
+
+/** A Kubernetes cluster specialized for web workloads by Azure App Service */
+export interface KubeEnvironment extends Resource {
+  /** Extended Location. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * Provisioning state of the Kubernetes Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: KubeEnvironmentProvisioningState;
+  /**
+   * Any errors that occurred during deployment or deployment validation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentErrors?: string;
+  /** Only visible within Vnet/Subnet */
+  internalLoadBalancerEnabled?: boolean;
+  /**
+   * Default Domain Name for the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDomain?: string;
+  /** Static IP of the KubeEnvironment */
+  staticIp?: string;
+  /** Type of Kubernetes Environment. Only supported for Container App Environments with value as Managed */
+  environmentType?: string;
+  /**
+   * Cluster configuration which determines the ARC cluster
+   * components types. Eg: Choosing between BuildService kind,
+   * FrontEnd Service ArtifactsStorageType etc.
+   */
+  arcConfiguration?: ArcConfiguration;
+  /**
+   * Cluster configuration which enables the log daemon to export
+   * app logs to a destination. Currently only "log-analytics" is
+   * supported
+   */
+  appLogsConfiguration?: AppLogsConfiguration;
+  /** Cluster configuration for Container Apps Environments to configure Dapr Instrumentation Key and VNET Configuration */
+  containerAppsConfiguration?: ContainerAppsConfiguration;
+  aksResourceID?: string;
+}
+
+/** Static Site ARM resource. */
+export interface StaticSiteARMResource extends Resource {
+  /** Description of a SKU for a scalable resource. */
+  sku?: SkuDescription;
+  /** Managed service identity. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * The default autogenerated hostname for the static site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultHostname?: string;
+  /** URL for the repository of the static site. */
+  repositoryUrl?: string;
+  /** The target branch in the repository. */
+  branch?: string;
+  /**
+   * The custom domains associated with this static site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomains?: string[];
+  /** A user's github repository token. This is used to setup the Github Actions workflow file and API secrets. */
+  repositoryToken?: string;
+  /** Build properties to configure on the repository. */
+  buildProperties?: StaticSiteBuildProperties;
+  /**
+   * Private endpoint connections
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: ResponseMessageEnvelopeRemotePrivateEndpointConnection[];
+  /** State indicating whether staging environments are allowed or not allowed for a static web app. */
+  stagingEnvironmentPolicy?: StagingEnvironmentPolicy;
+  /** <code>false</code> if config file is locked for this static web app; otherwise, <code>true</code>. */
+  allowConfigFileUpdates?: boolean;
+  /** Template options for generating a new repository. */
+  templateProperties?: StaticSiteTemplateOptions;
+  /**
+   * The content distribution endpoint for the static site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentDistributionEndpoint?: string;
+  /**
+   * Identity to use for Key Vault Reference authentication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyVaultReferenceIdentity?: string;
+  /**
+   * User provided function apps registered with the static site
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * Backends linked to the static side
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkedBackends?: StaticSiteLinkedBackend[];
+  /** The provider that submitted the last deployment to the primary environment of the static site. */
+  provider?: string;
+  /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
+  enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
+  /** State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled', 'Disabled' or an empty string. */
+  publicNetworkAccess?: string;
+  /**
+   * Database connections for the static site
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseConnections?: DatabaseConnectionOverview[];
+}
+
+/** Premier add-on. */
+export interface PremierAddOn extends Resource {
+  /** Premier add on SKU. */
+  sku?: string;
+  /** Premier add on Product. */
+  product?: string;
+  /** Premier add on Vendor. */
+  vendor?: string;
+  /** Premier add on Marketplace publisher. */
+  marketplacePublisher?: string;
+  /** Premier add on Marketplace offer. */
+  marketplaceOffer?: string;
+}
+
 /** The workflow output parameter. */
 export interface WorkflowOutputParameter extends WorkflowParameter {
   /**
@@ -9329,27 +8720,6 @@ export interface AppServiceEnvironmentsCreateOrUpdateHeaders {
   /** Location header for asynchronous response. */
   location?: string;
 }
-
-/** Known values of {@link ResourceNotRenewableReason} that the service accepts. */
-export enum KnownResourceNotRenewableReason {
-  /** RegistrationStatusNotSupportedForRenewal */
-  RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-  /** ExpirationNotInRenewalTimeRange */
-  ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-  /** SubscriptionNotActive */
-  SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-/**
- * Defines values for ResourceNotRenewableReason. \
- * {@link KnownResourceNotRenewableReason} can be used interchangeably with ResourceNotRenewableReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RegistrationStatusNotSupportedForRenewal** \
- * **ExpirationNotInRenewalTimeRange** \
- * **SubscriptionNotActive**
- */
-export type ResourceNotRenewableReason = string;
 
 /** Known values of {@link LoadBalancingMode} that the service accepts. */
 export enum KnownLoadBalancingMode {
@@ -10568,23 +9938,6 @@ export enum KnownKind {
  * **Stateless**
  */
 export type Kind = string;
-/** Defines values for KeyVaultSecretStatus. */
-export type KeyVaultSecretStatus =
-  | "Initialized"
-  | "WaitingOnCertificateOrder"
-  | "Succeeded"
-  | "CertificateOrderFailed"
-  | "OperationNotPermittedOnKeyVault"
-  | "AzureServiceUnauthorizedToAccessKeyVault"
-  | "KeyVaultDoesNotExist"
-  | "KeyVaultSecretDoesNotExist"
-  | "UnknownError"
-  | "ExternalPrivateKey"
-  | "Unknown";
-/** Defines values for CertificateProductType. */
-export type CertificateProductType =
-  | "StandardDomainValidatedSsl"
-  | "StandardDomainValidatedWildCardSsl";
 /** Defines values for ProvisioningState. */
 export type ProvisioningState =
   | "Succeeded"
@@ -10592,103 +9945,6 @@ export type ProvisioningState =
   | "Canceled"
   | "InProgress"
   | "Deleting";
-/** Defines values for CertificateOrderStatus. */
-export type CertificateOrderStatus =
-  | "Pendingissuance"
-  | "Issued"
-  | "Revoked"
-  | "Canceled"
-  | "Denied"
-  | "Pendingrevocation"
-  | "PendingRekey"
-  | "Unused"
-  | "Expired"
-  | "NotSubmitted";
-/** Defines values for CertificateOrderActionType. */
-export type CertificateOrderActionType =
-  | "CertificateIssued"
-  | "CertificateOrderCanceled"
-  | "CertificateOrderCreated"
-  | "CertificateRevoked"
-  | "DomainValidationComplete"
-  | "FraudDetected"
-  | "OrgNameChange"
-  | "OrgValidationComplete"
-  | "SanDrop"
-  | "FraudCleared"
-  | "CertificateExpired"
-  | "CertificateExpirationWarning"
-  | "FraudDocumentationRequired"
-  | "Unknown";
-/** Defines values for DetectorType. */
-export type DetectorType = "Detector" | "Analysis" | "CategoryOverview";
-/** Defines values for RenderingType. */
-export type RenderingType =
-  | "NoGraph"
-  | "Table"
-  | "TimeSeries"
-  | "TimeSeriesPerInstance"
-  | "PieChart"
-  | "DataSummary"
-  | "Email"
-  | "Insights"
-  | "DynamicInsight"
-  | "Markdown"
-  | "Detector"
-  | "DropDown"
-  | "Card"
-  | "Solution"
-  | "Guage"
-  | "Form"
-  | "ChangeSets"
-  | "ChangeAnalysisOnboarding"
-  | "ChangesView"
-  | "AppInsight"
-  | "DependencyGraph"
-  | "DownTime"
-  | "SummaryCard"
-  | "SearchComponent"
-  | "AppInsightEnablement";
-/** Defines values for InsightStatus. */
-export type InsightStatus =
-  | "Critical"
-  | "Warning"
-  | "Info"
-  | "Success"
-  | "None";
-/** Defines values for DomainType. */
-export type DomainType = "Regular" | "SoftDeleted";
-/** Defines values for DomainStatus. */
-export type DomainStatus =
-  | "Active"
-  | "Awaiting"
-  | "Cancelled"
-  | "Confiscated"
-  | "Disabled"
-  | "Excluded"
-  | "Expired"
-  | "Failed"
-  | "Held"
-  | "Locked"
-  | "Parked"
-  | "Pending"
-  | "Reserved"
-  | "Reverted"
-  | "Suspended"
-  | "Transferred"
-  | "Unknown"
-  | "Unlocked"
-  | "Unparked"
-  | "Updated"
-  | "JsonConverterFailed";
-/** Defines values for AzureResourceType. */
-export type AzureResourceType = "Website" | "TrafficManager";
-/** Defines values for CustomHostNameDnsRecordType. */
-export type CustomHostNameDnsRecordType = "CName" | "A";
-/** Defines values for HostNameType. */
-export type HostNameType = "Verified" | "Managed";
-/** Defines values for DnsType. */
-export type DnsType = "AzureDns" | "DefaultDomainRegistrarDns";
 /** Defines values for HostingEnvironmentStatus. */
 export type HostingEnvironmentStatus =
   | "Preparing"
@@ -10788,6 +10044,55 @@ export type OperationStatus =
   | "Created";
 /** Defines values for StatusOptions. */
 export type StatusOptions = "Ready" | "Pending" | "Creating";
+/** Defines values for KeyVaultSecretStatus. */
+export type KeyVaultSecretStatus =
+  | "Initialized"
+  | "WaitingOnCertificateOrder"
+  | "Succeeded"
+  | "CertificateOrderFailed"
+  | "OperationNotPermittedOnKeyVault"
+  | "AzureServiceUnauthorizedToAccessKeyVault"
+  | "KeyVaultDoesNotExist"
+  | "KeyVaultSecretDoesNotExist"
+  | "UnknownError"
+  | "ExternalPrivateKey"
+  | "Unknown";
+/** Defines values for DetectorType. */
+export type DetectorType = "Detector" | "Analysis" | "CategoryOverview";
+/** Defines values for RenderingType. */
+export type RenderingType =
+  | "NoGraph"
+  | "Table"
+  | "TimeSeries"
+  | "TimeSeriesPerInstance"
+  | "PieChart"
+  | "DataSummary"
+  | "Email"
+  | "Insights"
+  | "DynamicInsight"
+  | "Markdown"
+  | "Detector"
+  | "DropDown"
+  | "Card"
+  | "Solution"
+  | "Guage"
+  | "Form"
+  | "ChangeSets"
+  | "ChangeAnalysisOnboarding"
+  | "ChangesView"
+  | "AppInsight"
+  | "DependencyGraph"
+  | "DownTime"
+  | "SummaryCard"
+  | "SearchComponent"
+  | "AppInsightEnablement";
+/** Defines values for InsightStatus. */
+export type InsightStatus =
+  | "Critical"
+  | "Warning"
+  | "Info"
+  | "Success"
+  | "None";
 /** Defines values for IssueType. */
 export type IssueType =
   | "ServiceIncident"
@@ -10919,6 +10224,12 @@ export type MSDeployProvisioningState =
   | "canceled";
 /** Defines values for MSDeployLogEntryType. */
 export type MSDeployLogEntryType = "Message" | "Warning" | "Error";
+/** Defines values for AzureResourceType. */
+export type AzureResourceType = "Website" | "TrafficManager";
+/** Defines values for CustomHostNameDnsRecordType. */
+export type CustomHostNameDnsRecordType = "CName" | "A";
+/** Defines values for HostNameType. */
+export type HostNameType = "Verified" | "Managed";
 /** Defines values for SiteRuntimeState. */
 export type SiteRuntimeState = "READY" | "STOPPED" | "UNKNOWN";
 /** Defines values for CloneAbilityResult. */
@@ -10961,382 +10272,6 @@ export type DayOfWeek =
   | "Thursday"
   | "Friday"
   | "Saturday";
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AppServiceCertificateOrdersListResponse = AppServiceCertificateOrderCollection;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type AppServiceCertificateOrdersListByResourceGroupResponse = AppServiceCertificateOrderCollection;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AppServiceCertificateOrdersGetResponse = AppServiceCertificateOrder;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type AppServiceCertificateOrdersCreateOrUpdateResponse = AppServiceCertificateOrder;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type AppServiceCertificateOrdersUpdateResponse = AppServiceCertificateOrder;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersListCertificatesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listCertificates operation. */
-export type AppServiceCertificateOrdersListCertificatesResponse = AppServiceCertificateCollection;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersGetCertificateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getCertificate operation. */
-export type AppServiceCertificateOrdersGetCertificateResponse = AppServiceCertificateResource;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdateCertificate operation. */
-export type AppServiceCertificateOrdersCreateOrUpdateCertificateResponse = AppServiceCertificateResource;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersDeleteCertificateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersUpdateCertificateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateCertificate operation. */
-export type AppServiceCertificateOrdersUpdateCertificateResponse = AppServiceCertificateResource;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersReissueOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersRenewOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersResendEmailOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersResendRequestEmailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersRetrieveSiteSealOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the retrieveSiteSeal operation. */
-export type AppServiceCertificateOrdersRetrieveSiteSealResponse = SiteSeal;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersVerifyDomainOwnershipOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersRetrieveCertificateActionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the retrieveCertificateActions operation. */
-export type AppServiceCertificateOrdersRetrieveCertificateActionsResponse = CertificateOrderAction[];
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the retrieveCertificateEmailHistory operation. */
-export type AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse = CertificateEmail[];
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AppServiceCertificateOrdersListNextResponse = AppServiceCertificateOrderCollection;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type AppServiceCertificateOrdersListByResourceGroupNextResponse = AppServiceCertificateOrderCollection;
-
-/** Optional parameters. */
-export interface AppServiceCertificateOrdersListCertificatesNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listCertificatesNext operation. */
-export type AppServiceCertificateOrdersListCertificatesNextResponse = AppServiceCertificateCollection;
-
-/** Optional parameters. */
-export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAppServiceCertificateOrderDetectorResponse operation. */
-export type CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse = DetectorResponseCollection;
-
-/** Optional parameters. */
-export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams
-  extends coreClient.OperationOptions {
-  /** The start time for detector response. */
-  startTime?: Date;
-  /** The end time for the detector response. */
-  endTime?: Date;
-  /** The time grain for the detector response. */
-  timeGrain?: string;
-}
-
-/** Contains response data for the getAppServiceCertificateOrderDetectorResponse operation. */
-export type CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse = DetectorResponse;
-
-/** Optional parameters. */
-export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAppServiceCertificateOrderDetectorResponseNext operation. */
-export type CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse = DetectorResponseCollection;
-
-/** Optional parameters. */
-export interface CertificateRegistrationProviderListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperations operation. */
-export type CertificateRegistrationProviderListOperationsResponse = CsmOperationCollection;
-
-/** Optional parameters. */
-export interface CertificateRegistrationProviderListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNext operation. */
-export type CertificateRegistrationProviderListOperationsNextResponse = CsmOperationCollection;
-
-/** Optional parameters. */
-export interface DomainsCheckAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkAvailability operation. */
-export type DomainsCheckAvailabilityResponse = DomainAvailabilityCheckResult;
-
-/** Optional parameters. */
-export interface DomainsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DomainsListResponse = DomainCollection;
-
-/** Optional parameters. */
-export interface DomainsGetControlCenterSsoRequestOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getControlCenterSsoRequest operation. */
-export type DomainsGetControlCenterSsoRequestResponse = DomainControlCenterSsoRequest;
-
-/** Optional parameters. */
-export interface DomainsListRecommendationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listRecommendations operation. */
-export type DomainsListRecommendationsResponse = NameIdentifierCollection;
-
-/** Optional parameters. */
-export interface DomainsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type DomainsListByResourceGroupResponse = DomainCollection;
-
-/** Optional parameters. */
-export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DomainsGetResponse = Domain;
-
-/** Optional parameters. */
-export interface DomainsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DomainsCreateOrUpdateResponse = Domain;
-
-/** Optional parameters. */
-export interface DomainsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify <code>true</code> to delete the domain immediately. The default is <code>false</code> which deletes the domain after 24 hours. */
-  forceHardDeleteDomain?: boolean;
-}
-
-/** Optional parameters. */
-export interface DomainsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type DomainsUpdateResponse = Domain;
-
-/** Optional parameters. */
-export interface DomainsListOwnershipIdentifiersOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOwnershipIdentifiers operation. */
-export type DomainsListOwnershipIdentifiersResponse = DomainOwnershipIdentifierCollection;
-
-/** Optional parameters. */
-export interface DomainsGetOwnershipIdentifierOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getOwnershipIdentifier operation. */
-export type DomainsGetOwnershipIdentifierResponse = DomainOwnershipIdentifier;
-
-/** Optional parameters. */
-export interface DomainsCreateOrUpdateOwnershipIdentifierOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdateOwnershipIdentifier operation. */
-export type DomainsCreateOrUpdateOwnershipIdentifierResponse = DomainOwnershipIdentifier;
-
-/** Optional parameters. */
-export interface DomainsDeleteOwnershipIdentifierOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DomainsUpdateOwnershipIdentifierOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateOwnershipIdentifier operation. */
-export type DomainsUpdateOwnershipIdentifierResponse = DomainOwnershipIdentifier;
-
-/** Optional parameters. */
-export interface DomainsRenewOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DomainsTransferOutOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the transferOut operation. */
-export type DomainsTransferOutResponse = Domain;
-
-/** Optional parameters. */
-export interface DomainsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DomainsListNextResponse = DomainCollection;
-
-/** Optional parameters. */
-export interface DomainsListRecommendationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listRecommendationsNext operation. */
-export type DomainsListRecommendationsNextResponse = NameIdentifierCollection;
-
-/** Optional parameters. */
-export interface DomainsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type DomainsListByResourceGroupNextResponse = DomainCollection;
-
-/** Optional parameters. */
-export interface DomainsListOwnershipIdentifiersNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOwnershipIdentifiersNext operation. */
-export type DomainsListOwnershipIdentifiersNextResponse = DomainOwnershipIdentifierCollection;
-
-/** Optional parameters. */
-export interface TopLevelDomainsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type TopLevelDomainsListResponse = TopLevelDomainCollection;
-
-/** Optional parameters. */
-export interface TopLevelDomainsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TopLevelDomainsGetResponse = TopLevelDomain;
-
-/** Optional parameters. */
-export interface TopLevelDomainsListAgreementsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAgreements operation. */
-export type TopLevelDomainsListAgreementsResponse = TldLegalAgreementCollection;
-
-/** Optional parameters. */
-export interface TopLevelDomainsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type TopLevelDomainsListNextResponse = TopLevelDomainCollection;
-
-/** Optional parameters. */
-export interface TopLevelDomainsListAgreementsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAgreementsNext operation. */
-export type TopLevelDomainsListAgreementsNextResponse = TldLegalAgreementCollection;
-
-/** Optional parameters. */
-export interface DomainRegistrationProviderListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperations operation. */
-export type DomainRegistrationProviderListOperationsResponse = CsmOperationCollection;
-
-/** Optional parameters. */
-export interface DomainRegistrationProviderListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNext operation. */
-export type DomainRegistrationProviderListOperationsNextResponse = CsmOperationCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListOptionalParams

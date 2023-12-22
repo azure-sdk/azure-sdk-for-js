@@ -12,19 +12,6 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  AppServiceCertificateOrder as AppServiceCertificateOrderMapper,
-  AppServiceCertificateOrderPatchResource as AppServiceCertificateOrderPatchResourceMapper,
-  AppServiceCertificateResource as AppServiceCertificateResourceMapper,
-  AppServiceCertificatePatchResource as AppServiceCertificatePatchResourceMapper,
-  ReissueCertificateOrderRequest as ReissueCertificateOrderRequestMapper,
-  RenewCertificateOrderRequest as RenewCertificateOrderRequestMapper,
-  NameIdentifier as NameIdentifierMapper,
-  SiteSealRequest as SiteSealRequestMapper,
-  DomainRecommendationSearchParameters as DomainRecommendationSearchParametersMapper,
-  Domain as DomainMapper,
-  DomainPatchResource as DomainPatchResourceMapper,
-  DomainOwnershipIdentifier as DomainOwnershipIdentifierMapper,
-  TopLevelDomainAgreementOption as TopLevelDomainAgreementOptionMapper,
   AppServiceEnvironmentResource as AppServiceEnvironmentResourceMapper,
   AppServiceEnvironmentPatchResource as AppServiceEnvironmentPatchResourceMapper,
   VirtualNetworkProfile as VirtualNetworkProfileMapper,
@@ -44,6 +31,7 @@ import {
   User as UserMapper,
   SourceControl as SourceControlMapper,
   ResourceNameAvailabilityRequest as ResourceNameAvailabilityRequestMapper,
+  NameIdentifier as NameIdentifierMapper,
   VnetParameters as VnetParametersMapper,
   CsmMoveResourceEnvelope as CsmMoveResourceEnvelopeMapper,
   ValidateRequest as ValidateRequestMapper,
@@ -140,30 +128,13 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-01",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const appServiceCertificateOrder: OperationParameter = {
-  parameterPath: "appServiceCertificateOrder",
-  mapper: AppServiceCertificateOrderMapper
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -183,28 +154,6 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const certificateOrderName: OperationURLParameter = {
-  parameterPath: "certificateOrderName",
-  mapper: {
-    serializedName: "certificateOrderName",
-    required: true,
-    xmlName: "certificateOrderName",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const certificateDistinguishedName: OperationParameter = {
-  parameterPath: "certificateDistinguishedName",
-  mapper: AppServiceCertificateOrderMapper
-};
-
-export const certificateDistinguishedName1: OperationParameter = {
-  parameterPath: "certificateDistinguishedName",
-  mapper: AppServiceCertificateOrderPatchResourceMapper
-};
-
 export const name: OperationURLParameter = {
   parameterPath: "name",
   mapper: {
@@ -217,163 +166,16 @@ export const name: OperationURLParameter = {
   }
 };
 
-export const keyVaultCertificate: OperationParameter = {
-  parameterPath: "keyVaultCertificate",
-  mapper: AppServiceCertificateResourceMapper
-};
-
-export const keyVaultCertificate1: OperationParameter = {
-  parameterPath: "keyVaultCertificate",
-  mapper: AppServiceCertificatePatchResourceMapper
-};
-
-export const reissueCertificateOrderRequest: OperationParameter = {
-  parameterPath: "reissueCertificateOrderRequest",
-  mapper: ReissueCertificateOrderRequestMapper
-};
-
-export const renewCertificateOrderRequest: OperationParameter = {
-  parameterPath: "renewCertificateOrderRequest",
-  mapper: RenewCertificateOrderRequestMapper
-};
-
-export const nameIdentifier: OperationParameter = {
-  parameterPath: "nameIdentifier",
-  mapper: NameIdentifierMapper
-};
-
-export const siteSealRequest: OperationParameter = {
-  parameterPath: "siteSealRequest",
-  mapper: SiteSealRequestMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
   mapper: {
-    serializedName: "nextLink",
-    required: true,
-    xmlName: "nextLink",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const detectorName: OperationURLParameter = {
-  parameterPath: "detectorName",
-  mapper: {
-    serializedName: "detectorName",
-    required: true,
-    xmlName: "detectorName",
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
     type: {
       name: "String"
     }
   }
-};
-
-export const startTime: OperationQueryParameter = {
-  parameterPath: ["options", "startTime"],
-  mapper: {
-    serializedName: "startTime",
-    xmlName: "startTime",
-    type: {
-      name: "DateTime"
-    }
-  }
-};
-
-export const endTime: OperationQueryParameter = {
-  parameterPath: ["options", "endTime"],
-  mapper: {
-    serializedName: "endTime",
-    xmlName: "endTime",
-    type: {
-      name: "DateTime"
-    }
-  }
-};
-
-export const timeGrain: OperationQueryParameter = {
-  parameterPath: ["options", "timeGrain"],
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("PT[1-9][0-9]+[SMH]")
-    },
-    serializedName: "timeGrain",
-    xmlName: "timeGrain",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const identifier: OperationParameter = {
-  parameterPath: "identifier",
-  mapper: NameIdentifierMapper
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DomainRecommendationSearchParametersMapper
-};
-
-export const domainName: OperationURLParameter = {
-  parameterPath: "domainName",
-  mapper: {
-    serializedName: "domainName",
-    required: true,
-    xmlName: "domainName",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const domain: OperationParameter = {
-  parameterPath: "domain",
-  mapper: DomainMapper
-};
-
-export const domainName1: OperationURLParameter = {
-  parameterPath: "domainName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9\\.-]+")
-    },
-    serializedName: "domainName",
-    required: true,
-    xmlName: "domainName",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const forceHardDeleteDomain: OperationQueryParameter = {
-  parameterPath: ["options", "forceHardDeleteDomain"],
-  mapper: {
-    serializedName: "forceHardDeleteDomain",
-    xmlName: "forceHardDeleteDomain",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const domain1: OperationParameter = {
-  parameterPath: "domain",
-  mapper: DomainPatchResourceMapper
-};
-
-export const domainOwnershipIdentifier: OperationParameter = {
-  parameterPath: "domainOwnershipIdentifier",
-  mapper: DomainOwnershipIdentifierMapper
-};
-
-export const agreementOption: OperationParameter = {
-  parameterPath: "agreementOption",
-  mapper: TopLevelDomainAgreementOptionMapper
 };
 
 export const hostingEnvironmentEnvelope: OperationParameter = {
@@ -496,6 +298,19 @@ export const workerPoolName: OperationURLParameter = {
 export const workerPoolEnvelope: OperationParameter = {
   parameterPath: "workerPoolEnvelope",
   mapper: WorkerPoolResourceMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    xmlName: "nextLink",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const detailed: OperationQueryParameter = {
@@ -679,6 +494,54 @@ export const deletedSiteId: OperationURLParameter = {
     serializedName: "deletedSiteId",
     required: true,
     xmlName: "deletedSiteId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const detectorName: OperationURLParameter = {
+  parameterPath: "detectorName",
+  mapper: {
+    serializedName: "detectorName",
+    required: true,
+    xmlName: "detectorName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const startTime: OperationQueryParameter = {
+  parameterPath: ["options", "startTime"],
+  mapper: {
+    serializedName: "startTime",
+    xmlName: "startTime",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const endTime: OperationQueryParameter = {
+  parameterPath: ["options", "endTime"],
+  mapper: {
+    serializedName: "endTime",
+    xmlName: "endTime",
+    type: {
+      name: "DateTime"
+    }
+  }
+};
+
+export const timeGrain: OperationQueryParameter = {
+  parameterPath: ["options", "timeGrain"],
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("PT[1-9][0-9]+[SMH]")
+    },
+    serializedName: "timeGrain",
+    xmlName: "timeGrain",
     type: {
       name: "String"
     }
@@ -964,7 +827,12 @@ export const linuxDynamicWorkersEnabled: OperationQueryParameter = {
   }
 };
 
-export const parameters1: OperationParameter = {
+export const nameIdentifier: OperationParameter = {
+  parameterPath: "nameIdentifier",
+  mapper: NameIdentifierMapper
+};
+
+export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: VnetParametersMapper
 };
@@ -1148,6 +1016,18 @@ export const basicAuthEnvelope: OperationParameter = {
 export const staticSiteUserRolesInvitationEnvelope: OperationParameter = {
   parameterPath: "staticSiteUserRolesInvitationEnvelope",
   mapper: StaticSiteUserInvitationRequestResourceMapper
+};
+
+export const domainName: OperationURLParameter = {
+  parameterPath: "domainName",
+  mapper: {
+    serializedName: "domainName",
+    required: true,
+    xmlName: "domainName",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const staticSiteCustomDomainRequestPropertiesEnvelope: OperationParameter = {
@@ -1432,7 +1312,7 @@ export const domainOwnershipIdentifierName: OperationURLParameter = {
   }
 };
 
-export const domainOwnershipIdentifier1: OperationParameter = {
+export const domainOwnershipIdentifier: OperationParameter = {
   parameterPath: "domainOwnershipIdentifier",
   mapper: IdentifierMapper
 };
