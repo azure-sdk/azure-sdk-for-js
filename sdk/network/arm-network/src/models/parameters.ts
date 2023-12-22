@@ -301,6 +301,17 @@ export const parameters2: OperationParameter = {
   mapper: ApplicationGatewayPrivateEndpointConnectionMapper
 };
 
+export const locations: OperationURLParameter = {
+  parameterPath: "locations",
+  mapper: {
+    serializedName: "locations",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {

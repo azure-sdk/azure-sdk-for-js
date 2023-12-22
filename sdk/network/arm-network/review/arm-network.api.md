@@ -1181,7 +1181,7 @@ export interface ApplicationGatewayWafDynamicManifests {
 
 // @public
 export interface ApplicationGatewayWafDynamicManifestsDefault {
-    get(location: string, options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams): Promise<ApplicationGatewayWafDynamicManifestsDefaultGetResponse>;
+    get(locations: string, options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams): Promise<ApplicationGatewayWafDynamicManifestsDefaultGetResponse>;
 }
 
 // @public

@@ -15,11 +15,11 @@ import {
 export interface ApplicationGatewayWafDynamicManifestsDefault {
   /**
    * Gets the regional application gateway waf manifest.
-   * @param location The region where the nrp are located at.
+   * @param locations The region where the nrp are located at.
    * @param options The options parameters.
    */
   get(
-    location: string,
+    locations: string,
     options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams
   ): Promise<ApplicationGatewayWafDynamicManifestsDefaultGetResponse>;
 }

@@ -31,15 +31,15 @@ export class ApplicationGatewayWafDynamicManifestsDefaultImpl
 
   /**
    * Gets the regional application gateway waf manifest.
-   * @param location The region where the nrp are located at.
+   * @param locations The region where the nrp are located at.
    * @param options The options parameters.
    */
   get(
-    location: string,
+    locations: string,
     options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams
   ): Promise<ApplicationGatewayWafDynamicManifestsDefaultGetResponse> {
     return this.client.sendOperationRequest(
-      { location, options },
+      { locations, options },
       getOperationSpec
     );
   }
@@ -49,7 +49,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{locations}/applicationGatewayWafDynamicManifests/dafault",
   httpMethod: "GET",
   responses: {
     200: {
@@ -63,7 +63,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.locations
   ],
   headerParameters: [Parameters.accept],
   serializer
