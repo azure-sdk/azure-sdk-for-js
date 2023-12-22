@@ -19,7 +19,6 @@ import {
   SerialPort,
   SerialPortsCreateOptionalParams,
   SerialPortsCreateResponse,
-  SerialPortsDeleteOptionalParams,
   SerialPortsListBySubscriptionsOptionalParams,
   SerialPortsListBySubscriptionsResponse,
   SerialPortsConnectOptionalParams,
@@ -131,38 +130,6 @@ export class SerialPortsImpl implements SerialPorts {
         options
       },
       createOperationSpec
-    );
-  }
-
-  /**
-   * Deletes a serial port
-   * @param resourceGroupName The name of the resource group.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param parentResourceType The resource type of the parent resource.  For example: 'virtualMachines'
-   *                           or 'virtualMachineScaleSets'
-   * @param parentResource The resource name, or subordinate path, for the parent of the serial port. For
-   *                       example: the name of the virtual machine.
-   * @param serialPort The name of the serial port to delete.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourceType: string,
-    parentResource: string,
-    serialPort: string,
-    options?: SerialPortsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceProviderNamespace,
-        parentResourceType,
-        parentResource,
-        serialPort,
-        options
-      },
-      deleteOperationSpec
     );
   }
 
@@ -288,30 +255,6 @@ const createOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourceType}/{parentResource}/providers/Microsoft.SerialConsole/serialPorts/{serialPort}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceProviderNamespace,
-    Parameters.parentResourceType,
-    Parameters.parentResource,
-    Parameters.serialPort
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listBySubscriptionsOperationSpec: coreClient.OperationSpec = {

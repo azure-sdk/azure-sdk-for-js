@@ -90,6 +90,61 @@ export const SerialConsoleOperationsValueItemDisplay: coreClient.CompositeMapper
   }
 };
 
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudErrorBody"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SerialConsoleStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -202,60 +257,57 @@ export const Resource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
+      },
+      systemData: {
+        serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "CloudErrorBody"
+          className: "SystemData"
         }
       }
     }
   }
 };
 
-export const CloudErrorBody: coreClient.CompositeMapper = {
+export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudErrorBody",
+    className: "SystemData",
     modelProperties: {
-      code: {
-        serializedName: "code",
+      createdBy: {
+        serializedName: "createdBy",
         type: {
           name: "String"
         }
       },
-      message: {
-        serializedName: "message",
+      createdByType: {
+        serializedName: "createdByType",
         type: {
           name: "String"
         }
       },
-      target: {
-        serializedName: "target",
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
         type: {
           name: "String"
         }
       },
-      details: {
-        serializedName: "details",
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudErrorBody"
-            }
-          }
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -298,6 +350,13 @@ export const SerialPort: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["enabled", "disabled"]
+        }
+      },
+      connectionState: {
+        serializedName: "properties.connectionState",
+        type: {
+          name: "Enum",
+          allowedValues: ["active", "inactive"]
         }
       }
     }

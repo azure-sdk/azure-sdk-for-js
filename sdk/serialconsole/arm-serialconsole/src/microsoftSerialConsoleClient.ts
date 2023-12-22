@@ -33,7 +33,7 @@ import {
 export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the MicrosoftSerialConsoleClient class.
@@ -46,12 +46,28 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: MicrosoftSerialConsoleClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: MicrosoftSerialConsoleClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | MicrosoftSerialConsoleClientOptionalParams
+      | string,
+    options?: MicrosoftSerialConsoleClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -63,7 +79,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-serialconsole/2.1.1`;
+    const packageDetails = `azsdk-js-arm-serialconsole/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,7 +132,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2018-05-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.serialPorts = new SerialPortsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -215,6 +231,9 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SerialConsoleOperations
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -231,7 +250,11 @@ const getConsoleStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SerialConsoleStatus
     },
     404: {
-      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -252,7 +275,11 @@ const disableConsoleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DisableSerialConsoleResult
     },
     404: {
-      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -273,7 +300,11 @@ const enableConsoleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.EnableSerialConsoleResult
     },
     404: {
-      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],

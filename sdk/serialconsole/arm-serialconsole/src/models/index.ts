@@ -27,6 +27,24 @@ export interface SerialConsoleOperationsValueItemDisplay {
   description?: string;
 }
 
+/** An error response from the service. */
+export interface CloudError {
+  /** Cloud error body. */
+  error?: CloudErrorBody;
+}
+
+/** An error response from the Batch service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
+}
+
 /** Returns whether or not Serial Console is disabled. */
 export interface SerialConsoleStatus {
   /** Whether or not Serial Console is disabled. */
@@ -49,7 +67,7 @@ export interface DisableSerialConsoleResult {
 
 /** Returns whether or not Serial Console is disabled (enabled). */
 export interface EnableSerialConsoleResult {
-  /** Whether or not Serial Console is disabled (enabled). */
+  /** Whether or not Serial Console is disabled. */
   disabled?: boolean;
 }
 
@@ -59,41 +77,44 @@ export interface SerialPortListResult {
   value?: SerialPort[];
 }
 
-/** The Resource model definition. */
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Resource Id
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Resource name
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Resource type
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** An error response from the service. */
-export interface CloudError {
-  /** Cloud error body. */
-  error?: CloudErrorBody;
-}
-
-/** An error response from the Batch service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Returns a connection string to the serial port of the resource. */
@@ -102,17 +123,44 @@ export interface SerialPortConnectResult {
   connectionString?: string;
 }
 
-/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
 /** Represents the serial port of the parent resource. */
 export interface SerialPort extends ProxyResource {
   /** Specifies whether the port is enabled for a serial console connection. */
   state?: SerialPortState;
+  /** Specifies whether the port is currently active. */
+  connectionState?: SerialPortConnectionState;
 }
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 /** Defines values for SerialPortState. */
 export type SerialPortState = "enabled" | "disabled";
+/** Defines values for SerialPortConnectionState. */
+export type SerialPortConnectionState = "active" | "inactive";
 
 /** Optional parameters. */
 export interface ListOperationsOptionalParams
@@ -162,10 +210,6 @@ export interface SerialPortsCreateOptionalParams
 
 /** Contains response data for the create operation. */
 export type SerialPortsCreateResponse = SerialPort;
-
-/** Optional parameters. */
-export interface SerialPortsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SerialPortsListBySubscriptionsOptionalParams
