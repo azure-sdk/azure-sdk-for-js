@@ -1,15 +1,12 @@
 # Release History
+    
+## 14.2.0 (2023-12-22)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Site has a new optional parameter vnetBackupRestoreEnabled
+    
+    
 ## 14.1.0 (2023-11-16)
     
 **Features**

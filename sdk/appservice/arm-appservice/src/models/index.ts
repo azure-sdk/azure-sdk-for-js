@@ -5313,6 +5313,8 @@ export interface Site extends Resource {
   vnetImagePullEnabled?: boolean;
   /** To enable accessing content over virtual network */
   vnetContentShareEnabled?: boolean;
+  /** To enable Backup and Restore operations over virtual network */
+  vnetBackupRestoreEnabled?: boolean;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
   /** Dapr configuration of the app. */

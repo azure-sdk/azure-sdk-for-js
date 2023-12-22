@@ -15903,6 +15903,13 @@ export const Site: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      vnetBackupRestoreEnabled: {
+        serializedName: "properties.vnetBackupRestoreEnabled",
+        xmlName: "properties.vnetBackupRestoreEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       siteConfig: {
         serializedName: "properties.siteConfig",
         xmlName: "properties.siteConfig",
