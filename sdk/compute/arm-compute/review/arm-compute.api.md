@@ -128,7 +128,6 @@ export interface AvailabilitySets {
     get(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsGetOptionalParams): Promise<AvailabilitySetsGetResponse>;
     list(resourceGroupName: string, options?: AvailabilitySetsListOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
     listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
-    listBySubscription(options?: AvailabilitySetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
     update(resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySetUpdate, options?: AvailabilitySetsUpdateOptionalParams): Promise<AvailabilitySetsUpdateResponse>;
 }
 
@@ -159,21 +158,6 @@ export interface AvailabilitySetsListAvailableSizesOptionalParams extends coreCl
 
 // @public
 export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListResult;
-
-// @public
-export interface AvailabilitySetsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetListResult;
-
-// @public
-export interface AvailabilitySetsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-}
-
-// @public
-export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResult;
 
 // @public
 export interface AvailabilitySetsListNextOptionalParams extends coreClient.OperationOptions {
@@ -281,7 +265,6 @@ export interface CapacityReservationGroups {
     createOrUpdate(resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroup, options?: CapacityReservationGroupsCreateOrUpdateOptionalParams): Promise<CapacityReservationGroupsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams): Promise<CapacityReservationGroupsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
     listBySubscription(options?: CapacityReservationGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
     update(resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroupUpdate, options?: CapacityReservationGroupsUpdateOptionalParams): Promise<CapacityReservationGroupsUpdateResponse>;
 }
@@ -304,21 +287,6 @@ export interface CapacityReservationGroupsGetOptionalParams extends coreClient.O
 
 // @public
 export type CapacityReservationGroupsGetResponse = CapacityReservationGroup;
-
-// @public
-export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
-
-// @public
-export interface CapacityReservationGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-    expand?: ExpandTypesForGetCapacityReservationGroups;
-}
-
-// @public
-export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReservationGroupListResult;
 
 // @public
 export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {

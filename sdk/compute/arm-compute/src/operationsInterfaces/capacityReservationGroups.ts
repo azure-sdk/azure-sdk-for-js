@@ -9,7 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   CapacityReservationGroup,
-  CapacityReservationGroupsListByResourceGroupOptionalParams,
   CapacityReservationGroupsListBySubscriptionOptionalParams,
   CapacityReservationGroupsCreateOrUpdateOptionalParams,
   CapacityReservationGroupsCreateOrUpdateResponse,
@@ -24,16 +23,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CapacityReservationGroups. */
 export interface CapacityReservationGroups {
-  /**
-   * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
-   * property in the response to get the next page of capacity reservation groups.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: CapacityReservationGroupsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<CapacityReservationGroup>;
   /**
    * Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the
    * response to get the next page of capacity reservation groups.

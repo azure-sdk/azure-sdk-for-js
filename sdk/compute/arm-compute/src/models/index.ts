@@ -10765,16 +10765,6 @@ export interface AvailabilitySetsGetOptionalParams
 export type AvailabilitySetsGetResponse = AvailabilitySet;
 
 /** Optional parameters. */
-export interface AvailabilitySetsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  expand?: string;
-}
-
-/** Contains response data for the listBySubscription operation. */
-export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResult;
-
-/** Optional parameters. */
 export interface AvailabilitySetsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -10787,13 +10777,6 @@ export interface AvailabilitySetsListAvailableSizesOptionalParams
 
 /** Contains response data for the listAvailableSizes operation. */
 export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListResult;
-
-/** Optional parameters. */
-export interface AvailabilitySetsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetListResult;
 
 /** Optional parameters. */
 export interface AvailabilitySetsListNextOptionalParams
@@ -11252,16 +11235,6 @@ export interface CapacityReservationGroupsGetOptionalParams
 export type CapacityReservationGroupsGetResponse = CapacityReservationGroup;
 
 /** Optional parameters. */
-export interface CapacityReservationGroupsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  expand?: ExpandTypesForGetCapacityReservationGroups;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReservationGroupListResult;
-
-/** Optional parameters. */
 export interface CapacityReservationGroupsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
@@ -11270,13 +11243,6 @@ export interface CapacityReservationGroupsListBySubscriptionOptionalParams
 
 /** Contains response data for the listBySubscription operation. */
 export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReservationGroupListResult;
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
 
 /** Optional parameters. */
 export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams

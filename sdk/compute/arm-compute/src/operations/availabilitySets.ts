@@ -15,9 +15,6 @@ import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
 import {
   AvailabilitySet,
-  AvailabilitySetsListBySubscriptionNextOptionalParams,
-  AvailabilitySetsListBySubscriptionOptionalParams,
-  AvailabilitySetsListBySubscriptionResponse,
   AvailabilitySetsListNextOptionalParams,
   AvailabilitySetsListOptionalParams,
   AvailabilitySetsListResponse,
@@ -32,7 +29,6 @@ import {
   AvailabilitySetsDeleteOptionalParams,
   AvailabilitySetsGetOptionalParams,
   AvailabilitySetsGetResponse,
-  AvailabilitySetsListBySubscriptionNextResponse,
   AvailabilitySetsListNextResponse
 } from "../models";
 
@@ -47,60 +43,6 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Lists all availability sets in a subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<AvailabilitySet> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<AvailabilitySet[]> {
-    let result: AvailabilitySetsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<AvailabilitySet> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -305,19 +247,6 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   }
 
   /**
-   * Lists all availability sets in a subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
-  ): Promise<AvailabilitySetsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
-  }
-
-  /**
    * Lists all availability sets in a resource group.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
@@ -347,21 +276,6 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     return this.client.sendOperationRequest(
       { resourceGroupName, availabilitySetName, options },
       listAvailableSizesOperationSpec
-    );
-  }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: AvailabilitySetsListBySubscriptionNextOptionalParams
-  ): Promise<AvailabilitySetsListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec
     );
   }
 
@@ -476,23 +390,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailabilitySetListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
@@ -532,25 +429,6 @@ const listAvailableSizesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.availabilitySetName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailabilitySetListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

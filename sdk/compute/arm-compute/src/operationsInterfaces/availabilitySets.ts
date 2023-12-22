@@ -9,7 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailabilitySet,
-  AvailabilitySetsListBySubscriptionOptionalParams,
   AvailabilitySetsListOptionalParams,
   VirtualMachineSize,
   AvailabilitySetsListAvailableSizesOptionalParams,
@@ -26,13 +25,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailabilitySets. */
 export interface AvailabilitySets {
-  /**
-   * Lists all availability sets in a subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
    * Lists all availability sets in a resource group.
    * @param resourceGroupName The name of the resource group.

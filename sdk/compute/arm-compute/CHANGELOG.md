@@ -1,15 +1,13 @@
 # Release History
+    
+## 22.0.0 (2023-12-22)
+    
+**Breaking Changes**
 
-## 21.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation AvailabilitySets.listBySubscription
+  - Removed operation CapacityReservationGroups.listByResourceGroup
+    
+    
 ## 21.3.0 (2023-12-08)
     
 **Features**
