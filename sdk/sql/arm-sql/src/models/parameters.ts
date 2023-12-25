@@ -108,6 +108,10 @@ import {
   DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput as DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputMapper,
   DatabaseSqlVulnerabilityAssessmentRuleBaselineInput as DatabaseSqlVulnerabilityAssessmentRuleBaselineInputMapper,
   SqlVulnerabilityAssessment as SqlVulnerabilityAssessmentMapper,
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
+  Server as ServerMapper,
+  ServerUpdate as ServerUpdateMapper,
+  ImportNewDatabaseDefinition as ImportNewDatabaseDefinitionMapper,
   FailoverGroup as FailoverGroupMapper,
   FailoverGroupUpdate as FailoverGroupUpdateMapper,
   InstancePool as InstancePoolMapper,
@@ -115,11 +119,7 @@ import {
   ChangeLongTermRetentionBackupAccessTierParameters as ChangeLongTermRetentionBackupAccessTierParametersMapper,
   CopyLongTermRetentionBackupParameters as CopyLongTermRetentionBackupParametersMapper,
   UpdateLongTermRetentionBackupParameters as UpdateLongTermRetentionBackupParametersMapper,
-  LongTermRetentionPolicy as LongTermRetentionPolicyMapper,
-  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
-  Server as ServerMapper,
-  ServerUpdate as ServerUpdateMapper,
-  ImportNewDatabaseDefinition as ImportNewDatabaseDefinitionMapper
+  LongTermRetentionPolicy as LongTermRetentionPolicyMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -2138,20 +2138,40 @@ export const parameters95: OperationParameter = {
 
 export const parameters96: OperationParameter = {
   parameterPath: "parameters",
-  mapper: FailoverGroupMapper
+  mapper: CheckNameAvailabilityRequestMapper
 };
 
 export const parameters97: OperationParameter = {
   parameterPath: "parameters",
-  mapper: FailoverGroupUpdateMapper
+  mapper: ServerMapper
 };
 
 export const parameters98: OperationParameter = {
   parameterPath: "parameters",
-  mapper: InstancePoolMapper
+  mapper: ServerUpdateMapper
 };
 
 export const parameters99: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ImportNewDatabaseDefinitionMapper
+};
+
+export const parameters100: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FailoverGroupMapper
+};
+
+export const parameters101: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FailoverGroupUpdateMapper
+};
+
+export const parameters102: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: InstancePoolMapper
+};
+
+export const parameters103: OperationParameter = {
   parameterPath: "parameters",
   mapper: InstancePoolUpdateMapper
 };
@@ -2178,17 +2198,17 @@ export const longTermRetentionDatabaseName: OperationURLParameter = {
   }
 };
 
-export const parameters100: OperationParameter = {
+export const parameters104: OperationParameter = {
   parameterPath: "parameters",
   mapper: ChangeLongTermRetentionBackupAccessTierParametersMapper
 };
 
-export const parameters101: OperationParameter = {
+export const parameters105: OperationParameter = {
   parameterPath: "parameters",
   mapper: CopyLongTermRetentionBackupParametersMapper
 };
 
-export const parameters102: OperationParameter = {
+export const parameters106: OperationParameter = {
   parameterPath: "parameters",
   mapper: UpdateLongTermRetentionBackupParametersMapper
 };
@@ -2204,27 +2224,7 @@ export const policyName3: OperationURLParameter = {
   }
 };
 
-export const parameters103: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: LongTermRetentionPolicyMapper
-};
-
-export const parameters104: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckNameAvailabilityRequestMapper
-};
-
-export const parameters105: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ServerMapper
-};
-
-export const parameters106: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ServerUpdateMapper
-};
-
 export const parameters107: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ImportNewDatabaseDefinitionMapper
+  mapper: LongTermRetentionPolicyMapper
 };

@@ -606,7 +606,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters98,
+  requestBody: Parameters.parameters102,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -651,7 +651,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters99,
+  requestBody: Parameters.parameters103,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
