@@ -4996,7 +4996,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231221
+      typescript: 5.4.0-dev.20231225
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9751,8 +9751,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231221:
-    resolution: {integrity: sha512-vsu9WExlMAmSoA/elxcmBTyRDyf9REJCKV2DowCmSpp+oqv+oq0yku8490q1r2YBC7o9DP+u/q58J5sjqaAD+g==}
+  /typescript@5.4.0-dev.20231225:
+    resolution: {integrity: sha512-5cTYQI4FrVz8ceeX+EsAzZLscTzKvwIRdyAkNQncqraQJqHToyL/r3Nt6oPtZxedrYqOzOXTTLdY8cdsHzDCcQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13749,7 +13749,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridnetwork.tgz:
-    resolution: {integrity: sha512-vnW05Mojjp3FtGoep9UGv4qZVlAdZxxYcTU1VXn4ezT5LhUcj504cwpCNKYlIqzSyLA9qc/EKs9UM7nX9ZCUnQ==, tarball: file:projects/arm-hybridnetwork.tgz}
+    resolution: {integrity: sha512-LwWLiW4DS2EzuDqifNZ235JVTbIpgi4p35KkZFmmsFY0peISr1TAdol4YJCPskaNOlEU/jCNueMHOTWzFgwPIQ==, tarball: file:projects/arm-hybridnetwork.tgz}
     name: '@rush-temp/arm-hybridnetwork'
     version: 0.0.0
     dependencies:
@@ -16186,7 +16186,7 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-mqBlE0zc9U6wDMIT0jsD/AYQxcWev3OQvDa95WdZ1E40K/M9RsARfIWbwURCMgpZi+zHrvjJgkKkarBp61k5nw==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-Qqfj9RfLTJkcM0dfz9oWZPattCsA4ldENVH1Ht9xGissvKSEwanV0NeRNdYSp+5B8W4tno09bHHt7h6GgpY3BA==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
@@ -16194,13 +16194,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
