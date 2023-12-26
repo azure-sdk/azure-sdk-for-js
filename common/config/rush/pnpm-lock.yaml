@@ -719,6 +719,9 @@ dependencies:
   '@rush-temp/arm-workloads':
     specifier: file:./projects/arm-workloads.tgz
     version: file:projects/arm-workloads.tgz
+  '@rush-temp/arm-workloads-sapvirtualinstance':
+    specifier: file:./projects/arm-workloads-sapvirtualinstance.tgz
+    version: file:projects/arm-workloads-sapvirtualinstance.tgz
   '@rush-temp/arm-workspaces':
     specifier: file:./projects/arm-workspaces.tgz
     version: file:projects/arm-workspaces.tgz
@@ -4996,7 +4999,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231221
+      typescript: 5.4.0-dev.20231226
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9751,8 +9754,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231221:
-    resolution: {integrity: sha512-vsu9WExlMAmSoA/elxcmBTyRDyf9REJCKV2DowCmSpp+oqv+oq0yku8490q1r2YBC7o9DP+u/q58J5sjqaAD+g==}
+  /typescript@5.4.0-dev.20231226:
+    resolution: {integrity: sha512-UHOgBgQgky4SUZ2Z0tFVgzulKJSJBUkAtcBggBJ3swOUyIwn3PJBvZxHLtK94lszCq/FCR9ozErD+UABxmXyYQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13749,7 +13752,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridnetwork.tgz:
-    resolution: {integrity: sha512-vnW05Mojjp3FtGoep9UGv4qZVlAdZxxYcTU1VXn4ezT5LhUcj504cwpCNKYlIqzSyLA9qc/EKs9UM7nX9ZCUnQ==, tarball: file:projects/arm-hybridnetwork.tgz}
+    resolution: {integrity: sha512-LwWLiW4DS2EzuDqifNZ235JVTbIpgi4p35KkZFmmsFY0peISr1TAdol4YJCPskaNOlEU/jCNueMHOTWzFgwPIQ==, tarball: file:projects/arm-hybridnetwork.tgz}
     name: '@rush-temp/arm-hybridnetwork'
     version: 0.0.0
     dependencies:
@@ -16894,6 +16897,34 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-workloads-sapvirtualinstance.tgz:
+    resolution: {integrity: sha512-GeW4mqrkDGRNgdpSCTGLAqk3mov1BDnn6+/3x7hAxq7XACWBc5ekXtAk3kXzS09LClo2/F8opvnyQVBnuCcFAg==, tarball: file:projects/arm-workloads-sapvirtualinstance.tgz}
+    name: '@rush-temp/arm-workloads-sapvirtualinstance'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.3
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
