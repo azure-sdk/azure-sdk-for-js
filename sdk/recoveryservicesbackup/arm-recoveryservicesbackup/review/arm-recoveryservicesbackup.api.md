@@ -239,6 +239,8 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
     policyType?: IaasvmPolicyType;
     retentionPolicy?: RetentionPolicyUnion;
     schedulePolicy?: SchedulePolicyUnion;
+    // (undocumented)
+    snapshotConsistencyType?: IaasVMSnapshotConsistencyType;
     tieringPolicy?: {
         [propertyName: string]: TieringPolicy;
     };
@@ -1893,6 +1895,9 @@ export interface IaasVMRestoreWithRehydrationRequest extends IaasVMRestoreReques
 }
 
 // @public
+export type IaasVMSnapshotConsistencyType = string;
+
+// @public
 export interface IdentityBasedRestoreDetails {
     objectType?: string;
     targetStorageAccountId?: string;
@@ -2242,6 +2247,11 @@ export enum KnownIaasvmPolicyType {
     Invalid = "Invalid",
     V1 = "V1",
     V2 = "V2"
+}
+
+// @public
+export enum KnownIaasVMSnapshotConsistencyType {
+    OnlyCrashConsistent = "OnlyCrashConsistent"
 }
 
 // @public
@@ -3941,7 +3951,6 @@ export interface SnapshotBackupAdditionalDetails {
     instantRPDetails?: string;
     // (undocumented)
     instantRpRetentionRangeInDays?: number;
-    // (undocumented)
     userAssignedManagedIdentityDetails?: UserAssignedManagedIdentityDetails;
 }
 
@@ -4100,18 +4109,16 @@ export interface UnlockDeleteResponse {
 export type UsagesUnit = string;
 
 // @public
-export interface UserAssignedIdentity {
-    readonly clientId?: string;
-    readonly principalId?: string;
+export interface UserAssignedIdentityProperties {
+    clientId?: string;
+    principalId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserAssignedManagedIdentityDetails {
-    // (undocumented)
     identityArmId?: string;
-    // (undocumented)
     identityName?: string;
-    userAssignedIdentityProperties?: UserAssignedIdentity;
+    userAssignedIdentityProperties?: UserAssignedIdentityProperties;
 }
 
 // @public
