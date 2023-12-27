@@ -1,5 +1,13 @@
 # Release History
     
+## 2.1.0 (2023-12-27)
+    
+**Features**
+
+  - Interface KubernetesClusterRestoreCriteria has a new optional parameter resourceModifierReference
+  - Interface KubernetesClusterVaultTierRestoreCriteria has a new optional parameter resourceModifierReference
+    
+    
 ## 2.0.0 (2023-12-05)
     
 **Features**

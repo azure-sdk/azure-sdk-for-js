@@ -4893,6 +4893,13 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      resourceModifierReference: {
+        serializedName: "resourceModifierReference",
+        type: {
+          name: "Composite",
+          className: "NamespacedNameResource"
+        }
       }
     }
   }
@@ -5011,6 +5018,13 @@ export const KubernetesClusterVaultTierRestoreCriteria: coreClient.CompositeMapp
         serializedName: "stagingStorageAccountId",
         type: {
           name: "String"
+        }
+      },
+      resourceModifierReference: {
+        serializedName: "resourceModifierReference",
+        type: {
+          name: "Composite",
+          className: "NamespacedNameResource"
         }
       }
     }
