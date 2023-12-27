@@ -93,7 +93,7 @@ const purgeOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -113,7 +113,7 @@ const getPurgeStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkspacePurgeStatusResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

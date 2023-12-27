@@ -12,6 +12,9 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  Workspace as WorkspaceMapper,
+  WorkspacePatch as WorkspacePatchMapper,
+  Table as TableMapper,
   LogAnalyticsQueryPack as LogAnalyticsQueryPackMapper,
   TagsResource as TagsResourceMapper,
   LogAnalyticsQueryPackQuerySearchProperties as LogAnalyticsQueryPackQuerySearchPropertiesMapper,
@@ -24,10 +27,7 @@ import {
   SavedSearch as SavedSearchMapper,
   WorkspacePurgeBody as WorkspacePurgeBodyMapper,
   Cluster as ClusterMapper,
-  ClusterPatch as ClusterPatchMapper,
-  Workspace as WorkspaceMapper,
-  WorkspacePatch as WorkspacePatchMapper,
-  Table as TableMapper
+  ClusterPatch as ClusterPatchMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -57,13 +57,25 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2019-09-01",
+    defaultValue: "2023-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -107,6 +119,82 @@ export const contentType: OperationParameter = {
   }
 };
 
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WorkspaceMapper
+};
+
+export const workspaceName: OperationURLParameter = {
+  parameterPath: "workspaceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
+      MaxLength: 63,
+      MinLength: 4
+    },
+    serializedName: "workspaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const force: OperationQueryParameter = {
+  parameterPath: ["options", "force"],
+  mapper: {
+    serializedName: "force",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WorkspacePatchMapper
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-10-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TableMapper
+};
+
+export const tableName: OperationURLParameter = {
+  parameterPath: "tableName",
+  mapper: {
+    serializedName: "tableName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2019-09-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const logAnalyticsQueryPackPayload: OperationParameter = {
   parameterPath: "logAnalyticsQueryPackPayload",
   mapper: LogAnalyticsQueryPackMapper
@@ -126,18 +214,6 @@ export const queryPackName: OperationURLParameter = {
 export const queryPackTags: OperationParameter = {
   parameterPath: "queryPackTags",
   mapper: TagsResourceMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const top: OperationQueryParameter = {
@@ -191,23 +267,7 @@ export const queryPayload: OperationParameter = {
   mapper: LogAnalyticsQueryPackQueryMapper
 };
 
-export const workspaceName: OperationURLParameter = {
-  parameterPath: "workspaceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
-      MaxLength: 63,
-      MinLength: 4
-    },
-    serializedName: "workspaceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-08-01",
@@ -219,7 +279,7 @@ export const apiVersion1: OperationQueryParameter = {
   }
 };
 
-export const parameters: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataExportMapper
 };
@@ -251,7 +311,7 @@ export const dataExportName1: OperationURLParameter = {
   }
 };
 
-export const parameters1: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataSourceMapper
 };
@@ -299,7 +359,7 @@ export const intelligencePackName: OperationURLParameter = {
   }
 };
 
-export const parameters2: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: LinkedServiceMapper
 };
@@ -315,7 +375,7 @@ export const linkedServiceName: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: LinkedStorageAccountsResourceMapper
 };
@@ -360,7 +420,7 @@ export const asyncOperationId: OperationURLParameter = {
   }
 };
 
-export const parameters4: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: StorageInsightMapper
 };
@@ -387,7 +447,7 @@ export const savedSearchId: OperationURLParameter = {
   }
 };
 
-export const parameters5: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: SavedSearchMapper
 };
@@ -419,19 +479,7 @@ export const purgeId: OperationURLParameter = {
   }
 };
 
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-06-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters6: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: ClusterMapper
 };
@@ -463,55 +511,7 @@ export const clusterName1: OperationURLParameter = {
   }
 };
 
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ClusterPatchMapper
-};
-
-export const apiVersion3: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-10-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters8: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: WorkspaceMapper
-};
-
-export const force: OperationQueryParameter = {
-  parameterPath: ["options", "force"],
-  mapper: {
-    serializedName: "force",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: WorkspacePatchMapper
-};
-
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TableMapper
-};
-
-export const tableName: OperationURLParameter = {
-  parameterPath: "tableName",
-  mapper: {
-    serializedName: "tableName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: ClusterPatchMapper
 };

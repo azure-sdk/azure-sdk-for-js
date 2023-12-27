@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LinkedService,
   LinkedServicesListByWorkspaceOptionalParams,
@@ -120,8 +124,8 @@ export class LinkedServicesImpl implements LinkedServices {
     parameters: LinkedService,
     options?: LinkedServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServicesCreateOrUpdateResponse>,
       LinkedServicesCreateOrUpdateResponse
     >
   > {
@@ -131,7 +135,7 @@ export class LinkedServicesImpl implements LinkedServices {
     ): Promise<LinkedServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -164,19 +168,22 @@ export class LinkedServicesImpl implements LinkedServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         linkedServiceName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LinkedServicesCreateOrUpdateResponse,
+      OperationState<LinkedServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -221,8 +228,8 @@ export class LinkedServicesImpl implements LinkedServices {
     linkedServiceName: string,
     options?: LinkedServicesDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServicesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServicesDeleteResponse>,
       LinkedServicesDeleteResponse
     >
   > {
@@ -232,7 +239,7 @@ export class LinkedServicesImpl implements LinkedServices {
     ): Promise<LinkedServicesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -265,13 +272,16 @@ export class LinkedServicesImpl implements LinkedServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, linkedServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, linkedServiceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LinkedServicesDeleteResponse,
+      OperationState<LinkedServicesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -357,8 +367,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedService
     }
   },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -388,7 +398,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedService
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -408,7 +418,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedService
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -428,7 +438,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedServiceListResult
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

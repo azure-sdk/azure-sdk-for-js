@@ -1193,6 +1193,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-operationalinsights@9.0.0:
+    resolution: {integrity: sha512-2MGyYUdi0ITlqqVq1XEHf7oX20I5VX0/OH/Lu+g4MW6h4js+sPSLjTBpVbafD/NoroLAdVdltVCOR6h3b1bTxg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.13.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.22:
     resolution: {integrity: sha512-0ispnIoRERypuNck90C+QaMTRC4v8owOOV+MbNec72HWCuPz+ndribcc8kIfCgplgwXDFsghskHkD6CaPyYdsA==}
     engines: {node: '>=8.0.0'}
@@ -4996,7 +5011,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231221
+      typescript: 5.4.0-dev.20231227
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9751,8 +9766,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231221:
-    resolution: {integrity: sha512-vsu9WExlMAmSoA/elxcmBTyRDyf9REJCKV2DowCmSpp+oqv+oq0yku8490q1r2YBC7o9DP+u/q58J5sjqaAD+g==}
+  /typescript@5.4.0-dev.20231227:
+    resolution: {integrity: sha512-lUTwqlRFd+OYg6urfqgdDBiEs4rUyejfaNeLLE9x77VYwHGPNS+Hg6/UQiXTpHuQIk+aMjxZkBJDDuGbD+SEdA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13749,7 +13764,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridnetwork.tgz:
-    resolution: {integrity: sha512-vnW05Mojjp3FtGoep9UGv4qZVlAdZxxYcTU1VXn4ezT5LhUcj504cwpCNKYlIqzSyLA9qc/EKs9UM7nX9ZCUnQ==, tarball: file:projects/arm-hybridnetwork.tgz}
+    resolution: {integrity: sha512-LwWLiW4DS2EzuDqifNZ235JVTbIpgi4p35KkZFmmsFY0peISr1TAdol4YJCPskaNOlEU/jCNueMHOTWzFgwPIQ==, tarball: file:projects/arm-hybridnetwork.tgz}
     name: '@rush-temp/arm-hybridnetwork'
     version: 0.0.0
     dependencies:
@@ -14566,11 +14581,12 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-v0zJ0dtlJc1rm6YzH+O+cpCGAmGviH8i9oMX83LMnxTMA+Q/fzmcVU+xlFTmqX07B5FIJ4+WWp7vytDPrwAe2Q==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-VaOUnqO9l/J7gaMV4iTn3VWB/7V9hV/Lyoy7PnnMSmOt3tv6gKh88eM88nDHwjg6H3YhtFi2pfdTqq1WPElTZw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-operationalinsights': 9.0.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -14976,7 +14992,7 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-nU5jIq0YisLsLyVTRFVAq4iar2UcEyzyuyfW0SBTdVVBHFv8p4A8Zl+To+GLR3+WEhIzRwOgLTaUd1mt13kBGw==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-TQxo6uY+NneDiJSU7ysDJ4QU+gazA7bgu0H3KDnadwDCR+pOEqZ93TkNVblECkkau5227QXsy+SMV67mh9t2og==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
@@ -14984,13 +15000,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
