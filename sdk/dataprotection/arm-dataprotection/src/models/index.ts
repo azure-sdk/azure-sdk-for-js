@@ -1836,6 +1836,8 @@ export interface KubernetesClusterRestoreCriteria
   namespaceMappings?: { [propertyName: string]: string };
   /** Gets or sets the restore hook references. This property sets the hook reference to be executed during restore. */
   restoreHookReferences?: NamespacedNameResource[];
+  /** Gets or sets the resource modifier reference. This property sets the reference for resource modifier during restore. */
+  resourceModifierReference?: NamespacedNameResource;
 }
 
 /** kubernetes Cluster Backup target info for restore operation from vault */
@@ -1867,6 +1869,8 @@ export interface KubernetesClusterVaultTierRestoreCriteria
   stagingResourceGroupId?: string;
   /** Gets or sets the staging Storage Account Id for creating backup extension object store data during restore from vault. */
   stagingStorageAccountId?: string;
+  /** Gets or sets the resource modifier reference. This property sets the reference for resource modifier during restore. */
+  resourceModifierReference?: NamespacedNameResource;
 }
 
 /** Backup Vault Resource */
