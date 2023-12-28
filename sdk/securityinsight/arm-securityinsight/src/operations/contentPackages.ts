@@ -8,32 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { EntityQueries } from "../operationsInterfaces";
+import { ContentPackages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  EntityQueryUnion,
-  EntityQueriesListNextOptionalParams,
-  EntityQueriesListOptionalParams,
-  EntityQueriesListResponse,
-  EntityQueriesGetOptionalParams,
-  EntityQueriesGetResponse,
-  CustomEntityQueryUnion,
-  EntityQueriesCreateOrUpdateOptionalParams,
-  EntityQueriesCreateOrUpdateResponse,
-  EntityQueriesDeleteOptionalParams,
-  EntityQueriesListNextResponse
+  PackageModel,
+  ContentPackagesListNextOptionalParams,
+  ContentPackagesListOptionalParams,
+  ContentPackagesListResponse,
+  ContentPackagesGetOptionalParams,
+  ContentPackagesGetResponse,
+  ContentPackagesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EntityQueries operations. */
-export class EntityQueriesImpl implements EntityQueries {
+/** Class containing ContentPackages operations. */
+export class ContentPackagesImpl implements ContentPackages {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class EntityQueries class.
+   * Initialize a new instance of the class ContentPackages class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -41,7 +37,7 @@ export class EntityQueriesImpl implements EntityQueries {
   }
 
   /**
-   * Gets all entity queries.
+   * Gets all installed packages.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -49,8 +45,8 @@ export class EntityQueriesImpl implements EntityQueries {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityQueryUnion> {
+    options?: ContentPackagesListOptionalParams
+  ): PagedAsyncIterableIterator<PackageModel> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -76,10 +72,10 @@ export class EntityQueriesImpl implements EntityQueries {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams,
+    options?: ContentPackagesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<EntityQueryUnion[]> {
-    let result: EntityQueriesListResponse;
+  ): AsyncIterableIterator<PackageModel[]> {
+    let result: ContentPackagesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -105,8 +101,8 @@ export class EntityQueriesImpl implements EntityQueries {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams
-  ): AsyncIterableIterator<EntityQueryUnion> {
+    options?: ContentPackagesListOptionalParams
+  ): AsyncIterableIterator<PackageModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -117,7 +113,7 @@ export class EntityQueriesImpl implements EntityQueries {
   }
 
   /**
-   * Gets all entity queries.
+   * Gets all installed packages.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -125,8 +121,8 @@ export class EntityQueriesImpl implements EntityQueries {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams
-  ): Promise<EntityQueriesListResponse> {
+    options?: ContentPackagesListOptionalParams
+  ): Promise<ContentPackagesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
@@ -134,61 +130,21 @@ export class EntityQueriesImpl implements EntityQueries {
   }
 
   /**
-   * Gets an entity query.
+   * Gets an installed packages by its id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
+   * @param packageId package Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryId: string,
-    options?: EntityQueriesGetOptionalParams
-  ): Promise<EntityQueriesGetResponse> {
+    packageId: string,
+    options?: ContentPackagesGetOptionalParams
+  ): Promise<ContentPackagesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityQueryId, options },
+      { resourceGroupName, workspaceName, packageId, options },
       getOperationSpec
-    );
-  }
-
-  /**
-   * Creates or updates the entity query.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
-   * @param entityQuery The entity query we want to create or update
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    entityQueryId: string,
-    entityQuery: CustomEntityQueryUnion,
-    options?: EntityQueriesCreateOrUpdateOptionalParams
-  ): Promise<EntityQueriesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityQueryId, entityQuery, options },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Delete the entity query.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    entityQueryId: string,
-    options?: EntityQueriesDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityQueryId, options },
-      deleteOperationSpec
     );
   }
 
@@ -203,8 +159,8 @@ export class EntityQueriesImpl implements EntityQueries {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: EntityQueriesListNextOptionalParams
-  ): Promise<EntityQueriesListNextResponse> {
+    options?: ContentPackagesListNextOptionalParams
+  ): Promise<ContentPackagesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -216,17 +172,26 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentPackages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQueryList
+      bodyMapper: Mappers.PackageList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.kind1],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderby,
+    Parameters.search,
+    Parameters.count,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.skipToken
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -238,11 +203,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries/{entityQueryId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentPackages/{packageId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQuery
+      bodyMapper: Mappers.PackageModel
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -254,57 +219,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityQueryId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries/{entityQueryId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EntityQuery
-    },
-    201: {
-      bodyMapper: Mappers.EntityQuery
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.entityQuery,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.entityQueryId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries/{entityQueryId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.entityQueryId
+    Parameters.packageId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -314,7 +229,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQueryList
+      bodyMapper: Mappers.PackageList
     },
     default: {
       bodyMapper: Mappers.CloudError

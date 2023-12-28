@@ -21,7 +21,6 @@ import {
   WatchlistsGetOptionalParams,
   WatchlistsGetResponse,
   WatchlistsDeleteOptionalParams,
-  WatchlistsDeleteResponse,
   WatchlistsCreateOrUpdateOptionalParams,
   WatchlistsCreateOrUpdateResponse,
   WatchlistsListNextResponse
@@ -41,7 +40,7 @@ export class WatchlistsImpl implements Watchlists {
   }
 
   /**
-   * Gets all watchlists, without watchlist items.
+   * Get all watchlists, without watchlist items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -117,7 +116,7 @@ export class WatchlistsImpl implements Watchlists {
   }
 
   /**
-   * Gets all watchlists, without watchlist items.
+   * Get all watchlists, without watchlist items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -134,10 +133,10 @@ export class WatchlistsImpl implements Watchlists {
   }
 
   /**
-   * Gets a watchlist, without its watchlist items.
+   * Get a watchlist, without its watchlist items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   get(
@@ -156,7 +155,7 @@ export class WatchlistsImpl implements Watchlists {
    * Delete a watchlist.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   delete(
@@ -164,7 +163,7 @@ export class WatchlistsImpl implements Watchlists {
     workspaceName: string,
     watchlistAlias: string,
     options?: WatchlistsDeleteOptionalParams
-  ): Promise<WatchlistsDeleteResponse> {
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, watchlistAlias, options },
       deleteOperationSpec
@@ -173,14 +172,11 @@ export class WatchlistsImpl implements Watchlists {
 
   /**
    * Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content
-   * type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a
-   * valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content
-   * size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can
-   * go up to 500 MB. The status of processing such large file can be polled through the URL returned in
-   * Azure-AsyncOperation header.
+   * type). To create a Watchlist and its Items, we should call this endpoint with rawContent and
+   * contentType properties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param watchlist The watchlist
    * @param options The options parameters.
    */
@@ -269,9 +265,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.WatchlistsDeleteHeaders
-    },
+    200: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
@@ -297,8 +291,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Watchlist
     },
     201: {
-      bodyMapper: Mappers.Watchlist,
-      headersMapper: Mappers.WatchlistsCreateOrUpdateHeaders
+      bodyMapper: Mappers.Watchlist
     },
     default: {
       bodyMapper: Mappers.CloudError

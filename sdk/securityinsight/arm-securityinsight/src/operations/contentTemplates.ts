@@ -8,28 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { EntityQueryTemplates } from "../operationsInterfaces";
+import { ContentTemplates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  EntityQueryTemplateUnion,
-  EntityQueryTemplatesListNextOptionalParams,
-  EntityQueryTemplatesListOptionalParams,
-  EntityQueryTemplatesListResponse,
-  EntityQueryTemplatesGetOptionalParams,
-  EntityQueryTemplatesGetResponse,
-  EntityQueryTemplatesListNextResponse
+  TemplateModel,
+  ContentTemplatesListNextOptionalParams,
+  ContentTemplatesListOptionalParams,
+  ContentTemplatesListResponse,
+  ContentTemplatesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EntityQueryTemplates operations. */
-export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
+/** Class containing ContentTemplates operations. */
+export class ContentTemplatesImpl implements ContentTemplates {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class EntityQueryTemplates class.
+   * Initialize a new instance of the class ContentTemplates class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -37,7 +35,10 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   }
 
   /**
-   * Gets all entity query templates.
+   * Gets all installed templates.
+   * Expandable properties:
+   * - properties/mainTemplate
+   * - properties/dependantTemplates
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -45,8 +46,8 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityQueryTemplateUnion> {
+    options?: ContentTemplatesListOptionalParams
+  ): PagedAsyncIterableIterator<TemplateModel> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -72,10 +73,10 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams,
+    options?: ContentTemplatesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<EntityQueryTemplateUnion[]> {
-    let result: EntityQueryTemplatesListResponse;
+  ): AsyncIterableIterator<TemplateModel[]> {
+    let result: ContentTemplatesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -101,8 +102,8 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): AsyncIterableIterator<EntityQueryTemplateUnion> {
+    options?: ContentTemplatesListOptionalParams
+  ): AsyncIterableIterator<TemplateModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -113,7 +114,10 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   }
 
   /**
-   * Gets all entity query templates.
+   * Gets all installed templates.
+   * Expandable properties:
+   * - properties/mainTemplate
+   * - properties/dependantTemplates
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -121,30 +125,11 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): Promise<EntityQueryTemplatesListResponse> {
+    options?: ContentTemplatesListOptionalParams
+  ): Promise<ContentTemplatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
-    );
-  }
-
-  /**
-   * Gets an entity query.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param entityQueryTemplateId entity query template ID
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    entityQueryTemplateId: string,
-    options?: EntityQueryTemplatesGetOptionalParams
-  ): Promise<EntityQueryTemplatesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityQueryTemplateId, options },
-      getOperationSpec
     );
   }
 
@@ -159,8 +144,8 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: EntityQueryTemplatesListNextOptionalParams
-  ): Promise<EntityQueryTemplatesListNextResponse> {
+    options?: ContentTemplatesListNextOptionalParams
+  ): Promise<ContentTemplatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -172,17 +157,27 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueryTemplates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentTemplates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQueryTemplateList
+      bodyMapper: Mappers.TemplateList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.kind2],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderby,
+    Parameters.search,
+    Parameters.count,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.skipToken,
+    Parameters.expand
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -192,35 +187,12 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueryTemplates/{entityQueryTemplateId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EntityQueryTemplate
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.entityQueryTemplateId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQueryTemplateList
+      bodyMapper: Mappers.TemplateList
     },
     default: {
       bodyMapper: Mappers.CloudError
