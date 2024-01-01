@@ -156,7 +156,7 @@ export class NetAppResourceImpl implements NetAppResource {
    *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
    * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
    *                                 sibling set.
-   * @param networkFeatures Network features available to the volume
+   * @param networkFeatures Network features available to the volume, some such
    * @param options The options parameters.
    */
   async beginUpdateNetworkSiblingSet(
@@ -245,7 +245,7 @@ export class NetAppResourceImpl implements NetAppResource {
    *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
    * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
    *                                 sibling set.
-   * @param networkFeatures Network features available to the volume
+   * @param networkFeatures Network features available to the volume, some such
    * @param options The options parameters.
    */
   async beginUpdateNetworkSiblingSetAndWait(
@@ -278,7 +278,9 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CheckAvailabilityResponse
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: {
     parameterPath: {
@@ -306,7 +308,9 @@ const checkFilePathAvailabilityOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CheckAvailabilityResponse
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: {
     parameterPath: { name: ["name"], subnetId: ["subnetId"] },
@@ -330,7 +334,9 @@ const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CheckAvailabilityResponse
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: {
     parameterPath: {
@@ -358,7 +364,9 @@ const queryRegionInfoOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RegionInfo
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [

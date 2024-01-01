@@ -36,8 +36,6 @@ import {
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
   AccountsRenewCredentialsOptionalParams,
-  AccountsMigrateEncryptionKeyOptionalParams,
-  AccountsMigrateEncryptionKeyResponse,
   AccountsListBySubscriptionNextResponse,
   AccountsListNextResponse
 } from "../models";
@@ -579,101 +577,6 @@ export class AccountsImpl implements Accounts {
   }
 
   /**
-   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
-   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
-   * another account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param options The options parameters.
-   */
-  async beginMigrateEncryptionKey(
-    resourceGroupName: string,
-    accountName: string,
-    options?: AccountsMigrateEncryptionKeyOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsMigrateEncryptionKeyResponse>,
-      AccountsMigrateEncryptionKeyResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<AccountsMigrateEncryptionKeyResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, options },
-      spec: migrateEncryptionKeyOperationSpec
-    });
-    const poller = await createHttpPoller<
-      AccountsMigrateEncryptionKeyResponse,
-      OperationState<AccountsMigrateEncryptionKeyResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
-   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
-   * another account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param options The options parameters.
-   */
-  async beginMigrateEncryptionKeyAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    options?: AccountsMigrateEncryptionKeyOptionalParams
-  ): Promise<AccountsMigrateEncryptionKeyResponse> {
-    const poller = await this.beginMigrateEncryptionKey(
-      resourceGroupName,
-      accountName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -716,7 +619,9 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccountList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -731,7 +636,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccountList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -750,7 +657,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccount
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -779,7 +688,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.NetAppAccount
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -797,7 +708,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -805,6 +724,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -825,7 +745,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetAppAccount
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.body6,
@@ -844,38 +764,15 @@ const renewCredentialsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/renewCredentials",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  serializer
-};
-const migrateEncryptionKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/migrateEncryption",
-  httpMethod: "POST",
   responses: {
-    200: {
-      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
-    },
-    201: {
-      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
-    },
-    202: {
-      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
-    },
-    204: {
-      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -883,8 +780,7 @@ const migrateEncryptionKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -894,7 +790,9 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccountList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
@@ -911,13 +809,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccountList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
