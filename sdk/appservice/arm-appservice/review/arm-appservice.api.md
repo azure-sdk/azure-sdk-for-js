@@ -6129,6 +6129,7 @@ export interface Site extends Resource {
     readonly trafficManagerHostNames?: string[];
     readonly usageState?: UsageState;
     virtualNetworkSubnetId?: string;
+    vnetBackupRestoreEnabled?: boolean;
     vnetContentShareEnabled?: boolean;
     vnetImagePullEnabled?: boolean;
     vnetRouteAllEnabled?: boolean;
