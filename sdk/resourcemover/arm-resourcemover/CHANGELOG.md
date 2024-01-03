@@ -1,5 +1,13 @@
 # Release History
     
+## 2.3.0 (2024-01-03)
+    
+**Features**
+
+  - Interface ResourceSettings has a new optional parameter targetSubscriptionId
+  - Interface SubnetResourceSettings has a new optional parameter addressPrefixes
+    
+    
 ## 2.2.0 (2023-10-24)
     
 **Features**

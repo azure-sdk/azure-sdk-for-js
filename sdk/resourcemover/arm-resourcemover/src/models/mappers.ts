@@ -871,6 +871,12 @@ export const ResourceSettings: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      targetSubscriptionId: {
+        serializedName: "targetSubscriptionId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1400,6 +1406,17 @@ export const SubnetResourceSettings: coreClient.CompositeMapper = {
         serializedName: "addressPrefix",
         type: {
           name: "String"
+        }
+      },
+      addressPrefixes: {
+        serializedName: "addressPrefixes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       networkSecurityGroup: {

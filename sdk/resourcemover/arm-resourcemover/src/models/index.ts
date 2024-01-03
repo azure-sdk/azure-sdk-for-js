@@ -421,6 +421,8 @@ export interface ResourceSettings {
   targetResourceName?: string;
   /** Gets or sets the target resource group name. */
   targetResourceGroupName?: string;
+  /** Gets or sets the target subscription Id. */
+  targetSubscriptionId?: string;
 }
 
 /** Defines the move resource status. */
@@ -694,6 +696,8 @@ export interface SubnetResourceSettings {
   name?: string;
   /** Gets or sets address prefix for the subnet. */
   addressPrefix?: string;
+  /** Gets or sets multiple address prefixes for the subnet. */
+  addressPrefixes?: string[];
   /** Defines reference to NSG. */
   networkSecurityGroup?: NsgReference;
 }
