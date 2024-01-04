@@ -27,7 +27,11 @@ export interface AnalyzeDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AnalyzeDocumentFromStreamQueryParamProperties {
@@ -76,10 +80,11 @@ export interface AnalyzeDocumentFromStreamMediaTypesParam {
     | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 }
 
-export type AnalyzeDocumentFromStreamParameters = AnalyzeDocumentFromStreamQueryParam &
-  AnalyzeDocumentFromStreamMediaTypesParam &
-  AnalyzeDocumentFromStreamBodyParam &
-  RequestParameters;
+export type AnalyzeDocumentFromStreamParameters =
+  AnalyzeDocumentFromStreamQueryParam &
+    AnalyzeDocumentFromStreamMediaTypesParam &
+    AnalyzeDocumentFromStreamBodyParam &
+    RequestParameters;
 
 export interface AnalyzeDocumentBodyParam {
   /** Analyze request parameters. */
@@ -146,7 +151,8 @@ export interface AuthorizeModelCopyBodyParam {
   body: AuthorizeCopyRequest;
 }
 
-export type AuthorizeModelCopyParameters = AuthorizeModelCopyBodyParam & RequestParameters;
+export type AuthorizeModelCopyParameters = AuthorizeModelCopyBodyParam &
+  RequestParameters;
 
 export interface CopyModelToBodyParam {
   /** Copy to request parameters. */
@@ -162,7 +168,8 @@ export interface BuildClassifierBodyParam {
   body: BuildDocumentClassifierRequest;
 }
 
-export type BuildClassifierParameters = BuildClassifierBodyParam & RequestParameters;
+export type BuildClassifierParameters = BuildClassifierBodyParam &
+  RequestParameters;
 export type ListClassifiersParameters = RequestParameters;
 export type GetClassifierParameters = RequestParameters;
 export type DeleteClassifierParameters = RequestParameters;
@@ -173,7 +180,11 @@ export interface ClassifyDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface ClassifyDocumentFromStreamQueryParamProperties {
@@ -211,10 +222,11 @@ export interface ClassifyDocumentFromStreamMediaTypesParam {
     | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 }
 
-export type ClassifyDocumentFromStreamParameters = ClassifyDocumentFromStreamQueryParam &
-  ClassifyDocumentFromStreamMediaTypesParam &
-  ClassifyDocumentFromStreamBodyParam &
-  RequestParameters;
+export type ClassifyDocumentFromStreamParameters =
+  ClassifyDocumentFromStreamQueryParam &
+    ClassifyDocumentFromStreamMediaTypesParam &
+    ClassifyDocumentFromStreamBodyParam &
+    RequestParameters;
 
 export interface ClassifyDocumentBodyParam {
   /** Classify request parameters. */
