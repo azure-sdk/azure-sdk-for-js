@@ -27,6 +27,7 @@ import {
   LicensesListBySubscriptionNextOptionalParams,
   LicensesListBySubscriptionOptionalParams,
   LicensesListBySubscriptionResponse,
+  LicenseValidateModel,
   LicensesValidateLicenseOptionalParams,
   LicensesValidateLicenseResponse,
   LicensesCreateOrUpdateOptionalParams,
@@ -183,7 +184,7 @@ export class LicensesImpl implements Licenses {
    * @param options The options parameters.
    */
   async beginValidateLicense(
-    parameters: License,
+    parameters: LicenseValidateModel,
     options?: LicensesValidateLicenseOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -252,7 +253,7 @@ export class LicensesImpl implements Licenses {
    * @param options The options parameters.
    */
   async beginValidateLicenseAndWait(
-    parameters: License,
+    parameters: LicenseValidateModel,
     options?: LicensesValidateLicenseOptionalParams
   ): Promise<LicensesValidateLicenseResponse> {
     const poller = await this.beginValidateLicense(parameters, options);
@@ -660,7 +661,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -693,7 +694,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

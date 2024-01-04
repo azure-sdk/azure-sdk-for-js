@@ -40,7 +40,7 @@ export interface LicenseProfiles {
    * The operation to create or update a license profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the hybrid machine.
-   * @param parameters Parameters supplied to the Create license profile operation.
+   * @param parameters Parameters supplied to the Create or Update license profile operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -58,7 +58,7 @@ export interface LicenseProfiles {
    * The operation to create or update a license profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the hybrid machine.
-   * @param parameters Parameters supplied to the Create license profile operation.
+   * @param parameters Parameters supplied to the Create or Update license profile operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(

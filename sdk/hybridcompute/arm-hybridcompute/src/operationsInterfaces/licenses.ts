@@ -12,6 +12,7 @@ import {
   License,
   LicensesListByResourceGroupOptionalParams,
   LicensesListBySubscriptionOptionalParams,
+  LicenseValidateModel,
   LicensesValidateLicenseOptionalParams,
   LicensesValidateLicenseResponse,
   LicensesCreateOrUpdateOptionalParams,
@@ -49,7 +50,7 @@ export interface Licenses {
    * @param options The options parameters.
    */
   beginValidateLicense(
-    parameters: License,
+    parameters: LicenseValidateModel,
     options?: LicensesValidateLicenseOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -63,7 +64,7 @@ export interface Licenses {
    * @param options The options parameters.
    */
   beginValidateLicenseAndWait(
-    parameters: License,
+    parameters: LicenseValidateModel,
     options?: LicensesValidateLicenseOptionalParams
   ): Promise<LicensesValidateLicenseResponse>;
   /**

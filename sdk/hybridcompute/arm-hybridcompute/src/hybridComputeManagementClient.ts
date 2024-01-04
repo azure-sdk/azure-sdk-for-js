@@ -30,9 +30,12 @@ import {
   NetworkProfileOperationsImpl,
   HybridIdentityMetadataOperationsImpl,
   AgentVersionOperationsImpl,
+  MachineRunCommandsImpl,
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
-  PrivateEndpointConnectionsImpl
+  PrivateEndpointConnectionsImpl,
+  NetworkConfigurationsImpl,
+  NetworkSecurityPerimeterConfigurationsImpl
 } from "./operations";
 import {
   Licenses,
@@ -44,9 +47,12 @@ import {
   NetworkProfileOperations,
   HybridIdentityMetadataOperations,
   AgentVersionOperations,
+  MachineRunCommands,
   PrivateLinkScopes,
   PrivateLinkResources,
-  PrivateEndpointConnections
+  PrivateEndpointConnections,
+  NetworkConfigurations,
+  NetworkSecurityPerimeterConfigurations
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -104,7 +110,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/3.1.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -157,7 +163,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-20-preview";
+    this.apiVersion = options.apiVersion || "2023-10-03-preview";
     this.licenses = new LicensesImpl(this);
     this.machines = new MachinesImpl(this);
     this.licenseProfiles = new LicenseProfilesImpl(this);
@@ -169,9 +175,14 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       this
     );
     this.agentVersionOperations = new AgentVersionOperationsImpl(this);
+    this.machineRunCommands = new MachineRunCommandsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.networkConfigurations = new NetworkConfigurationsImpl(this);
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -304,9 +315,12 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
   networkProfileOperations: NetworkProfileOperations;
   hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
   agentVersionOperations: AgentVersionOperations;
+  machineRunCommands: MachineRunCommands;
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
+  networkConfigurations: NetworkConfigurations;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
