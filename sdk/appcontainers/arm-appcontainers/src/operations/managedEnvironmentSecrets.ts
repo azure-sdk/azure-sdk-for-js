@@ -8,34 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Certificates } from "../operationsInterfaces";
+import { ManagedEnvironmentSecrets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  Certificate,
-  CertificatesListNextOptionalParams,
-  CertificatesListOptionalParams,
-  CertificatesListResponse,
-  CertificatesGetOptionalParams,
-  CertificatesGetResponse,
-  CertificatesCreateOrUpdateOptionalParams,
-  CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams,
-  CertificatePatch,
-  CertificatesUpdateOptionalParams,
-  CertificatesUpdateResponse,
-  CertificatesListNextResponse
+  ManagedEnvironmentSecret,
+  ManagedEnvironmentSecretsListNextOptionalParams,
+  ManagedEnvironmentSecretsListOptionalParams,
+  ManagedEnvironmentSecretsListResponse,
+  ManagedEnvironmentSecretsGetOptionalParams,
+  ManagedEnvironmentSecretsGetResponse,
+  ManagedEnvironmentSecretsCreateOrUpdateOptionalParams,
+  ManagedEnvironmentSecretsCreateOrUpdateResponse,
+  ManagedEnvironmentSecretsDeleteOptionalParams,
+  ManagedEnvironmentSecretsGetValueOptionalParams,
+  ManagedEnvironmentSecretsGetValueResponse,
+  ManagedEnvironmentSecretsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Certificates operations. */
-export class CertificatesImpl implements Certificates {
+/** Class containing ManagedEnvironmentSecrets operations. */
+export class ManagedEnvironmentSecretsImpl
+  implements ManagedEnvironmentSecrets {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class Certificates class.
+   * Initialize a new instance of the class ManagedEnvironmentSecrets class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -43,16 +43,16 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the Certificates in a given managed environment.
+   * Get all secrets for a managedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param environmentName Name of the Environment.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): PagedAsyncIterableIterator<Certificate> {
+    options?: ManagedEnvironmentSecretsListOptionalParams
+  ): PagedAsyncIterableIterator<ManagedEnvironmentSecret> {
     const iter = this.listPagingAll(
       resourceGroupName,
       environmentName,
@@ -82,10 +82,10 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingPage(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams,
+    options?: ManagedEnvironmentSecretsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<Certificate[]> {
-    let result: CertificatesListResponse;
+  ): AsyncIterableIterator<ManagedEnvironmentSecret[]> {
+    let result: ManagedEnvironmentSecretsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, environmentName, options);
@@ -111,8 +111,8 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingAll(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): AsyncIterableIterator<Certificate> {
+    options?: ManagedEnvironmentSecretsListOptionalParams
+  ): AsyncIterableIterator<ManagedEnvironmentSecret> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       environmentName,
@@ -123,16 +123,16 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the Certificates in a given managed environment.
+   * Get all secrets for a managedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param environmentName Name of the Environment.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): Promise<CertificatesListResponse> {
+    options?: ManagedEnvironmentSecretsListOptionalParams
+  ): Promise<ManagedEnvironmentSecretsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, options },
       listOperationSpec
@@ -140,93 +140,93 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the specified Certificate.
+   * Get secret for a managedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param environmentName Name of the Environment.
+   * @param secretName Name of the Secret.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesGetOptionalParams
-  ): Promise<CertificatesGetResponse> {
+    secretName: string,
+    options?: ManagedEnvironmentSecretsGetOptionalParams
+  ): Promise<ManagedEnvironmentSecretsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, environmentName, secretName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or Update a Certificate.
+   * Create or update a secret for a managedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param environmentName Name of the Environment.
+   * @param secretName Name of the Secret.
+   * @param secretEnvelope properties of the secret
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
-  ): Promise<CertificatesCreateOrUpdateResponse> {
+    secretName: string,
+    secretEnvelope: ManagedEnvironmentSecret,
+    options?: ManagedEnvironmentSecretsCreateOrUpdateOptionalParams
+  ): Promise<ManagedEnvironmentSecretsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      {
+        resourceGroupName,
+        environmentName,
+        secretName,
+        secretEnvelope,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Deletes the specified Certificate.
+   * Delete a secret for a managedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param environmentName Name of the Environment.
+   * @param secretName Name of the Secret.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    secretName: string,
+    options?: ManagedEnvironmentSecretsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, environmentName, secretName, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Patches a certificate. Currently only patching of tags is supported
+   * Get secret value for a managedEnvironmentSecret.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
-   * @param certificateEnvelope Properties of a certificate that need to be updated
+   * @param environmentName Name of the Environment.
+   * @param secretName Name of the Secret.
    * @param options The options parameters.
    */
-  update(
+  getValue(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    certificateEnvelope: CertificatePatch,
-    options?: CertificatesUpdateOptionalParams
-  ): Promise<CertificatesUpdateResponse> {
+    secretName: string,
+    options?: ManagedEnvironmentSecretsGetValueOptionalParams
+  ): Promise<ManagedEnvironmentSecretsGetValueResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        environmentName,
-        certificateName,
-        certificateEnvelope,
-        options
-      },
-      updateOperationSpec
+      { resourceGroupName, environmentName, secretName, options },
+      getValueOperationSpec
     );
   }
 
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param environmentName Name of the Environment.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -234,8 +234,8 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     environmentName: string,
     nextLink: string,
-    options?: CertificatesListNextOptionalParams
-  ): Promise<CertificatesListNextResponse> {
+    options?: ManagedEnvironmentSecretsListNextOptionalParams
+  ): Promise<ManagedEnvironmentSecretsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, nextLink, options },
       listNextOperationSpec
@@ -247,11 +247,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/secrets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.ManagedEnvironmentSecretsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -262,18 +262,18 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.environmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/secrets/{secretName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.ManagedEnvironmentSecret
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -284,32 +284,35 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.secretName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/secrets/{secretName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.ManagedEnvironmentSecret
+    },
+    201: {
+      bodyMapper: Mappers.ManagedEnvironmentSecret
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.certificateEnvelope,
+  requestBody: Parameters.secretEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.secretName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -317,7 +320,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/secrets/{secretName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -331,35 +334,33 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.secretName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const getValueOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
-  httpMethod: "PATCH",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/secrets/{secretName}/getValue",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.ManagedEnvironmentSecret
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.certificateEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.environmentName1,
+    Parameters.secretName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -367,7 +368,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.ManagedEnvironmentSecretsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -378,7 +379,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName
+    Parameters.environmentName1
   ],
   headerParameters: [Parameters.accept],
   serializer
