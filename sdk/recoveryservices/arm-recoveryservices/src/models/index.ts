@@ -551,16 +551,10 @@ export interface CrossSubscriptionRestoreSettings {
 
 /** The redundancy Settings of a Vault */
 export interface VaultPropertiesRedundancySettings {
-  /**
-   * The storage redundancy setting of a vault
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
-  /**
-   * Flag to show if Cross Region Restore is enabled on the Vault or not
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly crossRegionRestore?: CrossRegionRestore;
+  /** The storage redundancy setting of a vault */
+  standardTierStorageRedundancy?: StandardTierStorageRedundancy;
+  /** Flag to show if Cross Region Restore is enabled on the Vault or not */
+  crossRegionRestore?: CrossRegionRestore;
 }
 
 /** Security Settings of the vault */
@@ -586,6 +580,7 @@ export interface SoftDeleteSettings {
   softDeleteState?: SoftDeleteState;
   /** Soft delete retention period in days */
   softDeleteRetentionPeriodInDays?: number;
+  enhancedSecurityState?: EnhancedSecurityState;
 }
 
 /** Identifies the unique system identifier for each Azure resource. */
@@ -691,6 +686,41 @@ export interface ClientDiscoveryForLogSpecification {
   displayName?: string;
   /** Blobs created in customer storage account per hour */
   blobDuration?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
 /** Operation Resource */
@@ -842,6 +872,11 @@ export interface PatchVault extends PatchTrackedResource {
   sku?: Sku;
   /** Identity for the resource. */
   identity?: IdentityData;
+}
+
+/** Defines headers for Vaults_delete operation. */
+export interface VaultsDeleteHeaders {
+  location?: string;
 }
 
 /** Known values of {@link AuthType} that the service accepts. */
@@ -1164,6 +1199,8 @@ export type CrossSubscriptionRestoreState = string;
 
 /** Known values of {@link StandardTierStorageRedundancy} that the service accepts. */
 export enum KnownStandardTierStorageRedundancy {
+  /** Invalid */
+  Invalid = "Invalid",
   /** LocallyRedundant */
   LocallyRedundant = "LocallyRedundant",
   /** GeoRedundant */
@@ -1177,6 +1214,7 @@ export enum KnownStandardTierStorageRedundancy {
  * {@link KnownStandardTierStorageRedundancy} can be used interchangeably with StandardTierStorageRedundancy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Invalid** \
  * **LocallyRedundant** \
  * **GeoRedundant** \
  * **ZoneRedundant**
@@ -1245,6 +1283,30 @@ export enum KnownSoftDeleteState {
  * **AlwaysON**
  */
 export type SoftDeleteState = string;
+
+/** Known values of {@link EnhancedSecurityState} that the service accepts. */
+export enum KnownEnhancedSecurityState {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** AlwaysON */
+  AlwaysON = "AlwaysON"
+}
+
+/**
+ * Defines values for EnhancedSecurityState. \
+ * {@link KnownEnhancedSecurityState} can be used interchangeably with EnhancedSecurityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Enabled** \
+ * **Disabled** \
+ * **AlwaysON**
+ */
+export type EnhancedSecurityState = string;
 
 /** Known values of {@link MultiUserAuthorization} that the service accepts. */
 export enum KnownMultiUserAuthorization {
@@ -1450,7 +1512,15 @@ export type VaultsCreateOrUpdateResponse = Vault;
 
 /** Optional parameters. */
 export interface VaultsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type VaultsDeleteResponse = VaultsDeleteHeaders;
 
 /** Optional parameters. */
 export interface VaultsUpdateOptionalParams

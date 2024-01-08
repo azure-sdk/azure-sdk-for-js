@@ -17,6 +17,7 @@ import {
   VaultsCreateOrUpdateOptionalParams,
   VaultsCreateOrUpdateResponse,
   VaultsDeleteOptionalParams,
+  VaultsDeleteResponse,
   PatchVault,
   VaultsUpdateOptionalParams,
   VaultsUpdateResponse
@@ -89,11 +90,24 @@ export interface Vaults {
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     vaultName: string,
     options?: VaultsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<OperationState<VaultsDeleteResponse>, VaultsDeleteResponse>
+  >;
+  /**
+   * Deletes a vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the recovery services vault.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: VaultsDeleteOptionalParams
+  ): Promise<VaultsDeleteResponse>;
   /**
    * Updates the vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

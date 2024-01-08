@@ -1206,14 +1206,12 @@ export const VaultPropertiesRedundancySettings: coreClient.CompositeMapper = {
     modelProperties: {
       standardTierStorageRedundancy: {
         serializedName: "standardTierStorageRedundancy",
-        readOnly: true,
         type: {
           name: "String"
         }
       },
       crossRegionRestore: {
         serializedName: "crossRegionRestore",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -1282,6 +1280,12 @@ export const SoftDeleteSettings: coreClient.CompositeMapper = {
         serializedName: "softDeleteRetentionPeriodInDays",
         type: {
           name: "Number"
+        }
+      },
+      enhancedSecurityState: {
+        serializedName: "enhancedSecurityState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1562,6 +1566,78 @@ export const ClientDiscoveryForLogSpecification: coreClient.CompositeMapper = {
         serializedName: "blobDuration",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
         }
       }
     }
@@ -1997,6 +2073,21 @@ export const PatchVault: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IdentityData"
+        }
+      }
+    }
+  }
+};
+
+export const VaultsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VaultsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

@@ -1,15 +1,27 @@
 # Release History
+    
+## 6.0.0 (2024-01-08)
+    
+**Features**
 
-## 5.4.1 (Unreleased)
+  - Added operation Vaults.beginDelete
+  - Added operation Vaults.beginDeleteAndWait
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface VaultsDeleteHeaders
+  - Added Type Alias EnhancedSecurityState
+  - Added Type Alias VaultsDeleteResponse
+  - Interface SoftDeleteSettings has a new optional parameter enhancedSecurityState
+  - Interface VaultsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface VaultsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownEnhancedSecurityState
+  - Enum KnownStandardTierStorageRedundancy has a new value Invalid
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Vaults.delete
+    
+    
 ## 5.4.0 (2023-08-29)
     
 **Features**
@@ -115,4 +127,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

@@ -32,6 +32,7 @@ import {
   VaultsCreateOrUpdateOptionalParams,
   VaultsCreateOrUpdateResponse,
   VaultsDeleteOptionalParams,
+  VaultsDeleteResponse,
   PatchVault,
   VaultsUpdateOptionalParams,
   VaultsUpdateResponse,
@@ -321,15 +322,85 @@ export class VaultsImpl implements Vaults {
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     vaultName: string,
     options?: VaultsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, options },
-      deleteOperationSpec
+  ): Promise<
+    SimplePollerLike<OperationState<VaultsDeleteResponse>, VaultsDeleteResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VaultsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VaultsDeleteResponse,
+      OperationState<VaultsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the recovery services vault.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: VaultsDeleteOptionalParams
+  ): Promise<VaultsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      vaultName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -557,9 +628,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
+    200: {
+      headersMapper: Mappers.VaultsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.VaultsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.VaultsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.VaultsDeleteHeaders
+    },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
