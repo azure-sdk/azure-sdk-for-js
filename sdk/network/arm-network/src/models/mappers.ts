@@ -85,6 +85,12 @@ export const ApplicationGatewaySku: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      family: {
+        serializedName: "family",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -25683,6 +25689,17 @@ export const BastionHost: coreClient.CompositeMapper = {
     className: "BastionHost",
     modelProperties: {
       ...Resource.type.modelProperties,
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       etag: {
         serializedName: "etag",
         readOnly: true,
