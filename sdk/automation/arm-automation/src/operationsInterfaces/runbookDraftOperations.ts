@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RunbookDraftGetContentOptionalParams,
   RunbookDraftGetContentResponse,
@@ -38,7 +38,7 @@ export interface RunbookDraftOperations {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   beginReplaceContent(
@@ -48,8 +48,8 @@ export interface RunbookDraftOperations {
     runbookContent: string,
     options?: RunbookDraftReplaceContentOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RunbookDraftReplaceContentResponse>,
+    SimplePollerLike<
+      OperationState<RunbookDraftReplaceContentResponse>,
       RunbookDraftReplaceContentResponse
     >
   >;
@@ -58,7 +58,7 @@ export interface RunbookDraftOperations {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   beginReplaceContentAndWait(

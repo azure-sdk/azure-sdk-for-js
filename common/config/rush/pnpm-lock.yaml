@@ -4897,7 +4897,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240104
+      typescript: 5.4.0-dev.20240108
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9661,8 +9661,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20240104:
-    resolution: {integrity: sha512-LzRhnPKgq/AfRqBiHjP9n5Ntd0nOs/Uxr2TMvF6Lx9NgdHUDi7oUWoMoV7s3M6o628OsC2AqNC3Y1Q9i6GX3lA==}
+  /typescript@5.4.0-dev.20240108:
+    resolution: {integrity: sha512-flXeU+FYwW3mL6zcOz1lNX0juSolUIeIRs4nO8j77jB+N/3lrqWNOSz05dzRC4eYJcjFIIOvv5y9u8MQ5nTtzg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11486,7 +11486,7 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-0YgnX5swDT/kxjM3PNabEfuOeXIuXyn5DTB1kWJg/McyOS6JplncUnr8Gg8kSDo298N8L9GDr68sKOXQv6Y1qg==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-Yg156XGbChdsEPiXBmsjT3d+7YDjnUPezTjMrAI++qNCnmKLBbtRa99fnMKaX9GedYSTr7Pep76DQZgH0G8xqg==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
@@ -11494,13 +11494,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -20441,7 +20443,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-GSaI1r0pBaDRV4x9hv76nmSo+6i5ycrkHG+F/Alwh/fhDjsDQjH/RwRc7hDleCjI68slNSu4Y4PfN4Zz/AyuiQ==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-zEm3H46La3k6fw+8j7nL4njwgJgJln426zr9ofIci0g7fIMYdOWzj1B8A/eFKYCfpryzvEuNEKwyq3Y+QgvscQ==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -20458,7 +20460,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -21737,7 +21738,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-eEeMvcLwPiGrEAzub8jwqf4Ed+DmPG7iOvFvqYsetuSJkNIg3CgK9Qth8edxqkgRYGBxw5y8ruqc7KiDt+WmDQ==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-tStiNFyTkZyAO7UN//om/ZSINnnegSpgCSXDToKWLKGeIxHq3YPjDos2ULcYx0+kPVh8da5onyqbLrJ/dNPHZQ==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -21763,7 +21764,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
