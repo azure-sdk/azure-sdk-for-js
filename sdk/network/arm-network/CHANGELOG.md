@@ -1,15 +1,17 @@
 # Release History
+    
+## 33.1.0 (2024-01-08)
+    
+**Features**
 
-## 33.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias ApplicationGatewaySkuFamily
+  - Interface ApplicationGatewaySku has a new optional parameter family
+  - Interface BastionHost has a new optional parameter zones
+  - Added Enum KnownApplicationGatewaySkuFamily
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value NetworkSecurityGroupEnabled
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value RouteTableEnabled
+    
+    
 ## 33.0.0 (2023-12-07)
     
 **Features**
