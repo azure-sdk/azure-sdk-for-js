@@ -1849,9 +1849,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [
     Parameters.apiVersion4,
@@ -1874,9 +1872,7 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [
     Parameters.apiVersion4,
@@ -1900,9 +1896,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [
     Parameters.apiVersion4,
@@ -1927,9 +1921,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackup
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -1947,15 +1939,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1965,7 +1949,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.longTermRetentionServerName,
     Parameters.longTermRetentionDatabaseName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const changeAccessTierOperationSpec: coreClient.OperationSpec = {
@@ -1989,7 +1972,7 @@ const changeAccessTierOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters100,
+  requestBody: Parameters.parameters104,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2020,11 +2003,9 @@ const copyOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.LongTermRetentionBackupOperationResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  requestBody: Parameters.parameters101,
+  requestBody: Parameters.parameters105,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2055,11 +2036,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.LongTermRetentionBackupOperationResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  requestBody: Parameters.parameters102,
+  requestBody: Parameters.parameters106,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2081,9 +2060,7 @@ const listByResourceGroupLocationOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [
     Parameters.apiVersion4,
@@ -2107,9 +2084,7 @@ const listByResourceGroupServerOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [
     Parameters.apiVersion4,
@@ -2134,9 +2109,7 @@ const listByResourceGroupDatabaseOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [
     Parameters.apiVersion4,
@@ -2162,9 +2135,7 @@ const getByResourceGroupOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackup
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -2183,15 +2154,7 @@ const deleteByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2202,7 +2165,6 @@ const deleteByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.longTermRetentionServerName,
     Parameters.longTermRetentionDatabaseName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const changeAccessTierByResourceGroupOperationSpec: coreClient.OperationSpec = {
@@ -2226,7 +2188,7 @@ const changeAccessTierByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters100,
+  requestBody: Parameters.parameters104,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2258,11 +2220,9 @@ const copyByResourceGroupOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.LongTermRetentionBackupOperationResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  requestBody: Parameters.parameters101,
+  requestBody: Parameters.parameters105,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2294,11 +2254,9 @@ const updateByResourceGroupOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.LongTermRetentionBackupOperationResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  requestBody: Parameters.parameters102,
+  requestBody: Parameters.parameters106,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2320,9 +2278,7 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
@@ -2340,9 +2296,7 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
@@ -2361,9 +2315,7 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
@@ -2383,9 +2335,7 @@ const listByResourceGroupLocationNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
@@ -2404,9 +2354,7 @@ const listByResourceGroupServerNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
@@ -2426,9 +2374,7 @@ const listByResourceGroupDatabaseNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
