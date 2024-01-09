@@ -5313,6 +5313,8 @@ export interface Site extends Resource {
   vnetImagePullEnabled?: boolean;
   /** To enable accessing content over virtual network */
   vnetContentShareEnabled?: boolean;
+  /** To enable Backup and Restore operations over virtual network */
+  vnetBackupRestoreEnabled?: boolean;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
   /** Dapr configuration of the app. */
@@ -6247,13 +6249,6 @@ export interface RemotePrivateEndpointConnectionARMResource
   privateLinkServiceConnectionState?: PrivateLinkConnectionState;
   /** Private IPAddresses mapped to the remote private endpoint */
   ipAddresses?: string[];
-}
-
-/** Private Endpoint Connection Approval ARM resource. */
-export interface PrivateLinkConnectionApprovalRequestResource
-  extends ProxyOnlyResource {
-  /** The state of a private link connection */
-  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
 /** ARM resource for a app service plan. */
@@ -8830,6 +8825,13 @@ export interface WebJob extends ProxyOnlyResource {
   usingSdk?: boolean;
   /** Job settings. */
   settings?: { [propertyName: string]: Record<string, unknown> };
+}
+
+/** Private Endpoint Connection Approval ARM resource. */
+export interface PrivateLinkConnectionApprovalRequestResource
+  extends ProxyOnlyResource {
+  /** The state of a private link connection */
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
 /** The workflow output parameter. */

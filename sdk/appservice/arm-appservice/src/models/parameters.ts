@@ -31,7 +31,7 @@ import {
   CustomDnsSuffixConfiguration as CustomDnsSuffixConfigurationMapper,
   AseV3NetworkingConfiguration as AseV3NetworkingConfigurationMapper,
   WorkerPoolResource as WorkerPoolResourceMapper,
-  PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
+  RemotePrivateEndpointConnectionARMResource as RemotePrivateEndpointConnectionARMResourceMapper,
   AppServicePlan as AppServicePlanMapper,
   AppServicePlanPatchResource as AppServicePlanPatchResourceMapper,
   VnetGateway as VnetGatewayMapper,
@@ -140,7 +140,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-01",
+    defaultValue: "2023-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -455,7 +455,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
 
 export const privateEndpointWrapper: OperationParameter = {
   parameterPath: "privateEndpointWrapper",
-  mapper: PrivateLinkConnectionApprovalRequestResourceMapper
+  mapper: RemotePrivateEndpointConnectionARMResourceMapper
 };
 
 export const propertiesToInclude: OperationQueryParameter = {

@@ -15903,6 +15903,13 @@ export const Site: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      vnetBackupRestoreEnabled: {
+        serializedName: "properties.vnetBackupRestoreEnabled",
+        xmlName: "properties.vnetBackupRestoreEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       siteConfig: {
         serializedName: "properties.siteConfig",
         xmlName: "properties.siteConfig",
@@ -18358,25 +18365,6 @@ export const RemotePrivateEndpointConnectionARMResource: coreClient.CompositeMap
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkConnectionApprovalRequestResource: coreClient.CompositeMapper = {
-  serializedName: "PrivateLinkConnectionApprovalRequestResource",
-  type: {
-    name: "Composite",
-    className: "PrivateLinkConnectionApprovalRequestResource",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
-        xmlName: "properties.privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkConnectionState"
         }
       }
     }
@@ -25561,6 +25549,25 @@ export const WebJob: coreClient.CompositeMapper = {
           value: {
             type: { name: "Dictionary", value: { type: { name: "any" } } }
           }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkConnectionApprovalRequestResource: coreClient.CompositeMapper = {
+  serializedName: "PrivateLinkConnectionApprovalRequestResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkConnectionApprovalRequestResource",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        xmlName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkConnectionState"
         }
       }
     }

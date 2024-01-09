@@ -355,7 +355,6 @@ import {
   WebAppsPutPrivateAccessVnetResponse,
   WebAppsGetPrivateEndpointConnectionOptionalParams,
   WebAppsGetPrivateEndpointConnectionResponse,
-  PrivateLinkConnectionApprovalRequestResource,
   WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
   WebAppsApproveOrRejectPrivateEndpointConnectionResponse,
   WebAppsDeletePrivateEndpointConnectionOptionalParams,
@@ -3456,14 +3455,14 @@ export interface WebApps {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   beginApproveOrRejectPrivateEndpointConnection(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -3476,14 +3475,14 @@ export interface WebApps {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   beginApproveOrRejectPrivateEndpointConnectionAndWait(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
   /**
@@ -5871,7 +5870,7 @@ export interface WebApps {
    * @param name Name of the site.
    * @param privateEndpointConnectionName
    * @param slot
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   beginApproveOrRejectPrivateEndpointConnectionSlot(
@@ -5879,7 +5878,7 @@ export interface WebApps {
     name: string,
     privateEndpointConnectionName: string,
     slot: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -5895,7 +5894,7 @@ export interface WebApps {
    * @param name Name of the site.
    * @param privateEndpointConnectionName
    * @param slot
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   beginApproveOrRejectPrivateEndpointConnectionSlotAndWait(
@@ -5903,7 +5902,7 @@ export interface WebApps {
     name: string,
     privateEndpointConnectionName: string,
     slot: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams
   ): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>;
   /**
