@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FileImport,
   FileImportsListOptionalParams,
@@ -74,8 +74,8 @@ export interface FileImports {
     fileImportId: string,
     options?: FileImportsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FileImportsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<FileImportsDeleteResponse>,
       FileImportsDeleteResponse
     >
   >;
