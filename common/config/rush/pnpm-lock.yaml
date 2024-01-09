@@ -4897,7 +4897,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240107
+      typescript: 5.4.0-dev.20240108
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9661,8 +9661,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20240107:
-    resolution: {integrity: sha512-6EfwZFaO82JLhOUsgQ3+c4lHuYS4WAQ6xBC767qWwJGf7BKYYeSFUkSptSkNhWOdeCEhdooudx22mkU8LphAPg==}
+  /typescript@5.4.0-dev.20240108:
+    resolution: {integrity: sha512-flXeU+FYwW3mL6zcOz1lNX0juSolUIeIRs4nO8j77jB+N/3lrqWNOSz05dzRC4eYJcjFIIOvv5y9u8MQ5nTtzg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12464,7 +12464,7 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-IHoKeHCSfMjZNHQjsqxJpAdts6NBFhdW9fsegxLlyNj4OEAmSpOIecOo8dhwwnOFW2zomvLEwnArMZIsIR5WhA==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-+GqG0TW34BSJr4TpFL99NhToByMgzEbEOEAuoplwM4ILZQfMJtlfzed6WLmca1uugnqqSfyDzrV8gGalALXTeg==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
@@ -12472,13 +12472,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.4)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.4
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.4)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -19778,7 +19780,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-aLsfcaP+DF0iM/PtOT2S4BN3J9gg44mC5L2HWhCabhsmWd0hkumWtlV0zSk/ttDoon/IwtA0xmMUh+H5LSEWeQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-7Smjvd5psXM3ZTo62syji2p+w51o8F4/+ormqOX+WGCQFaTqUkqGMgpoCG2MrJYpr9gsxKozz6S9MmPJoxokKg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
