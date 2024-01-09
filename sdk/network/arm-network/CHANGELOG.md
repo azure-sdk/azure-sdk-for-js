@@ -1,15 +1,27 @@
 # Release History
+    
+## 34.0.0 (2024-01-09)
+    
+**Features**
 
-## 33.0.1 (Unreleased)
+  - Added Interface PropagatedRouteTableNfv
+  - Added Interface RoutingConfigurationNfv
+  - Added Interface RoutingConfigurationNfvSubResource
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ApplicationGatewayListener no longer has parameter hostNames
+  - Interface FirewallPolicyIntrusionDetection no longer has parameter profile
+  - Interface NetworkVirtualAppliance no longer has parameter internetIngressPublicIps
+  - Type of parameter routingConfiguration of interface NetworkVirtualApplianceConnection is changed from RoutingConfiguration to RoutingConfigurationNfv
+  - Removed Enum KnownFirewallPolicyIntrusionDetectionProfileType
+  - Enum KnownActionType no longer has value JSChallenge
+  - Enum KnownBastionHostSkuName no longer has value Developer
+  - Enum KnownVirtualNetworkGatewaySkuName no longer has value ErGwScale
+  - Enum KnownVirtualNetworkGatewaySkuTier no longer has value ErGwScale
+  - Enum KnownWebApplicationFirewallAction no longer has value JSChallenge
+    
+    
 ## 33.0.0 (2023-12-07)
     
 **Features**
