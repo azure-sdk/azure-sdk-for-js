@@ -542,6 +542,13 @@ export const ExperimentUpdate: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ResourceIdentity"
         }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }

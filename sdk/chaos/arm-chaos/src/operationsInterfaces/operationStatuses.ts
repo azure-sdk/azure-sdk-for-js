@@ -15,7 +15,7 @@ import {
 export interface OperationStatuses {
   /**
    * Get the status of a long running azure asynchronous operation.
-   * @param location The region name of operation.
+   * @param location The name of the Azure region.
    * @param asyncOperationId The operation Id.
    * @param options The options parameters.
    */

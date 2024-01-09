@@ -234,6 +234,8 @@ export interface ChaosTargetFilter {
 export interface ExperimentUpdate {
   /** The identity of the experiment resource. */
   identity?: ResourceIdentity;
+  /** The tags of the experiment resource. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** Model that represents a list of Experiment executions and a link for pagination. */
