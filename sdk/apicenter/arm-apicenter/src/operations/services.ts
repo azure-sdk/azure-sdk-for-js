@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureAPICenter } from "../azureAPICenter";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Service,
   ServicesListBySubscriptionNextOptionalParams,
   ServicesListBySubscriptionOptionalParams,
@@ -28,6 +34,9 @@ import {
   ServicesUpdateOptionalParams,
   ServicesUpdateResponse,
   ServicesDeleteOptionalParams,
+  MetadataSchemaExportRequest,
+  ServicesExportMetadataSchemaOptionalParams,
+  ServicesExportMetadataSchemaResponse,
   ServicesListBySubscriptionNextResponse,
   ServicesListByResourceGroupNextResponse
 } from "../models";
@@ -100,7 +109,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Lists services within a resource group
+   * Returns a collection of services within the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -182,7 +191,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Lists services within a resource group
+   * Returns a collection of services within the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -197,9 +206,9 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Get service
+   * Returns details of the service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   get(
@@ -214,9 +223,9 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Create or update service
+   * Creates new or updates existing API.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -231,9 +240,9 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Update service
+   * Updates existing service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   update(
@@ -248,9 +257,9 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Delete service
+   * Deletes specified service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   delete(
@@ -262,6 +271,102 @@ export class ServicesImpl implements Services {
       { resourceGroupName, serviceName, options },
       deleteOperationSpec
     );
+  }
+
+  /**
+   * Exports the effective metadata schema.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param payload The metadata schema request details.
+   * @param options The options parameters.
+   */
+  async beginExportMetadataSchema(
+    resourceGroupName: string,
+    serviceName: string,
+    payload: MetadataSchemaExportRequest,
+    options?: ServicesExportMetadataSchemaOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesExportMetadataSchemaResponse>,
+      ServicesExportMetadataSchemaResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ServicesExportMetadataSchemaResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, payload, options },
+      spec: exportMetadataSchemaOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServicesExportMetadataSchemaResponse,
+      OperationState<ServicesExportMetadataSchemaResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Exports the effective metadata schema.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param payload The metadata schema request details.
+   * @param options The options parameters.
+   */
+  async beginExportMetadataSchemaAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    payload: MetadataSchemaExportRequest,
+    options?: ServicesExportMetadataSchemaOptionalParams
+  ): Promise<ServicesExportMetadataSchemaResponse> {
+    const poller = await this.beginExportMetadataSchema(
+      resourceGroupName,
+      serviceName,
+      payload,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -374,7 +479,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.resource,
+  requestBody: Parameters.payload,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -398,7 +503,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.payload1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -429,6 +534,39 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const exportMetadataSchemaOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/exportMetadataSchema",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetadataSchemaExportResult
+    },
+    201: {
+      bodyMapper: Mappers.MetadataSchemaExportResult
+    },
+    202: {
+      bodyMapper: Mappers.MetadataSchemaExportResult
+    },
+    204: {
+      bodyMapper: Mappers.MetadataSchemaExportResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.payload2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
