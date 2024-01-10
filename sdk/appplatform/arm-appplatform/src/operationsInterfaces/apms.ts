@@ -9,21 +9,23 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ApplicationLiveViewResource,
-  ApplicationLiveViewsListOptionalParams,
-  ApplicationLiveViewsGetOptionalParams,
-  ApplicationLiveViewsGetResponse,
-  ApplicationLiveViewsCreateOrUpdateOptionalParams,
-  ApplicationLiveViewsCreateOrUpdateResponse,
-  ApplicationLiveViewsDeleteOptionalParams,
-  ApplicationLiveViewsDeleteResponse
+  ApmResource,
+  ApmsListOptionalParams,
+  ApmsGetOptionalParams,
+  ApmsGetResponse,
+  ApmsCreateOrUpdateOptionalParams,
+  ApmsCreateOrUpdateResponse,
+  ApmsDeleteOptionalParams,
+  ApmsDeleteResponse,
+  ApmsListSecretKeysOptionalParams,
+  ApmsListSecretKeysResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ApplicationLiveViews. */
-export interface ApplicationLiveViews {
+/** Interface representing a Apms. */
+export interface Apms {
   /**
-   * Handles requests to list all resources in a Service.
+   * Get collection of APMs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -32,90 +34,101 @@ export interface ApplicationLiveViews {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationLiveViewResource>;
+    options?: ApmsListOptionalParams
+  ): PagedAsyncIterableIterator<ApmResource>;
   /**
-   * Get the Application Live  and its properties.
+   * Get the APM by name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsGetOptionalParams
-  ): Promise<ApplicationLiveViewsGetResponse>;
+    apmName: string,
+    options?: ApmsGetOptionalParams
+  ): Promise<ApmsGetResponse>;
   /**
-   * Create the default Application Live View or update the existing Application Live View.
+   * Create or update an APM.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
-   * @param applicationLiveViewResource Parameters for the update operation
+   * @param apmName The name of the APM
+   * @param apmResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+    apmName: string,
+    apmResource: ApmResource,
+    options?: ApmsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
-      ApplicationLiveViewsCreateOrUpdateResponse
+      OperationState<ApmsCreateOrUpdateResponse>,
+      ApmsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create the default Application Live View or update the existing Application Live View.
+   * Create or update an APM.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
-   * @param applicationLiveViewResource Parameters for the update operation
+   * @param apmName The name of the APM
+   * @param apmResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
-  ): Promise<ApplicationLiveViewsCreateOrUpdateResponse>;
+    apmName: string,
+    apmResource: ApmResource,
+    options?: ApmsCreateOrUpdateOptionalParams
+  ): Promise<ApmsCreateOrUpdateResponse>;
   /**
-   * Disable the default Application Live View.
+   * Operation to delete an APM
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
+    apmName: string,
+    options?: ApmsDeleteOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationLiveViewsDeleteResponse>,
-      ApplicationLiveViewsDeleteResponse
-    >
+    SimplePollerLike<OperationState<ApmsDeleteResponse>, ApmsDeleteResponse>
   >;
   /**
-   * Disable the default Application Live View.
+   * Operation to delete an APM
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param apmName The name of the APM
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<ApplicationLiveViewsDeleteResponse>;
+    apmName: string,
+    options?: ApmsDeleteOptionalParams
+  ): Promise<ApmsDeleteResponse>;
+  /**
+   * List keys of APM sensitive properties.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param apmName The name of the APM
+   * @param options The options parameters.
+   */
+  listSecretKeys(
+    resourceGroupName: string,
+    serviceName: string,
+    apmName: string,
+    options?: ApmsListSecretKeysOptionalParams
+  ): Promise<ApmsListSecretKeysResponse>;
 }
