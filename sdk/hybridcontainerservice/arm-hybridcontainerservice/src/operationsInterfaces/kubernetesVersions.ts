@@ -16,13 +16,12 @@ import {
 /** Interface representing a KubernetesVersions. */
 export interface KubernetesVersions {
   /**
-   * Lists the supported kubernetes versions from the underlying custom location
-   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
-   *                                  location resource.
+   * Lists the supported kubernetes versions for the specified custom location
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   list(
-    customLocationResourceUri: string,
+    resourceUri: string,
     options?: KubernetesVersionsListOptionalParams
   ): PagedAsyncIterableIterator<KubernetesVersionProfile>;
 }

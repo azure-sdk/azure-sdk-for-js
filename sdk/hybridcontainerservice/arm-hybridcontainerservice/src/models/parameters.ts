@@ -12,12 +12,11 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  ProvisionedClusters as ProvisionedClustersMapper,
-  HybridIdentityMetadata as HybridIdentityMetadataMapper,
-  AgentPool as AgentPoolMapper,
-  AgentPoolPatch as AgentPoolPatchMapper,
   KubernetesVersionProfile as KubernetesVersionProfileMapper,
   VmSkuProfile as VmSkuProfileMapper,
+  ProvisionedCluster as ProvisionedClusterMapper,
+  AgentPool as AgentPoolMapper,
+  HybridIdentityMetadata as HybridIdentityMetadataMapper,
   VirtualNetwork as VirtualNetworkMapper,
   VirtualNetworksPatch as VirtualNetworksPatchMapper
 } from "../models/mappers";
@@ -46,22 +45,10 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const connectedClusterResourceUri: OperationURLParameter = {
-  parameterPath: "connectedClusterResourceUri",
-  mapper: {
-    serializedName: "connectedClusterResourceUri",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-15-preview",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -70,21 +57,16 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const resourceUri: OperationURLParameter = {
+  parameterPath: "resourceUri",
   mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
+    serializedName: "resourceUri",
+    required: true,
     type: {
       name: "String"
     }
-  }
-};
-
-export const provisionedClusterInstance: OperationParameter = {
-  parameterPath: "provisionedClusterInstance",
-  mapper: ProvisionedClustersMapper
+  },
+  skipEncoding: true
 };
 
 export const nextLink: OperationURLParameter = {
@@ -99,19 +81,39 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: HybridIdentityMetadataMapper
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: KubernetesVersionProfileMapper
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: VmSkuProfileMapper
+};
+
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ProvisionedClusterMapper
 };
 
 export const agentPoolName: OperationURLParameter = {
   parameterPath: "agentPoolName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
-      ),
-      MaxLength: 64,
+      Pattern: new RegExp("^[a-z][a-z0-9]{2,11}$"),
+      MaxLength: 12,
       MinLength: 3
     },
     serializedName: "agentPoolName",
@@ -122,36 +124,14 @@ export const agentPoolName: OperationURLParameter = {
   }
 };
 
-export const agentPool: OperationParameter = {
-  parameterPath: "agentPool",
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
   mapper: AgentPoolMapper
 };
 
-export const agentPool1: OperationParameter = {
-  parameterPath: "agentPool",
-  mapper: AgentPoolPatchMapper
-};
-
-export const customLocationResourceUri: OperationURLParameter = {
-  parameterPath: "customLocationResourceUri",
-  mapper: {
-    serializedName: "customLocationResourceUri",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const kubernetesVersions: OperationParameter = {
-  parameterPath: "kubernetesVersions",
-  mapper: KubernetesVersionProfileMapper
-};
-
-export const skus: OperationParameter = {
-  parameterPath: "skus",
-  mapper: VmSkuProfileMapper
+export const resource4: OperationParameter = {
+  parameterPath: "resource",
+  mapper: HybridIdentityMetadataMapper
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -198,12 +178,12 @@ export const virtualNetworkName: OperationURLParameter = {
   }
 };
 
-export const virtualNetworks: OperationParameter = {
-  parameterPath: "virtualNetworks",
+export const resource5: OperationParameter = {
+  parameterPath: "resource",
   mapper: VirtualNetworkMapper
 };
 
-export const virtualNetworks1: OperationParameter = {
-  parameterPath: "virtualNetworks",
+export const properties: OperationParameter = {
+  parameterPath: "properties",
   mapper: VirtualNetworksPatchMapper
 };

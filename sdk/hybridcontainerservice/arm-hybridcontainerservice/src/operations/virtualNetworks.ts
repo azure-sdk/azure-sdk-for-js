@@ -21,23 +21,23 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   VirtualNetwork,
-  VirtualNetworksListByResourceGroupNextOptionalParams,
-  VirtualNetworksListByResourceGroupOptionalParams,
-  VirtualNetworksListByResourceGroupResponse,
   VirtualNetworksListBySubscriptionNextOptionalParams,
   VirtualNetworksListBySubscriptionOptionalParams,
   VirtualNetworksListBySubscriptionResponse,
+  VirtualNetworksListByResourceGroupNextOptionalParams,
+  VirtualNetworksListByResourceGroupOptionalParams,
+  VirtualNetworksListByResourceGroupResponse,
   VirtualNetworksRetrieveOptionalParams,
   VirtualNetworksRetrieveResponse,
   VirtualNetworksCreateOrUpdateOptionalParams,
   VirtualNetworksCreateOrUpdateResponse,
-  VirtualNetworksDeleteOptionalParams,
-  VirtualNetworksDeleteResponse,
   VirtualNetworksPatch,
   VirtualNetworksUpdateOptionalParams,
   VirtualNetworksUpdateResponse,
-  VirtualNetworksListByResourceGroupNextResponse,
-  VirtualNetworksListBySubscriptionNextResponse
+  VirtualNetworksDeleteOptionalParams,
+  VirtualNetworksDeleteResponse,
+  VirtualNetworksListBySubscriptionNextResponse,
+  VirtualNetworksListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,61 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Lists the Hybrid AKS virtual networks by resource group
+   * Lists the virtual networks in the specified subscription
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: VirtualNetworksListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<VirtualNetwork> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: VirtualNetworksListBySubscriptionOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<VirtualNetwork[]> {
+    let result: VirtualNetworksListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: VirtualNetworksListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<VirtualNetwork> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the virtual networks in the specified resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -123,61 +177,35 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Lists the Hybrid AKS virtual networks by subscription
+   * Lists the virtual networks in the specified subscription
    * @param options The options parameters.
    */
-  public listBySubscription(
+  private _listBySubscription(
     options?: VirtualNetworksListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetwork> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: VirtualNetworksListBySubscriptionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<VirtualNetwork[]> {
-    let result: VirtualNetworksListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: VirtualNetworksListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<VirtualNetwork> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
+  ): Promise<VirtualNetworksListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec
+    );
   }
 
   /**
-   * Gets the Hybrid AKS virtual network
+   * Lists the virtual networks in the specified resource group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: VirtualNetworksListByResourceGroupOptionalParams
+  ): Promise<VirtualNetworksListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec
+    );
+  }
+
+  /**
+   * Gets the specified virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -194,16 +222,16 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Puts the Hybrid AKS virtual network
+   * Creates or updates the virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks The virtualNetworks resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     virtualNetworkName: string,
-    virtualNetworks: VirtualNetwork,
+    resource: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -252,7 +280,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, virtualNetworkName, virtualNetworks, options },
+      args: { resourceGroupName, virtualNetworkName, resource, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
@@ -268,29 +296,125 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Puts the Hybrid AKS virtual network
+   * Creates or updates the virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks The virtualNetworks resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     virtualNetworkName: string,
-    virtualNetworks: VirtualNetwork,
+    resource: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<VirtualNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworks,
+      resource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the Hybrid AKS virtual network
+   * Patches the virtual network resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualNetworkName Parameter for the name of the virtual network
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    properties: VirtualNetworksPatch,
+    options?: VirtualNetworksUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworksUpdateResponse>,
+      VirtualNetworksUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VirtualNetworksUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkName, properties, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworksUpdateResponse,
+      OperationState<VirtualNetworksUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Patches the virtual network resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualNetworkName Parameter for the name of the virtual network
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    properties: VirtualNetworksPatch,
+    options?: VirtualNetworksUpdateOptionalParams
+  ): Promise<VirtualNetworksUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      virtualNetworkName,
+      properties,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes the specified virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -355,14 +479,14 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes the Hybrid AKS virtual network
+   * Deletes the specified virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -381,126 +505,17 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Patches the Hybrid AKS virtual network
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks The virtualNetworks resource patch definition.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  async beginUpdate(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworks: VirtualNetworksPatch,
-    options?: VirtualNetworksUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualNetworksUpdateResponse>,
-      VirtualNetworksUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<VirtualNetworksUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, virtualNetworkName, virtualNetworks, options },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      VirtualNetworksUpdateResponse,
-      OperationState<VirtualNetworksUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Patches the Hybrid AKS virtual network
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks The virtualNetworks resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworks: VirtualNetworksPatch,
-    options?: VirtualNetworksUpdateOptionalParams
-  ): Promise<VirtualNetworksUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      virtualNetworkName,
-      virtualNetworks,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists the Hybrid AKS virtual networks by resource group
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: VirtualNetworksListByResourceGroupOptionalParams
-  ): Promise<VirtualNetworksListByResourceGroupResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: VirtualNetworksListBySubscriptionNextOptionalParams
+  ): Promise<VirtualNetworksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Lists the Hybrid AKS virtual networks by subscription
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: VirtualNetworksListBySubscriptionOptionalParams
-  ): Promise<VirtualNetworksListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec
     );
   }
 
@@ -520,25 +535,48 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       listByResourceGroupNextOperationSpec
     );
   }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: VirtualNetworksListBySubscriptionNextOptionalParams
-  ): Promise<VirtualNetworksListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridContainerService/virtualNetworks",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const retrieveOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks/{virtualNetworkName}",
@@ -582,7 +620,40 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.virtualNetworks,
+  requestBody: Parameters.resource5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks/{virtualNetworkName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetwork
+    },
+    201: {
+      bodyMapper: Mappers.VirtualNetwork
+    },
+    202: {
+      bodyMapper: Mappers.VirtualNetwork
+    },
+    204: {
+      bodyMapper: Mappers.VirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -625,103 +696,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks/{virtualNetworkName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetwork
-    },
-    201: {
-      bodyMapper: Mappers.VirtualNetwork
-    },
-    202: {
-      bodyMapper: Mappers.VirtualNetwork
-    },
-    204: {
-      bodyMapper: Mappers.VirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.virtualNetworks1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.virtualNetworkName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworksListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridContainerService/virtualNetworks",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworksListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualNetworksListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworksListResult
+      bodyMapper: Mappers.VirtualNetworkListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -731,6 +711,26 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer

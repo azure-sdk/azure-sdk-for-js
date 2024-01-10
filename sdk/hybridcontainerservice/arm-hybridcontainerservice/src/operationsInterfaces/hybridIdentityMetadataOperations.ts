@@ -10,11 +10,11 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   HybridIdentityMetadata,
-  HybridIdentityMetadataListByClusterOptionalParams,
-  HybridIdentityMetadataPutOptionalParams,
-  HybridIdentityMetadataPutResponse,
+  HybridIdentityMetadataListByProvisionedClusterOptionalParams,
   HybridIdentityMetadataGetOptionalParams,
   HybridIdentityMetadataGetResponse,
+  HybridIdentityMetadataPutOptionalParams,
+  HybridIdentityMetadataPutResponse,
   HybridIdentityMetadataDeleteOptionalParams,
   HybridIdentityMetadataDeleteResponse
 } from "../models";
@@ -24,45 +24,41 @@ import {
 export interface HybridIdentityMetadataOperations {
   /**
    * Lists the hybrid identity metadata proxy resource in a provisioned cluster instance.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
-   *                                    connected cluster resource.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  listByCluster(
-    connectedClusterResourceUri: string,
-    options?: HybridIdentityMetadataListByClusterOptionalParams
+  listByProvisionedCluster(
+    resourceUri: string,
+    options?: HybridIdentityMetadataListByProvisionedClusterOptionalParams
   ): PagedAsyncIterableIterator<HybridIdentityMetadata>;
   /**
-   * Creates the hybrid identity metadata proxy resource that facilitates the managed identity
-   * provisioning.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
-   *                                    connected cluster resource.
-   * @param body Defines the hybridIdentityMetadata.
-   * @param options The options parameters.
-   */
-  put(
-    connectedClusterResourceUri: string,
-    body: HybridIdentityMetadata,
-    options?: HybridIdentityMetadataPutOptionalParams
-  ): Promise<HybridIdentityMetadataPutResponse>;
-  /**
    * Get the hybrid identity metadata proxy resource.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
-   *                                    connected cluster resource.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   get(
-    connectedClusterResourceUri: string,
+    resourceUri: string,
     options?: HybridIdentityMetadataGetOptionalParams
   ): Promise<HybridIdentityMetadataGetResponse>;
   /**
+   * Creates the hybrid identity metadata proxy resource that facilitates the managed identity
+   * provisioning.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  put(
+    resourceUri: string,
+    resource: HybridIdentityMetadata,
+    options?: HybridIdentityMetadataPutOptionalParams
+  ): Promise<HybridIdentityMetadataPutResponse>;
+  /**
    * Deletes the hybrid identity metadata proxy resource.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
-   *                                    connected cluster resource.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   beginDelete(
-    connectedClusterResourceUri: string,
+    resourceUri: string,
     options?: HybridIdentityMetadataDeleteOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -72,12 +68,11 @@ export interface HybridIdentityMetadataOperations {
   >;
   /**
    * Deletes the hybrid identity metadata proxy resource.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
-   *                                    connected cluster resource.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    connectedClusterResourceUri: string,
+    resourceUri: string,
     options?: HybridIdentityMetadataDeleteOptionalParams
   ): Promise<HybridIdentityMetadataDeleteResponse>;
 }

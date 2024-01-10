@@ -34,7 +34,10 @@ export class OperationsImpl implements Operations {
     this.client = client;
   }
 
-  /** @param options The options parameters. */
+  /**
+   * List the operations for the provider
+   * @param options The options parameters.
+   */
   public list(
     options?: OperationsListOptionalParams
   ): PagedAsyncIterableIterator<Operation> {
@@ -85,7 +88,10 @@ export class OperationsImpl implements Operations {
     }
   }
 
-  /** @param options The options parameters. */
+  /**
+   * List the operations for the provider
+   * @param options The options parameters.
+   */
   private _list(
     options?: OperationsListOptionalParams
   ): Promise<OperationsListResponse> {
