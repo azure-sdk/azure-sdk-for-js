@@ -865,22 +865,6 @@ export const DevicePatchProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const ImageUploadRequestBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ImageUploadRequestBody",
-    modelProperties: {
-      images: {
-        serializedName: "images",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -929,6 +913,16 @@ export const CountDeviceResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CountDeviceResponse",
+    modelProperties: {
+      ...CountElementsResponse.type.modelProperties
+    }
+  }
+};
+
+export const CountDevicesResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CountDevicesResponse",
     modelProperties: {
       ...CountElementsResponse.type.modelProperties
     }

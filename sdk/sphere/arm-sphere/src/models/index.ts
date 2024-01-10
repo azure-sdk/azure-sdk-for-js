@@ -370,12 +370,6 @@ export interface DevicePatchProperties {
   deviceGroupId: string;
 }
 
-/** Image upload request body. */
-export interface ImageUploadRequestBody {
-  /** . */
-  images: string;
-}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -390,8 +384,11 @@ export interface ProxyResource extends Resource {}
 /** Result of the action to generate a proof of possession nonce */
 export interface ProofOfPossessionNonceResponse extends CertificateProperties {}
 
-/** Response to the action call for count devices in a catalog. */
+/** Response to the action call for count devices in a catalog (preview API). */
 export interface CountDeviceResponse extends CountElementsResponse {}
+
+/** Response to the action call for count devices in a catalog. */
+export interface CountDevicesResponse extends CountElementsResponse {}
 
 /** An Azure Sphere catalog */
 export interface Catalog extends TrackedResource {
@@ -978,6 +975,24 @@ export enum KnownCapabilityType {
  * **FieldServicing**: Field servicing capability
  */
 export type CapabilityType = string;
+
+/** Known values of {@link Versions} that the service accepts. */
+export enum KnownVersions {
+  /** Public preview API version. */
+  V20220901 = "2022-09-01-preview",
+  /** Initial GA API version. */
+  V20240401 = "2024-04-01"
+}
+
+/**
+ * Defines values for Versions. \
+ * {@link KnownVersions} can be used interchangeably with Versions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2022-09-01-preview**: Public preview API version. \
+ * **2024-04-01**: Initial GA API version.
+ */
+export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
