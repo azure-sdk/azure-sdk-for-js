@@ -1,15 +1,19 @@
 # Release History
+    
+## 13.0.0 (2024-01-11)
+    
+**Features**
 
-## 12.0.1 (Unreleased)
+  - Added Interface UserAssignedIdentityProperties
+  - Added Type Alias IaasVMSnapshotConsistencyType
+  - Interface AzureIaaSVMProtectionPolicy has a new optional parameter snapshotConsistencyType
+  - Added Enum KnownIaasVMSnapshotConsistencyType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter userAssignedIdentityProperties of interface UserAssignedManagedIdentityDetails is changed from UserAssignedIdentity to UserAssignedIdentityProperties
+    
+    
 ## 12.0.0 (2023-11-09)
     
 **Features**
@@ -379,4 +383,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
