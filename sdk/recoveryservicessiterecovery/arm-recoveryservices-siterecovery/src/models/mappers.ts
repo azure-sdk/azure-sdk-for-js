@@ -1087,6 +1087,102 @@ export const RenewCertificateInputProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const LogicalNetworkCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -17810,6 +17906,12 @@ export const A2AEnableProtectionInput: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      autoProtectionOfDataDisk: {
+        serializedName: "autoProtectionOfDataDisk",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -22435,6 +22537,21 @@ export const HyperVReplicaBluePolicyInput: coreClient.CompositeMapper = {
         serializedName: "replicationFrequencyInSeconds",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ReplicationFabricsRemoveInfraHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReplicationFabricsRemoveInfraHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

@@ -26,7 +26,9 @@ import {
   ReplicationFabricsDeleteOptionalParams,
   RenewCertificateInput,
   ReplicationFabricsRenewCertificateOptionalParams,
-  ReplicationFabricsRenewCertificateResponse
+  ReplicationFabricsRenewCertificateResponse,
+  ReplicationFabricsRemoveInfraOptionalParams,
+  ReplicationFabricsRemoveInfraResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -286,4 +288,37 @@ export interface ReplicationFabrics {
     renewCertificate: RenewCertificateInput,
     options?: ReplicationFabricsRenewCertificateOptionalParams
   ): Promise<ReplicationFabricsRenewCertificateResponse>;
+  /**
+   * Removes the appliance's infrastructure under the fabric.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName Resource name.
+   * @param fabricName Fabric name.
+   * @param options The options parameters.
+   */
+  beginRemoveInfra(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    options?: ReplicationFabricsRemoveInfraOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationFabricsRemoveInfraResponse>,
+      ReplicationFabricsRemoveInfraResponse
+    >
+  >;
+  /**
+   * Removes the appliance's infrastructure under the fabric.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName Resource name.
+   * @param fabricName Fabric name.
+   * @param options The options parameters.
+   */
+  beginRemoveInfraAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    options?: ReplicationFabricsRemoveInfraOptionalParams
+  ): Promise<ReplicationFabricsRemoveInfraResponse>;
 }

@@ -675,6 +675,55 @@ export interface RenewCertificateInputProperties {
   renewCertificateType?: string;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** List of logical networks. */
 export interface LogicalNetworkCollection {
   /** The Logical Networks list details. */
@@ -7425,6 +7474,8 @@ export interface A2AEnableProtectionInput
   recoveryVirtualMachineScaleSetId?: string;
   /** The recovery capacity reservation group Id. */
   recoveryCapacityReservationGroupId?: string;
+  /** A value indicating whether the auto protection is enabled. */
+  autoProtectionOfDataDisk?: AutoProtectionOfDataDisk;
 }
 
 /** HyperVReplicaAzure specific enable protection input. */
@@ -9131,6 +9182,11 @@ export interface HyperVReplicaBluePolicyInput extends HyperVReplicaPolicyInput {
   replicationFrequencyInSeconds?: number;
 }
 
+/** Defines headers for ReplicationFabrics_removeInfra operation. */
+export interface ReplicationFabricsRemoveInfraHeaders {
+  location?: string;
+}
+
 /** Defines headers for ReplicationProtectedItems_updateMobilityService operation. */
 export interface ReplicationProtectedItemsUpdateMobilityServiceHeaders {
   location?: string;
@@ -10515,6 +10571,18 @@ export interface ReplicationFabricsRenewCertificateOptionalParams
 
 /** Contains response data for the renewCertificate operation. */
 export type ReplicationFabricsRenewCertificateResponse = Fabric;
+
+/** Optional parameters. */
+export interface ReplicationFabricsRemoveInfraOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the removeInfra operation. */
+export type ReplicationFabricsRemoveInfraResponse = ReplicationFabricsRemoveInfraHeaders;
 
 /** Optional parameters. */
 export interface ReplicationFabricsListNextOptionalParams

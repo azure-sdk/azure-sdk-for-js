@@ -40,6 +40,8 @@ import {
   RenewCertificateInput,
   ReplicationFabricsRenewCertificateOptionalParams,
   ReplicationFabricsRenewCertificateResponse,
+  ReplicationFabricsRemoveInfraOptionalParams,
+  ReplicationFabricsRemoveInfraResponse,
   ReplicationFabricsListNextResponse
 } from "../models";
 
@@ -854,6 +856,103 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   }
 
   /**
+   * Removes the appliance's infrastructure under the fabric.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName Resource name.
+   * @param fabricName Fabric name.
+   * @param options The options parameters.
+   */
+  async beginRemoveInfra(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    options?: ReplicationFabricsRemoveInfraOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationFabricsRemoveInfraResponse>,
+      ReplicationFabricsRemoveInfraResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ReplicationFabricsRemoveInfraResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, fabricName, options },
+      spec: removeInfraOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationFabricsRemoveInfraResponse,
+      OperationState<ReplicationFabricsRemoveInfraResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Removes the appliance's infrastructure under the fabric.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName Resource name.
+   * @param fabricName Fabric name.
+   * @param options The options parameters.
+   */
+  async beginRemoveInfraAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    options?: ReplicationFabricsRemoveInfraOptionalParams
+  ): Promise<ReplicationFabricsRemoveInfraResponse> {
+    const poller = await this.beginRemoveInfra(
+      resourceGroupName,
+      resourceName,
+      fabricName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -1080,6 +1179,38 @@ const renewCertificateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const removeInfraOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/removeInfra",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ReplicationFabricsRemoveInfraHeaders
+    },
+    201: {
+      headersMapper: Mappers.ReplicationFabricsRemoveInfraHeaders
+    },
+    202: {
+      headersMapper: Mappers.ReplicationFabricsRemoveInfraHeaders
+    },
+    204: {
+      headersMapper: Mappers.ReplicationFabricsRemoveInfraHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName1,
+    Parameters.fabricName1
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
