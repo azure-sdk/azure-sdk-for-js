@@ -53,6 +53,8 @@ export interface ApplicationGatewaySku {
   tier?: ApplicationGatewayTier;
   /** Capacity (instance count) of an application gateway. */
   capacity?: number;
+  /** Family of an application gateway SKU. */
+  family?: ApplicationGatewaySkuFamily;
 }
 
 /** Application Gateway Ssl policy. */
@@ -9568,6 +9570,8 @@ export interface AzureFirewallFqdnTag extends Resource {
 
 /** Bastion Host resource. */
 export interface BastionHost extends Resource {
+  /** A list of availability zones denoting where the resource needs to come from. */
+  zones?: string[];
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -11784,6 +11788,24 @@ export enum KnownApplicationGatewayTier {
  */
 export type ApplicationGatewayTier = string;
 
+/** Known values of {@link ApplicationGatewaySkuFamily} that the service accepts. */
+export enum KnownApplicationGatewaySkuFamily {
+  /** Generation1 */
+  Generation1 = "Generation_1",
+  /** Generation2 */
+  Generation2 = "Generation_2"
+}
+
+/**
+ * Defines values for ApplicationGatewaySkuFamily. \
+ * {@link KnownApplicationGatewaySkuFamily} can be used interchangeably with ApplicationGatewaySkuFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Generation_1** \
+ * **Generation_2**
+ */
+export type ApplicationGatewaySkuFamily = string;
+
 /** Known values of {@link ApplicationGatewaySslProtocol} that the service accepts. */
 export enum KnownApplicationGatewaySslProtocol {
   /** TLSv10 */
@@ -12401,7 +12423,11 @@ export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** NetworkSecurityGroupEnabled */
+  NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+  /** RouteTableEnabled */
+  RouteTableEnabled = "RouteTableEnabled"
 }
 
 /**
@@ -12410,7 +12436,9 @@ export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **NetworkSecurityGroupEnabled** \
+ * **RouteTableEnabled**
  */
 export type VirtualNetworkPrivateEndpointNetworkPolicies = string;
 
