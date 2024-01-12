@@ -493,6 +493,26 @@ export interface FhirServiceAuthenticationConfiguration {
   audience?: string;
   /** If the SMART on FHIR proxy is enabled */
   smartProxyEnabled?: boolean;
+  /** The array of identity provider configurations for SMART on FHIR authentication. */
+  smartIdentityProviders?: SmartIdentityProviderConfiguration[];
+}
+
+/** An object to configure an identity provider for use with SMART on FHIR authentication. */
+export interface SmartIdentityProviderConfiguration {
+  /** The identity provider token authority also known as the token issuing authority. */
+  authority?: string;
+  /** The array of identity provider applications for SMART on FHIR authentication. */
+  applications?: SmartIdentityProviderApplication[];
+}
+
+/** An Application configured in the Identity Provider used to access FHIR resources. */
+export interface SmartIdentityProviderApplication {
+  /** The application client id defined in the identity provider. This value will be used to validate bearer tokens against the given authority. */
+  clientId?: string;
+  /** The audience that will be used to validate bearer tokens against the given authority. */
+  audience?: string;
+  /** The actions that are permitted to be performed on FHIR resources for the application. */
+  allowedDataActions?: SmartDataActions[];
 }
 
 /** The settings for the CORS configuration of the service instance. */
@@ -1174,6 +1194,21 @@ export enum KnownFhirServiceKind {
  * **fhir-R4**
  */
 export type FhirServiceKind = string;
+
+/** Known values of {@link SmartDataActions} that the service accepts. */
+export enum KnownSmartDataActions {
+  /** Read */
+  Read = "Read"
+}
+
+/**
+ * Defines values for SmartDataActions. \
+ * {@link KnownSmartDataActions} can be used interchangeably with SmartDataActions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Read**
+ */
+export type SmartDataActions = string;
 
 /** Known values of {@link FhirResourceVersionPolicy} that the service accepts. */
 export enum KnownFhirResourceVersionPolicy {

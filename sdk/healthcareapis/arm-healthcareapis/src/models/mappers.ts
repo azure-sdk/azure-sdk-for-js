@@ -1302,6 +1302,77 @@ export const FhirServiceAuthenticationConfiguration: coreClient.CompositeMapper 
         type: {
           name: "Boolean"
         }
+      },
+      smartIdentityProviders: {
+        serializedName: "smartIdentityProviders",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SmartIdentityProviderConfiguration"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SmartIdentityProviderConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SmartIdentityProviderConfiguration",
+    modelProperties: {
+      authority: {
+        serializedName: "authority",
+        type: {
+          name: "String"
+        }
+      },
+      applications: {
+        serializedName: "applications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SmartIdentityProviderApplication"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SmartIdentityProviderApplication: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SmartIdentityProviderApplication",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      },
+      audience: {
+        serializedName: "audience",
+        type: {
+          name: "String"
+        }
+      },
+      allowedDataActions: {
+        serializedName: "allowedDataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
