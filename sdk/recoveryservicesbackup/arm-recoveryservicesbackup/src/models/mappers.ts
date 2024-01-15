@@ -2743,30 +2743,28 @@ export const UserAssignedManagedIdentityDetails: coreClient.CompositeMapper = {
         serializedName: "userAssignedIdentityProperties",
         type: {
           name: "Composite",
-          className: "UserAssignedIdentity"
+          className: "UserAssignedIdentityProperties"
         }
       }
     }
   }
 };
 
-export const UserAssignedIdentity: coreClient.CompositeMapper = {
+export const UserAssignedIdentityProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UserAssignedIdentity",
+    className: "UserAssignedIdentityProperties",
     modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "Uuid"
-        }
-      },
       clientId: {
         serializedName: "clientId",
-        readOnly: true,
         type: {
-          name: "Uuid"
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -7455,6 +7453,12 @@ export const AzureIaaSVMProtectionPolicy: coreClient.CompositeMapper = {
       },
       policyType: {
         serializedName: "policyType",
+        type: {
+          name: "String"
+        }
+      },
+      snapshotConsistencyType: {
+        serializedName: "snapshotConsistencyType",
         type: {
           name: "String"
         }

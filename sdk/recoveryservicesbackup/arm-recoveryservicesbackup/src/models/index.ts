@@ -1254,28 +1254,26 @@ export interface TieringPolicy {
 export interface SnapshotBackupAdditionalDetails {
   instantRpRetentionRangeInDays?: number;
   instantRPDetails?: string;
+  /** User assigned managed identity details */
   userAssignedManagedIdentityDetails?: UserAssignedManagedIdentityDetails;
 }
 
+/** User assigned managed identity details */
 export interface UserAssignedManagedIdentityDetails {
+  /** The ARM id of the assigned identity. */
   identityArmId?: string;
+  /** The name of the assigned identity. */
   identityName?: string;
-  /** User assigned identity properties */
-  userAssignedIdentityProperties?: UserAssignedIdentity;
+  /** User assigned managed identity properties */
+  userAssignedIdentityProperties?: UserAssignedIdentityProperties;
 }
 
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
+/** User assigned managed identity properties */
+export interface UserAssignedIdentityProperties {
+  /** The client ID of the assigned identity. */
+  clientId?: string;
+  /** The principal ID of the assigned identity. */
+  principalId?: string;
 }
 
 /** Vault retention policy for AzureFileShare */
@@ -2958,6 +2956,7 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
   timeZone?: string;
   policyType?: IaasvmPolicyType;
+  snapshotConsistencyType?: IaasVMSnapshotConsistencyType;
 }
 
 /** Azure SQL workload-specific backup policy. */
@@ -4915,6 +4914,21 @@ export enum KnownIaasvmPolicyType {
  * **V2**
  */
 export type IaasvmPolicyType = string;
+
+/** Known values of {@link IaasVMSnapshotConsistencyType} that the service accepts. */
+export enum KnownIaasVMSnapshotConsistencyType {
+  /** OnlyCrashConsistent */
+  OnlyCrashConsistent = "OnlyCrashConsistent"
+}
+
+/**
+ * Defines values for IaasVMSnapshotConsistencyType. \
+ * {@link KnownIaasVMSnapshotConsistencyType} can be used interchangeably with IaasVMSnapshotConsistencyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OnlyCrashConsistent**
+ */
+export type IaasVMSnapshotConsistencyType = string;
 
 /** Known values of {@link ProtectedItemState} that the service accepts. */
 export enum KnownProtectedItemState {
