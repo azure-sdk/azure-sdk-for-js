@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ApplicationLiveViews } from "../operationsInterfaces";
+import { Jobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ApplicationLiveViewResource,
-  ApplicationLiveViewsListNextOptionalParams,
-  ApplicationLiveViewsListOptionalParams,
-  ApplicationLiveViewsListResponse,
-  ApplicationLiveViewsGetOptionalParams,
-  ApplicationLiveViewsGetResponse,
-  ApplicationLiveViewsCreateOrUpdateOptionalParams,
-  ApplicationLiveViewsCreateOrUpdateResponse,
-  ApplicationLiveViewsDeleteOptionalParams,
-  ApplicationLiveViewsDeleteResponse,
-  ApplicationLiveViewsListNextResponse
+  JobResource,
+  JobsListNextOptionalParams,
+  JobsListOptionalParams,
+  JobsListResponse,
+  JobsGetOptionalParams,
+  JobsGetResponse,
+  JobsCreateOrUpdateOptionalParams,
+  JobsCreateOrUpdateResponse,
+  JobsDeleteOptionalParams,
+  JobsDeleteResponse,
+  JobsStartOptionalParams,
+  JobsStartResponse,
+  JobsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ApplicationLiveViews operations. */
-export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
+/** Class containing Jobs operations. */
+export class JobsImpl implements Jobs {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class ApplicationLiveViews class.
+   * Initialize a new instance of the class Jobs class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -47,7 +49,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Get the Azure Spring Apps Jobs in a given service
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -56,8 +58,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationLiveViewResource> {
+    options?: JobsListOptionalParams
+  ): PagedAsyncIterableIterator<JobResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -83,10 +85,10 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams,
+    options?: JobsListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ApplicationLiveViewResource[]> {
-    let result: ApplicationLiveViewsListResponse;
+  ): AsyncIterableIterator<JobResource[]> {
+    let result: JobsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, serviceName, options);
@@ -112,8 +114,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
-  ): AsyncIterableIterator<ApplicationLiveViewResource> {
+    options?: JobsListOptionalParams
+  ): AsyncIterableIterator<JobResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -124,7 +126,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Get the Azure Spring Apps Jobs in a given service
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -133,8 +135,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
-  ): Promise<ApplicationLiveViewsListResponse> {
+    options?: JobsListOptionalParams
+  ): Promise<JobsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       listOperationSpec
@@ -142,50 +144,50 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Get the Application Live  and its properties.
+   * Get an Job and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsGetOptionalParams
-  ): Promise<ApplicationLiveViewsGetResponse> {
+    jobName: string,
+    options?: JobsGetOptionalParams
+  ): Promise<JobsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, applicationLiveViewName, options },
+      { resourceGroupName, serviceName, jobName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create the default Application Live View or update the existing Application Live View.
+   * Create a new Job or update an exiting Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
-   * @param applicationLiveViewResource Parameters for the update operation
+   * @param jobName The name of the Job resource.
+   * @param jobResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
-      ApplicationLiveViewsCreateOrUpdateResponse
+      OperationState<JobsCreateOrUpdateResponse>,
+      JobsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> => {
+    ): Promise<JobsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -223,18 +225,12 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        applicationLiveViewName,
-        applicationLiveViewResource,
-        options
-      },
+      args: { resourceGroupName, serviceName, jobName, jobResource, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
-      ApplicationLiveViewsCreateOrUpdateResponse,
-      OperationState<ApplicationLiveViewsCreateOrUpdateResponse>
+      JobsCreateOrUpdateResponse,
+      OperationState<JobsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -244,54 +240,51 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Create the default Application Live View or update the existing Application Live View.
+   * Create a new Job or update an exiting Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
-   * @param applicationLiveViewResource Parameters for the update operation
+   * @param jobName The name of the Job resource.
+   * @param jobResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
-  ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> {
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobsCreateOrUpdateOptionalParams
+  ): Promise<JobsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      applicationLiveViewName,
-      applicationLiveViewResource,
+      jobName,
+      jobResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Application Live View.
+   * Operation to delete a Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
+    jobName: string,
+    options?: JobsDeleteOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationLiveViewsDeleteResponse>,
-      ApplicationLiveViewsDeleteResponse
-    >
+    SimplePollerLike<OperationState<JobsDeleteResponse>, JobsDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApplicationLiveViewsDeleteResponse> => {
+    ): Promise<JobsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -329,17 +322,12 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        applicationLiveViewName,
-        options
-      },
+      args: { resourceGroupName, serviceName, jobName, options },
       spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<
-      ApplicationLiveViewsDeleteResponse,
-      OperationState<ApplicationLiveViewsDeleteResponse>
+      JobsDeleteResponse,
+      OperationState<JobsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -349,23 +337,118 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   }
 
   /**
-   * Disable the default Application Live View.
+   * Operation to delete a Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param applicationLiveViewName The name of Application Live View.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<ApplicationLiveViewsDeleteResponse> {
+    jobName: string,
+    options?: JobsDeleteOptionalParams
+  ): Promise<JobsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      applicationLiveViewName,
+      jobName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Start a Azure Spring Apps Job
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param jobName The name of the Job resource.
+   * @param options The options parameters.
+   */
+  async beginStart(
+    resourceGroupName: string,
+    serviceName: string,
+    jobName: string,
+    options?: JobsStartOptionalParams
+  ): Promise<
+    SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<JobsStartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, jobName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      JobsStartResponse,
+      OperationState<JobsStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Start a Azure Spring Apps Job
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param jobName The name of the Job resource.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    jobName: string,
+    options?: JobsStartOptionalParams
+  ): Promise<JobsStartResponse> {
+    const poller = await this.beginStart(
+      resourceGroupName,
+      serviceName,
+      jobName,
       options
     );
     return poller.pollUntilDone();
@@ -383,8 +466,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ApplicationLiveViewsListNextOptionalParams
-  ): Promise<ApplicationLiveViewsListNextResponse> {
+    options?: JobsListNextOptionalParams
+  ): Promise<JobsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -396,11 +479,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResourceCollection
+      bodyMapper: Mappers.JobResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -418,11 +501,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.JobResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -434,40 +517,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.JobResource
     },
     201: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.JobResource
     },
     202: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.JobResource
     },
     204: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.JobResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.applicationLiveViewResource,
+  requestBody: Parameters.jobResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -475,20 +558,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.JobsDeleteHeaders
     },
     201: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.JobsDeleteHeaders
     },
     202: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.JobsDeleteHeaders
     },
     204: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.JobsDeleteHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -500,9 +583,43 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const startOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}/start",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobExecution
+    },
+    201: {
+      bodyMapper: Mappers.JobExecution
+    },
+    202: {
+      bodyMapper: Mappers.JobExecution
+    },
+    204: {
+      bodyMapper: Mappers.JobExecution
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.template,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -510,7 +627,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResourceCollection
+      bodyMapper: Mappers.JobResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError

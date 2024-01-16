@@ -16,6 +16,8 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   ServicesImpl,
+  ApmsImpl,
+  EurekaServersImpl,
   ConfigServersImpl,
   ConfigurationServicesImpl,
   ServiceRegistriesImpl,
@@ -43,10 +45,15 @@ import {
   ApiPortalCustomDomainsImpl,
   ApplicationAcceleratorsImpl,
   CustomizedAcceleratorsImpl,
-  PredefinedAcceleratorsImpl
+  PredefinedAcceleratorsImpl,
+  JobsImpl,
+  JobExecutionOperationsImpl,
+  JobExecutionsImpl
 } from "./operations";
 import {
   Services,
+  Apms,
+  EurekaServers,
   ConfigServers,
   ConfigurationServices,
   ServiceRegistries,
@@ -74,14 +81,17 @@ import {
   ApiPortalCustomDomains,
   ApplicationAccelerators,
   CustomizedAccelerators,
-  PredefinedAccelerators
+  PredefinedAccelerators,
+  Jobs,
+  JobExecutionOperations,
+  JobExecutions
 } from "./operationsInterfaces";
 import { AppPlatformManagementClientOptionalParams } from "./models";
 
 export class AppPlatformManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the AppPlatformManagementClient class.
@@ -94,12 +104,28 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: AppPlatformManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AppPlatformManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | AppPlatformManagementClientOptionalParams
+      | string,
+    options?: AppPlatformManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -164,8 +190,10 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.apiVersion = options.apiVersion || "2024-01-01-preview";
     this.services = new ServicesImpl(this);
+    this.apms = new ApmsImpl(this);
+    this.eurekaServers = new EurekaServersImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
     this.serviceRegistries = new ServiceRegistriesImpl(this);
@@ -194,6 +222,9 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     this.applicationAccelerators = new ApplicationAcceleratorsImpl(this);
     this.customizedAccelerators = new CustomizedAcceleratorsImpl(this);
     this.predefinedAccelerators = new PredefinedAcceleratorsImpl(this);
+    this.jobs = new JobsImpl(this);
+    this.jobExecutionOperations = new JobExecutionOperationsImpl(this);
+    this.jobExecutions = new JobExecutionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -226,6 +257,8 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   }
 
   services: Services;
+  apms: Apms;
+  eurekaServers: EurekaServers;
   configServers: ConfigServers;
   configurationServices: ConfigurationServices;
   serviceRegistries: ServiceRegistries;
@@ -254,4 +287,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   applicationAccelerators: ApplicationAccelerators;
   customizedAccelerators: CustomizedAccelerators;
   predefinedAccelerators: PredefinedAccelerators;
+  jobs: Jobs;
+  jobExecutionOperations: JobExecutionOperations;
+  jobExecutions: JobExecutions;
 }

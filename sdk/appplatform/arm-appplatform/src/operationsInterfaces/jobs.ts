@@ -9,24 +9,23 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ContainerRegistryResource,
-  ContainerRegistriesListOptionalParams,
-  ContainerRegistriesGetOptionalParams,
-  ContainerRegistriesGetResponse,
-  ContainerRegistriesCreateOrUpdateOptionalParams,
-  ContainerRegistriesCreateOrUpdateResponse,
-  ContainerRegistriesDeleteOptionalParams,
-  ContainerRegistriesDeleteResponse,
-  ContainerRegistryProperties,
-  ContainerRegistriesValidateOptionalParams,
-  ContainerRegistriesValidateResponse
+  JobResource,
+  JobsListOptionalParams,
+  JobsGetOptionalParams,
+  JobsGetResponse,
+  JobsCreateOrUpdateOptionalParams,
+  JobsCreateOrUpdateResponse,
+  JobsDeleteOptionalParams,
+  JobsDeleteResponse,
+  JobsStartOptionalParams,
+  JobsStartResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ContainerRegistries. */
-export interface ContainerRegistries {
+/** Interface representing a Jobs. */
+export interface Jobs {
   /**
-   * List container registries resource.
+   * Get the Azure Spring Apps Jobs in a given service
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -35,127 +34,117 @@ export interface ContainerRegistries {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams
-  ): PagedAsyncIterableIterator<ContainerRegistryResource>;
+    options?: JobsListOptionalParams
+  ): PagedAsyncIterableIterator<JobResource>;
   /**
-   * Get the container registries resource.
+   * Get an Job and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    options?: ContainerRegistriesGetOptionalParams
-  ): Promise<ContainerRegistriesGetResponse>;
+    jobName: string,
+    options?: JobsGetOptionalParams
+  ): Promise<JobsGetResponse>;
   /**
-   * Create or update container registry resource.
+   * Create a new Job or update an exiting Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
-   * @param containerRegistryResource Parameters for the create or update operation
+   * @param jobName The name of the Job resource.
+   * @param jobResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    containerRegistryResource: ContainerRegistryResource,
-    options?: ContainerRegistriesCreateOrUpdateOptionalParams
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ContainerRegistriesCreateOrUpdateResponse>,
-      ContainerRegistriesCreateOrUpdateResponse
+      OperationState<JobsCreateOrUpdateResponse>,
+      JobsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or update container registry resource.
+   * Create a new Job or update an exiting Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
-   * @param containerRegistryResource Parameters for the create or update operation
+   * @param jobName The name of the Job resource.
+   * @param jobResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    containerRegistryResource: ContainerRegistryResource,
-    options?: ContainerRegistriesCreateOrUpdateOptionalParams
-  ): Promise<ContainerRegistriesCreateOrUpdateResponse>;
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobsCreateOrUpdateOptionalParams
+  ): Promise<JobsCreateOrUpdateResponse>;
   /**
-   * Delete a container registry resource.
+   * Operation to delete a Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    options?: ContainerRegistriesDeleteOptionalParams
+    jobName: string,
+    options?: JobsDeleteOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ContainerRegistriesDeleteResponse>,
-      ContainerRegistriesDeleteResponse
-    >
+    SimplePollerLike<OperationState<JobsDeleteResponse>, JobsDeleteResponse>
   >;
   /**
-   * Delete a container registry resource.
+   * Operation to delete a Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    options?: ContainerRegistriesDeleteOptionalParams
-  ): Promise<ContainerRegistriesDeleteResponse>;
+    jobName: string,
+    options?: JobsDeleteOptionalParams
+  ): Promise<JobsDeleteResponse>;
   /**
-   * Check if the container registry properties are valid.
+   * Start a Azure Spring Apps Job
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
-   * @param containerRegistryProperties Parameters for the validate operation
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
-  beginValidate(
+  beginStart(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    containerRegistryProperties: ContainerRegistryProperties,
-    options?: ContainerRegistriesValidateOptionalParams
+    jobName: string,
+    options?: JobsStartOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ContainerRegistriesValidateResponse>,
-      ContainerRegistriesValidateResponse
-    >
+    SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>
   >;
   /**
-   * Check if the container registry properties are valid.
+   * Start a Azure Spring Apps Job
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param containerRegistryName The name of the container registry.
-   * @param containerRegistryProperties Parameters for the validate operation
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
-  beginValidateAndWait(
+  beginStartAndWait(
     resourceGroupName: string,
     serviceName: string,
-    containerRegistryName: string,
-    containerRegistryProperties: ContainerRegistryProperties,
-    options?: ContainerRegistriesValidateOptionalParams
-  ): Promise<ContainerRegistriesValidateResponse>;
+    jobName: string,
+    options?: JobsStartOptionalParams
+  ): Promise<JobsStartResponse>;
 }
