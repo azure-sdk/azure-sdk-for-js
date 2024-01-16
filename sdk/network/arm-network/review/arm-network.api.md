@@ -950,9 +950,13 @@ export type ApplicationGatewaysGetSslPredefinedPolicyResponse = ApplicationGatew
 // @public
 export interface ApplicationGatewaySku {
     capacity?: number;
+    family?: ApplicationGatewaySkuFamily;
     name?: ApplicationGatewaySkuName;
     tier?: ApplicationGatewayTier;
 }
+
+// @public
+export type ApplicationGatewaySkuFamily = string;
 
 // @public
 export type ApplicationGatewaySkuName = string;
@@ -1998,6 +2002,7 @@ export interface BastionHost extends Resource {
     scaleUnits?: number;
     sku?: Sku;
     virtualNetwork?: SubResource;
+    zones?: string[];
 }
 
 // @public
@@ -6114,6 +6119,12 @@ export enum KnownApplicationGatewayRuleSetStatusOptions {
 }
 
 // @public
+export enum KnownApplicationGatewaySkuFamily {
+    Generation1 = "Generation_1",
+    Generation2 = "Generation_2"
+}
+
+// @public
 export enum KnownApplicationGatewaySkuName {
     Basic = "Basic",
     StandardLarge = "Standard_Large",
@@ -7417,7 +7428,9 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+    RouteTableEnabled = "RouteTableEnabled"
 }
 
 // @public
