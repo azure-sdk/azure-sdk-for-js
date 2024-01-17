@@ -6,16 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ElasticSanManagement } from "../elasticSanManagement";
 import {
+  PrivateLinkResource,
+  PrivateLinkResourcesListByElasticSanNextOptionalParams,
   PrivateLinkResourcesListByElasticSanOptionalParams,
-  PrivateLinkResourcesListByElasticSanResponse
+  PrivateLinkResourcesListByElasticSanResponse,
+  PrivateLinkResourcesListByElasticSanNextResponse,
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private readonly client: ElasticSanManagement;
@@ -34,14 +40,117 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
    * @param elasticSanName The name of the ElasticSan.
    * @param options The options parameters.
    */
-  listByElasticSan(
+  public listByElasticSan(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: PrivateLinkResourcesListByElasticSanOptionalParams
+    options?: PrivateLinkResourcesListByElasticSanOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateLinkResource> {
+    const iter = this.listByElasticSanPagingAll(
+      resourceGroupName,
+      elasticSanName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByElasticSanPagingPage(
+          resourceGroupName,
+          elasticSanName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByElasticSanPagingPage(
+    resourceGroupName: string,
+    elasticSanName: string,
+    options?: PrivateLinkResourcesListByElasticSanOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PrivateLinkResource[]> {
+    let result: PrivateLinkResourcesListByElasticSanResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByElasticSan(
+        resourceGroupName,
+        elasticSanName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByElasticSanNext(
+        resourceGroupName,
+        elasticSanName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByElasticSanPagingAll(
+    resourceGroupName: string,
+    elasticSanName: string,
+    options?: PrivateLinkResourcesListByElasticSanOptionalParams,
+  ): AsyncIterableIterator<PrivateLinkResource> {
+    for await (const page of this.listByElasticSanPagingPage(
+      resourceGroupName,
+      elasticSanName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the private link resources that need to be created for a elastic San.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param options The options parameters.
+   */
+  private _listByElasticSan(
+    resourceGroupName: string,
+    elasticSanName: string,
+    options?: PrivateLinkResourcesListByElasticSanOptionalParams,
   ): Promise<PrivateLinkResourcesListByElasticSanResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, elasticSanName, options },
-      listByElasticSanOperationSpec
+      listByElasticSanOperationSpec,
+    );
+  }
+
+  /**
+   * ListByElasticSanNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param nextLink The nextLink from the previous successful call to the ListByElasticSan method.
+   * @param options The options parameters.
+   */
+  private _listByElasticSanNext(
+    resourceGroupName: string,
+    elasticSanName: string,
+    nextLink: string,
+    options?: PrivateLinkResourcesListByElasticSanNextOptionalParams,
+  ): Promise<PrivateLinkResourcesListByElasticSanNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, elasticSanName, nextLink, options },
+      listByElasticSanNextOperationSpec,
     );
   }
 }
@@ -49,24 +158,44 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByElasticSanOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.elasticSanName
+    Parameters.elasticSanName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByElasticSanNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

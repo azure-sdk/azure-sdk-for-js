@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ElasticSanManagement client.
 
-
+Microsoft Elastic San Management API
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elasticsans/arm-elasticsan) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-elasticsan) |

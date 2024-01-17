@@ -16,7 +16,7 @@ import { ElasticSanManagement } from "../elasticSanManagement";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,16 +27,16 @@ import {
   ElasticSansListByResourceGroupNextOptionalParams,
   ElasticSansListByResourceGroupOptionalParams,
   ElasticSansListByResourceGroupResponse,
+  ElasticSansGetOptionalParams,
+  ElasticSansGetResponse,
   ElasticSansCreateOptionalParams,
   ElasticSansCreateResponse,
   ElasticSanUpdate,
   ElasticSansUpdateOptionalParams,
   ElasticSansUpdateResponse,
   ElasticSansDeleteOptionalParams,
-  ElasticSansGetOptionalParams,
-  ElasticSansGetResponse,
   ElasticSansListBySubscriptionNextResponse,
-  ElasticSansListByResourceGroupNextResponse
+  ElasticSansListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class ElasticSansImpl implements ElasticSans {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ElasticSansListBySubscriptionOptionalParams
+    options?: ElasticSansListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ElasticSan> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class ElasticSansImpl implements ElasticSans {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ElasticSansListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ElasticSan[]> {
     let result: ElasticSansListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class ElasticSansImpl implements ElasticSans {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ElasticSansListBySubscriptionOptionalParams
+    options?: ElasticSansListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ElasticSan> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class ElasticSansImpl implements ElasticSans {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ElasticSansListByResourceGroupOptionalParams
+    options?: ElasticSansListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ElasticSan> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +130,16 @@ export class ElasticSansImpl implements ElasticSans {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ElasticSansListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ElasticSan[]> {
     let result: ElasticSansListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +154,7 @@ export class ElasticSansImpl implements ElasticSans {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +165,11 @@ export class ElasticSansImpl implements ElasticSans {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ElasticSansListByResourceGroupOptionalParams
+    options?: ElasticSansListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ElasticSan> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,11 +180,11 @@ export class ElasticSansImpl implements ElasticSans {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ElasticSansListBySubscriptionOptionalParams
+    options?: ElasticSansListBySubscriptionOptionalParams,
   ): Promise<ElasticSansListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -195,11 +195,28 @@ export class ElasticSansImpl implements ElasticSans {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ElasticSansListByResourceGroupOptionalParams
+    options?: ElasticSansListByResourceGroupOptionalParams,
   ): Promise<ElasticSansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Get a ElasticSan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    options?: ElasticSansGetOptionalParams,
+  ): Promise<ElasticSansGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, elasticSanName, options },
+      getOperationSpec,
     );
   }
 
@@ -214,7 +231,7 @@ export class ElasticSansImpl implements ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     parameters: ElasticSan,
-    options?: ElasticSansCreateOptionalParams
+    options?: ElasticSansCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ElasticSansCreateResponse>,
@@ -223,21 +240,20 @@ export class ElasticSansImpl implements ElasticSans {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ElasticSansCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -246,8 +262,8 @@ export class ElasticSansImpl implements ElasticSans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -255,15 +271,15 @@ export class ElasticSansImpl implements ElasticSans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, elasticSanName, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ElasticSansCreateResponse,
@@ -271,7 +287,7 @@ export class ElasticSansImpl implements ElasticSans {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -288,13 +304,13 @@ export class ElasticSansImpl implements ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     parameters: ElasticSan,
-    options?: ElasticSansCreateOptionalParams
+    options?: ElasticSansCreateOptionalParams,
   ): Promise<ElasticSansCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       elasticSanName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -310,7 +326,7 @@ export class ElasticSansImpl implements ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     parameters: ElasticSanUpdate,
-    options?: ElasticSansUpdateOptionalParams
+    options?: ElasticSansUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ElasticSansUpdateResponse>,
@@ -319,21 +335,20 @@ export class ElasticSansImpl implements ElasticSans {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ElasticSansUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -342,8 +357,8 @@ export class ElasticSansImpl implements ElasticSans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -351,15 +366,15 @@ export class ElasticSansImpl implements ElasticSans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, elasticSanName, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ElasticSansUpdateResponse,
@@ -367,7 +382,7 @@ export class ElasticSansImpl implements ElasticSans {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -384,13 +399,13 @@ export class ElasticSansImpl implements ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     parameters: ElasticSanUpdate,
-    options?: ElasticSansUpdateOptionalParams
+    options?: ElasticSansUpdateOptionalParams,
   ): Promise<ElasticSansUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       elasticSanName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -404,25 +419,24 @@ export class ElasticSansImpl implements ElasticSans {
   async beginDelete(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: ElasticSansDeleteOptionalParams
+    options?: ElasticSansDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -431,8 +445,8 @@ export class ElasticSansImpl implements ElasticSans {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -440,20 +454,20 @@ export class ElasticSansImpl implements ElasticSans {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, elasticSanName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -468,31 +482,14 @@ export class ElasticSansImpl implements ElasticSans {
   async beginDeleteAndWait(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: ElasticSansDeleteOptionalParams
+    options?: ElasticSansDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       elasticSanName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Get a ElasticSan.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    options?: ElasticSansGetOptionalParams
-  ): Promise<ElasticSansGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, elasticSanName, options },
-      getOperationSpec
-    );
   }
 
   /**
@@ -502,11 +499,11 @@ export class ElasticSansImpl implements ElasticSans {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ElasticSansListBySubscriptionNextOptionalParams
+    options?: ElasticSansListBySubscriptionNextOptionalParams,
   ): Promise<ElasticSansListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -519,11 +516,11 @@ export class ElasticSansImpl implements ElasticSans {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ElasticSansListByResourceGroupNextOptionalParams
+    options?: ElasticSansListByResourceGroupNextOptionalParams,
   ): Promise<ElasticSansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -531,63 +528,81 @@ export class ElasticSansImpl implements ElasticSans {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ElasticSan/elasticSans",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ElasticSan/elasticSans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticSanList
+      bodyMapper: Mappers.ElasticSanListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticSanList
+      bodyMapper: Mappers.ElasticSanListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ElasticSan,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ElasticSan,
     },
     201: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ElasticSan,
     },
     202: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ElasticSan,
     },
     204: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ElasticSan,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -595,32 +610,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.elasticSanName
+    Parameters.elasticSanName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ElasticSan,
     },
     201: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ElasticSan,
     },
     202: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ElasticSan,
     },
     204: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ElasticSan,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -628,15 +642,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.elasticSanName
+    Parameters.elasticSanName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -644,77 +657,55 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.elasticSanName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ElasticSan
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.elasticSanName
+    Parameters.elasticSanName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticSanList
+      bodyMapper: Mappers.ElasticSanListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticSanList
+      bodyMapper: Mappers.ElasticSanListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -11,11 +11,11 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Snapshot,
   VolumeSnapshotsListByVolumeGroupOptionalParams,
+  VolumeSnapshotsGetOptionalParams,
+  VolumeSnapshotsGetResponse,
   VolumeSnapshotsCreateOptionalParams,
   VolumeSnapshotsCreateResponse,
   VolumeSnapshotsDeleteOptionalParams,
-  VolumeSnapshotsGetOptionalParams,
-  VolumeSnapshotsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,8 +32,23 @@ export interface VolumeSnapshots {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumeSnapshotsListByVolumeGroupOptionalParams
+    options?: VolumeSnapshotsListByVolumeGroupOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot>;
+  /**
+   * Get a Volume Snapshot.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    snapshotName: string,
+    options?: VolumeSnapshotsGetOptionalParams,
+  ): Promise<VolumeSnapshotsGetResponse>;
   /**
    * Create a Volume Snapshot.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -49,7 +64,7 @@ export interface VolumeSnapshots {
     volumeGroupName: string,
     snapshotName: string,
     parameters: Snapshot,
-    options?: VolumeSnapshotsCreateOptionalParams
+    options?: VolumeSnapshotsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumeSnapshotsCreateResponse>,
@@ -71,7 +86,7 @@ export interface VolumeSnapshots {
     volumeGroupName: string,
     snapshotName: string,
     parameters: Snapshot,
-    options?: VolumeSnapshotsCreateOptionalParams
+    options?: VolumeSnapshotsCreateOptionalParams,
   ): Promise<VolumeSnapshotsCreateResponse>;
   /**
    * Delete a Volume Snapshot.
@@ -86,7 +101,7 @@ export interface VolumeSnapshots {
     elasticSanName: string,
     volumeGroupName: string,
     snapshotName: string,
-    options?: VolumeSnapshotsDeleteOptionalParams
+    options?: VolumeSnapshotsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Volume Snapshot.
@@ -101,21 +116,6 @@ export interface VolumeSnapshots {
     elasticSanName: string,
     volumeGroupName: string,
     snapshotName: string,
-    options?: VolumeSnapshotsDeleteOptionalParams
+    options?: VolumeSnapshotsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Get a Volume Snapshot.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param volumeGroupName The name of the VolumeGroup.
-   * @param snapshotName The name of the volume snapshot within the given volume group.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    volumeGroupName: string,
-    snapshotName: string,
-    options?: VolumeSnapshotsGetOptionalParams
-  ): Promise<VolumeSnapshotsGetResponse>;
 }

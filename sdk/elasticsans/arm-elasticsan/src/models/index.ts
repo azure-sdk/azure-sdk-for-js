@@ -121,6 +121,81 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** The response of a ElasticSan list operation. */
+export interface ElasticSanListResult {
+  /** The ElasticSan items on this page */
+  value: ElasticSan[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The SKU name. Required for account creation; optional for update. */
+export interface Sku {
+  /** The sku name. */
+  name: SkuName;
+  /** The sku tier. */
+  tier?: SkuTier;
+}
+
+/** Response for PrivateEndpoint */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Response for Private Link Service Connection state */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** List of SKU Information objects */
 export interface SkuInformationList {
   /**
@@ -191,84 +266,6 @@ export interface SKUCapability {
   readonly value?: string;
 }
 
-/** List of Elastic Sans */
-export interface ElasticSanList {
-  /** An array of Elastic San objects. */
-  value?: ElasticSan[];
-  /**
-   * URI to fetch the next section of the paginated response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The SKU name. Required for account creation; optional for update. */
-export interface Sku {
-  /** The sku name. */
-  name: SkuName;
-  /** The sku tier. */
-  tier?: SkuTier;
-}
-
-/** Response for PrivateEndpoint */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Response for Private Link Service Connection state */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** Response for ElasticSan update request. */
 export interface ElasticSanUpdate {
   /** Update tags */
@@ -281,15 +278,28 @@ export interface ElasticSanUpdate {
   publicNetworkAccess?: PublicNetworkAccess;
 }
 
-/** List of Volume Groups */
-export interface VolumeGroupList {
-  /** An array of Volume Groups objects. */
-  value?: VolumeGroup[];
-  /**
-   * URI to fetch the next section of the paginated response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The response of a PrivateEndpointConnection list operation. */
+export interface PrivateEndpointConnectionListResult {
+  /** The PrivateEndpointConnection items on this page */
+  value: PrivateEndpointConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a PrivateLinkResource list operation. */
+export interface PrivateLinkResourceListResult {
+  /** The PrivateLinkResource items on this page */
+  value: PrivateLinkResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a VolumeGroup list operation. */
+export interface VolumeGroupListResult {
+  /** The VolumeGroup items on this page */
+  value: VolumeGroup[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Identity for the resource. */
@@ -391,6 +401,28 @@ export interface VolumeGroupUpdate {
   networkAcls?: NetworkRuleSet;
 }
 
+/** The response of a Snapshot list operation. */
+export interface SnapshotListResult {
+  /** The Snapshot items on this page */
+  value: Snapshot[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Data used when creating a volume snapshot. */
+export interface SnapshotCreationData {
+  /** Fully qualified resource ID of the volume. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}" */
+  sourceId: string;
+}
+
+/** The response of a Volume list operation. */
+export interface VolumeListResult {
+  /** The Volume items on this page */
+  value: Volume[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** Data source used when creating the volume. */
 export interface SourceCreationData {
   /** This enumerates the possible sources of a volume creation. */
@@ -439,58 +471,19 @@ export interface VolumeUpdate {
   managedBy?: ManagedByInfo;
 }
 
-/** List of Volumes */
-export interface VolumeList {
-  /** An array of Volume objects. */
-  value?: Volume[];
-  /**
-   * URI to fetch the next section of the paginated response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
-/** List of private endpoint connections associated with SAN */
-export interface PrivateEndpointConnectionListResult {
-  /** Array of private endpoint connections */
-  value?: PrivateEndpointConnection[];
-  /**
-   * URI to fetch the next section of the paginated response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A list of private link resources */
-export interface PrivateLinkResourceListResult {
-  /** Array of private link resources */
-  value?: PrivateLinkResource[];
-  /**
-   * URI to fetch the next section of the paginated response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** List of Snapshots */
-export interface SnapshotList {
-  /** An array of Snapshot objects. */
-  value?: Snapshot[];
-  /**
-   * URI to fetch the next section of the paginated response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Data used when creating a volume snapshot. */
-export interface SnapshotCreationData {
-  /** Fully qualified resource ID of the volume. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}" */
-  sourceId: string;
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
 /**  Response for PrivateEndpoint Connection object */
-export interface PrivateEndpointConnection extends Resource {
+export interface PrivateEndpointConnection extends ProxyResource {
   /**
    * Provisioning State of Private Endpoint connection resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -504,19 +497,8 @@ export interface PrivateEndpointConnection extends Resource {
   groupIds?: string[];
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
 /** A private link resource */
-export interface PrivateLinkResource extends Resource {
+export interface PrivateLinkResource extends ProxyResource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -529,6 +511,76 @@ export interface PrivateLinkResource extends Resource {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
+}
+
+/** Response for Volume Group request. */
+export interface VolumeGroup extends ProxyResource {
+  /** The identity of the resource. */
+  identity?: Identity;
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+  /** Type of storage target */
+  protocolType?: StorageTargetType;
+  /** Type of encryption */
+  encryption?: EncryptionType;
+  /** Encryption Properties describing Key Vault and Identity information */
+  encryptionProperties?: EncryptionProperties;
+  /** A collection of rules governing the accessibility from specific network locations. */
+  networkAcls?: NetworkRuleSet;
+  /**
+   * The list of Private Endpoint Connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
+/** Response for Volume Snapshot request. */
+export interface Snapshot extends ProxyResource {
+  /** Data used when creating a volume snapshot. */
+  creationData: SnapshotCreationData;
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+  /**
+   * Size of Source Volume
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceVolumeSizeGiB?: number;
+  /**
+   * Source Volume Name of a snapshot
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly volumeName?: string;
+}
+
+/** Response for Volume request. */
+export interface Volume extends ProxyResource {
+  /**
+   * Unique Id of the volume in GUID format
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly volumeId?: string;
+  /** State of the operation on the resource. */
+  creationData?: SourceCreationData;
+  /** Volume size. */
+  sizeGiB: number;
+  /**
+   * Storage target information
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageTarget?: IscsiTargetInfo;
+  /** Parent resource information. */
+  managedBy?: ManagedByInfo;
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
 }
 
 /** Response for ElasticSan request. */
@@ -580,113 +632,107 @@ export interface ElasticSan extends TrackedResource {
   publicNetworkAccess?: PublicNetworkAccess;
 }
 
-/** Response for Volume Group request. */
-export interface VolumeGroup extends ProxyResource {
-  /** The identity of the resource. */
-  identity?: Identity;
-  /**
-   * State of the operation on the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStates;
-  /** Type of storage target */
-  protocolType?: StorageTargetType;
-  /** Type of encryption */
-  encryption?: EncryptionType;
-  /** Encryption Properties describing Key Vault and Identity information */
-  encryptionProperties?: EncryptionProperties;
-  /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
-  /**
-   * The list of Private Endpoint Connections.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-}
-
-/** Response for Volume request. */
-export interface Volume extends ProxyResource {
-  /**
-   * Unique Id of the volume in GUID format
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly volumeId?: string;
-  /** State of the operation on the resource. */
-  creationData?: SourceCreationData;
-  /** Volume size. */
-  sizeGiB: number;
-  /**
-   * Storage target information
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageTarget?: IscsiTargetInfo;
-  /** Parent resource information. */
-  managedBy?: ManagedByInfo;
-  /**
-   * State of the operation on the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStates;
-}
-
-/** Response for Volume Snapshot request. */
-export interface Snapshot extends ProxyResource {
-  /** Data used when creating a volume snapshot. */
-  creationData: SnapshotCreationData;
-  /**
-   * State of the operation on the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStates;
-  /**
-   * Size of Source Volume
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceVolumeSizeGiB?: number;
-  /**
-   * Source Volume Name of a snapshot
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly volumeName?: string;
+/** Defines headers for ElasticSans_create operation. */
+export interface ElasticSansCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for ElasticSans_update operation. */
 export interface ElasticSansUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
 /** Defines headers for ElasticSans_delete operation. */
 export interface ElasticSansDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
-/** Defines headers for VolumeGroups_update operation. */
-export interface VolumeGroupsUpdateHeaders {
-  location?: string;
-}
-
-/** Defines headers for VolumeGroups_delete operation. */
-export interface VolumeGroupsDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for Volumes_update operation. */
-export interface VolumesUpdateHeaders {
-  location?: string;
-}
-
-/** Defines headers for Volumes_delete operation. */
-export interface VolumesDeleteHeaders {
+/** Defines headers for PrivateEndpointConnections_create operation. */
+export interface PrivateEndpointConnectionsCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
 /** Defines headers for PrivateEndpointConnections_delete operation. */
 export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_create operation. */
+export interface VolumeGroupsCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_update operation. */
+export interface VolumeGroupsUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_delete operation. */
+export interface VolumeGroupsDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VolumeSnapshots_create operation. */
+export interface VolumeSnapshotsCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
 /** Defines headers for VolumeSnapshots_delete operation. */
 export interface VolumeSnapshotsDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Volumes_create operation. */
+export interface VolumesCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Volumes_update operation. */
+export interface VolumesUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Volumes_delete operation. */
+export interface VolumesDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
@@ -697,7 +743,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -714,7 +760,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -731,7 +777,7 @@ export enum KnownSkuName {
   /** Premium locally redundant storage */
   PremiumLRS = "Premium_LRS",
   /** Premium zone redundant storage */
-  PremiumZRS = "Premium_ZRS"
+  PremiumZRS = "Premium_ZRS",
 }
 
 /**
@@ -747,7 +793,7 @@ export type SkuName = string;
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
   /** Premium Tier */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -776,7 +822,7 @@ export enum KnownProvisioningStates {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -804,7 +850,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Failed */
   Failed = "Failed",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -828,7 +874,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -848,7 +894,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -868,7 +914,7 @@ export enum KnownIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -887,7 +933,7 @@ export enum KnownStorageTargetType {
   /** Iscsi */
   Iscsi = "Iscsi",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -905,7 +951,7 @@ export enum KnownEncryptionType {
   /** Volume is encrypted at rest with Platform managed key. It is the default encryption type. */
   EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey",
   /** Volume is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
-  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey"
+  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
 }
 
 /**
@@ -921,7 +967,7 @@ export type EncryptionType = string;
 /** Known values of {@link Action} that the service accepts. */
 export enum KnownAction {
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -944,7 +990,7 @@ export enum KnownVolumeCreateOption {
   /** Disk */
   Disk = "Disk",
   /** DiskRestorePoint */
-  DiskRestorePoint = "DiskRestorePoint"
+  DiskRestorePoint = "DiskRestorePoint",
 }
 
 /**
@@ -977,7 +1023,7 @@ export enum KnownOperationalStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** StoppedDeallocated */
-  StoppedDeallocated = "Stopped (deallocated)"
+  StoppedDeallocated = "Stopped (deallocated)",
 }
 
 /**
@@ -1001,7 +1047,7 @@ export enum KnownXMsDeleteSnapshots {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1019,7 +1065,7 @@ export enum KnownXMsForceDelete {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1032,6 +1078,21 @@ export enum KnownXMsForceDelete {
  */
 export type XMsForceDelete = string;
 
+/** Known values of {@link Versions} that the service accepts. */
+export enum KnownVersions {
+  /** The 2023-01-01 API version. */
+  V20230101 = "2023-01-01",
+}
+
+/**
+ * Defines values for Versions. \
+ * {@link KnownVersions} can be used interchangeably with Versions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2023-01-01**: The 2023-01-01 API version.
+ */
+export type Versions = string;
+
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -1040,27 +1101,32 @@ export interface OperationsListOptionalParams
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions {
-  /** Specify $filter='location eq <location>' to filter on location. */
-  filter?: string;
-}
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type SkusListResponse = SkuInformationList;
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface ElasticSansListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ElasticSansListBySubscriptionResponse = ElasticSanList;
+export type ElasticSansListBySubscriptionResponse = ElasticSanListResult;
 
 /** Optional parameters. */
 export interface ElasticSansListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ElasticSansListByResourceGroupResponse = ElasticSanList;
+export type ElasticSansListByResourceGroupResponse = ElasticSanListResult;
+
+/** Optional parameters. */
+export interface ElasticSansGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ElasticSansGetResponse = ElasticSan;
 
 /** Optional parameters. */
 export interface ElasticSansCreateOptionalParams
@@ -1096,32 +1162,109 @@ export interface ElasticSansDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ElasticSansGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ElasticSansGetResponse = ElasticSan;
-
-/** Optional parameters. */
 export interface ElasticSansListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ElasticSansListBySubscriptionNextResponse = ElasticSanList;
+export type ElasticSansListBySubscriptionNextResponse = ElasticSanListResult;
 
 /** Optional parameters. */
 export interface ElasticSansListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ElasticSansListByResourceGroupNextResponse = ElasticSanList;
+export type ElasticSansListByResourceGroupNextResponse = ElasticSanListResult;
+
+/** Optional parameters. */
+export interface SkusListOptionalParams extends coreClient.OperationOptions {
+  /** Specify $filter='location eq <location>' to filter on location. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type SkusListResponse = SkuInformationList;
+
+/** Optional parameters. */
+export interface SkusListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SkusListNextResponse = SkuInformationList;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type PrivateEndpointConnectionsCreateResponse =
+  PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateEndpointConnectionsListNextResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByElasticSanOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByElasticSan operation. */
+export type PrivateLinkResourcesListByElasticSanResponse =
+  PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByElasticSanNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByElasticSanNext operation. */
+export type PrivateLinkResourcesListByElasticSanNextResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface VolumeGroupsListByElasticSanOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByElasticSan operation. */
-export type VolumeGroupsListByElasticSanResponse = VolumeGroupList;
+export type VolumeGroupsListByElasticSanResponse = VolumeGroupListResult;
+
+/** Optional parameters. */
+export interface VolumeGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VolumeGroupsGetResponse = VolumeGroup;
 
 /** Optional parameters. */
 export interface VolumeGroupsCreateOptionalParams
@@ -1157,18 +1300,69 @@ export interface VolumeGroupsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumeGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VolumeGroupsGetResponse = VolumeGroup;
-
-/** Optional parameters. */
 export interface VolumeGroupsListByElasticSanNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByElasticSanNext operation. */
-export type VolumeGroupsListByElasticSanNextResponse = VolumeGroupList;
+export type VolumeGroupsListByElasticSanNextResponse = VolumeGroupListResult;
+
+/** Optional parameters. */
+export interface VolumeSnapshotsListByVolumeGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify $filter='volumeName eq <volume name>' to filter on volume. */
+  filter?: string;
+}
+
+/** Contains response data for the listByVolumeGroup operation. */
+export type VolumeSnapshotsListByVolumeGroupResponse = SnapshotListResult;
+
+/** Optional parameters. */
+export interface VolumeSnapshotsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VolumeSnapshotsGetResponse = Snapshot;
+
+/** Optional parameters. */
+export interface VolumeSnapshotsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type VolumeSnapshotsCreateResponse = Snapshot;
+
+/** Optional parameters. */
+export interface VolumeSnapshotsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VolumeSnapshotsListByVolumeGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVolumeGroupNext operation. */
+export type VolumeSnapshotsListByVolumeGroupNextResponse = SnapshotListResult;
+
+/** Optional parameters. */
+export interface VolumesListByVolumeGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVolumeGroup operation. */
+export type VolumesListByVolumeGroupResponse = VolumeListResult;
+
+/** Optional parameters. */
+export interface VolumesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VolumesGetResponse = Volume;
 
 /** Optional parameters. */
 export interface VolumesCreateOptionalParams
@@ -1208,111 +1402,11 @@ export interface VolumesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface VolumesGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VolumesGetResponse = Volume;
-
-/** Optional parameters. */
-export interface VolumesListByVolumeGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByVolumeGroup operation. */
-export type VolumesListByVolumeGroupResponse = VolumeList;
-
-/** Optional parameters. */
 export interface VolumesListByVolumeGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVolumeGroupNext operation. */
-export type VolumesListByVolumeGroupNextResponse = VolumeList;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByElasticSanOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByElasticSan operation. */
-export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface VolumeSnapshotsListByVolumeGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify $filter='volumeName eq <volume name>' to filter on volume. */
-  filter?: string;
-}
-
-/** Contains response data for the listByVolumeGroup operation. */
-export type VolumeSnapshotsListByVolumeGroupResponse = SnapshotList;
-
-/** Optional parameters. */
-export interface VolumeSnapshotsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type VolumeSnapshotsCreateResponse = Snapshot;
-
-/** Optional parameters. */
-export interface VolumeSnapshotsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VolumeSnapshotsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VolumeSnapshotsGetResponse = Snapshot;
-
-/** Optional parameters. */
-export interface VolumeSnapshotsListByVolumeGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByVolumeGroupNext operation. */
-export type VolumeSnapshotsListByVolumeGroupNextResponse = SnapshotList;
+export type VolumesListByVolumeGroupNextResponse = VolumeListResult;
 
 /** Optional parameters. */
 export interface ElasticSanManagementOptionalParams

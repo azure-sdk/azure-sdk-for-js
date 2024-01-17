@@ -16,7 +16,7 @@ import { ElasticSanManagement } from "../elasticSanManagement";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -24,15 +24,15 @@ import {
   VolumesListByVolumeGroupNextOptionalParams,
   VolumesListByVolumeGroupOptionalParams,
   VolumesListByVolumeGroupResponse,
+  VolumesGetOptionalParams,
+  VolumesGetResponse,
   VolumesCreateOptionalParams,
   VolumesCreateResponse,
   VolumeUpdate,
   VolumesUpdateOptionalParams,
   VolumesUpdateResponse,
   VolumesDeleteOptionalParams,
-  VolumesGetOptionalParams,
-  VolumesGetResponse,
-  VolumesListByVolumeGroupNextResponse
+  VolumesListByVolumeGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,13 +59,13 @@ export class VolumesImpl implements Volumes {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumesListByVolumeGroupOptionalParams
+    options?: VolumesListByVolumeGroupOptionalParams,
   ): PagedAsyncIterableIterator<Volume> {
     const iter = this.listByVolumeGroupPagingAll(
       resourceGroupName,
       elasticSanName,
       volumeGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class VolumesImpl implements Volumes {
           elasticSanName,
           volumeGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class VolumesImpl implements Volumes {
     elasticSanName: string,
     volumeGroupName: string,
     options?: VolumesListByVolumeGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Volume[]> {
     let result: VolumesListByVolumeGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class VolumesImpl implements Volumes {
         resourceGroupName,
         elasticSanName,
         volumeGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class VolumesImpl implements Volumes {
         elasticSanName,
         volumeGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,16 +129,62 @@ export class VolumesImpl implements Volumes {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumesListByVolumeGroupOptionalParams
+    options?: VolumesListByVolumeGroupOptionalParams,
   ): AsyncIterableIterator<Volume> {
     for await (const page of this.listByVolumeGroupPagingPage(
       resourceGroupName,
       elasticSanName,
       volumeGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * List Volumes in a VolumeGroup.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param options The options parameters.
+   */
+  private _listByVolumeGroup(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    options?: VolumesListByVolumeGroupOptionalParams,
+  ): Promise<VolumesListByVolumeGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, elasticSanName, volumeGroupName, options },
+      listByVolumeGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Get an Volume.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param volumeName The name of the Volume.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    volumeName: string,
+    options?: VolumesGetOptionalParams,
+  ): Promise<VolumesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        elasticSanName,
+        volumeGroupName,
+        volumeName,
+        options,
+      },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -156,7 +202,7 @@ export class VolumesImpl implements Volumes {
     volumeGroupName: string,
     volumeName: string,
     parameters: Volume,
-    options?: VolumesCreateOptionalParams
+    options?: VolumesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesCreateResponse>,
@@ -165,21 +211,20 @@ export class VolumesImpl implements Volumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VolumesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -188,8 +233,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -197,8 +242,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -210,9 +255,9 @@ export class VolumesImpl implements Volumes {
         volumeGroupName,
         volumeName,
         parameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       VolumesCreateResponse,
@@ -220,7 +265,7 @@ export class VolumesImpl implements Volumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -241,7 +286,7 @@ export class VolumesImpl implements Volumes {
     volumeGroupName: string,
     volumeName: string,
     parameters: Volume,
-    options?: VolumesCreateOptionalParams
+    options?: VolumesCreateOptionalParams,
   ): Promise<VolumesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -249,7 +294,7 @@ export class VolumesImpl implements Volumes {
       volumeGroupName,
       volumeName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -269,7 +314,7 @@ export class VolumesImpl implements Volumes {
     volumeGroupName: string,
     volumeName: string,
     parameters: VolumeUpdate,
-    options?: VolumesUpdateOptionalParams
+    options?: VolumesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesUpdateResponse>,
@@ -278,21 +323,20 @@ export class VolumesImpl implements Volumes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VolumesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -301,8 +345,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -310,8 +354,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -323,9 +367,9 @@ export class VolumesImpl implements Volumes {
         volumeGroupName,
         volumeName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       VolumesUpdateResponse,
@@ -333,7 +377,7 @@ export class VolumesImpl implements Volumes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -354,7 +398,7 @@ export class VolumesImpl implements Volumes {
     volumeGroupName: string,
     volumeName: string,
     parameters: VolumeUpdate,
-    options?: VolumesUpdateOptionalParams
+    options?: VolumesUpdateOptionalParams,
   ): Promise<VolumesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -362,7 +406,7 @@ export class VolumesImpl implements Volumes {
       volumeGroupName,
       volumeName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -380,25 +424,24 @@ export class VolumesImpl implements Volumes {
     elasticSanName: string,
     volumeGroupName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams
+    options?: VolumesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -407,8 +450,8 @@ export class VolumesImpl implements Volumes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -416,8 +459,8 @@ export class VolumesImpl implements Volumes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -428,14 +471,14 @@ export class VolumesImpl implements Volumes {
         elasticSanName,
         volumeGroupName,
         volumeName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -454,62 +497,16 @@ export class VolumesImpl implements Volumes {
     elasticSanName: string,
     volumeGroupName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams
+    options?: VolumesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       elasticSanName,
       volumeGroupName,
       volumeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Get an Volume.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param volumeGroupName The name of the VolumeGroup.
-   * @param volumeName The name of the Volume.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    volumeGroupName: string,
-    volumeName: string,
-    options?: VolumesGetOptionalParams
-  ): Promise<VolumesGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        elasticSanName,
-        volumeGroupName,
-        volumeName,
-        options
-      },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * List Volumes in a VolumeGroup.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param volumeGroupName The name of the VolumeGroup.
-   * @param options The options parameters.
-   */
-  private _listByVolumeGroup(
-    resourceGroupName: string,
-    elasticSanName: string,
-    volumeGroupName: string,
-    options?: VolumesListByVolumeGroupOptionalParams
-  ): Promise<VolumesListByVolumeGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, elasticSanName, volumeGroupName, options },
-      listByVolumeGroupOperationSpec
-    );
   }
 
   /**
@@ -525,39 +522,83 @@ export class VolumesImpl implements Volumes {
     elasticSanName: string,
     volumeGroupName: string,
     nextLink: string,
-    options?: VolumesListByVolumeGroupNextOptionalParams
+    options?: VolumesListByVolumeGroupNextOptionalParams,
   ): Promise<VolumesListByVolumeGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, elasticSanName, volumeGroupName, nextLink, options },
-      listByVolumeGroupNextOperationSpec
+      listByVolumeGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByVolumeGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VolumeListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.volumeGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Volume,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.volumeGroupName,
+    Parameters.volumeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Volume
+      bodyMapper: Mappers.Volume,
     },
     201: {
-      bodyMapper: Mappers.Volume
+      bodyMapper: Mappers.Volume,
     },
     202: {
-      bodyMapper: Mappers.Volume
+      bodyMapper: Mappers.Volume,
     },
     204: {
-      bodyMapper: Mappers.Volume
+      bodyMapper: Mappers.Volume,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -565,34 +606,33 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
     Parameters.volumeGroupName,
-    Parameters.volumeName
+    Parameters.volumeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Volume
+      bodyMapper: Mappers.Volume,
     },
     201: {
-      bodyMapper: Mappers.Volume
+      bodyMapper: Mappers.Volume,
     },
     202: {
-      bodyMapper: Mappers.Volume
+      bodyMapper: Mappers.Volume,
     },
     204: {
-      bodyMapper: Mappers.Volume
+      bodyMapper: Mappers.Volume,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -600,15 +640,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
     Parameters.volumeGroupName,
-    Parameters.volumeName
+    Parameters.volumeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -616,8 +655,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -626,81 +665,34 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
     Parameters.volumeGroupName,
-    Parameters.volumeName
+    Parameters.volumeName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.xMsDeleteSnapshots,
-    Parameters.xMsForceDelete
+    Parameters.xMsForceDelete,
   ],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Volume
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.elasticSanName,
-    Parameters.volumeGroupName,
-    Parameters.volumeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByVolumeGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VolumeList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.elasticSanName,
-    Parameters.volumeGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByVolumeGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeList
+      bodyMapper: Mappers.VolumeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
-    Parameters.nextLink,
-    Parameters.volumeGroupName
+    Parameters.volumeGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

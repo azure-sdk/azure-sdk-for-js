@@ -21,20 +21,20 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -46,39 +46,39 @@ export const Operation: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionType: {
         serializedName: "actionType",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -90,32 +90,32 @@ export const OperationDisplay: coreClient.CompositeMapper = {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -127,11 +127,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -143,22 +143,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -168,10 +168,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -181,13 +181,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -199,19 +199,194 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const ElasticSanListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticSanListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ElasticSan",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Sku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PrivateEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const SkuInformationList: coreClient.CompositeMapper = {
@@ -227,20 +402,20 @@ export const SkuInformationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SkuInformation"
-            }
-          }
-        }
+              className: "SkuInformation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SkuInformation: coreClient.CompositeMapper = {
@@ -252,21 +427,21 @@ export const SkuInformation: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tier: {
         serializedName: "tier",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       locations: {
         serializedName: "locations",
@@ -275,10 +450,10 @@ export const SkuInformation: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       locationInfo: {
         serializedName: "locationInfo",
@@ -288,10 +463,10 @@ export const SkuInformation: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SkuLocationInfo"
-            }
-          }
-        }
+              className: "SkuLocationInfo",
+            },
+          },
+        },
       },
       capabilities: {
         serializedName: "capabilities",
@@ -301,13 +476,13 @@ export const SkuInformation: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SKUCapability"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SKUCapability",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SkuLocationInfo: coreClient.CompositeMapper = {
@@ -319,8 +494,8 @@ export const SkuLocationInfo: coreClient.CompositeMapper = {
         serializedName: "location",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       zones: {
         serializedName: "zones",
@@ -329,13 +504,13 @@ export const SkuLocationInfo: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SKUCapability: coreClient.CompositeMapper = {
@@ -347,193 +522,18 @@ export const SKUCapability: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ElasticSanList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ElasticSanList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ElasticSan"
-            }
-          }
-        }
+          name: "String",
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Sku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Sku",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      tier: {
-        serializedName: "tier",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpoint: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpoint",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateLinkServiceConnectionState",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      actionsRequired: {
-        serializedName: "actionsRequired",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const ElasticSanUpdate: coreClient.CompositeMapper = {
@@ -545,57 +545,113 @@ export const ElasticSanUpdate: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       baseSizeTiB: {
         serializedName: "properties.baseSizeTiB",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       extendedCapacitySizeTiB: {
         serializedName: "properties.extendedCapacitySizeTiB",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const VolumeGroupList: coreClient.CompositeMapper = {
+export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "VolumeGroupList",
+    className: "PrivateEndpointConnectionListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "VolumeGroup"
-            }
-          }
-        }
+              className: "PrivateEndpointConnection",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumeGroupListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeGroupListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VolumeGroup",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Identity: coreClient.CompositeMapper = {
@@ -607,34 +663,34 @@ export const Identity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tenantId: {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "UserAssignedIdentity" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UserAssignedIdentity: coreClient.CompositeMapper = {
@@ -646,18 +702,18 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       clientId: {
         serializedName: "clientId",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EncryptionProperties: coreClient.CompositeMapper = {
@@ -669,18 +725,18 @@ export const EncryptionProperties: coreClient.CompositeMapper = {
         serializedName: "keyVaultProperties",
         type: {
           name: "Composite",
-          className: "KeyVaultProperties"
-        }
+          className: "KeyVaultProperties",
+        },
       },
       encryptionIdentity: {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "EncryptionIdentity"
-        }
-      }
-    }
-  }
+          className: "EncryptionIdentity",
+        },
+      },
+    },
+  },
 };
 
 export const KeyVaultProperties: coreClient.CompositeMapper = {
@@ -691,44 +747,44 @@ export const KeyVaultProperties: coreClient.CompositeMapper = {
       keyName: {
         serializedName: "keyName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       keyVersion: {
         serializedName: "keyVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       keyVaultUri: {
         serializedName: "keyVaultUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       currentVersionedKeyIdentifier: {
         serializedName: "currentVersionedKeyIdentifier",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastKeyRotationTimestamp: {
         serializedName: "lastKeyRotationTimestamp",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       currentVersionedKeyExpirationTimestamp: {
         serializedName: "currentVersionedKeyExpirationTimestamp",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const EncryptionIdentity: coreClient.CompositeMapper = {
@@ -739,11 +795,11 @@ export const EncryptionIdentity: coreClient.CompositeMapper = {
       encryptionUserAssignedIdentity: {
         serializedName: "userAssignedIdentity",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NetworkRuleSet: coreClient.CompositeMapper = {
@@ -758,13 +814,13 @@ export const NetworkRuleSet: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "VirtualNetworkRule"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "VirtualNetworkRule",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const VirtualNetworkRule: coreClient.CompositeMapper = {
@@ -776,18 +832,17 @@ export const VirtualNetworkRule: coreClient.CompositeMapper = {
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       action: {
-        defaultValue: "Allow",
         serializedName: "action",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const VolumeGroupUpdate: coreClient.CompositeMapper = {
@@ -799,250 +854,65 @@ export const VolumeGroupUpdate: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "Identity"
-        }
+          className: "Identity",
+        },
       },
       protocolType: {
         serializedName: "properties.protocolType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       encryption: {
         serializedName: "properties.encryption",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       encryptionProperties: {
         serializedName: "properties.encryptionProperties",
         type: {
           name: "Composite",
-          className: "EncryptionProperties"
-        }
+          className: "EncryptionProperties",
+        },
       },
       networkAcls: {
         serializedName: "properties.networkAcls",
         type: {
           name: "Composite",
-          className: "NetworkRuleSet"
-        }
-      }
-    }
-  }
+          className: "NetworkRuleSet",
+        },
+      },
+    },
+  },
 };
 
-export const SourceCreationData: coreClient.CompositeMapper = {
+export const SnapshotListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SourceCreationData",
-    modelProperties: {
-      createSource: {
-        serializedName: "createSource",
-        type: {
-          name: "String"
-        }
-      },
-      sourceId: {
-        serializedName: "sourceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const IscsiTargetInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IscsiTargetInfo",
-    modelProperties: {
-      targetIqn: {
-        serializedName: "targetIqn",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetPortalHostname: {
-        serializedName: "targetPortalHostname",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetPortalPort: {
-        serializedName: "targetPortalPort",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedByInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedByInfo",
-    modelProperties: {
-      resourceId: {
-        serializedName: "resourceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VolumeUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VolumeUpdate",
-    modelProperties: {
-      sizeGiB: {
-        serializedName: "properties.sizeGiB",
-        type: {
-          name: "Number"
-        }
-      },
-      managedBy: {
-        serializedName: "properties.managedBy",
-        type: {
-          name: "Composite",
-          className: "ManagedByInfo"
-        }
-      }
-    }
-  }
-};
-
-export const VolumeList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VolumeList",
+    className: "SnapshotListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "Volume"
-            }
-          }
-        }
+              className: "Snapshot",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnectionListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateEndpointConnection"
-            }
-          }
-        }
+          name: "String",
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateLinkResourceListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateLinkResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SnapshotList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SnapshotList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Snapshot"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const SnapshotCreationData: coreClient.CompositeMapper = {
@@ -1054,53 +924,150 @@ export const SnapshotCreationData: coreClient.CompositeMapper = {
         serializedName: "sourceId",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const PrivateEndpointConnection: coreClient.CompositeMapper = {
+export const VolumeListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PrivateEndpointConnection",
+    className: "VolumeListResult",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      privateEndpoint: {
-        serializedName: "properties.privateEndpoint",
-        type: {
-          name: "Composite",
-          className: "PrivateEndpoint"
-        }
-      },
-      privateLinkServiceConnectionState: {
-        serializedName: "properties.privateLinkServiceConnectionState",
-        type: {
-          name: "Composite",
-          className: "PrivateLinkServiceConnectionState"
-        }
-      },
-      groupIds: {
-        serializedName: "properties.groupIds",
+      value: {
+        serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "Composite",
+              className: "Volume",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SourceCreationData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SourceCreationData",
+    modelProperties: {
+      createSource: {
+        serializedName: "createSource",
+        type: {
+          name: "String",
+        },
+      },
+      sourceId: {
+        serializedName: "sourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const IscsiTargetInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IscsiTargetInfo",
+    modelProperties: {
+      targetIqn: {
+        serializedName: "targetIqn",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      targetPortalHostname: {
+        serializedName: "targetPortalHostname",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      targetPortalPort: {
+        serializedName: "targetPortalPort",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedByInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedByInfo",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumeUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeUpdate",
+    modelProperties: {
+      sizeGiB: {
+        serializedName: "properties.sizeGiB",
+        type: {
+          name: "Number",
+        },
+      },
+      managedBy: {
+        serializedName: "properties.managedBy",
+        type: {
+          name: "Composite",
+          className: "ManagedByInfo",
+        },
+      },
+    },
+  },
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const TrackedResource: coreClient.CompositeMapper = {
@@ -1113,28 +1080,60 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const ProxyResource: coreClient.CompositeMapper = {
+export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ProxyResource",
+    className: "PrivateEndpointConnection",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...ProxyResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint",
+        },
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState",
+        },
+      },
+      groupIds: {
+        serializedName: "properties.groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const PrivateLinkResource: coreClient.CompositeMapper = {
@@ -1142,13 +1141,13 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PrivateLinkResource",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...ProxyResource.type.modelProperties,
       groupId: {
         serializedName: "properties.groupId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requiredMembers: {
         serializedName: "properties.requiredMembers",
@@ -1157,10 +1156,10 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       requiredZoneNames: {
         serializedName: "properties.requiredZoneNames",
@@ -1168,116 +1167,13 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ElasticSan: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ElasticSan",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      sku: {
-        serializedName: "properties.sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
+              name: "String",
+            },
+          },
+        },
       },
-      availabilityZones: {
-        serializedName: "properties.availabilityZones",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      baseSizeTiB: {
-        serializedName: "properties.baseSizeTiB",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      extendedCapacitySizeTiB: {
-        serializedName: "properties.extendedCapacitySizeTiB",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      totalVolumeSizeGiB: {
-        serializedName: "properties.totalVolumeSizeGiB",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      volumeGroupCount: {
-        serializedName: "properties.volumeGroupCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      totalIops: {
-        serializedName: "properties.totalIops",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      totalMBps: {
-        serializedName: "properties.totalMBps",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      totalSizeTiB: {
-        serializedName: "properties.totalSizeTiB",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      privateEndpointConnections: {
-        serializedName: "properties.privateEndpointConnections",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateEndpointConnection"
-            }
-          }
-        }
-      },
-      publicNetworkAccess: {
-        serializedName: "properties.publicNetworkAccess",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const VolumeGroup: coreClient.CompositeMapper = {
@@ -1290,41 +1186,41 @@ export const VolumeGroup: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "Identity"
-        }
+          className: "Identity",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       protocolType: {
         serializedName: "properties.protocolType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       encryption: {
         serializedName: "properties.encryption",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       encryptionProperties: {
         serializedName: "properties.encryptionProperties",
         type: {
           name: "Composite",
-          className: "EncryptionProperties"
-        }
+          className: "EncryptionProperties",
+        },
       },
       networkAcls: {
         serializedName: "properties.networkAcls",
         type: {
           name: "Composite",
-          className: "NetworkRuleSet"
-        }
+          className: "NetworkRuleSet",
+        },
       },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
@@ -1334,65 +1230,13 @@ export const VolumeGroup: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PrivateEndpointConnection"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const Volume: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Volume",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      volumeId: {
-        serializedName: "properties.volumeId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+              className: "PrivateEndpointConnection",
+            },
+          },
+        },
       },
-      creationData: {
-        serializedName: "properties.creationData",
-        type: {
-          name: "Composite",
-          className: "SourceCreationData"
-        }
-      },
-      sizeGiB: {
-        serializedName: "properties.sizeGiB",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      storageTarget: {
-        serializedName: "properties.storageTarget",
-        type: {
-          name: "Composite",
-          className: "IscsiTargetInfo"
-        }
-      },
-      managedBy: {
-        serializedName: "properties.managedBy",
-        type: {
-          name: "Composite",
-          className: "ManagedByInfo"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const Snapshot: coreClient.CompositeMapper = {
@@ -1405,32 +1249,208 @@ export const Snapshot: coreClient.CompositeMapper = {
         serializedName: "properties.creationData",
         type: {
           name: "Composite",
-          className: "SnapshotCreationData"
-        }
+          className: "SnapshotCreationData",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceVolumeSizeGiB: {
         serializedName: "properties.sourceVolumeSizeGiB",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       volumeName: {
         serializedName: "properties.volumeName",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Volume: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Volume",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      volumeId: {
+        serializedName: "properties.volumeId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      creationData: {
+        serializedName: "properties.creationData",
+        type: {
+          name: "Composite",
+          className: "SourceCreationData",
+        },
+      },
+      sizeGiB: {
+        serializedName: "properties.sizeGiB",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      storageTarget: {
+        serializedName: "properties.storageTarget",
+        type: {
+          name: "Composite",
+          className: "IscsiTargetInfo",
+        },
+      },
+      managedBy: {
+        serializedName: "properties.managedBy",
+        type: {
+          name: "Composite",
+          className: "ManagedByInfo",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ElasticSan: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticSan",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      sku: {
+        serializedName: "properties.sku",
+        type: {
+          name: "Composite",
+          className: "Sku",
+        },
+      },
+      availabilityZones: {
+        serializedName: "properties.availabilityZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      baseSizeTiB: {
+        serializedName: "properties.baseSizeTiB",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      extendedCapacitySizeTiB: {
+        serializedName: "properties.extendedCapacitySizeTiB",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalVolumeSizeGiB: {
+        serializedName: "properties.totalVolumeSizeGiB",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      volumeGroupCount: {
+        serializedName: "properties.volumeGroupCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalIops: {
+        serializedName: "properties.totalIops",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalMBps: {
+        serializedName: "properties.totalMBps",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalSizeTiB: {
+        serializedName: "properties.totalSizeTiB",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection",
+            },
+          },
+        },
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ElasticSansCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticSansCreateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ElasticSansUpdateHeaders: coreClient.CompositeMapper = {
@@ -1438,14 +1458,20 @@ export const ElasticSansUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ElasticSansUpdateHeaders",
     modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ElasticSansDeleteHeaders: coreClient.CompositeMapper = {
@@ -1453,14 +1479,85 @@ export const ElasticSansDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ElasticSansDeleteHeaders",
     modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PrivateEndpointConnectionsCreateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PrivateEndpointConnectionsCreateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PrivateEndpointConnectionsDeleteHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const VolumeGroupsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeGroupsCreateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const VolumeGroupsUpdateHeaders: coreClient.CompositeMapper = {
@@ -1468,14 +1565,20 @@ export const VolumeGroupsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "VolumeGroupsUpdateHeaders",
     modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const VolumeGroupsDeleteHeaders: coreClient.CompositeMapper = {
@@ -1483,59 +1586,41 @@ export const VolumeGroupsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "VolumeGroupsDeleteHeaders",
     modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const VolumesUpdateHeaders: coreClient.CompositeMapper = {
+export const VolumeSnapshotsCreateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "VolumesUpdateHeaders",
+    className: "VolumeSnapshotsCreateHeaders",
     modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VolumesDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VolumesDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnectionsDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const VolumeSnapshotsDeleteHeaders: coreClient.CompositeMapper = {
@@ -1543,12 +1628,81 @@ export const VolumeSnapshotsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "VolumeSnapshotsDeleteHeaders",
     modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumesCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesCreateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesDeleteHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };

@@ -36,9 +36,9 @@ export interface ElasticSan extends TrackedResource {
 }
 
 // @public
-export interface ElasticSanList {
-    readonly nextLink?: string;
-    value?: ElasticSan[];
+export interface ElasticSanListResult {
+    nextLink?: string;
+    value: ElasticSan[];
 }
 
 // @public (undocumented)
@@ -89,6 +89,12 @@ export interface ElasticSans {
 }
 
 // @public
+export interface ElasticSansCreateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ElasticSansCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -99,8 +105,8 @@ export type ElasticSansCreateResponse = ElasticSan;
 
 // @public
 export interface ElasticSansDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -121,33 +127,33 @@ export interface ElasticSansListByResourceGroupNextOptionalParams extends coreCl
 }
 
 // @public
-export type ElasticSansListByResourceGroupNextResponse = ElasticSanList;
+export type ElasticSansListByResourceGroupNextResponse = ElasticSanListResult;
 
 // @public
 export interface ElasticSansListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ElasticSansListByResourceGroupResponse = ElasticSanList;
+export type ElasticSansListByResourceGroupResponse = ElasticSanListResult;
 
 // @public
 export interface ElasticSansListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ElasticSansListBySubscriptionNextResponse = ElasticSanList;
+export type ElasticSansListBySubscriptionNextResponse = ElasticSanListResult;
 
 // @public
 export interface ElasticSansListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ElasticSansListBySubscriptionResponse = ElasticSanList;
+export type ElasticSansListBySubscriptionResponse = ElasticSanListResult;
 
 // @public
 export interface ElasticSansUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -332,6 +338,11 @@ export enum KnownStorageTargetType {
 }
 
 // @public
+export enum KnownVersions {
+    V20230101 = "2023-01-01"
+}
+
+// @public
 export enum KnownVolumeCreateOption {
     Disk = "Disk",
     DiskRestorePoint = "DiskRestorePoint",
@@ -394,6 +405,13 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -409,7 +427,7 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
+export interface PrivateEndpointConnection extends ProxyResource {
     groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
@@ -418,8 +436,8 @@ export interface PrivateEndpointConnection extends Resource {
 
 // @public
 export interface PrivateEndpointConnectionListResult {
-    readonly nextLink?: string;
-    value?: PrivateEndpointConnection[];
+    nextLink?: string;
+    value: PrivateEndpointConnection[];
 }
 
 // @public
@@ -433,6 +451,12 @@ export interface PrivateEndpointConnections {
 }
 
 // @public
+export interface PrivateEndpointConnectionsCreateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -443,8 +467,8 @@ export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection
 
 // @public
 export interface PrivateEndpointConnectionsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -461,6 +485,13 @@ export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
 // @public
+export interface PrivateEndpointConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
+
+// @public
 export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -471,7 +502,7 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource extends Resource {
+export interface PrivateLinkResource extends ProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
@@ -479,14 +510,21 @@ export interface PrivateLinkResource extends Resource {
 
 // @public
 export interface PrivateLinkResourceListResult {
-    readonly nextLink?: string;
-    value?: PrivateLinkResource[];
+    nextLink?: string;
+    value: PrivateLinkResource[];
 }
 
 // @public
 export interface PrivateLinkResources {
-    listByElasticSan(resourceGroupName: string, elasticSanName: string, options?: PrivateLinkResourcesListByElasticSanOptionalParams): Promise<PrivateLinkResourcesListByElasticSanResponse>;
+    listByElasticSan(resourceGroupName: string, elasticSanName: string, options?: PrivateLinkResourcesListByElasticSanOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
 }
+
+// @public
+export interface PrivateLinkResourcesListByElasticSanNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByElasticSanNextResponse = PrivateLinkResourceListResult;
 
 // @public
 export interface PrivateLinkResourcesListByElasticSanOptionalParams extends coreClient.OperationOptions {
@@ -563,6 +601,13 @@ export interface Skus {
 }
 
 // @public
+export interface SkusListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListNextResponse = SkuInformationList;
+
+// @public
 export interface SkusListOptionalParams extends coreClient.OperationOptions {
     filter?: string;
 }
@@ -587,9 +632,9 @@ export interface SnapshotCreationData {
 }
 
 // @public
-export interface SnapshotList {
-    readonly nextLink?: string;
-    value?: Snapshot[];
+export interface SnapshotListResult {
+    nextLink?: string;
+    value: Snapshot[];
 }
 
 // @public
@@ -626,6 +671,9 @@ export interface UserAssignedIdentity {
 }
 
 // @public
+export type Versions = string;
+
+// @public
 export interface VirtualNetworkRule {
     action?: Action;
     virtualNetworkResourceId: string;
@@ -656,9 +704,9 @@ export interface VolumeGroup extends ProxyResource {
 }
 
 // @public
-export interface VolumeGroupList {
-    readonly nextLink?: string;
-    value?: VolumeGroup[];
+export interface VolumeGroupListResult {
+    nextLink?: string;
+    value: VolumeGroup[];
 }
 
 // @public
@@ -674,6 +722,12 @@ export interface VolumeGroups {
 }
 
 // @public
+export interface VolumeGroupsCreateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VolumeGroupsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -684,8 +738,8 @@ export type VolumeGroupsCreateResponse = VolumeGroup;
 
 // @public
 export interface VolumeGroupsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -706,19 +760,19 @@ export interface VolumeGroupsListByElasticSanNextOptionalParams extends coreClie
 }
 
 // @public
-export type VolumeGroupsListByElasticSanNextResponse = VolumeGroupList;
+export type VolumeGroupsListByElasticSanNextResponse = VolumeGroupListResult;
 
 // @public
 export interface VolumeGroupsListByElasticSanOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VolumeGroupsListByElasticSanResponse = VolumeGroupList;
+export type VolumeGroupsListByElasticSanResponse = VolumeGroupListResult;
 
 // @public
 export interface VolumeGroupsUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -740,9 +794,9 @@ export interface VolumeGroupUpdate {
 }
 
 // @public
-export interface VolumeList {
-    readonly nextLink?: string;
-    value?: Volume[];
+export interface VolumeListResult {
+    nextLink?: string;
+    value: Volume[];
 }
 
 // @public
@@ -758,6 +812,12 @@ export interface Volumes {
 }
 
 // @public
+export interface VolumesCreateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VolumesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -768,8 +828,8 @@ export type VolumesCreateResponse = Volume;
 
 // @public
 export interface VolumesDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -792,14 +852,14 @@ export interface VolumesListByVolumeGroupNextOptionalParams extends coreClient.O
 }
 
 // @public
-export type VolumesListByVolumeGroupNextResponse = VolumeList;
+export type VolumesListByVolumeGroupNextResponse = VolumeListResult;
 
 // @public
 export interface VolumesListByVolumeGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VolumesListByVolumeGroupResponse = VolumeList;
+export type VolumesListByVolumeGroupResponse = VolumeListResult;
 
 // @public
 export interface VolumeSnapshots {
@@ -809,6 +869,12 @@ export interface VolumeSnapshots {
     beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, snapshotName: string, options?: VolumeSnapshotsGetOptionalParams): Promise<VolumeSnapshotsGetResponse>;
     listByVolumeGroup(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeSnapshotsListByVolumeGroupOptionalParams): PagedAsyncIterableIterator<Snapshot>;
+}
+
+// @public
+export interface VolumeSnapshotsCreateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -822,8 +888,8 @@ export type VolumeSnapshotsCreateResponse = Snapshot;
 
 // @public
 export interface VolumeSnapshotsDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -844,7 +910,7 @@ export interface VolumeSnapshotsListByVolumeGroupNextOptionalParams extends core
 }
 
 // @public
-export type VolumeSnapshotsListByVolumeGroupNextResponse = SnapshotList;
+export type VolumeSnapshotsListByVolumeGroupNextResponse = SnapshotListResult;
 
 // @public
 export interface VolumeSnapshotsListByVolumeGroupOptionalParams extends coreClient.OperationOptions {
@@ -852,12 +918,12 @@ export interface VolumeSnapshotsListByVolumeGroupOptionalParams extends coreClie
 }
 
 // @public
-export type VolumeSnapshotsListByVolumeGroupResponse = SnapshotList;
+export type VolumeSnapshotsListByVolumeGroupResponse = SnapshotListResult;
 
 // @public
 export interface VolumesUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
