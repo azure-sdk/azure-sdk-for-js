@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -23,7 +23,7 @@ import {
   AscUsagesImpl,
   CachesImpl,
   StorageTargetsImpl,
-  StorageTargetOperationsImpl
+  StorageTargetOperationsImpl,
 } from "./operations";
 import {
   AmlFilesystems,
@@ -34,7 +34,7 @@ import {
   AscUsages,
   Caches,
   StorageTargets,
-  StorageTargetOperations
+  StorageTargetOperations,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -42,7 +42,7 @@ import {
   StorageCacheManagementClientOptionalParams,
   CheckAmlFSSubnetsOptionalParams,
   GetRequiredAmlFSSubnetsSizeOptionalParams,
-  GetRequiredAmlFSSubnetsSizeResponse
+  GetRequiredAmlFSSubnetsSizeResponse,
 } from "./models";
 
 export class StorageCacheManagementClient extends coreClient.ServiceClient {
@@ -59,7 +59,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: StorageCacheManagementClientOptionalParams
+    options?: StorageCacheManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -74,10 +74,10 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     }
     const defaults: StorageCacheManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storagecache/7.0.1`;
+    const packageDetails = `azsdk-js-arm-storagecache/7.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -87,20 +87,21 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -110,7 +111,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -120,9 +121,9 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -130,7 +131,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.amlFilesystems = new AmlFilesystemsImpl(this);
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
@@ -152,7 +153,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -166,7 +167,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -178,7 +179,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
   checkAmlFSSubnets(options?: CheckAmlFSSubnetsOptionalParams): Promise<void> {
     return this.sendOperationRequest(
       { options },
-      checkAmlFSSubnetsOperationSpec
+      checkAmlFSSubnetsOperationSpec,
     );
   }
 
@@ -187,11 +188,11 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   getRequiredAmlFSSubnetsSize(
-    options?: GetRequiredAmlFSSubnetsSizeOptionalParams
+    options?: GetRequiredAmlFSSubnetsSizeOptionalParams,
   ): Promise<GetRequiredAmlFSSubnetsSizeResponse> {
     return this.sendOperationRequest(
       { options },
-      getRequiredAmlFSSubnetsSizeOperationSpec
+      getRequiredAmlFSSubnetsSizeOperationSpec,
     );
   }
 
@@ -209,42 +210,40 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkAmlFSSubnetsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/checkAmlFSSubnets",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/checkAmlFSSubnets",
   httpMethod: "POST",
   responses: {
     200: {},
     400: {
       bodyMapper: Mappers.AmlFilesystemCheckSubnetError,
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.amlFilesystemSubnetInfo,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getRequiredAmlFSSubnetsSizeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/getRequiredAmlFSSubnetsSize",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/getRequiredAmlFSSubnetsSize",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RequiredAmlFilesystemSubnetsSize
+      bodyMapper: Mappers.RequiredAmlFilesystemSubnetsSize,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.requiredAMLFilesystemSubnetsSizeInfo,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -21,7 +21,9 @@ import {
   AmlFilesystemsUpdateOptionalParams,
   AmlFilesystemsUpdateResponse,
   AmlFilesystemsArchiveOptionalParams,
-  AmlFilesystemsCancelArchiveOptionalParams
+  AmlFilesystemsCancelArchiveOptionalParams,
+  AmlFilesystemsImportOptionalParams,
+  AmlFilesystemsCancelImportOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +34,7 @@ export interface AmlFilesystems {
    * @param options The options parameters.
    */
   list(
-    options?: AmlFilesystemsListOptionalParams
+    options?: AmlFilesystemsListOptionalParams,
   ): PagedAsyncIterableIterator<AmlFilesystem>;
   /**
    * Returns all AML file systems the user has access to under a resource group.
@@ -41,7 +43,7 @@ export interface AmlFilesystems {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AmlFilesystemsListByResourceGroupOptionalParams
+    options?: AmlFilesystemsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AmlFilesystem>;
   /**
    * Schedules an AML file system for deletion.
@@ -53,7 +55,7 @@ export interface AmlFilesystems {
   beginDelete(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: AmlFilesystemsDeleteOptionalParams
+    options?: AmlFilesystemsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Schedules an AML file system for deletion.
@@ -65,7 +67,7 @@ export interface AmlFilesystems {
   beginDeleteAndWait(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: AmlFilesystemsDeleteOptionalParams
+    options?: AmlFilesystemsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns an AML file system.
@@ -77,7 +79,7 @@ export interface AmlFilesystems {
   get(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: AmlFilesystemsGetOptionalParams
+    options?: AmlFilesystemsGetOptionalParams,
   ): Promise<AmlFilesystemsGetResponse>;
   /**
    * Create or update an AML file system.
@@ -92,7 +94,7 @@ export interface AmlFilesystems {
     resourceGroupName: string,
     amlFilesystemName: string,
     amlFilesystem: AmlFilesystem,
-    options?: AmlFilesystemsCreateOrUpdateOptionalParams
+    options?: AmlFilesystemsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AmlFilesystemsCreateOrUpdateResponse>,
@@ -112,7 +114,7 @@ export interface AmlFilesystems {
     resourceGroupName: string,
     amlFilesystemName: string,
     amlFilesystem: AmlFilesystem,
-    options?: AmlFilesystemsCreateOrUpdateOptionalParams
+    options?: AmlFilesystemsCreateOrUpdateOptionalParams,
   ): Promise<AmlFilesystemsCreateOrUpdateResponse>;
   /**
    * Update an AML file system instance.
@@ -127,7 +129,7 @@ export interface AmlFilesystems {
     resourceGroupName: string,
     amlFilesystemName: string,
     amlFilesystem: AmlFilesystemUpdate,
-    options?: AmlFilesystemsUpdateOptionalParams
+    options?: AmlFilesystemsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AmlFilesystemsUpdateResponse>,
@@ -147,7 +149,7 @@ export interface AmlFilesystems {
     resourceGroupName: string,
     amlFilesystemName: string,
     amlFilesystem: AmlFilesystemUpdate,
-    options?: AmlFilesystemsUpdateOptionalParams
+    options?: AmlFilesystemsUpdateOptionalParams,
   ): Promise<AmlFilesystemsUpdateResponse>;
   /**
    * Archive data from the AML file system.
@@ -159,7 +161,7 @@ export interface AmlFilesystems {
   archive(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: AmlFilesystemsArchiveOptionalParams
+    options?: AmlFilesystemsArchiveOptionalParams,
   ): Promise<void>;
   /**
    * Cancel archiving data from the AML file system.
@@ -171,6 +173,31 @@ export interface AmlFilesystems {
   cancelArchive(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: AmlFilesystemsCancelArchiveOptionalParams
+    options?: AmlFilesystemsCancelArchiveOptionalParams,
+  ): Promise<void>;
+  /**
+   * Import data from the AML file system. This operation cannot start when an archive operation is in
+   * progress.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
+   * @param options The options parameters.
+   */
+  import(
+    resourceGroupName: string,
+    amlFilesystemName: string,
+    options?: AmlFilesystemsImportOptionalParams,
+  ): Promise<void>;
+  /**
+   * Cancel importing data to the AML file system.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
+   * @param options The options parameters.
+   */
+  cancelImport(
+    resourceGroupName: string,
+    amlFilesystemName: string,
+    options?: AmlFilesystemsCancelImportOptionalParams,
   ): Promise<void>;
 }

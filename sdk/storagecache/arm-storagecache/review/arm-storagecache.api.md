@@ -20,6 +20,7 @@ export interface AmlFilesystem extends TrackedResource {
     identity?: AmlFilesystemIdentity;
     maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow;
     readonly provisioningState?: AmlFilesystemProvisioningStateType;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
     sku?: SkuName;
     storageCapacityTiB?: number;
     readonly throughputProvisionedMBps?: number;
@@ -109,8 +110,33 @@ export interface AmlFilesystemIdentity {
 export type AmlFilesystemIdentityType = "UserAssigned" | "None";
 
 // @public
+export interface AmlFilesystemImport {
+    conflictResolutionMode?: ConflictResolutionMode;
+    readonly filesystemPath?: string;
+    readonly status?: AmlFilesystemImportStatus;
+}
+
+// @public
+export interface AmlFilesystemImportInfo {
+    conflictResolutionMode?: ConflictResolutionMode;
+    filesystemPath?: string;
+}
+
+// @public
+export interface AmlFilesystemImportStatus {
+    readonly blobsImportedPerSecond?: number;
+    readonly blobsWalkedPerSecond?: number;
+    readonly state?: ImportStatusType;
+    readonly totalBlobsImported?: number;
+    readonly totalBlobsWalked?: number;
+    readonly totalConflicts?: number;
+    readonly totalErrors?: number;
+}
+
+// @public
 export interface AmlFilesystemPropertiesHsm {
     readonly archiveStatus?: AmlFilesystemArchive[];
+    readonly importStatus?: AmlFilesystemImport[];
     settings?: AmlFilesystemHsmSettings;
 }
 
@@ -124,6 +150,15 @@ export interface AmlFilesystemPropertiesMaintenanceWindow {
 export type AmlFilesystemProvisioningStateType = string;
 
 // @public
+export interface AmlFilesystemRootSquashSettings {
+    mode?: AmlFilesystemSquashMode;
+    noSquashNidLists?: string;
+    squashGID?: number;
+    squashUID?: number;
+    readonly status?: string;
+}
+
+// @public
 export interface AmlFilesystems {
     archive(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsArchiveOptionalParams): Promise<void>;
     beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystem, options?: AmlFilesystemsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AmlFilesystemsCreateOrUpdateResponse>, AmlFilesystemsCreateOrUpdateResponse>>;
@@ -133,7 +168,9 @@ export interface AmlFilesystems {
     beginUpdate(resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystemUpdate, options?: AmlFilesystemsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AmlFilesystemsUpdateResponse>, AmlFilesystemsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystemUpdate, options?: AmlFilesystemsUpdateOptionalParams): Promise<AmlFilesystemsUpdateResponse>;
     cancelArchive(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsCancelArchiveOptionalParams): Promise<void>;
+    cancelImport(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsCancelImportOptionalParams): Promise<void>;
     get(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsGetOptionalParams): Promise<AmlFilesystemsGetResponse>;
+    import(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsImportOptionalParams): Promise<void>;
     list(options?: AmlFilesystemsListOptionalParams): PagedAsyncIterableIterator<AmlFilesystem>;
     listByResourceGroup(resourceGroupName: string, options?: AmlFilesystemsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AmlFilesystem>;
 }
@@ -145,6 +182,10 @@ export interface AmlFilesystemsArchiveOptionalParams extends coreClient.Operatio
 
 // @public
 export interface AmlFilesystemsCancelArchiveOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AmlFilesystemsCancelImportOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -181,6 +222,11 @@ export interface AmlFilesystemsGetOptionalParams extends coreClient.OperationOpt
 export type AmlFilesystemsGetResponse = AmlFilesystem;
 
 // @public
+export interface AmlFilesystemsImportOptionalParams extends coreClient.OperationOptions {
+    importInfo?: AmlFilesystemImportInfo;
+}
+
+// @public
 export interface AmlFilesystemsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -215,6 +261,9 @@ export interface AmlFilesystemsListResult {
 }
 
 // @public
+export type AmlFilesystemSquashMode = string;
+
+// @public
 export interface AmlFilesystemSubnetInfo {
     filesystemSubnet?: string;
     location?: string;
@@ -241,6 +290,7 @@ export type AmlFilesystemsUpdateResponse = AmlFilesystem;
 export interface AmlFilesystemUpdate {
     encryptionSettings?: AmlFilesystemEncryptionSettings;
     maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
     tags?: {
         [propertyName: string]: string;
     };
@@ -751,6 +801,9 @@ export interface Condition {
 }
 
 // @public
+export type ConflictResolutionMode = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -783,6 +836,9 @@ export type GetRequiredAmlFSSubnetsSizeResponse = RequiredAmlFilesystemSubnetsSi
 export type HealthStateType = string;
 
 // @public
+export type ImportStatusType = string;
+
+// @public
 export interface KeyVaultKeyReference {
     keyUrl: string;
     sourceVault: KeyVaultKeyReferenceSourceVault;
@@ -813,6 +869,13 @@ export enum KnownAmlFilesystemProvisioningStateType {
 }
 
 // @public
+export enum KnownAmlFilesystemSquashMode {
+    All = "All",
+    None = "None",
+    RootOnly = "RootOnly"
+}
+
+// @public
 export enum KnownArchiveStatusType {
     Canceled = "Canceled",
     Cancelling = "Cancelling",
@@ -822,6 +885,14 @@ export enum KnownArchiveStatusType {
     Idle = "Idle",
     InProgress = "InProgress",
     NotConfigured = "NotConfigured"
+}
+
+// @public
+export enum KnownConflictResolutionMode {
+    Fail = "Fail",
+    OverwriteAlways = "OverwriteAlways",
+    OverwriteIfDirty = "OverwriteIfDirty",
+    Skip = "Skip"
 }
 
 // @public
@@ -865,6 +936,15 @@ export enum KnownHealthStateType {
     UpgradeFailed = "UpgradeFailed",
     Upgrading = "Upgrading",
     WaitingForKey = "WaitingForKey"
+}
+
+// @public
+export enum KnownImportStatusType {
+    Canceled = "Canceled",
+    Completed = "Completed",
+    CompletedPartial = "CompletedPartial",
+    Failed = "Failed",
+    InProgress = "InProgress"
 }
 
 // @public

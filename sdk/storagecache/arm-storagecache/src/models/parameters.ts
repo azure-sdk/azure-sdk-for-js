@@ -9,18 +9,19 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   AmlFilesystem as AmlFilesystemMapper,
   AmlFilesystemUpdate as AmlFilesystemUpdateMapper,
   AmlFilesystemArchiveInfo as AmlFilesystemArchiveInfoMapper,
+  AmlFilesystemImportInfo as AmlFilesystemImportInfoMapper,
   AmlFilesystemSubnetInfo as AmlFilesystemSubnetInfoMapper,
   RequiredAmlFilesystemSubnetsSizeInfo as RequiredAmlFilesystemSubnetsSizeInfoMapper,
   Cache as CacheMapper,
   PrimingJob as PrimingJobMapper,
   PrimingJobIdParameter as PrimingJobIdParameterMapper,
-  StorageTarget as StorageTargetMapper
+  StorageTarget as StorageTargetMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -30,9 +31,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -41,36 +42,36 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01",
+    defaultValue: "2024-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -78,14 +79,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const amlFilesystemName: OperationURLParameter = {
@@ -94,14 +95,14 @@ export const amlFilesystemName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[0-9a-zA-Z][-0-9a-zA-Z_]{0,78}[0-9a-zA-Z]$"),
       MaxLength: 80,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "amlFilesystemName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -111,24 +112,29 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const amlFilesystem: OperationParameter = {
   parameterPath: "amlFilesystem",
-  mapper: AmlFilesystemMapper
+  mapper: AmlFilesystemMapper,
 };
 
 export const amlFilesystem1: OperationParameter = {
   parameterPath: "amlFilesystem",
-  mapper: AmlFilesystemUpdateMapper
+  mapper: AmlFilesystemUpdateMapper,
 };
 
 export const archiveInfo: OperationParameter = {
   parameterPath: ["options", "archiveInfo"],
-  mapper: AmlFilesystemArchiveInfoMapper
+  mapper: AmlFilesystemArchiveInfoMapper,
+};
+
+export const importInfo: OperationParameter = {
+  parameterPath: ["options", "importInfo"],
+  mapper: AmlFilesystemImportInfoMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -137,48 +143,48 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const amlFilesystemSubnetInfo: OperationParameter = {
   parameterPath: ["options", "amlFilesystemSubnetInfo"],
-  mapper: AmlFilesystemSubnetInfoMapper
+  mapper: AmlFilesystemSubnetInfoMapper,
 };
 
 export const requiredAMLFilesystemSubnetsSizeInfo: OperationParameter = {
   parameterPath: ["options", "requiredAMLFilesystemSubnetsSizeInfo"],
-  mapper: RequiredAmlFilesystemSubnetsSizeInfoMapper
+  mapper: RequiredAmlFilesystemSubnetsSizeInfoMapper,
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location1: OperationURLParameter = {
@@ -187,43 +193,43 @@ export const location1: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const cacheName: OperationURLParameter = {
   parameterPath: "cacheName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-0-9a-zA-Z_]{1,80}$")
+      Pattern: new RegExp("^[-0-9a-zA-Z_]{1,80}$"),
     },
     serializedName: "cacheName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const cache: OperationParameter = {
   parameterPath: "cache",
-  mapper: CacheMapper
+  mapper: CacheMapper,
 };
 
 export const cache1: OperationParameter = {
   parameterPath: ["options", "cache"],
-  mapper: CacheMapper
+  mapper: CacheMapper,
 };
 
 export const primingjob: OperationParameter = {
   parameterPath: ["options", "primingjob"],
-  mapper: PrimingJobMapper
+  mapper: PrimingJobMapper,
 };
 
 export const primingJobId: OperationParameter = {
   parameterPath: ["options", "primingJobId"],
-  mapper: PrimingJobIdParameterMapper
+  mapper: PrimingJobIdParameterMapper,
 };
 
 export const spaceAllocation: OperationParameter = {
@@ -235,25 +241,25 @@ export const spaceAllocation: OperationParameter = {
       element: {
         type: {
           name: "Composite",
-          className: "StorageTargetSpaceAllocation"
-        }
-      }
-    }
-  }
+          className: "StorageTargetSpaceAllocation",
+        },
+      },
+    },
+  },
 };
 
 export const storageTargetName: OperationURLParameter = {
   parameterPath: "storageTargetName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-0-9a-zA-Z_]{1,80}$")
+      Pattern: new RegExp("^[-0-9a-zA-Z_]{1,80}$"),
     },
     serializedName: "storageTargetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const force: OperationQueryParameter = {
@@ -261,12 +267,12 @@ export const force: OperationQueryParameter = {
   mapper: {
     serializedName: "force",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const storagetarget: OperationParameter = {
   parameterPath: "storagetarget",
-  mapper: StorageTargetMapper
+  mapper: StorageTargetMapper,
 };
