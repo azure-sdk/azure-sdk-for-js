@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   QuotaUsageResult,
-  UsagesListBySubscriptionOptionalParams
+  UsagesListBySubscriptionOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,6 +22,6 @@ export interface Usages {
    */
   listBySubscription(
     location: string,
-    options?: UsagesListBySubscriptionOptionalParams
+    options?: UsagesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<QuotaUsageResult>;
 }
