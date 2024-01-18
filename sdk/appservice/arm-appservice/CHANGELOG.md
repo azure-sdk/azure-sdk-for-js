@@ -1,15 +1,23 @@
 # Release History
+    
+## 15.0.0 (2024-01-18)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Interface Site has a new optional parameter vnetBackupRestoreEnabled
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait has a new signature
+    
+    
 ## 14.1.0 (2023-11-16)
     
 **Features**
