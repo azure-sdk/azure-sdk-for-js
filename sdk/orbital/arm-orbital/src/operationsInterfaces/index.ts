@@ -7,8 +7,7 @@
  */
 
 export * from "./operations";
-export * from "./spacecrafts";
-export * from "./contacts";
-export * from "./contactProfiles";
-export * from "./availableGroundStations";
-export * from "./operationsResults";
+export * from "./groundStations";
+export * from "./edgeSites";
+export * from "./l2Connections";
+export * from "./globalCommunicationsSites";

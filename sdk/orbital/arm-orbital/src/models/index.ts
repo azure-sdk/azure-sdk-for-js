@@ -121,10 +121,10 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Response for the ListSpacecrafts API service call. */
-export interface SpacecraftListResult {
-  /** A list of spacecraft resources in a resource group. */
-  value?: Spacecraft[];
+/** Response for the ListGroundStations API service call. */
+export interface GroundStationListResult {
+  /** A list of ground station resources. */
+  value?: GroundStation[];
   /**
    * The URL to get the next set of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -132,37 +132,33 @@ export interface SpacecraftListResult {
   readonly nextLink?: string;
 }
 
-/** List of authorized spacecraft links per ground station and the expiration date of the authorization. */
-export interface SpacecraftLink {
-  /** Link name. */
-  name: string;
-  /** Center Frequency in MHz. */
-  centerFrequencyMHz: number;
-  /** Bandwidth in MHz. */
-  bandwidthMHz: number;
-  /** Direction (Uplink or Downlink). */
-  direction: Direction;
-  /** Polarization. e.g. (RHCP, LHCP). */
-  polarization: Polarization;
+/** List of ground station resource properties. */
+export interface GroundStationsProperties {
+  /** City of ground station. */
+  city?: string;
+  /** Ground station capabilities. */
+  capabilities: Capability[];
+  /** Ground station provider name. */
+  providerName?: string;
+  /** Longitude of the ground station in decimal degrees. */
+  longitudeDegrees?: number;
+  /** Latitude of the ground station in decimal degrees. */
+  latitudeDegrees?: number;
+  /** Altitude of the ground station. */
+  altitudeMeters?: number;
   /**
-   * Authorized Ground Stations
+   * Release Status of a ground station.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly authorizations?: AuthorizedGroundstation[];
-}
-
-/** Authorized groundstation. */
-export interface AuthorizedGroundstation {
-  /** Groundstation name. */
-  groundStation: string;
-  /** Date of authorization expiration. */
-  expirationDate: Date;
+  readonly releaseMode?: ReleaseMode;
+  /** The Azure Orbital Digital Ground site's resource ID. */
+  id: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -205,47 +201,34 @@ export interface TagsObject {
   tags?: { [propertyName: string]: string };
 }
 
-/** Response for the ListContacts API service call. */
-export interface ContactListResult {
-  /** A list of contact resources in a resource group. */
-  value?: Contact[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The configuration associated with the allocated antenna. */
-export interface ContactsPropertiesAntennaConfiguration {
-  /** The destination IP a packet can be sent to. This would for example be the TCP endpoint you would send data to. */
-  destinationIp?: string;
-  /** List of Source IP */
-  sourceIps?: string[];
-}
-
-/** Resource Reference. */
-export interface ResourceReference {
-  /** Resource ID. */
+/** Properties object for an edge site. */
+export interface EdgeSitesProperties {
+  /** The Azure Orbital Digital Ground site's resource ID. */
   id: string;
 }
 
-/** Parameters that define the contact resource. */
-export interface ContactParameters {
-  /** The reference to the contact profile resource. */
-  contactProfile: ContactParametersContactProfile;
-  /** Name of Azure Ground Station. */
-  groundStationName: string;
-  /** Start time of a contact (ISO 8601 UTC standard). */
-  startTime: Date;
-  /** End time of a contact (ISO 8601 UTC standard). */
-  endTime: Date;
+/** An error response from the service. */
+export interface CloudError {
+  /** An error response from the service. */
+  error?: CloudErrorBody;
 }
 
-/** Response for the ListAvailableContacts API service call. */
-export interface AvailableContactsListResult {
-  /** A list of available contacts. */
-  value?: AvailableContacts[];
+/** An error response from the service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
+}
+
+/** Response for an API service call that lists Edge Sites. */
+export interface EdgeSiteListResult {
+  /** A list of edge site resources. */
+  value?: EdgeSite[];
   /**
    * The URL to get the next set of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -253,324 +236,39 @@ export interface AvailableContactsListResult {
   readonly nextLink?: string;
 }
 
-/** Customer retrieves list of Available Contacts for a spacecraft resource. Later, one of the available contact can be selected to create a contact. */
-export interface AvailableContacts {
-  /** The reference to the spacecraft resource. */
-  spacecraft?: AvailableContactsSpacecraft;
+/** Properties object for an L2 Connection. */
+export interface L2ConnectionsProperties {
   /**
-   * Name of Azure Ground Station.
+   * The current state of the resource's creation, deletion, or modification.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly groundStationName?: string;
+  readonly provisioningState?: L2ConnectionsPropertiesProvisioningState;
   /**
-   * Maximum elevation of the antenna during the contact in decimal degrees.
+   * Globally-unique identifier for this connection that is to be used as a circuit ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly maximumElevationDegrees?: number;
-  /**
-   * Time at which antenna transmit will be enabled (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly txStartTime?: Date;
-  /**
-   * Time at which antenna transmit will be disabled (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly txEndTime?: Date;
-  /**
-   * Earliest time to receive a signal (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rxStartTime?: Date;
-  /**
-   * Time to lost receiving a signal (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rxEndTime?: Date;
-  /**
-   * Azimuth of the antenna at the start of the contact in decimal degrees.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startAzimuthDegrees?: number;
-  /**
-   * Azimuth of the antenna at the end of the contact in decimal degrees.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endAzimuthDegrees?: number;
-  /**
-   * Spacecraft elevation above the horizon at contact start.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startElevationDegrees?: number;
-  /**
-   * Spacecraft elevation above the horizon at contact end.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endElevationDegrees?: number;
+  readonly circuitId?: string;
+  /** The VLAN ID for the L2 connection. */
+  vlanId: number;
+  /** The unique name of the partner router that cross-connects with the Orbital Edge Router at the ground station site. */
+  nameGroundStationPartnerRouterName: string;
+  /** The ground station's resource ID. */
+  idGroundStationId: string;
+  /** The unique name of the partner router that cross-connects with the Orbital Edge Router at the edge site. */
+  nameEdgeSitePartnerRouterName: string;
+  /** The edge site's resource ID. */
+  idEdgeSiteId: string;
 }
 
-/** Contact Instance Properties. */
-export interface ContactInstanceProperties {
-  /**
-   * Maximum elevation of the antenna during the contact in decimal degrees.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximumElevationDegrees?: number;
-  /**
-   * Time at which antenna transmit will be enabled (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly txStartTime?: Date;
-  /**
-   * Time at which antenna transmit will be disabled (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly txEndTime?: Date;
-  /**
-   * Earliest time to receive a signal (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rxStartTime?: Date;
-  /**
-   * Time to lost receiving a signal (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rxEndTime?: Date;
-  /**
-   * Azimuth of the antenna at the start of the contact in decimal degrees.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startAzimuthDegrees?: number;
-  /**
-   * Azimuth of the antenna at the end of the contact in decimal degrees.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endAzimuthDegrees?: number;
-  /**
-   * Spacecraft elevation above the horizon at contact start.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startElevationDegrees?: number;
-  /**
-   * Spacecraft elevation above the horizon at contact end.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endElevationDegrees?: number;
-}
-
-/** List of Contact Profile Resource Properties. */
-export interface ContactProfilesProperties {
-  /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ContactProfilesPropertiesProvisioningState;
-  /** Minimum viable contact duration in ISO 8601 format. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumViableContactDuration?: string;
-  /** Minimum viable elevation for the contact in decimal degrees. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumElevationDegrees?: number;
-  /** Auto-tracking configuration. */
-  autoTrackingConfiguration?: AutoTrackingConfiguration;
-  /** ARM resource identifier of the Event Hub used for telemetry. Requires granting Orbital Resource Provider the rights to send telemetry into the hub. */
-  eventHubUri?: string;
-  /** Network configuration of customer virtual network. */
-  networkConfiguration: ContactProfilesPropertiesNetworkConfiguration;
-  /** Third-party mission configuration of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
-  thirdPartyConfigurations?: ContactProfileThirdPartyConfiguration[];
-  /** Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
-  links: ContactProfileLink[];
-}
-
-/** Network configuration of customer virtual network. */
-export interface ContactProfilesPropertiesNetworkConfiguration {
-  /** ARM resource identifier of the subnet delegated to the Microsoft.Orbital/orbitalGateways. Needs to be at least a class C subnet, and should not have any IP created in it. */
-  subnetId: string;
-}
-
-/** Contact Profile third-party partner configuration. */
-export interface ContactProfileThirdPartyConfiguration {
-  /** Name of the third-party provider. */
-  providerName: string;
-  /** Name of string referencing the configuration describing contact set-up for a particular mission. Expected values are those which have been created in collaboration with the partner network. */
-  missionConfiguration: string;
-}
-
-/** Contact Profile Link. */
-export interface ContactProfileLink {
-  /** Link name. */
-  name: string;
-  /** Polarization. e.g. (RHCP, LHCP). */
-  polarization: Polarization;
-  /** Direction (Uplink or Downlink). */
-  direction: Direction;
-  /** Gain to noise temperature in db/K. It is the required G/T by the customer. Not used yet. */
-  gainOverTemperature?: number;
-  /** Effective Isotropic Radiated Power (EIRP) in dBW. It is the required EIRP by the customer. Not used yet. */
-  eirpdBW?: number;
-  /** Contact Profile Link Channel. */
-  channels: ContactProfileLinkChannel[];
-}
-
-/** Contact Profile Link Channel. */
-export interface ContactProfileLinkChannel {
-  /** Channel name. */
-  name: string;
-  /** Center Frequency in MHz. */
-  centerFrequencyMHz: number;
-  /** Bandwidth in MHz. */
-  bandwidthMHz: number;
-  /** Customer end point to store and retrieve data during a contact with the spacecraft. */
-  endPoint: EndPoint;
-  /** Copy of the modem configuration file such as Kratos QRadio. Only valid for uplink directions. If provided, the modem connects to the customer endpoint and accepts commands from the customer instead of a VITA.49 stream. */
-  modulationConfiguration?: string;
-  /** Copy of the modem configuration file such as Kratos QRadio or Kratos QuantumRx. Only valid for downlink directions. If provided, the modem connects to the customer endpoint and sends demodulated data instead of a VITA.49 stream. */
-  demodulationConfiguration?: string;
-  /** Currently unused. */
-  encodingConfiguration?: string;
-  /** Currently unused. */
-  decodingConfiguration?: string;
-}
-
-/** Customer end point to store and retrieve data during a contact with the spacecraft. */
-export interface EndPoint {
-  /** IP Address (IPv4). */
-  ipAddress: string;
-  /** Name of an end point. */
-  endPointName: string;
-  /** TCP port to listen on to receive data. */
-  port: string;
-  /** Protocol either UDP or TCP. */
-  protocol: Protocol;
-}
-
-/** Response for the ListContactProfiles API service call. */
-export interface ContactProfileListResult {
-  /** A list of contact profile resources in a resource group. */
-  value?: ContactProfile[];
+/** Response for an API service call that lists L2 Connections. */
+export interface L2ConnectionListResult {
+  /** A list of L2 Connection resources. */
+  value?: L2Connection[];
   /**
    * The URL to get the next set of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Response for the AvailableGroundStations API service call. */
-export interface AvailableGroundStationListResult {
-  /** A list of ground station resources. */
-  value?: AvailableGroundStation[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Ground Stations available to schedule Contacts. */
-export interface AvailableGroundStation {
-  /**
-   * ID of groundStation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of the ground station.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Azure region. */
-  location?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** City of ground station. */
-  city?: string;
-  /** Ground station provider name. */
-  providerName?: string;
-  /** Longitude of the ground station in decimal degrees. */
-  longitudeDegrees?: number;
-  /** Latitude of the ground station in decimal degrees. */
-  latitudeDegrees?: number;
-  /** Altitude of the ground station. */
-  altitudeMeters?: number;
-  /** Release Status of a ground station. */
-  releaseMode?: ReleaseMode;
-}
-
-/** Properties object for Available groundstation. */
-export interface AvailableGroundStationPropertiesAutoGenerated {
-  /** City of ground station. */
-  city?: string;
-  /** Ground station provider name. */
-  providerName?: string;
-  /** Longitude of the ground station in decimal degrees. */
-  longitudeDegrees?: number;
-  /** Latitude of the ground station in decimal degrees. */
-  latitudeDegrees?: number;
-  /** Altitude of the ground station. */
-  altitudeMeters?: number;
-  /** Release Status of a ground station. */
-  releaseMode?: ReleaseMode;
-}
-
-/** Operation Result Entity. */
-export interface OperationResult {
-  /**
-   * ID of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The status of operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: Status;
-  /**
-   * The operation start time (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * The operation end time (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-  /**
-   * Percentage completed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentComplete?: number;
-  /**
-   * A list of results when the operation returns multiple results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Record<string, unknown>[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Operation result properties. */
-  properties?: Record<string, unknown>;
-  /** Operation result error properties. */
-  error?: OperationResultErrorProperties;
-}
-
-/** Operation result error properties. */
-export interface OperationResultErrorProperties {
-  /**
-   * The code of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
 }
 
 /** Response for an API service call that lists the resource IDs of resources associated with another resource. */
@@ -589,6 +287,70 @@ export interface ResourceIdListResultValueItem {
   id?: string;
 }
 
+/** Response for an API service call that lists Global Communications Sites. */
+export interface GlobalCommunicationsSiteListResult {
+  /** A list of global communications sites. */
+  value?: GlobalCommunicationsSite[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties object for a Azure Orbital Digital Ground site. */
+export interface GlobalCommunicationsSitesProperties {
+  /** Describes the location of the Azure Orbital Digital Ground site. */
+  locationData?: GlobalCommunicationsSitesPropertiesLocationData;
+  /** The type of the Azure Orbital Digital Ground site. EdgeSite or GroundStation. */
+  globalCommunicationsSiteType?: GlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType;
+  /**
+   * Partner routers connected to this site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerRouters?: PartnerRouter[];
+  /**
+   * The bandwidth per partner router cross-connection at this Azure Orbital Digital Ground site, measured in bits per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerSiteBandwidth?: number;
+}
+
+/** Describes a location outside of Azure. */
+export interface LocationData {
+  /** The city of the location (e.g., Miami). */
+  city: string;
+  /** For example, the state (e.g., Florida), province (e.g., Ontario), or region (e.g., Tuscany) of the location. */
+  district: string;
+  /** The nation (e.g., United States of America) of the location. */
+  country: string;
+  /** The name of the closest Azure region, (e.g., westus2). */
+  closestAzureRegion?: string;
+  /** Any extra information needed to uniquely identify the location (e.g., zip code). */
+  extra?: string;
+}
+
+/** One of the partner routers within a global communications site. */
+export interface PartnerRouter {
+  /**
+   * The unique name of the partnerRouter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+}
+
+/** The approximate bandwidth provisioned for a partner on a global communications site. */
+export interface ProvisionedBandwidth {
+  /**
+   * The approximate number of megabits per second that are provisioned for the partner on this global communications site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mbps?: number;
+}
+
+/** Properties of the Ground Station. */
+export interface GroundStationProperties extends GroundStationsProperties {}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -600,198 +362,105 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-/** The reference to the contact profile resource. */
-export interface ContactsPropertiesContactProfile extends ResourceReference {}
-
-/** The reference to the contact profile resource. */
-export interface ContactParametersContactProfile extends ResourceReference {}
-
-/** The reference to the spacecraft resource. */
-export interface AvailableContactsSpacecraft extends ResourceReference {}
-
-/** Properties of Contact resource. */
-export interface AvailableContactsProperties
-  extends ContactInstanceProperties {}
-
-/** Properties of the contact profile resource. */
-export interface ContactProfileProperties extends ContactProfilesProperties {}
+/** The properties bag for this resource. */
+export interface EdgeSiteProperties extends EdgeSitesProperties {}
 
 /** The properties bag for this resource. */
-export interface AvailableGroundStationProperties
-  extends AvailableGroundStationPropertiesAutoGenerated {}
+export interface L2ConnectionProperties extends L2ConnectionsProperties {}
 
-/** Customer creates a spacecraft resource to schedule a contact. */
-export interface Spacecraft extends TrackedResource {
-  /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: SpacecraftsPropertiesProvisioningState;
-  /** NORAD ID of the spacecraft. */
-  noradId?: string;
-  /** Title line of the two-line element set (TLE). */
-  titleLine: string;
-  /** Line 1 of the two-line element set (TLE). */
-  tleLine1: string;
-  /** Line 2 of the two-line element set (TLE). */
-  tleLine2: string;
-  /** Immutable list of Spacecraft links. */
-  links: SpacecraftLink[];
+/** The properties bag for this resource. */
+export interface GlobalCommunicationsSiteProperties
+  extends GlobalCommunicationsSitesProperties {}
+
+/** Describes the location of the Azure Orbital Digital Ground site. */
+export interface GlobalCommunicationsSitesPropertiesLocationData
+  extends LocationData {}
+
+/** Ground Station contains one or more antennas. */
+export interface GroundStation extends TrackedResource {
+  /** City of ground station. */
+  city?: string;
+  /** Ground station capabilities. */
+  capabilities?: Capability[];
+  /** Ground station provider name. */
+  providerName?: string;
+  /** Longitude of the ground station in decimal degrees. */
+  longitudeDegrees?: number;
+  /** Latitude of the ground station in decimal degrees. */
+  latitudeDegrees?: number;
+  /** Altitude of the ground station. */
+  altitudeMeters?: number;
+  /**
+   * Release Status of a ground station.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly releaseMode?: ReleaseMode;
+  /** The Azure Orbital Digital Ground site's resource ID. */
+  idPropertiesGlobalCommunicationsSiteId?: string;
 }
 
-/** Customer creates a Contact Profile Resource, which will contain all of the configurations required for scheduling a contact. */
-export interface ContactProfile extends TrackedResource {
-  /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ContactProfilesPropertiesProvisioningState;
-  /** Minimum viable contact duration in ISO 8601 format. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumViableContactDuration?: string;
-  /** Minimum viable elevation for the contact in decimal degrees. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumElevationDegrees?: number;
-  /** Auto-tracking configuration. */
-  autoTrackingConfiguration?: AutoTrackingConfiguration;
-  /** ARM resource identifier of the Event Hub used for telemetry. Requires granting Orbital Resource Provider the rights to send telemetry into the hub. */
-  eventHubUri?: string;
-  /** Network configuration of customer virtual network. */
-  networkConfiguration: ContactProfilesPropertiesNetworkConfiguration;
-  /** Third-party mission configuration of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
-  thirdPartyConfigurations?: ContactProfileThirdPartyConfiguration[];
-  /** Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
-  links: ContactProfileLink[];
+/** A customer's reference to a global communications site site. */
+export interface EdgeSite extends TrackedResource {
+  /** The Azure Orbital Digital Ground site's resource ID. */
+  idPropertiesGlobalCommunicationsSiteId: string;
 }
 
-/** Customer creates a contact resource for a spacecraft resource. */
-export interface Contact extends ProxyResource {
-  /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ContactsPropertiesProvisioningState;
+/** Connects an edge site to an orbital gateway and describes what layer 2 traffic to forward between them. */
+export interface L2Connection extends TrackedResource {
   /**
-   * Status of a contact.
+   * The current state of the resource's creation, deletion, or modification.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: ContactsStatus;
-  /** Reservation start time of a contact (ISO 8601 UTC standard). */
-  reservationStartTime: Date;
-  /** Reservation end time of a contact (ISO 8601 UTC standard). */
-  reservationEndTime: Date;
+  readonly provisioningState?: L2ConnectionsPropertiesProvisioningState;
   /**
-   * Receive start time of a contact (ISO 8601 UTC standard).
+   * Globally-unique identifier for this connection that is to be used as a circuit ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly rxStartTime?: Date;
-  /**
-   * Receive end time of a contact (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rxEndTime?: Date;
-  /**
-   * Transmit start time of a contact (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly txStartTime?: Date;
-  /**
-   * Transmit end time of a contact (ISO 8601 UTC standard).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly txEndTime?: Date;
-  /**
-   * Any error message while scheduling a contact.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorMessage?: string;
-  /**
-   * Maximum elevation of the antenna during the contact in decimal degrees.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximumElevationDegrees?: number;
-  /**
-   * Azimuth of the antenna at the start of the contact in decimal degrees.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startAzimuthDegrees?: number;
-  /**
-   * Azimuth of the antenna at the end of the contact in decimal degrees.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endAzimuthDegrees?: number;
-  /** Azure Ground Station name. */
-  groundStationName: string;
-  /**
-   * Spacecraft elevation above the horizon at contact start.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startElevationDegrees?: number;
-  /**
-   * Spacecraft elevation above the horizon at contact end.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endElevationDegrees?: number;
-  /**
-   * The configuration associated with the allocated antenna.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly antennaConfiguration?: ContactsPropertiesAntennaConfiguration;
-  /** The reference to the contact profile resource. */
-  contactProfile: ContactsPropertiesContactProfile;
+  readonly circuitId?: string;
+  /** The VLAN ID for the L2 connection. */
+  vlanId: number;
+  /** The unique name of the partner router that cross-connects with the Orbital Edge Router at the ground station site. */
+  namePropertiesGroundStationPartnerRouterName: string;
+  /** The ground station's resource ID. */
+  idPropertiesGroundStationId: string;
+  /** The unique name of the partner router that cross-connects with the Orbital Edge Router at the edge site. */
+  namePropertiesEdgeSitePartnerRouterName: string;
+  /** The edge site's resource ID. */
+  idPropertiesEdgeSiteId: string;
 }
 
-/** Defines headers for Spacecrafts_createOrUpdate operation. */
-export interface SpacecraftsCreateOrUpdateHeaders {
+/** A site where the Orbital network is connected to a partner network. */
+export interface GlobalCommunicationsSite extends ProxyResource {
+  /** Describes the location of the Azure Orbital Digital Ground site. */
+  locationData?: GlobalCommunicationsSitesPropertiesLocationData;
+  /** The type of the Azure Orbital Digital Ground site. EdgeSite or GroundStation. */
+  globalCommunicationsSiteType?: GlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType;
+  /**
+   * Partner routers connected to this site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerRouters?: PartnerRouter[];
+  /**
+   * The bandwidth per partner router cross-connection at this Azure Orbital Digital Ground site, measured in bits per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerSiteBandwidth?: number;
+}
+
+/** Defines headers for L2Connections_createOrUpdate operation. */
+export interface L2ConnectionsCreateOrUpdateHeaders {
   /** URL for checking the ongoing status of the operation. */
   azureAsyncOperation?: string;
 }
 
-/** Defines headers for Spacecrafts_delete operation. */
-export interface SpacecraftsDeleteHeaders {
+/** Defines headers for L2Connections_delete operation. */
+export interface L2ConnectionsDeleteHeaders {
   /** URL for determining when an operation has completed. */
   location?: string;
 }
 
-/** Defines headers for Spacecrafts_updateTags operation. */
-export interface SpacecraftsUpdateTagsHeaders {
-  /** URL for determining when an operation has completed. */
-  location?: string;
-}
-
-/** Defines headers for Spacecrafts_listAvailableContacts operation. */
-export interface SpacecraftsListAvailableContactsHeaders {
-  /** URL for determining when an operation has completed. */
-  location?: string;
-}
-
-/** Defines headers for Spacecrafts_listAvailableContactsNext operation. */
-export interface SpacecraftsListAvailableContactsNextHeaders {
-  /** URL for determining when an operation has completed. */
-  location?: string;
-}
-
-/** Defines headers for Contacts_create operation. */
-export interface ContactsCreateHeaders {
-  /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for Contacts_delete operation. */
-export interface ContactsDeleteHeaders {
-  /** URL for determining when an operation has completed. */
-  location?: string;
-}
-
-/** Defines headers for ContactProfiles_createOrUpdate operation. */
-export interface ContactProfilesCreateOrUpdateHeaders {
-  /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ContactProfiles_delete operation. */
-export interface ContactProfilesDeleteHeaders {
-  /** URL for determining when an operation has completed. */
-  location?: string;
-}
-
-/** Defines headers for ContactProfiles_updateTags operation. */
-export interface ContactProfilesUpdateTagsHeaders {
-  /** URL for determining when an operation has completed. */
-  location?: string;
-}
-
-/** Defines headers for OperationsResults_get operation. */
-export interface OperationsResultsGetHeaders {
+/** Defines headers for L2Connections_updateTags operation. */
+export interface L2ConnectionsUpdateTagsHeaders {
   /** URL for determining when an operation has completed. */
   location?: string;
 }
@@ -803,7 +472,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -820,7 +489,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -832,107 +501,41 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Creating */
-  Creating = "creating",
-  /** Succeeded */
-  Succeeded = "succeeded",
-  /** Failed */
-  Failed = "failed",
-  /** Canceled */
-  Canceled = "canceled",
-  /** Updating */
-  Updating = "updating",
-  /** Deleting */
-  Deleting = "deleting"
+/** Known values of {@link Capability} that the service accepts. */
+export enum KnownCapability {
+  /** EarthObservation */
+  EarthObservation = "EarthObservation",
+  /** Communication */
+  Communication = "Communication",
 }
 
 /**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ * Defines values for Capability. \
+ * {@link KnownCapability} can be used interchangeably with Capability,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **creating** \
- * **succeeded** \
- * **failed** \
- * **canceled** \
- * **updating** \
- * **deleting**
+ * **EarthObservation** \
+ * **Communication**
  */
-export type ProvisioningState = string;
+export type Capability = string;
 
-/** Known values of {@link SpacecraftsPropertiesProvisioningState} that the service accepts. */
-export enum KnownSpacecraftsPropertiesProvisioningState {
-  /** Creating */
-  Creating = "creating",
-  /** Succeeded */
-  Succeeded = "succeeded",
-  /** Failed */
-  Failed = "failed",
-  /** Canceled */
-  Canceled = "canceled",
-  /** Updating */
-  Updating = "updating",
-  /** Deleting */
-  Deleting = "deleting"
+/** Known values of {@link ReleaseMode} that the service accepts. */
+export enum KnownReleaseMode {
+  /** Preview */
+  Preview = "Preview",
+  /** GA */
+  GA = "GA",
 }
 
 /**
- * Defines values for SpacecraftsPropertiesProvisioningState. \
- * {@link KnownSpacecraftsPropertiesProvisioningState} can be used interchangeably with SpacecraftsPropertiesProvisioningState,
+ * Defines values for ReleaseMode. \
+ * {@link KnownReleaseMode} can be used interchangeably with ReleaseMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **creating** \
- * **succeeded** \
- * **failed** \
- * **canceled** \
- * **updating** \
- * **deleting**
+ * **Preview** \
+ * **GA**
  */
-export type SpacecraftsPropertiesProvisioningState = string;
-
-/** Known values of {@link Direction} that the service accepts. */
-export enum KnownDirection {
-  /** Uplink */
-  Uplink = "Uplink",
-  /** Downlink */
-  Downlink = "Downlink"
-}
-
-/**
- * Defines values for Direction. \
- * {@link KnownDirection} can be used interchangeably with Direction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Uplink** \
- * **Downlink**
- */
-export type Direction = string;
-
-/** Known values of {@link Polarization} that the service accepts. */
-export enum KnownPolarization {
-  /** Rhcp */
-  Rhcp = "RHCP",
-  /** Lhcp */
-  Lhcp = "LHCP",
-  /** LinearVertical */
-  LinearVertical = "linearVertical",
-  /** LinearHorizontal */
-  LinearHorizontal = "linearHorizontal"
-}
-
-/**
- * Defines values for Polarization. \
- * {@link KnownPolarization} can be used interchangeably with Polarization,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RHCP** \
- * **LHCP** \
- * **linearVertical** \
- * **linearHorizontal**
- */
-export type Polarization = string;
+export type ReleaseMode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -943,7 +546,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -958,146 +561,102 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link ContactsPropertiesProvisioningState} that the service accepts. */
-export enum KnownContactsPropertiesProvisioningState {
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
   /** Creating */
-  Creating = "creating",
+  Creating = "Creating",
   /** Succeeded */
-  Succeeded = "succeeded",
+  Succeeded = "Succeeded",
   /** Failed */
-  Failed = "failed",
+  Failed = "Failed",
   /** Canceled */
-  Canceled = "canceled",
+  Canceled = "Canceled",
   /** Updating */
-  Updating = "updating",
+  Updating = "Updating",
   /** Deleting */
-  Deleting = "deleting"
+  Deleting = "Deleting",
 }
 
 /**
- * Defines values for ContactsPropertiesProvisioningState. \
- * {@link KnownContactsPropertiesProvisioningState} can be used interchangeably with ContactsPropertiesProvisioningState,
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **creating** \
- * **succeeded** \
- * **failed** \
- * **canceled** \
- * **updating** \
- * **deleting**
+ * **Creating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Updating** \
+ * **Deleting**
  */
-export type ContactsPropertiesProvisioningState = string;
+export type ProvisioningState = string;
 
-/** Known values of {@link ContactsStatus} that the service accepts. */
-export enum KnownContactsStatus {
-  /** Scheduled */
-  Scheduled = "scheduled",
-  /** Cancelled */
-  Cancelled = "cancelled",
-  /** Succeeded */
-  Succeeded = "succeeded",
-  /** Failed */
-  Failed = "failed",
-  /** ProviderCancelled */
-  ProviderCancelled = "providerCancelled"
-}
-
-/**
- * Defines values for ContactsStatus. \
- * {@link KnownContactsStatus} can be used interchangeably with ContactsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **scheduled** \
- * **cancelled** \
- * **succeeded** \
- * **failed** \
- * **providerCancelled**
- */
-export type ContactsStatus = string;
-
-/** Known values of {@link ContactProfilesPropertiesProvisioningState} that the service accepts. */
-export enum KnownContactProfilesPropertiesProvisioningState {
+/** Known values of {@link L2ConnectionsPropertiesProvisioningState} that the service accepts. */
+export enum KnownL2ConnectionsPropertiesProvisioningState {
   /** Creating */
-  Creating = "creating",
+  Creating = "Creating",
   /** Succeeded */
-  Succeeded = "succeeded",
+  Succeeded = "Succeeded",
   /** Failed */
-  Failed = "failed",
+  Failed = "Failed",
   /** Canceled */
-  Canceled = "canceled",
+  Canceled = "Canceled",
   /** Updating */
-  Updating = "updating",
+  Updating = "Updating",
   /** Deleting */
-  Deleting = "deleting"
+  Deleting = "Deleting",
 }
 
 /**
- * Defines values for ContactProfilesPropertiesProvisioningState. \
- * {@link KnownContactProfilesPropertiesProvisioningState} can be used interchangeably with ContactProfilesPropertiesProvisioningState,
+ * Defines values for L2ConnectionsPropertiesProvisioningState. \
+ * {@link KnownL2ConnectionsPropertiesProvisioningState} can be used interchangeably with L2ConnectionsPropertiesProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **creating** \
- * **succeeded** \
- * **failed** \
- * **canceled** \
- * **updating** \
- * **deleting**
+ * **Creating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Updating** \
+ * **Deleting**
  */
-export type ContactProfilesPropertiesProvisioningState = string;
+export type L2ConnectionsPropertiesProvisioningState = string;
 
-/** Known values of {@link Protocol} that the service accepts. */
-export enum KnownProtocol {
-  /** TCP */
-  TCP = "TCP",
-  /** UDP */
-  UDP = "UDP"
+/** Known values of {@link GlobalCommunicationsSiteType} that the service accepts. */
+export enum KnownGlobalCommunicationsSiteType {
+  /** Edge */
+  Edge = "Edge",
+  /** GroundStation */
+  GroundStation = "GroundStation",
 }
 
 /**
- * Defines values for Protocol. \
- * {@link KnownProtocol} can be used interchangeably with Protocol,
+ * Defines values for GlobalCommunicationsSiteType. \
+ * {@link KnownGlobalCommunicationsSiteType} can be used interchangeably with GlobalCommunicationsSiteType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TCP** \
- * **UDP**
+ * **Edge** \
+ * **GroundStation**
  */
-export type Protocol = string;
+export type GlobalCommunicationsSiteType = string;
 
-/** Known values of {@link CapabilityParameter} that the service accepts. */
-export enum KnownCapabilityParameter {
-  /** EarthObservation */
-  EarthObservation = "EarthObservation",
-  /** Communication */
-  Communication = "Communication"
+/** Known values of {@link GlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType} that the service accepts. */
+export enum KnownGlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType {
+  /** Edge */
+  Edge = "Edge",
+  /** GroundStation */
+  GroundStation = "GroundStation",
 }
 
 /**
- * Defines values for CapabilityParameter. \
- * {@link KnownCapabilityParameter} can be used interchangeably with CapabilityParameter,
+ * Defines values for GlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType. \
+ * {@link KnownGlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType} can be used interchangeably with GlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **EarthObservation** \
- * **Communication**
+ * **Edge** \
+ * **GroundStation**
  */
-export type CapabilityParameter = string;
-
-/** Known values of {@link ReleaseMode} that the service accepts. */
-export enum KnownReleaseMode {
-  /** Preview */
-  Preview = "Preview",
-  /** GA */
-  GA = "GA"
-}
-
-/**
- * Defines values for ReleaseMode. \
- * {@link KnownReleaseMode} can be used interchangeably with ReleaseMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Preview** \
- * **GA**
- */
-export type ReleaseMode = string;
+export type GlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType =
+  string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
@@ -1108,7 +667,7 @@ export enum KnownStatus {
   /** Failed */
   Failed = "Failed",
   /** Running */
-  Running = "Running"
+  Running = "Running",
 }
 
 /**
@@ -1123,25 +682,23 @@ export enum KnownStatus {
  */
 export type Status = string;
 
-/** Known values of {@link Capability} that the service accepts. */
-export enum KnownCapability {
+/** Known values of {@link CapabilityParameter} that the service accepts. */
+export enum KnownCapabilityParameter {
   /** EarthObservation */
   EarthObservation = "EarthObservation",
   /** Communication */
-  Communication = "Communication"
+  Communication = "Communication",
 }
 
 /**
- * Defines values for Capability. \
- * {@link KnownCapability} can be used interchangeably with Capability,
+ * Defines values for CapabilityParameter. \
+ * {@link KnownCapabilityParameter} can be used interchangeably with CapabilityParameter,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **EarthObservation** \
  * **Communication**
  */
-export type Capability = string;
-/** Defines values for AutoTrackingConfiguration. */
-export type AutoTrackingConfiguration = "disabled" | "xBand" | "sBand";
+export type CapabilityParameter = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1151,41 +708,172 @@ export interface OperationsListOptionalParams
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface SpacecraftsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+export interface GroundStationsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SpacecraftsListBySubscriptionResponse = SpacecraftListResult;
+export type GroundStationsListBySubscriptionResponse = GroundStationListResult;
 
 /** Optional parameters. */
-export interface SpacecraftsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+export interface GroundStationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SpacecraftsListResponse = SpacecraftListResult;
+export type GroundStationsListResponse = GroundStationListResult;
 
 /** Optional parameters. */
-export interface SpacecraftsGetOptionalParams
+export interface GroundStationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SpacecraftsGetResponse = Spacecraft;
+export type GroundStationsGetResponse = GroundStation;
 
 /** Optional parameters. */
-export interface SpacecraftsCreateOrUpdateOptionalParams
+export interface GroundStationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: SpacecraftsPropertiesProvisioningState;
-  /** NORAD ID of the spacecraft. */
-  noradId?: string;
+  /** City of ground station. */
+  city?: string;
+  /** Ground station capabilities. */
+  capabilities?: Capability[];
+  /** Ground station provider name. */
+  providerName?: string;
+  /** Longitude of the ground station in decimal degrees. */
+  longitudeDegrees?: number;
+  /** Latitude of the ground station in decimal degrees. */
+  latitudeDegrees?: number;
+  /** Altitude of the ground station. */
+  altitudeMeters?: number;
+  /** The Azure Orbital Digital Ground site's resource ID. */
+  id?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GroundStationsCreateOrUpdateResponse = GroundStation;
+
+/** Optional parameters. */
+export interface GroundStationsUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type GroundStationsUpdateTagsResponse = GroundStation;
+
+/** Optional parameters. */
+export interface GroundStationsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GroundStationsListL2ConnectionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listL2Connections operation. */
+export type GroundStationsListL2ConnectionsResponse = ResourceIdListResult;
+
+/** Optional parameters. */
+export interface GroundStationsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type GroundStationsListBySubscriptionNextResponse =
+  GroundStationListResult;
+
+/** Optional parameters. */
+export interface GroundStationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GroundStationsListNextResponse = GroundStationListResult;
+
+/** Optional parameters. */
+export interface GroundStationsListL2ConnectionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listL2ConnectionsNext operation. */
+export type GroundStationsListL2ConnectionsNextResponse = ResourceIdListResult;
+
+/** Optional parameters. */
+export interface EdgeSitesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EdgeSitesGetResponse = EdgeSite;
+
+/** Optional parameters. */
+export interface EdgeSitesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EdgeSitesCreateOrUpdateResponse = EdgeSite;
+
+/** Optional parameters. */
+export interface EdgeSitesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface EdgeSitesUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type EdgeSitesUpdateTagsResponse = EdgeSite;
+
+/** Optional parameters. */
+export interface EdgeSitesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type EdgeSitesListBySubscriptionResponse = EdgeSiteListResult;
+
+/** Optional parameters. */
+export interface EdgeSitesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type EdgeSitesListResponse = EdgeSiteListResult;
+
+/** Optional parameters. */
+export interface EdgeSitesListL2ConnectionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listL2Connections operation. */
+export type EdgeSitesListL2ConnectionsResponse = ResourceIdListResult;
+
+/** Optional parameters. */
+export interface EdgeSitesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type EdgeSitesListBySubscriptionNextResponse = EdgeSiteListResult;
+
+/** Optional parameters. */
+export interface EdgeSitesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type EdgeSitesListNextResponse = EdgeSiteListResult;
+
+/** Optional parameters. */
+export interface EdgeSitesListL2ConnectionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listL2ConnectionsNext operation. */
+export type EdgeSitesListL2ConnectionsNextResponse = ResourceIdListResult;
+
+/** Optional parameters. */
+export interface L2ConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type L2ConnectionsGetResponse = L2Connection;
+
+/** Optional parameters. */
+export interface L2ConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1193,10 +881,10 @@ export interface SpacecraftsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SpacecraftsCreateOrUpdateResponse = Spacecraft;
+export type L2ConnectionsCreateOrUpdateResponse = L2Connection;
 
 /** Optional parameters. */
-export interface SpacecraftsDeleteOptionalParams
+export interface L2ConnectionsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -1204,8 +892,11 @@ export interface SpacecraftsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type L2ConnectionsDeleteResponse = L2ConnectionsDeleteHeaders;
+
 /** Optional parameters. */
-export interface SpacecraftsUpdateTagsOptionalParams
+export interface L2ConnectionsUpdateTagsOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -1214,199 +905,59 @@ export interface SpacecraftsUpdateTagsOptionalParams
 }
 
 /** Contains response data for the updateTags operation. */
-export type SpacecraftsUpdateTagsResponse = Spacecraft;
+export type L2ConnectionsUpdateTagsResponse = L2Connection;
 
 /** Optional parameters. */
-export interface SpacecraftsListAvailableContactsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the listAvailableContacts operation. */
-export type SpacecraftsListAvailableContactsResponse = AvailableContactsListResult;
-
-/** Optional parameters. */
-export interface SpacecraftsListBySubscriptionNextOptionalParams
+export interface L2ConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type SpacecraftsListBySubscriptionNextResponse = SpacecraftListResult;
-
-/** Optional parameters. */
-export interface SpacecraftsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SpacecraftsListNextResponse = SpacecraftListResult;
-
-/** Optional parameters. */
-export interface SpacecraftsListAvailableContactsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAvailableContactsNext operation. */
-export type SpacecraftsListAvailableContactsNextResponse = AvailableContactsListResult;
-
-/** Optional parameters. */
-export interface ContactsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
 
 /** Contains response data for the list operation. */
-export type ContactsListResponse = ContactListResult;
+export type L2ConnectionsListResponse = L2ConnectionListResult;
 
 /** Optional parameters. */
-export interface ContactsGetOptionalParams
+export interface L2ConnectionsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ContactsGetResponse = Contact;
-
-/** Optional parameters. */
-export interface ContactsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ContactsCreateResponse = Contact;
-
-/** Optional parameters. */
-export interface ContactsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ContactsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ContactsListNextResponse = ContactListResult;
-
-/** Optional parameters. */
-export interface ContactProfilesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ContactProfilesGetResponse = ContactProfile;
-
-/** Optional parameters. */
-export interface ContactProfilesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ContactProfilesPropertiesProvisioningState;
-  /** Minimum viable contact duration in ISO 8601 format. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumViableContactDuration?: string;
-  /** Minimum viable elevation for the contact in decimal degrees. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumElevationDegrees?: number;
-  /** Auto-tracking configuration. */
-  autoTrackingConfiguration?: AutoTrackingConfiguration;
-  /** ARM resource identifier of the Event Hub used for telemetry. Requires granting Orbital Resource Provider the rights to send telemetry into the hub. */
-  eventHubUri?: string;
-  /** Third-party mission configuration of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
-  thirdPartyConfigurations?: ContactProfileThirdPartyConfiguration[];
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ContactProfilesCreateOrUpdateResponse = ContactProfile;
-
-/** Optional parameters. */
-export interface ContactProfilesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ContactProfilesUpdateTagsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the updateTags operation. */
-export type ContactProfilesUpdateTagsResponse = ContactProfile;
-
-/** Optional parameters. */
-export interface ContactProfilesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
 
 /** Contains response data for the listBySubscription operation. */
-export type ContactProfilesListBySubscriptionResponse = ContactProfileListResult;
+export type L2ConnectionsListBySubscriptionResponse = L2ConnectionListResult;
 
 /** Optional parameters. */
-export interface ContactProfilesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ContactProfilesListResponse = ContactProfileListResult;
-
-/** Optional parameters. */
-export interface ContactProfilesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type ContactProfilesListBySubscriptionNextResponse = ContactProfileListResult;
-
-/** Optional parameters. */
-export interface ContactProfilesListNextOptionalParams
+export interface L2ConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ContactProfilesListNextResponse = ContactProfileListResult;
+export type L2ConnectionsListNextResponse = L2ConnectionListResult;
 
 /** Optional parameters. */
-export interface AvailableGroundStationsListByCapabilityOptionalParams
+export interface L2ConnectionsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCapability operation. */
-export type AvailableGroundStationsListByCapabilityResponse = AvailableGroundStationListResult;
+/** Contains response data for the listBySubscriptionNext operation. */
+export type L2ConnectionsListBySubscriptionNextResponse =
+  L2ConnectionListResult;
 
 /** Optional parameters. */
-export interface AvailableGroundStationsListByCapabilityNextOptionalParams
+export interface GlobalCommunicationsSitesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCapabilityNext operation. */
-export type AvailableGroundStationsListByCapabilityNextResponse = AvailableGroundStationListResult;
+/** Contains response data for the listBySubscription operation. */
+export type GlobalCommunicationsSitesListBySubscriptionResponse =
+  GlobalCommunicationsSiteListResult;
 
 /** Optional parameters. */
-export interface OperationsResultsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+export interface GlobalCommunicationsSitesGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type OperationsResultsGetResponse = OperationResult;
+export type GlobalCommunicationsSitesGetResponse = GlobalCommunicationsSite;
+
+/** Optional parameters. */
+export interface GlobalCommunicationsSitesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type GlobalCommunicationsSitesListBySubscriptionNextResponse =
+  GlobalCommunicationsSiteListResult;
 
 /** Optional parameters. */
 export interface AzureOrbitalOptionalParams
@@ -1415,6 +966,8 @@ export interface AzureOrbitalOptionalParams
   $host?: string;
   /** Api Version */
   apiVersion?: string;
+  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
+  skiptoken?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

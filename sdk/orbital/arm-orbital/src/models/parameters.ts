@@ -9,14 +9,13 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Spacecraft as SpacecraftMapper,
+  GroundStation as GroundStationMapper,
   TagsObject as TagsObjectMapper,
-  ContactParameters as ContactParametersMapper,
-  Contact as ContactMapper,
-  ContactProfile as ContactProfileMapper
+  EdgeSite as EdgeSiteMapper,
+  L2Connection as L2ConnectionMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +25,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,46 +36,43 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01",
+    defaultValue: "2024-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const skiptoken: OperationQueryParameter = {
-  parameterPath: ["options", "skiptoken"],
+  parameterPath: "skiptoken",
   mapper: {
     serializedName: "$skiptoken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -84,25 +80,30 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const spacecraftName: OperationURLParameter = {
-  parameterPath: "spacecraftName",
+export const groundStationName: OperationURLParameter = {
+  parameterPath: "groundStationName",
   mapper: {
-    serializedName: "spacecraftName",
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9-_]+$"),
+      MaxLength: 64,
+      MinLength: 2,
+    },
+    serializedName: "groundStationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -112,74 +113,59 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const tags: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: SpacecraftMapper
+  mapper: GroundStationMapper,
 };
 
 export const location: OperationParameter = {
   parameterPath: "location",
-  mapper: SpacecraftMapper
+  mapper: GroundStationMapper,
 };
 
-export const provisioningState: OperationParameter = {
-  parameterPath: ["options", "provisioningState"],
-  mapper: SpacecraftMapper
+export const city: OperationParameter = {
+  parameterPath: ["options", "city"],
+  mapper: GroundStationMapper,
 };
 
-export const noradId: OperationParameter = {
-  parameterPath: ["options", "noradId"],
-  mapper: SpacecraftMapper
+export const capabilities: OperationParameter = {
+  parameterPath: ["options", "capabilities"],
+  mapper: GroundStationMapper,
 };
 
-export const titleLine: OperationParameter = {
-  parameterPath: "titleLine",
-  mapper: SpacecraftMapper
+export const providerName: OperationParameter = {
+  parameterPath: ["options", "providerName"],
+  mapper: GroundStationMapper,
 };
 
-export const tleLine1: OperationParameter = {
-  parameterPath: "tleLine1",
-  mapper: SpacecraftMapper
+export const longitudeDegrees: OperationParameter = {
+  parameterPath: ["options", "longitudeDegrees"],
+  mapper: GroundStationMapper,
 };
 
-export const tleLine2: OperationParameter = {
-  parameterPath: "tleLine2",
-  mapper: SpacecraftMapper
+export const latitudeDegrees: OperationParameter = {
+  parameterPath: ["options", "latitudeDegrees"],
+  mapper: GroundStationMapper,
 };
 
-export const links: OperationParameter = {
-  parameterPath: "links",
-  mapper: SpacecraftMapper
+export const altitudeMeters: OperationParameter = {
+  parameterPath: ["options", "altitudeMeters"],
+  mapper: GroundStationMapper,
+};
+
+export const id: OperationParameter = {
+  parameterPath: ["options", "id"],
+  mapper: GroundStationMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TagsObjectMapper
-};
-
-export const contactProfile: OperationParameter = {
-  parameterPath: "contactProfile",
-  mapper: ContactParametersMapper
-};
-
-export const groundStationName: OperationParameter = {
-  parameterPath: "groundStationName",
-  mapper: ContactParametersMapper
-};
-
-export const startTime: OperationParameter = {
-  parameterPath: "startTime",
-  mapper: ContactParametersMapper
-};
-
-export const endTime: OperationParameter = {
-  parameterPath: "endTime",
-  mapper: ContactParametersMapper
+  mapper: TagsObjectMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -188,124 +174,107 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
-export const contactName: OperationURLParameter = {
-  parameterPath: "contactName",
+export const edgeSiteName: OperationURLParameter = {
+  parameterPath: "edgeSiteName",
   mapper: {
-    serializedName: "contactName",
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9-_]+$"),
+      MaxLength: 64,
+      MinLength: 2,
+    },
+    serializedName: "edgeSiteName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ContactMapper
-};
-
-export const contactProfileName: OperationURLParameter = {
-  parameterPath: "contactProfileName",
-  mapper: {
-    serializedName: "contactProfileName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const tags1: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: ContactProfileMapper
+  mapper: EdgeSiteMapper,
 };
 
 export const location1: OperationParameter = {
   parameterPath: "location",
-  mapper: ContactProfileMapper
+  mapper: EdgeSiteMapper,
 };
 
-export const provisioningState1: OperationParameter = {
-  parameterPath: ["options", "provisioningState"],
-  mapper: ContactProfileMapper
+export const id1: OperationParameter = {
+  parameterPath: "id",
+  mapper: EdgeSiteMapper,
 };
 
-export const minimumViableContactDuration: OperationParameter = {
-  parameterPath: ["options", "minimumViableContactDuration"],
-  mapper: ContactProfileMapper
-};
-
-export const minimumElevationDegrees: OperationParameter = {
-  parameterPath: ["options", "minimumElevationDegrees"],
-  mapper: ContactProfileMapper
-};
-
-export const autoTrackingConfiguration: OperationParameter = {
-  parameterPath: ["options", "autoTrackingConfiguration"],
-  mapper: ContactProfileMapper
-};
-
-export const eventHubUri: OperationParameter = {
-  parameterPath: ["options", "eventHubUri"],
-  mapper: ContactProfileMapper
-};
-
-export const networkConfiguration: OperationParameter = {
-  parameterPath: "networkConfiguration",
-  mapper: ContactProfileMapper
-};
-
-export const thirdPartyConfigurations: OperationParameter = {
-  parameterPath: ["options", "thirdPartyConfigurations"],
-  mapper: ContactProfileMapper
-};
-
-export const links1: OperationParameter = {
-  parameterPath: "links",
-  mapper: ContactProfileMapper
-};
-
-export const capability: OperationQueryParameter = {
-  parameterPath: "capability",
+export const l2ConnectionName: OperationURLParameter = {
+  parameterPath: "l2ConnectionName",
   mapper: {
-    serializedName: "capability",
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9-_]+$"),
+      MaxLength: 64,
+      MinLength: 2,
+    },
+    serializedName: "l2ConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const location2: OperationURLParameter = {
+export const tags2: OperationParameter = {
+  parameterPath: ["options", "tags"],
+  mapper: L2ConnectionMapper,
+};
+
+export const location2: OperationParameter = {
   parameterPath: "location",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: L2ConnectionMapper,
 };
 
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
+export const vlanId: OperationParameter = {
+  parameterPath: "vlanId",
+  mapper: L2ConnectionMapper,
+};
+
+export const name: OperationParameter = {
+  parameterPath: "name",
+  mapper: L2ConnectionMapper,
+};
+
+export const id2: OperationParameter = {
+  parameterPath: "id",
+  mapper: L2ConnectionMapper,
+};
+
+export const l2ConnectionsPropertiesEdgeSitePartnerRouterName: OperationParameter =
+  {
+    parameterPath: "l2ConnectionsPropertiesEdgeSitePartnerRouterName",
+    mapper: L2ConnectionMapper,
+  };
+
+export const l2ConnectionsPropertiesEdgeSiteId: OperationParameter = {
+  parameterPath: "l2ConnectionsPropertiesEdgeSiteId",
+  mapper: L2ConnectionMapper,
+};
+
+export const globalCommunicationsSiteName: OperationURLParameter = {
+  parameterPath: "globalCommunicationsSiteName",
   mapper: {
     constraints: {
-      MinLength: 1
+      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9-_]+$"),
+      MaxLength: 64,
+      MinLength: 2,
     },
-    serializedName: "operationId",
+    serializedName: "globalCommunicationsSiteName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
