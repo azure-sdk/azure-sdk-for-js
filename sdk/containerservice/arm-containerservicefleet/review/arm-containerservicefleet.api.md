@@ -13,6 +13,19 @@ import { SimplePollerLike } from '@azure/core-lro';
 // @public
 export type ActionType = string;
 
+// @public
+export interface AgentProfile {
+    subnetId?: string;
+    vmSize?: string;
+}
+
+// @public
+export interface APIServerAccessProfile {
+    enablePrivateCluster?: boolean;
+    enableVnetIntegration?: boolean;
+    subnetId?: string;
+}
+
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -67,6 +80,7 @@ export interface ErrorResponse {
 // @public
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
+    hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: FleetProvisioningState;
 }
@@ -80,6 +94,16 @@ export interface FleetCredentialResult {
 // @public
 export interface FleetCredentialResults {
     readonly kubeconfigs?: FleetCredentialResult[];
+}
+
+// @public
+export interface FleetHubProfile {
+    agentProfile?: AgentProfile;
+    apiServerAccessProfile?: APIServerAccessProfile;
+    dnsPrefix?: string;
+    readonly fqdn?: string;
+    readonly kubernetesVersion?: string;
+    readonly portalFqdn?: string;
 }
 
 // @public
@@ -447,6 +471,14 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownTargetType {
+    AfterStageWait = "AfterStageWait",
+    Group = "Group",
+    Member = "Member",
+    Stage = "Stage"
+}
+
+// @public
 export enum KnownUpdateRunProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -577,6 +609,17 @@ export interface Resource {
 }
 
 // @public
+export interface SkipProperties {
+    targets: SkipTarget[];
+}
+
+// @public
+export interface SkipTarget {
+    name: string;
+    type: TargetType;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -585,6 +628,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TargetType = string;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -637,6 +683,7 @@ export interface UpdateRuns {
     beginStopAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<UpdateRunsStopResponse>;
     get(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsGetOptionalParams): Promise<UpdateRunsGetResponse>;
     listByFleet(resourceGroupName: string, fleetName: string, options?: UpdateRunsListByFleetOptionalParams): PagedAsyncIterableIterator<UpdateRun>;
+    skip(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<UpdateRunsSkipResponse>;
 }
 
 // @public
@@ -688,6 +735,14 @@ export interface UpdateRunsListByFleetOptionalParams extends coreClient.Operatio
 
 // @public
 export type UpdateRunsListByFleetResponse = UpdateRunListResult;
+
+// @public
+export interface UpdateRunsSkipOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpdateRunsSkipResponse = UpdateRun;
 
 // @public
 export interface UpdateRunsStartHeaders {
