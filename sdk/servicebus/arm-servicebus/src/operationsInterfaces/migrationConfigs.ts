@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MigrationConfigProperties,
   MigrationConfigsListOptionalParams,
@@ -18,7 +18,7 @@ import {
   MigrationConfigsGetOptionalParams,
   MigrationConfigsGetResponse,
   MigrationConfigsCompleteMigrationOptionalParams,
-  MigrationConfigsRevertOptionalParams
+  MigrationConfigsRevertOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface MigrationConfigs {
   list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
+    options?: MigrationConfigsListOptionalParams,
   ): PagedAsyncIterableIterator<MigrationConfigProperties>;
   /**
    * Creates Migration configuration and starts migration of entities from Standard to Premium namespace
@@ -48,10 +48,10 @@ export interface MigrationConfigs {
     namespaceName: string,
     configName: MigrationConfigurationName,
     parameters: MigrationConfigProperties,
-    options?: MigrationConfigsCreateAndStartMigrationOptionalParams
+    options?: MigrationConfigsCreateAndStartMigrationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>,
+    SimplePollerLike<
+      OperationState<MigrationConfigsCreateAndStartMigrationResponse>,
       MigrationConfigsCreateAndStartMigrationResponse
     >
   >;
@@ -68,7 +68,7 @@ export interface MigrationConfigs {
     namespaceName: string,
     configName: MigrationConfigurationName,
     parameters: MigrationConfigProperties,
-    options?: MigrationConfigsCreateAndStartMigrationOptionalParams
+    options?: MigrationConfigsCreateAndStartMigrationOptionalParams,
   ): Promise<MigrationConfigsCreateAndStartMigrationResponse>;
   /**
    * Deletes a MigrationConfiguration
@@ -81,7 +81,7 @@ export interface MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsDeleteOptionalParams
+    options?: MigrationConfigsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves Migration Config
@@ -94,7 +94,7 @@ export interface MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsGetOptionalParams
+    options?: MigrationConfigsGetOptionalParams,
   ): Promise<MigrationConfigsGetResponse>;
   /**
    * This operation Completes Migration of entities by pointing the connection strings to Premium
@@ -109,7 +109,7 @@ export interface MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsCompleteMigrationOptionalParams
+    options?: MigrationConfigsCompleteMigrationOptionalParams,
   ): Promise<void>;
   /**
    * This operation reverts Migration
@@ -122,6 +122,6 @@ export interface MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsRevertOptionalParams
+    options?: MigrationConfigsRevertOptionalParams,
   ): Promise<void>;
 }

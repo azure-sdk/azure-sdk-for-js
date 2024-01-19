@@ -14,7 +14,7 @@ import {
   RulesCreateOrUpdateResponse,
   RulesDeleteOptionalParams,
   RulesGetOptionalParams,
-  RulesGetResponse
+  RulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Rules {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: RulesListBySubscriptionsOptionalParams
+    options?: RulesListBySubscriptionsOptionalParams,
   ): PagedAsyncIterableIterator<Rule>;
   /**
    * Creates a new rule and updates an existing rule
@@ -52,7 +52,7 @@ export interface Rules {
     subscriptionName: string,
     ruleName: string,
     parameters: Rule,
-    options?: RulesCreateOrUpdateOptionalParams
+    options?: RulesCreateOrUpdateOptionalParams,
   ): Promise<RulesCreateOrUpdateResponse>;
   /**
    * Deletes an existing rule.
@@ -69,7 +69,7 @@ export interface Rules {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    options?: RulesDeleteOptionalParams
+    options?: RulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves the description for the specified rule.
@@ -86,6 +86,6 @@ export interface Rules {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    options?: RulesGetOptionalParams
+    options?: RulesGetOptionalParams,
   ): Promise<RulesGetResponse>;
 }
