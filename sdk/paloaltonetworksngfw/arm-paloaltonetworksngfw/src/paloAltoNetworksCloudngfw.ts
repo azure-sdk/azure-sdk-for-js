@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -28,7 +28,7 @@ import {
   CertificateObjectLocalRulestackImpl,
   FqdnListLocalRulestackImpl,
   LocalRulesImpl,
-  PrefixListLocalRulestackImpl
+  PrefixListLocalRulestackImpl,
 } from "./operations";
 import {
   GlobalRulestack,
@@ -44,7 +44,7 @@ import {
   CertificateObjectLocalRulestack,
   FqdnListLocalRulestack,
   LocalRules,
-  PrefixListLocalRulestack
+  PrefixListLocalRulestack,
 } from "./operationsInterfaces";
 import { PaloAltoNetworksCloudngfwOptionalParams } from "./models";
 
@@ -62,16 +62,16 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: PaloAltoNetworksCloudngfwOptionalParams
+    options?: PaloAltoNetworksCloudngfwOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: PaloAltoNetworksCloudngfwOptionalParams
+    options?: PaloAltoNetworksCloudngfwOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: PaloAltoNetworksCloudngfwOptionalParams | string,
-    options?: PaloAltoNetworksCloudngfwOptionalParams
+    options?: PaloAltoNetworksCloudngfwOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -91,7 +91,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     }
     const defaults: PaloAltoNetworksCloudngfwOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/1.1.1`;
@@ -104,20 +104,21 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -127,7 +128,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -137,9 +138,9 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -149,9 +150,8 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2023-09-01";
     this.globalRulestack = new GlobalRulestackImpl(this);
-    this.certificateObjectGlobalRulestack = new CertificateObjectGlobalRulestackImpl(
-      this
-    );
+    this.certificateObjectGlobalRulestack =
+      new CertificateObjectGlobalRulestackImpl(this);
     this.fqdnListGlobalRulestack = new FqdnListGlobalRulestackImpl(this);
     this.postRules = new PostRulesImpl(this);
     this.prefixListGlobalRulestack = new PrefixListGlobalRulestackImpl(this);
@@ -160,9 +160,8 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     this.firewalls = new FirewallsImpl(this);
     this.localRulestacks = new LocalRulestacksImpl(this);
     this.firewallStatus = new FirewallStatusImpl(this);
-    this.certificateObjectLocalRulestack = new CertificateObjectLocalRulestackImpl(
-      this
-    );
+    this.certificateObjectLocalRulestack =
+      new CertificateObjectLocalRulestackImpl(this);
     this.fqdnListLocalRulestack = new FqdnListLocalRulestackImpl(this);
     this.localRules = new LocalRulesImpl(this);
     this.prefixListLocalRulestack = new PrefixListLocalRulestackImpl(this);
@@ -178,7 +177,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -192,7 +191,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

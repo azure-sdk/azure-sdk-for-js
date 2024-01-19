@@ -15,7 +15,7 @@ import {
   CertificateObjectGlobalRulestackGetResponse,
   CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams,
   CertificateObjectGlobalRulestackCreateOrUpdateResponse,
-  CertificateObjectGlobalRulestackDeleteOptionalParams
+  CertificateObjectGlobalRulestackDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface CertificateObjectGlobalRulestack {
    */
   list(
     globalRulestackName: string,
-    options?: CertificateObjectGlobalRulestackListOptionalParams
+    options?: CertificateObjectGlobalRulestackListOptionalParams,
   ): PagedAsyncIterableIterator<CertificateObjectGlobalRulestackResource>;
   /**
    * Get a CertificateObjectGlobalRulestackResource
@@ -39,7 +39,7 @@ export interface CertificateObjectGlobalRulestack {
   get(
     globalRulestackName: string,
     name: string,
-    options?: CertificateObjectGlobalRulestackGetOptionalParams
+    options?: CertificateObjectGlobalRulestackGetOptionalParams,
   ): Promise<CertificateObjectGlobalRulestackGetResponse>;
   /**
    * Create a CertificateObjectGlobalRulestackResource
@@ -52,7 +52,7 @@ export interface CertificateObjectGlobalRulestack {
     globalRulestackName: string,
     name: string,
     resource: CertificateObjectGlobalRulestackResource,
-    options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams
+    options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CertificateObjectGlobalRulestackCreateOrUpdateResponse>,
@@ -70,7 +70,7 @@ export interface CertificateObjectGlobalRulestack {
     globalRulestackName: string,
     name: string,
     resource: CertificateObjectGlobalRulestackResource,
-    options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams
+    options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<CertificateObjectGlobalRulestackCreateOrUpdateResponse>;
   /**
    * Delete a CertificateObjectGlobalRulestackResource
@@ -81,7 +81,7 @@ export interface CertificateObjectGlobalRulestack {
   beginDelete(
     globalRulestackName: string,
     name: string,
-    options?: CertificateObjectGlobalRulestackDeleteOptionalParams
+    options?: CertificateObjectGlobalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a CertificateObjectGlobalRulestackResource
@@ -92,6 +92,6 @@ export interface CertificateObjectGlobalRulestack {
   beginDeleteAndWait(
     globalRulestackName: string,
     name: string,
-    options?: CertificateObjectGlobalRulestackDeleteOptionalParams
+    options?: CertificateObjectGlobalRulestackDeleteOptionalParams,
   ): Promise<void>;
 }

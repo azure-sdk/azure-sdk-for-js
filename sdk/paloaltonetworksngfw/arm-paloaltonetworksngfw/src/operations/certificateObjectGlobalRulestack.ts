@@ -16,7 +16,7 @@ import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams,
   CertificateObjectGlobalRulestackCreateOrUpdateResponse,
   CertificateObjectGlobalRulestackDeleteOptionalParams,
-  CertificateObjectGlobalRulestackListNextResponse
+  CertificateObjectGlobalRulestackListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CertificateObjectGlobalRulestack operations. */
 export class CertificateObjectGlobalRulestackImpl
-  implements CertificateObjectGlobalRulestack {
+  implements CertificateObjectGlobalRulestack
+{
   private readonly client: PaloAltoNetworksCloudngfw;
 
   /**
@@ -53,7 +54,7 @@ export class CertificateObjectGlobalRulestackImpl
    */
   public list(
     globalRulestackName: string,
-    options?: CertificateObjectGlobalRulestackListOptionalParams
+    options?: CertificateObjectGlobalRulestackListOptionalParams,
   ): PagedAsyncIterableIterator<CertificateObjectGlobalRulestackResource> {
     const iter = this.listPagingAll(globalRulestackName, options);
     return {
@@ -68,14 +69,14 @@ export class CertificateObjectGlobalRulestackImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(globalRulestackName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     globalRulestackName: string,
     options?: CertificateObjectGlobalRulestackListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CertificateObjectGlobalRulestackResource[]> {
     let result: CertificateObjectGlobalRulestackListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +91,7 @@ export class CertificateObjectGlobalRulestackImpl
       result = await this._listNext(
         globalRulestackName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,11 +102,11 @@ export class CertificateObjectGlobalRulestackImpl
 
   private async *listPagingAll(
     globalRulestackName: string,
-    options?: CertificateObjectGlobalRulestackListOptionalParams
+    options?: CertificateObjectGlobalRulestackListOptionalParams,
   ): AsyncIterableIterator<CertificateObjectGlobalRulestackResource> {
     for await (const page of this.listPagingPage(
       globalRulestackName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,11 +119,11 @@ export class CertificateObjectGlobalRulestackImpl
    */
   private _list(
     globalRulestackName: string,
-    options?: CertificateObjectGlobalRulestackListOptionalParams
+    options?: CertificateObjectGlobalRulestackListOptionalParams,
   ): Promise<CertificateObjectGlobalRulestackListResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -135,11 +136,11 @@ export class CertificateObjectGlobalRulestackImpl
   get(
     globalRulestackName: string,
     name: string,
-    options?: CertificateObjectGlobalRulestackGetOptionalParams
+    options?: CertificateObjectGlobalRulestackGetOptionalParams,
   ): Promise<CertificateObjectGlobalRulestackGetResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -154,7 +155,7 @@ export class CertificateObjectGlobalRulestackImpl
     globalRulestackName: string,
     name: string,
     resource: CertificateObjectGlobalRulestackResource,
-    options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams
+    options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CertificateObjectGlobalRulestackCreateOrUpdateResponse>,
@@ -163,21 +164,20 @@ export class CertificateObjectGlobalRulestackImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CertificateObjectGlobalRulestackCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -186,8 +186,8 @@ export class CertificateObjectGlobalRulestackImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -195,15 +195,15 @@ export class CertificateObjectGlobalRulestackImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, name, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       CertificateObjectGlobalRulestackCreateOrUpdateResponse,
@@ -211,7 +211,7 @@ export class CertificateObjectGlobalRulestackImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -228,13 +228,13 @@ export class CertificateObjectGlobalRulestackImpl
     globalRulestackName: string,
     name: string,
     resource: CertificateObjectGlobalRulestackResource,
-    options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams
+    options?: CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<CertificateObjectGlobalRulestackCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       globalRulestackName,
       name,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -248,25 +248,24 @@ export class CertificateObjectGlobalRulestackImpl
   async beginDelete(
     globalRulestackName: string,
     name: string,
-    options?: CertificateObjectGlobalRulestackDeleteOptionalParams
+    options?: CertificateObjectGlobalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -275,8 +274,8 @@ export class CertificateObjectGlobalRulestackImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -284,20 +283,20 @@ export class CertificateObjectGlobalRulestackImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { globalRulestackName, name, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -312,7 +311,7 @@ export class CertificateObjectGlobalRulestackImpl
   async beginDeleteAndWait(
     globalRulestackName: string,
     name: string,
-    options?: CertificateObjectGlobalRulestackDeleteOptionalParams
+    options?: CertificateObjectGlobalRulestackDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(globalRulestackName, name, options);
     return poller.pollUntilDone();
@@ -327,11 +326,11 @@ export class CertificateObjectGlobalRulestackImpl
   private _listNext(
     globalRulestackName: string,
     nextLink: string,
-    options?: CertificateObjectGlobalRulestackListNextOptionalParams
+    options?: CertificateObjectGlobalRulestackListNextOptionalParams,
   ): Promise<CertificateObjectGlobalRulestackListNextResponse> {
     return this.client.sendOperationRequest(
       { globalRulestackName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -339,78 +338,74 @@ export class CertificateObjectGlobalRulestackImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/certificates",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateObjectGlobalRulestackResourceListResult
+      bodyMapper: Mappers.CertificateObjectGlobalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.globalRulestackName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/certificates/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/certificates/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource
+      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/certificates/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/certificates/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource
+      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource,
     },
     201: {
-      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource
+      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource,
     },
     202: {
-      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource
+      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource,
     },
     204: {
-      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource
+      bodyMapper: Mappers.CertificateObjectGlobalRulestackResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/certificates/{name}",
+  path: "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/certificates/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -418,34 +413,34 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateObjectGlobalRulestackResourceListResult
+      bodyMapper: Mappers.CertificateObjectGlobalRulestackResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.globalRulestackName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
