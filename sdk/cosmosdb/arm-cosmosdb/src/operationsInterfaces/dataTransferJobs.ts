@@ -20,7 +20,7 @@ import {
   DataTransferJobsResumeOptionalParams,
   DataTransferJobsResumeResponse,
   DataTransferJobsCancelOptionalParams,
-  DataTransferJobsCancelResponse
+  DataTransferJobsCancelResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface DataTransferJobs {
   listByDatabaseAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: DataTransferJobsListByDatabaseAccountOptionalParams
+    options?: DataTransferJobsListByDatabaseAccountOptionalParams,
   ): PagedAsyncIterableIterator<DataTransferJobGetResults>;
   /**
    * Creates a Data Transfer Job.
@@ -50,7 +50,7 @@ export interface DataTransferJobs {
     accountName: string,
     jobName: string,
     jobCreateParameters: CreateJobRequest,
-    options?: DataTransferJobsCreateOptionalParams
+    options?: DataTransferJobsCreateOptionalParams,
   ): Promise<DataTransferJobsCreateResponse>;
   /**
    * Get a Data Transfer Job.
@@ -63,7 +63,7 @@ export interface DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     jobName: string,
-    options?: DataTransferJobsGetOptionalParams
+    options?: DataTransferJobsGetOptionalParams,
   ): Promise<DataTransferJobsGetResponse>;
   /**
    * Pause a Data Transfer Job.
@@ -76,7 +76,7 @@ export interface DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     jobName: string,
-    options?: DataTransferJobsPauseOptionalParams
+    options?: DataTransferJobsPauseOptionalParams,
   ): Promise<DataTransferJobsPauseResponse>;
   /**
    * Resumes a Data Transfer Job.
@@ -89,7 +89,7 @@ export interface DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     jobName: string,
-    options?: DataTransferJobsResumeOptionalParams
+    options?: DataTransferJobsResumeOptionalParams,
   ): Promise<DataTransferJobsResumeResponse>;
   /**
    * Cancels a Data Transfer Job.
@@ -102,6 +102,6 @@ export interface DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     jobName: string,
-    options?: DataTransferJobsCancelOptionalParams
+    options?: DataTransferJobsCancelOptionalParams,
   ): Promise<DataTransferJobsCancelResponse>;
 }
