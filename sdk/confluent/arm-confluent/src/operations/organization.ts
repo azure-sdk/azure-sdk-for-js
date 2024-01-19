@@ -16,7 +16,7 @@ import { ConfluentManagementClient } from "../confluentManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,7 +35,7 @@ import {
   OrganizationUpdateResponse,
   OrganizationDeleteOptionalParams,
   OrganizationListBySubscriptionNextResponse,
-  OrganizationListByResourceGroupNextResponse
+  OrganizationListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class OrganizationImpl implements Organization {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: OrganizationListBySubscriptionOptionalParams
+    options?: OrganizationListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -71,13 +71,13 @@ export class OrganizationImpl implements Organization {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: OrganizationListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OrganizationResource[]> {
     let result: OrganizationListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class OrganizationImpl implements Organization {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: OrganizationListBySubscriptionOptionalParams
+    options?: OrganizationListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<OrganizationResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -112,7 +112,7 @@ export class OrganizationImpl implements Organization {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: OrganizationListByResourceGroupOptionalParams
+    options?: OrganizationListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +129,16 @@ export class OrganizationImpl implements Organization {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: OrganizationListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OrganizationResource[]> {
     let result: OrganizationListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +153,7 @@ export class OrganizationImpl implements Organization {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,11 +164,11 @@ export class OrganizationImpl implements Organization {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: OrganizationListByResourceGroupOptionalParams
+    options?: OrganizationListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<OrganizationResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -179,11 +179,11 @@ export class OrganizationImpl implements Organization {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: OrganizationListBySubscriptionOptionalParams
+    options?: OrganizationListBySubscriptionOptionalParams,
   ): Promise<OrganizationListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -194,11 +194,11 @@ export class OrganizationImpl implements Organization {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: OrganizationListByResourceGroupOptionalParams
+    options?: OrganizationListByResourceGroupOptionalParams,
   ): Promise<OrganizationListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -211,11 +211,11 @@ export class OrganizationImpl implements Organization {
   get(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationGetOptionalParams
+    options?: OrganizationGetOptionalParams,
   ): Promise<OrganizationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -228,7 +228,7 @@ export class OrganizationImpl implements Organization {
   async beginCreate(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationCreateOptionalParams
+    options?: OrganizationCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OrganizationCreateResponse>,
@@ -237,21 +237,20 @@ export class OrganizationImpl implements Organization {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OrganizationCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -260,8 +259,8 @@ export class OrganizationImpl implements Organization {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -269,15 +268,15 @@ export class OrganizationImpl implements Organization {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, organizationName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       OrganizationCreateResponse,
@@ -285,7 +284,7 @@ export class OrganizationImpl implements Organization {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -300,12 +299,12 @@ export class OrganizationImpl implements Organization {
   async beginCreateAndWait(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationCreateOptionalParams
+    options?: OrganizationCreateOptionalParams,
   ): Promise<OrganizationCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       organizationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -319,11 +318,11 @@ export class OrganizationImpl implements Organization {
   update(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationUpdateOptionalParams
+    options?: OrganizationUpdateOptionalParams,
   ): Promise<OrganizationUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -336,25 +335,24 @@ export class OrganizationImpl implements Organization {
   async beginDelete(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationDeleteOptionalParams
+    options?: OrganizationDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -363,8 +361,8 @@ export class OrganizationImpl implements Organization {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -372,20 +370,20 @@ export class OrganizationImpl implements Organization {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, organizationName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -400,12 +398,12 @@ export class OrganizationImpl implements Organization {
   async beginDeleteAndWait(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationDeleteOptionalParams
+    options?: OrganizationDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       organizationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -417,11 +415,11 @@ export class OrganizationImpl implements Organization {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: OrganizationListBySubscriptionNextOptionalParams
+    options?: OrganizationListBySubscriptionNextOptionalParams,
   ): Promise<OrganizationListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -434,11 +432,11 @@ export class OrganizationImpl implements Organization {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: OrganizationListByResourceGroupNextOptionalParams
+    options?: OrganizationListByResourceGroupNextOptionalParams,
   ): Promise<OrganizationListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -446,85 +444,81 @@ export class OrganizationImpl implements Organization {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/organizations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/organizations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResourceListResult
+      bodyMapper: Mappers.OrganizationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResourceListResult
+      bodyMapper: Mappers.OrganizationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OrganizationResource,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.organizationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     201: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     202: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     204: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -532,23 +526,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -556,15 +549,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -572,55 +564,55 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResourceListResult
+      bodyMapper: Mappers.OrganizationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResourceListResult
+      bodyMapper: Mappers.OrganizationResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

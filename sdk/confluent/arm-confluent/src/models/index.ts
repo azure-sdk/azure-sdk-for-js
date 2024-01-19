@@ -385,13 +385,13 @@ export interface AccessInvitedUserDetails {
   authType?: string;
 }
 
-/** List environments success response */
+/** Details of the environments returned on successful response */
 export interface AccessListEnvironmentsSuccessResponse {
   /** Type of response */
   kind?: string;
-  /** Metadata of the list */
+  /** Metadata of the  environment list */
   metadata?: ConfluentListMetadata;
-  /** Data of the environments list */
+  /** Environment list data */
   data?: EnvironmentRecord[];
 }
 
@@ -407,21 +407,21 @@ export interface EnvironmentRecord {
   displayName?: string;
 }
 
-/** List cluster success response */
+/** Details of the clusters returned on successful response */
 export interface AccessListClusterSuccessResponse {
   /** Type of response */
   kind?: string;
   /** Metadata of the list */
   metadata?: ConfluentListMetadata;
-  /** Data of the environments list */
+  /** List of clusters */
   data?: ClusterRecord[];
 }
 
-/** Record of the environment */
+/** Details of cluster record */
 export interface ClusterRecord {
-  /** Type of environment */
+  /** Type of cluster */
   kind?: string;
-  /** Id of the environment */
+  /** Id of the cluster */
   id?: string;
   /** Metadata of the record */
   metadata?: MetadataEntity;
@@ -509,21 +509,21 @@ export interface ClusterStatusEntity {
   cku?: number;
 }
 
-/** List cluster success response */
+/** Details of the role bindings returned on successful response */
 export interface AccessListRoleBindingsSuccessResponse {
   /** Type of response */
   kind?: string;
   /** Metadata of the list */
   metadata?: ConfluentListMetadata;
-  /** Data of the environments list */
+  /** List of role binding */
   data?: RoleBindingRecord[];
 }
 
-/** Record of the environment */
+/** Details on principal, role name and crn pattern of a role binding */
 export interface RoleBindingRecord {
   /** The type of the resource. */
   kind?: string;
-  /** Id of the role */
+  /** Id of the role binding */
   id?: string;
   /** Metadata of the record */
   metadata?: MetadataEntity;
@@ -535,6 +535,26 @@ export interface RoleBindingRecord {
   crnPattern?: string;
 }
 
+/** Create role binding request model */
+export interface AccessCreateRoleBindingRequestModel {
+  /** The principal User or Group to bind the role to */
+  principal?: string;
+  /** The name of the role to bind to the principal */
+  roleName?: string;
+  /** A CRN that specifies the scope and resource patterns necessary for the role to bind */
+  crnPattern?: string;
+}
+
+/** Details of the role binding names returned on successful response */
+export interface AccessRoleBindingNameListSuccessResponse {
+  /** Type of response */
+  kind?: string;
+  /** Metadata of the list */
+  metadata?: ConfluentListMetadata;
+  /** List of role binding names */
+  data?: string[];
+}
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -544,7 +564,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -578,7 +598,7 @@ export enum KnownProvisionState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -619,7 +639,7 @@ export enum KnownSaaSOfferStatus {
   /** Unsubscribed */
   Unsubscribed = "Unsubscribed",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -645,7 +665,8 @@ export interface MarketplaceAgreementsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListResponse;
+export type MarketplaceAgreementsListResponse =
+  ConfluentAgreementResourceListResponse;
 
 /** Optional parameters. */
 export interface MarketplaceAgreementsCreateOptionalParams
@@ -662,7 +683,8 @@ export interface MarketplaceAgreementsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type MarketplaceAgreementsListNextResponse = ConfluentAgreementResourceListResponse;
+export type MarketplaceAgreementsListNextResponse =
+  ConfluentAgreementResourceListResponse;
 
 /** Optional parameters. */
 export interface OrganizationOperationsListOptionalParams
@@ -683,14 +705,16 @@ export interface OrganizationListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type OrganizationListBySubscriptionResponse = OrganizationResourceListResult;
+export type OrganizationListBySubscriptionResponse =
+  OrganizationResourceListResult;
 
 /** Optional parameters. */
 export interface OrganizationListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type OrganizationListByResourceGroupResponse = OrganizationResourceListResult;
+export type OrganizationListByResourceGroupResponse =
+  OrganizationResourceListResult;
 
 /** Optional parameters. */
 export interface OrganizationGetOptionalParams
@@ -737,14 +761,16 @@ export interface OrganizationListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type OrganizationListBySubscriptionNextResponse = OrganizationResourceListResult;
+export type OrganizationListBySubscriptionNextResponse =
+  OrganizationResourceListResult;
 
 /** Optional parameters. */
 export interface OrganizationListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type OrganizationListByResourceGroupNextResponse = OrganizationResourceListResult;
+export type OrganizationListByResourceGroupNextResponse =
+  OrganizationResourceListResult;
 
 /** Optional parameters. */
 export interface ValidationsValidateOrganizationOptionalParams
@@ -772,14 +798,16 @@ export interface AccessListServiceAccountsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listServiceAccounts operation. */
-export type AccessListServiceAccountsResponse = AccessListServiceAccountsSuccessResponse;
+export type AccessListServiceAccountsResponse =
+  AccessListServiceAccountsSuccessResponse;
 
 /** Optional parameters. */
 export interface AccessListInvitationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInvitations operation. */
-export type AccessListInvitationsResponse = AccessListInvitationsSuccessResponse;
+export type AccessListInvitationsResponse =
+  AccessListInvitationsSuccessResponse;
 
 /** Optional parameters. */
 export interface AccessInviteUserOptionalParams
@@ -793,7 +821,8 @@ export interface AccessListEnvironmentsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEnvironments operation. */
-export type AccessListEnvironmentsResponse = AccessListEnvironmentsSuccessResponse;
+export type AccessListEnvironmentsResponse =
+  AccessListEnvironmentsSuccessResponse;
 
 /** Optional parameters. */
 export interface AccessListClustersOptionalParams
@@ -807,7 +836,27 @@ export interface AccessListRoleBindingsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRoleBindings operation. */
-export type AccessListRoleBindingsResponse = AccessListRoleBindingsSuccessResponse;
+export type AccessListRoleBindingsResponse =
+  AccessListRoleBindingsSuccessResponse;
+
+/** Optional parameters. */
+export interface AccessCreateRoleBindingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createRoleBinding operation. */
+export type AccessCreateRoleBindingResponse = RoleBindingRecord;
+
+/** Optional parameters. */
+export interface AccessDeleteRoleBindingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AccessListRoleBindingNameListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRoleBindingNameList operation. */
+export type AccessListRoleBindingNameListResponse =
+  AccessRoleBindingNameListSuccessResponse;
 
 /** Optional parameters. */
 export interface ConfluentManagementClientOptionalParams

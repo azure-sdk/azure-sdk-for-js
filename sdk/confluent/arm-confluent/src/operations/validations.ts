@@ -16,7 +16,7 @@ import {
   ValidationsValidateOrganizationOptionalParams,
   ValidationsValidateOrganizationResponse,
   ValidationsValidateOrganizationV2OptionalParams,
-  ValidationsValidateOrganizationV2Response
+  ValidationsValidateOrganizationV2Response,
 } from "../models";
 
 /** Class containing Validations operations. */
@@ -42,11 +42,11 @@ export class ValidationsImpl implements Validations {
     resourceGroupName: string,
     organizationName: string,
     body: OrganizationResource,
-    options?: ValidationsValidateOrganizationOptionalParams
+    options?: ValidationsValidateOrganizationOptionalParams,
   ): Promise<ValidationsValidateOrganizationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      validateOrganizationOperationSpec
+      validateOrganizationOperationSpec,
     );
   }
 
@@ -61,11 +61,11 @@ export class ValidationsImpl implements Validations {
     resourceGroupName: string,
     organizationName: string,
     body: OrganizationResource,
-    options?: ValidationsValidateOrganizationV2OptionalParams
+    options?: ValidationsValidateOrganizationV2OptionalParams,
   ): Promise<ValidationsValidateOrganizationV2Response> {
     return this.client.sendOperationRequest(
       { resourceGroupName, organizationName, body, options },
-      validateOrganizationV2OperationSpec
+      validateOrganizationV2OperationSpec,
     );
   }
 }
@@ -73,16 +73,15 @@ export class ValidationsImpl implements Validations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const validateOrganizationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OrganizationResource
+      bodyMapper: Mappers.OrganizationResource,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
@@ -90,23 +89,22 @@ const validateOrganizationOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateOrganizationV2OperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidateV2",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidateV2",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidationResponse
+      bodyMapper: Mappers.ValidationResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
@@ -114,9 +112,9 @@ const validateOrganizationV2OperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.organizationName
+    Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

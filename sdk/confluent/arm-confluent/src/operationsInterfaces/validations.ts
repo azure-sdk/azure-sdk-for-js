@@ -11,7 +11,7 @@ import {
   ValidationsValidateOrganizationOptionalParams,
   ValidationsValidateOrganizationResponse,
   ValidationsValidateOrganizationV2OptionalParams,
-  ValidationsValidateOrganizationV2Response
+  ValidationsValidateOrganizationV2Response,
 } from "../models";
 
 /** Interface representing a Validations. */
@@ -27,7 +27,7 @@ export interface Validations {
     resourceGroupName: string,
     organizationName: string,
     body: OrganizationResource,
-    options?: ValidationsValidateOrganizationOptionalParams
+    options?: ValidationsValidateOrganizationOptionalParams,
   ): Promise<ValidationsValidateOrganizationResponse>;
   /**
    * Organization Validate proxy resource
@@ -40,6 +40,6 @@ export interface Validations {
     resourceGroupName: string,
     organizationName: string,
     body: OrganizationResource,
-    options?: ValidationsValidateOrganizationV2OptionalParams
+    options?: ValidationsValidateOrganizationV2OptionalParams,
   ): Promise<ValidationsValidateOrganizationV2Response>;
 }

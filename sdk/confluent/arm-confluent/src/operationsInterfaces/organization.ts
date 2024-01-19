@@ -18,7 +18,7 @@ import {
   OrganizationCreateResponse,
   OrganizationUpdateOptionalParams,
   OrganizationUpdateResponse,
-  OrganizationDeleteOptionalParams
+  OrganizationDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Organization {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: OrganizationListBySubscriptionOptionalParams
+    options?: OrganizationListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource>;
   /**
    * List all Organizations under the specified resource group.
@@ -38,7 +38,7 @@ export interface Organization {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: OrganizationListByResourceGroupOptionalParams
+    options?: OrganizationListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<OrganizationResource>;
   /**
    * Get the properties of a specific Organization resource.
@@ -49,7 +49,7 @@ export interface Organization {
   get(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationGetOptionalParams
+    options?: OrganizationGetOptionalParams,
   ): Promise<OrganizationGetResponse>;
   /**
    * Create Organization resource
@@ -60,7 +60,7 @@ export interface Organization {
   beginCreate(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationCreateOptionalParams
+    options?: OrganizationCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OrganizationCreateResponse>,
@@ -76,7 +76,7 @@ export interface Organization {
   beginCreateAndWait(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationCreateOptionalParams
+    options?: OrganizationCreateOptionalParams,
   ): Promise<OrganizationCreateResponse>;
   /**
    * Update Organization resource
@@ -87,7 +87,7 @@ export interface Organization {
   update(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationUpdateOptionalParams
+    options?: OrganizationUpdateOptionalParams,
   ): Promise<OrganizationUpdateResponse>;
   /**
    * Delete Organization resource
@@ -98,7 +98,7 @@ export interface Organization {
   beginDelete(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationDeleteOptionalParams
+    options?: OrganizationDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Organization resource
@@ -109,6 +109,6 @@ export interface Organization {
   beginDeleteAndWait(
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationDeleteOptionalParams
+    options?: OrganizationDeleteOptionalParams,
   ): Promise<void>;
 }

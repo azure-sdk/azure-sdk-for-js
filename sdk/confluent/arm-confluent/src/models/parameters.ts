@@ -9,14 +9,15 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ConfluentAgreementResource as ConfluentAgreementResourceMapper,
   OrganizationResource as OrganizationResourceMapper,
   OrganizationResourceUpdate as OrganizationResourceUpdateMapper,
   ListAccessRequestModel as ListAccessRequestModelMapper,
-  AccessInviteUserAccountModel as AccessInviteUserAccountModelMapper
+  AccessInviteUserAccountModel as AccessInviteUserAccountModelMapper,
+  AccessCreateRoleBindingRequestModel as AccessCreateRoleBindingRequestModelMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +27,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,22 +38,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-22",
+    defaultValue: "2024-01-19",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -61,9 +62,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -73,14 +74,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: ConfluentAgreementResourceMapper
+  mapper: ConfluentAgreementResourceMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -89,10 +90,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -100,14 +101,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const organizationName: OperationURLParameter = {
@@ -116,32 +117,48 @@ export const organizationName: OperationURLParameter = {
     serializedName: "organizationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: OrganizationResourceMapper
+  mapper: OrganizationResourceMapper,
 };
 
 export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: OrganizationResourceUpdateMapper
+  mapper: OrganizationResourceUpdateMapper,
 };
 
 export const body3: OperationParameter = {
   parameterPath: "body",
-  mapper: OrganizationResourceMapper
+  mapper: OrganizationResourceMapper,
 };
 
 export const body4: OperationParameter = {
   parameterPath: "body",
-  mapper: ListAccessRequestModelMapper
+  mapper: ListAccessRequestModelMapper,
 };
 
 export const body5: OperationParameter = {
   parameterPath: "body",
-  mapper: AccessInviteUserAccountModelMapper
+  mapper: AccessInviteUserAccountModelMapper,
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: AccessCreateRoleBindingRequestModelMapper,
+};
+
+export const roleBindingId: OperationURLParameter = {
+  parameterPath: "roleBindingId",
+  mapper: {
+    serializedName: "roleBindingId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

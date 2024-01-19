@@ -12,13 +12,34 @@ import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Access {
+    createRoleBinding(resourceGroupName: string, organizationName: string, body: AccessCreateRoleBindingRequestModel, options?: AccessCreateRoleBindingOptionalParams): Promise<AccessCreateRoleBindingResponse>;
+    deleteRoleBinding(resourceGroupName: string, organizationName: string, options?: AccessDeleteRoleBindingOptionalParams): Promise<void>;
     inviteUser(resourceGroupName: string, organizationName: string, body: AccessInviteUserAccountModel, options?: AccessInviteUserOptionalParams): Promise<AccessInviteUserResponse>;
     listClusters(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListClustersOptionalParams): Promise<AccessListClustersResponse>;
     listEnvironments(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListEnvironmentsOptionalParams): Promise<AccessListEnvironmentsResponse>;
     listInvitations(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListInvitationsOptionalParams): Promise<AccessListInvitationsResponse>;
+    listRoleBindingNameList(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListRoleBindingNameListOptionalParams): Promise<AccessListRoleBindingNameListResponse>;
     listRoleBindings(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListRoleBindingsOptionalParams): Promise<AccessListRoleBindingsResponse>;
     listServiceAccounts(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListServiceAccountsOptionalParams): Promise<AccessListServiceAccountsResponse>;
     listUsers(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListUsersOptionalParams): Promise<AccessListUsersResponse>;
+}
+
+// @public
+export interface AccessCreateRoleBindingOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccessCreateRoleBindingRequestModel {
+    crnPattern?: string;
+    principal?: string;
+    roleName?: string;
+}
+
+// @public
+export type AccessCreateRoleBindingResponse = RoleBindingRecord;
+
+// @public
+export interface AccessDeleteRoleBindingOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -85,6 +106,13 @@ export interface AccessListInvitationsSuccessResponse {
 }
 
 // @public
+export interface AccessListRoleBindingNameListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListRoleBindingNameListResponse = AccessRoleBindingNameListSuccessResponse;
+
+// @public
 export interface AccessListRoleBindingsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -122,6 +150,13 @@ export type AccessListUsersResponse = AccessListUsersSuccessResponse;
 // @public
 export interface AccessListUsersSuccessResponse {
     data?: UserRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessRoleBindingNameListSuccessResponse {
+    data?: string[];
     kind?: string;
     metadata?: ConfluentListMetadata;
 }
@@ -221,8 +256,8 @@ export interface ConfluentListMetadata {
 export class ConfluentManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ConfluentManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: ConfluentManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, roleBindingId: string, options?: ConfluentManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, roleBindingId: string, options?: ConfluentManagementClientOptionalParams);
     // (undocumented)
     access: Access;
     // (undocumented)
@@ -233,6 +268,8 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
     organization: Organization;
     // (undocumented)
     organizationOperations: OrganizationOperations;
+    // (undocumented)
+    roleBindingId: string;
     // (undocumented)
     subscriptionId?: string;
     // (undocumented)

@@ -1,15 +1,25 @@
 # Release History
+    
+## 4.0.0 (2024-01-19)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
+  - Added operation Access.createRoleBinding
+  - Added operation Access.deleteRoleBinding
+  - Added operation Access.listRoleBindingNameList
+  - Added Interface AccessCreateRoleBindingOptionalParams
+  - Added Interface AccessCreateRoleBindingRequestModel
+  - Added Interface AccessDeleteRoleBindingOptionalParams
+  - Added Interface AccessListRoleBindingNameListOptionalParams
+  - Added Interface AccessRoleBindingNameListSuccessResponse
+  - Added Type Alias AccessCreateRoleBindingResponse
+  - Added Type Alias AccessListRoleBindingNameListResponse
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class ConfluentManagementClient has a new signature
+    
+    
 ## 3.0.0 (2023-11-07)
 
 The package of @azure/arm-confluent is using our next generation design principles since version 3.0.0, which contains breaking changes.
