@@ -1125,7 +1125,7 @@ export enum KnownProvisioningStatus {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1149,7 +1149,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1171,7 +1171,7 @@ export enum KnownKeyVaultObjectType {
   /** Secret */
   Secret = "Secret",
   /** Certificate */
-  Certificate = "Certificate"
+  Certificate = "Certificate",
 }
 
 /**
@@ -1190,7 +1190,7 @@ export enum KnownContentEncoding {
   /** Base64 */
   Base64 = "Base64",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1208,7 +1208,7 @@ export enum KnownAutoscaleType {
   /** ScheduleBased */
   ScheduleBased = "ScheduleBased",
   /** LoadBased */
-  LoadBased = "LoadBased"
+  LoadBased = "LoadBased",
 }
 
 /**
@@ -1236,7 +1236,7 @@ export enum KnownScheduleDay {
   /** Friday */
   Friday = "Friday",
   /** Saturday */
-  Saturday = "Saturday"
+  Saturday = "Saturday",
 }
 
 /**
@@ -1259,7 +1259,7 @@ export enum KnownScaleActionType {
   /** Scaleup */
   Scaleup = "scaleup",
   /** Scaledown */
-  Scaledown = "scaledown"
+  Scaledown = "scaledown",
 }
 
 /**
@@ -1281,7 +1281,7 @@ export enum KnownComparisonOperator {
   /** LessThan */
   LessThan = "lessThan",
   /** LessThanOrEqual */
-  LessThanOrEqual = "lessThanOrEqual"
+  LessThanOrEqual = "lessThanOrEqual",
 }
 
 /**
@@ -1299,7 +1299,7 @@ export type ComparisonOperator = string;
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {
   /** FlinkJob */
-  FlinkJob = "FlinkJob"
+  FlinkJob = "FlinkJob",
 }
 
 /**
@@ -1318,7 +1318,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -1335,7 +1335,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -1366,7 +1366,7 @@ export enum KnownAction {
   /** ListSavepoint */
   ListSavepoint = "LIST_SAVEPOINT",
   /** Delete */
-  Delete = "DELETE"
+  Delete = "DELETE",
 }
 
 /**
@@ -1607,28 +1607,32 @@ export interface AvailableClusterPoolVersionsListByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocation operation. */
-export type AvailableClusterPoolVersionsListByLocationResponse = ClusterPoolVersionsListResult;
+export type AvailableClusterPoolVersionsListByLocationResponse =
+  ClusterPoolVersionsListResult;
 
 /** Optional parameters. */
 export interface AvailableClusterPoolVersionsListByLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocationNext operation. */
-export type AvailableClusterPoolVersionsListByLocationNextResponse = ClusterPoolVersionsListResult;
+export type AvailableClusterPoolVersionsListByLocationNextResponse =
+  ClusterPoolVersionsListResult;
 
 /** Optional parameters. */
 export interface AvailableClusterVersionsListByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocation operation. */
-export type AvailableClusterVersionsListByLocationResponse = ClusterVersionsListResult;
+export type AvailableClusterVersionsListByLocationResponse =
+  ClusterVersionsListResult;
 
 /** Optional parameters. */
 export interface AvailableClusterVersionsListByLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocationNext operation. */
-export type AvailableClusterVersionsListByLocationNextResponse = ClusterVersionsListResult;
+export type AvailableClusterVersionsListByLocationNextResponse =
+  ClusterVersionsListResult;
 
 /** Optional parameters. */
 export interface HDInsightContainersManagementClientOptionalParams
