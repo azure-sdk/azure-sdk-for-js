@@ -18,7 +18,7 @@ import {
   KubernetesVersionsListNextOptionalParams,
   KubernetesVersionsListOptionalParams,
   KubernetesVersionsListResponse,
-  KubernetesVersionsListNextResponse
+  KubernetesVersionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,14 +35,14 @@ export class KubernetesVersionsImpl implements KubernetesVersions {
   }
 
   /**
-   * Lists the supported kubernetes versions from the underlying custom location
-   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
+   * Lists the supported kubernetes versions for the specified custom location
+   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
   public list(
     customLocationResourceUri: string,
-    options?: KubernetesVersionsListOptionalParams
+    options?: KubernetesVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<KubernetesVersionProfile> {
     const iter = this.listPagingAll(customLocationResourceUri, options);
     return {
@@ -59,16 +59,16 @@ export class KubernetesVersionsImpl implements KubernetesVersions {
         return this.listPagingPage(
           customLocationResourceUri,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     customLocationResourceUri: string,
     options?: KubernetesVersionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<KubernetesVersionProfile[]> {
     let result: KubernetesVersionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class KubernetesVersionsImpl implements KubernetesVersions {
       result = await this._listNext(
         customLocationResourceUri,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -94,35 +94,35 @@ export class KubernetesVersionsImpl implements KubernetesVersions {
 
   private async *listPagingAll(
     customLocationResourceUri: string,
-    options?: KubernetesVersionsListOptionalParams
+    options?: KubernetesVersionsListOptionalParams,
   ): AsyncIterableIterator<KubernetesVersionProfile> {
     for await (const page of this.listPagingPage(
       customLocationResourceUri,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists the supported kubernetes versions from the underlying custom location
-   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
+   * Lists the supported kubernetes versions for the specified custom location
+   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
   private _list(
     customLocationResourceUri: string,
-    options?: KubernetesVersionsListOptionalParams
+    options?: KubernetesVersionsListOptionalParams,
   ): Promise<KubernetesVersionsListResponse> {
     return this.client.sendOperationRequest(
       { customLocationResourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
+   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
    *                                  location resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -130,11 +130,11 @@ export class KubernetesVersionsImpl implements KubernetesVersions {
   private _listNext(
     customLocationResourceUri: string,
     nextLink: string,
-    options?: KubernetesVersionsListNextOptionalParams
+    options?: KubernetesVersionsListNextOptionalParams,
   ): Promise<KubernetesVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       { customLocationResourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -142,38 +142,37 @@ export class KubernetesVersionsImpl implements KubernetesVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions",
+  path: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubernetesVersionProfileList
+      bodyMapper: Mappers.KubernetesVersionProfileList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.customLocationResourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubernetesVersionProfileList
+      bodyMapper: Mappers.KubernetesVersionProfileList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.customLocationResourceUri
+    Parameters.customLocationResourceUri,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ProvisionedClusters,
+  ProvisionedCluster,
   ProvisionedClusterInstancesListOptionalParams,
   ProvisionedClusterInstancesGetOptionalParams,
   ProvisionedClusterInstancesGetResponse,
@@ -22,43 +22,43 @@ import {
   ProvisionedClusterInstancesListUserKubeconfigOptionalParams,
   ProvisionedClusterInstancesListUserKubeconfigResponse,
   ProvisionedClusterInstancesListAdminKubeconfigOptionalParams,
-  ProvisionedClusterInstancesListAdminKubeconfigResponse
+  ProvisionedClusterInstancesListAdminKubeconfigResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProvisionedClusterInstances. */
 export interface ProvisionedClusterInstances {
   /**
-   * Gets the Hybrid AKS provisioned cluster instances associated with the connected cluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Lists the ProvisionedClusterInstance resource associated with the ConnectedCluster
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   list(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListOptionalParams
-  ): PagedAsyncIterableIterator<ProvisionedClusters>;
+    options?: ProvisionedClusterInstancesListOptionalParams,
+  ): PagedAsyncIterableIterator<ProvisionedCluster>;
   /**
-   * Gets the Hybrid AKS provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Gets the provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   get(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesGetOptionalParams
+    options?: ProvisionedClusterInstancesGetOptionalParams,
   ): Promise<ProvisionedClusterInstancesGetResponse>;
   /**
-   * Creates the Hybrid AKS provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Creates or updates the provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
-   * @param provisionedClusterInstance The provisionedClusterInstances resource definition.
+   * @param provisionedClusterInstance Provisioned Cluster resource definition
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     connectedClusterResourceUri: string,
-    provisionedClusterInstance: ProvisionedClusters,
-    options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams
+    provisionedClusterInstance: ProvisionedCluster,
+    options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProvisionedClusterInstancesCreateOrUpdateResponse>,
@@ -66,26 +66,26 @@ export interface ProvisionedClusterInstances {
     >
   >;
   /**
-   * Creates the Hybrid AKS provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Creates or updates the provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
-   * @param provisionedClusterInstance The provisionedClusterInstances resource definition.
+   * @param provisionedClusterInstance Provisioned Cluster resource definition
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     connectedClusterResourceUri: string,
-    provisionedClusterInstance: ProvisionedClusters,
-    options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams
+    provisionedClusterInstance: ProvisionedCluster,
+    options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams,
   ): Promise<ProvisionedClusterInstancesCreateOrUpdateResponse>;
   /**
-   * Deletes the Hybrid AKS provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Deletes the provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   beginDelete(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesDeleteOptionalParams
+    options?: ProvisionedClusterInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProvisionedClusterInstancesDeleteResponse>,
@@ -93,34 +93,34 @@ export interface ProvisionedClusterInstances {
     >
   >;
   /**
-   * Deletes the Hybrid AKS provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Deletes the provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesDeleteOptionalParams
+    options?: ProvisionedClusterInstancesDeleteOptionalParams,
   ): Promise<ProvisionedClusterInstancesDeleteResponse>;
   /**
-   * Gets the upgrade profile of a provisioned cluster instance.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Gets the upgrade profile of a provisioned cluster
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   getUpgradeProfile(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesGetUpgradeProfileOptionalParams
+    options?: ProvisionedClusterInstancesGetUpgradeProfileOptionalParams,
   ): Promise<ProvisionedClusterInstancesGetUpgradeProfileResponse>;
   /**
-   * Lists the AAD user credentials of a provisioned cluster instance used only in direct mode.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Lists the user credentials of the provisioned cluster (can only be used within private network)
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   beginListUserKubeconfig(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams
+    options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProvisionedClusterInstancesListUserKubeconfigResponse>,
@@ -128,24 +128,24 @@ export interface ProvisionedClusterInstances {
     >
   >;
   /**
-   * Lists the AAD user credentials of a provisioned cluster instance used only in direct mode.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Lists the user credentials of the provisioned cluster (can only be used within private network)
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   beginListUserKubeconfigAndWait(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams
+    options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams,
   ): Promise<ProvisionedClusterInstancesListUserKubeconfigResponse>;
   /**
-   * Lists the admin credentials of a provisioned cluster instance used only in direct mode.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Lists the admin credentials of the provisioned cluster (can only be used within private network)
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   beginListAdminKubeconfig(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams
+    options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProvisionedClusterInstancesListAdminKubeconfigResponse>,
@@ -153,13 +153,13 @@ export interface ProvisionedClusterInstances {
     >
   >;
   /**
-   * Lists the admin credentials of a provisioned cluster instance used only in direct mode.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * Lists the admin credentials of the provisioned cluster (can only be used within private network)
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   beginListAdminKubeconfigAndWait(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams
+    options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams,
   ): Promise<ProvisionedClusterInstancesListAdminKubeconfigResponse>;
 }
