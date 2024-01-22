@@ -15892,7 +15892,7 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-upJHIelqqqhnzFCyIPUZabdwP5cat8mr2FW/kZ3voiROciKwbjQ9tMdfDorvHhg6C7c3l8lAmkuHLd9UKpHUgg==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-GoN0sjXF48jxMyXTU4XGA5KClOi/7WOSKs5bFPvD5gBAyJfO2hYWHgeeY9Y8kx9fG5qa6sr8U7q3LCp5rfKXWA==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
@@ -15900,13 +15900,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
