@@ -15115,7 +15115,7 @@ packages:
     dev: false
 
   file:projects/arm-playwrighttesting.tgz:
-    resolution: {integrity: sha512-C3qgJvs567F8k01piLvHg3NMGH3rKPNqkvOC1u5BWvMtH/fiAAnOCHOkjsJsdfYyEwsm8AFkHLqGhBGj/EZmkw==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-/Zpov5U1qB8OiVNr1t+YZ/RGdLPcWGlip9QNLjsSSnme8QBppp0qIW4wT77urKwzzKV8dQ9IIzFlWiATxQwruw==, tarball: file:projects/arm-playwrighttesting.tgz}
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
@@ -15123,10 +15123,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5

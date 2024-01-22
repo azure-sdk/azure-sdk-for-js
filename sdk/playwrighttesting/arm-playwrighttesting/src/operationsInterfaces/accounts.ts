@@ -19,7 +19,7 @@ import {
   AccountUpdate,
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
-  AccountsDeleteOptionalParams
+  AccountsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Accounts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Account>;
   /**
    * List Account resources by resource group
@@ -39,7 +39,7 @@ export interface Accounts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Account>;
   /**
    * Get a Account
@@ -50,7 +50,7 @@ export interface Accounts {
   get(
     resourceGroupName: string,
     name: string,
-    options?: AccountsGetOptionalParams
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse>;
   /**
    * Create a Account
@@ -63,7 +63,7 @@ export interface Accounts {
     resourceGroupName: string,
     name: string,
     resource: Account,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface Accounts {
     resourceGroupName: string,
     name: string,
     resource: Account,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<AccountsCreateOrUpdateResponse>;
   /**
    * Update a Account
@@ -94,7 +94,7 @@ export interface Accounts {
     resourceGroupName: string,
     name: string,
     properties: AccountUpdate,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse>;
   /**
    * Delete a Account
@@ -105,7 +105,7 @@ export interface Accounts {
   beginDelete(
     resourceGroupName: string,
     name: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Account
@@ -116,6 +116,6 @@ export interface Accounts {
   beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void>;
 }
