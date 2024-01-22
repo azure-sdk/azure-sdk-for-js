@@ -1,24 +1,22 @@
 # Release History
-
-## 15.6.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 15.6.0-beta.1 (2023-11-21)
+    
+## 16.0.0-beta.7 (2024-01-22)
     
 **Features**
 
   - Added operation group DataTransferJobs
   - Added operation group GraphResources
   - Added operation group MongoClusters
+  - Added operation group ThroughputPool
+  - Added operation group ThroughputPoolAccount
+  - Added operation group ThroughputPoolAccounts
+  - Added operation group ThroughputPools
+  - Added operation CassandraClusters.beginInvokeCommandAsync
+  - Added operation CassandraClusters.beginInvokeCommandAsyncAndWait
   - Added operation CassandraClusters.getBackup
+  - Added operation CassandraClusters.getCommandAsync
   - Added operation CassandraClusters.listBackups
+  - Added operation CassandraClusters.listCommand
   - Added operation CassandraResources.beginCreateUpdateCassandraView
   - Added operation CassandraResources.beginCreateUpdateCassandraViewAndWait
   - Added operation CassandraResources.beginDeleteCassandraView
@@ -61,7 +59,11 @@
   - Added Interface BackupSchedule
   - Added Interface BaseCosmosDataTransferDataSourceSink
   - Added Interface CassandraClustersGetBackupOptionalParams
+  - Added Interface CassandraClustersGetCommandAsyncOptionalParams
+  - Added Interface CassandraClustersInvokeCommandAsyncHeaders
+  - Added Interface CassandraClustersInvokeCommandAsyncOptionalParams
   - Added Interface CassandraClustersListBackupsOptionalParams
+  - Added Interface CassandraClustersListCommandOptionalParams
   - Added Interface CassandraResourcesCreateUpdateCassandraViewHeaders
   - Added Interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
   - Added Interface CassandraResourcesDeleteCassandraViewHeaders
@@ -83,6 +85,8 @@
   - Added Interface CassandraViewResource
   - Added Interface CheckNameAvailabilityRequest
   - Added Interface CheckNameAvailabilityResponse
+  - Added Interface CommandPublicResource
+  - Added Interface ComputedProperty
   - Added Interface ConnectionString
   - Added Interface CosmosCassandraDataTransferDataSourceSink
   - Added Interface CosmosMongoDataTransferDataSourceSink
@@ -118,6 +122,7 @@
   - Added Interface GraphResourcesListGraphsOptionalParams
   - Added Interface GraphResourcesListResult
   - Added Interface ListBackups
+  - Added Interface ListCommands
   - Added Interface ListConnectionStringsResult
   - Added Interface MaterializedViewDefinition
   - Added Interface MergeParameters
@@ -184,10 +189,38 @@
   - Added Interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
   - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionHeaders
   - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  - Added Interface ThroughputPoolAccountCreateOptionalParams
+  - Added Interface ThroughputPoolAccountCreateParameters
+  - Added Interface ThroughputPoolAccountDeleteHeaders
+  - Added Interface ThroughputPoolAccountDeleteOptionalParams
+  - Added Interface ThroughputPoolAccountGetOptionalParams
+  - Added Interface ThroughputPoolAccountResource
+  - Added Interface ThroughputPoolAccountsListNextOptionalParams
+  - Added Interface ThroughputPoolAccountsListOptionalParams
+  - Added Interface ThroughputPoolAccountsListResult
+  - Added Interface ThroughputPoolCreateOrUpdateOptionalParams
+  - Added Interface ThroughputPoolDeleteHeaders
+  - Added Interface ThroughputPoolDeleteOptionalParams
+  - Added Interface ThroughputPoolGetOptionalParams
+  - Added Interface ThroughputPoolResource
+  - Added Interface ThroughputPoolsListByResourceGroupNextOptionalParams
+  - Added Interface ThroughputPoolsListByResourceGroupOptionalParams
+  - Added Interface ThroughputPoolsListNextOptionalParams
+  - Added Interface ThroughputPoolsListOptionalParams
+  - Added Interface ThroughputPoolsListResult
+  - Added Interface ThroughputPoolUpdate
+  - Added Interface ThroughputPoolUpdateHeaders
+  - Added Interface ThroughputPoolUpdateOptionalParams
   - Added Interface TrackedResource
+  - Added Type Alias AutoReplicate
+  - Added Type Alias AzureConnectionType
   - Added Type Alias BackupState
+  - Added Type Alias BaseCosmosDataTransferDataSourceSinkUnion
   - Added Type Alias CassandraClustersGetBackupResponse
+  - Added Type Alias CassandraClustersGetCommandAsyncResponse
+  - Added Type Alias CassandraClustersInvokeCommandAsyncResponse
   - Added Type Alias CassandraClustersListBackupsResponse
+  - Added Type Alias CassandraClustersListCommandResponse
   - Added Type Alias CassandraResourcesCreateUpdateCassandraViewResponse
   - Added Type Alias CassandraResourcesGetCassandraViewResponse
   - Added Type Alias CassandraResourcesGetCassandraViewThroughputResponse
@@ -197,9 +230,10 @@
   - Added Type Alias CassandraResourcesUpdateCassandraViewThroughputResponse
   - Added Type Alias CheckNameAvailabilityReason
   - Added Type Alias ClusterType
-  - Added Type Alias CustomerManagedKeyStatus
+  - Added Type Alias CommandStatus
   - Added Type Alias DataTransferComponent
   - Added Type Alias DataTransferDataSourceSinkUnion
+  - Added Type Alias DataTransferJobMode
   - Added Type Alias DataTransferJobsCancelResponse
   - Added Type Alias DataTransferJobsCreateResponse
   - Added Type Alias DataTransferJobsGetResponse
@@ -236,6 +270,7 @@
   - Added Type Alias MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
   - Added Type Alias NodeKind
   - Added Type Alias ProvisioningState
+  - Added Type Alias ScheduledEventStrategy
   - Added Type Alias SqlResourcesListSqlContainerPartitionMergeResponse
   - Added Type Alias SqlResourcesSqlContainerRedistributeThroughputResponse
   - Added Type Alias SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
@@ -243,11 +278,30 @@
   - Added Type Alias SqlResourcesSqlDatabaseRedistributeThroughputResponse
   - Added Type Alias SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
   - Added Type Alias ThroughputPolicyType
+  - Added Type Alias ThroughputPoolAccountCreateResponse
+  - Added Type Alias ThroughputPoolAccountDeleteResponse
+  - Added Type Alias ThroughputPoolAccountGetResponse
+  - Added Type Alias ThroughputPoolAccountsListNextResponse
+  - Added Type Alias ThroughputPoolAccountsListResponse
+  - Added Type Alias ThroughputPoolCreateOrUpdateResponse
+  - Added Type Alias ThroughputPoolDeleteResponse
+  - Added Type Alias ThroughputPoolGetResponse
+  - Added Type Alias ThroughputPoolsListByResourceGroupNextResponse
+  - Added Type Alias ThroughputPoolsListByResourceGroupResponse
+  - Added Type Alias ThroughputPoolsListNextResponse
+  - Added Type Alias ThroughputPoolsListResponse
+  - Added Type Alias ThroughputPoolUpdateResponse
   - Interface ARMResourceProperties has a new optional parameter identity
   - Interface CassandraClustersDeallocateOptionalParams has a new optional parameter xMsForceDeallocate
+  - Interface ClusterResourceProperties has a new optional parameter autoReplicate
+  - Interface ClusterResourceProperties has a new optional parameter azureConnectionMethod
   - Interface ClusterResourceProperties has a new optional parameter backupSchedules
   - Interface ClusterResourceProperties has a new optional parameter clusterType
   - Interface ClusterResourceProperties has a new optional parameter extensions
+  - Interface ClusterResourceProperties has a new optional parameter externalDataCenters
+  - Interface ClusterResourceProperties has a new optional parameter privateLinkResourceId
+  - Interface ClusterResourceProperties has a new optional parameter scheduledEventStrategy
+  - Interface CommandPostBody has a new optional parameter readWrite
   - Interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems has a new optional parameter isLatestModel
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter customerManagedKeyStatus
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter defaultPriorityLevel
@@ -267,6 +321,7 @@
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableBurstCapacity
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enablePriorityBasedExecution
+  - Interface DataCenterResourceProperties has a new optional parameter privateEndpointIpAddress
   - Interface GremlinDatabaseResource has a new optional parameter createMode
   - Interface GremlinDatabaseResource has a new optional parameter restoreParameters
   - Interface GremlinGraphResource has a new optional parameter createMode
@@ -275,7 +330,22 @@
   - Interface MongoDBCollectionResource has a new optional parameter restoreParameters
   - Interface MongoDBDatabaseResource has a new optional parameter createMode
   - Interface MongoDBDatabaseResource has a new optional parameter restoreParameters
+  - Interface RestorableGremlinDatabasePropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableGremlinDatabasePropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableGremlinGraphPropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableGremlinGraphPropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableMongodbCollectionPropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableMongodbCollectionPropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableMongodbDatabasePropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableMongodbDatabasePropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableSqlContainerPropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableSqlContainerPropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableSqlDatabasePropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableSqlDatabasePropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableTablePropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableTablePropertiesResource has a new optional parameter canUndeleteReason
   - Interface RestoreParameters has a new optional parameter sourceBackupLocation
+  - Interface SqlContainerResource has a new optional parameter computedProperties
   - Interface SqlContainerResource has a new optional parameter createMode
   - Interface SqlContainerResource has a new optional parameter materializedViewDefinition
   - Interface SqlContainerResource has a new optional parameter restoreParameters
@@ -283,18 +353,33 @@
   - Interface SqlDatabaseResource has a new optional parameter restoreParameters
   - Interface TableResource has a new optional parameter createMode
   - Interface TableResource has a new optional parameter restoreParameters
+  - Added Enum KnownAutoReplicate
+  - Added Enum KnownAzureConnectionType
   - Added Enum KnownBackupState
   - Added Enum KnownCheckNameAvailabilityReason
   - Added Enum KnownClusterType
-  - Added Enum KnownCustomerManagedKeyStatus
+  - Added Enum KnownCommandStatus
   - Added Enum KnownDataTransferComponent
+  - Added Enum KnownDataTransferJobMode
   - Added Enum KnownDefaultPriorityLevel
   - Added Enum KnownMongoClusterStatus
   - Added Enum KnownNodeKind
   - Added Enum KnownProvisioningState
+  - Added Enum KnownScheduledEventStrategy
   - Added Enum KnownThroughputPolicyType
   - Enum KnownCreateMode has a new value PointInTimeRestore
   - Enum KnownOperationType has a new value Recreate
+  - Enum KnownStatus has a new value Canceled
+  - Enum KnownStatus has a new value Failed
+  - Enum KnownStatus has a new value Succeeded
+  - Enum KnownStatus has a new value Updating
+
+**Breaking Changes**
+
+  - Interface CommandPostBody no longer has parameter readwrite
+  - Type of parameter arguments of interface CommandPostBody is changed from {
+        [propertyName: string]: string;
+    } to Record<string, unknown>
     
     
 ## 15.5.0 (2023-05-11)
@@ -651,4 +736,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

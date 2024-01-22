@@ -14,9 +14,7 @@ export type BackupPolicyUnion =
   | ContinuousModeBackupPolicy;
 export type DataTransferDataSourceSinkUnion =
   | DataTransferDataSourceSink
-  | CosmosCassandraDataTransferDataSourceSink
-  | CosmosMongoDataTransferDataSourceSink
-  | CosmosSqlDataTransferDataSourceSink
+  | BaseCosmosDataTransferDataSourceSinkUnion
   | AzureBlobDataTransferDataSourceSink;
 export type ServiceResourcePropertiesUnion =
   | ServiceResourceProperties
@@ -24,6 +22,11 @@ export type ServiceResourcePropertiesUnion =
   | SqlDedicatedGatewayServiceResourceProperties
   | GraphAPIComputeServiceResourceProperties
   | MaterializedViewsBuilderServiceResourceProperties;
+export type BaseCosmosDataTransferDataSourceSinkUnion =
+  | BaseCosmosDataTransferDataSourceSink
+  | CosmosCassandraDataTransferDataSourceSink
+  | CosmosMongoDataTransferDataSourceSink
+  | CosmosSqlDataTransferDataSourceSink;
 
 /** IpAddressOrRange object */
 export interface IpAddressOrRange {
@@ -164,6 +167,8 @@ export interface RestoreParametersBase {
   restoreSource?: string;
   /** Time to which the account has to be restored (ISO-8601 format). */
   restoreTimestampInUtc?: Date;
+  /** Specifies whether the restored account will have Time-To-Live disabled upon the successful restore. */
+  restoreWithTtlDisabled?: boolean;
 }
 
 /** The object representing the policy for taking backups on an account. */
@@ -300,7 +305,9 @@ export interface ManagedServiceIdentity {
   type?: ResourceIdentityType;
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: {
-    [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
+    [
+      propertyName: string
+    ]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
   };
 }
 
@@ -389,7 +396,7 @@ export interface DatabaseAccountUpdateParameters {
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  customerManagedKeyStatus?: string;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
   enablePriorityBasedExecution?: boolean;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
@@ -971,6 +978,8 @@ export interface SqlContainerResource {
   createMode?: CreateMode;
   /** The configuration for defining Materialized Views. This must be specified only for creating a Materialized View container. */
   materializedViewDefinition?: MaterializedViewDefinition;
+  /** List of computed properties */
+  computedProperties?: ComputedProperty[];
 }
 
 /** Cosmos DB indexing policy */
@@ -1094,6 +1103,14 @@ export interface MaterializedViewDefinition {
   sourceCollectionId: string;
   /** The definition should be an SQL query which would be used to fetch data from the source container to populate into the Materialized View container. */
   definition: string;
+}
+
+/** The definition of a computed property */
+export interface ComputedProperty {
+  /** The name of a computed property, for example - "cp_lowerName" */
+  name?: string;
+  /** The query that evaluates the value for computed property, for example - "SELECT VALUE LOWER(c.name) FROM c" */
+  query?: string;
 }
 
 /** The properties of an Azure Cosmos DB merge operations */
@@ -1517,12 +1534,20 @@ export interface DataTransferJobProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ErrorResponse;
+  /**
+   * Total Duration of Job
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly duration?: string;
+  /** Mode of job execution */
+  mode?: DataTransferJobMode;
 }
 
 /** Base class for all DataTransfer source/sink */
 export interface DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component:
+    | "BaseCosmosDataTransferDataSourceSink"
     | "CosmosDBCassandra"
     | "CosmosDBMongo"
     | "CosmosDBSql"
@@ -1569,6 +1594,8 @@ export interface ClusterResourceProperties {
   prometheusEndpoint?: SeedNode;
   /** Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs. */
   repairEnabled?: boolean;
+  /** The form of AutoReplicate that is being used by this cluster. */
+  autoReplicate?: AutoReplicate;
   /** List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property. */
   clientCertificates?: Certificate[];
   /** List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property. */
@@ -1585,6 +1612,8 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly seedNodes?: SeedNode[];
+  /** List of the data center names for unmanaged data centers in this cluster to be included in auto-replication. */
+  externalDataCenters?: string[];
   /** (Deprecated) Number of hours to wait between taking a backup of the cluster. */
   hoursBetweenBackups?: number;
   /** Whether the cluster and associated data centers has been deallocated. */
@@ -1599,6 +1628,15 @@ export interface ClusterResourceProperties {
   extensions?: string[];
   /** List of backup schedules that define when you want to back up your data. */
   backupSchedules?: BackupSchedule[];
+  /** How the nodes in the cluster react to scheduled events */
+  scheduledEventStrategy?: ScheduledEventStrategy;
+  /** How to connect to the azure services needed for running the cluster */
+  azureConnectionMethod?: AzureConnectionType;
+  /**
+   * If the Connection Method is Vpn, this is the Id of the private link resource that the datacenters need to connect to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkResourceId?: string;
 }
 
 export interface SeedNode {
@@ -1677,19 +1715,52 @@ export interface CommandPostBody {
   /** The command which should be run */
   command: string;
   /** The arguments for the command to be run */
-  arguments?: { [propertyName: string]: string };
+  arguments?: Record<string, unknown>;
   /** IP address of the cassandra host to run the command on */
   host: string;
   /** If true, stops cassandra before executing the command and then start it again */
   cassandraStopStart?: boolean;
   /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
-  readwrite?: boolean;
+  readWrite?: boolean;
 }
 
 /** Response of /command api */
 export interface CommandOutput {
   /** Output of the command. */
   commandOutput?: string;
+}
+
+/** resource representing a command */
+export interface CommandPublicResource {
+  /** The command which should be run */
+  command?: string;
+  /** The unique id of command */
+  commandId?: string;
+  /** The arguments for the command to be run */
+  arguments?: Record<string, unknown>;
+  /** IP address of the cassandra host to run the command on */
+  host?: string;
+  /** Whether command has admin privileges */
+  isAdmin?: boolean;
+  /** If true, stops cassandra before executing the command and then start it again */
+  cassandraStopStart?: boolean;
+  /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
+  readWrite?: boolean;
+  /** Result output of the command. */
+  result?: string;
+  /** Status of the command. */
+  status?: CommandStatus;
+  /** The name of the file where the result is written. */
+  outputFile?: string;
+}
+
+/** List of commands for cluster. */
+export interface ListCommands {
+  /**
+   * Container for array of commands.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: CommandPublicResource[];
 }
 
 /** List of restorable backups for a Cassandra cluster. */
@@ -1759,6 +1830,8 @@ export interface DataCenterResourceProperties {
   deallocated?: boolean;
   /** Error related to resource provisioning. */
   provisionError?: CassandraError;
+  /** Ip of the VPN Endpoint for this data center. */
+  privateEndpointIpAddress?: string;
 }
 
 /** Ldap authentication method properties. This feature is in preview. */
@@ -2341,6 +2414,16 @@ export interface RestorableSqlDatabasePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
+   * A state of this database to identify if this database is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this database can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
+  /**
    * The time when this database event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2401,6 +2484,16 @@ export interface RestorableSqlContainerPropertiesResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationType?: OperationType;
+  /**
+   * A state of this container to identify if this container is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this container can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
   /**
    * The when this container event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2495,6 +2588,16 @@ export interface RestorableMongodbDatabasePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
+   * A state of this database to identify if this database is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this database can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
+  /**
    * The time when this database event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2553,6 +2656,16 @@ export interface RestorableMongodbCollectionPropertiesResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationType?: OperationType;
+  /**
+   * A state of this collection to identify if this container is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this collection can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
   /**
    * The time when this collection event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2645,6 +2758,16 @@ export interface RestorableGremlinDatabasePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
+   * A state of this database to identify if this database is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this database can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
+  /**
    * The time when this database event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2703,6 +2826,16 @@ export interface RestorableGremlinGraphPropertiesResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationType?: OperationType;
+  /**
+   * A state of this graph to identify if this graph is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this graph can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
   /**
    * The time when this graph event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2795,6 +2928,16 @@ export interface RestorableTablePropertiesResource {
    */
   readonly operationType?: OperationType;
   /**
+   * A state of this table to identify if this table is restorable in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndelete?: string;
+  /**
+   * The reason why this table can not be restored in same account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canUndeleteReason?: string;
+  /**
    * The time when this table event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2884,6 +3027,42 @@ export interface ServiceResourceCreateUpdateParameters {
   serviceType?: ServiceType;
 }
 
+/** The List operation response, that contains the throughput pools and their properties. */
+export interface ThroughputPoolsListResult {
+  /**
+   * List of throughput pools and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ThroughputPoolResource[];
+  /**
+   * The link used to get the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Represents a throughput pool resource for updates. */
+export interface ThroughputPoolUpdate {
+  /** A provisioning state of the ThroughputPool. */
+  provisioningState?: Status;
+  /** Value for throughput to be shared among CosmosDB resources in the pool. */
+  maxThroughput?: number;
+}
+
+/** The List operation response, that contains the global database accounts and their properties. */
+export interface ThroughputPoolAccountsListResult {
+  /**
+   * List of global database accounts in a throughput pool and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ThroughputPoolAccountResource[];
+  /**
+   * The link used to get the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Configuration values for periodic mode backup */
 export interface PeriodicModeProperties {
   /** An integer representing the interval in minutes between two backups */
@@ -2898,11 +3077,6 @@ export interface PeriodicModeProperties {
 export interface ContinuousModeProperties {
   /** Enum to indicate type of Continuos backup mode */
   tier?: ContinuousTier;
-}
-
-/** A base CosmosDB data source/sink */
-export interface BaseCosmosDataTransferDataSourceSink {
-  remoteAccountName?: string;
 }
 
 /** Describes the service response property. */
@@ -2946,6 +3120,16 @@ export interface GraphAPIComputeServiceResource {
 export interface MaterializedViewsBuilderServiceResource {
   /** Properties for MaterializedViewsBuilderServiceResource. */
   properties?: MaterializedViewsBuilderServiceResourceProperties;
+}
+
+/** Parameters for creating a Azure Cosmos DB throughput pool account. */
+export interface ThroughputPoolAccountCreateParameters {
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
+  tags?: { [propertyName: string]: string };
+  /** The resource identifier of global database account in the throughputPool. */
+  accountResourceIdentifier?: string;
+  /** The location of global database account in the throughputPool. */
+  accountLocation?: string;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -3104,7 +3288,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  customerManagedKeyStatus?: string;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
   enablePriorityBasedExecution?: boolean;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
@@ -3186,7 +3370,7 @@ export interface DatabaseAccountCreateUpdateParameters
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
-  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  customerManagedKeyStatus?: string;
   /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
   enablePriorityBasedExecution?: boolean;
   /** Enum to indicate default Priority Level of request for Priority Based Execution. */
@@ -3692,6 +3876,13 @@ export interface DataTransferJobGetResults extends ARMProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ErrorResponse;
+  /**
+   * Total Duration of Job
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly duration?: string;
+  /** Mode of job execution */
+  mode?: DataTransferJobMode;
 }
 
 /** A managed Cassandra data center. */
@@ -3799,34 +3990,16 @@ export interface ServiceResource extends ARMProxyResource {
 export interface PhysicalPartitionThroughputInfoResultPropertiesResource
   extends PhysicalPartitionThroughputInfoProperties {}
 
-/** A CosmosDB Cassandra API data source/sink */
-export interface CosmosCassandraDataTransferDataSourceSink
-  extends DataTransferDataSourceSink,
-    BaseCosmosDataTransferDataSourceSink {
+/** A base CosmosDB data source/sink */
+export interface BaseCosmosDataTransferDataSourceSink
+  extends DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBCassandra";
-  keyspaceName: string;
-  tableName: string;
-}
-
-/** A CosmosDB Mongo API data source/sink */
-export interface CosmosMongoDataTransferDataSourceSink
-  extends DataTransferDataSourceSink,
-    BaseCosmosDataTransferDataSourceSink {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBMongo";
-  databaseName: string;
-  collectionName: string;
-}
-
-/** A CosmosDB No Sql API data source/sink */
-export interface CosmosSqlDataTransferDataSourceSink
-  extends DataTransferDataSourceSink,
-    BaseCosmosDataTransferDataSourceSink {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBSql";
-  databaseName: string;
-  containerName: string;
+  component:
+    | "BaseCosmosDataTransferDataSourceSink"
+    | "CosmosDBCassandra"
+    | "CosmosDBMongo"
+    | "CosmosDBSql";
+  remoteAccountName?: string;
 }
 
 /** An Azure Blob Storage data source/sink */
@@ -3955,6 +4128,33 @@ export interface PrivateEndpointConnection extends ProxyResource {
   provisioningState?: string;
 }
 
+/** A CosmosDB Cassandra API data source/sink */
+export interface CosmosCassandraDataTransferDataSourceSink
+  extends BaseCosmosDataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBCassandra";
+  keyspaceName: string;
+  tableName: string;
+}
+
+/** A CosmosDB Mongo API data source/sink */
+export interface CosmosMongoDataTransferDataSourceSink
+  extends BaseCosmosDataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBMongo";
+  databaseName: string;
+  collectionName: string;
+}
+
+/** A CosmosDB No Sql API data source/sink */
+export interface CosmosSqlDataTransferDataSourceSink
+  extends BaseCosmosDataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBSql";
+  databaseName: string;
+  containerName: string;
+}
+
 /** Represents a mongo cluster resource. */
 export interface MongoCluster extends TrackedResource {
   /** The mode to create a mongo cluster. */
@@ -3994,6 +4194,14 @@ export interface MongoCluster extends TrackedResource {
   nodeGroupSpecs?: NodeGroupSpec[];
 }
 
+/** An Azure Cosmos DB Throughputpool. */
+export interface ThroughputPoolResource extends TrackedResource {
+  /** A provisioning state of the ThroughputPool. */
+  provisioningState?: Status;
+  /** Value for throughput to be shared among CosmosDB resources in the pool. */
+  maxThroughput?: number;
+}
+
 /** Represents a mongo cluster firewall rule. */
 export interface FirewallRule extends ProxyResourceAutoGenerated {
   /**
@@ -4005,6 +4213,22 @@ export interface FirewallRule extends ProxyResourceAutoGenerated {
   startIpAddress: string;
   /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
   endIpAddress: string;
+}
+
+/** An Azure Cosmos DB Throughputpool Account */
+export interface ThroughputPoolAccountResource
+  extends ProxyResourceAutoGenerated {
+  /** A provisioning state of the ThroughputPool Account. */
+  provisioningState?: Status;
+  /** The resource identifier of global database account in the throughputPool. */
+  accountResourceIdentifier?: string;
+  /** The location of  global database account in the throughputPool. */
+  accountLocation?: string;
+  /**
+   * The instance id of global database account in the throughputPool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountInstanceId?: string;
 }
 
 /** Defines headers for DatabaseAccounts_delete operation. */
@@ -4615,6 +4839,14 @@ export interface GremlinResourcesMigrateGremlinGraphToManualThroughputHeaders {
   location?: string;
 }
 
+/** Defines headers for CassandraClusters_invokeCommandAsync operation. */
+export interface CassandraClustersInvokeCommandAsyncHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
 /** Defines headers for MongoClusters_delete operation. */
 export interface MongoClustersDeleteHeaders {
   location?: string;
@@ -4638,6 +4870,30 @@ export interface ServiceDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for ThroughputPool_update operation. */
+export interface ThroughputPoolUpdateHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ThroughputPool_delete operation. */
+export interface ThroughputPoolDeleteHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for ThroughputPoolAccount_delete operation. */
+export interface ThroughputPoolAccountDeleteHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
 /** Known values of {@link DatabaseAccountKind} that the service accepts. */
 export enum KnownDatabaseAccountKind {
   /** GlobalDocumentDB */
@@ -4645,7 +4901,7 @@ export enum KnownDatabaseAccountKind {
   /** MongoDB */
   MongoDB = "MongoDB",
   /** Parse */
-  Parse = "Parse"
+  Parse = "Parse",
 }
 
 /**
@@ -4662,7 +4918,7 @@ export type DatabaseAccountKind = string;
 /** Known values of {@link ConnectorOffer} that the service accepts. */
 export enum KnownConnectorOffer {
   /** Small */
-  Small = "Small"
+  Small = "Small",
 }
 
 /**
@@ -4681,7 +4937,7 @@ export enum KnownPublicNetworkAccess {
   /** Disabled */
   Disabled = "Disabled",
   /** SecuredByPerimeter */
-  SecuredByPerimeter = "SecuredByPerimeter"
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
@@ -4704,7 +4960,7 @@ export enum KnownServerVersion {
   /** Four0 */
   Four0 = "4.0",
   /** Four2 */
-  Four2 = "4.2"
+  Four2 = "4.2",
 }
 
 /**
@@ -4724,7 +4980,7 @@ export enum KnownAnalyticalStorageSchemaType {
   /** WellDefined */
   WellDefined = "WellDefined",
   /** FullFidelity */
-  FullFidelity = "FullFidelity"
+  FullFidelity = "FullFidelity",
 }
 
 /**
@@ -4744,7 +5000,7 @@ export enum KnownCreateMode {
   /** Restore */
   Restore = "Restore",
   /** PointInTimeRestore */
-  PointInTimeRestore = "PointInTimeRestore"
+  PointInTimeRestore = "PointInTimeRestore",
 }
 
 /**
@@ -4761,7 +5017,7 @@ export type CreateMode = string;
 /** Known values of {@link RestoreMode} that the service accepts. */
 export enum KnownRestoreMode {
   /** PointInTime */
-  PointInTime = "PointInTime"
+  PointInTime = "PointInTime",
 }
 
 /**
@@ -4778,7 +5034,7 @@ export enum KnownBackupPolicyType {
   /** Periodic */
   Periodic = "Periodic",
   /** Continuous */
-  Continuous = "Continuous"
+  Continuous = "Continuous",
 }
 
 /**
@@ -4800,7 +5056,7 @@ export enum KnownBackupPolicyMigrationStatus {
   /** Completed */
   Completed = "Completed",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -4822,7 +5078,7 @@ export enum KnownMinimalTlsVersion {
   /** Tls11 */
   Tls11 = "Tls11",
   /** Tls12 */
-  Tls12 = "Tls12"
+  Tls12 = "Tls12",
 }
 
 /**
@@ -4836,57 +5092,12 @@ export enum KnownMinimalTlsVersion {
  */
 export type MinimalTlsVersion = string;
 
-/** Known values of {@link CustomerManagedKeyStatus} that the service accepts. */
-export enum KnownCustomerManagedKeyStatus {
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToObtainTheAADAuthenticationTokenForTheAccountSDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureActiveDirectoryTokenAcquisitionError4000 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToObtainTheAADAuthenticationTokenForTheAccountSDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureActiveDirectoryTokenAcquisitionError4000 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to obtain the AAD authentication token for the account's default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error (4000).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountSKeyVaultKeyURIDoesNotFollowTheExpectedFormatForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideImproperSyntaxDetectedOnTheKeyVaultUriProperty4006 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountSKeyVaultKeyURIDoesNotFollowTheExpectedFormatForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideImproperSyntaxDetectedOnTheKeyVaultUriProperty4006 = "Access to your account is currently revoked because the Azure Cosmos DB account's key vault key URI does not follow the expected format; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property (4006).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCurrentDefaultIdentityNoLongerHasPermissionToTheAssociatedKeyVaultKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideDefaultIdentityIsUnauthorizedToAccessTheAzureKeyVaultKey4002 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheCurrentDefaultIdentityNoLongerHasPermissionToTheAssociatedKeyVaultKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideDefaultIdentityIsUnauthorizedToAccessTheAzureKeyVaultKey4002 = "Access to your account is currently revoked because the current default identity no longer has permission to the associated Key Vault key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key (4002).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureKeyVaultDNSNameSpecifiedByTheAccountSKeyvaultkeyuriPropertyCouldNotBeResolvedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideUnableToResolveTheKeyVaultsDns4009 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureKeyVaultDNSNameSpecifiedByTheAccountSKeyvaultkeyuriPropertyCouldNotBeResolvedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideUnableToResolveTheKeyVaultsDns4009 = "Access to your account is currently revoked because the Azure Key Vault DNS name specified by the account's keyvaultkeyuri property could not be resolved; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns (4009).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentKeyIsNotFoundOnTheSpecifiedKeyVaultForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4003 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentKeyIsNotFoundOnTheSpecifiedKeyVaultForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4003 = "Access to your account is currently revoked because the correspondent key is not found on the specified Key Vault; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4003).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToWrapOrUnwrapTheKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInternalUnwrappingProcedureError4005 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToWrapOrUnwrapTheKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInternalUnwrappingProcedureError4005 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to wrap or unwrap the key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error (4005).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountHasAnUndefinedDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInvalidAzureCosmosDbDefaultIdentity4015 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountHasAnUndefinedDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInvalidAzureCosmosDbDefaultIdentity4015 = "Access to your account is currently revoked because the Azure Cosmos DB account has an undefined default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity (4015).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAccessRulesAreBlockingOutboundRequestsToTheAzureKeyVaultServiceForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide4016 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheAccessRulesAreBlockingOutboundRequestsToTheAzureKeyVaultServiceForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide4016 = "Access to your account is currently revoked because the access rules are blocking outbound requests to the Azure Key Vault service; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).",
-  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentAzureKeyVaultWasNotFoundForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4017 */
-  AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentAzureKeyVaultWasNotFoundForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4017 = "Access to your account is currently revoked because the correspondent Azure Key Vault was not found; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4017).",
-  /** AccessToYourAccountIsCurrentlyRevokedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide */
-  AccessToYourAccountIsCurrentlyRevokedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide = "Access to your account is currently revoked; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide",
-  /** AccessToTheConfiguredCustomerManagedKeyConfirmed */
-  AccessToTheConfiguredCustomerManagedKeyConfirmed = "Access to the configured customer managed key confirmed."
-}
-
-/**
- * Defines values for CustomerManagedKeyStatus. \
- * {@link KnownCustomerManagedKeyStatus} can be used interchangeably with CustomerManagedKeyStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Access to your account is currently revoked because the Azure Cosmos DB service is unable to obtain the AAD authentication token for the account's default identity; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error (4000).** \
- * **Access to your account is currently revoked because the Azure Cosmos DB account's key vault key URI does not follow the expected format; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property (4006).** \
- * **Access to your account is currently revoked because the current default identity no longer has permission to the associated Key Vault key; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key (4002).** \
- * **Access to your account is currently revoked because the Azure Key Vault DNS name specified by the account's keyvaultkeyuri property could not be resolved; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns (4009).** \
- * **Access to your account is currently revoked because the correspondent key is not found on the specified Key Vault; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4003).** \
- * **Access to your account is currently revoked because the Azure Cosmos DB service is unable to wrap or unwrap the key; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#internal-unwrapping-procedure-error (4005).** \
- * **Access to your account is currently revoked because the Azure Cosmos DB account has an undefined default identity; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity (4015).** \
- * **Access to your account is currently revoked because the access rules are blocking outbound requests to the Azure Key Vault service; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide (4016).** \
- * **Access to your account is currently revoked because the correspondent Azure Key Vault was not found; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4017).** \
- * **Access to your account is currently revoked; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide** \
- * **Access to the configured customer managed key confirmed.**
- */
-export type CustomerManagedKeyStatus = string;
-
 /** Known values of {@link DefaultPriorityLevel} that the service accepts. */
 export enum KnownDefaultPriorityLevel {
   /** High */
   High = "High",
   /** Low */
-  Low = "Low"
+  Low = "Low",
 }
 
 /**
@@ -4908,7 +5119,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -4932,7 +5143,7 @@ export enum KnownKind {
   /** PrimaryReadonly */
   PrimaryReadonly = "PrimaryReadonly",
   /** SecondaryReadonly */
-  SecondaryReadonly = "SecondaryReadonly"
+  SecondaryReadonly = "SecondaryReadonly",
 }
 
 /**
@@ -4966,7 +5177,7 @@ export enum KnownType {
   /** GremlinV2 */
   GremlinV2 = "GremlinV2",
   /** Undefined */
-  Undefined = "Undefined"
+  Undefined = "Undefined",
 }
 
 /**
@@ -4995,7 +5206,7 @@ export enum KnownKeyKind {
   /** PrimaryReadonly */
   PrimaryReadonly = "primaryReadonly",
   /** SecondaryReadonly */
-  SecondaryReadonly = "secondaryReadonly"
+  SecondaryReadonly = "secondaryReadonly",
 }
 
 /**
@@ -5025,7 +5236,7 @@ export enum KnownUnitType {
   /** BytesPerSecond */
   BytesPerSecond = "BytesPerSecond",
   /** Milliseconds */
-  Milliseconds = "Milliseconds"
+  Milliseconds = "Milliseconds",
 }
 
 /**
@@ -5056,7 +5267,7 @@ export enum KnownPrimaryAggregationType {
   /** Maximum */
   Maximum = "Maximum",
   /** Last */
-  Last = "Last"
+  Last = "Last",
 }
 
 /**
@@ -5080,7 +5291,7 @@ export enum KnownIndexingMode {
   /** Lazy */
   Lazy = "lazy",
   /** None */
-  None = "none"
+  None = "none",
 }
 
 /**
@@ -5107,7 +5318,7 @@ export enum KnownDataType {
   /** LineString */
   LineString = "LineString",
   /** MultiPolygon */
-  MultiPolygon = "MultiPolygon"
+  MultiPolygon = "MultiPolygon",
 }
 
 /**
@@ -5131,7 +5342,7 @@ export enum KnownIndexKind {
   /** Range */
   Range = "Range",
   /** Spatial */
-  Spatial = "Spatial"
+  Spatial = "Spatial",
 }
 
 /**
@@ -5150,7 +5361,7 @@ export enum KnownCompositePathSortOrder {
   /** Ascending */
   Ascending = "ascending",
   /** Descending */
-  Descending = "descending"
+  Descending = "descending",
 }
 
 /**
@@ -5172,7 +5383,7 @@ export enum KnownSpatialType {
   /** Polygon */
   Polygon = "Polygon",
   /** MultiPolygon */
-  MultiPolygon = "MultiPolygon"
+  MultiPolygon = "MultiPolygon",
 }
 
 /**
@@ -5194,7 +5405,7 @@ export enum KnownPartitionKind {
   /** Range */
   Range = "Range",
   /** MultiHash */
-  MultiHash = "MultiHash"
+  MultiHash = "MultiHash",
 }
 
 /**
@@ -5213,7 +5424,7 @@ export enum KnownConflictResolutionMode {
   /** LastWriterWins */
   LastWriterWins = "LastWriterWins",
   /** Custom */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -5233,7 +5444,7 @@ export enum KnownThroughputPolicyType {
   /** Equal */
   Equal = "equal",
   /** Custom */
-  Custom = "custom"
+  Custom = "custom",
 }
 
 /**
@@ -5252,7 +5463,7 @@ export enum KnownTriggerType {
   /** Pre */
   Pre = "Pre",
   /** Post */
-  Post = "Post"
+  Post = "Post",
 }
 
 /**
@@ -5276,7 +5487,7 @@ export enum KnownTriggerOperation {
   /** Delete */
   Delete = "Delete",
   /** Replace */
-  Replace = "Replace"
+  Replace = "Replace",
 }
 
 /**
@@ -5299,7 +5510,7 @@ export enum KnownBackupStorageRedundancy {
   /** Local */
   Local = "Local",
   /** Zone */
-  Zone = "Zone"
+  Zone = "Zone",
 }
 
 /**
@@ -5324,7 +5535,15 @@ export enum KnownStatus {
   /** Online */
   Online = "Online",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Updating */
+  Updating = "Updating",
 }
 
 /**
@@ -5336,7 +5555,11 @@ export enum KnownStatus {
  * **Initializing** \
  * **InternallyReady** \
  * **Online** \
- * **Deleting**
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Updating**
  */
 export type Status = string;
 
@@ -5349,7 +5572,7 @@ export enum KnownDataTransferComponent {
   /** CosmosDBSql */
   CosmosDBSql = "CosmosDBSql",
   /** AzureBlobStorage */
-  AzureBlobStorage = "AzureBlobStorage"
+  AzureBlobStorage = "AzureBlobStorage",
 }
 
 /**
@@ -5364,6 +5587,24 @@ export enum KnownDataTransferComponent {
  */
 export type DataTransferComponent = string;
 
+/** Known values of {@link DataTransferJobMode} that the service accepts. */
+export enum KnownDataTransferJobMode {
+  /** Offline */
+  Offline = "Offline",
+  /** Online */
+  Online = "Online",
+}
+
+/**
+ * Defines values for DataTransferJobMode. \
+ * {@link KnownDataTransferJobMode} can be used interchangeably with DataTransferJobMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Offline** \
+ * **Online**
+ */
+export type DataTransferJobMode = string;
+
 /** Known values of {@link ManagedCassandraProvisioningState} that the service accepts. */
 export enum KnownManagedCassandraProvisioningState {
   /** Creating */
@@ -5377,7 +5618,7 @@ export enum KnownManagedCassandraProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -5401,7 +5642,7 @@ export enum KnownAuthenticationMethod {
   /** Cassandra */
   Cassandra = "Cassandra",
   /** Ldap */
-  Ldap = "Ldap"
+  Ldap = "Ldap",
 }
 
 /**
@@ -5415,12 +5656,33 @@ export enum KnownAuthenticationMethod {
  */
 export type AuthenticationMethod = string;
 
+/** Known values of {@link AutoReplicate} that the service accepts. */
+export enum KnownAutoReplicate {
+  /** None */
+  None = "None",
+  /** SystemKeyspaces */
+  SystemKeyspaces = "SystemKeyspaces",
+  /** AllKeyspaces */
+  AllKeyspaces = "AllKeyspaces",
+}
+
+/**
+ * Defines values for AutoReplicate. \
+ * {@link KnownAutoReplicate} can be used interchangeably with AutoReplicate,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemKeyspaces** \
+ * **AllKeyspaces**
+ */
+export type AutoReplicate = string;
+
 /** Known values of {@link ClusterType} that the service accepts. */
 export enum KnownClusterType {
   /** Production */
   Production = "Production",
   /** NonProduction */
-  NonProduction = "NonProduction"
+  NonProduction = "NonProduction",
 }
 
 /**
@@ -5433,12 +5695,51 @@ export enum KnownClusterType {
  */
 export type ClusterType = string;
 
+/** Known values of {@link ScheduledEventStrategy} that the service accepts. */
+export enum KnownScheduledEventStrategy {
+  /** Ignore */
+  Ignore = "Ignore",
+  /** StopAny */
+  StopAny = "StopAny",
+  /** StopByRack */
+  StopByRack = "StopByRack",
+}
+
+/**
+ * Defines values for ScheduledEventStrategy. \
+ * {@link KnownScheduledEventStrategy} can be used interchangeably with ScheduledEventStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ignore** \
+ * **StopAny** \
+ * **StopByRack**
+ */
+export type ScheduledEventStrategy = string;
+
+/** Known values of {@link AzureConnectionType} that the service accepts. */
+export enum KnownAzureConnectionType {
+  /** None */
+  None = "None",
+  /** VPN */
+  VPN = "VPN",
+}
+
+/**
+ * Defines values for AzureConnectionType. \
+ * {@link KnownAzureConnectionType} can be used interchangeably with AzureConnectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **VPN**
+ */
+export type AzureConnectionType = string;
+
 /** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
 export enum KnownManagedCassandraResourceIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -5451,6 +5752,36 @@ export enum KnownManagedCassandraResourceIdentityType {
  */
 export type ManagedCassandraResourceIdentityType = string;
 
+/** Known values of {@link CommandStatus} that the service accepts. */
+export enum KnownCommandStatus {
+  /** Done */
+  Done = "Done",
+  /** Running */
+  Running = "Running",
+  /** Enqueue */
+  Enqueue = "Enqueue",
+  /** Processing */
+  Processing = "Processing",
+  /** Finished */
+  Finished = "Finished",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for CommandStatus. \
+ * {@link KnownCommandStatus} can be used interchangeably with CommandStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Done** \
+ * **Running** \
+ * **Enqueue** \
+ * **Processing** \
+ * **Finished** \
+ * **Failed**
+ */
+export type CommandStatus = string;
+
 /** Known values of {@link BackupState} that the service accepts. */
 export enum KnownBackupState {
   /** Initiated */
@@ -5460,7 +5791,7 @@ export enum KnownBackupState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -5488,7 +5819,7 @@ export enum KnownConnectionState {
   /** InternalOperatorToDataCenterCertificateError */
   InternalOperatorToDataCenterCertificateError = "InternalOperatorToDataCenterCertificateError",
   /** InternalError */
-  InternalError = "InternalError"
+  InternalError = "InternalError",
 }
 
 /**
@@ -5516,7 +5847,7 @@ export enum KnownNodeState {
   /** Moving */
   Moving = "Moving",
   /** Stopped */
-  Stopped = "Stopped"
+  Stopped = "Stopped",
 }
 
 /**
@@ -5545,7 +5876,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Dropping */
-  Dropping = "Dropping"
+  Dropping = "Dropping",
 }
 
 /**
@@ -5577,7 +5908,7 @@ export enum KnownMongoClusterStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** Dropping */
-  Dropping = "Dropping"
+  Dropping = "Dropping",
 }
 
 /**
@@ -5598,7 +5929,7 @@ export type MongoClusterStatus = string;
 /** Known values of {@link NodeKind} that the service accepts. */
 export enum KnownNodeKind {
   /** Shard */
-  Shard = "Shard"
+  Shard = "Shard",
 }
 
 /**
@@ -5615,7 +5946,7 @@ export enum KnownCheckNameAvailabilityReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -5631,7 +5962,7 @@ export type CheckNameAvailabilityReason = string;
 /** Known values of {@link NotebookWorkspaceName} that the service accepts. */
 export enum KnownNotebookWorkspaceName {
   /** Default */
-  Default = "default"
+  Default = "default",
 }
 
 /**
@@ -5656,7 +5987,7 @@ export enum KnownApiType {
   /** Sql */
   Sql = "Sql",
   /** GremlinV2 */
-  GremlinV2 = "GremlinV2"
+  GremlinV2 = "GremlinV2",
 }
 
 /**
@@ -5684,7 +6015,7 @@ export enum KnownOperationType {
   /** Recreate */
   Recreate = "Recreate",
   /** SystemOperation */
-  SystemOperation = "SystemOperation"
+  SystemOperation = "SystemOperation",
 }
 
 /**
@@ -5707,7 +6038,7 @@ export enum KnownServiceSize {
   /** CosmosD8S */
   CosmosD8S = "Cosmos.D8s",
   /** CosmosD16S */
-  CosmosD16S = "Cosmos.D16s"
+  CosmosD16S = "Cosmos.D16s",
 }
 
 /**
@@ -5730,7 +6061,7 @@ export enum KnownServiceType {
   /** GraphAPICompute */
   GraphAPICompute = "GraphAPICompute",
   /** MaterializedViewsBuilder */
-  MaterializedViewsBuilder = "MaterializedViewsBuilder"
+  MaterializedViewsBuilder = "MaterializedViewsBuilder",
 }
 
 /**
@@ -5758,7 +6089,7 @@ export enum KnownServiceStatus {
   /** Error */
   Error = "Error",
   /** Stopped */
-  Stopped = "Stopped"
+  Stopped = "Stopped",
 }
 
 /**
@@ -5780,7 +6111,7 @@ export enum KnownContinuousTier {
   /** Continuous7Days */
   Continuous7Days = "Continuous7Days",
   /** Continuous30Days */
-  Continuous30Days = "Continuous30Days"
+  Continuous30Days = "Continuous30Days",
 }
 
 /**
@@ -5798,7 +6129,7 @@ export enum KnownNodeStatus {
   /** Up */
   Up = "Up",
   /** Down */
-  Down = "Down"
+  Down = "Down",
 }
 
 /**
@@ -5885,7 +6216,8 @@ export interface DatabaseAccountsFailoverPriorityChangeOptionalParams
 }
 
 /** Contains response data for the failoverPriorityChange operation. */
-export type DatabaseAccountsFailoverPriorityChangeResponse = DatabaseAccountsFailoverPriorityChangeHeaders;
+export type DatabaseAccountsFailoverPriorityChangeResponse =
+  DatabaseAccountsFailoverPriorityChangeHeaders;
 
 /** Optional parameters. */
 export interface DatabaseAccountsListOptionalParams
@@ -5899,7 +6231,8 @@ export interface DatabaseAccountsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DatabaseAccountsListByResourceGroupResponse = DatabaseAccountsListResult;
+export type DatabaseAccountsListByResourceGroupResponse =
+  DatabaseAccountsListResult;
 
 /** Optional parameters. */
 export interface DatabaseAccountsListKeysOptionalParams
@@ -5913,7 +6246,8 @@ export interface DatabaseAccountsListConnectionStringsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionStrings operation. */
-export type DatabaseAccountsListConnectionStringsResponse = DatabaseAccountListConnectionStringsResult;
+export type DatabaseAccountsListConnectionStringsResponse =
+  DatabaseAccountListConnectionStringsResult;
 
 /** Optional parameters. */
 export interface DatabaseAccountsOfflineRegionOptionalParams
@@ -5938,14 +6272,16 @@ export interface DatabaseAccountsGetReadOnlyKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getReadOnlyKeys operation. */
-export type DatabaseAccountsGetReadOnlyKeysResponse = DatabaseAccountListReadOnlyKeysResult;
+export type DatabaseAccountsGetReadOnlyKeysResponse =
+  DatabaseAccountListReadOnlyKeysResult;
 
 /** Optional parameters. */
 export interface DatabaseAccountsListReadOnlyKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listReadOnlyKeys operation. */
-export type DatabaseAccountsListReadOnlyKeysResponse = DatabaseAccountListReadOnlyKeysResult;
+export type DatabaseAccountsListReadOnlyKeysResponse =
+  DatabaseAccountListReadOnlyKeysResult;
 
 /** Optional parameters. */
 export interface DatabaseAccountsRegenerateKeyOptionalParams
@@ -5987,7 +6323,8 @@ export interface DatabaseAccountsListMetricDefinitionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetricDefinitions operation. */
-export type DatabaseAccountsListMetricDefinitionsResponse = MetricDefinitionsListResult;
+export type DatabaseAccountsListMetricDefinitionsResponse =
+  MetricDefinitionsListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -6049,7 +6386,8 @@ export interface CollectionListMetricDefinitionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetricDefinitions operation. */
-export type CollectionListMetricDefinitionsResponse = MetricDefinitionsListResult;
+export type CollectionListMetricDefinitionsResponse =
+  MetricDefinitionsListResult;
 
 /** Optional parameters. */
 export interface CollectionRegionListMetricsOptionalParams
@@ -6070,7 +6408,8 @@ export interface PercentileSourceTargetListMetricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetrics operation. */
-export type PercentileSourceTargetListMetricsResponse = PercentileMetricListResult;
+export type PercentileSourceTargetListMetricsResponse =
+  PercentileMetricListResult;
 
 /** Optional parameters. */
 export interface PercentileTargetListMetricsOptionalParams
@@ -6091,7 +6430,8 @@ export interface CollectionPartitionRegionListMetricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetrics operation. */
-export type CollectionPartitionRegionListMetricsResponse = PartitionMetricListResult;
+export type CollectionPartitionRegionListMetricsResponse =
+  PartitionMetricListResult;
 
 /** Optional parameters. */
 export interface CollectionPartitionListMetricsOptionalParams
@@ -6122,7 +6462,8 @@ export interface PartitionKeyRangeIdRegionListMetricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetrics operation. */
-export type PartitionKeyRangeIdRegionListMetricsResponse = PartitionMetricListResult;
+export type PartitionKeyRangeIdRegionListMetricsResponse =
+  PartitionMetricListResult;
 
 /** Optional parameters. */
 export interface GraphResourcesListGraphsOptionalParams
@@ -6195,14 +6536,16 @@ export interface SqlResourcesDeleteSqlDatabaseOptionalParams
 }
 
 /** Contains response data for the deleteSqlDatabase operation. */
-export type SqlResourcesDeleteSqlDatabaseResponse = SqlResourcesDeleteSqlDatabaseHeaders;
+export type SqlResourcesDeleteSqlDatabaseResponse =
+  SqlResourcesDeleteSqlDatabaseHeaders;
 
 /** Optional parameters. */
 export interface SqlResourcesGetSqlDatabaseThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlDatabaseThroughput operation. */
-export type SqlResourcesGetSqlDatabaseThroughputResponse = ThroughputSettingsGetResults;
+export type SqlResourcesGetSqlDatabaseThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesUpdateSqlDatabaseThroughputOptionalParams
@@ -6214,7 +6557,8 @@ export interface SqlResourcesUpdateSqlDatabaseThroughputOptionalParams
 }
 
 /** Contains response data for the updateSqlDatabaseThroughput operation. */
-export type SqlResourcesUpdateSqlDatabaseThroughputResponse = ThroughputSettingsGetResults;
+export type SqlResourcesUpdateSqlDatabaseThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams
@@ -6226,7 +6570,8 @@ export interface SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams
 }
 
 /** Contains response data for the migrateSqlDatabaseToAutoscale operation. */
-export type SqlResourcesMigrateSqlDatabaseToAutoscaleResponse = ThroughputSettingsGetResults;
+export type SqlResourcesMigrateSqlDatabaseToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
@@ -6238,21 +6583,24 @@ export interface SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
 }
 
 /** Contains response data for the migrateSqlDatabaseToManualThroughput operation. */
-export type SqlResourcesMigrateSqlDatabaseToManualThroughputResponse = ThroughputSettingsGetResults;
+export type SqlResourcesMigrateSqlDatabaseToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesListClientEncryptionKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listClientEncryptionKeys operation. */
-export type SqlResourcesListClientEncryptionKeysResponse = ClientEncryptionKeysListResult;
+export type SqlResourcesListClientEncryptionKeysResponse =
+  ClientEncryptionKeysListResult;
 
 /** Optional parameters. */
 export interface SqlResourcesGetClientEncryptionKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getClientEncryptionKey operation. */
-export type SqlResourcesGetClientEncryptionKeyResponse = ClientEncryptionKeyGetResults;
+export type SqlResourcesGetClientEncryptionKeyResponse =
+  ClientEncryptionKeyGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
@@ -6264,7 +6612,8 @@ export interface SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
 }
 
 /** Contains response data for the createUpdateClientEncryptionKey operation. */
-export type SqlResourcesCreateUpdateClientEncryptionKeyResponse = ClientEncryptionKeyGetResults;
+export type SqlResourcesCreateUpdateClientEncryptionKeyResponse =
+  ClientEncryptionKeyGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesListSqlContainersOptionalParams
@@ -6290,7 +6639,8 @@ export interface SqlResourcesCreateUpdateSqlContainerOptionalParams
 }
 
 /** Contains response data for the createUpdateSqlContainer operation. */
-export type SqlResourcesCreateUpdateSqlContainerResponse = SqlContainerGetResults;
+export type SqlResourcesCreateUpdateSqlContainerResponse =
+  SqlContainerGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesDeleteSqlContainerOptionalParams
@@ -6302,7 +6652,8 @@ export interface SqlResourcesDeleteSqlContainerOptionalParams
 }
 
 /** Contains response data for the deleteSqlContainer operation. */
-export type SqlResourcesDeleteSqlContainerResponse = SqlResourcesDeleteSqlContainerHeaders;
+export type SqlResourcesDeleteSqlContainerResponse =
+  SqlResourcesDeleteSqlContainerHeaders;
 
 /** Optional parameters. */
 export interface SqlResourcesSqlDatabasePartitionMergeOptionalParams
@@ -6314,7 +6665,8 @@ export interface SqlResourcesSqlDatabasePartitionMergeOptionalParams
 }
 
 /** Contains response data for the sqlDatabasePartitionMerge operation. */
-export type SqlResourcesSqlDatabasePartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
+export type SqlResourcesSqlDatabasePartitionMergeResponse =
+  PhysicalPartitionStorageInfoCollection;
 
 /** Optional parameters. */
 export interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
@@ -6326,14 +6678,16 @@ export interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
 }
 
 /** Contains response data for the listSqlContainerPartitionMerge operation. */
-export type SqlResourcesListSqlContainerPartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
+export type SqlResourcesListSqlContainerPartitionMergeResponse =
+  PhysicalPartitionStorageInfoCollection;
 
 /** Optional parameters. */
 export interface SqlResourcesGetSqlContainerThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlContainerThroughput operation. */
-export type SqlResourcesGetSqlContainerThroughputResponse = ThroughputSettingsGetResults;
+export type SqlResourcesGetSqlContainerThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesUpdateSqlContainerThroughputOptionalParams
@@ -6345,7 +6699,8 @@ export interface SqlResourcesUpdateSqlContainerThroughputOptionalParams
 }
 
 /** Contains response data for the updateSqlContainerThroughput operation. */
-export type SqlResourcesUpdateSqlContainerThroughputResponse = ThroughputSettingsGetResults;
+export type SqlResourcesUpdateSqlContainerThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams
@@ -6357,7 +6712,8 @@ export interface SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams
 }
 
 /** Contains response data for the migrateSqlContainerToAutoscale operation. */
-export type SqlResourcesMigrateSqlContainerToAutoscaleResponse = ThroughputSettingsGetResults;
+export type SqlResourcesMigrateSqlContainerToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
@@ -6369,7 +6725,8 @@ export interface SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
 }
 
 /** Contains response data for the migrateSqlContainerToManualThroughput operation. */
-export type SqlResourcesMigrateSqlContainerToManualThroughputResponse = ThroughputSettingsGetResults;
+export type SqlResourcesMigrateSqlContainerToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
@@ -6381,7 +6738,8 @@ export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalPa
 }
 
 /** Contains response data for the sqlDatabaseRetrieveThroughputDistribution operation. */
-export type SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+export type SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse =
+  PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
@@ -6393,7 +6751,8 @@ export interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
 }
 
 /** Contains response data for the sqlDatabaseRedistributeThroughput operation. */
-export type SqlResourcesSqlDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+export type SqlResourcesSqlDatabaseRedistributeThroughputResponse =
+  PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
@@ -6405,7 +6764,8 @@ export interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalP
 }
 
 /** Contains response data for the sqlContainerRetrieveThroughputDistribution operation. */
-export type SqlResourcesSqlContainerRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+export type SqlResourcesSqlContainerRetrieveThroughputDistributionResponse =
+  PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams
@@ -6417,21 +6777,24 @@ export interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams
 }
 
 /** Contains response data for the sqlContainerRedistributeThroughput operation. */
-export type SqlResourcesSqlContainerRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+export type SqlResourcesSqlContainerRedistributeThroughputResponse =
+  PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface SqlResourcesListSqlStoredProceduresOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSqlStoredProcedures operation. */
-export type SqlResourcesListSqlStoredProceduresResponse = SqlStoredProcedureListResult;
+export type SqlResourcesListSqlStoredProceduresResponse =
+  SqlStoredProcedureListResult;
 
 /** Optional parameters. */
 export interface SqlResourcesGetSqlStoredProcedureOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlStoredProcedure operation. */
-export type SqlResourcesGetSqlStoredProcedureResponse = SqlStoredProcedureGetResults;
+export type SqlResourcesGetSqlStoredProcedureResponse =
+  SqlStoredProcedureGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams
@@ -6443,7 +6806,8 @@ export interface SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams
 }
 
 /** Contains response data for the createUpdateSqlStoredProcedure operation. */
-export type SqlResourcesCreateUpdateSqlStoredProcedureResponse = SqlStoredProcedureGetResults;
+export type SqlResourcesCreateUpdateSqlStoredProcedureResponse =
+  SqlStoredProcedureGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesDeleteSqlStoredProcedureOptionalParams
@@ -6455,21 +6819,24 @@ export interface SqlResourcesDeleteSqlStoredProcedureOptionalParams
 }
 
 /** Contains response data for the deleteSqlStoredProcedure operation. */
-export type SqlResourcesDeleteSqlStoredProcedureResponse = SqlResourcesDeleteSqlStoredProcedureHeaders;
+export type SqlResourcesDeleteSqlStoredProcedureResponse =
+  SqlResourcesDeleteSqlStoredProcedureHeaders;
 
 /** Optional parameters. */
 export interface SqlResourcesListSqlUserDefinedFunctionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSqlUserDefinedFunctions operation. */
-export type SqlResourcesListSqlUserDefinedFunctionsResponse = SqlUserDefinedFunctionListResult;
+export type SqlResourcesListSqlUserDefinedFunctionsResponse =
+  SqlUserDefinedFunctionListResult;
 
 /** Optional parameters. */
 export interface SqlResourcesGetSqlUserDefinedFunctionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlUserDefinedFunction operation. */
-export type SqlResourcesGetSqlUserDefinedFunctionResponse = SqlUserDefinedFunctionGetResults;
+export type SqlResourcesGetSqlUserDefinedFunctionResponse =
+  SqlUserDefinedFunctionGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams
@@ -6481,7 +6848,8 @@ export interface SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams
 }
 
 /** Contains response data for the createUpdateSqlUserDefinedFunction operation. */
-export type SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse = SqlUserDefinedFunctionGetResults;
+export type SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse =
+  SqlUserDefinedFunctionGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
@@ -6493,7 +6861,8 @@ export interface SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
 }
 
 /** Contains response data for the deleteSqlUserDefinedFunction operation. */
-export type SqlResourcesDeleteSqlUserDefinedFunctionResponse = SqlResourcesDeleteSqlUserDefinedFunctionHeaders;
+export type SqlResourcesDeleteSqlUserDefinedFunctionResponse =
+  SqlResourcesDeleteSqlUserDefinedFunctionHeaders;
 
 /** Optional parameters. */
 export interface SqlResourcesListSqlTriggersOptionalParams
@@ -6531,14 +6900,16 @@ export interface SqlResourcesDeleteSqlTriggerOptionalParams
 }
 
 /** Contains response data for the deleteSqlTrigger operation. */
-export type SqlResourcesDeleteSqlTriggerResponse = SqlResourcesDeleteSqlTriggerHeaders;
+export type SqlResourcesDeleteSqlTriggerResponse =
+  SqlResourcesDeleteSqlTriggerHeaders;
 
 /** Optional parameters. */
 export interface SqlResourcesGetSqlRoleDefinitionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlRoleDefinition operation. */
-export type SqlResourcesGetSqlRoleDefinitionResponse = SqlRoleDefinitionGetResults;
+export type SqlResourcesGetSqlRoleDefinitionResponse =
+  SqlRoleDefinitionGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams
@@ -6550,7 +6921,8 @@ export interface SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams
 }
 
 /** Contains response data for the createUpdateSqlRoleDefinition operation. */
-export type SqlResourcesCreateUpdateSqlRoleDefinitionResponse = SqlRoleDefinitionGetResults;
+export type SqlResourcesCreateUpdateSqlRoleDefinitionResponse =
+  SqlRoleDefinitionGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesDeleteSqlRoleDefinitionOptionalParams
@@ -6566,14 +6938,16 @@ export interface SqlResourcesListSqlRoleDefinitionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSqlRoleDefinitions operation. */
-export type SqlResourcesListSqlRoleDefinitionsResponse = SqlRoleDefinitionListResult;
+export type SqlResourcesListSqlRoleDefinitionsResponse =
+  SqlRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface SqlResourcesGetSqlRoleAssignmentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSqlRoleAssignment operation. */
-export type SqlResourcesGetSqlRoleAssignmentResponse = SqlRoleAssignmentGetResults;
+export type SqlResourcesGetSqlRoleAssignmentResponse =
+  SqlRoleAssignmentGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams
@@ -6585,7 +6959,8 @@ export interface SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams
 }
 
 /** Contains response data for the createUpdateSqlRoleAssignment operation. */
-export type SqlResourcesCreateUpdateSqlRoleAssignmentResponse = SqlRoleAssignmentGetResults;
+export type SqlResourcesCreateUpdateSqlRoleAssignmentResponse =
+  SqlRoleAssignmentGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesDeleteSqlRoleAssignmentOptionalParams
@@ -6601,7 +6976,8 @@ export interface SqlResourcesListSqlRoleAssignmentsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSqlRoleAssignments operation. */
-export type SqlResourcesListSqlRoleAssignmentsResponse = SqlRoleAssignmentListResult;
+export type SqlResourcesListSqlRoleAssignmentsResponse =
+  SqlRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface SqlResourcesRetrieveContinuousBackupInformationOptionalParams
@@ -6613,21 +6989,24 @@ export interface SqlResourcesRetrieveContinuousBackupInformationOptionalParams
 }
 
 /** Contains response data for the retrieveContinuousBackupInformation operation. */
-export type SqlResourcesRetrieveContinuousBackupInformationResponse = BackupInformation;
+export type SqlResourcesRetrieveContinuousBackupInformationResponse =
+  BackupInformation;
 
 /** Optional parameters. */
 export interface MongoDBResourcesListMongoDBDatabasesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMongoDBDatabases operation. */
-export type MongoDBResourcesListMongoDBDatabasesResponse = MongoDBDatabaseListResult;
+export type MongoDBResourcesListMongoDBDatabasesResponse =
+  MongoDBDatabaseListResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoDBDatabaseOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMongoDBDatabase operation. */
-export type MongoDBResourcesGetMongoDBDatabaseResponse = MongoDBDatabaseGetResults;
+export type MongoDBResourcesGetMongoDBDatabaseResponse =
+  MongoDBDatabaseGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
@@ -6639,7 +7018,8 @@ export interface MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
 }
 
 /** Contains response data for the createUpdateMongoDBDatabase operation. */
-export type MongoDBResourcesCreateUpdateMongoDBDatabaseResponse = MongoDBDatabaseGetResults;
+export type MongoDBResourcesCreateUpdateMongoDBDatabaseResponse =
+  MongoDBDatabaseGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
@@ -6651,14 +7031,16 @@ export interface MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
 }
 
 /** Contains response data for the deleteMongoDBDatabase operation. */
-export type MongoDBResourcesDeleteMongoDBDatabaseResponse = MongoDBResourcesDeleteMongoDBDatabaseHeaders;
+export type MongoDBResourcesDeleteMongoDBDatabaseResponse =
+  MongoDBResourcesDeleteMongoDBDatabaseHeaders;
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMongoDBDatabaseThroughput operation. */
-export type MongoDBResourcesGetMongoDBDatabaseThroughputResponse = ThroughputSettingsGetResults;
+export type MongoDBResourcesGetMongoDBDatabaseThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
@@ -6670,7 +7052,8 @@ export interface MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
 }
 
 /** Contains response data for the updateMongoDBDatabaseThroughput operation. */
-export type MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse = ThroughputSettingsGetResults;
+export type MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
@@ -6682,7 +7065,8 @@ export interface MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
 }
 
 /** Contains response data for the migrateMongoDBDatabaseToAutoscale operation. */
-export type MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse = ThroughputSettingsGetResults;
+export type MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
@@ -6694,7 +7078,8 @@ export interface MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptiona
 }
 
 /** Contains response data for the migrateMongoDBDatabaseToManualThroughput operation. */
-export type MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse = ThroughputSettingsGetResults;
+export type MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
@@ -6706,7 +7091,8 @@ export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOp
 }
 
 /** Contains response data for the mongoDBDatabaseRetrieveThroughputDistribution operation. */
-export type MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+export type MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse =
+  PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
@@ -6718,7 +7104,8 @@ export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalPa
 }
 
 /** Contains response data for the mongoDBDatabaseRedistributeThroughput operation. */
-export type MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+export type MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse =
+  PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
@@ -6730,7 +7117,8 @@ export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionO
 }
 
 /** Contains response data for the mongoDBContainerRetrieveThroughputDistribution operation. */
-export type MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+export type MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse =
+  PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
@@ -6742,21 +7130,24 @@ export interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalP
 }
 
 /** Contains response data for the mongoDBContainerRedistributeThroughput operation. */
-export type MongoDBResourcesMongoDBContainerRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+export type MongoDBResourcesMongoDBContainerRedistributeThroughputResponse =
+  PhysicalPartitionThroughputInfoResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesListMongoDBCollectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMongoDBCollections operation. */
-export type MongoDBResourcesListMongoDBCollectionsResponse = MongoDBCollectionListResult;
+export type MongoDBResourcesListMongoDBCollectionsResponse =
+  MongoDBCollectionListResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoDBCollectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMongoDBCollection operation. */
-export type MongoDBResourcesGetMongoDBCollectionResponse = MongoDBCollectionGetResults;
+export type MongoDBResourcesGetMongoDBCollectionResponse =
+  MongoDBCollectionGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
@@ -6768,7 +7159,8 @@ export interface MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
 }
 
 /** Contains response data for the createUpdateMongoDBCollection operation. */
-export type MongoDBResourcesCreateUpdateMongoDBCollectionResponse = MongoDBCollectionGetResults;
+export type MongoDBResourcesCreateUpdateMongoDBCollectionResponse =
+  MongoDBCollectionGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesDeleteMongoDBCollectionOptionalParams
@@ -6780,7 +7172,8 @@ export interface MongoDBResourcesDeleteMongoDBCollectionOptionalParams
 }
 
 /** Contains response data for the deleteMongoDBCollection operation. */
-export type MongoDBResourcesDeleteMongoDBCollectionResponse = MongoDBResourcesDeleteMongoDBCollectionHeaders;
+export type MongoDBResourcesDeleteMongoDBCollectionResponse =
+  MongoDBResourcesDeleteMongoDBCollectionHeaders;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
@@ -6792,7 +7185,8 @@ export interface MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
 }
 
 /** Contains response data for the mongoDBDatabasePartitionMerge operation. */
-export type MongoDBResourcesMongoDBDatabasePartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
+export type MongoDBResourcesMongoDBDatabasePartitionMergeResponse =
+  PhysicalPartitionStorageInfoCollection;
 
 /** Optional parameters. */
 export interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
@@ -6804,14 +7198,16 @@ export interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalPara
 }
 
 /** Contains response data for the listMongoDBCollectionPartitionMerge operation. */
-export type MongoDBResourcesListMongoDBCollectionPartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
+export type MongoDBResourcesListMongoDBCollectionPartitionMergeResponse =
+  PhysicalPartitionStorageInfoCollection;
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMongoDBCollectionThroughput operation. */
-export type MongoDBResourcesGetMongoDBCollectionThroughputResponse = ThroughputSettingsGetResults;
+export type MongoDBResourcesGetMongoDBCollectionThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
@@ -6823,7 +7219,8 @@ export interface MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
 }
 
 /** Contains response data for the updateMongoDBCollectionThroughput operation. */
-export type MongoDBResourcesUpdateMongoDBCollectionThroughputResponse = ThroughputSettingsGetResults;
+export type MongoDBResourcesUpdateMongoDBCollectionThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams
@@ -6835,7 +7232,8 @@ export interface MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalPara
 }
 
 /** Contains response data for the migrateMongoDBCollectionToAutoscale operation. */
-export type MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse = ThroughputSettingsGetResults;
+export type MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams
@@ -6847,14 +7245,16 @@ export interface MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptio
 }
 
 /** Contains response data for the migrateMongoDBCollectionToManualThroughput operation. */
-export type MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse = ThroughputSettingsGetResults;
+export type MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoRoleDefinitionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMongoRoleDefinition operation. */
-export type MongoDBResourcesGetMongoRoleDefinitionResponse = MongoRoleDefinitionGetResults;
+export type MongoDBResourcesGetMongoRoleDefinitionResponse =
+  MongoRoleDefinitionGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
@@ -6866,7 +7266,8 @@ export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
 }
 
 /** Contains response data for the createUpdateMongoRoleDefinition operation. */
-export type MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse = MongoRoleDefinitionGetResults;
+export type MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse =
+  MongoRoleDefinitionGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
@@ -6882,14 +7283,16 @@ export interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMongoRoleDefinitions operation. */
-export type MongoDBResourcesListMongoRoleDefinitionsResponse = MongoRoleDefinitionListResult;
+export type MongoDBResourcesListMongoRoleDefinitionsResponse =
+  MongoRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoUserDefinitionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMongoUserDefinition operation. */
-export type MongoDBResourcesGetMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+export type MongoDBResourcesGetMongoUserDefinitionResponse =
+  MongoUserDefinitionGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
@@ -6901,7 +7304,8 @@ export interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
 }
 
 /** Contains response data for the createUpdateMongoUserDefinition operation. */
-export type MongoDBResourcesCreateUpdateMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+export type MongoDBResourcesCreateUpdateMongoUserDefinitionResponse =
+  MongoUserDefinitionGetResults;
 
 /** Optional parameters. */
 export interface MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
@@ -6917,7 +7321,8 @@ export interface MongoDBResourcesListMongoUserDefinitionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMongoUserDefinitions operation. */
-export type MongoDBResourcesListMongoUserDefinitionsResponse = MongoUserDefinitionListResult;
+export type MongoDBResourcesListMongoUserDefinitionsResponse =
+  MongoUserDefinitionListResult;
 
 /** Optional parameters. */
 export interface MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
@@ -6929,7 +7334,8 @@ export interface MongoDBResourcesRetrieveContinuousBackupInformationOptionalPara
 }
 
 /** Contains response data for the retrieveContinuousBackupInformation operation. */
-export type MongoDBResourcesRetrieveContinuousBackupInformationResponse = BackupInformation;
+export type MongoDBResourcesRetrieveContinuousBackupInformationResponse =
+  BackupInformation;
 
 /** Optional parameters. */
 export interface TableResourcesListTablesOptionalParams
@@ -6967,14 +7373,16 @@ export interface TableResourcesDeleteTableOptionalParams
 }
 
 /** Contains response data for the deleteTable operation. */
-export type TableResourcesDeleteTableResponse = TableResourcesDeleteTableHeaders;
+export type TableResourcesDeleteTableResponse =
+  TableResourcesDeleteTableHeaders;
 
 /** Optional parameters. */
 export interface TableResourcesGetTableThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTableThroughput operation. */
-export type TableResourcesGetTableThroughputResponse = ThroughputSettingsGetResults;
+export type TableResourcesGetTableThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface TableResourcesUpdateTableThroughputOptionalParams
@@ -6986,7 +7394,8 @@ export interface TableResourcesUpdateTableThroughputOptionalParams
 }
 
 /** Contains response data for the updateTableThroughput operation. */
-export type TableResourcesUpdateTableThroughputResponse = ThroughputSettingsGetResults;
+export type TableResourcesUpdateTableThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface TableResourcesMigrateTableToAutoscaleOptionalParams
@@ -6998,7 +7407,8 @@ export interface TableResourcesMigrateTableToAutoscaleOptionalParams
 }
 
 /** Contains response data for the migrateTableToAutoscale operation. */
-export type TableResourcesMigrateTableToAutoscaleResponse = ThroughputSettingsGetResults;
+export type TableResourcesMigrateTableToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface TableResourcesMigrateTableToManualThroughputOptionalParams
@@ -7010,7 +7420,8 @@ export interface TableResourcesMigrateTableToManualThroughputOptionalParams
 }
 
 /** Contains response data for the migrateTableToManualThroughput operation. */
-export type TableResourcesMigrateTableToManualThroughputResponse = ThroughputSettingsGetResults;
+export type TableResourcesMigrateTableToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface TableResourcesRetrieveContinuousBackupInformationOptionalParams
@@ -7022,21 +7433,24 @@ export interface TableResourcesRetrieveContinuousBackupInformationOptionalParams
 }
 
 /** Contains response data for the retrieveContinuousBackupInformation operation. */
-export type TableResourcesRetrieveContinuousBackupInformationResponse = BackupInformation;
+export type TableResourcesRetrieveContinuousBackupInformationResponse =
+  BackupInformation;
 
 /** Optional parameters. */
 export interface CassandraResourcesListCassandraKeyspacesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCassandraKeyspaces operation. */
-export type CassandraResourcesListCassandraKeyspacesResponse = CassandraKeyspaceListResult;
+export type CassandraResourcesListCassandraKeyspacesResponse =
+  CassandraKeyspaceListResult;
 
 /** Optional parameters. */
 export interface CassandraResourcesGetCassandraKeyspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCassandraKeyspace operation. */
-export type CassandraResourcesGetCassandraKeyspaceResponse = CassandraKeyspaceGetResults;
+export type CassandraResourcesGetCassandraKeyspaceResponse =
+  CassandraKeyspaceGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams
@@ -7048,7 +7462,8 @@ export interface CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams
 }
 
 /** Contains response data for the createUpdateCassandraKeyspace operation. */
-export type CassandraResourcesCreateUpdateCassandraKeyspaceResponse = CassandraKeyspaceGetResults;
+export type CassandraResourcesCreateUpdateCassandraKeyspaceResponse =
+  CassandraKeyspaceGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesDeleteCassandraKeyspaceOptionalParams
@@ -7060,14 +7475,16 @@ export interface CassandraResourcesDeleteCassandraKeyspaceOptionalParams
 }
 
 /** Contains response data for the deleteCassandraKeyspace operation. */
-export type CassandraResourcesDeleteCassandraKeyspaceResponse = CassandraResourcesDeleteCassandraKeyspaceHeaders;
+export type CassandraResourcesDeleteCassandraKeyspaceResponse =
+  CassandraResourcesDeleteCassandraKeyspaceHeaders;
 
 /** Optional parameters. */
 export interface CassandraResourcesGetCassandraKeyspaceThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCassandraKeyspaceThroughput operation. */
-export type CassandraResourcesGetCassandraKeyspaceThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesGetCassandraKeyspaceThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams
@@ -7079,7 +7496,8 @@ export interface CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalPara
 }
 
 /** Contains response data for the updateCassandraKeyspaceThroughput operation. */
-export type CassandraResourcesUpdateCassandraKeyspaceThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesUpdateCassandraKeyspaceThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalParams
@@ -7091,7 +7509,8 @@ export interface CassandraResourcesMigrateCassandraKeyspaceToAutoscaleOptionalPa
 }
 
 /** Contains response data for the migrateCassandraKeyspaceToAutoscale operation. */
-export type CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams
@@ -7103,21 +7522,24 @@ export interface CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOpt
 }
 
 /** Contains response data for the migrateCassandraKeyspaceToManualThroughput operation. */
-export type CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesListCassandraTablesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCassandraTables operation. */
-export type CassandraResourcesListCassandraTablesResponse = CassandraTableListResult;
+export type CassandraResourcesListCassandraTablesResponse =
+  CassandraTableListResult;
 
 /** Optional parameters. */
 export interface CassandraResourcesGetCassandraTableOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCassandraTable operation. */
-export type CassandraResourcesGetCassandraTableResponse = CassandraTableGetResults;
+export type CassandraResourcesGetCassandraTableResponse =
+  CassandraTableGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesCreateUpdateCassandraTableOptionalParams
@@ -7129,7 +7551,8 @@ export interface CassandraResourcesCreateUpdateCassandraTableOptionalParams
 }
 
 /** Contains response data for the createUpdateCassandraTable operation. */
-export type CassandraResourcesCreateUpdateCassandraTableResponse = CassandraTableGetResults;
+export type CassandraResourcesCreateUpdateCassandraTableResponse =
+  CassandraTableGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesDeleteCassandraTableOptionalParams
@@ -7141,14 +7564,16 @@ export interface CassandraResourcesDeleteCassandraTableOptionalParams
 }
 
 /** Contains response data for the deleteCassandraTable operation. */
-export type CassandraResourcesDeleteCassandraTableResponse = CassandraResourcesDeleteCassandraTableHeaders;
+export type CassandraResourcesDeleteCassandraTableResponse =
+  CassandraResourcesDeleteCassandraTableHeaders;
 
 /** Optional parameters. */
 export interface CassandraResourcesGetCassandraTableThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCassandraTableThroughput operation. */
-export type CassandraResourcesGetCassandraTableThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesGetCassandraTableThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesUpdateCassandraTableThroughputOptionalParams
@@ -7160,7 +7585,8 @@ export interface CassandraResourcesUpdateCassandraTableThroughputOptionalParams
 }
 
 /** Contains response data for the updateCassandraTableThroughput operation. */
-export type CassandraResourcesUpdateCassandraTableThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesUpdateCassandraTableThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams
@@ -7172,7 +7598,8 @@ export interface CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParam
 }
 
 /** Contains response data for the migrateCassandraTableToAutoscale operation. */
-export type CassandraResourcesMigrateCassandraTableToAutoscaleResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesMigrateCassandraTableToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams
@@ -7184,21 +7611,24 @@ export interface CassandraResourcesMigrateCassandraTableToManualThroughputOption
 }
 
 /** Contains response data for the migrateCassandraTableToManualThroughput operation. */
-export type CassandraResourcesMigrateCassandraTableToManualThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesMigrateCassandraTableToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesListCassandraViewsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCassandraViews operation. */
-export type CassandraResourcesListCassandraViewsResponse = CassandraViewListResult;
+export type CassandraResourcesListCassandraViewsResponse =
+  CassandraViewListResult;
 
 /** Optional parameters. */
 export interface CassandraResourcesGetCassandraViewOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCassandraView operation. */
-export type CassandraResourcesGetCassandraViewResponse = CassandraViewGetResults;
+export type CassandraResourcesGetCassandraViewResponse =
+  CassandraViewGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
@@ -7210,7 +7640,8 @@ export interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
 }
 
 /** Contains response data for the createUpdateCassandraView operation. */
-export type CassandraResourcesCreateUpdateCassandraViewResponse = CassandraViewGetResults;
+export type CassandraResourcesCreateUpdateCassandraViewResponse =
+  CassandraViewGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesDeleteCassandraViewOptionalParams
@@ -7226,7 +7657,8 @@ export interface CassandraResourcesGetCassandraViewThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCassandraViewThroughput operation. */
-export type CassandraResourcesGetCassandraViewThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesGetCassandraViewThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams
@@ -7238,7 +7670,8 @@ export interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams
 }
 
 /** Contains response data for the updateCassandraViewThroughput operation. */
-export type CassandraResourcesUpdateCassandraViewThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesUpdateCassandraViewThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
@@ -7250,7 +7683,8 @@ export interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
 }
 
 /** Contains response data for the migrateCassandraViewToAutoscale operation. */
-export type CassandraResourcesMigrateCassandraViewToAutoscaleResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesMigrateCassandraViewToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
@@ -7262,21 +7696,24 @@ export interface CassandraResourcesMigrateCassandraViewToManualThroughputOptiona
 }
 
 /** Contains response data for the migrateCassandraViewToManualThroughput operation. */
-export type CassandraResourcesMigrateCassandraViewToManualThroughputResponse = ThroughputSettingsGetResults;
+export type CassandraResourcesMigrateCassandraViewToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesListGremlinDatabasesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGremlinDatabases operation. */
-export type GremlinResourcesListGremlinDatabasesResponse = GremlinDatabaseListResult;
+export type GremlinResourcesListGremlinDatabasesResponse =
+  GremlinDatabaseListResult;
 
 /** Optional parameters. */
 export interface GremlinResourcesGetGremlinDatabaseOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getGremlinDatabase operation. */
-export type GremlinResourcesGetGremlinDatabaseResponse = GremlinDatabaseGetResults;
+export type GremlinResourcesGetGremlinDatabaseResponse =
+  GremlinDatabaseGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesCreateUpdateGremlinDatabaseOptionalParams
@@ -7288,7 +7725,8 @@ export interface GremlinResourcesCreateUpdateGremlinDatabaseOptionalParams
 }
 
 /** Contains response data for the createUpdateGremlinDatabase operation. */
-export type GremlinResourcesCreateUpdateGremlinDatabaseResponse = GremlinDatabaseGetResults;
+export type GremlinResourcesCreateUpdateGremlinDatabaseResponse =
+  GremlinDatabaseGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesDeleteGremlinDatabaseOptionalParams
@@ -7300,14 +7738,16 @@ export interface GremlinResourcesDeleteGremlinDatabaseOptionalParams
 }
 
 /** Contains response data for the deleteGremlinDatabase operation. */
-export type GremlinResourcesDeleteGremlinDatabaseResponse = GremlinResourcesDeleteGremlinDatabaseHeaders;
+export type GremlinResourcesDeleteGremlinDatabaseResponse =
+  GremlinResourcesDeleteGremlinDatabaseHeaders;
 
 /** Optional parameters. */
 export interface GremlinResourcesGetGremlinDatabaseThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getGremlinDatabaseThroughput operation. */
-export type GremlinResourcesGetGremlinDatabaseThroughputResponse = ThroughputSettingsGetResults;
+export type GremlinResourcesGetGremlinDatabaseThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesUpdateGremlinDatabaseThroughputOptionalParams
@@ -7319,7 +7759,8 @@ export interface GremlinResourcesUpdateGremlinDatabaseThroughputOptionalParams
 }
 
 /** Contains response data for the updateGremlinDatabaseThroughput operation. */
-export type GremlinResourcesUpdateGremlinDatabaseThroughputResponse = ThroughputSettingsGetResults;
+export type GremlinResourcesUpdateGremlinDatabaseThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesMigrateGremlinDatabaseToAutoscaleOptionalParams
@@ -7331,7 +7772,8 @@ export interface GremlinResourcesMigrateGremlinDatabaseToAutoscaleOptionalParams
 }
 
 /** Contains response data for the migrateGremlinDatabaseToAutoscale operation. */
-export type GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse = ThroughputSettingsGetResults;
+export type GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesMigrateGremlinDatabaseToManualThroughputOptionalParams
@@ -7343,7 +7785,8 @@ export interface GremlinResourcesMigrateGremlinDatabaseToManualThroughputOptiona
 }
 
 /** Contains response data for the migrateGremlinDatabaseToManualThroughput operation. */
-export type GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse = ThroughputSettingsGetResults;
+export type GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesListGremlinGraphsOptionalParams
@@ -7369,7 +7812,8 @@ export interface GremlinResourcesCreateUpdateGremlinGraphOptionalParams
 }
 
 /** Contains response data for the createUpdateGremlinGraph operation. */
-export type GremlinResourcesCreateUpdateGremlinGraphResponse = GremlinGraphGetResults;
+export type GremlinResourcesCreateUpdateGremlinGraphResponse =
+  GremlinGraphGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesDeleteGremlinGraphOptionalParams
@@ -7381,14 +7825,16 @@ export interface GremlinResourcesDeleteGremlinGraphOptionalParams
 }
 
 /** Contains response data for the deleteGremlinGraph operation. */
-export type GremlinResourcesDeleteGremlinGraphResponse = GremlinResourcesDeleteGremlinGraphHeaders;
+export type GremlinResourcesDeleteGremlinGraphResponse =
+  GremlinResourcesDeleteGremlinGraphHeaders;
 
 /** Optional parameters. */
 export interface GremlinResourcesGetGremlinGraphThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getGremlinGraphThroughput operation. */
-export type GremlinResourcesGetGremlinGraphThroughputResponse = ThroughputSettingsGetResults;
+export type GremlinResourcesGetGremlinGraphThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesUpdateGremlinGraphThroughputOptionalParams
@@ -7400,7 +7846,8 @@ export interface GremlinResourcesUpdateGremlinGraphThroughputOptionalParams
 }
 
 /** Contains response data for the updateGremlinGraphThroughput operation. */
-export type GremlinResourcesUpdateGremlinGraphThroughputResponse = ThroughputSettingsGetResults;
+export type GremlinResourcesUpdateGremlinGraphThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesMigrateGremlinGraphToAutoscaleOptionalParams
@@ -7412,7 +7859,8 @@ export interface GremlinResourcesMigrateGremlinGraphToAutoscaleOptionalParams
 }
 
 /** Contains response data for the migrateGremlinGraphToAutoscale operation. */
-export type GremlinResourcesMigrateGremlinGraphToAutoscaleResponse = ThroughputSettingsGetResults;
+export type GremlinResourcesMigrateGremlinGraphToAutoscaleResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesMigrateGremlinGraphToManualThroughputOptionalParams
@@ -7424,7 +7872,8 @@ export interface GremlinResourcesMigrateGremlinGraphToManualThroughputOptionalPa
 }
 
 /** Contains response data for the migrateGremlinGraphToManualThroughput operation. */
-export type GremlinResourcesMigrateGremlinGraphToManualThroughputResponse = ThroughputSettingsGetResults;
+export type GremlinResourcesMigrateGremlinGraphToManualThroughputResponse =
+  ThroughputSettingsGetResults;
 
 /** Optional parameters. */
 export interface GremlinResourcesRetrieveContinuousBackupInformationOptionalParams
@@ -7436,7 +7885,8 @@ export interface GremlinResourcesRetrieveContinuousBackupInformationOptionalPara
 }
 
 /** Contains response data for the retrieveContinuousBackupInformation operation. */
-export type GremlinResourcesRetrieveContinuousBackupInformationResponse = BackupInformation;
+export type GremlinResourcesRetrieveContinuousBackupInformationResponse =
+  BackupInformation;
 
 /** Optional parameters. */
 export interface LocationsListOptionalParams
@@ -7492,14 +7942,16 @@ export interface DataTransferJobsListByDatabaseAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDatabaseAccount operation. */
-export type DataTransferJobsListByDatabaseAccountResponse = DataTransferJobFeedResults;
+export type DataTransferJobsListByDatabaseAccountResponse =
+  DataTransferJobFeedResults;
 
 /** Optional parameters. */
 export interface DataTransferJobsListByDatabaseAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDatabaseAccountNext operation. */
-export type DataTransferJobsListByDatabaseAccountNextResponse = DataTransferJobFeedResults;
+export type DataTransferJobsListByDatabaseAccountNextResponse =
+  DataTransferJobFeedResults;
 
 /** Optional parameters. */
 export interface CassandraClustersListBySubscriptionOptionalParams
@@ -7566,6 +8018,32 @@ export interface CassandraClustersInvokeCommandOptionalParams
 
 /** Contains response data for the invokeCommand operation. */
 export type CassandraClustersInvokeCommandResponse = CommandOutput;
+
+/** Optional parameters. */
+export interface CassandraClustersInvokeCommandAsyncOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the invokeCommandAsync operation. */
+export type CassandraClustersInvokeCommandAsyncResponse = CommandPublicResource;
+
+/** Optional parameters. */
+export interface CassandraClustersListCommandOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCommand operation. */
+export type CassandraClustersListCommandResponse = ListCommands;
+
+/** Optional parameters. */
+export interface CassandraClustersGetCommandAsyncOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCommandAsync operation. */
+export type CassandraClustersGetCommandAsyncResponse = ListCommands;
 
 /** Optional parameters. */
 export interface CassandraClustersListBackupsOptionalParams
@@ -7734,7 +8212,8 @@ export interface MongoClustersDeleteFirewallRuleOptionalParams
 }
 
 /** Contains response data for the deleteFirewallRule operation. */
-export type MongoClustersDeleteFirewallRuleResponse = MongoClustersDeleteFirewallRuleHeaders;
+export type MongoClustersDeleteFirewallRuleResponse =
+  MongoClustersDeleteFirewallRuleHeaders;
 
 /** Optional parameters. */
 export interface MongoClustersGetFirewallRuleOptionalParams
@@ -7755,14 +8234,16 @@ export interface MongoClustersCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type MongoClustersCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+export type MongoClustersCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface MongoClustersListConnectionStringsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionStrings operation. */
-export type MongoClustersListConnectionStringsResponse = ListConnectionStringsResult;
+export type MongoClustersListConnectionStringsResponse =
+  ListConnectionStringsResult;
 
 /** Optional parameters. */
 export interface MongoClustersListNextOptionalParams
@@ -7776,7 +8257,8 @@ export interface MongoClustersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type MongoClustersListByResourceGroupNextResponse = MongoClusterListResult;
+export type MongoClustersListByResourceGroupNextResponse =
+  MongoClusterListResult;
 
 /** Optional parameters. */
 export interface MongoClustersListFirewallRulesNextOptionalParams
@@ -7790,7 +8272,8 @@ export interface NotebookWorkspacesListByDatabaseAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDatabaseAccount operation. */
-export type NotebookWorkspacesListByDatabaseAccountResponse = NotebookWorkspaceListResult;
+export type NotebookWorkspacesListByDatabaseAccountResponse =
+  NotebookWorkspaceListResult;
 
 /** Optional parameters. */
 export interface NotebookWorkspacesGetOptionalParams
@@ -7825,7 +8308,8 @@ export interface NotebookWorkspacesListConnectionInfoOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionInfo operation. */
-export type NotebookWorkspacesListConnectionInfoResponse = NotebookWorkspaceConnectionInfoResult;
+export type NotebookWorkspacesListConnectionInfoResponse =
+  NotebookWorkspaceConnectionInfoResult;
 
 /** Optional parameters. */
 export interface NotebookWorkspacesRegenerateAuthTokenOptionalParams
@@ -7850,7 +8334,8 @@ export interface PrivateEndpointConnectionsListByDatabaseAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDatabaseAccount operation. */
-export type PrivateEndpointConnectionsListByDatabaseAccountResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByDatabaseAccountResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -7869,7 +8354,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -7885,7 +8371,8 @@ export interface PrivateLinkResourcesListByDatabaseAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDatabaseAccount operation. */
-export type PrivateLinkResourcesListByDatabaseAccountResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByDatabaseAccountResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
@@ -7899,28 +8386,32 @@ export interface RestorableDatabaseAccountsListByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocation operation. */
-export type RestorableDatabaseAccountsListByLocationResponse = RestorableDatabaseAccountsListResult;
+export type RestorableDatabaseAccountsListByLocationResponse =
+  RestorableDatabaseAccountsListResult;
 
 /** Optional parameters. */
 export interface RestorableDatabaseAccountsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type RestorableDatabaseAccountsListResponse = RestorableDatabaseAccountsListResult;
+export type RestorableDatabaseAccountsListResponse =
+  RestorableDatabaseAccountsListResult;
 
 /** Optional parameters. */
 export interface RestorableDatabaseAccountsGetByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByLocation operation. */
-export type RestorableDatabaseAccountsGetByLocationResponse = RestorableDatabaseAccountGetResult;
+export type RestorableDatabaseAccountsGetByLocationResponse =
+  RestorableDatabaseAccountGetResult;
 
 /** Optional parameters. */
 export interface RestorableSqlDatabasesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type RestorableSqlDatabasesListResponse = RestorableSqlDatabasesListResult;
+export type RestorableSqlDatabasesListResponse =
+  RestorableSqlDatabasesListResult;
 
 /** Optional parameters. */
 export interface RestorableSqlContainersListOptionalParams
@@ -7934,7 +8425,8 @@ export interface RestorableSqlContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type RestorableSqlContainersListResponse = RestorableSqlContainersListResult;
+export type RestorableSqlContainersListResponse =
+  RestorableSqlContainersListResult;
 
 /** Optional parameters. */
 export interface RestorableSqlResourcesListOptionalParams
@@ -7946,14 +8438,16 @@ export interface RestorableSqlResourcesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type RestorableSqlResourcesListResponse = RestorableSqlResourcesListResult;
+export type RestorableSqlResourcesListResponse =
+  RestorableSqlResourcesListResult;
 
 /** Optional parameters. */
 export interface RestorableMongodbDatabasesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type RestorableMongodbDatabasesListResponse = RestorableMongodbDatabasesListResult;
+export type RestorableMongodbDatabasesListResponse =
+  RestorableMongodbDatabasesListResult;
 
 /** Optional parameters. */
 export interface RestorableMongodbCollectionsListOptionalParams
@@ -7967,7 +8461,8 @@ export interface RestorableMongodbCollectionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type RestorableMongodbCollectionsListResponse = RestorableMongodbCollectionsListResult;
+export type RestorableMongodbCollectionsListResponse =
+  RestorableMongodbCollectionsListResult;
 
 /** Optional parameters. */
 export interface RestorableMongodbResourcesListOptionalParams
@@ -7979,14 +8474,16 @@ export interface RestorableMongodbResourcesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type RestorableMongodbResourcesListResponse = RestorableMongodbResourcesListResult;
+export type RestorableMongodbResourcesListResponse =
+  RestorableMongodbResourcesListResult;
 
 /** Optional parameters. */
 export interface RestorableGremlinDatabasesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type RestorableGremlinDatabasesListResponse = RestorableGremlinDatabasesListResult;
+export type RestorableGremlinDatabasesListResponse =
+  RestorableGremlinDatabasesListResult;
 
 /** Optional parameters. */
 export interface RestorableGremlinGraphsListOptionalParams
@@ -8000,7 +8497,8 @@ export interface RestorableGremlinGraphsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type RestorableGremlinGraphsListResponse = RestorableGremlinGraphsListResult;
+export type RestorableGremlinGraphsListResponse =
+  RestorableGremlinGraphsListResult;
 
 /** Optional parameters. */
 export interface RestorableGremlinResourcesListOptionalParams
@@ -8012,7 +8510,8 @@ export interface RestorableGremlinResourcesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type RestorableGremlinResourcesListResponse = RestorableGremlinResourcesListResult;
+export type RestorableGremlinResourcesListResponse =
+  RestorableGremlinResourcesListResult;
 
 /** Optional parameters. */
 export interface RestorableTablesListOptionalParams
@@ -8036,7 +8535,8 @@ export interface RestorableTableResourcesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type RestorableTableResourcesListResponse = RestorableTableResourcesListResult;
+export type RestorableTableResourcesListResponse =
+  RestorableTableResourcesListResult;
 
 /** Optional parameters. */
 export interface ServiceListOptionalParams
@@ -8071,6 +8571,129 @@ export interface ServiceDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ThroughputPoolsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ThroughputPoolsListResponse = ThroughputPoolsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ThroughputPoolsListByResourceGroupResponse =
+  ThroughputPoolsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ThroughputPoolsListNextResponse = ThroughputPoolsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ThroughputPoolsListByResourceGroupNextResponse =
+  ThroughputPoolsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ThroughputPoolGetResponse = ThroughputPoolResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ThroughputPoolCreateOrUpdateResponse = ThroughputPoolResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The parameters to provide for the current Throughput Pool. */
+  body?: ThroughputPoolUpdate;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ThroughputPoolUpdateResponse = ThroughputPoolResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ThroughputPoolDeleteResponse = ThroughputPoolDeleteHeaders;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ThroughputPoolAccountsListResponse =
+  ThroughputPoolAccountsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ThroughputPoolAccountsListNextResponse =
+  ThroughputPoolAccountsListResult;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ThroughputPoolAccountGetResponse = ThroughputPoolAccountResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ThroughputPoolAccountCreateResponse = ThroughputPoolAccountResource;
+
+/** Optional parameters. */
+export interface ThroughputPoolAccountDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ThroughputPoolAccountDeleteResponse =
+  ThroughputPoolAccountDeleteHeaders;
 
 /** Optional parameters. */
 export interface CosmosDBManagementClientOptionalParams
