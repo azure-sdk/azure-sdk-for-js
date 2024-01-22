@@ -17,7 +17,10 @@ import {
   ServicesCreateOrUpdateResponse,
   ServicesUpdateOptionalParams,
   ServicesUpdateResponse,
-  ServicesDeleteOptionalParams
+  ServicesDeleteOptionalParams,
+  MetadataSchemaExportRequest,
+  ServicesExportMetadataSchemaOptionalParams,
+  ServicesExportMetadataSchemaResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,59 +31,72 @@ export interface Services {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ServicesListBySubscriptionOptionalParams
+    options?: ServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Service>;
   /**
-   * Lists services within a resource group
+   * Returns a collection of services within the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Service>;
   /**
-   * Get service
+   * Returns details of the service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse>;
   /**
-   * Create or update service
+   * Creates new or updates existing API.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
-   * Update service
+   * Updates existing service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServicesUpdateOptionalParams
+    options?: ServicesUpdateOptionalParams,
   ): Promise<ServicesUpdateResponse>;
   /**
-   * Delete service
+   * Deletes specified service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName Service name
+   * @param serviceName The name of Azure API Center service.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Exports the effective metadata schema.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param payload The metadata schema request details.
+   * @param options The options parameters.
+   */
+  exportMetadataSchema(
+    resourceGroupName: string,
+    serviceName: string,
+    payload: MetadataSchemaExportRequest,
+    options?: ServicesExportMetadataSchemaOptionalParams,
+  ): Promise<ServicesExportMetadataSchemaResponse>;
 }
