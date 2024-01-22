@@ -650,6 +650,9 @@ dependencies:
   '@rush-temp/arm-sphere':
     specifier: file:./projects/arm-sphere.tgz
     version: file:projects/arm-sphere.tgz
+  '@rush-temp/arm-springappdiscovery':
+    specifier: file:./projects/arm-springappdiscovery.tgz
+    version: file:projects/arm-springappdiscovery.tgz
   '@rush-temp/arm-sql':
     specifier: file:./projects/arm-sql.tgz
     version: file:projects/arm-sql.tgz
@@ -16315,6 +16318,34 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-springappdiscovery.tgz:
+    resolution: {integrity: sha512-CxResjapQt0L5qh/OTbBAUqFDsZcFlggC3tedjfUqISXan3NjpI4ZV73p0TYhhMTtFEk1iSRoDz8+eqF17Weww==, tarball: file:projects/arm-springappdiscovery.tgz}
+    name: '@rush-temp/arm-springappdiscovery'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.8
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
