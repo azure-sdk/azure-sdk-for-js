@@ -722,6 +722,9 @@ dependencies:
   '@rush-temp/arm-workloads':
     specifier: file:./projects/arm-workloads.tgz
     version: file:projects/arm-workloads.tgz
+  '@rush-temp/arm-workloads-sapvirtualinstance':
+    specifier: file:./projects/arm-workloads-sapvirtualinstance.tgz
+    version: file:projects/arm-workloads-sapvirtualinstance.tgz
   '@rush-temp/arm-workspaces':
     specifier: file:./projects/arm-workspaces.tgz
     version: file:projects/arm-workspaces.tgz
@@ -16903,6 +16906,34 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-workloads-sapvirtualinstance.tgz:
+    resolution: {integrity: sha512-GeW4mqrkDGRNgdpSCTGLAqk3mov1BDnn6+/3x7hAxq7XACWBc5ekXtAk3kXzS09LClo2/F8opvnyQVBnuCcFAg==, tarball: file:projects/arm-workloads-sapvirtualinstance.tgz}
+    name: '@rush-temp/arm-workloads-sapvirtualinstance'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.8
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
