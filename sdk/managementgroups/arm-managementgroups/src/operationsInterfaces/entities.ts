@@ -18,6 +18,6 @@ export interface Entities {
    * @param options The options parameters.
    */
   list(
-    options?: EntitiesListOptionalParams
+    options?: EntitiesListOptionalParams,
   ): PagedAsyncIterableIterator<EntityInfo>;
 }

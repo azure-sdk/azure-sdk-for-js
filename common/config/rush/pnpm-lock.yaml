@@ -1184,6 +1184,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-managementgroups@2.0.2:
+    resolution: {integrity: sha512-vR5g/LDdyVI5zTUJrNCYks3AMU7TYUqbDbQ2lfhGvyf+6Vvi9qh3BHVYTFE963x7/M9oEINK2lPvl21/dxFNyA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.13.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network@32.2.0:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
@@ -14422,7 +14437,7 @@ packages:
     dev: false
 
   file:projects/arm-managementgroups.tgz:
-    resolution: {integrity: sha512-H0H5+w7SolpETTq5k0VtPYv/KOAzCqFcfrL1g0pujuWXrVQ0rRyBCnZGaVEUcnNYZYZSYMBa4Pn3LOO/2Y46+g==, tarball: file:projects/arm-managementgroups.tgz}
+    resolution: {integrity: sha512-FVOM8B0e19nA+Mu7hjBGOEcfaNLqz5JzgFQpjdtq9QZnuTqjN825bmDM4fkPjMro/fYU5jZB7BHGW5hr6w6tuQ==, tarball: file:projects/arm-managementgroups.tgz}
     name: '@rush-temp/arm-managementgroups'
     version: 0.0.0
     dependencies:
@@ -14430,12 +14445,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.2
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -15264,10 +15282,11 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-/dhmPL/hUyUFBeA/k+1Ex91Deni5MOfUdESJsLZf9oiDhsQ0V+pUve/VPCCTPsEykUDOe1gsV5MeifYikk+1Sg==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-ztE8G/NazjYrr2u9rVI078gND+iiIToyUP7xKNamzslhvdi6NfVgw3cghLk+OwwUEf4N89hp8t0JoGKnyYFuQA==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
+      '@azure/arm-managementgroups': 2.0.2
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
