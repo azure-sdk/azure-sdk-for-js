@@ -12663,7 +12663,7 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-IHoKeHCSfMjZNHQjsqxJpAdts6NBFhdW9fsegxLlyNj4OEAmSpOIecOo8dhwwnOFW2zomvLEwnArMZIsIR5WhA==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-+GqG0TW34BSJr4TpFL99NhToByMgzEbEOEAuoplwM4ILZQfMJtlfzed6WLmca1uugnqqSfyDzrV8gGalALXTeg==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
@@ -12671,13 +12671,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.2
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
