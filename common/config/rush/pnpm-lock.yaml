@@ -9558,37 +9558,6 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node@10.9.2(@types/node@18.19.8)(typescript@5.0.4):
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 18.19.8
-      acorn: 8.11.3
-      acorn-walk: 8.3.2
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.0.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
   /ts-node@10.9.2(@types/node@18.19.8)(typescript@5.2.2):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -12501,7 +12470,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservicefleet.tgz:
-    resolution: {integrity: sha512-mriv1VgBYTEF/mKdx+JN1Lz+Cx9fEl2eal3MS0Tiql5MXTpV4Wk4okxyCPrfy5xKpcBhpN++kjOMrBwhI12D7Q==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-PWzwt5o43vxaJBYP6ZUfN+6RK/Yq9kafasLxR/D6hb/5hdH2pyY6w94tsrDiLsSLtRGO88D/sk08mk458DAOIQ==, tarball: file:projects/arm-containerservicefleet.tgz}
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
@@ -12518,9 +12487,9 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.0.4)
+      ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
-      typescript: 5.0.4
+      typescript: 5.2.2
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
