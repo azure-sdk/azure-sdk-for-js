@@ -1,15 +1,16 @@
 # Release History
+    
+## 33.1.0 (2024-01-23)
+    
+**Features**
 
-## 33.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface HeaderValueMatcher
+  - Interface ApplicationGatewayHeaderConfiguration has a new optional parameter headerValueMatcher
+  - Interface BastionHost has a new optional parameter zones
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value NetworkSecurityGroupEnabled
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value RouteTableEnabled
+    
+    
 ## 33.0.0 (2023-12-07)
     
 **Features**

@@ -538,6 +538,7 @@ export interface ApplicationGatewayGlobalConfiguration {
 export interface ApplicationGatewayHeaderConfiguration {
     headerName?: string;
     headerValue?: string;
+    headerValueMatcher?: HeaderValueMatcher;
 }
 
 // @public
@@ -1998,6 +1999,7 @@ export interface BastionHost extends Resource {
     scaleUnits?: number;
     sku?: Sku;
     virtualNetwork?: SubResource;
+    zones?: string[];
 }
 
 // @public
@@ -5355,6 +5357,13 @@ export interface GroupByVariable {
 export type GroupConnectivity = string;
 
 // @public
+export interface HeaderValueMatcher {
+    ignoreCase?: boolean;
+    negate?: boolean;
+    pattern?: string;
+}
+
+// @public
 export interface HopLink {
     readonly context?: {
         [propertyName: string]: string;
@@ -7417,7 +7426,9 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+    RouteTableEnabled = "RouteTableEnabled"
 }
 
 // @public
