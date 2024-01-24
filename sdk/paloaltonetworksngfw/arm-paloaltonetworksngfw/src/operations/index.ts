@@ -14,6 +14,7 @@ export * from "./prefixListGlobalRulestack";
 export * from "./preRules";
 export * from "./operations";
 export * from "./firewalls";
+export * from "./paloAltoNetworksCloudngfw";
 export * from "./localRulestacks";
 export * from "./firewallStatus";
 export * from "./certificateObjectLocalRulestack";
