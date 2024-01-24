@@ -14,12 +14,13 @@ import { SecurityInsights } from "../securityInsights";
 import {
   DataConnectorsCheckRequirementsUnion,
   DataConnectorsCheckRequirementsPostOptionalParams,
-  DataConnectorsCheckRequirementsPostResponse
+  DataConnectorsCheckRequirementsPostResponse,
 } from "../models";
 
 /** Class containing DataConnectorsCheckRequirementsOperations operations. */
 export class DataConnectorsCheckRequirementsOperationsImpl
-  implements DataConnectorsCheckRequirementsOperations {
+  implements DataConnectorsCheckRequirementsOperations
+{
   private readonly client: SecurityInsights;
 
   /**
@@ -41,16 +42,16 @@ export class DataConnectorsCheckRequirementsOperationsImpl
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion,
-    options?: DataConnectorsCheckRequirementsPostOptionalParams
+    options?: DataConnectorsCheckRequirementsPostOptionalParams,
   ): Promise<DataConnectorsCheckRequirementsPostResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         dataConnectorsCheckRequirements,
-        options
+        options,
       },
-      postOperationSpec
+      postOperationSpec,
     );
   }
 }
@@ -58,16 +59,15 @@ export class DataConnectorsCheckRequirementsOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorRequirementsState
+      bodyMapper: Mappers.DataConnectorRequirementsState,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.dataConnectorsCheckRequirements,
   queryParameters: [Parameters.apiVersion],
@@ -75,9 +75,9 @@ const postOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -14,7 +14,7 @@ import { SecurityInsights } from "../securityInsights";
 import {
   EntityTimelineParameters,
   EntitiesGetTimelineListOptionalParams,
-  EntitiesGetTimelineListResponse
+  EntitiesGetTimelineListResponse,
 } from "../models";
 
 /** Class containing EntitiesGetTimeline operations. */
@@ -42,11 +42,11 @@ export class EntitiesGetTimelineImpl implements EntitiesGetTimeline {
     workspaceName: string,
     entityId: string,
     parameters: EntityTimelineParameters,
-    options?: EntitiesGetTimelineListOptionalParams
+    options?: EntitiesGetTimelineListOptionalParams,
   ): Promise<EntitiesGetTimelineListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, entityId, parameters, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -54,16 +54,15 @@ export class EntitiesGetTimelineImpl implements EntitiesGetTimeline {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getTimeline",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getTimeline",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityTimelineResponse
+      bodyMapper: Mappers.EntityTimelineResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -72,9 +71,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId
+    Parameters.entityId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
