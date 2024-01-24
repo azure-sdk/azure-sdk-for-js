@@ -16042,7 +16042,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-BgTvWlnx24iABUAjVhOFXeG341+nKojsKGIjBfJ90dxJvLY92qZHfDi3RkEZHd0GoJuSFotEW7BSfoeUWyefRg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-nxI5WXKOvH6M3VPzb4bqn7/v6QtGmej7VNWkbCJkjPg8rSN2g6uVzgkfZ218LjTPYt9lI8X9yIsavvUmRbDpbw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -16050,13 +16050,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.2
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -19906,7 +19908,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-lo4oozQNttRnokWFrCbY3GohMibQ/CfSMj7WphFham4Amqe+4h45EjAqI1JyM1msx/RxUvhToAGBSGhzer1Rcw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-Xf0NjVPAmeEoG0JyhuOmfqK4XSDmyiN0msQL/FRF7Fei5VMv/ll8lpAAA6nXNGFsyHWec560+FC4ltY4+kPxMg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19954,7 +19956,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-9hmYHmHPuVKee47ZJqtIQIK5Y5FabtUxkMISw7Cm0KW2hJKBVZbwPOOWc6BhysqXg1Eli8zOVCfBj13Bq5Mdxg==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-cjN6ndl4z8E640TVIBFVlpQrMq2bfxispNBr8Apa7PF9+x1ZYPRGjtesqR3pbuo+DxJRZfeSHFBfVgqP9CTegQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
