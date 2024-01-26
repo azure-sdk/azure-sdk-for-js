@@ -1,15 +1,50 @@
 # Release History
+    
+## 15.0.0 (2024-01-26)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Added operation AppServicePlans.getVirtualNetworkIntegration
+  - Added operation AppServicePlans.listVirtualNetworkIntegrations
+  - Added Interface AppServicePlansGetVirtualNetworkIntegrationOptionalParams
+  - Added Interface AppServicePlansGetVirtualNetworkIntegrationsNextOptionalParams
+  - Added Interface AppServicePlansGetVirtualNetworkIntegrationsOptionalParams
+  - Added Interface PurgeUnusedVirtualNetworkIntegrationsOptionalParams
+  - Added Interface SwiftVirtualNetworkCollection
+  - Added Interface SwiftVirtualNetworkProxy
+  - Added Interface SwiftVirtualNetworkResourceAllocation
+  - Added Interface SwiftVirtualNetworkSubnetIpAllocation
+  - Added Interface SwiftVirtualNetworkVnetConnectionAllocation
+  - Added Interface VirtualNetworkIntegrationRequest
+  - Added Interface VirtualNetworkIntegrationsOptionalParams
+  - Added Type Alias AppServicePlansGetVirtualNetworkIntegrationResponse
+  - Added Type Alias AppServicePlansGetVirtualNetworkIntegrationsNextResponse
+  - Added Type Alias AppServicePlansGetVirtualNetworkIntegrationsResponse
+  - Added Type Alias PurgedUnusedVirtualNetworkSuccessResponse
+  - Added Type Alias PurgeUnusedVirtualNetworkIntegrationsResponse
+  - Added Type Alias VirtualNetworkIntegrationsResponse
+  - Interface Site has a new optional parameter vnetBackupRestoreEnabled
+  - Interface SwiftVirtualNetwork has a new optional parameter resourceAllocation
+  - Interface SwiftVirtualNetwork has a new optional parameter subnetIpAllocation
+  - Interface SwiftVirtualNetwork has a new optional parameter vnetConnectionAllocation
+  - Added Enum KnownPurgedUnusedVirtualNetworkSuccessResponse
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait has a new signature
+  - Operation WebApps.createOrUpdateSwiftVirtualNetworkConnectionWithCheck has a new signature
+  - Operation WebApps.createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot has a new signature
+  - Operation WebApps.updateSwiftVirtualNetworkConnectionWithCheck has a new signature
+  - Operation WebApps.updateSwiftVirtualNetworkConnectionWithCheckSlot has a new signature
+    
+    
 ## 14.1.0 (2023-11-16)
     
 **Features**
