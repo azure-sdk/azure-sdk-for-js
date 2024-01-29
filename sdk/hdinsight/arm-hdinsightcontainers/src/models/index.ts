@@ -8,6 +8,22 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ClusterPoolUpgradePropertiesUnion =
+  | ClusterPoolUpgradeProperties
+  | ClusterPoolAKSPatchVersionUpgradeProperties
+  | ClusterPoolNodeOsImageUpdateProperties;
+export type ClusterPoolAvailableUpgradePropertiesUnion =
+  | ClusterPoolAvailableUpgradeProperties
+  | ClusterPoolAvailableUpgradeAksPatchUpgradeProperties
+  | ClusterPoolAvailableUpgradeNodeOsUpgradeProperties;
+export type ClusterUpgradePropertiesUnion =
+  | ClusterUpgradeProperties
+  | ClusterAKSPatchVersionUpgradeProperties
+  | ClusterHotfixUpgradeProperties;
+export type ClusterAvailableUpgradePropertiesUnion =
+  | ClusterAvailableUpgradeProperties
+  | ClusterAvailableUpgradeAksPatchUpgradeProperties
+  | ClusterAvailableUpgradeHotfixUpgradeProperties;
 export type ClusterJobPropertiesUnion =
   | ClusterJobProperties
   | FlinkJobProperties;
@@ -56,6 +72,12 @@ export interface IdentityProfile {
 export interface ClusterPoolNetworkProfile {
   /** Cluster pool subnet resource id. */
   subnetId: string;
+  /** This can only be set at cluster pool creation time and cannot be changed later. */
+  outboundType?: OutboundType;
+  /** ClusterPool is based on AKS cluster. AKS cluster exposes the API server to public internet by default. If you set this property to true, a private AKS cluster will be created, and it will use private apiserver, which is not exposed to public internet. */
+  enablePrivateApiServer?: boolean;
+  /** IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with private AKS clusters. So you cannot set enablePrivateApiServer to true and apiServerAuthorizedIpRanges at the same time. */
+  apiServerAuthorizedIpRanges?: string[];
 }
 
 /** Cluster pool log analytics profile used to enable or disable OMS agent for AKS cluster. */
@@ -172,6 +194,32 @@ export interface ClusterPoolListResult {
   readonly nextLink?: string;
 }
 
+/** Cluster Pool Upgrade. */
+export interface ClusterPoolUpgrade {
+  /** Properties of upgrading cluster pool. */
+  properties: ClusterPoolUpgradePropertiesUnion;
+}
+
+/** Properties of upgrading cluster pool. */
+export interface ClusterPoolUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade" | "NodeOsUpgrade";
+}
+
+/** collection of cluster pool available upgrade. */
+export interface ClusterPoolAvailableUpgradeList {
+  /** Collection of cluster pool available upgrade. */
+  value: ClusterPoolAvailableUpgrade[];
+  /** The Url of next result page. */
+  nextLink?: string;
+}
+
+/** Cluster pool available upgrade properties. */
+export interface ClusterPoolAvailableUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade" | "NodeOsUpgrade";
+}
+
 /** The list cluster operation response. */
 export interface ClusterListResult {
   /** The list of clusters. */
@@ -210,8 +258,8 @@ export interface ClusterProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly components?: ClusterComponentsItem[];
-  /** Identity Profile with details of an MSI. */
-  identityProfile: IdentityProfile;
+  /** This property is required by Trino, Spark and Flink cluster but is optional for Kafka cluster. */
+  identityProfile?: IdentityProfile;
   /** Authorization profile with details of AAD user Ids and group Ids authorized for data plane access. */
   authorizationProfile: AuthorizationProfile;
   /** The cluster secret profile. */
@@ -223,6 +271,8 @@ export interface ClusterProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly connectivityProfile?: ConnectivityProfile;
+  /** Cluster access profile. */
+  clusterAccessProfile?: ClusterAccessProfile;
   /** Cluster log analytics profile to enable or disable OMS agent for cluster. */
   logAnalyticsProfile?: ClusterLogAnalyticsProfile;
   /** Cluster Prometheus profile. */
@@ -231,8 +281,10 @@ export interface ClusterProfile {
   sshProfile?: SshProfile;
   /** This is the Autoscale profile for the cluster. This will allow customer to create cluster enabled with Autoscale. */
   autoscaleProfile?: AutoscaleProfile;
-  /** Kafka cluster profile. */
-  kafkaProfile?: { [propertyName: string]: any };
+  /** Cluster Ranger plugin profile. */
+  rangerPluginProfile?: ClusterRangerPluginProfile;
+  /** The Kafka cluster profile. */
+  kafkaProfile?: KafkaProfile;
   /** Trino Cluster profile. */
   trinoProfile?: TrinoProfile;
   /** LLAP cluster profile. */
@@ -241,6 +293,8 @@ export interface ClusterProfile {
   flinkProfile?: FlinkProfile;
   /** The spark cluster profile. */
   sparkProfile?: SparkProfile;
+  /** The ranger cluster profile. */
+  rangerProfile?: RangerProfile;
   /** Stub cluster profile. */
   stubProfile?: { [propertyName: string]: any };
   /** The script action profile list. */
@@ -325,12 +379,27 @@ export interface ConnectivityProfile {
 export interface WebConnectivityEndpoint {
   /** Web connectivity endpoint. */
   fqdn: string;
+  /** Private web connectivity endpoint. This property will only be returned when enableInternalIngress is true. */
+  privateFqdn?: string;
 }
 
 /** SSH connectivity endpoint details. */
 export interface SshConnectivityEndpoint {
   /** SSH connectivity endpoint. */
   endpoint: string;
+  /** Private SSH connectivity endpoint. This property will only be returned when enableInternalIngress is true. */
+  privateSshEndpoint?: string;
+}
+
+/** Cluster access profile. */
+export interface ClusterAccessProfile {
+  /** Whether to create cluster using private IP instead of public IP. This property must be set at create time. */
+  enableInternalIngress: boolean;
+  /**
+   * Private link service resource ID. Only when enableInternalIngress is true, this property will be returned.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkServiceId?: string;
 }
 
 /** Cluster log analytics profile to enable or disable OMS agent for cluster. */
@@ -438,6 +507,50 @@ export interface ComparisonRule {
   threshold: number;
 }
 
+/** Cluster Ranger plugin profile. */
+export interface ClusterRangerPluginProfile {
+  /** Enable Ranger for cluster or not. */
+  enabled: boolean;
+}
+
+/** The Kafka cluster profile. */
+export interface KafkaProfile {
+  /** Expose Kafka cluster in KRaft mode. */
+  enableKRaft?: boolean;
+  /** Expose worker nodes as public endpoints. */
+  enablePublicEndpoints?: boolean;
+  /** Fully qualified path of Azure Storage container used for Tiered Storage. */
+  remoteStorageUri?: string;
+  /** Kafka disk storage profile. */
+  diskStorage: DiskStorageProfile;
+  /**
+   * Identity of the internal service components inside the Kafka cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterIdentity?: IdentityProfile;
+  /**
+   * Kafka bootstrap server and brokers related connectivity endpoints.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectivityEndpoints?: KafkaConnectivityEndpoints;
+}
+
+/** Kafka disk storage profile. */
+export interface DiskStorageProfile {
+  /** Managed Disk size in GB. The maximum supported disk size for Standard and Premium HDD/SSD is 32TB, except for Premium SSD v2, which supports up to 64TB. */
+  dataDiskSize: number;
+  /** Managed Disk Type. */
+  dataDiskType: DataDiskType;
+}
+
+/** Kafka bootstrap server and broker related connectivity endpoints. */
+export interface KafkaConnectivityEndpoints {
+  /** bootstrap server connectivity endpoint. */
+  bootstrapServerEndpoint?: string;
+  /** Kafka broker endpoint list. */
+  brokerEndpoints?: string[];
+}
+
 /** Trino Cluster profile. */
 export interface TrinoProfile {
   /** Trino cluster catalog options. */
@@ -462,12 +575,14 @@ export interface CatalogOptions {
 export interface HiveCatalogOption {
   /** Name of trino catalog which should use specified hive metastore. */
   catalogName: string;
+  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/en-us/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
+  metastoreDbConnectionAuthenticationMode?: MetastoreDbConnectionAuthenticationMode;
   /** Secret reference name from secretsProfile.secrets containing password for database connection. */
-  metastoreDbConnectionPasswordSecret: string;
+  metastoreDbConnectionPasswordSecret?: string;
   /** Connection string for hive metastore database. */
   metastoreDbConnectionURL: string;
   /** User name for database connection. */
-  metastoreDbConnectionUserName: string;
+  metastoreDbConnectionUserName?: string;
   /** Metastore root directory URI, format: abfs[s]://<container>@<account_name>.dfs.core.windows.net/<path>. More details: https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction-abfs-uri */
   metastoreWarehouseDir: string;
 }
@@ -542,6 +657,10 @@ export interface FlinkProfile {
   taskManager: ComputeResourceDefinition;
   /** Flink cluster catalog options. */
   catalogOptions?: FlinkCatalogOptions;
+  /** A string property that indicates the deployment mode of Flink cluster. It can have one of the following enum values => Application, Session. Default value is Session */
+  deploymentMode?: DeploymentMode;
+  /** Job specifications for flink clusters in application deployment mode. The specification is immutable even if job properties are changed by calling the RunJob API, please use the ListJob API to get the latest job information. */
+  jobSpec?: FlinkJobProfile;
 }
 
 /** The storage profile */
@@ -568,12 +687,30 @@ export interface FlinkCatalogOptions {
 
 /** Hive Catalog Option for Flink cluster. */
 export interface FlinkHiveCatalogOption {
+  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/en-us/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
+  metastoreDbConnectionAuthenticationMode?: MetastoreDbConnectionAuthenticationMode;
   /** Secret reference name from secretsProfile.secrets containing password for database connection. */
-  metastoreDbConnectionPasswordSecret: string;
+  metastoreDbConnectionPasswordSecret?: string;
   /** Connection string for hive metastore database. */
   metastoreDbConnectionURL: string;
   /** User name for database connection. */
-  metastoreDbConnectionUserName: string;
+  metastoreDbConnectionUserName?: string;
+}
+
+/** Job specifications for flink clusters in application deployment mode. The specification is immutable even if job properties are changed by calling the RunJob API, please use the ListJob API to get the latest job information. */
+export interface FlinkJobProfile {
+  /** A string property that specifies the directory where the job JAR is located. */
+  jobJarDirectory: string;
+  /** A string property that represents the name of the job JAR. */
+  jarName: string;
+  /** A string property that specifies the entry class for the Flink job. If not specified, the entry point is auto-detected from the flink job jar package. */
+  entryClass?: string;
+  /** A string property representing additional JVM arguments for the Flink job. It should be space separated value. */
+  args?: string;
+  /** A string property that represents the name of the savepoint for the Flink job */
+  savePointName?: string;
+  /** A string property that indicates the upgrade mode to be performed on the Flink job. It can have one of the following enum values => STATELESS_UPDATE, UPDATE, LAST_STATE_UPDATE. */
+  upgradeMode: UpgradeMode;
 }
 
 /** The spark cluster profile. */
@@ -592,12 +729,14 @@ export interface SparkMetastoreSpec {
   dbServerHost: string;
   /** The database name. */
   dbName: string;
+  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/en-us/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
+  dbConnectionAuthenticationMode?: DbConnectionAuthenticationMode;
   /** The database user name. */
-  dbUserName: string;
+  dbUserName?: string;
   /** The secret name which contains the database user password. */
-  dbPasswordSecretName: string;
+  dbPasswordSecretName?: string;
   /** The key vault resource id. */
-  keyVaultId: string;
+  keyVaultId?: string;
   /** The thrift url. */
   thriftUrl?: string;
 }
@@ -612,6 +751,54 @@ export interface SparkUserPlugins {
 export interface SparkUserPlugin {
   /** Fully qualified path to the folder containing the plugins. */
   path: string;
+}
+
+/** The ranger cluster profile. */
+export interface RangerProfile {
+  /** Specification for the Ranger Admin service. */
+  rangerAdmin: RangerAdminSpec;
+  /** Properties required to describe audit log storage. */
+  rangerAudit?: RangerAuditSpec;
+  /** Specification for the Ranger Usersync service */
+  rangerUsersync: RangerUsersyncSpec;
+}
+
+/** Specification for the Ranger Admin service. */
+export interface RangerAdminSpec {
+  /** List of usernames that should be marked as ranger admins. These usernames should match the user principal name (UPN) of the respective AAD users. */
+  admins: string[];
+  database: RangerAdminSpecDatabase;
+}
+
+export interface RangerAdminSpecDatabase {
+  /** The database URL */
+  host: string;
+  /** The database name */
+  name: string;
+  /** Reference for the database password */
+  passwordSecretRef?: string;
+  /** The name of the database user */
+  username?: string;
+}
+
+/** Properties required to describe audit log storage. */
+export interface RangerAuditSpec {
+  /** Azure storage location of the blobs. MSI should have read/write access to this Storage account. */
+  storageAccount?: string;
+}
+
+/** Specification for the Ranger Usersync service */
+export interface RangerUsersyncSpec {
+  /** Denotes whether usersync service should be enabled */
+  enabled?: boolean;
+  /** List of groups that should be synced. These group names should match the object id of the respective AAD groups. */
+  groups?: string[];
+  /** User & groups can be synced automatically or via a static list that's refreshed. */
+  mode?: RangerUsersyncMode;
+  /** Azure storage location of a mapping file that lists user & group associations. */
+  userMappingLocation?: string;
+  /** List of user names that should be synced. These usernames should match the User principal name of the respective AAD users. */
+  users?: string[];
 }
 
 /** The script action profile. */
@@ -632,6 +819,40 @@ export interface ScriptActionProfile {
   shouldPersist?: boolean;
 }
 
+/** Cluster Upgrade. */
+export interface ClusterUpgrade {
+  /** Properties of upgrading cluster. */
+  properties: ClusterUpgradePropertiesUnion;
+}
+
+/** Properties of upgrading cluster. */
+export interface ClusterUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade" | "HotfixUpgrade";
+}
+
+/** Collection of cluster available upgrade. */
+export interface ClusterAvailableUpgradeList {
+  /** Collection of Cluster available upgrade. */
+  value: ClusterAvailableUpgrade[];
+  /** The URL of next result page. */
+  nextLink?: string;
+}
+
+/** Cluster available upgrade properties. */
+export interface ClusterAvailableUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade" | "HotfixUpgrade";
+}
+
+/** The patch for a cluster. */
+export interface ClusterPatch {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Cluster resource patch properties. */
+  clusterProfile?: UpdatableClusterProfile;
+}
+
 /** Cluster resource patch properties. */
 export interface UpdatableClusterProfile {
   /** The service configs profiles. */
@@ -646,6 +867,10 @@ export interface UpdatableClusterProfile {
   logAnalyticsProfile?: ClusterLogAnalyticsProfile;
   /** Cluster Prometheus profile. */
   prometheusProfile?: ClusterPrometheusProfile;
+  /** Cluster Ranger plugin profile. */
+  rangerPluginProfile?: ClusterRangerPluginProfile;
+  /** The ranger cluster profile. */
+  rangerProfile?: RangerProfile;
   /** The script action profile list. */
   scriptActionProfiles?: ScriptActionProfile[];
 }
@@ -758,7 +983,7 @@ export interface ClusterInstanceViewResult {
   name: string;
   /** Status of the instance view. */
   status: ClusterInstanceViewPropertiesStatus;
-  /** List of statuses of relevant services that make up the HDInsight on aks cluster to surface to the customer. */
+  /** List of statuses of relevant services that make up the HDInsight on AKS cluster to surface to the customer. */
   serviceStatuses: ServiceStatus[];
 }
 
@@ -766,7 +991,7 @@ export interface ClusterInstanceViewResult {
 export interface ClusterInstanceViewProperties {
   /** Status of the instance view. */
   status: ClusterInstanceViewPropertiesStatus;
-  /** List of statuses of relevant services that make up the HDInsight on aks cluster to surface to the customer. */
+  /** List of statuses of relevant services that make up the HDInsight on AKS cluster to surface to the customer. */
   serviceStatuses: ServiceStatus[];
 }
 
@@ -780,7 +1005,7 @@ export interface ClusterInstanceViewStatus {
   message?: string;
 }
 
-/** Describes the status of a service of a HDInsight on aks cluster. */
+/** Describes the status of a service of a HDInsight on AKS cluster. */
 export interface ServiceStatus {
   /** Kind of the service. E.g. "Zookeeper". */
   kind: string;
@@ -911,15 +1136,123 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
+/** Properties of upgrading cluster pool's AKS patch version. */
+export interface ClusterPoolAKSPatchVersionUpgradeProperties
+  extends ClusterPoolUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade";
+  /** whether upgrade cluster pool or not. If it's true, upgradeAllClusterNodes should be false. */
+  upgradeClusterPool?: boolean;
+  /** whether upgrade all clusters' nodes. If it's true, upgradeClusterPool should be false. */
+  upgradeAllClusterNodes?: boolean;
+  /** Target AKS version. When it's not set, latest version will be used. When upgradeClusterPool is true and upgradeAllClusterNodes is false, target version should be greater or equal to current version. When upgradeClusterPool is false and upgradeAllClusterNodes is true, target version should be equal to AKS version of cluster pool. */
+  targetAksVersion?: string;
+}
+
+/** Properties of upgrading cluster pool's AKS patch version. */
+export interface ClusterPoolNodeOsImageUpdateProperties
+  extends ClusterPoolUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "NodeOsUpgrade";
+}
+
+/** Cluster pool available AKS patch version upgrade. */
+export interface ClusterPoolAvailableUpgradeAksPatchUpgradeProperties
+  extends ClusterPoolAvailableUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade";
+  /** Current AKS version. */
+  currentVersion?: string;
+  /** Current AKS version's status: whether it is deprecated or supported */
+  currentVersionStatus?: CurrentClusterPoolAksVersionStatus;
+  /** Latest AKS patch version. */
+  latestVersion?: string;
+}
+
+/** Cluster pool available node OS update. */
+export interface ClusterPoolAvailableUpgradeNodeOsUpgradeProperties
+  extends ClusterPoolAvailableUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "NodeOsUpgrade";
+  /** The latest node OS version. */
+  latestVersion?: string;
+}
+
 /** Web connectivity endpoint details. */
 export interface ConnectivityProfileWeb extends WebConnectivityEndpoint {}
+
+/** Properties of upgrading cluster's AKS patch version. */
+export interface ClusterAKSPatchVersionUpgradeProperties
+  extends ClusterUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade";
+}
+
+/** Properties of upgrading cluster's hotfix. */
+export interface ClusterHotfixUpgradeProperties
+  extends ClusterUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "HotfixUpgrade";
+  /** Target OSS version of component to be upgraded. */
+  targetOssVersion?: string;
+  /** Target cluster version of component to be upgraded. */
+  targetClusterVersion?: string;
+  /** Target build number of component to be upgraded. */
+  targetBuildNumber?: string;
+  /** Name of component to be upgraded. */
+  componentName?: string;
+}
+
+/** Cluster available AKS patch version upgrade. */
+export interface ClusterAvailableUpgradeAksPatchUpgradeProperties
+  extends ClusterAvailableUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade";
+  /** Current node pool version. */
+  currentVersion?: string;
+  /** Current AKS version's status: whether it is deprecated or supported */
+  currentVersionStatus?: CurrentClusterAksVersionStatus;
+  /** Latest available version, which should be equal to AKS control plane version if it's not deprecated. */
+  latestVersion?: string;
+}
+
+/** Cluster available hotfix version upgrade. */
+export interface ClusterAvailableUpgradeHotfixUpgradeProperties
+  extends ClusterAvailableUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "HotfixUpgrade";
+  /** Hotfix version upgrade description. */
+  description?: string;
+  /** Source OSS version of current cluster component. */
+  sourceOssVersion?: string;
+  /** Source cluster version of current cluster component. */
+  sourceClusterVersion?: string;
+  /** Source build number of current cluster component. */
+  sourceBuildNumber?: string;
+  /** Target OSS version of component to be upgraded. */
+  targetOssVersion?: string;
+  /** Target cluster version of component to be upgraded. */
+  targetClusterVersion?: string;
+  /** Target build number of component to be upgraded. */
+  targetBuildNumber?: string;
+  /** Name of component to be upgraded. */
+  componentName?: string;
+  /** Severity of this upgrade. */
+  severity?: Severity;
+  /** Extended properties of current available upgrade version */
+  extendedProperties?: string;
+  /** Created time of current available upgrade version */
+  createdTime?: Date;
+}
 
 /** Properties of flink job. */
 export interface FlinkJobProperties extends ClusterJobProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobType: "FlinkJob";
+  /** Run id of job */
+  runId?: string;
   /** Name of job */
-  jobName: string;
+  jobName?: string;
   /** A string property that specifies the directory where the job JAR is located. */
   jobJarDirectory?: string;
   /** A string property that represents the name of the job JAR. */
@@ -1043,10 +1376,16 @@ export interface ClusterResizeData extends TrackedResource {
   targetWorkerNodeCount?: number;
 }
 
-/** The patch for a cluster. */
-export interface ClusterPatch extends TrackedResource {
-  /** Cluster resource patch properties. */
-  clusterProfile?: UpdatableClusterProfile;
+/** Cluster pool available upgrade. */
+export interface ClusterPoolAvailableUpgrade extends ProxyResource {
+  /** Type of upgrade. */
+  upgradeType?: ClusterPoolAvailableUpgradeType;
+}
+
+/** Cluster available upgrade. */
+export interface ClusterAvailableUpgrade extends ProxyResource {
+  /** Type of upgrade. */
+  upgradeType?: ClusterAvailableUpgradeType;
 }
 
 /** Cluster job. */
@@ -1094,6 +1433,18 @@ export interface ClusterPoolsDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for ClusterPools_upgrade operation. */
+export interface ClusterPoolsUpgradeHeaders {
+  /** URL to get the status of the resize operation. */
+  location?: string;
+}
+
+/** Defines headers for Clusters_upgrade operation. */
+export interface ClustersUpgradeHeaders {
+  /** URL to get the status of the resize operation. */
+  location?: string;
+}
+
 /** Defines headers for Clusters_resize operation. */
 export interface ClustersResizeHeaders {
   /** URL to get the status of the resize operation. */
@@ -1125,7 +1476,7 @@ export enum KnownProvisioningStatus {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1140,6 +1491,24 @@ export enum KnownProvisioningStatus {
  */
 export type ProvisioningStatus = string;
 
+/** Known values of {@link OutboundType} that the service accepts. */
+export enum KnownOutboundType {
+  /** The load balancer is used for egress through an AKS assigned public IP. This supports Kubernetes services of type 'loadBalancer'. */
+  LoadBalancer = "loadBalancer",
+  /** Egress paths must be defined by the user. This is an advanced scenario and requires proper network configuration. */
+  UserDefinedRouting = "userDefinedRouting",
+}
+
+/**
+ * Defines values for OutboundType. \
+ * {@link KnownOutboundType} can be used interchangeably with OutboundType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **loadBalancer**: The load balancer is used for egress through an AKS assigned public IP. This supports Kubernetes services of type 'loadBalancer'.  \
+ * **userDefinedRouting**: Egress paths must be defined by the user. This is an advanced scenario and requires proper network configuration.
+ */
+export type OutboundType = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -1149,7 +1518,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1164,6 +1533,42 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link ClusterPoolUpgradeType} that the service accepts. */
+export enum KnownClusterPoolUpgradeType {
+  /** AKSPatchUpgrade */
+  AKSPatchUpgrade = "AKSPatchUpgrade",
+  /** NodeOsUpgrade */
+  NodeOsUpgrade = "NodeOsUpgrade",
+}
+
+/**
+ * Defines values for ClusterPoolUpgradeType. \
+ * {@link KnownClusterPoolUpgradeType} can be used interchangeably with ClusterPoolUpgradeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKSPatchUpgrade** \
+ * **NodeOsUpgrade**
+ */
+export type ClusterPoolUpgradeType = string;
+
+/** Known values of {@link ClusterPoolAvailableUpgradeType} that the service accepts. */
+export enum KnownClusterPoolAvailableUpgradeType {
+  /** AKSPatchUpgrade */
+  AKSPatchUpgrade = "AKSPatchUpgrade",
+  /** NodeOsUpgrade */
+  NodeOsUpgrade = "NodeOsUpgrade",
+}
+
+/**
+ * Defines values for ClusterPoolAvailableUpgradeType. \
+ * {@link KnownClusterPoolAvailableUpgradeType} can be used interchangeably with ClusterPoolAvailableUpgradeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKSPatchUpgrade** \
+ * **NodeOsUpgrade**
+ */
+export type ClusterPoolAvailableUpgradeType = string;
+
 /** Known values of {@link KeyVaultObjectType} that the service accepts. */
 export enum KnownKeyVaultObjectType {
   /** Key */
@@ -1171,7 +1576,7 @@ export enum KnownKeyVaultObjectType {
   /** Secret */
   Secret = "Secret",
   /** Certificate */
-  Certificate = "Certificate"
+  Certificate = "Certificate",
 }
 
 /**
@@ -1190,7 +1595,7 @@ export enum KnownContentEncoding {
   /** Base64 */
   Base64 = "Base64",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1208,7 +1613,7 @@ export enum KnownAutoscaleType {
   /** ScheduleBased */
   ScheduleBased = "ScheduleBased",
   /** LoadBased */
-  LoadBased = "LoadBased"
+  LoadBased = "LoadBased",
 }
 
 /**
@@ -1236,7 +1641,7 @@ export enum KnownScheduleDay {
   /** Friday */
   Friday = "Friday",
   /** Saturday */
-  Saturday = "Saturday"
+  Saturday = "Saturday",
 }
 
 /**
@@ -1259,7 +1664,7 @@ export enum KnownScaleActionType {
   /** Scaleup */
   Scaleup = "scaleup",
   /** Scaledown */
-  Scaledown = "scaledown"
+  Scaledown = "scaledown",
 }
 
 /**
@@ -1281,7 +1686,7 @@ export enum KnownComparisonOperator {
   /** LessThan */
   LessThan = "lessThan",
   /** LessThanOrEqual */
-  LessThanOrEqual = "lessThanOrEqual"
+  LessThanOrEqual = "lessThanOrEqual",
 }
 
 /**
@@ -1296,10 +1701,169 @@ export enum KnownComparisonOperator {
  */
 export type ComparisonOperator = string;
 
+/** Known values of {@link DataDiskType} that the service accepts. */
+export enum KnownDataDiskType {
+  /** StandardHDDLRS */
+  StandardHDDLRS = "Standard_HDD_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "Standard_SSD_LRS",
+  /** StandardSSDZRS */
+  StandardSSDZRS = "Standard_SSD_ZRS",
+  /** PremiumSSDLRS */
+  PremiumSSDLRS = "Premium_SSD_LRS",
+  /** PremiumSSDZRS */
+  PremiumSSDZRS = "Premium_SSD_ZRS",
+  /** PremiumSSDV2LRS */
+  PremiumSSDV2LRS = "Premium_SSD_v2_LRS",
+}
+
+/**
+ * Defines values for DataDiskType. \
+ * {@link KnownDataDiskType} can be used interchangeably with DataDiskType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_HDD_LRS** \
+ * **Standard_SSD_LRS** \
+ * **Standard_SSD_ZRS** \
+ * **Premium_SSD_LRS** \
+ * **Premium_SSD_ZRS** \
+ * **Premium_SSD_v2_LRS**
+ */
+export type DataDiskType = string;
+
+/** Known values of {@link MetastoreDbConnectionAuthenticationMode} that the service accepts. */
+export enum KnownMetastoreDbConnectionAuthenticationMode {
+  /** The password-based authentication to connect to your Hive metastore database. */
+  SqlAuth = "SqlAuth",
+  /** The managed-identity-based authentication to connect to your Hive metastore database. */
+  IdentityAuth = "IdentityAuth",
+}
+
+/**
+ * Defines values for MetastoreDbConnectionAuthenticationMode. \
+ * {@link KnownMetastoreDbConnectionAuthenticationMode} can be used interchangeably with MetastoreDbConnectionAuthenticationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SqlAuth**: The password-based authentication to connect to your Hive metastore database.  \
+ * **IdentityAuth**: The managed-identity-based authentication to connect to your Hive metastore database.
+ */
+export type MetastoreDbConnectionAuthenticationMode = string;
+
+/** Known values of {@link DeploymentMode} that the service accepts. */
+export enum KnownDeploymentMode {
+  /** Application */
+  Application = "Application",
+  /** Session */
+  Session = "Session",
+}
+
+/**
+ * Defines values for DeploymentMode. \
+ * {@link KnownDeploymentMode} can be used interchangeably with DeploymentMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Application** \
+ * **Session**
+ */
+export type DeploymentMode = string;
+
+/** Known values of {@link UpgradeMode} that the service accepts. */
+export enum KnownUpgradeMode {
+  /** StatelessUpdate */
+  StatelessUpdate = "STATELESS_UPDATE",
+  /** Update */
+  Update = "UPDATE",
+  /** LastStateUpdate */
+  LastStateUpdate = "LAST_STATE_UPDATE",
+}
+
+/**
+ * Defines values for UpgradeMode. \
+ * {@link KnownUpgradeMode} can be used interchangeably with UpgradeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **STATELESS_UPDATE** \
+ * **UPDATE** \
+ * **LAST_STATE_UPDATE**
+ */
+export type UpgradeMode = string;
+
+/** Known values of {@link DbConnectionAuthenticationMode} that the service accepts. */
+export enum KnownDbConnectionAuthenticationMode {
+  /** The password-based authentication to connect to your Hive metastore database. */
+  SqlAuth = "SqlAuth",
+  /** The managed-identity-based authentication to connect to your Hive metastore database. */
+  IdentityAuth = "IdentityAuth",
+}
+
+/**
+ * Defines values for DbConnectionAuthenticationMode. \
+ * {@link KnownDbConnectionAuthenticationMode} can be used interchangeably with DbConnectionAuthenticationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SqlAuth**: The password-based authentication to connect to your Hive metastore database.  \
+ * **IdentityAuth**: The managed-identity-based authentication to connect to your Hive metastore database.
+ */
+export type DbConnectionAuthenticationMode = string;
+
+/** Known values of {@link RangerUsersyncMode} that the service accepts. */
+export enum KnownRangerUsersyncMode {
+  /** Static */
+  Static = "static",
+  /** Automatic */
+  Automatic = "automatic",
+}
+
+/**
+ * Defines values for RangerUsersyncMode. \
+ * {@link KnownRangerUsersyncMode} can be used interchangeably with RangerUsersyncMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **static** \
+ * **automatic**
+ */
+export type RangerUsersyncMode = string;
+
+/** Known values of {@link ClusterUpgradeType} that the service accepts. */
+export enum KnownClusterUpgradeType {
+  /** AKSPatchUpgrade */
+  AKSPatchUpgrade = "AKSPatchUpgrade",
+  /** HotfixUpgrade */
+  HotfixUpgrade = "HotfixUpgrade",
+}
+
+/**
+ * Defines values for ClusterUpgradeType. \
+ * {@link KnownClusterUpgradeType} can be used interchangeably with ClusterUpgradeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKSPatchUpgrade** \
+ * **HotfixUpgrade**
+ */
+export type ClusterUpgradeType = string;
+
+/** Known values of {@link ClusterAvailableUpgradeType} that the service accepts. */
+export enum KnownClusterAvailableUpgradeType {
+  /** AKSPatchUpgrade */
+  AKSPatchUpgrade = "AKSPatchUpgrade",
+  /** HotfixUpgrade */
+  HotfixUpgrade = "HotfixUpgrade",
+}
+
+/**
+ * Defines values for ClusterAvailableUpgradeType. \
+ * {@link KnownClusterAvailableUpgradeType} can be used interchangeably with ClusterAvailableUpgradeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKSPatchUpgrade** \
+ * **HotfixUpgrade**
+ */
+export type ClusterAvailableUpgradeType = string;
+
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {
   /** FlinkJob */
-  FlinkJob = "FlinkJob"
+  FlinkJob = "FlinkJob",
 }
 
 /**
@@ -1318,7 +1882,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -1335,7 +1899,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -1366,7 +1930,11 @@ export enum KnownAction {
   /** ListSavepoint */
   ListSavepoint = "LIST_SAVEPOINT",
   /** Delete */
-  Delete = "DELETE"
+  Delete = "DELETE",
+  /** LastStateUpdate */
+  LastStateUpdate = "LAST_STATE_UPDATE",
+  /** RELaunch */
+  RELaunch = "RE_LAUNCH",
 }
 
 /**
@@ -1382,9 +1950,71 @@ export enum KnownAction {
  * **CANCEL** \
  * **SAVEPOINT** \
  * **LIST_SAVEPOINT** \
- * **DELETE**
+ * **DELETE** \
+ * **LAST_STATE_UPDATE** \
+ * **RE_LAUNCH**
  */
 export type Action = string;
+
+/** Known values of {@link CurrentClusterPoolAksVersionStatus} that the service accepts. */
+export enum KnownCurrentClusterPoolAksVersionStatus {
+  /** Deprecated */
+  Deprecated = "Deprecated",
+  /** Supported */
+  Supported = "Supported",
+}
+
+/**
+ * Defines values for CurrentClusterPoolAksVersionStatus. \
+ * {@link KnownCurrentClusterPoolAksVersionStatus} can be used interchangeably with CurrentClusterPoolAksVersionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deprecated** \
+ * **Supported**
+ */
+export type CurrentClusterPoolAksVersionStatus = string;
+
+/** Known values of {@link CurrentClusterAksVersionStatus} that the service accepts. */
+export enum KnownCurrentClusterAksVersionStatus {
+  /** Deprecated */
+  Deprecated = "Deprecated",
+  /** Supported */
+  Supported = "Supported",
+}
+
+/**
+ * Defines values for CurrentClusterAksVersionStatus. \
+ * {@link KnownCurrentClusterAksVersionStatus} can be used interchangeably with CurrentClusterAksVersionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deprecated** \
+ * **Supported**
+ */
+export type CurrentClusterAksVersionStatus = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Low */
+  Low = "low",
+  /** Medium */
+  Medium = "medium",
+  /** High */
+  High = "high",
+  /** Critical */
+  Critical = "critical",
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **low** \
+ * **medium** \
+ * **high** \
+ * **critical**
+ */
+export type Severity = string;
 
 /** Optional parameters. */
 export interface ClusterPoolsGetOptionalParams
@@ -1426,6 +2056,9 @@ export interface ClusterPoolsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type ClusterPoolsDeleteResponse = ClusterPoolsDeleteHeaders;
+
 /** Optional parameters. */
 export interface ClusterPoolsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
@@ -1439,6 +2072,18 @@ export interface ClusterPoolsListByResourceGroupOptionalParams
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ClusterPoolsListByResourceGroupResponse = ClusterPoolListResult;
+
+/** Optional parameters. */
+export interface ClusterPoolsUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgrade operation. */
+export type ClusterPoolsUpgradeResponse = ClusterPool;
 
 /** Optional parameters. */
 export interface ClusterPoolsListBySubscriptionNextOptionalParams
@@ -1455,11 +2100,39 @@ export interface ClusterPoolsListByResourceGroupNextOptionalParams
 export type ClusterPoolsListByResourceGroupNextResponse = ClusterPoolListResult;
 
 /** Optional parameters. */
+export interface ClusterPoolAvailableUpgradesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ClusterPoolAvailableUpgradesListResponse =
+  ClusterPoolAvailableUpgradeList;
+
+/** Optional parameters. */
+export interface ClusterPoolAvailableUpgradesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ClusterPoolAvailableUpgradesListNextResponse =
+  ClusterPoolAvailableUpgradeList;
+
+/** Optional parameters. */
 export interface ClustersListByClusterPoolNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterPoolName operation. */
 export type ClustersListByClusterPoolNameResponse = ClusterListResult;
+
+/** Optional parameters. */
+export interface ClustersUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgrade operation. */
+export type ClustersUpgradeResponse = Cluster;
 
 /** Optional parameters. */
 export interface ClustersResizeOptionalParams
@@ -1513,6 +2186,9 @@ export interface ClustersDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type ClustersDeleteResponse = ClustersDeleteHeaders;
+
 /** Optional parameters. */
 export interface ClustersListServiceConfigsOptionalParams
   extends coreClient.OperationOptions {}
@@ -1556,6 +2232,21 @@ export interface ClustersListInstanceViewsNextOptionalParams
 export type ClustersListInstanceViewsNextResponse = ClusterInstanceViewsResult;
 
 /** Optional parameters. */
+export interface ClusterAvailableUpgradesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ClusterAvailableUpgradesListResponse = ClusterAvailableUpgradeList;
+
+/** Optional parameters. */
+export interface ClusterAvailableUpgradesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ClusterAvailableUpgradesListNextResponse =
+  ClusterAvailableUpgradeList;
+
+/** Optional parameters. */
 export interface ClusterJobsRunJobOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1569,7 +2260,10 @@ export type ClusterJobsRunJobResponse = ClusterJob;
 
 /** Optional parameters. */
 export interface ClusterJobsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The system query option to filter job returned in the response. Allowed value is 'jobName eq {jobName}' or 'jarName eq {jarName}'. */
+  filter?: string;
+}
 
 /** Contains response data for the list operation. */
 export type ClusterJobsListResponse = ClusterJobList;
@@ -1607,28 +2301,32 @@ export interface AvailableClusterPoolVersionsListByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocation operation. */
-export type AvailableClusterPoolVersionsListByLocationResponse = ClusterPoolVersionsListResult;
+export type AvailableClusterPoolVersionsListByLocationResponse =
+  ClusterPoolVersionsListResult;
 
 /** Optional parameters. */
 export interface AvailableClusterPoolVersionsListByLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocationNext operation. */
-export type AvailableClusterPoolVersionsListByLocationNextResponse = ClusterPoolVersionsListResult;
+export type AvailableClusterPoolVersionsListByLocationNextResponse =
+  ClusterPoolVersionsListResult;
 
 /** Optional parameters. */
 export interface AvailableClusterVersionsListByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocation operation. */
-export type AvailableClusterVersionsListByLocationResponse = ClusterVersionsListResult;
+export type AvailableClusterVersionsListByLocationResponse =
+  ClusterVersionsListResult;
 
 /** Optional parameters. */
 export interface AvailableClusterVersionsListByLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocationNext operation. */
-export type AvailableClusterVersionsListByLocationNextResponse = ClusterVersionsListResult;
+export type AvailableClusterVersionsListByLocationNextResponse =
+  ClusterVersionsListResult;
 
 /** Optional parameters. */
 export interface HDInsightContainersManagementClientOptionalParams
