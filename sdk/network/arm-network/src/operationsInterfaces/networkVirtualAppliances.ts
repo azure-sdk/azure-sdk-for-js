@@ -19,7 +19,8 @@ import {
   NetworkVirtualAppliancesUpdateTagsOptionalParams,
   NetworkVirtualAppliancesUpdateTagsResponse,
   NetworkVirtualAppliancesCreateOrUpdateOptionalParams,
-  NetworkVirtualAppliancesCreateOrUpdateResponse
+  NetworkVirtualAppliancesCreateOrUpdateResponse,
+  NetworkVirtualAppliancesRestartOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +33,14 @@ export interface NetworkVirtualAppliances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkVirtualAppliancesListByResourceGroupOptionalParams
+    options?: NetworkVirtualAppliancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkVirtualAppliance>;
   /**
    * Gets all Network Virtual Appliances in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: NetworkVirtualAppliancesListOptionalParams
+    options?: NetworkVirtualAppliancesListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkVirtualAppliance>;
   /**
    * Deletes the specified Network Virtual Appliance.
@@ -50,7 +51,7 @@ export interface NetworkVirtualAppliances {
   beginDelete(
     resourceGroupName: string,
     networkVirtualApplianceName: string,
-    options?: NetworkVirtualAppliancesDeleteOptionalParams
+    options?: NetworkVirtualAppliancesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Network Virtual Appliance.
@@ -61,7 +62,7 @@ export interface NetworkVirtualAppliances {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkVirtualApplianceName: string,
-    options?: NetworkVirtualAppliancesDeleteOptionalParams
+    options?: NetworkVirtualAppliancesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified Network Virtual Appliance.
@@ -72,7 +73,7 @@ export interface NetworkVirtualAppliances {
   get(
     resourceGroupName: string,
     networkVirtualApplianceName: string,
-    options?: NetworkVirtualAppliancesGetOptionalParams
+    options?: NetworkVirtualAppliancesGetOptionalParams,
   ): Promise<NetworkVirtualAppliancesGetResponse>;
   /**
    * Updates a Network Virtual Appliance.
@@ -85,7 +86,7 @@ export interface NetworkVirtualAppliances {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     parameters: TagsObject,
-    options?: NetworkVirtualAppliancesUpdateTagsOptionalParams
+    options?: NetworkVirtualAppliancesUpdateTagsOptionalParams,
   ): Promise<NetworkVirtualAppliancesUpdateTagsResponse>;
   /**
    * Creates or updates the specified Network Virtual Appliance.
@@ -98,7 +99,7 @@ export interface NetworkVirtualAppliances {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     parameters: NetworkVirtualAppliance,
-    options?: NetworkVirtualAppliancesCreateOrUpdateOptionalParams
+    options?: NetworkVirtualAppliancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkVirtualAppliancesCreateOrUpdateResponse>,
@@ -116,6 +117,17 @@ export interface NetworkVirtualAppliances {
     resourceGroupName: string,
     networkVirtualApplianceName: string,
     parameters: NetworkVirtualAppliance,
-    options?: NetworkVirtualAppliancesCreateOrUpdateOptionalParams
+    options?: NetworkVirtualAppliancesCreateOrUpdateOptionalParams,
   ): Promise<NetworkVirtualAppliancesCreateOrUpdateResponse>;
+  /**
+   * Restarts one or more VMs belonging to the specified Network Virtual Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  restart(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesRestartOptionalParams,
+  ): Promise<void>;
 }
