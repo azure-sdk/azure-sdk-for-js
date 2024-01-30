@@ -728,6 +728,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-healthdataaiservices-deid-rest':
+    specifier: file:./projects/azure-healthdataaiservices-deid-rest.tgz
+    version: file:projects/azure-healthdataaiservices-deid-rest.tgz
   '@rush-temp/communication-alpha-ids':
     specifier: file:./projects/communication-alpha-ids.tgz
     version: file:projects/communication-alpha-ids.tgz
@@ -9452,6 +9455,37 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node@10.9.2(@types/node@18.19.8)(typescript@5.2.2):
+    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.8
+      acorn: 8.11.3
+      acorn-walk: 8.3.2
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.2.2
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.2(@types/node@18.19.8)(typescript@5.3.3):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -9641,6 +9675,12 @@ packages:
   /typescript@4.2.4:
     resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
@@ -16938,6 +16978,50 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/azure-healthdataaiservices-deid-rest.tgz:
+    resolution: {integrity: sha512-lc3a3GGWBDmlFANE0ZYtxg6GEjlnwUy6tLtWCz2Df9KCBVyClRaHkmK1ywCeJy4Ehoy+rP0/6I70MQ7g6vWyjA==, tarball: file:projects/azure-healthdataaiservices-deid-rest.tgz}
+    name: '@rush-temp/azure-healthdataaiservices-deid-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.8
+      autorest: 3.7.1
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.2
+      eslint: 8.56.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/communication-alpha-ids.tgz:
     resolution: {integrity: sha512-C2rl93kW7FLWWBNYnTE1/mA3cJngrQ/I8EsiqSzLfz1BmovQnWVlIMv4yVTp1wCv6xBfSKyJOsYpwW4Qk4m+dw==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
@@ -18136,7 +18220,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-FT7E5Hni0I37jdH/mLzkMmC7vHv98Z1mI7ZxKS1wK+ZSW6bDEKjGhxRCnlLCaB4DOmrcFfXDecvuPEDyTERG+A==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-XoqiHRcf7JTjpDbPf4e+DqKJCUe8dGX6poFs74wc/wycgBJ+YgodSQGOFCTSJsG/LfNcoxFK5gud5l2a2jMp9A==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
