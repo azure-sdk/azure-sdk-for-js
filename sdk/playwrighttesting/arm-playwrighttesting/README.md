@@ -6,7 +6,7 @@ Azure Playwright testing management service
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/arm-playwrighttesting) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-playwrighttesting) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-playwrighttesting?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-playwrighttesting) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
