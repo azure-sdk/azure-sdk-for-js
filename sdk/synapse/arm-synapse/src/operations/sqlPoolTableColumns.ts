@@ -18,7 +18,7 @@ import {
   SqlPoolTableColumnsListByTableNameNextOptionalParams,
   SqlPoolTableColumnsListByTableNameOptionalParams,
   SqlPoolTableColumnsListByTableNameResponse,
-  SqlPoolTableColumnsListByTableNameNextResponse
+  SqlPoolTableColumnsListByTableNameNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
     sqlPoolName: string,
     schemaName: string,
     tableName: string,
-    options?: SqlPoolTableColumnsListByTableNameOptionalParams
+    options?: SqlPoolTableColumnsListByTableNameOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolColumn> {
     const iter = this.listByTableNamePagingAll(
       resourceGroupName,
@@ -57,7 +57,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
       sqlPoolName,
       schemaName,
       tableName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
           schemaName,
           tableName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
     schemaName: string,
     tableName: string,
     options?: SqlPoolTableColumnsListByTableNameOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SqlPoolColumn[]> {
     let result: SqlPoolTableColumnsListByTableNameResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
         sqlPoolName,
         schemaName,
         tableName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
         schemaName,
         tableName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -131,7 +131,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
     sqlPoolName: string,
     schemaName: string,
     tableName: string,
-    options?: SqlPoolTableColumnsListByTableNameOptionalParams
+    options?: SqlPoolTableColumnsListByTableNameOptionalParams,
   ): AsyncIterableIterator<SqlPoolColumn> {
     for await (const page of this.listByTableNamePagingPage(
       resourceGroupName,
@@ -139,7 +139,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
       sqlPoolName,
       schemaName,
       tableName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -160,7 +160,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
     sqlPoolName: string,
     schemaName: string,
     tableName: string,
-    options?: SqlPoolTableColumnsListByTableNameOptionalParams
+    options?: SqlPoolTableColumnsListByTableNameOptionalParams,
   ): Promise<SqlPoolTableColumnsListByTableNameResponse> {
     return this.client.sendOperationRequest(
       {
@@ -169,9 +169,9 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
         sqlPoolName,
         schemaName,
         tableName,
-        options
+        options,
       },
-      listByTableNameOperationSpec
+      listByTableNameOperationSpec,
     );
   }
 
@@ -192,7 +192,7 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
     schemaName: string,
     tableName: string,
     nextLink: string,
-    options?: SqlPoolTableColumnsListByTableNameNextOptionalParams
+    options?: SqlPoolTableColumnsListByTableNameNextOptionalParams,
   ): Promise<SqlPoolTableColumnsListByTableNameNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -202,9 +202,9 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
         schemaName,
         tableName,
         nextLink,
-        options
+        options,
       },
-      listByTableNameNextOperationSpec
+      listByTableNameNextOperationSpec,
     );
   }
 }
@@ -212,14 +212,13 @@ export class SqlPoolTableColumnsImpl implements SqlPoolTableColumns {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByTableNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolColumnListResult
+      bodyMapper: Mappers.SqlPoolColumnListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -229,19 +228,19 @@ const listByTableNameOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
     Parameters.sqlPoolName,
     Parameters.schemaName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTableNameNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolColumnListResult
+      bodyMapper: Mappers.SqlPoolColumnListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -251,8 +250,8 @@ const listByTableNameNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.sqlPoolName,
     Parameters.schemaName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

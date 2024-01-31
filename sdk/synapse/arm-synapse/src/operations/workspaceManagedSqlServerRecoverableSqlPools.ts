@@ -20,13 +20,14 @@ import {
   WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse,
   WorkspaceManagedSqlServerRecoverableSqlPoolsGetOptionalParams,
   WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse,
-  WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse
+  WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceManagedSqlServerRecoverableSqlPools operations. */
 export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
-  implements WorkspaceManagedSqlServerRecoverableSqlPools {
+  implements WorkspaceManagedSqlServerRecoverableSqlPools
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -46,7 +47,7 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams
+    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<RecoverableSqlPool> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -64,9 +65,9 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,7 +75,7 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RecoverableSqlPool[]> {
     let result: WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +91,7 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -102,12 +103,12 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams
+    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams,
   ): AsyncIterableIterator<RecoverableSqlPool> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,11 +123,11 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams
+    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams,
   ): Promise<WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -141,11 +142,11 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsGetOptionalParams
+    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsGetOptionalParams,
   ): Promise<WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +161,11 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListNextOptionalParams
+    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListNextOptionalParams,
   ): Promise<WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -172,34 +173,13 @@ export class WorkspaceManagedSqlServerRecoverableSqlPoolsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/recoverableSqlPools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/recoverableSqlPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecoverableSqlPoolListResult
+      bodyMapper: Mappers.RecoverableSqlPoolListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/recoverableSqlPools/{sqlPoolName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RecoverableSqlPool
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -207,27 +187,46 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/recoverableSqlPools/{sqlPoolName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecoverableSqlPool,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecoverableSqlPoolListResult
+      bodyMapper: Mappers.RecoverableSqlPoolListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

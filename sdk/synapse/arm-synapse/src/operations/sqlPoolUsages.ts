@@ -18,7 +18,7 @@ import {
   SqlPoolUsagesListNextOptionalParams,
   SqlPoolUsagesListOptionalParams,
   SqlPoolUsagesListResponse,
-  SqlPoolUsagesListNextResponse
+  SqlPoolUsagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,13 +45,13 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolUsagesListOptionalParams
+    options?: SqlPoolUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolUsage> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolUsagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SqlPoolUsage[]> {
     let result: SqlPoolUsagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolUsagesListOptionalParams
+    options?: SqlPoolUsagesListOptionalParams,
   ): AsyncIterableIterator<SqlPoolUsage> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolUsagesListOptionalParams
+    options?: SqlPoolUsagesListOptionalParams,
   ): Promise<SqlPoolUsagesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolUsagesListNextOptionalParams
+    options?: SqlPoolUsagesListNextOptionalParams,
   ): Promise<SqlPoolUsagesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,16 +171,15 @@ export class SqlPoolUsagesImpl implements SqlPoolUsages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolUsageListResult
+      bodyMapper: Mappers.SqlPoolUsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -188,21 +187,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolUsageListResult
+      bodyMapper: Mappers.SqlPoolUsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -210,8 +209,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

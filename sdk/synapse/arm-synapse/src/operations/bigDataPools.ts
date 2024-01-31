@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BigDataPoolResourceInfo,
   BigDataPoolsListByWorkspaceNextOptionalParams,
@@ -29,7 +33,7 @@ import {
   BigDataPoolsCreateOrUpdateResponse,
   BigDataPoolsDeleteOptionalParams,
   BigDataPoolsDeleteResponse,
-  BigDataPoolsListByWorkspaceNextResponse
+  BigDataPoolsListByWorkspaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +58,12 @@ export class BigDataPoolsImpl implements BigDataPools {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BigDataPoolsListByWorkspaceOptionalParams
+    options?: BigDataPoolsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<BigDataPoolResourceInfo> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +80,9 @@ export class BigDataPoolsImpl implements BigDataPools {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +90,7 @@ export class BigDataPoolsImpl implements BigDataPools {
     resourceGroupName: string,
     workspaceName: string,
     options?: BigDataPoolsListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BigDataPoolResourceInfo[]> {
     let result: BigDataPoolsListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +98,7 @@ export class BigDataPoolsImpl implements BigDataPools {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +110,7 @@ export class BigDataPoolsImpl implements BigDataPools {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +122,12 @@ export class BigDataPoolsImpl implements BigDataPools {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BigDataPoolsListByWorkspaceOptionalParams
+    options?: BigDataPoolsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<BigDataPoolResourceInfo> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +144,11 @@ export class BigDataPoolsImpl implements BigDataPools {
     resourceGroupName: string,
     workspaceName: string,
     bigDataPoolName: string,
-    options?: BigDataPoolsGetOptionalParams
+    options?: BigDataPoolsGetOptionalParams,
   ): Promise<BigDataPoolsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, bigDataPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -161,7 +165,7 @@ export class BigDataPoolsImpl implements BigDataPools {
     workspaceName: string,
     bigDataPoolName: string,
     bigDataPoolPatchInfo: BigDataPoolPatchInfo,
-    options?: BigDataPoolsUpdateOptionalParams
+    options?: BigDataPoolsUpdateOptionalParams,
   ): Promise<BigDataPoolsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -169,9 +173,9 @@ export class BigDataPoolsImpl implements BigDataPools {
         workspaceName,
         bigDataPoolName,
         bigDataPoolPatchInfo,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -188,30 +192,29 @@ export class BigDataPoolsImpl implements BigDataPools {
     workspaceName: string,
     bigDataPoolName: string,
     bigDataPoolInfo: BigDataPoolResourceInfo,
-    options?: BigDataPoolsCreateOrUpdateOptionalParams
+    options?: BigDataPoolsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BigDataPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BigDataPoolsCreateOrUpdateResponse>,
       BigDataPoolsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BigDataPoolsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -220,8 +223,8 @@ export class BigDataPoolsImpl implements BigDataPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -229,26 +232,29 @@ export class BigDataPoolsImpl implements BigDataPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         bigDataPoolName,
         bigDataPoolInfo,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BigDataPoolsCreateOrUpdateResponse,
+      OperationState<BigDataPoolsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -267,14 +273,14 @@ export class BigDataPoolsImpl implements BigDataPools {
     workspaceName: string,
     bigDataPoolName: string,
     bigDataPoolInfo: BigDataPoolResourceInfo,
-    options?: BigDataPoolsCreateOrUpdateOptionalParams
+    options?: BigDataPoolsCreateOrUpdateOptionalParams,
   ): Promise<BigDataPoolsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       bigDataPoolName,
       bigDataPoolInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -290,30 +296,29 @@ export class BigDataPoolsImpl implements BigDataPools {
     resourceGroupName: string,
     workspaceName: string,
     bigDataPoolName: string,
-    options?: BigDataPoolsDeleteOptionalParams
+    options?: BigDataPoolsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BigDataPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<BigDataPoolsDeleteResponse>,
       BigDataPoolsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BigDataPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -322,8 +327,8 @@ export class BigDataPoolsImpl implements BigDataPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -331,20 +336,23 @@ export class BigDataPoolsImpl implements BigDataPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, bigDataPoolName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, bigDataPoolName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BigDataPoolsDeleteResponse,
+      OperationState<BigDataPoolsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -361,13 +369,13 @@ export class BigDataPoolsImpl implements BigDataPools {
     resourceGroupName: string,
     workspaceName: string,
     bigDataPoolName: string,
-    options?: BigDataPoolsDeleteOptionalParams
+    options?: BigDataPoolsDeleteOptionalParams,
   ): Promise<BigDataPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       bigDataPoolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -381,11 +389,11 @@ export class BigDataPoolsImpl implements BigDataPools {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BigDataPoolsListByWorkspaceOptionalParams
+    options?: BigDataPoolsListByWorkspaceOptionalParams,
   ): Promise<BigDataPoolsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -400,11 +408,11 @@ export class BigDataPoolsImpl implements BigDataPools {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: BigDataPoolsListByWorkspaceNextOptionalParams
+    options?: BigDataPoolsListByWorkspaceNextOptionalParams,
   ): Promise<BigDataPoolsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -412,16 +420,15 @@ export class BigDataPoolsImpl implements BigDataPools {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -429,22 +436,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.bigDataPoolName
+    Parameters.bigDataPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bigDataPoolPatchInfo,
   queryParameters: [Parameters.apiVersion1],
@@ -453,32 +459,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.bigDataPoolName
+    Parameters.bigDataPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     201: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     202: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     204: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bigDataPoolInfo,
   queryParameters: [Parameters.apiVersion1, Parameters.force],
@@ -487,32 +492,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.bigDataPoolName
+    Parameters.bigDataPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     201: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     202: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     204: {
-      bodyMapper: Mappers.BigDataPoolResourceInfo
+      bodyMapper: Mappers.BigDataPoolResourceInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -520,51 +524,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.bigDataPoolName
+    Parameters.bigDataPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BigDataPoolResourceInfoListResult
+      bodyMapper: Mappers.BigDataPoolResourceInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BigDataPoolResourceInfoListResult
+      bodyMapper: Mappers.BigDataPoolResourceInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

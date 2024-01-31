@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ClusterPrincipalAssignment,
   KustoPoolPrincipalAssignmentsListOptionalParams,
@@ -18,7 +18,7 @@ import {
   KustoPoolPrincipalAssignmentsGetResponse,
   KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams,
   KustoPoolPrincipalAssignmentsCreateOrUpdateResponse,
-  KustoPoolPrincipalAssignmentsDeleteOptionalParams
+  KustoPoolPrincipalAssignmentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface KustoPoolPrincipalAssignments {
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsListOptionalParams
+    options?: KustoPoolPrincipalAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<ClusterPrincipalAssignment>;
   /**
    * Checks that the principal assignment name is valid and is not already in use.
@@ -50,7 +50,7 @@ export interface KustoPoolPrincipalAssignments {
     kustoPoolName: string,
     resourceGroupName: string,
     principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest,
-    options?: KustoPoolPrincipalAssignmentsCheckNameAvailabilityOptionalParams
+    options?: KustoPoolPrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   ): Promise<KustoPoolPrincipalAssignmentsCheckNameAvailabilityResponse>;
   /**
    * Gets a Kusto pool principalAssignment.
@@ -65,7 +65,7 @@ export interface KustoPoolPrincipalAssignments {
     kustoPoolName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsGetOptionalParams
+    options?: KustoPoolPrincipalAssignmentsGetOptionalParams,
   ): Promise<KustoPoolPrincipalAssignmentsGetResponse>;
   /**
    * Create a Kusto pool principalAssignment.
@@ -82,10 +82,10 @@ export interface KustoPoolPrincipalAssignments {
     principalAssignmentName: string,
     resourceGroupName: string,
     parameters: ClusterPrincipalAssignment,
-    options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>,
       KustoPoolPrincipalAssignmentsCreateOrUpdateResponse
     >
   >;
@@ -104,7 +104,7 @@ export interface KustoPoolPrincipalAssignments {
     principalAssignmentName: string,
     resourceGroupName: string,
     parameters: ClusterPrincipalAssignment,
-    options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>;
   /**
    * Deletes a Kusto pool principalAssignment.
@@ -119,8 +119,8 @@ export interface KustoPoolPrincipalAssignments {
     kustoPoolName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto pool principalAssignment.
    * @param workspaceName The name of the workspace.
@@ -134,6 +134,6 @@ export interface KustoPoolPrincipalAssignments {
     kustoPoolName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams
+    options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

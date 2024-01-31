@@ -36,11 +36,11 @@ export class LibraryImpl implements Library {
     resourceGroupName: string,
     libraryName: string,
     workspaceName: string,
-    options?: LibraryGetOptionalParams
+    options?: LibraryGetOptionalParams,
   ): Promise<LibraryGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, libraryName, workspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -48,16 +48,15 @@ export class LibraryImpl implements Library {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/libraries/{libraryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/libraries/{libraryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryResource
+      bodyMapper: Mappers.LibraryResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -65,8 +64,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.libraryName
+    Parameters.libraryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

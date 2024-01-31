@@ -8,7 +8,7 @@
 
 import {
   SqlPoolColumnsGetOptionalParams,
-  SqlPoolColumnsGetResponse
+  SqlPoolColumnsGetResponse,
 } from "../models";
 
 /** Interface representing a SqlPoolColumns. */
@@ -30,6 +30,6 @@ export interface SqlPoolColumns {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: SqlPoolColumnsGetOptionalParams
+    options?: SqlPoolColumnsGetOptionalParams,
   ): Promise<SqlPoolColumnsGetResponse>;
 }

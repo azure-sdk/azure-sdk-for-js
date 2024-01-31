@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkloadClassifier,
   SqlPoolWorkloadClassifierListOptionalParams,
@@ -15,7 +15,7 @@ import {
   SqlPoolWorkloadClassifierGetResponse,
   SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams,
   SqlPoolWorkloadClassifierCreateOrUpdateResponse,
-  SqlPoolWorkloadClassifierDeleteOptionalParams
+  SqlPoolWorkloadClassifierDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface SqlPoolWorkloadClassifier {
     workspaceName: string,
     sqlPoolName: string,
     workloadGroupName: string,
-    options?: SqlPoolWorkloadClassifierListOptionalParams
+    options?: SqlPoolWorkloadClassifierListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadClassifier>;
   /**
    * Get a workload classifier of Sql pool's workload group.
@@ -51,7 +51,7 @@ export interface SqlPoolWorkloadClassifier {
     sqlPoolName: string,
     workloadGroupName: string,
     workloadClassifierName: string,
-    options?: SqlPoolWorkloadClassifierGetOptionalParams
+    options?: SqlPoolWorkloadClassifierGetOptionalParams,
   ): Promise<SqlPoolWorkloadClassifierGetResponse>;
   /**
    * Create Or Update workload classifier for a Sql pool's workload group.
@@ -70,10 +70,10 @@ export interface SqlPoolWorkloadClassifier {
     workloadGroupName: string,
     workloadClassifierName: string,
     parameters: WorkloadClassifier,
-    options?: SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams
+    options?: SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolWorkloadClassifierCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolWorkloadClassifierCreateOrUpdateResponse>,
       SqlPoolWorkloadClassifierCreateOrUpdateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface SqlPoolWorkloadClassifier {
     workloadGroupName: string,
     workloadClassifierName: string,
     parameters: WorkloadClassifier,
-    options?: SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams
+    options?: SqlPoolWorkloadClassifierCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolWorkloadClassifierCreateOrUpdateResponse>;
   /**
    * Remove workload classifier of a Sql pool's workload group.
@@ -111,8 +111,8 @@ export interface SqlPoolWorkloadClassifier {
     sqlPoolName: string,
     workloadGroupName: string,
     workloadClassifierName: string,
-    options?: SqlPoolWorkloadClassifierDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SqlPoolWorkloadClassifierDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Remove workload classifier of a Sql pool's workload group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -128,6 +128,6 @@ export interface SqlPoolWorkloadClassifier {
     sqlPoolName: string,
     workloadGroupName: string,
     workloadClassifierName: string,
-    options?: SqlPoolWorkloadClassifierDeleteOptionalParams
+    options?: SqlPoolWorkloadClassifierDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -15,13 +15,14 @@ import { SynapseManagementClient } from "../synapseManagementClient";
 import {
   KustoPoolPrivateLinkResources,
   KustoPoolPrivateLinkResourcesListOptionalParams,
-  KustoPoolPrivateLinkResourcesListResponse
+  KustoPoolPrivateLinkResourcesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing KustoPoolPrivateLinkResourcesOperations operations. */
 export class KustoPoolPrivateLinkResourcesOperationsImpl
-  implements KustoPoolPrivateLinkResourcesOperations {
+  implements KustoPoolPrivateLinkResourcesOperations
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -43,13 +44,13 @@ export class KustoPoolPrivateLinkResourcesOperationsImpl
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolPrivateLinkResourcesListOptionalParams
+    options?: KustoPoolPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<KustoPoolPrivateLinkResources> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       kustoPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +68,9 @@ export class KustoPoolPrivateLinkResourcesOperationsImpl
           workspaceName,
           kustoPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,14 +79,14 @@ export class KustoPoolPrivateLinkResourcesOperationsImpl
     workspaceName: string,
     kustoPoolName: string,
     options?: KustoPoolPrivateLinkResourcesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<KustoPoolPrivateLinkResources[]> {
     let result: KustoPoolPrivateLinkResourcesListResponse;
     result = await this._list(
       resourceGroupName,
       workspaceName,
       kustoPoolName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -94,13 +95,13 @@ export class KustoPoolPrivateLinkResourcesOperationsImpl
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolPrivateLinkResourcesListOptionalParams
+    options?: KustoPoolPrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<KustoPoolPrivateLinkResources> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       kustoPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -117,11 +118,11 @@ export class KustoPoolPrivateLinkResourcesOperationsImpl
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolPrivateLinkResourcesListOptionalParams
+    options?: KustoPoolPrivateLinkResourcesListOptionalParams,
   ): Promise<KustoPoolPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, kustoPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -129,16 +130,15 @@ export class KustoPoolPrivateLinkResourcesOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResources
+      bodyMapper: Mappers.PrivateLinkResources,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -146,8 +146,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.kustoPoolName1
+    Parameters.kustoPoolName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DatabaseUnion,
   KustoPoolDatabasesListByKustoPoolOptionalParams,
@@ -24,7 +28,7 @@ import {
   KustoPoolDatabasesCreateOrUpdateResponse,
   KustoPoolDatabasesUpdateOptionalParams,
   KustoPoolDatabasesUpdateResponse,
-  KustoPoolDatabasesDeleteOptionalParams
+  KustoPoolDatabasesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,13 +55,13 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolDatabasesListByKustoPoolOptionalParams
+    options?: KustoPoolDatabasesListByKustoPoolOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseUnion> {
     const iter = this.listByKustoPoolPagingAll(
       resourceGroupName,
       workspaceName,
       kustoPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +79,9 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
           workspaceName,
           kustoPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,14 +90,14 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     workspaceName: string,
     kustoPoolName: string,
     options?: KustoPoolDatabasesListByKustoPoolOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<DatabaseUnion[]> {
     let result: KustoPoolDatabasesListByKustoPoolResponse;
     result = await this._listByKustoPool(
       resourceGroupName,
       workspaceName,
       kustoPoolName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -102,13 +106,13 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolDatabasesListByKustoPoolOptionalParams
+    options?: KustoPoolDatabasesListByKustoPoolOptionalParams,
   ): AsyncIterableIterator<DatabaseUnion> {
     for await (const page of this.listByKustoPoolPagingPage(
       resourceGroupName,
       workspaceName,
       kustoPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +129,11 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolDatabasesListByKustoPoolOptionalParams
+    options?: KustoPoolDatabasesListByKustoPoolOptionalParams,
   ): Promise<KustoPoolDatabasesListByKustoPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, kustoPoolName, options },
-      listByKustoPoolOperationSpec
+      listByKustoPoolOperationSpec,
     );
   }
 
@@ -146,7 +150,7 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     workspaceName: string,
     kustoPoolName: string,
     databaseName: string,
-    options?: KustoPoolDatabasesGetOptionalParams
+    options?: KustoPoolDatabasesGetOptionalParams,
   ): Promise<KustoPoolDatabasesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -154,9 +158,9 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         workspaceName,
         kustoPoolName,
         databaseName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,30 +179,29 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: KustoPoolDatabasesCreateOrUpdateOptionalParams
+    options?: KustoPoolDatabasesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDatabasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasesCreateOrUpdateResponse>,
       KustoPoolDatabasesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<KustoPoolDatabasesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +210,8 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,26 +219,29 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         kustoPoolName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      KustoPoolDatabasesCreateOrUpdateResponse,
+      OperationState<KustoPoolDatabasesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -256,7 +262,7 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: KustoPoolDatabasesCreateOrUpdateOptionalParams
+    options?: KustoPoolDatabasesCreateOrUpdateOptionalParams,
   ): Promise<KustoPoolDatabasesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -264,7 +270,7 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       kustoPoolName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -284,30 +290,29 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: KustoPoolDatabasesUpdateOptionalParams
+    options?: KustoPoolDatabasesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDatabasesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasesUpdateResponse>,
       KustoPoolDatabasesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<KustoPoolDatabasesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -316,8 +321,8 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -325,26 +330,29 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         kustoPoolName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      KustoPoolDatabasesUpdateResponse,
+      OperationState<KustoPoolDatabasesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -365,7 +373,7 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: KustoPoolDatabasesUpdateOptionalParams
+    options?: KustoPoolDatabasesUpdateOptionalParams,
   ): Promise<KustoPoolDatabasesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -373,7 +381,7 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       kustoPoolName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -391,25 +399,24 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     workspaceName: string,
     kustoPoolName: string,
     databaseName: string,
-    options?: KustoPoolDatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: KustoPoolDatabasesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -418,8 +425,8 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -427,25 +434,25 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         kustoPoolName,
         databaseName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -464,14 +471,14 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     workspaceName: string,
     kustoPoolName: string,
     databaseName: string,
-    options?: KustoPoolDatabasesDeleteOptionalParams
+    options?: KustoPoolDatabasesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       kustoPoolName,
       databaseName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -480,39 +487,15 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByKustoPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseListResult
+      bodyMapper: Mappers.DatabaseListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.kustoPoolName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases/{databaseName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -521,33 +504,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.kustoPoolName1,
-    Parameters.databaseName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases/{databaseName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Database,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.kustoPoolName1,
+    Parameters.databaseName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases/{databaseName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     201: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     202: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     204: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters26,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -555,34 +559,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.kustoPoolName1,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases/{databaseName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     201: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     202: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     204: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters26,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -590,15 +593,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.kustoPoolName1,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/databases/{databaseName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -606,8 +608,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -616,8 +618,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.kustoPoolName1,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

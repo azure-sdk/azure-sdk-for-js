@@ -17,6 +17,6 @@ export interface KustoOperations {
    * @param options The options parameters.
    */
   list(
-    options?: KustoOperationsListOptionalParams
+    options?: KustoOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Operation>;
 }
