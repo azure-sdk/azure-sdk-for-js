@@ -11,12 +11,13 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ServicesImpl,
   ApmsImpl,
+  EurekaServersImpl,
   ConfigServersImpl,
   ConfigurationServicesImpl,
   ServiceRegistriesImpl,
@@ -44,11 +45,12 @@ import {
   ApiPortalCustomDomainsImpl,
   ApplicationAcceleratorsImpl,
   CustomizedAcceleratorsImpl,
-  PredefinedAcceleratorsImpl
+  PredefinedAcceleratorsImpl,
 } from "./operations";
 import {
   Services,
   Apms,
+  EurekaServers,
   ConfigServers,
   ConfigurationServices,
   ServiceRegistries,
@@ -76,7 +78,7 @@ import {
   ApiPortalCustomDomains,
   ApplicationAccelerators,
   CustomizedAccelerators,
-  PredefinedAccelerators
+  PredefinedAccelerators,
 } from "./operationsInterfaces";
 import { AppPlatformManagementClientOptionalParams } from "./models";
 
@@ -95,18 +97,18 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AppPlatformManagementClientOptionalParams
+    options?: AppPlatformManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: AppPlatformManagementClientOptionalParams
+    options?: AppPlatformManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?:
       | AppPlatformManagementClientOptionalParams
       | string,
-    options?: AppPlatformManagementClientOptionalParams
+    options?: AppPlatformManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -126,10 +128,10 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     }
     const defaults: AppPlatformManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appplatform/3.0.1`;
+    const packageDetails = `azsdk-js-arm-appplatform/3.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -139,20 +141,21 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -162,7 +165,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -172,9 +175,9 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -182,9 +185,10 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-01";
+    this.apiVersion = options.apiVersion || "2024-01-01-preview";
     this.services = new ServicesImpl(this);
     this.apms = new ApmsImpl(this);
+    this.eurekaServers = new EurekaServersImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
     this.serviceRegistries = new ServiceRegistriesImpl(this);
@@ -225,7 +229,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -239,13 +243,14 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   services: Services;
   apms: Apms;
+  eurekaServers: EurekaServers;
   configServers: ConfigServers;
   configurationServices: ConfigurationServices;
   serviceRegistries: ServiceRegistries;

@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -31,7 +31,7 @@ import {
   BindingsDeleteOptionalParams,
   BindingsUpdateOptionalParams,
   BindingsUpdateResponse,
-  BindingsListNextResponse
+  BindingsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,13 +59,13 @@ export class BindingsImpl implements Bindings {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: BindingsListOptionalParams
+    options?: BindingsListOptionalParams,
   ): PagedAsyncIterableIterator<BindingResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       appName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class BindingsImpl implements Bindings {
           serviceName,
           appName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class BindingsImpl implements Bindings {
     serviceName: string,
     appName: string,
     options?: BindingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BindingResource[]> {
     let result: BindingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class BindingsImpl implements Bindings {
         resourceGroupName,
         serviceName,
         appName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class BindingsImpl implements Bindings {
         serviceName,
         appName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +129,13 @@ export class BindingsImpl implements Bindings {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: BindingsListOptionalParams
+    options?: BindingsListOptionalParams,
   ): AsyncIterableIterator<BindingResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       appName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -155,11 +155,11 @@ export class BindingsImpl implements Bindings {
     serviceName: string,
     appName: string,
     bindingName: string,
-    options?: BindingsGetOptionalParams
+    options?: BindingsGetOptionalParams,
   ): Promise<BindingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, bindingName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -179,7 +179,7 @@ export class BindingsImpl implements Bindings {
     appName: string,
     bindingName: string,
     bindingResource: BindingResource,
-    options?: BindingsCreateOrUpdateOptionalParams
+    options?: BindingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BindingsCreateOrUpdateResponse>,
@@ -188,21 +188,20 @@ export class BindingsImpl implements Bindings {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BindingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class BindingsImpl implements Bindings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,8 +219,8 @@ export class BindingsImpl implements Bindings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -233,16 +232,16 @@ export class BindingsImpl implements Bindings {
         appName,
         bindingName,
         bindingResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       BindingsCreateOrUpdateResponse,
       OperationState<BindingsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -264,7 +263,7 @@ export class BindingsImpl implements Bindings {
     appName: string,
     bindingName: string,
     bindingResource: BindingResource,
-    options?: BindingsCreateOrUpdateOptionalParams
+    options?: BindingsCreateOrUpdateOptionalParams,
   ): Promise<BindingsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -272,7 +271,7 @@ export class BindingsImpl implements Bindings {
       appName,
       bindingName,
       bindingResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -291,25 +290,24 @@ export class BindingsImpl implements Bindings {
     serviceName: string,
     appName: string,
     bindingName: string,
-    options?: BindingsDeleteOptionalParams
+    options?: BindingsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -318,8 +316,8 @@ export class BindingsImpl implements Bindings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -327,19 +325,19 @@ export class BindingsImpl implements Bindings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, appName, bindingName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -359,14 +357,14 @@ export class BindingsImpl implements Bindings {
     serviceName: string,
     appName: string,
     bindingName: string,
-    options?: BindingsDeleteOptionalParams
+    options?: BindingsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       appName,
       bindingName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,7 +385,7 @@ export class BindingsImpl implements Bindings {
     appName: string,
     bindingName: string,
     bindingResource: BindingResource,
-    options?: BindingsUpdateOptionalParams
+    options?: BindingsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BindingsUpdateResponse>,
@@ -396,21 +394,20 @@ export class BindingsImpl implements Bindings {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BindingsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -419,8 +416,8 @@ export class BindingsImpl implements Bindings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -428,8 +425,8 @@ export class BindingsImpl implements Bindings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -441,16 +438,16 @@ export class BindingsImpl implements Bindings {
         appName,
         bindingName,
         bindingResource,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       BindingsUpdateResponse,
       OperationState<BindingsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -472,7 +469,7 @@ export class BindingsImpl implements Bindings {
     appName: string,
     bindingName: string,
     bindingResource: BindingResource,
-    options?: BindingsUpdateOptionalParams
+    options?: BindingsUpdateOptionalParams,
   ): Promise<BindingsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -480,7 +477,7 @@ export class BindingsImpl implements Bindings {
       appName,
       bindingName,
       bindingResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -497,11 +494,11 @@ export class BindingsImpl implements Bindings {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: BindingsListOptionalParams
+    options?: BindingsListOptionalParams,
   ): Promise<BindingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -519,11 +516,11 @@ export class BindingsImpl implements Bindings {
     serviceName: string,
     appName: string,
     nextLink: string,
-    options?: BindingsListNextOptionalParams
+    options?: BindingsListNextOptionalParams,
   ): Promise<BindingsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -531,16 +528,15 @@ export class BindingsImpl implements Bindings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings/{bindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings/{bindingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -549,31 +545,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.bindingName
+    Parameters.bindingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings/{bindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings/{bindingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     201: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     202: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     204: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.bindingResource,
   queryParameters: [Parameters.apiVersion],
@@ -583,15 +578,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.bindingName
+    Parameters.bindingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings/{bindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings/{bindingName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -599,8 +593,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -609,31 +603,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.bindingName
+    Parameters.bindingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings/{bindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings/{bindingName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     201: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     202: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     204: {
-      bodyMapper: Mappers.BindingResource
+      bodyMapper: Mappers.BindingResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.bindingResource,
   queryParameters: [Parameters.apiVersion],
@@ -643,23 +636,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.bindingName
+    Parameters.bindingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BindingResourceCollection
+      bodyMapper: Mappers.BindingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -667,21 +659,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BindingResourceCollection
+      bodyMapper: Mappers.BindingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -689,8 +681,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
