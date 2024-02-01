@@ -21,7 +21,7 @@ import {
   OfficeConsentsGetOptionalParams,
   OfficeConsentsGetResponse,
   OfficeConsentsDeleteOptionalParams,
-  OfficeConsentsListNextResponse
+  OfficeConsentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class OfficeConsentsImpl implements OfficeConsents {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OfficeConsentsListOptionalParams
+    options?: OfficeConsentsListOptionalParams,
   ): PagedAsyncIterableIterator<OfficeConsent> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -64,9 +64,9 @@ export class OfficeConsentsImpl implements OfficeConsents {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,7 +74,7 @@ export class OfficeConsentsImpl implements OfficeConsents {
     resourceGroupName: string,
     workspaceName: string,
     options?: OfficeConsentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OfficeConsent[]> {
     let result: OfficeConsentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class OfficeConsentsImpl implements OfficeConsents {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -102,12 +102,12 @@ export class OfficeConsentsImpl implements OfficeConsents {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OfficeConsentsListOptionalParams
+    options?: OfficeConsentsListOptionalParams,
   ): AsyncIterableIterator<OfficeConsent> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,11 +122,11 @@ export class OfficeConsentsImpl implements OfficeConsents {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OfficeConsentsListOptionalParams
+    options?: OfficeConsentsListOptionalParams,
   ): Promise<OfficeConsentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class OfficeConsentsImpl implements OfficeConsents {
     resourceGroupName: string,
     workspaceName: string,
     consentId: string,
-    options?: OfficeConsentsGetOptionalParams
+    options?: OfficeConsentsGetOptionalParams,
   ): Promise<OfficeConsentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, consentId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class OfficeConsentsImpl implements OfficeConsents {
     resourceGroupName: string,
     workspaceName: string,
     consentId: string,
-    options?: OfficeConsentsDeleteOptionalParams
+    options?: OfficeConsentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, consentId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -179,11 +179,11 @@ export class OfficeConsentsImpl implements OfficeConsents {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: OfficeConsentsListNextOptionalParams
+    options?: OfficeConsentsListNextOptionalParams,
   ): Promise<OfficeConsentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -191,38 +191,15 @@ export class OfficeConsentsImpl implements OfficeConsents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OfficeConsentList
+      bodyMapper: Mappers.OfficeConsentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents/{consentId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OfficeConsent
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -230,21 +207,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.consentId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents/{consentId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OfficeConsent,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.consentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents/{consentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents/{consentId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -252,29 +249,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.consentId
+    Parameters.consentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OfficeConsentList
+      bodyMapper: Mappers.OfficeConsentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

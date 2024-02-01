@@ -23,6 +23,6 @@ export interface EntitiesRelations {
     resourceGroupName: string,
     workspaceName: string,
     entityId: string,
-    options?: EntitiesRelationsListOptionalParams
+    options?: EntitiesRelationsListOptionalParams,
   ): PagedAsyncIterableIterator<Relation>;
 }

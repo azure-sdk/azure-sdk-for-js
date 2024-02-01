@@ -18,6 +18,7 @@ import {
   EntitiesListNextOptionalParams,
   EntitiesListOptionalParams,
   EntitiesListResponse,
+  EntitiesRunPlaybookOptionalParams,
   EntitiesGetOptionalParams,
   EntitiesGetResponse,
   EntityExpandParameters,
@@ -29,7 +30,7 @@ import {
   EntityGetInsightsParameters,
   EntitiesGetInsightsOptionalParams,
   EntitiesGetInsightsResponse,
-  EntitiesListNextResponse
+  EntitiesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +55,7 @@ export class EntitiesImpl implements Entities {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntitiesListOptionalParams
+    options?: EntitiesListOptionalParams,
   ): PagedAsyncIterableIterator<EntityUnion> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -72,9 +73,9 @@ export class EntitiesImpl implements Entities {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +83,7 @@ export class EntitiesImpl implements Entities {
     resourceGroupName: string,
     workspaceName: string,
     options?: EntitiesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EntityUnion[]> {
     let result: EntitiesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +99,7 @@ export class EntitiesImpl implements Entities {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,15 +111,34 @@ export class EntitiesImpl implements Entities {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntitiesListOptionalParams
+    options?: EntitiesListOptionalParams,
   ): AsyncIterableIterator<EntityUnion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Triggers playbook on a specific entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param entityIdentifier Entity identifier.
+   * @param options The options parameters.
+   */
+  runPlaybook(
+    resourceGroupName: string,
+    workspaceName: string,
+    entityIdentifier: string,
+    options?: EntitiesRunPlaybookOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, entityIdentifier, options },
+      runPlaybookOperationSpec,
+    );
   }
 
   /**
@@ -130,11 +150,11 @@ export class EntitiesImpl implements Entities {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntitiesListOptionalParams
+    options?: EntitiesListOptionalParams,
   ): Promise<EntitiesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -149,11 +169,11 @@ export class EntitiesImpl implements Entities {
     resourceGroupName: string,
     workspaceName: string,
     entityId: string,
-    options?: EntitiesGetOptionalParams
+    options?: EntitiesGetOptionalParams,
   ): Promise<EntitiesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, entityId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,11 +190,11 @@ export class EntitiesImpl implements Entities {
     workspaceName: string,
     entityId: string,
     parameters: EntityExpandParameters,
-    options?: EntitiesExpandOptionalParams
+    options?: EntitiesExpandOptionalParams,
   ): Promise<EntitiesExpandResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, entityId, parameters, options },
-      expandOperationSpec
+      expandOperationSpec,
     );
   }
 
@@ -191,11 +211,11 @@ export class EntitiesImpl implements Entities {
     workspaceName: string,
     entityId: string,
     kind: EntityItemQueryKind,
-    options?: EntitiesQueriesOptionalParams
+    options?: EntitiesQueriesOptionalParams,
   ): Promise<EntitiesQueriesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, entityId, kind, options },
-      queriesOperationSpec
+      queriesOperationSpec,
     );
   }
 
@@ -212,11 +232,11 @@ export class EntitiesImpl implements Entities {
     workspaceName: string,
     entityId: string,
     parameters: EntityGetInsightsParameters,
-    options?: EntitiesGetInsightsOptionalParams
+    options?: EntitiesGetInsightsOptionalParams,
   ): Promise<EntitiesGetInsightsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, entityId, parameters, options },
-      getInsightsOperationSpec
+      getInsightsOperationSpec,
     );
   }
 
@@ -231,50 +251,49 @@ export class EntitiesImpl implements Entities {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: EntitiesListNextOptionalParams
+    options?: EntitiesListNextOptionalParams,
   ): Promise<EntitiesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities",
-  httpMethod: "GET",
+const runPlaybookOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityIdentifier}/runPlaybook",
+  httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.EntityList
-    },
+    204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
+  requestBody: Parameters.requestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
+    Parameters.entityIdentifier,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Entity
+      bodyMapper: Mappers.EntityList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -282,22 +301,88 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Entity,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.entityId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const expandOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/expand",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/expand",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityExpandResponse
+      bodyMapper: Mappers.EntityExpandResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.entityId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const queriesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/queries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetQueriesResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.kind],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.entityId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getInsightsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getInsights",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EntityGetInsightsResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -306,78 +391,30 @@ const expandOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId
+    Parameters.entityId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const queriesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/queries",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GetQueriesResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.kind],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.entityId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getInsightsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getInsights",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EntityGetInsightsResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.entityId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityList
+      bodyMapper: Mappers.EntityList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

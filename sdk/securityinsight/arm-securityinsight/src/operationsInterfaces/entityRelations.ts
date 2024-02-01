@@ -8,7 +8,7 @@
 
 import {
   EntityRelationsGetRelationOptionalParams,
-  EntityRelationsGetRelationResponse
+  EntityRelationsGetRelationResponse,
 } from "../models";
 
 /** Interface representing a EntityRelations. */
@@ -26,6 +26,6 @@ export interface EntityRelations {
     workspaceName: string,
     entityId: string,
     relationName: string,
-    options?: EntityRelationsGetRelationOptionalParams
+    options?: EntityRelationsGetRelationOptionalParams,
   ): Promise<EntityRelationsGetRelationResponse>;
 }
