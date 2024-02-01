@@ -1998,6 +1998,7 @@ export interface BastionHost extends Resource {
     scaleUnits?: number;
     sku?: Sku;
     virtualNetwork?: SubResource;
+    zones?: string[];
 }
 
 // @public
@@ -2353,9 +2354,11 @@ export interface ConnectionMonitorEndpoint {
     address?: string;
     coverageLevel?: CoverageLevel;
     filter?: ConnectionMonitorEndpointFilter;
+    locationDetails?: ConnectionMonitorEndpointLocationDetails;
     name: string;
     resourceId?: string;
     scope?: ConnectionMonitorEndpointScope;
+    subscriptionId?: string;
     type?: EndpointType;
 }
 
@@ -2376,6 +2379,11 @@ export type ConnectionMonitorEndpointFilterItemType = string;
 
 // @public
 export type ConnectionMonitorEndpointFilterType = string;
+
+// @public
+export interface ConnectionMonitorEndpointLocationDetails {
+    region?: string;
+}
 
 // @public
 export interface ConnectionMonitorEndpointScope {
@@ -4811,6 +4819,65 @@ export interface FirewallPolicyCertificateAuthority {
 }
 
 // @public
+export interface FirewallPolicyDeployments {
+    beginDeploy(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPolicyDeploymentsDeployOptionalParams): Promise<SimplePollerLike<OperationState<FirewallPolicyDeploymentsDeployResponse>, FirewallPolicyDeploymentsDeployResponse>>;
+    beginDeployAndWait(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPolicyDeploymentsDeployOptionalParams): Promise<FirewallPolicyDeploymentsDeployResponse>;
+}
+
+// @public
+export interface FirewallPolicyDeploymentsDeployHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface FirewallPolicyDeploymentsDeployOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FirewallPolicyDeploymentsDeployResponse = FirewallPolicyDeploymentsDeployHeaders;
+
+// @public
+export interface FirewallPolicyDraft extends Resource {
+    basePolicy?: SubResource;
+    dnsSettings?: DnsSettings;
+    explicitProxy?: ExplicitProxy;
+    insights?: FirewallPolicyInsights;
+    intrusionDetection?: FirewallPolicyIntrusionDetection;
+    snat?: FirewallPolicySnat;
+    sql?: FirewallPolicySQL;
+    threatIntelMode?: AzureFirewallThreatIntelMode;
+    threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
+}
+
+// @public
+export interface FirewallPolicyDrafts {
+    createOrUpdate(resourceGroupName: string, firewallPolicyName: string, parameters: FirewallPolicyDraft, options?: FirewallPolicyDraftsCreateOrUpdateOptionalParams): Promise<FirewallPolicyDraftsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPolicyDraftsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, firewallPolicyName: string, options?: FirewallPolicyDraftsGetOptionalParams): Promise<FirewallPolicyDraftsGetResponse>;
+}
+
+// @public
+export interface FirewallPolicyDraftsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyDraftsCreateOrUpdateResponse = FirewallPolicyDraft;
+
+// @public
+export interface FirewallPolicyDraftsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface FirewallPolicyDraftsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyDraftsGetResponse = FirewallPolicyDraft;
+
+// @public
 export interface FirewallPolicyFilterRuleCollection extends FirewallPolicyRuleCollection {
     action?: FirewallPolicyFilterRuleCollectionAction;
     ruleCollectionType: "FirewallPolicyFilterRuleCollection";
@@ -5017,6 +5084,40 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResource {
     readonly size?: string;
     readonly type?: string;
 }
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupDraft extends SubResource {
+    name?: string;
+    priority?: number;
+    ruleCollections?: FirewallPolicyRuleCollectionUnion[];
+    readonly size?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupDrafts {
+    createOrUpdate(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: FirewallPolicyRuleCollectionGroupDraft, options?: FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateOptionalParams): Promise<FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupDraftsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: FirewallPolicyRuleCollectionGroupDraftsGetOptionalParams): Promise<FirewallPolicyRuleCollectionGroupDraftsGetResponse>;
+}
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateResponse = FirewallPolicyRuleCollectionGroupDraft;
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupDraftsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface FirewallPolicyRuleCollectionGroupDraftsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirewallPolicyRuleCollectionGroupDraftsGetResponse = FirewallPolicyRuleCollectionGroupDraft;
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupListResult {
@@ -6497,6 +6598,7 @@ export enum KnownEffectiveSecurityRuleProtocol {
 
 // @public
 export enum KnownEndpointType {
+    AzureArcNetwork = "AzureArcNetwork",
     AzureArcVM = "AzureArcVM",
     AzureSubnet = "AzureSubnet",
     AzureVM = "AzureVM",
@@ -7417,7 +7519,9 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+    RouteTableEnabled = "RouteTableEnabled"
 }
 
 // @public
@@ -9109,11 +9213,17 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     firewallPolicies: FirewallPolicies;
     // (undocumented)
+    firewallPolicyDeployments: FirewallPolicyDeployments;
+    // (undocumented)
+    firewallPolicyDrafts: FirewallPolicyDrafts;
+    // (undocumented)
     firewallPolicyIdpsSignatures: FirewallPolicyIdpsSignatures;
     // (undocumented)
     firewallPolicyIdpsSignaturesFilterValues: FirewallPolicyIdpsSignaturesFilterValues;
     // (undocumented)
     firewallPolicyIdpsSignaturesOverrides: FirewallPolicyIdpsSignaturesOverrides;
+    // (undocumented)
+    firewallPolicyRuleCollectionGroupDrafts: FirewallPolicyRuleCollectionGroupDrafts;
     // (undocumented)
     firewallPolicyRuleCollectionGroups: FirewallPolicyRuleCollectionGroups;
     // (undocumented)
