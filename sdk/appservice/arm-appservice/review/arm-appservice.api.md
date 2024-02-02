@@ -501,8 +501,8 @@ export interface AppServiceEnvironmentResource extends Resource {
 
 // @public
 export interface AppServiceEnvironments {
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>, AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>;
+    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>, AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>>;
+    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>;
     beginCreateOrUpdate(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsCreateOrUpdateResponse>, AppServiceEnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<AppServiceEnvironmentsCreateOrUpdateResponse>;
     beginCreateOrUpdateMultiRolePool(resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>, AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>>;
@@ -1402,7 +1402,6 @@ export type AppServicePlansUpdateVnetRouteResponse = VnetRoute;
 
 // @public (undocumented)
 export interface ArcConfiguration {
-    // (undocumented)
     artifactsStorageType?: StorageType;
     // (undocumented)
     artifactStorageAccessMode?: string;
@@ -1459,6 +1458,9 @@ export interface AseV3NetworkingConfiguration extends ProxyOnlyResource {
     remoteDebugEnabled?: boolean;
     readonly windowsOutboundIpAddresses?: string[];
 }
+
+// @public
+export type AuthenticationType = string;
 
 // @public
 export interface AuthPlatform {
@@ -3544,6 +3546,13 @@ export type FrontEndServiceType = "NodePort" | "LoadBalancer";
 export type FtpsState = string;
 
 // @public
+export interface FunctionAppConfig {
+    deployment?: FunctionsDeployment;
+    runtime?: FunctionsRuntime;
+    scaleAndConcurrency?: FunctionsScaleAndConcurrency;
+}
+
+// @public
 export interface FunctionAppMajorVersion {
     readonly displayText?: string;
     readonly minorVersions?: FunctionAppMinorVersion[];
@@ -3624,9 +3633,58 @@ export interface FunctionEnvelopeCollection {
 }
 
 // @public
+export interface FunctionsAlwaysReadyConfig {
+    instanceCount?: number;
+    name?: string;
+}
+
+// @public
+export interface FunctionsDeployment {
+    storage?: FunctionsDeploymentStorage;
+}
+
+// @public
+export interface FunctionsDeploymentStorage {
+    authentication?: FunctionsDeploymentStorageAuthentication;
+    type?: StorageType;
+    value?: string;
+}
+
+// @public
+export interface FunctionsDeploymentStorageAuthentication {
+    storageAccountConnectionStringName?: string;
+    type?: AuthenticationType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
 export interface FunctionSecrets {
     key?: string;
     triggerUrl?: string;
+}
+
+// @public
+export interface FunctionsRuntime {
+    name?: RuntimeName;
+    version?: string;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrency {
+    alwaysReady?: FunctionsAlwaysReadyConfig[];
+    instanceMemoryMB?: number;
+    maximumInstanceCount?: number;
+    triggers?: FunctionsScaleAndConcurrencyTriggers;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrencyTriggers {
+    http?: FunctionsScaleAndConcurrencyTriggersHttp;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrencyTriggersHttp {
+    perInstanceConcurrency?: number;
 }
 
 // @public
@@ -4047,6 +4105,13 @@ export enum KnownActiveRevisionsMode {
 }
 
 // @public
+export enum KnownAuthenticationType {
+    StorageAccountConnectionString = "StorageAccountConnectionString",
+    SystemAssignedIdentity = "SystemAssignedIdentity",
+    UserAssignedIdentity = "UserAssignedIdentity"
+}
+
+// @public
 export enum KnownBasicAuthName {
     Default = "default"
 }
@@ -4279,6 +4344,16 @@ export enum KnownRouteType {
 }
 
 // @public
+export enum KnownRuntimeName {
+    Custom = "custom",
+    DotnetIsolated = "dotnet-isolated",
+    Java = "java",
+    Node = "node",
+    Powershell = "powershell",
+    Python = "python"
+}
+
+// @public
 export enum KnownScmType {
     BitbucketGit = "BitbucketGit",
     BitbucketHg = "BitbucketHg",
@@ -4311,6 +4386,13 @@ export enum KnownSkuName {
     PremiumV3 = "PremiumV3",
     Shared = "Shared",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownStorageType {
+    BlobContainer = "blobContainer",
+    LocalNode = "LocalNode",
+    NetworkFileSystem = "NetworkFileSystem"
 }
 
 // @public
@@ -6031,6 +6113,9 @@ export interface RunCorrelation {
 }
 
 // @public
+export type RuntimeName = string;
+
+// @public
 export interface SampleUtterance {
     links?: string[];
     qid?: string;
@@ -6096,6 +6181,7 @@ export interface Site extends Resource {
     enabled?: boolean;
     readonly enabledHostNames?: string[];
     extendedLocation?: ExtendedLocation;
+    functionAppConfig?: FunctionAppConfig;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
     readonly hostNames?: string[];
     hostNamesDisabled?: boolean;
@@ -6129,6 +6215,7 @@ export interface Site extends Resource {
     readonly trafficManagerHostNames?: string[];
     readonly usageState?: UsageState;
     virtualNetworkSubnetId?: string;
+    vnetBackupRestoreEnabled?: boolean;
     vnetContentShareEnabled?: boolean;
     vnetImagePullEnabled?: boolean;
     vnetRouteAllEnabled?: boolean;
@@ -6885,8 +6972,8 @@ export interface StaticSiteResetPropertiesARMResource extends ProxyOnlyResource 
 
 // @public
 export interface StaticSites {
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>, StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>;
+    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>, StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>>;
+    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>;
     beginCreateOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesCreateOrUpdateStaticSiteResponse>, StaticSitesCreateOrUpdateStaticSiteResponse>>;
     beginCreateOrUpdateStaticSiteAndWait(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteResponse>;
     beginCreateOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>, StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>>;
@@ -7732,7 +7819,7 @@ export interface StorageMigrationResponse extends ProxyOnlyResource {
 }
 
 // @public
-export type StorageType = "LocalNode" | "NetworkFileSystem";
+export type StorageType = string;
 
 // @public
 export interface StringDictionary extends ProxyOnlyResource {
@@ -8195,10 +8282,10 @@ export interface WebApps {
     applySlotConfigurationSlot(resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsApplySlotConfigurationSlotOptionalParams): Promise<void>;
     backup(resourceGroupName: string, name: string, request: BackupRequest, options?: WebAppsBackupOptionalParams): Promise<WebAppsBackupResponse>;
     backupSlot(resourceGroupName: string, name: string, slot: string, request: BackupRequest, options?: WebAppsBackupSlotOptionalParams): Promise<WebAppsBackupSlotResponse>;
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
-    beginApproveOrRejectPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionSlotAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>;
+    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionResponse>>;
+    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
+    beginApproveOrRejectPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>>;
+    beginApproveOrRejectPrivateEndpointConnectionSlotAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>;
     beginCreateFunction(resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateFunctionResponse>, WebAppsCreateFunctionResponse>>;
     beginCreateFunctionAndWait(resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams): Promise<WebAppsCreateFunctionResponse>;
     beginCreateInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateInstanceFunctionSlotResponse>, WebAppsCreateInstanceFunctionSlotResponse>>;

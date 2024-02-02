@@ -1,15 +1,38 @@
 # Release History
+    
+## 15.0.0 (2024-02-02)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Added Interface FunctionAppConfig
+  - Added Interface FunctionsAlwaysReadyConfig
+  - Added Interface FunctionsDeployment
+  - Added Interface FunctionsDeploymentStorage
+  - Added Interface FunctionsDeploymentStorageAuthentication
+  - Added Interface FunctionsRuntime
+  - Added Interface FunctionsScaleAndConcurrency
+  - Added Interface FunctionsScaleAndConcurrencyTriggers
+  - Added Interface FunctionsScaleAndConcurrencyTriggersHttp
+  - Added Type Alias AuthenticationType
+  - Added Type Alias RuntimeName
+  - Interface Site has a new optional parameter functionAppConfig
+  - Interface Site has a new optional parameter vnetBackupRestoreEnabled
+  - Added Enum KnownAuthenticationType
+  - Added Enum KnownRuntimeName
+  - Added Enum KnownStorageType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait has a new signature
+    
+    
 ## 14.1.0 (2023-11-16)
     
 **Features**
