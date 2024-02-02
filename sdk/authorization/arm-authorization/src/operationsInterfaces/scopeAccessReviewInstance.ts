@@ -12,7 +12,7 @@ import {
   ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams,
   ScopeAccessReviewInstanceResetDecisionsOptionalParams,
   ScopeAccessReviewInstanceApplyDecisionsOptionalParams,
-  ScopeAccessReviewInstanceSendRemindersOptionalParams
+  ScopeAccessReviewInstanceSendRemindersOptionalParams,
 } from "../models";
 
 /** Interface representing a ScopeAccessReviewInstance. */
@@ -28,7 +28,7 @@ export interface ScopeAccessReviewInstance {
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceStopOptionalParams
+    options?: ScopeAccessReviewInstanceStopOptionalParams,
   ): Promise<void>;
   /**
    * An action to approve/deny all decisions for a review with certain filters.
@@ -43,7 +43,7 @@ export interface ScopeAccessReviewInstance {
     scheduleDefinitionId: string,
     id: string,
     properties: RecordAllDecisionsProperties,
-    options?: ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams
+    options?: ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams,
   ): Promise<void>;
   /**
    * An action to reset all decisions for an access review instance.
@@ -56,7 +56,7 @@ export interface ScopeAccessReviewInstance {
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceResetDecisionsOptionalParams
+    options?: ScopeAccessReviewInstanceResetDecisionsOptionalParams,
   ): Promise<void>;
   /**
    * An action to apply all decisions for an access review instance.
@@ -69,7 +69,7 @@ export interface ScopeAccessReviewInstance {
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceApplyDecisionsOptionalParams
+    options?: ScopeAccessReviewInstanceApplyDecisionsOptionalParams,
   ): Promise<void>;
   /**
    * An action to send reminders for an access review instance.
@@ -82,6 +82,6 @@ export interface ScopeAccessReviewInstance {
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceSendRemindersOptionalParams
+    options?: ScopeAccessReviewInstanceSendRemindersOptionalParams,
   ): Promise<void>;
 }

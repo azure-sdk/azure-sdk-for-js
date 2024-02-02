@@ -23,13 +23,14 @@ import {
   RoleManagementPolicyAssignmentsCreateOptionalParams,
   RoleManagementPolicyAssignmentsCreateResponse,
   RoleManagementPolicyAssignmentsDeleteOptionalParams,
-  RoleManagementPolicyAssignmentsListForScopeNextResponse
+  RoleManagementPolicyAssignmentsListForScopeNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RoleManagementPolicyAssignments operations. */
 export class RoleManagementPolicyAssignmentsImpl
-  implements RoleManagementPolicyAssignments {
+  implements RoleManagementPolicyAssignments
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -47,7 +48,7 @@ export class RoleManagementPolicyAssignmentsImpl
    */
   public listForScope(
     scope: string,
-    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams
+    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleManagementPolicyAssignment> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -62,14 +63,14 @@ export class RoleManagementPolicyAssignmentsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleManagementPolicyAssignment[]> {
     let result: RoleManagementPolicyAssignmentsListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +92,7 @@ export class RoleManagementPolicyAssignmentsImpl
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams
+    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams,
   ): AsyncIterableIterator<RoleManagementPolicyAssignment> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -108,11 +109,11 @@ export class RoleManagementPolicyAssignmentsImpl
   get(
     scope: string,
     roleManagementPolicyAssignmentName: string,
-    options?: RoleManagementPolicyAssignmentsGetOptionalParams
+    options?: RoleManagementPolicyAssignmentsGetOptionalParams,
   ): Promise<RoleManagementPolicyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, roleManagementPolicyAssignmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -128,11 +129,11 @@ export class RoleManagementPolicyAssignmentsImpl
     scope: string,
     roleManagementPolicyAssignmentName: string,
     parameters: RoleManagementPolicyAssignment,
-    options?: RoleManagementPolicyAssignmentsCreateOptionalParams
+    options?: RoleManagementPolicyAssignmentsCreateOptionalParams,
   ): Promise<RoleManagementPolicyAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
       { scope, roleManagementPolicyAssignmentName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -146,11 +147,11 @@ export class RoleManagementPolicyAssignmentsImpl
   delete(
     scope: string,
     roleManagementPolicyAssignmentName: string,
-    options?: RoleManagementPolicyAssignmentsDeleteOptionalParams
+    options?: RoleManagementPolicyAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, roleManagementPolicyAssignmentName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -161,11 +162,11 @@ export class RoleManagementPolicyAssignmentsImpl
    */
   private _listForScope(
     scope: string,
-    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams
+    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams,
   ): Promise<RoleManagementPolicyAssignmentsListForScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listForScopeOperationSpec
+      listForScopeOperationSpec,
     );
   }
 
@@ -178,11 +179,11 @@ export class RoleManagementPolicyAssignmentsImpl
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: RoleManagementPolicyAssignmentsListForScopeNextOptionalParams
+    options?: RoleManagementPolicyAssignmentsListForScopeNextOptionalParams,
   ): Promise<RoleManagementPolicyAssignmentsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -190,98 +191,94 @@ export class RoleManagementPolicyAssignmentsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleManagementPolicyAssignment
+      bodyMapper: Mappers.RoleManagementPolicyAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleManagementPolicyAssignmentName
+    Parameters.roleManagementPolicyAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.RoleManagementPolicyAssignment
+      bodyMapper: Mappers.RoleManagementPolicyAssignment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleManagementPolicyAssignmentName
+    Parameters.roleManagementPolicyAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleManagementPolicyAssignmentName
+    Parameters.roleManagementPolicyAssignmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleManagementPolicyAssignmentListResult
+      bodyMapper: Mappers.RoleManagementPolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleManagementPolicyAssignmentListResult
+      bodyMapper: Mappers.RoleManagementPolicyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

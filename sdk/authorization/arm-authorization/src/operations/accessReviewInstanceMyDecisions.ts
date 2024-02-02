@@ -23,13 +23,14 @@ import {
   AccessReviewDecisionProperties,
   AccessReviewInstanceMyDecisionsPatchOptionalParams,
   AccessReviewInstanceMyDecisionsPatchResponse,
-  AccessReviewInstanceMyDecisionsListNextResponse
+  AccessReviewInstanceMyDecisionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AccessReviewInstanceMyDecisions operations. */
 export class AccessReviewInstanceMyDecisionsImpl
-  implements AccessReviewInstanceMyDecisions {
+  implements AccessReviewInstanceMyDecisions
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -49,7 +50,7 @@ export class AccessReviewInstanceMyDecisionsImpl
   public list(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceMyDecisionsListOptionalParams
+    options?: AccessReviewInstanceMyDecisionsListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewDecision> {
     const iter = this.listPagingAll(scheduleDefinitionId, id, options);
     return {
@@ -64,7 +65,7 @@ export class AccessReviewInstanceMyDecisionsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scheduleDefinitionId, id, options, settings);
-      }
+      },
     };
   }
 
@@ -72,7 +73,7 @@ export class AccessReviewInstanceMyDecisionsImpl
     scheduleDefinitionId: string,
     id: string,
     options?: AccessReviewInstanceMyDecisionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessReviewDecision[]> {
     let result: AccessReviewInstanceMyDecisionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class AccessReviewInstanceMyDecisionsImpl
         scheduleDefinitionId,
         id,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +101,12 @@ export class AccessReviewInstanceMyDecisionsImpl
   private async *listPagingAll(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceMyDecisionsListOptionalParams
+    options?: AccessReviewInstanceMyDecisionsListOptionalParams,
   ): AsyncIterableIterator<AccessReviewDecision> {
     for await (const page of this.listPagingPage(
       scheduleDefinitionId,
       id,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,11 +121,11 @@ export class AccessReviewInstanceMyDecisionsImpl
   private _list(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceMyDecisionsListOptionalParams
+    options?: AccessReviewInstanceMyDecisionsListOptionalParams,
   ): Promise<AccessReviewInstanceMyDecisionsListResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -139,11 +140,11 @@ export class AccessReviewInstanceMyDecisionsImpl
     scheduleDefinitionId: string,
     id: string,
     decisionId: string,
-    options?: AccessReviewInstanceMyDecisionsGetByIdOptionalParams
+    options?: AccessReviewInstanceMyDecisionsGetByIdOptionalParams,
   ): Promise<AccessReviewInstanceMyDecisionsGetByIdResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, decisionId, options },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -160,11 +161,11 @@ export class AccessReviewInstanceMyDecisionsImpl
     id: string,
     decisionId: string,
     properties: AccessReviewDecisionProperties,
-    options?: AccessReviewInstanceMyDecisionsPatchOptionalParams
+    options?: AccessReviewInstanceMyDecisionsPatchOptionalParams,
   ): Promise<AccessReviewInstanceMyDecisionsPatchResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, decisionId, properties, options },
-      patchOperationSpec
+      patchOperationSpec,
     );
   }
 
@@ -179,11 +180,11 @@ export class AccessReviewInstanceMyDecisionsImpl
     scheduleDefinitionId: string,
     id: string,
     nextLink: string,
-    options?: AccessReviewInstanceMyDecisionsListNextOptionalParams
+    options?: AccessReviewInstanceMyDecisionsListNextOptionalParams,
   ): Promise<AccessReviewInstanceMyDecisionsListNextResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -191,59 +192,56 @@ export class AccessReviewInstanceMyDecisionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions",
+  path: "/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewDecisionListResult
+      bodyMapper: Mappers.AccessReviewDecisionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.filter1, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions/{decisionId}",
+  path: "/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions/{decisionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewDecision
+      bodyMapper: Mappers.AccessReviewDecision,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.decisionId
+    Parameters.decisionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const patchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions/{decisionId}",
+  path: "/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions/{decisionId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewDecision
+      bodyMapper: Mappers.AccessReviewDecision,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   requestBody: Parameters.properties5,
   queryParameters: [Parameters.apiVersion3],
@@ -251,29 +249,29 @@ const patchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.decisionId
+    Parameters.decisionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewDecisionListResult
+      bodyMapper: Mappers.AccessReviewDecisionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.scheduleDefinitionId,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

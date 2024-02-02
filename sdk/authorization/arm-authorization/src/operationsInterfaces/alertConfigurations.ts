@@ -12,7 +12,7 @@ import {
   AlertConfigurationsListForScopeOptionalParams,
   AlertConfigurationsGetOptionalParams,
   AlertConfigurationsGetResponse,
-  AlertConfigurationsUpdateOptionalParams
+  AlertConfigurationsUpdateOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,7 +25,7 @@ export interface AlertConfigurations {
    */
   listForScope(
     scope: string,
-    options?: AlertConfigurationsListForScopeOptionalParams
+    options?: AlertConfigurationsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<AlertConfiguration>;
   /**
    * Get the specified alert configuration.
@@ -42,7 +42,7 @@ export interface AlertConfigurations {
   get(
     scope: string,
     alertId: string,
-    options?: AlertConfigurationsGetOptionalParams
+    options?: AlertConfigurationsGetOptionalParams,
   ): Promise<AlertConfigurationsGetResponse>;
   /**
    * Update an alert configuration.
@@ -55,6 +55,6 @@ export interface AlertConfigurations {
     scope: string,
     alertId: string,
     parameters: AlertConfiguration,
-    options?: AlertConfigurationsUpdateOptionalParams
+    options?: AlertConfigurationsUpdateOptionalParams,
   ): Promise<void>;
 }
