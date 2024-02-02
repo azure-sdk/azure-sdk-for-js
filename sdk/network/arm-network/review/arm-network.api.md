@@ -1998,6 +1998,7 @@ export interface BastionHost extends Resource {
     scaleUnits?: number;
     sku?: Sku;
     virtualNetwork?: SubResource;
+    zones?: string[];
 }
 
 // @public
@@ -6978,16 +6979,25 @@ export enum KnownOutputType {
 }
 
 // @public
+export enum KnownOwaspCrsExclusionEntryExclude {
+    MatchVariable = "MatchVariable",
+    Request = "Request"
+}
+
+// @public
 export enum KnownOwaspCrsExclusionEntryMatchVariable {
+    RemoteAddr = "RemoteAddr",
     RequestArgKeys = "RequestArgKeys",
     RequestArgNames = "RequestArgNames",
     RequestArgValues = "RequestArgValues",
     RequestCookieKeys = "RequestCookieKeys",
     RequestCookieNames = "RequestCookieNames",
     RequestCookieValues = "RequestCookieValues",
+    RequestHeader = "RequestHeader",
     RequestHeaderKeys = "RequestHeaderKeys",
     RequestHeaderNames = "RequestHeaderNames",
-    RequestHeaderValues = "RequestHeaderValues"
+    RequestHeaderValues = "RequestHeaderValues",
+    RequestURI = "RequestURI"
 }
 
 // @public
@@ -6996,6 +7006,14 @@ export enum KnownOwaspCrsExclusionEntrySelectorMatchOperator {
     EndsWith = "EndsWith",
     Equals = "Equals",
     EqualsAny = "EqualsAny",
+    StartsWith = "StartsWith"
+}
+
+// @public
+export enum KnownOwaspCrsExclusionEntryValueMatchOperator {
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equals = "Equals",
     StartsWith = "StartsWith"
 }
 
@@ -7417,7 +7435,9 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+    RouteTableEnabled = "RouteTableEnabled"
 }
 
 // @public
@@ -10225,17 +10245,26 @@ export type OutputType = string;
 
 // @public
 export interface OwaspCrsExclusionEntry {
+    exclude?: OwaspCrsExclusionEntryExclude;
     exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
     matchVariable: OwaspCrsExclusionEntryMatchVariable;
-    selector: string;
-    selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
+    selector?: string;
+    selectorMatchOperator?: OwaspCrsExclusionEntrySelectorMatchOperator;
+    valueMatchOperator?: OwaspCrsExclusionEntryValueMatchOperator;
+    values?: string[];
 }
+
+// @public
+export type OwaspCrsExclusionEntryExclude = string;
 
 // @public
 export type OwaspCrsExclusionEntryMatchVariable = string;
 
 // @public
 export type OwaspCrsExclusionEntrySelectorMatchOperator = string;
+
+// @public
+export type OwaspCrsExclusionEntryValueMatchOperator = string;
 
 // @public
 export interface P2SConnectionConfiguration extends SubResource {
