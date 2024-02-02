@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailableGroundStation,
   CapabilityParameter,
-  AvailableGroundStationsListByCapabilityOptionalParams
+  AvailableGroundStationsListByCapabilityOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,6 +23,6 @@ export interface AvailableGroundStations {
    */
   listByCapability(
     capability: CapabilityParameter,
-    options?: AvailableGroundStationsListByCapabilityOptionalParams
+    options?: AvailableGroundStationsListByCapabilityOptionalParams,
   ): PagedAsyncIterableIterator<AvailableGroundStation>;
 }

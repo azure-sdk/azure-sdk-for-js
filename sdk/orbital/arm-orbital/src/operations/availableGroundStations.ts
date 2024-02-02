@@ -19,7 +19,7 @@ import {
   CapabilityParameter,
   AvailableGroundStationsListByCapabilityOptionalParams,
   AvailableGroundStationsListByCapabilityResponse,
-  AvailableGroundStationsListByCapabilityNextResponse
+  AvailableGroundStationsListByCapabilityNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
    */
   public listByCapability(
     capability: CapabilityParameter,
-    options?: AvailableGroundStationsListByCapabilityOptionalParams
+    options?: AvailableGroundStationsListByCapabilityOptionalParams,
   ): PagedAsyncIterableIterator<AvailableGroundStation> {
     const iter = this.listByCapabilityPagingAll(capability, options);
     return {
@@ -57,14 +57,14 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByCapabilityPagingPage(capability, options, settings);
-      }
+      },
     };
   }
 
   private async *listByCapabilityPagingPage(
     capability: CapabilityParameter,
     options?: AvailableGroundStationsListByCapabilityOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailableGroundStation[]> {
     let result: AvailableGroundStationsListByCapabilityResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,11 +86,11 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
 
   private async *listByCapabilityPagingAll(
     capability: CapabilityParameter,
-    options?: AvailableGroundStationsListByCapabilityOptionalParams
+    options?: AvailableGroundStationsListByCapabilityOptionalParams,
   ): AsyncIterableIterator<AvailableGroundStation> {
     for await (const page of this.listByCapabilityPagingPage(
       capability,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -103,11 +103,11 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
    */
   private _listByCapability(
     capability: CapabilityParameter,
-    options?: AvailableGroundStationsListByCapabilityOptionalParams
+    options?: AvailableGroundStationsListByCapabilityOptionalParams,
   ): Promise<AvailableGroundStationsListByCapabilityResponse> {
     return this.client.sendOperationRequest(
       { capability, options },
-      listByCapabilityOperationSpec
+      listByCapabilityOperationSpec,
     );
   }
 
@@ -118,11 +118,11 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
    */
   private _listByCapabilityNext(
     nextLink: string,
-    options?: AvailableGroundStationsListByCapabilityNextOptionalParams
+    options?: AvailableGroundStationsListByCapabilityNextOptionalParams,
   ): Promise<AvailableGroundStationsListByCapabilityNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listByCapabilityNextOperationSpec
+      listByCapabilityNextOperationSpec,
     );
   }
 }
@@ -130,38 +130,37 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByCapabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/availableGroundStations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/availableGroundStations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableGroundStationListResult
+      bodyMapper: Mappers.AvailableGroundStationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.capability],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByCapabilityNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableGroundStationListResult
+      bodyMapper: Mappers.AvailableGroundStationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
