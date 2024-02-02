@@ -17,7 +17,7 @@ import {
   MetadataCreateResponse,
   MetadataPatch,
   MetadataUpdateOptionalParams,
-  MetadataUpdateResponse
+  MetadataUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Metadata {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MetadataListOptionalParams
+    options?: MetadataListOptionalParams,
   ): PagedAsyncIterableIterator<MetadataModel>;
   /**
    * Get a Metadata.
@@ -45,7 +45,7 @@ export interface Metadata {
     resourceGroupName: string,
     workspaceName: string,
     metadataName: string,
-    options?: MetadataGetOptionalParams
+    options?: MetadataGetOptionalParams,
   ): Promise<MetadataGetResponse>;
   /**
    * Delete a Metadata.
@@ -58,7 +58,7 @@ export interface Metadata {
     resourceGroupName: string,
     workspaceName: string,
     metadataName: string,
-    options?: MetadataDeleteOptionalParams
+    options?: MetadataDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create a Metadata.
@@ -73,7 +73,7 @@ export interface Metadata {
     workspaceName: string,
     metadataName: string,
     metadata: MetadataModel,
-    options?: MetadataCreateOptionalParams
+    options?: MetadataCreateOptionalParams,
   ): Promise<MetadataCreateResponse>;
   /**
    * Update an existing Metadata.
@@ -88,6 +88,6 @@ export interface Metadata {
     workspaceName: string,
     metadataName: string,
     metadataPatch: MetadataPatch,
-    options?: MetadataUpdateOptionalParams
+    options?: MetadataUpdateOptionalParams,
   ): Promise<MetadataUpdateResponse>;
 }

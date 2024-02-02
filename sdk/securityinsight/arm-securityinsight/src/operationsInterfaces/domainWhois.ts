@@ -8,7 +8,7 @@
 
 import {
   DomainWhoisGetOptionalParams,
-  DomainWhoisGetResponse
+  DomainWhoisGetResponse,
 } from "../models";
 
 /** Interface representing a DomainWhois. */
@@ -22,6 +22,6 @@ export interface DomainWhois {
   get(
     resourceGroupName: string,
     domain: string,
-    options?: DomainWhoisGetOptionalParams
+    options?: DomainWhoisGetOptionalParams,
   ): Promise<DomainWhoisGetResponse>;
 }

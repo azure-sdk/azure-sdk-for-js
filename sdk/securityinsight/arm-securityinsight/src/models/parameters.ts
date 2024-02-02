@@ -9,38 +9,52 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   AlertRule as AlertRuleMapper,
   ActionRequest as ActionRequestMapper,
   AutomationRule as AutomationRuleMapper,
+  EntityManualTriggerRequestBody as EntityManualTriggerRequestBodyMapper,
+  EntityExpandParameters as EntityExpandParametersMapper,
+  EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   ManualTriggerRequestBody as ManualTriggerRequestBodyMapper,
   Incident as IncidentMapper,
-  TeamProperties as TeamPropertiesMapper,
+  TeamInformation as TeamInformationMapper,
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
-  EntityExpandParameters as EntityExpandParametersMapper,
-  EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
+  PackageModel as PackageModelMapper,
+  TemplateModel as TemplateModelMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
   CustomEntityQuery as CustomEntityQueryMapper,
   FileImport as FileImportMapper,
+  Hunt as HuntMapper,
+  HuntRelation as HuntRelationMapper,
+  HuntComment as HuntCommentMapper,
   IncidentComment as IncidentCommentMapper,
+  IncidentTask as IncidentTaskMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
   SecurityMLAnalyticsSetting as SecurityMLAnalyticsSettingMapper,
   Settings as SettingsMapper,
+  RepositoryAccessProperties as RepositoryAccessPropertiesMapper,
   SourceControl as SourceControlMapper,
   ThreatIntelligenceIndicatorModel as ThreatIntelligenceIndicatorModelMapper,
   ThreatIntelligenceFilteringCriteria as ThreatIntelligenceFilteringCriteriaMapper,
   ThreatIntelligenceAppendTags as ThreatIntelligenceAppendTagsMapper,
+  AnalyticsRuleRunTrigger as AnalyticsRuleRunTriggerMapper,
   Watchlist as WatchlistMapper,
   WatchlistItem as WatchlistItemMapper,
+  WorkspaceManagerAssignment as WorkspaceManagerAssignmentMapper,
+  WorkspaceManagerConfiguration as WorkspaceManagerConfigurationMapper,
+  WorkspaceManagerGroup as WorkspaceManagerGroupMapper,
+  WorkspaceManagerMember as WorkspaceManagerMemberMapper,
+  DataConnectorDefinition as DataConnectorDefinitionMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
-  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
+  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -50,9 +64,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -61,36 +75,36 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01-preview",
+    defaultValue: "2023-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -98,29 +112,30 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "workspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ruleId: OperationURLParameter = {
@@ -129,9 +144,9 @@ export const ruleId: OperationURLParameter = {
     serializedName: "ruleId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -141,14 +156,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const alertRule: OperationParameter = {
   parameterPath: "alertRule",
-  mapper: AlertRuleMapper
+  mapper: AlertRuleMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -157,10 +172,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const actionId: OperationURLParameter = {
@@ -169,14 +184,14 @@ export const actionId: OperationURLParameter = {
     serializedName: "actionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action: OperationParameter = {
   parameterPath: "action",
-  mapper: ActionRequestMapper
+  mapper: ActionRequestMapper,
 };
 
 export const alertRuleTemplateId: OperationURLParameter = {
@@ -185,9 +200,9 @@ export const alertRuleTemplateId: OperationURLParameter = {
     serializedName: "alertRuleTemplateId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const automationRuleId: OperationURLParameter = {
@@ -196,150 +211,30 @@ export const automationRuleId: OperationURLParameter = {
     serializedName: "automationRuleId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const automationRuleToUpsert: OperationParameter = {
   parameterPath: ["options", "automationRuleToUpsert"],
-  mapper: AutomationRuleMapper
+  mapper: AutomationRuleMapper,
 };
 
 export const requestBody: OperationParameter = {
   parameterPath: ["options", "requestBody"],
-  mapper: ManualTriggerRequestBodyMapper
+  mapper: EntityManualTriggerRequestBodyMapper,
 };
 
-export const incidentIdentifier: OperationURLParameter = {
-  parameterPath: "incidentIdentifier",
+export const entityIdentifier: OperationURLParameter = {
+  parameterPath: "entityIdentifier",
   mapper: {
-    serializedName: "incidentIdentifier",
+    serializedName: "entityIdentifier",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const orderby: OperationQueryParameter = {
-  parameterPath: ["options", "orderby"],
-  mapper: {
-    serializedName: "$orderby",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    serializedName: "$top",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const skipToken: OperationQueryParameter = {
-  parameterPath: ["options", "skipToken"],
-  mapper: {
-    serializedName: "$skipToken",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const incidentId: OperationURLParameter = {
-  parameterPath: "incidentId",
-  mapper: {
-    serializedName: "incidentId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const incident: OperationParameter = {
-  parameterPath: "incident",
-  mapper: IncidentMapper
-};
-
-export const teamProperties: OperationParameter = {
-  parameterPath: "teamProperties",
-  mapper: TeamPropertiesMapper
-};
-
-export const bookmarkId: OperationURLParameter = {
-  parameterPath: "bookmarkId",
-  mapper: {
-    serializedName: "bookmarkId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const bookmark: OperationParameter = {
-  parameterPath: "bookmark",
-  mapper: BookmarkMapper
-};
-
-export const relationName: OperationURLParameter = {
-  parameterPath: "relationName",
-  mapper: {
-    serializedName: "relationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const relation: OperationParameter = {
-  parameterPath: "relation",
-  mapper: RelationMapper
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: BookmarkExpandParametersMapper
-};
-
-export const ipAddress: OperationQueryParameter = {
-  parameterPath: "ipAddress",
-  mapper: {
-    serializedName: "ipAddress",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const domain: OperationQueryParameter = {
-  parameterPath: "domain",
-  mapper: {
-    serializedName: "domain",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const entityId: OperationURLParameter = {
@@ -348,14 +243,14 @@ export const entityId: OperationURLParameter = {
     serializedName: "entityId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters1: OperationParameter = {
+export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: EntityExpandParametersMapper
+  mapper: EntityExpandParametersMapper,
 };
 
 export const kind: OperationQueryParameter = {
@@ -364,19 +259,241 @@ export const kind: OperationQueryParameter = {
     serializedName: "kind",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: EntityGetInsightsParametersMapper,
+};
+
+export const requestBody1: OperationParameter = {
+  parameterPath: ["options", "requestBody"],
+  mapper: ManualTriggerRequestBodyMapper,
+};
+
+export const incidentIdentifier: OperationURLParameter = {
+  parameterPath: "incidentIdentifier",
+  mapper: {
+    serializedName: "incidentIdentifier",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const orderby: OperationQueryParameter = {
+  parameterPath: ["options", "orderby"],
+  mapper: {
+    serializedName: "$orderby",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const skipToken: OperationQueryParameter = {
+  parameterPath: ["options", "skipToken"],
+  mapper: {
+    serializedName: "$skipToken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const incidentId: OperationURLParameter = {
+  parameterPath: "incidentId",
+  mapper: {
+    serializedName: "incidentId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const incident: OperationParameter = {
+  parameterPath: "incident",
+  mapper: IncidentMapper,
+};
+
+export const teamProperties: OperationParameter = {
+  parameterPath: "teamProperties",
+  mapper: TeamInformationMapper,
+};
+
+export const billingStatisticName: OperationURLParameter = {
+  parameterPath: "billingStatisticName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
+    },
+    serializedName: "billingStatisticName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const bookmarkId: OperationURLParameter = {
+  parameterPath: "bookmarkId",
+  mapper: {
+    serializedName: "bookmarkId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const bookmark: OperationParameter = {
+  parameterPath: "bookmark",
+  mapper: BookmarkMapper,
+};
+
+export const relationName: OperationURLParameter = {
+  parameterPath: "relationName",
+  mapper: {
+    serializedName: "relationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const relation: OperationParameter = {
+  parameterPath: "relation",
+  mapper: RelationMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: EntityGetInsightsParametersMapper
+  mapper: BookmarkExpandParametersMapper,
+};
+
+export const search: OperationQueryParameter = {
+  parameterPath: ["options", "search"],
+  mapper: {
+    serializedName: "$search",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const count: OperationQueryParameter = {
+  parameterPath: ["options", "count"],
+  mapper: {
+    serializedName: "$count",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "$skip",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const packageId: OperationURLParameter = {
+  parameterPath: "packageId",
+  mapper: {
+    serializedName: "packageId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const packageInstallationProperties: OperationParameter = {
+  parameterPath: "packageInstallationProperties",
+  mapper: PackageModelMapper,
+};
+
+export const templateId: OperationURLParameter = {
+  parameterPath: "templateId",
+  mapper: {
+    serializedName: "templateId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const templateInstallationProperties: OperationParameter = {
+  parameterPath: "templateInstallationProperties",
+  mapper: TemplateModelMapper,
+};
+
+export const ipAddress: OperationQueryParameter = {
+  parameterPath: "ipAddress",
+  mapper: {
+    serializedName: "ipAddress",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const domain: OperationQueryParameter = {
+  parameterPath: "domain",
+  mapper: {
+    serializedName: "domain",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: EntityTimelineParametersMapper
+  mapper: EntityTimelineParametersMapper,
 };
 
 export const kind1: OperationQueryParameter = {
@@ -384,9 +501,9 @@ export const kind1: OperationQueryParameter = {
   mapper: {
     serializedName: "kind",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const entityQueryId: OperationURLParameter = {
@@ -395,14 +512,14 @@ export const entityQueryId: OperationURLParameter = {
     serializedName: "entityQueryId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const entityQuery: OperationParameter = {
   parameterPath: "entityQuery",
-  mapper: CustomEntityQueryMapper
+  mapper: CustomEntityQueryMapper,
 };
 
 export const kind2: OperationQueryParameter = {
@@ -412,9 +529,9 @@ export const kind2: OperationQueryParameter = {
     isConstant: true,
     serializedName: "kind",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const entityQueryTemplateId: OperationURLParameter = {
@@ -423,9 +540,9 @@ export const entityQueryTemplateId: OperationURLParameter = {
     serializedName: "entityQueryTemplateId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileImportId: OperationURLParameter = {
@@ -434,14 +551,62 @@ export const fileImportId: OperationURLParameter = {
     serializedName: "fileImportId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileImport: OperationParameter = {
   parameterPath: "fileImport",
-  mapper: FileImportMapper
+  mapper: FileImportMapper,
+};
+
+export const huntId: OperationURLParameter = {
+  parameterPath: "huntId",
+  mapper: {
+    serializedName: "huntId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const hunt: OperationParameter = {
+  parameterPath: "hunt",
+  mapper: HuntMapper,
+};
+
+export const huntRelationId: OperationURLParameter = {
+  parameterPath: "huntRelationId",
+  mapper: {
+    serializedName: "huntRelationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const huntRelation: OperationParameter = {
+  parameterPath: "huntRelation",
+  mapper: HuntRelationMapper,
+};
+
+export const huntCommentId: OperationURLParameter = {
+  parameterPath: "huntCommentId",
+  mapper: {
+    serializedName: "huntCommentId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const huntComment: OperationParameter = {
+  parameterPath: "huntComment",
+  mapper: HuntCommentMapper,
 };
 
 export const incidentCommentId: OperationURLParameter = {
@@ -450,45 +615,54 @@ export const incidentCommentId: OperationURLParameter = {
     serializedName: "incidentCommentId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const incidentComment: OperationParameter = {
   parameterPath: "incidentComment",
-  mapper: IncidentCommentMapper
+  mapper: IncidentCommentMapper,
 };
 
-export const skip: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
+export const incidentTaskId: OperationURLParameter = {
+  parameterPath: "incidentTaskId",
   mapper: {
-    serializedName: "$skip",
+    serializedName: "incidentTaskId",
+    required: true,
     type: {
-      name: "Number"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const incidentTask: OperationParameter = {
+  parameterPath: "incidentTask",
+  mapper: IncidentTaskMapper,
 };
 
 export const metadataName: OperationURLParameter = {
   parameterPath: "metadataName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^\\S+$"),
+    },
     serializedName: "metadataName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const metadata: OperationParameter = {
   parameterPath: "metadata",
-  mapper: MetadataModelMapper
+  mapper: MetadataModelMapper,
 };
 
 export const metadataPatch: OperationParameter = {
   parameterPath: "metadataPatch",
-  mapper: MetadataPatchMapper
+  mapper: MetadataPatchMapper,
 };
 
 export const consentId: OperationURLParameter = {
@@ -497,9 +671,9 @@ export const consentId: OperationURLParameter = {
     serializedName: "consentId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sentinelOnboardingStateName: OperationURLParameter = {
@@ -508,14 +682,42 @@ export const sentinelOnboardingStateName: OperationURLParameter = {
     serializedName: "sentinelOnboardingStateName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sentinelOnboardingStateParameter: OperationParameter = {
   parameterPath: ["options", "sentinelOnboardingStateParameter"],
-  mapper: SentinelOnboardingStateMapper
+  mapper: SentinelOnboardingStateMapper,
+};
+
+export const recommendationId: OperationURLParameter = {
+  parameterPath: "recommendationId",
+  mapper: {
+    serializedName: "recommendationId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const recommendationPatch: OperationParameter = {
+  parameterPath: "recommendationPatch",
+  mapper: {
+    serializedName: "recommendationPatch",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "RecommendationPatch",
+        },
+      },
+    },
+  },
 };
 
 export const settingsResourceName: OperationURLParameter = {
@@ -524,14 +726,14 @@ export const settingsResourceName: OperationURLParameter = {
     serializedName: "settingsResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const securityMLAnalyticsSetting: OperationParameter = {
   parameterPath: "securityMLAnalyticsSetting",
-  mapper: SecurityMLAnalyticsSettingMapper
+  mapper: SecurityMLAnalyticsSettingMapper,
 };
 
 export const settingsName: OperationURLParameter = {
@@ -540,25 +742,19 @@ export const settingsName: OperationURLParameter = {
     serializedName: "settingsName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const settings: OperationParameter = {
   parameterPath: "settings",
-  mapper: SettingsMapper
+  mapper: SettingsMapper,
 };
 
-export const repoType: OperationParameter = {
-  parameterPath: "repoType",
-  mapper: {
-    serializedName: "repoType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const repositoryAccess: OperationParameter = {
+  parameterPath: "repositoryAccess",
+  mapper: RepositoryAccessPropertiesMapper,
 };
 
 export const sourceControlId: OperationURLParameter = {
@@ -567,19 +763,19 @@ export const sourceControlId: OperationURLParameter = {
     serializedName: "sourceControlId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceControl: OperationParameter = {
   parameterPath: "sourceControl",
-  mapper: SourceControlMapper
+  mapper: SourceControlMapper,
 };
 
 export const threatIntelligenceProperties: OperationParameter = {
   parameterPath: "threatIntelligenceProperties",
-  mapper: ThreatIntelligenceIndicatorModelMapper
+  mapper: ThreatIntelligenceIndicatorModelMapper,
 };
 
 export const name: OperationURLParameter = {
@@ -588,24 +784,40 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const threatIntelligenceFilteringCriteria: OperationParameter = {
   parameterPath: "threatIntelligenceFilteringCriteria",
-  mapper: ThreatIntelligenceFilteringCriteriaMapper
+  mapper: ThreatIntelligenceFilteringCriteriaMapper,
 };
 
 export const threatIntelligenceAppendTags: OperationParameter = {
   parameterPath: "threatIntelligenceAppendTags",
-  mapper: ThreatIntelligenceAppendTagsMapper
+  mapper: ThreatIntelligenceAppendTagsMapper,
 };
 
 export const threatIntelligenceReplaceTags: OperationParameter = {
   parameterPath: "threatIntelligenceReplaceTags",
-  mapper: ThreatIntelligenceIndicatorModelMapper
+  mapper: ThreatIntelligenceIndicatorModelMapper,
+};
+
+export const ruleRunId: OperationURLParameter = {
+  parameterPath: "ruleRunId",
+  mapper: {
+    serializedName: "ruleRunId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const analyticsRuleRunTriggerParameter: OperationParameter = {
+  parameterPath: "analyticsRuleRunTriggerParameter",
+  mapper: AnalyticsRuleRunTriggerMapper,
 };
 
 export const watchlistAlias: OperationURLParameter = {
@@ -614,14 +826,14 @@ export const watchlistAlias: OperationURLParameter = {
     serializedName: "watchlistAlias",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const watchlist: OperationParameter = {
   parameterPath: "watchlist",
-  mapper: WatchlistMapper
+  mapper: WatchlistMapper,
 };
 
 export const watchlistItemId: OperationURLParameter = {
@@ -630,14 +842,123 @@ export const watchlistItemId: OperationURLParameter = {
     serializedName: "watchlistItemId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const watchlistItem: OperationParameter = {
   parameterPath: "watchlistItem",
-  mapper: WatchlistItemMapper
+  mapper: WatchlistItemMapper,
+};
+
+export const workspaceManagerAssignmentName: OperationURLParameter = {
+  parameterPath: "workspaceManagerAssignmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
+    },
+    serializedName: "workspaceManagerAssignmentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const workspaceManagerAssignment: OperationParameter = {
+  parameterPath: "workspaceManagerAssignment",
+  mapper: WorkspaceManagerAssignmentMapper,
+};
+
+export const jobName: OperationURLParameter = {
+  parameterPath: "jobName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
+    },
+    serializedName: "jobName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const workspaceManagerConfigurationName: OperationURLParameter = {
+  parameterPath: "workspaceManagerConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
+    },
+    serializedName: "workspaceManagerConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const workspaceManagerConfiguration: OperationParameter = {
+  parameterPath: "workspaceManagerConfiguration",
+  mapper: WorkspaceManagerConfigurationMapper,
+};
+
+export const workspaceManagerGroupName: OperationURLParameter = {
+  parameterPath: "workspaceManagerGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
+    },
+    serializedName: "workspaceManagerGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const workspaceManagerGroup: OperationParameter = {
+  parameterPath: "workspaceManagerGroup",
+  mapper: WorkspaceManagerGroupMapper,
+};
+
+export const workspaceManagerMemberName: OperationURLParameter = {
+  parameterPath: "workspaceManagerMemberName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"),
+    },
+    serializedName: "workspaceManagerMemberName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const workspaceManagerMember: OperationParameter = {
+  parameterPath: "workspaceManagerMember",
+  mapper: WorkspaceManagerMemberMapper,
+};
+
+export const dataConnectorDefinitionName: OperationURLParameter = {
+  parameterPath: "dataConnectorDefinitionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9A-Z-_]*$"),
+    },
+    serializedName: "dataConnectorDefinitionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const connectorDefinitionInput: OperationParameter = {
+  parameterPath: "connectorDefinitionInput",
+  mapper: DataConnectorDefinitionMapper,
 };
 
 export const dataConnectorId: OperationURLParameter = {
@@ -646,22 +967,22 @@ export const dataConnectorId: OperationURLParameter = {
     serializedName: "dataConnectorId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const dataConnector: OperationParameter = {
   parameterPath: "dataConnector",
-  mapper: DataConnectorMapper
+  mapper: DataConnectorMapper,
 };
 
 export const connectBody: OperationParameter = {
   parameterPath: "connectBody",
-  mapper: DataConnectorConnectBodyMapper
+  mapper: DataConnectorConnectBodyMapper,
 };
 
 export const dataConnectorsCheckRequirements: OperationParameter = {
   parameterPath: "dataConnectorsCheckRequirements",
-  mapper: DataConnectorsCheckRequirementsMapper
+  mapper: DataConnectorsCheckRequirementsMapper,
 };
