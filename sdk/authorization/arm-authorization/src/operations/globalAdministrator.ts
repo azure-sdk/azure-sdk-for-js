@@ -30,11 +30,11 @@ export class GlobalAdministratorImpl implements GlobalAdministrator {
    * @param options The options parameters.
    */
   elevateAccess(
-    options?: GlobalAdministratorElevateAccessOptionalParams
+    options?: GlobalAdministratorElevateAccessOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { options },
-      elevateAccessOperationSpec
+      elevateAccessOperationSpec,
     );
   }
 }
@@ -47,11 +47,11 @@ const elevateAccessOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

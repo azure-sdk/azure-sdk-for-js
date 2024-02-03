@@ -18,13 +18,14 @@ import {
   AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextOptionalParams,
   AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams,
   AccessReviewScheduleDefinitionsAssignedForMyApprovalListResponse,
-  AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse
+  AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AccessReviewScheduleDefinitionsAssignedForMyApproval operations. */
 export class AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl
-  implements AccessReviewScheduleDefinitionsAssignedForMyApproval {
+  implements AccessReviewScheduleDefinitionsAssignedForMyApproval
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -40,7 +41,7 @@ export class AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl
    * @param options The options parameters.
    */
   public list(
-    options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams
+    options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewScheduleDefinition> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,13 +56,13 @@ export class AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessReviewScheduleDefinition[]> {
     let result: AccessReviewScheduleDefinitionsAssignedForMyApprovalListResponse;
     let continuationToken = settings?.continuationToken;
@@ -82,7 +83,7 @@ export class AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl
   }
 
   private async *listPagingAll(
-    options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams
+    options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams,
   ): AsyncIterableIterator<AccessReviewScheduleDefinition> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -94,7 +95,7 @@ export class AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams
+    options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams,
   ): Promise<AccessReviewScheduleDefinitionsAssignedForMyApprovalListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -106,13 +107,11 @@ export class AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl
    */
   private _listNext(
     nextLink: string,
-    options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextOptionalParams
-  ): Promise<
-    AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse
-  > {
+    options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextOptionalParams,
+  ): Promise<AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -124,29 +123,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewScheduleDefinitionListResult
+      bodyMapper: Mappers.AccessReviewScheduleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.filter1, Parameters.apiVersion3],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewScheduleDefinitionListResult
+      bodyMapper: Mappers.AccessReviewScheduleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
