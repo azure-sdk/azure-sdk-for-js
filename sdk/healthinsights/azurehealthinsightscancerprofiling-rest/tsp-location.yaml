@@ -1,0 +1,7 @@
+commit: 25a3d71d5b4d0849e109c8fe4ada64d7695ddb7b
+directory: specification/ai/HealthInsights/HealthInsights.OncoPhenotype
+additionalDirectories:
+- specification/ai/HealthInsights/HealthInsights.Common/
+- specification/ai/HealthInsights/HealthInsights.OpenAPI/
+repo: Azure/azure-rest-api-specs
+
