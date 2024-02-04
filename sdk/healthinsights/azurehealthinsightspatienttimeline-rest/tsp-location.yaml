@@ -1,0 +1,7 @@
+repo: Azure/azure-rest-api-specs
+directory: specification/ai/HealthInsights/HealthInsights.PatientTimeline
+commit: e77bf4b444e25cf7210e51cc83b42496bccbd506
+additionalDirectories:
+- specification/ai/HealthInsights/HealthInsights.Common/
+- specification/ai/HealthInsights/HealthInsights.OpenAPI/
+
