@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/healthinsights/
-
 pr:
   branches:
     include:
@@ -31,3 +30,5 @@ extends:
         safeName: azureresthealthinsightscancerprofiling
       - name: azure-rest-health-insights-clinicalmatching
         safeName: azureresthealthinsightsclinicalmatching
+      - name: azure-rest-health-insights-radiologyinsights
+        safeName: azureresthealthinsightsradiologyinsights
