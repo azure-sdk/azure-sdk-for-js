@@ -1,15 +1,127 @@
 # Release History
+    
+## 22.0.0 (2024-02-05)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation DedicatedHosts.beginRedeploy
+  - Removed operation DedicatedHosts.beginRedeployAndWait
+  - Removed operation DedicatedHosts.listAvailableSizes
+  - Removed operation VirtualMachines.beginAttachDetachDataDisks
+  - Removed operation VirtualMachines.beginAttachDetachDataDisksAndWait
+  - Removed operation VirtualMachineScaleSets.beginApproveRollingUpgrade
+  - Removed operation VirtualMachineScaleSets.beginApproveRollingUpgradeAndWait
+  - Removed operation VirtualMachineScaleSets.beginReapply
+  - Removed operation VirtualMachineScaleSets.beginReapplyAndWait
+  - Removed operation VirtualMachineScaleSetVMs.beginApproveRollingUpgrade
+  - Removed operation VirtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait
+  - Removed operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisks
+  - Removed operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait
+  - Interface AutomaticOSUpgradePolicy no longer has parameter osRollingUpgradeDeferral
+  - Interface CapacityReservationGroup no longer has parameter sharingProfile
+  - Interface CapacityReservationGroupInstanceView no longer has parameter sharedSubscriptionIds
+  - Interface CapacityReservationGroupUpdate no longer has parameter sharingProfile
+  - Interface CommunityGallery no longer has parameter artifactTags
+  - Interface CommunityGallery no longer has parameter communityMetadata
+  - Interface CommunityGallery no longer has parameter disclaimer
+  - Interface CommunityGalleryImage no longer has parameter artifactTags
+  - Interface CommunityGalleryImage no longer has parameter disclaimer
+  - Interface CommunityGalleryImageVersion no longer has parameter artifactTags
+  - Interface CommunityGalleryImageVersion no longer has parameter disclaimer
+  - Interface CreationData no longer has parameter elasticSanResourceId
+  - Interface CreationData no longer has parameter provisionedBandwidthCopySpeed
+  - Interface DedicatedHostUpdate no longer has parameter sku
+  - Interface Disk no longer has parameter lastOwnershipUpdateTime
+  - Interface GalleryImageVersion no longer has parameter securityProfile
+  - Interface GalleryImageVersionUpdate no longer has parameter securityProfile
+  - Interface GrantAccessData no longer has parameter fileFormat
+  - Interface LinuxVMGuestPatchAutomaticByPlatformSettings no longer has parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Interface RestorePointSourceMetadata no longer has parameter hyperVGeneration
+  - Interface RestorePointSourceVMDataDisk no longer has parameter writeAcceleratorEnabled
+  - Interface RestorePointSourceVmosDisk no longer has parameter writeAcceleratorEnabled
+  - Interface RestorePointSourceVMStorageProfile no longer has parameter diskControllerType
+  - Interface SecurityProfile no longer has parameter encryptionIdentity
+  - Interface SecurityProfile no longer has parameter proxyAgentSettings
+  - Interface SharedGallery no longer has parameter artifactTags
+  - Interface SharedGalleryImage no longer has parameter artifactTags
+  - Interface SharedGalleryImageVersion no longer has parameter artifactTags
+  - Interface SshPublicKeysGenerateKeyPairOptionalParams no longer has parameter parameters
+  - Interface VirtualMachine no longer has parameter etag
+  - Interface VirtualMachine no longer has parameter managedBy
+  - Interface VirtualMachineExtension no longer has parameter provisionAfterExtensions
+  - Interface VirtualMachineInstanceView no longer has parameter isVMInStandbyPool
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration no longer has parameter domainNameLabelScope
+  - Interface VirtualMachineRunCommand no longer has parameter errorBlobManagedIdentity
+  - Interface VirtualMachineRunCommand no longer has parameter outputBlobManagedIdentity
+  - Interface VirtualMachineRunCommand no longer has parameter treatFailureAsDeploymentFailure
+  - Interface VirtualMachineRunCommandScriptSource no longer has parameter scriptUriManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate no longer has parameter errorBlobManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate no longer has parameter outputBlobManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate no longer has parameter treatFailureAsDeploymentFailure
+  - Interface VirtualMachineScaleSet no longer has parameter etag
+  - Interface VirtualMachineScaleSet no longer has parameter resiliencyPolicy
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings no longer has parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetsDeallocateOptionalParams no longer has parameter hibernate
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetUpdate no longer has parameter priorityMixPolicy
+  - Interface VirtualMachineScaleSetUpdate no longer has parameter resiliencyPolicy
+  - Interface VirtualMachineScaleSetUpdate no longer has parameter spotRestorePolicy
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineScaleSetVM no longer has parameter etag
+  - Interface VirtualMachineScaleSetVM no longer has parameter timeCreated
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter location
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter provisionAfterExtensions
+  - Interface VirtualMachineScaleSetVMInstanceView no longer has parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView no longer has parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView no longer has parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView no longer has parameter osVersion
+  - Interface VirtualMachineScaleSetVMProfile no longer has parameter securityPostureReference
+  - Interface VirtualMachineScaleSetVMProfile no longer has parameter timeCreated
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VirtualMachinesListAllOptionalParams no longer has parameter expand
+  - Interface VirtualMachinesListOptionalParams no longer has parameter expand
+  - Interface VirtualMachinesUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachinesUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface WindowsVMGuestPatchAutomaticByPlatformSettings no longer has parameter bypassPlatformSafetyChecksOnUserSchedule
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from CommunityGalleryImageIdentifier to GalleryImageIdentifier
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Type of parameter diskRestorePoint of interface RestorePointSourceVMDataDisk is changed from DiskRestorePointAttributes to ApiEntityReference
+  - Type of parameter diskRestorePoint of interface RestorePointSourceVmosDisk is changed from DiskRestorePointAttributes to ApiEntityReference
+  - Removed Enum KnownDomainNameLabelScopeTypes
+  - Removed Enum KnownEdgeZoneStorageAccountType
+  - Removed Enum KnownExpandTypeForListVMs
+  - Removed Enum KnownExpandTypesForListVMs
+  - Removed Enum KnownFileFormat
+  - Removed Enum KnownMode
+  - Removed Enum KnownNetworkInterfaceAuxiliaryMode
+  - Removed Enum KnownNetworkInterfaceAuxiliarySku
+  - Removed Enum KnownProvisionedBandwidthCopyOption
+  - Removed Enum KnownRestorePointEncryptionType
+  - Removed Enum KnownSshEncryptionTypes
+  - Removed Enum KnownUefiKeyType
+  - Removed Enum KnownUefiSignatureTemplateName
+  - Enum KnownConfidentialVMEncryptionType no longer has value NonPersistedTPM
+  - Enum KnownDiskCreateOption no longer has value CopyFromSanSnapshot
+  - Enum KnownDiskSecurityTypes no longer has value ConfidentialVMNonPersistedTPM
+  - Enum KnownReplicationStatusTypes no longer has value UefiSettings
+  - Enum KnownSecurityEncryptionTypes no longer has value NonPersistedTPM
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**
