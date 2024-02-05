@@ -235,27 +235,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** A partial update to the RedisEnterprise cluster */
@@ -441,48 +420,10 @@ export interface ForceUnlinkParameters {
   ids: string[];
 }
 
-/** Parameters for a Redis Enterprise active geo-replication flush operation. */
+/** Parameters for a Redis Enterprise active geo-replication flush operation */
 export interface FlushParameters {
-  /** The resource identifiers of all the other database resources in the georeplication group to be flushed */
+  /** The identifiers of all the other database resources in the georeplication group to be flushed. */
   ids?: string[];
-}
-
-/** List of details about all the available SKUs */
-export interface RegionSkuDetails {
-  /** List of Sku Detail */
-  value?: RegionSkuDetail[];
-}
-
-/** Details about the location requested and the available skus in the location */
-export interface RegionSkuDetail {
-  /** Resource type which has the SKU, such as Microsoft.Cache/redisEnterprise */
-  resourceType?: string;
-  /** Details about location and its capabilities */
-  locationInfo?: LocationInfo;
-  /** Details about available skus */
-  skuDetails?: SkuDetail;
-}
-
-/** Information about location (for example: features that it supports) */
-export interface LocationInfo {
-  /** Location name */
-  location?: string;
-  /** List of capabilities */
-  capabilities?: Capability[];
-}
-
-/** Information about the features the location supports */
-export interface Capability {
-  /** Feature name */
-  name?: string;
-  /** Indicates whether feature is supported or not */
-  value?: boolean;
-}
-
-/** Information about Sku */
-export interface SkuDetail {
-  /** The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.) */
-  name?: SkuName;
 }
 
 /** The Private Endpoint Connection resource. */
@@ -600,6 +541,14 @@ export interface DatabasesFlushHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** User */
@@ -607,7 +556,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -624,7 +573,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -638,6 +587,8 @@ export type ActionType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** EnterpriseE5 */
+  EnterpriseE5 = "Enterprise_E5",
   /** EnterpriseE10 */
   EnterpriseE10 = "Enterprise_E10",
   /** EnterpriseE20 */
@@ -651,7 +602,7 @@ export enum KnownSkuName {
   /** EnterpriseFlashF700 */
   EnterpriseFlashF700 = "EnterpriseFlash_F700",
   /** EnterpriseFlashF1500 */
-  EnterpriseFlashF1500 = "EnterpriseFlash_F1500"
+  EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
 }
 
 /**
@@ -659,6 +610,7 @@ export enum KnownSkuName {
  * {@link KnownSkuName} can be used interchangeably with SkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Enterprise_E5** \
  * **Enterprise_E10** \
  * **Enterprise_E20** \
  * **Enterprise_E50** \
@@ -678,7 +630,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -700,7 +652,7 @@ export enum KnownTlsVersion {
   /** One1 */
   One1 = "1.1",
   /** One2 */
-  One2 = "1.2"
+  One2 = "1.2",
 }
 
 /**
@@ -719,7 +671,7 @@ export enum KnownCmkIdentityType {
   /** SystemAssignedIdentity */
   SystemAssignedIdentity = "systemAssignedIdentity",
   /** UserAssignedIdentity */
-  UserAssignedIdentity = "userAssignedIdentity"
+  UserAssignedIdentity = "userAssignedIdentity",
 }
 
 /**
@@ -745,7 +697,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -787,7 +739,11 @@ export enum KnownResourceState {
   /** DisableFailed */
   DisableFailed = "DisableFailed",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** Scaling */
+  Scaling = "Scaling",
+  /** ScalingFailed */
+  ScalingFailed = "ScalingFailed",
 }
 
 /**
@@ -806,7 +762,9 @@ export enum KnownResourceState {
  * **EnableFailed** \
  * **Disabling** \
  * **DisableFailed** \
- * **Disabled**
+ * **Disabled** \
+ * **Scaling** \
+ * **ScalingFailed**
  */
 export type ResourceState = string;
 
@@ -817,7 +775,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -840,7 +798,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -855,36 +813,12 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link Protocol} that the service accepts. */
 export enum KnownProtocol {
   /** Encrypted */
   Encrypted = "Encrypted",
   /** Plaintext */
-  Plaintext = "Plaintext"
+  Plaintext = "Plaintext",
 }
 
 /**
@@ -902,7 +836,7 @@ export enum KnownClusteringPolicy {
   /** EnterpriseCluster */
   EnterpriseCluster = "EnterpriseCluster",
   /** OSSCluster */
-  OSSCluster = "OSSCluster"
+  OSSCluster = "OSSCluster",
 }
 
 /**
@@ -932,7 +866,7 @@ export enum KnownEvictionPolicy {
   /** VolatileRandom */
   VolatileRandom = "VolatileRandom",
   /** NoEviction */
-  NoEviction = "NoEviction"
+  NoEviction = "NoEviction",
 }
 
 /**
@@ -956,7 +890,7 @@ export enum KnownAofFrequency {
   /** OneS */
   OneS = "1s",
   /** Always */
-  Always = "always"
+  Always = "always",
 }
 
 /**
@@ -976,7 +910,7 @@ export enum KnownRdbFrequency {
   /** SixH */
   SixH = "6h",
   /** TwelveH */
-  TwelveH = "12h"
+  TwelveH = "12h",
 }
 
 /**
@@ -1001,7 +935,7 @@ export enum KnownLinkState {
   /** LinkFailed */
   LinkFailed = "LinkFailed",
   /** UnlinkFailed */
-  UnlinkFailed = "UnlinkFailed"
+  UnlinkFailed = "UnlinkFailed",
 }
 
 /**
@@ -1222,7 +1156,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1245,20 +1180,20 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SkusListResponse = RegionSkuDetails;
+export type PrivateLinkResourcesListByClusterResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface RedisEnterpriseManagementClientOptionalParams

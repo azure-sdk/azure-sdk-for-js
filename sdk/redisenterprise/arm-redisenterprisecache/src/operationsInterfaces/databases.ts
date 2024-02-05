@@ -31,7 +31,7 @@ import {
   ForceUnlinkParameters,
   DatabasesForceUnlinkOptionalParams,
   FlushParameters,
-  DatabasesFlushOptionalParams
+  DatabasesFlushOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export interface Databases {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: DatabasesListByClusterOptionalParams
+    options?: DatabasesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Database>;
   /**
    * Creates a database
@@ -61,7 +61,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOptionalParams
+    options?: DatabasesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesCreateResponse>,
@@ -81,7 +81,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOptionalParams
+    options?: DatabasesCreateOptionalParams,
   ): Promise<DatabasesCreateResponse>;
   /**
    * Updates a database
@@ -96,7 +96,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUpdate,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesUpdateResponse>,
@@ -116,7 +116,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUpdate,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<DatabasesUpdateResponse>;
   /**
    * Gets information about a database in a RedisEnterprise cluster.
@@ -129,7 +129,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesGetOptionalParams
+    options?: DatabasesGetOptionalParams,
   ): Promise<DatabasesGetResponse>;
   /**
    * Deletes a single database
@@ -142,7 +142,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a single database
@@ -155,7 +155,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves the access keys for the RedisEnterprise database.
@@ -168,7 +168,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesListKeysOptionalParams
+    options?: DatabasesListKeysOptionalParams,
   ): Promise<DatabasesListKeysResponse>;
   /**
    * Regenerates the RedisEnterprise database's access keys.
@@ -183,7 +183,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: RegenerateKeyParameters,
-    options?: DatabasesRegenerateKeyOptionalParams
+    options?: DatabasesRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesRegenerateKeyResponse>,
@@ -203,7 +203,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: RegenerateKeyParameters,
-    options?: DatabasesRegenerateKeyOptionalParams
+    options?: DatabasesRegenerateKeyOptionalParams,
   ): Promise<DatabasesRegenerateKeyResponse>;
   /**
    * Imports database files to target database.
@@ -218,7 +218,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: ImportClusterParameters,
-    options?: DatabasesImportOptionalParams
+    options?: DatabasesImportOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Imports database files to target database.
@@ -233,7 +233,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: ImportClusterParameters,
-    options?: DatabasesImportOptionalParams
+    options?: DatabasesImportOptionalParams,
   ): Promise<void>;
   /**
    * Exports a database file from target database.
@@ -248,7 +248,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: ExportClusterParameters,
-    options?: DatabasesExportOptionalParams
+    options?: DatabasesExportOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Exports a database file from target database.
@@ -263,7 +263,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: ExportClusterParameters,
-    options?: DatabasesExportOptionalParams
+    options?: DatabasesExportOptionalParams,
   ): Promise<void>;
   /**
    * Forcibly removes the link to the specified database resource.
@@ -278,7 +278,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: ForceUnlinkParameters,
-    options?: DatabasesForceUnlinkOptionalParams
+    options?: DatabasesForceUnlinkOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Forcibly removes the link to the specified database resource.
@@ -293,7 +293,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: ForceUnlinkParameters,
-    options?: DatabasesForceUnlinkOptionalParams
+    options?: DatabasesForceUnlinkOptionalParams,
   ): Promise<void>;
   /**
    * Flushes all the keys in this database and also from its linked databases.
@@ -308,7 +308,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: FlushParameters,
-    options?: DatabasesFlushOptionalParams
+    options?: DatabasesFlushOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Flushes all the keys in this database and also from its linked databases.
@@ -323,6 +323,6 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: FlushParameters,
-    options?: DatabasesFlushOptionalParams
+    options?: DatabasesFlushOptionalParams,
   ): Promise<void>;
 }
