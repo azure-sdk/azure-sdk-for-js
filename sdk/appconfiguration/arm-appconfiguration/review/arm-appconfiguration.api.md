@@ -47,8 +47,6 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
-    replicas: Replicas;
-    // (undocumented)
     subscriptionId: string;
 }
 
@@ -402,15 +400,6 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
-export enum KnownReplicaProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export interface LogSpecification {
     blobDuration?: string;
     displayName?: string;
@@ -644,78 +633,6 @@ export type PublicNetworkAccess = string;
 export interface RegenerateKeyParameters {
     id?: string;
 }
-
-// @public
-export interface Replica {
-    readonly endpoint?: string;
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    readonly provisioningState?: ReplicaProvisioningState;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface ReplicaListResult {
-    nextLink?: string;
-    value?: Replica[];
-}
-
-// @public
-export type ReplicaProvisioningState = string;
-
-// @public
-export interface Replicas {
-    beginCreate(resourceGroupName: string, configStoreName: string, replicaName: string, replicaCreationParameters: Replica, options?: ReplicasCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicasCreateResponse>, ReplicasCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, configStoreName: string, replicaName: string, replicaCreationParameters: Replica, options?: ReplicasCreateOptionalParams): Promise<ReplicasCreateResponse>;
-    beginDelete(resourceGroupName: string, configStoreName: string, replicaName: string, options?: ReplicasDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, configStoreName: string, replicaName: string, options?: ReplicasDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, configStoreName: string, replicaName: string, options?: ReplicasGetOptionalParams): Promise<ReplicasGetResponse>;
-    listByConfigurationStore(resourceGroupName: string, configStoreName: string, options?: ReplicasListByConfigurationStoreOptionalParams): PagedAsyncIterableIterator<Replica>;
-}
-
-// @public
-export interface ReplicasCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicasCreateResponse = Replica;
-
-// @public
-export interface ReplicasDeleteHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ReplicasDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ReplicasGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicasGetResponse = Replica;
-
-// @public
-export interface ReplicasListByConfigurationStoreNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicasListByConfigurationStoreNextResponse = ReplicaListResult;
-
-// @public
-export interface ReplicasListByConfigurationStoreOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-}
-
-// @public
-export type ReplicasListByConfigurationStoreResponse = ReplicaListResult;
 
 // @public
 export interface Resource {

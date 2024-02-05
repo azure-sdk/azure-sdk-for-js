@@ -14,7 +14,7 @@ import { AppConfigurationManagementClient } from "../appConfigurationManagementC
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -22,7 +22,7 @@ import {
   KeyValuesGetResponse,
   KeyValuesCreateOrUpdateOptionalParams,
   KeyValuesCreateOrUpdateResponse,
-  KeyValuesDeleteOptionalParams
+  KeyValuesDeleteOptionalParams,
 } from "../models";
 
 /** Class containing KeyValues operations. */
@@ -49,11 +49,11 @@ export class KeyValuesImpl implements KeyValues {
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    options?: KeyValuesGetOptionalParams
+    options?: KeyValuesGetOptionalParams,
   ): Promise<KeyValuesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, keyValueName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -69,11 +69,11 @@ export class KeyValuesImpl implements KeyValues {
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    options?: KeyValuesCreateOrUpdateOptionalParams
+    options?: KeyValuesCreateOrUpdateOptionalParams,
   ): Promise<KeyValuesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, keyValueName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -89,25 +89,24 @@ export class KeyValuesImpl implements KeyValues {
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    options?: KeyValuesDeleteOptionalParams
+    options?: KeyValuesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -116,8 +115,8 @@ export class KeyValuesImpl implements KeyValues {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -125,19 +124,19 @@ export class KeyValuesImpl implements KeyValues {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, configStoreName, keyValueName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -155,13 +154,13 @@ export class KeyValuesImpl implements KeyValues {
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    options?: KeyValuesDeleteOptionalParams
+    options?: KeyValuesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       configStoreName,
       keyValueName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -170,16 +169,15 @@ export class KeyValuesImpl implements KeyValues {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyValue
+      bodyMapper: Mappers.KeyValue,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -187,22 +185,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.keyValueName
+    Parameters.keyValueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyValue
+      bodyMapper: Mappers.KeyValue,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.keyValueParameters,
   queryParameters: [Parameters.apiVersion],
@@ -211,15 +208,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.keyValueName
+    Parameters.keyValueName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -227,8 +223,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -236,8 +232,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.keyValueName
+    Parameters.keyValueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -12,7 +12,7 @@ import {
   KeyValuesGetResponse,
   KeyValuesCreateOrUpdateOptionalParams,
   KeyValuesCreateOrUpdateResponse,
-  KeyValuesDeleteOptionalParams
+  KeyValuesDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a KeyValues. */
@@ -29,7 +29,7 @@ export interface KeyValues {
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    options?: KeyValuesGetOptionalParams
+    options?: KeyValuesGetOptionalParams,
   ): Promise<KeyValuesGetResponse>;
   /**
    * Creates a key-value.
@@ -43,7 +43,7 @@ export interface KeyValues {
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    options?: KeyValuesCreateOrUpdateOptionalParams
+    options?: KeyValuesCreateOrUpdateOptionalParams,
   ): Promise<KeyValuesCreateOrUpdateResponse>;
   /**
    * Deletes a key-value.
@@ -57,7 +57,7 @@ export interface KeyValues {
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    options?: KeyValuesDeleteOptionalParams
+    options?: KeyValuesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a key-value.
@@ -71,6 +71,6 @@ export interface KeyValues {
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    options?: KeyValuesDeleteOptionalParams
+    options?: KeyValuesDeleteOptionalParams,
   ): Promise<void>;
 }

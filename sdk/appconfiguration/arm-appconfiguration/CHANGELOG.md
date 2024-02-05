@@ -1,15 +1,14 @@
 # Release History
+    
+## 5.0.0 (2024-02-05)
+    
+**Breaking Changes**
 
-## 4.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Replicas
+  - Class AppConfigurationManagementClient no longer has parameter replicas
+  - Removed Enum KnownReplicaProvisioningState
+    
+    
 ## 4.0.0 (2023-04-06)
     
 **Features**
@@ -66,4 +65,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
