@@ -803,7 +803,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -820,7 +820,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -845,7 +845,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "updating",
   /** Deleting */
-  Deleting = "deleting"
+  Deleting = "deleting",
 }
 
 /**
@@ -875,7 +875,7 @@ export enum KnownSpacecraftsPropertiesProvisioningState {
   /** Updating */
   Updating = "updating",
   /** Deleting */
-  Deleting = "deleting"
+  Deleting = "deleting",
 }
 
 /**
@@ -897,7 +897,7 @@ export enum KnownDirection {
   /** Uplink */
   Uplink = "Uplink",
   /** Downlink */
-  Downlink = "Downlink"
+  Downlink = "Downlink",
 }
 
 /**
@@ -919,7 +919,7 @@ export enum KnownPolarization {
   /** LinearVertical */
   LinearVertical = "linearVertical",
   /** LinearHorizontal */
-  LinearHorizontal = "linearHorizontal"
+  LinearHorizontal = "linearHorizontal",
 }
 
 /**
@@ -943,7 +943,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -971,7 +971,7 @@ export enum KnownContactsPropertiesProvisioningState {
   /** Updating */
   Updating = "updating",
   /** Deleting */
-  Deleting = "deleting"
+  Deleting = "deleting",
 }
 
 /**
@@ -999,7 +999,7 @@ export enum KnownContactsStatus {
   /** Failed */
   Failed = "failed",
   /** ProviderCancelled */
-  ProviderCancelled = "providerCancelled"
+  ProviderCancelled = "providerCancelled",
 }
 
 /**
@@ -1028,7 +1028,7 @@ export enum KnownContactProfilesPropertiesProvisioningState {
   /** Updating */
   Updating = "updating",
   /** Deleting */
-  Deleting = "deleting"
+  Deleting = "deleting",
 }
 
 /**
@@ -1050,7 +1050,7 @@ export enum KnownProtocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -1068,7 +1068,7 @@ export enum KnownCapabilityParameter {
   /** EarthObservation */
   EarthObservation = "EarthObservation",
   /** Communication */
-  Communication = "Communication"
+  Communication = "Communication",
 }
 
 /**
@@ -1086,7 +1086,7 @@ export enum KnownReleaseMode {
   /** Preview */
   Preview = "Preview",
   /** GA */
-  GA = "GA"
+  GA = "GA",
 }
 
 /**
@@ -1108,7 +1108,7 @@ export enum KnownStatus {
   /** Failed */
   Failed = "Failed",
   /** Running */
-  Running = "Running"
+  Running = "Running",
 }
 
 /**
@@ -1128,7 +1128,7 @@ export enum KnownCapability {
   /** EarthObservation */
   EarthObservation = "EarthObservation",
   /** Communication */
-  Communication = "Communication"
+  Communication = "Communication",
 }
 
 /**
@@ -1226,7 +1226,8 @@ export interface SpacecraftsListAvailableContactsOptionalParams
 }
 
 /** Contains response data for the listAvailableContacts operation. */
-export type SpacecraftsListAvailableContactsResponse = AvailableContactsListResult;
+export type SpacecraftsListAvailableContactsResponse =
+  AvailableContactsListResult;
 
 /** Optional parameters. */
 export interface SpacecraftsListBySubscriptionNextOptionalParams
@@ -1247,7 +1248,8 @@ export interface SpacecraftsListAvailableContactsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableContactsNext operation. */
-export type SpacecraftsListAvailableContactsNextResponse = AvailableContactsListResult;
+export type SpacecraftsListAvailableContactsNextResponse =
+  AvailableContactsListResult;
 
 /** Optional parameters. */
 export interface ContactsListOptionalParams
@@ -1356,7 +1358,8 @@ export interface ContactProfilesListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type ContactProfilesListBySubscriptionResponse = ContactProfileListResult;
+export type ContactProfilesListBySubscriptionResponse =
+  ContactProfileListResult;
 
 /** Optional parameters. */
 export interface ContactProfilesListOptionalParams
@@ -1373,7 +1376,8 @@ export interface ContactProfilesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ContactProfilesListBySubscriptionNextResponse = ContactProfileListResult;
+export type ContactProfilesListBySubscriptionNextResponse =
+  ContactProfileListResult;
 
 /** Optional parameters. */
 export interface ContactProfilesListNextOptionalParams
@@ -1387,14 +1391,16 @@ export interface AvailableGroundStationsListByCapabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCapability operation. */
-export type AvailableGroundStationsListByCapabilityResponse = AvailableGroundStationListResult;
+export type AvailableGroundStationsListByCapabilityResponse =
+  AvailableGroundStationListResult;
 
 /** Optional parameters. */
 export interface AvailableGroundStationsListByCapabilityNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCapabilityNext operation. */
-export type AvailableGroundStationsListByCapabilityNextResponse = AvailableGroundStationListResult;
+export type AvailableGroundStationsListByCapabilityNextResponse =
+  AvailableGroundStationListResult;
 
 /** Optional parameters. */
 export interface OperationsResultsGetOptionalParams

@@ -15,7 +15,7 @@ import {
   ContactsGetResponse,
   ContactsCreateOptionalParams,
   ContactsCreateResponse,
-  ContactsDeleteOptionalParams
+  ContactsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Contacts {
   list(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: ContactsListOptionalParams
+    options?: ContactsListOptionalParams,
   ): PagedAsyncIterableIterator<Contact>;
   /**
    * Gets the specified contact in a specified resource group.
@@ -43,7 +43,7 @@ export interface Contacts {
     resourceGroupName: string,
     spacecraftName: string,
     contactName: string,
-    options?: ContactsGetOptionalParams
+    options?: ContactsGetOptionalParams,
   ): Promise<ContactsGetResponse>;
   /**
    * Creates a contact.
@@ -58,7 +58,7 @@ export interface Contacts {
     spacecraftName: string,
     contactName: string,
     parameters: Contact,
-    options?: ContactsCreateOptionalParams
+    options?: ContactsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContactsCreateResponse>,
@@ -78,7 +78,7 @@ export interface Contacts {
     spacecraftName: string,
     contactName: string,
     parameters: Contact,
-    options?: ContactsCreateOptionalParams
+    options?: ContactsCreateOptionalParams,
   ): Promise<ContactsCreateResponse>;
   /**
    * Deletes a specified contact.
@@ -91,7 +91,7 @@ export interface Contacts {
     resourceGroupName: string,
     spacecraftName: string,
     contactName: string,
-    options?: ContactsDeleteOptionalParams
+    options?: ContactsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified contact.
@@ -104,6 +104,6 @@ export interface Contacts {
     resourceGroupName: string,
     spacecraftName: string,
     contactName: string,
-    options?: ContactsDeleteOptionalParams
+    options?: ContactsDeleteOptionalParams,
   ): Promise<void>;
 }
