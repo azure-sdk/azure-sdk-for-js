@@ -1,15 +1,14 @@
 # Release History
+    
+## 19.8.0 (2024-02-07)
+    
+**Features**
 
-## 19.7.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ManagedClusterIngressProfile
+  - Added Interface ManagedClusterIngressProfileWebAppRouting
+  - Interface ManagedCluster has a new optional parameter ingressProfile
+    
+    
 ## 19.7.0 (2024-01-18)
     
 **Features**
