@@ -18,7 +18,7 @@ import {
   EntitiesRelationsListNextOptionalParams,
   EntitiesRelationsListOptionalParams,
   EntitiesRelationsListResponse,
-  EntitiesRelationsListNextResponse
+  EntitiesRelationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,13 +45,13 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
     resourceGroupName: string,
     workspaceName: string,
     entityId: string,
-    options?: EntitiesRelationsListOptionalParams
+    options?: EntitiesRelationsListOptionalParams,
   ): PagedAsyncIterableIterator<Relation> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       entityId,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
           workspaceName,
           entityId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
     workspaceName: string,
     entityId: string,
     options?: EntitiesRelationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Relation[]> {
     let result: EntitiesRelationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
         resourceGroupName,
         workspaceName,
         entityId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
         workspaceName,
         entityId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
     resourceGroupName: string,
     workspaceName: string,
     entityId: string,
-    options?: EntitiesRelationsListOptionalParams
+    options?: EntitiesRelationsListOptionalParams,
   ): AsyncIterableIterator<Relation> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       entityId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
     resourceGroupName: string,
     workspaceName: string,
     entityId: string,
-    options?: EntitiesRelationsListOptionalParams
+    options?: EntitiesRelationsListOptionalParams,
   ): Promise<EntitiesRelationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, entityId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
     workspaceName: string,
     entityId: string,
     nextLink: string,
-    options?: EntitiesRelationsListNextOptionalParams
+    options?: EntitiesRelationsListNextOptionalParams,
   ): Promise<EntitiesRelationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, entityId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,44 +171,43 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/relations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/relations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RelationList
+      bodyMapper: Mappers.RelationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityId
+    Parameters.entityId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RelationList
+      bodyMapper: Mappers.RelationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -216,8 +215,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.entityId
+    Parameters.entityId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

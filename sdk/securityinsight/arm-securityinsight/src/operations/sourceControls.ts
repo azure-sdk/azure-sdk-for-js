@@ -20,10 +20,12 @@ import {
   SourceControlsListResponse,
   SourceControlsGetOptionalParams,
   SourceControlsGetResponse,
-  SourceControlsDeleteOptionalParams,
   SourceControlsCreateOptionalParams,
   SourceControlsCreateResponse,
-  SourceControlsListNextResponse
+  RepositoryAccessProperties,
+  SourceControlsDeleteOptionalParams,
+  SourceControlsDeleteResponse,
+  SourceControlsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +50,7 @@ export class SourceControlsImpl implements SourceControls {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SourceControlsListOptionalParams
+    options?: SourceControlsListOptionalParams,
   ): PagedAsyncIterableIterator<SourceControl> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -66,9 +68,9 @@ export class SourceControlsImpl implements SourceControls {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +78,7 @@ export class SourceControlsImpl implements SourceControls {
     resourceGroupName: string,
     workspaceName: string,
     options?: SourceControlsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SourceControl[]> {
     let result: SourceControlsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +94,7 @@ export class SourceControlsImpl implements SourceControls {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +106,12 @@ export class SourceControlsImpl implements SourceControls {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SourceControlsListOptionalParams
+    options?: SourceControlsListOptionalParams,
   ): AsyncIterableIterator<SourceControl> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,11 +126,11 @@ export class SourceControlsImpl implements SourceControls {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SourceControlsListOptionalParams
+    options?: SourceControlsListOptionalParams,
   ): Promise<SourceControlsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,30 +145,11 @@ export class SourceControlsImpl implements SourceControls {
     resourceGroupName: string,
     workspaceName: string,
     sourceControlId: string,
-    options?: SourceControlsGetOptionalParams
+    options?: SourceControlsGetOptionalParams,
   ): Promise<SourceControlsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sourceControlId, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Delete a source control.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sourceControlId Source control Id
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    sourceControlId: string,
-    options?: SourceControlsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, sourceControlId, options },
-      deleteOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,7 +166,7 @@ export class SourceControlsImpl implements SourceControls {
     workspaceName: string,
     sourceControlId: string,
     sourceControl: SourceControl,
-    options?: SourceControlsCreateOptionalParams
+    options?: SourceControlsCreateOptionalParams,
   ): Promise<SourceControlsCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -191,9 +174,36 @@ export class SourceControlsImpl implements SourceControls {
         workspaceName,
         sourceControlId,
         sourceControl,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
+    );
+  }
+
+  /**
+   * Delete a source control.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param sourceControlId Source control Id
+   * @param repositoryAccess The repository access credentials.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    workspaceName: string,
+    sourceControlId: string,
+    repositoryAccess: RepositoryAccessProperties,
+    options?: SourceControlsDeleteOptionalParams,
+  ): Promise<SourceControlsDeleteResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sourceControlId,
+        repositoryAccess,
+        options,
+      },
+      deleteOperationSpec,
     );
   }
 
@@ -208,11 +218,11 @@ export class SourceControlsImpl implements SourceControls {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: SourceControlsListNextOptionalParams
+    options?: SourceControlsListNextOptionalParams,
   ): Promise<SourceControlsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -220,38 +230,36 @@ export class SourceControlsImpl implements SourceControls {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlList
+      bodyMapper: Mappers.SourceControlList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.SourceControl,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -259,47 +267,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sourceControlId
+    Parameters.sourceControlId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sourceControlId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.SourceControl,
     },
     201: {
-      bodyMapper: Mappers.SourceControl
+      bodyMapper: Mappers.SourceControl,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.sourceControl,
   queryParameters: [Parameters.apiVersion],
@@ -308,30 +293,54 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sourceControlId
+    Parameters.sourceControlId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}/delete",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Warning,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.repositoryAccess,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sourceControlId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlList
+      bodyMapper: Mappers.SourceControlList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

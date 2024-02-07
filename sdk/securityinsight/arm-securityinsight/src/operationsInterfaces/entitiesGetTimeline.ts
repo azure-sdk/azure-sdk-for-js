@@ -9,7 +9,7 @@
 import {
   EntityTimelineParameters,
   EntitiesGetTimelineListOptionalParams,
-  EntitiesGetTimelineListResponse
+  EntitiesGetTimelineListResponse,
 } from "../models";
 
 /** Interface representing a EntitiesGetTimeline. */
@@ -27,6 +27,6 @@ export interface EntitiesGetTimeline {
     workspaceName: string,
     entityId: string,
     parameters: EntityTimelineParameters,
-    options?: EntitiesGetTimelineListOptionalParams
+    options?: EntitiesGetTimelineListOptionalParams,
   ): Promise<EntitiesGetTimelineListResponse>;
 }
