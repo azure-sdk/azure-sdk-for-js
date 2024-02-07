@@ -330,6 +330,7 @@ export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityRe
 // @public
 export interface CapacityReservationGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
     expand?: ExpandTypesForGetCapacityReservationGroups;
+    resourceIdsOnly?: ResourceIdOptionsForGetCapacityReservationGroups;
 }
 
 // @public
@@ -3644,6 +3645,13 @@ export enum KnownReplicationStatusTypes {
 }
 
 // @public
+export enum KnownResourceIdOptionsForGetCapacityReservationGroups {
+    All = "All",
+    CreatedInSubscription = "CreatedInSubscription",
+    SharedWithSubscription = "SharedWithSubscription"
+}
+
+// @public
 export enum KnownRestorePointCollectionExpandOptions {
     RestorePoints = "restorePoints"
 }
@@ -4722,6 +4730,9 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+
+// @public
+export type ResourceIdOptionsForGetCapacityReservationGroups = string;
 
 // @public
 export interface ResourceInstanceViewStatus {
