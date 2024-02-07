@@ -14,7 +14,7 @@ import {
   IncidentRelationsGetResponse,
   IncidentRelationsCreateOrUpdateOptionalParams,
   IncidentRelationsCreateOrUpdateResponse,
-  IncidentRelationsDeleteOptionalParams
+  IncidentRelationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface IncidentRelations {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentRelationsListOptionalParams
+    options?: IncidentRelationsListOptionalParams,
   ): PagedAsyncIterableIterator<Relation>;
   /**
    * Gets an incident relation.
@@ -46,7 +46,7 @@ export interface IncidentRelations {
     workspaceName: string,
     incidentId: string,
     relationName: string,
-    options?: IncidentRelationsGetOptionalParams
+    options?: IncidentRelationsGetOptionalParams,
   ): Promise<IncidentRelationsGetResponse>;
   /**
    * Creates or updates the incident relation.
@@ -63,7 +63,7 @@ export interface IncidentRelations {
     incidentId: string,
     relationName: string,
     relation: Relation,
-    options?: IncidentRelationsCreateOrUpdateOptionalParams
+    options?: IncidentRelationsCreateOrUpdateOptionalParams,
   ): Promise<IncidentRelationsCreateOrUpdateResponse>;
   /**
    * Delete the incident relation.
@@ -78,6 +78,6 @@ export interface IncidentRelations {
     workspaceName: string,
     incidentId: string,
     relationName: string,
-    options?: IncidentRelationsDeleteOptionalParams
+    options?: IncidentRelationsDeleteOptionalParams,
   ): Promise<void>;
 }

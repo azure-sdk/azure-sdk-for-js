@@ -10,6 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   EntityUnion,
   EntitiesListOptionalParams,
+  EntitiesRunPlaybookOptionalParams,
   EntitiesGetOptionalParams,
   EntitiesGetResponse,
   EntityExpandParameters,
@@ -20,7 +21,7 @@ import {
   EntitiesQueriesResponse,
   EntityGetInsightsParameters,
   EntitiesGetInsightsOptionalParams,
-  EntitiesGetInsightsResponse
+  EntitiesGetInsightsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,8 +36,21 @@ export interface Entities {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntitiesListOptionalParams
+    options?: EntitiesListOptionalParams,
   ): PagedAsyncIterableIterator<EntityUnion>;
+  /**
+   * Triggers playbook on a specific entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param entityIdentifier Entity identifier.
+   * @param options The options parameters.
+   */
+  runPlaybook(
+    resourceGroupName: string,
+    workspaceName: string,
+    entityIdentifier: string,
+    options?: EntitiesRunPlaybookOptionalParams,
+  ): Promise<void>;
   /**
    * Gets an entity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -48,7 +62,7 @@ export interface Entities {
     resourceGroupName: string,
     workspaceName: string,
     entityId: string,
-    options?: EntitiesGetOptionalParams
+    options?: EntitiesGetOptionalParams,
   ): Promise<EntitiesGetResponse>;
   /**
    * Expands an entity.
@@ -63,7 +77,7 @@ export interface Entities {
     workspaceName: string,
     entityId: string,
     parameters: EntityExpandParameters,
-    options?: EntitiesExpandOptionalParams
+    options?: EntitiesExpandOptionalParams,
   ): Promise<EntitiesExpandResponse>;
   /**
    * Get Insights and Activities for an entity.
@@ -78,7 +92,7 @@ export interface Entities {
     workspaceName: string,
     entityId: string,
     kind: EntityItemQueryKind,
-    options?: EntitiesQueriesOptionalParams
+    options?: EntitiesQueriesOptionalParams,
   ): Promise<EntitiesQueriesResponse>;
   /**
    * Execute Insights for an entity.
@@ -93,6 +107,6 @@ export interface Entities {
     workspaceName: string,
     entityId: string,
     parameters: EntityGetInsightsParameters,
-    options?: EntitiesGetInsightsOptionalParams
+    options?: EntitiesGetInsightsOptionalParams,
   ): Promise<EntitiesGetInsightsResponse>;
 }
