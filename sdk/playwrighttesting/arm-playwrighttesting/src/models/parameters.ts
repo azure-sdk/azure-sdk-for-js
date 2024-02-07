@@ -9,11 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   Account as AccountMapper,
-  AccountUpdate as AccountUpdateMapper
+  AccountUpdate as AccountUpdateMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -23,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -34,22 +35,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-01-preview",
+    defaultValue: "2024-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -58,55 +59,21 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
+      name: "Uuid",
     },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const name: OperationURLParameter = {
-  parameterPath: "name",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z]{1}[a-zA-Z0-9]{2,63}$"),
-      MaxLength: 64,
-      MinLength: 3
-    },
-    serializedName: "name",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -116,19 +83,55 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: CheckNameAvailabilityRequestMapper,
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const accountName: OperationURLParameter = {
+  parameterPath: "accountName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z]{1}[a-zA-Z0-9]{2,63}$"),
+      MaxLength: 64,
+      MinLength: 3,
+    },
+    serializedName: "accountName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const resource: OperationParameter = {
   parameterPath: "resource",
-  mapper: AccountMapper
+  mapper: AccountMapper,
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: AccountUpdateMapper
+  mapper: AccountUpdateMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -137,18 +140,18 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const name1: OperationURLParameter = {
-  parameterPath: "name",
+export const quotaName: OperationURLParameter = {
+  parameterPath: "quotaName",
   mapper: {
-    serializedName: "name",
+    serializedName: "quotaName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

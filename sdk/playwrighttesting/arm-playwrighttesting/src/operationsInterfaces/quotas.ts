@@ -12,7 +12,7 @@ import {
   QuotasListBySubscriptionOptionalParams,
   QuotaNames,
   QuotasGetOptionalParams,
-  QuotasGetResponse
+  QuotasGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,17 +25,17 @@ export interface Quotas {
    */
   listBySubscription(
     location: string,
-    options?: QuotasListBySubscriptionOptionalParams
+    options?: QuotasListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Quota>;
   /**
-   * Get quota by name.
+   * Get subscription quota by name.
    * @param location The location of quota in ARM Normalized format like eastus, southeastasia etc.
-   * @param name The quota name.
+   * @param quotaName The quota name.
    * @param options The options parameters.
    */
   get(
     location: string,
-    name: QuotaNames,
-    options?: QuotasGetOptionalParams
+    quotaName: QuotaNames,
+    options?: QuotasGetOptionalParams,
   ): Promise<QuotasGetResponse>;
 }
