@@ -24,7 +24,7 @@ import {
   DataProductsCatalogsGetOptionalParams,
   DataProductsCatalogsGetResponse,
   DataProductsCatalogsListBySubscriptionNextResponse,
-  DataProductsCatalogsListByResourceGroupNextResponse
+  DataProductsCatalogsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DataProductsCatalogsListBySubscriptionOptionalParams
+    options?: DataProductsCatalogsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DataProductsCatalog> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -60,13 +60,13 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: DataProductsCatalogsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataProductsCatalog[]> {
     let result: DataProductsCatalogsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DataProductsCatalogsListBySubscriptionOptionalParams
+    options?: DataProductsCatalogsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<DataProductsCatalog> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -101,7 +101,7 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DataProductsCatalogsListByResourceGroupOptionalParams
+    options?: DataProductsCatalogsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataProductsCatalog> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -118,16 +118,16 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DataProductsCatalogsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataProductsCatalog[]> {
     let result: DataProductsCatalogsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -142,7 +142,7 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -153,11 +153,11 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DataProductsCatalogsListByResourceGroupOptionalParams
+    options?: DataProductsCatalogsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DataProductsCatalog> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -168,11 +168,11 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DataProductsCatalogsListBySubscriptionOptionalParams
+    options?: DataProductsCatalogsListBySubscriptionOptionalParams,
   ): Promise<DataProductsCatalogsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -183,11 +183,11 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DataProductsCatalogsListByResourceGroupOptionalParams
+    options?: DataProductsCatalogsListByResourceGroupOptionalParams,
   ): Promise<DataProductsCatalogsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -198,11 +198,11 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
    */
   get(
     resourceGroupName: string,
-    options?: DataProductsCatalogsGetOptionalParams
+    options?: DataProductsCatalogsGetOptionalParams,
   ): Promise<DataProductsCatalogsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -213,11 +213,11 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DataProductsCatalogsListBySubscriptionNextOptionalParams
+    options?: DataProductsCatalogsListBySubscriptionNextOptionalParams,
   ): Promise<DataProductsCatalogsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -230,11 +230,11 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DataProductsCatalogsListByResourceGroupNextOptionalParams
+    options?: DataProductsCatalogsListByResourceGroupNextOptionalParams,
   ): Promise<DataProductsCatalogsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -242,100 +242,97 @@ export class DataProductsCatalogsImpl implements DataProductsCatalogs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkAnalytics/dataProductsCatalogs",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkAnalytics/dataProductsCatalogs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductsCatalogListResult
+      bodyMapper: Mappers.DataProductsCatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProductsCatalogs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProductsCatalogs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductsCatalogListResult
+      bodyMapper: Mappers.DataProductsCatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProductsCatalogs/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProductsCatalogs/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductsCatalog
+      bodyMapper: Mappers.DataProductsCatalog,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductsCatalogListResult
+      bodyMapper: Mappers.DataProductsCatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductsCatalogListResult
+      bodyMapper: Mappers.DataProductsCatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
