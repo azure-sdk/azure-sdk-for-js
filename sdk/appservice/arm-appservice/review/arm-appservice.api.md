@@ -501,8 +501,8 @@ export interface AppServiceEnvironmentResource extends Resource {
 
 // @public
 export interface AppServiceEnvironments {
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>, AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>;
+    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>, AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>>;
+    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>;
     beginCreateOrUpdate(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsCreateOrUpdateResponse>, AppServiceEnvironmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<AppServiceEnvironmentsCreateOrUpdateResponse>;
     beginCreateOrUpdateMultiRolePool(resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>, AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>>;
@@ -1157,6 +1157,7 @@ export interface AppServicePlans {
     getHybridConnectionPlanLimit(resourceGroupName: string, name: string, options?: AppServicePlansGetHybridConnectionPlanLimitOptionalParams): Promise<AppServicePlansGetHybridConnectionPlanLimitResponse>;
     getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: AppServicePlansGetRouteForVnetOptionalParams): Promise<AppServicePlansGetRouteForVnetResponse>;
     getServerFarmSkus(resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmSkusOptionalParams): Promise<AppServicePlansGetServerFarmSkusResponse>;
+    getVirtualNetworkIntegration(resourceGroupName: string, name: string, vnetName: string, options?: AppServicePlansGetVirtualNetworkIntegrationOptionalParams): Promise<AppServicePlansGetVirtualNetworkIntegrationResponse>;
     getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, options?: AppServicePlansGetVnetFromServerFarmOptionalParams): Promise<AppServicePlansGetVnetFromServerFarmResponse>;
     getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: AppServicePlansGetVnetGatewayOptionalParams): Promise<AppServicePlansGetVnetGatewayResponse>;
     list(options?: AppServicePlansListOptionalParams): PagedAsyncIterableIterator<AppServicePlan>;
@@ -1166,6 +1167,7 @@ export interface AppServicePlans {
     listHybridConnections(resourceGroupName: string, name: string, options?: AppServicePlansListHybridConnectionsOptionalParams): PagedAsyncIterableIterator<HybridConnection>;
     listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, options?: AppServicePlansListRoutesForVnetOptionalParams): Promise<AppServicePlansListRoutesForVnetResponse>;
     listUsages(resourceGroupName: string, name: string, options?: AppServicePlansListUsagesOptionalParams): PagedAsyncIterableIterator<CsmUsageQuota>;
+    listVirtualNetworkIntegrations(resourceGroupName: string, name: string, options?: AppServicePlansGetVirtualNetworkIntegrationsOptionalParams): PagedAsyncIterableIterator<SwiftVirtualNetwork>;
     listVnets(resourceGroupName: string, name: string, options?: AppServicePlansListVnetsOptionalParams): Promise<AppServicePlansListVnetsResponse>;
     listWebApps(resourceGroupName: string, name: string, options?: AppServicePlansListWebAppsOptionalParams): PagedAsyncIterableIterator<Site>;
     listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansListWebAppsByHybridConnectionOptionalParams): PagedAsyncIterableIterator<string>;
@@ -1238,6 +1240,27 @@ export interface AppServicePlansGetServerFarmSkusOptionalParams extends coreClie
 
 // @public
 export type AppServicePlansGetServerFarmSkusResponse = Record<string, unknown>;
+
+// @public
+export interface AppServicePlansGetVirtualNetworkIntegrationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppServicePlansGetVirtualNetworkIntegrationResponse = SwiftVirtualNetwork;
+
+// @public
+export interface AppServicePlansGetVirtualNetworkIntegrationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppServicePlansGetVirtualNetworkIntegrationsNextResponse = SwiftVirtualNetworkCollection;
+
+// @public
+export interface AppServicePlansGetVirtualNetworkIntegrationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppServicePlansGetVirtualNetworkIntegrationsResponse = SwiftVirtualNetworkCollection;
 
 // @public
 export interface AppServicePlansGetVnetFromServerFarmOptionalParams extends coreClient.OperationOptions {
@@ -1402,7 +1425,6 @@ export type AppServicePlansUpdateVnetRouteResponse = VnetRoute;
 
 // @public (undocumented)
 export interface ArcConfiguration {
-    // (undocumented)
     artifactsStorageType?: StorageType;
     // (undocumented)
     artifactStorageAccessMode?: string;
@@ -1459,6 +1481,9 @@ export interface AseV3NetworkingConfiguration extends ProxyOnlyResource {
     remoteDebugEnabled?: boolean;
     readonly windowsOutboundIpAddresses?: string[];
 }
+
+// @public
+export type AuthenticationType = string;
 
 // @public
 export interface AuthPlatform {
@@ -3544,6 +3569,13 @@ export type FrontEndServiceType = "NodePort" | "LoadBalancer";
 export type FtpsState = string;
 
 // @public
+export interface FunctionAppConfig {
+    deployment?: FunctionsDeployment;
+    runtime?: FunctionsRuntime;
+    scaleAndConcurrency?: FunctionsScaleAndConcurrency;
+}
+
+// @public
 export interface FunctionAppMajorVersion {
     readonly displayText?: string;
     readonly minorVersions?: FunctionAppMinorVersion[];
@@ -3624,9 +3656,58 @@ export interface FunctionEnvelopeCollection {
 }
 
 // @public
+export interface FunctionsAlwaysReadyConfig {
+    instanceCount?: number;
+    name?: string;
+}
+
+// @public
+export interface FunctionsDeployment {
+    storage?: FunctionsDeploymentStorage;
+}
+
+// @public
+export interface FunctionsDeploymentStorage {
+    authentication?: FunctionsDeploymentStorageAuthentication;
+    type?: StorageType;
+    value?: string;
+}
+
+// @public
+export interface FunctionsDeploymentStorageAuthentication {
+    storageAccountConnectionStringName?: string;
+    type?: AuthenticationType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
 export interface FunctionSecrets {
     key?: string;
     triggerUrl?: string;
+}
+
+// @public
+export interface FunctionsRuntime {
+    name?: RuntimeName;
+    version?: string;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrency {
+    alwaysReady?: FunctionsAlwaysReadyConfig[];
+    instanceMemoryMB?: number;
+    maximumInstanceCount?: number;
+    triggers?: FunctionsScaleAndConcurrencyTriggers;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrencyTriggers {
+    http?: FunctionsScaleAndConcurrencyTriggersHttp;
+}
+
+// @public
+export interface FunctionsScaleAndConcurrencyTriggersHttp {
+    perInstanceConcurrency?: number;
 }
 
 // @public
@@ -4047,6 +4128,13 @@ export enum KnownActiveRevisionsMode {
 }
 
 // @public
+export enum KnownAuthenticationType {
+    StorageAccountConnectionString = "StorageAccountConnectionString",
+    SystemAssignedIdentity = "SystemAssignedIdentity",
+    UserAssignedIdentity = "UserAssignedIdentity"
+}
+
+// @public
 export enum KnownBasicAuthName {
     Default = "default"
 }
@@ -4230,6 +4318,12 @@ export enum KnownPublishingProfileFormat {
 }
 
 // @public
+export enum KnownPurgedUnusedVirtualNetworkSuccessResponse {
+    NoUnusedVirtualNetworkIntegration = "No unused virtual network integration.",
+    PurgedUnusedVirtualNetworkIntegration = "Purged unused virtual network integration."
+}
+
+// @public
 export enum KnownRecurrenceFrequency {
     Day = "Day",
     Hour = "Hour",
@@ -4279,6 +4373,16 @@ export enum KnownRouteType {
 }
 
 // @public
+export enum KnownRuntimeName {
+    Custom = "custom",
+    DotnetIsolated = "dotnet-isolated",
+    Java = "java",
+    Node = "node",
+    Powershell = "powershell",
+    Python = "python"
+}
+
+// @public
 export enum KnownScmType {
     BitbucketGit = "BitbucketGit",
     BitbucketHg = "BitbucketHg",
@@ -4311,6 +4415,13 @@ export enum KnownSkuName {
     PremiumV3 = "PremiumV3",
     Shared = "Shared",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownStorageType {
+    BlobContainer = "blobContainer",
+    LocalNode = "LocalNode",
+    NetworkFileSystem = "NetworkFileSystem"
 }
 
 // @public
@@ -5397,6 +5508,18 @@ export interface PublishingCredentialsPoliciesCollection {
 export type PublishingProfileFormat = string;
 
 // @public
+export type PurgedUnusedVirtualNetworkSuccessResponse = string;
+
+// @public
+export interface PurgeUnusedVirtualNetworkIntegrationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PurgeUnusedVirtualNetworkIntegrationsResponse = {
+    body: PurgedUnusedVirtualNetworkSuccessResponse;
+};
+
+// @public
 export interface PushSettings extends ProxyOnlyResource {
     dynamicTagsJson?: string;
     isPushEnabled?: boolean;
@@ -6031,6 +6154,9 @@ export interface RunCorrelation {
 }
 
 // @public
+export type RuntimeName = string;
+
+// @public
 export interface SampleUtterance {
     links?: string[];
     qid?: string;
@@ -6096,6 +6222,7 @@ export interface Site extends Resource {
     enabled?: boolean;
     readonly enabledHostNames?: string[];
     extendedLocation?: ExtendedLocation;
+    functionAppConfig?: FunctionAppConfig;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
     readonly hostNames?: string[];
     hostNamesDisabled?: boolean;
@@ -6129,6 +6256,7 @@ export interface Site extends Resource {
     readonly trafficManagerHostNames?: string[];
     readonly usageState?: UsageState;
     virtualNetworkSubnetId?: string;
+    vnetBackupRestoreEnabled?: boolean;
     vnetContentShareEnabled?: boolean;
     vnetImagePullEnabled?: boolean;
     vnetRouteAllEnabled?: boolean;
@@ -6885,8 +7013,8 @@ export interface StaticSiteResetPropertiesARMResource extends ProxyOnlyResource 
 
 // @public
 export interface StaticSites {
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>, StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>;
+    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>, StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>>;
+    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>;
     beginCreateOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesCreateOrUpdateStaticSiteResponse>, StaticSitesCreateOrUpdateStaticSiteResponse>>;
     beginCreateOrUpdateStaticSiteAndWait(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteResponse>;
     beginCreateOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>, StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>>;
@@ -7732,7 +7860,7 @@ export interface StorageMigrationResponse extends ProxyOnlyResource {
 }
 
 // @public
-export type StorageType = "LocalNode" | "NetworkFileSystem";
+export type StorageType = string;
 
 // @public
 export interface StringDictionary extends ProxyOnlyResource {
@@ -7761,9 +7889,41 @@ export interface SupportTopic {
 }
 
 // @public
-export interface SwiftVirtualNetwork extends ProxyOnlyResource {
+export interface SwiftVirtualNetwork {
+    resourceAllocation?: SwiftVirtualNetworkResourceAllocation;
+    subnetIpAllocation?: SwiftVirtualNetworkSubnetIpAllocation;
     subnetResourceId?: string;
     swiftSupported?: boolean;
+    vnetConnectionAllocation?: SwiftVirtualNetworkVnetConnectionAllocation;
+}
+
+// @public
+export interface SwiftVirtualNetworkCollection {
+    readonly nextLink?: string;
+    value: SwiftVirtualNetwork[];
+}
+
+// @public
+export interface SwiftVirtualNetworkProxy extends ProxyOnlyResource {
+    properties?: SwiftVirtualNetwork;
+}
+
+// @public
+export interface SwiftVirtualNetworkResourceAllocation {
+    connectedServerFarmsId?: string[];
+    connectedSitesId?: string[];
+}
+
+// @public
+export interface SwiftVirtualNetworkSubnetIpAllocation {
+    subnetIpAddressesAvailable?: number;
+    subnetIpAddressesUsed?: number;
+}
+
+// @public
+export interface SwiftVirtualNetworkVnetConnectionAllocation {
+    vnetConnectionsMax?: number;
+    vnetConnectionsUsed?: number;
 }
 
 // @public
@@ -8073,6 +8233,18 @@ export interface VirtualIPMapping {
 }
 
 // @public
+export interface VirtualNetworkIntegrationRequest {
+    subnetResourceId: string;
+}
+
+// @public
+export interface VirtualNetworkIntegrationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkIntegrationsResponse = SwiftVirtualNetwork;
+
+// @public
 export interface VirtualNetworkProfile {
     id: string;
     readonly name?: string;
@@ -8195,10 +8367,10 @@ export interface WebApps {
     applySlotConfigurationSlot(resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsApplySlotConfigurationSlotOptionalParams): Promise<void>;
     backup(resourceGroupName: string, name: string, request: BackupRequest, options?: WebAppsBackupOptionalParams): Promise<WebAppsBackupResponse>;
     backupSlot(resourceGroupName: string, name: string, slot: string, request: BackupRequest, options?: WebAppsBackupSlotOptionalParams): Promise<WebAppsBackupSlotResponse>;
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
-    beginApproveOrRejectPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionSlotAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>;
+    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionResponse>>;
+    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
+    beginApproveOrRejectPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>>;
+    beginApproveOrRejectPrivateEndpointConnectionSlotAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>;
     beginCreateFunction(resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateFunctionResponse>, WebAppsCreateFunctionResponse>>;
     beginCreateFunctionAndWait(resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams): Promise<WebAppsCreateFunctionResponse>;
     beginCreateInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateInstanceFunctionSlotResponse>, WebAppsCreateInstanceFunctionSlotResponse>>;
@@ -8213,12 +8385,16 @@ export interface WebApps {
     beginCreateMSDeployOperationSlotAndWait(resourceGroupName: string, name: string, slot: string, mSDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams): Promise<WebAppsCreateMSDeployOperationSlotResponse>;
     beginCreateOrUpdate(resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateResponse>, WebAppsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams): Promise<WebAppsCreateOrUpdateResponse>;
+    beginCreateOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateConfigurationResponse>, WebAppsCreateOrUpdateConfigurationResponse>>;
+    beginCreateOrUpdateConfigurationAndWait(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationResponse>;
     beginCreateOrUpdateSlot(resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateSlotResponse>, WebAppsCreateOrUpdateSlotResponse>>;
     beginCreateOrUpdateSlotAndWait(resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams): Promise<WebAppsCreateOrUpdateSlotResponse>;
     beginCreateOrUpdateSourceControl(resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateSourceControlResponse>, WebAppsCreateOrUpdateSourceControlResponse>>;
     beginCreateOrUpdateSourceControlAndWait(resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams): Promise<WebAppsCreateOrUpdateSourceControlResponse>;
     beginCreateOrUpdateSourceControlSlot(resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateSourceControlSlotResponse>, WebAppsCreateOrUpdateSourceControlSlotResponse>>;
     beginCreateOrUpdateSourceControlSlotAndWait(resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams): Promise<WebAppsCreateOrUpdateSourceControlSlotResponse>;
+    beginDelete(resourceGroupName: string, name: string, options?: WebAppsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, name: string, options?: WebAppsDeleteOptionalParams): Promise<void>;
     beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionResponse>, WebAppsDeletePrivateEndpointConnectionResponse>>;
     beginDeletePrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams): Promise<WebAppsDeletePrivateEndpointConnectionResponse>;
     beginDeletePrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>, WebAppsDeletePrivateEndpointConnectionSlotResponse>>;
@@ -8267,10 +8443,17 @@ export interface WebApps {
     beginSwapSlotAndWait(resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams): Promise<void>;
     beginSwapSlotWithProduction(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSwapSlotWithProductionAndWait(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, name: string, siteEnvelope: SitePatchResource, options?: WebAppsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsUpdateResponse>, WebAppsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, name: string, siteEnvelope: SitePatchResource, options?: WebAppsUpdateOptionalParams): Promise<WebAppsUpdateResponse>;
+    beginUpdateApplicationSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsUpdateApplicationSettingsResponse>, WebAppsUpdateApplicationSettingsResponse>>;
+    beginUpdateApplicationSettingsAndWait(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsOptionalParams): Promise<WebAppsUpdateApplicationSettingsResponse>;
+    beginUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsUpdateConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsUpdateConfigurationResponse>, WebAppsUpdateConfigurationResponse>>;
+    beginUpdateConfigurationAndWait(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsUpdateConfigurationOptionalParams): Promise<WebAppsUpdateConfigurationResponse>;
+    beginUpdateConnectionStrings(resourceGroupName: string, name: string, connectionStrings: ConnectionStringDictionary, options?: WebAppsUpdateConnectionStringsOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsUpdateConnectionStringsResponse>, WebAppsUpdateConnectionStringsResponse>>;
+    beginUpdateConnectionStringsAndWait(resourceGroupName: string, name: string, connectionStrings: ConnectionStringDictionary, options?: WebAppsUpdateConnectionStringsOptionalParams): Promise<WebAppsUpdateConnectionStringsResponse>;
     createDeployment(resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams): Promise<WebAppsCreateDeploymentResponse>;
     createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams): Promise<WebAppsCreateDeploymentSlotResponse>;
     createOneDeployOperation(resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams): Promise<WebAppsCreateOneDeployOperationResponse>;
-    createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationResponse>;
     createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationSlotOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationSlotResponse>;
     createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams): Promise<WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>;
     createOrUpdateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotOptionalParams): Promise<WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse>;
@@ -8286,13 +8469,12 @@ export interface WebApps {
     createOrUpdatePublicCertificateSlot(resourceGroupName: string, name: string, publicCertificateName: string, slot: string, publicCertificate: PublicCertificate, options?: WebAppsCreateOrUpdatePublicCertificateSlotOptionalParams): Promise<WebAppsCreateOrUpdatePublicCertificateSlotResponse>;
     createOrUpdateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsCreateOrUpdateRelayServiceConnectionOptionalParams): Promise<WebAppsCreateOrUpdateRelayServiceConnectionResponse>;
     createOrUpdateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsCreateOrUpdateRelayServiceConnectionSlotOptionalParams): Promise<WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse>;
-    createOrUpdateSwiftVirtualNetworkConnectionWithCheck(resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
-    createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot(resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
+    createOrUpdateSwiftVirtualNetworkConnectionWithCheck(resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetworkProxy, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
+    createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot(resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetworkProxy, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
     createOrUpdateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfoResource, options?: WebAppsCreateOrUpdateVnetConnectionOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionResponse>;
     createOrUpdateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: WebAppsCreateOrUpdateVnetConnectionGatewayOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionGatewayResponse>;
     createOrUpdateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, connectionEnvelope: VnetGateway, options?: WebAppsCreateOrUpdateVnetConnectionGatewaySlotOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse>;
     createOrUpdateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfoResource, options?: WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionSlotResponse>;
-    delete(resourceGroupName: string, name: string, options?: WebAppsDeleteOptionalParams): Promise<void>;
     deleteBackup(resourceGroupName: string, name: string, backupId: string, options?: WebAppsDeleteBackupOptionalParams): Promise<void>;
     deleteBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsDeleteBackupConfigurationOptionalParams): Promise<void>;
     deleteBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteBackupConfigurationSlotOptionalParams): Promise<void>;
@@ -8587,8 +8769,6 @@ export interface WebApps {
     syncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncFunctionTriggersSlotOptionalParams): Promise<void>;
     syncRepository(resourceGroupName: string, name: string, options?: WebAppsSyncRepositoryOptionalParams): Promise<void>;
     syncRepositorySlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncRepositorySlotOptionalParams): Promise<void>;
-    update(resourceGroupName: string, name: string, siteEnvelope: SitePatchResource, options?: WebAppsUpdateOptionalParams): Promise<WebAppsUpdateResponse>;
-    updateApplicationSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsOptionalParams): Promise<WebAppsUpdateApplicationSettingsResponse>;
     updateApplicationSettingsSlot(resourceGroupName: string, name: string, slot: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsSlotOptionalParams): Promise<WebAppsUpdateApplicationSettingsSlotResponse>;
     updateAuthSettings(resourceGroupName: string, name: string, siteAuthSettings: SiteAuthSettings, options?: WebAppsUpdateAuthSettingsOptionalParams): Promise<WebAppsUpdateAuthSettingsResponse>;
     updateAuthSettingsSlot(resourceGroupName: string, name: string, slot: string, siteAuthSettings: SiteAuthSettings, options?: WebAppsUpdateAuthSettingsSlotOptionalParams): Promise<WebAppsUpdateAuthSettingsSlotResponse>;
@@ -8598,9 +8778,7 @@ export interface WebApps {
     updateAzureStorageAccountsSlot(resourceGroupName: string, name: string, slot: string, azureStorageAccounts: AzureStoragePropertyDictionaryResource, options?: WebAppsUpdateAzureStorageAccountsSlotOptionalParams): Promise<WebAppsUpdateAzureStorageAccountsSlotResponse>;
     updateBackupConfiguration(resourceGroupName: string, name: string, request: BackupRequest, options?: WebAppsUpdateBackupConfigurationOptionalParams): Promise<WebAppsUpdateBackupConfigurationResponse>;
     updateBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, request: BackupRequest, options?: WebAppsUpdateBackupConfigurationSlotOptionalParams): Promise<WebAppsUpdateBackupConfigurationSlotResponse>;
-    updateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsUpdateConfigurationOptionalParams): Promise<WebAppsUpdateConfigurationResponse>;
     updateConfigurationSlot(resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsUpdateConfigurationSlotOptionalParams): Promise<WebAppsUpdateConfigurationSlotResponse>;
-    updateConnectionStrings(resourceGroupName: string, name: string, connectionStrings: ConnectionStringDictionary, options?: WebAppsUpdateConnectionStringsOptionalParams): Promise<WebAppsUpdateConnectionStringsResponse>;
     updateConnectionStringsSlot(resourceGroupName: string, name: string, slot: string, connectionStrings: ConnectionStringDictionary, options?: WebAppsUpdateConnectionStringsSlotOptionalParams): Promise<WebAppsUpdateConnectionStringsSlotResponse>;
     updateDiagnosticLogsConfig(resourceGroupName: string, name: string, siteLogsConfig: SiteLogsConfig, options?: WebAppsUpdateDiagnosticLogsConfigOptionalParams): Promise<WebAppsUpdateDiagnosticLogsConfigResponse>;
     updateDiagnosticLogsConfigSlot(resourceGroupName: string, name: string, slot: string, siteLogsConfig: SiteLogsConfig, options?: WebAppsUpdateDiagnosticLogsConfigSlotOptionalParams): Promise<WebAppsUpdateDiagnosticLogsConfigSlotResponse>;
@@ -8624,8 +8802,8 @@ export interface WebApps {
     updateSlotConfigurationNames(resourceGroupName: string, name: string, slotConfigNames: SlotConfigNamesResource, options?: WebAppsUpdateSlotConfigurationNamesOptionalParams): Promise<WebAppsUpdateSlotConfigurationNamesResponse>;
     updateSourceControl(resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsUpdateSourceControlOptionalParams): Promise<WebAppsUpdateSourceControlResponse>;
     updateSourceControlSlot(resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsUpdateSourceControlSlotOptionalParams): Promise<WebAppsUpdateSourceControlSlotResponse>;
-    updateSwiftVirtualNetworkConnectionWithCheck(resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
-    updateSwiftVirtualNetworkConnectionWithCheckSlot(resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
+    updateSwiftVirtualNetworkConnectionWithCheck(resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetworkProxy, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
+    updateSwiftVirtualNetworkConnectionWithCheckSlot(resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetworkProxy, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
     updateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfoResource, options?: WebAppsUpdateVnetConnectionOptionalParams): Promise<WebAppsUpdateVnetConnectionResponse>;
     updateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: WebAppsUpdateVnetConnectionGatewayOptionalParams): Promise<WebAppsUpdateVnetConnectionGatewayResponse>;
     updateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, connectionEnvelope: VnetGateway, options?: WebAppsUpdateVnetConnectionGatewaySlotOptionalParams): Promise<WebAppsUpdateVnetConnectionGatewaySlotResponse>;
@@ -8778,7 +8956,14 @@ export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClien
 export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
 
 // @public
+export interface WebAppsCreateOrUpdateConfigurationHeaders {
+    location?: string;
+}
+
+// @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -8930,14 +9115,14 @@ export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOpti
 }
 
 // @public
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse = SwiftVirtualNetwork;
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse = SwiftVirtualNetworkProxy;
 
 // @public
 export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse = SwiftVirtualNetwork;
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse = SwiftVirtualNetworkProxy;
 
 // @public
 export interface WebAppsCreateOrUpdateVnetConnectionGatewayOptionalParams extends coreClient.OperationOptions {
@@ -9020,6 +9205,11 @@ export interface WebAppsDeleteFunctionSecretSlotOptionalParams extends coreClien
 }
 
 // @public
+export interface WebAppsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface WebAppsDeleteHostNameBindingOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -9059,6 +9249,8 @@ export interface WebAppsDeleteInstanceProcessSlotOptionalParams extends coreClie
 export interface WebAppsDeleteOptionalParams extends coreClient.OperationOptions {
     deleteEmptyServerFarm?: boolean;
     deleteMetrics?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -9980,14 +10172,14 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionOptionalParams extends c
 }
 
 // @public
-export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork;
+export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetworkProxy;
 
 // @public
 export interface WebAppsGetSwiftVirtualNetworkConnectionSlotOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork;
+export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetworkProxy;
 
 // @public
 export interface WebAppsGetTriggeredWebJobHistoryOptionalParams extends coreClient.OperationOptions {
@@ -11556,7 +11748,14 @@ export interface WebAppStackCollection {
 }
 
 // @public
+export interface WebAppsUpdateApplicationSettingsHeaders {
+    location?: string;
+}
+
+// @public
 export interface WebAppsUpdateApplicationSettingsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -11626,7 +11825,14 @@ export interface WebAppsUpdateBackupConfigurationSlotOptionalParams extends core
 export type WebAppsUpdateBackupConfigurationSlotResponse = BackupRequest;
 
 // @public
+export interface WebAppsUpdateConfigurationHeaders {
+    location?: string;
+}
+
+// @public
 export interface WebAppsUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -11640,7 +11846,14 @@ export interface WebAppsUpdateConfigurationSlotOptionalParams extends coreClient
 export type WebAppsUpdateConfigurationSlotResponse = SiteConfigResource;
 
 // @public
+export interface WebAppsUpdateConnectionStringsHeaders {
+    location?: string;
+}
+
+// @public
 export interface WebAppsUpdateConnectionStringsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -11725,6 +11938,8 @@ export type WebAppsUpdateMetadataSlotResponse = StringDictionary;
 
 // @public
 export interface WebAppsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -11819,14 +12034,14 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalPara
 }
 
 // @public
-export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse = SwiftVirtualNetwork;
+export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse = SwiftVirtualNetworkProxy;
 
 // @public
 export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse = SwiftVirtualNetwork;
+export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse = SwiftVirtualNetworkProxy;
 
 // @public
 export interface WebAppsUpdateVnetConnectionGatewayOptionalParams extends coreClient.OperationOptions {
@@ -11944,6 +12159,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     move(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: MoveOptionalParams): Promise<void>;
     // (undocumented)
     provider: Provider;
+    purgeUnusedVirtualNetworkIntegrations(location: string, request: VirtualNetworkIntegrationRequest, options?: PurgeUnusedVirtualNetworkIntegrationsOptionalParams): Promise<PurgeUnusedVirtualNetworkIntegrationsResponse>;
     // (undocumented)
     recommendations: Recommendations;
     // (undocumented)
@@ -11959,6 +12175,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     validate(resourceGroupName: string, validateRequest: ValidateRequest, options?: ValidateOptionalParams): Promise<ValidateOperationResponse>;
     validateMove(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: ValidateMoveOptionalParams): Promise<void>;
     verifyHostingEnvironmentVnet(parameters: VnetParameters, options?: VerifyHostingEnvironmentVnetOptionalParams): Promise<VerifyHostingEnvironmentVnetResponse>;
+    virtualNetworkIntegrations(location: string, request: VirtualNetworkIntegrationRequest, options?: VirtualNetworkIntegrationsOptionalParams): Promise<VirtualNetworkIntegrationsResponse>;
     // (undocumented)
     webApps: WebApps;
     // (undocumented)

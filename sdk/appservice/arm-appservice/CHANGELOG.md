@@ -1,15 +1,100 @@
 # Release History
+    
+## 15.0.0 (2024-02-08)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Added operation AppServicePlans.getVirtualNetworkIntegration
+  - Added operation AppServicePlans.listVirtualNetworkIntegrations
+  - Added operation WebApps.beginCreateOrUpdateConfiguration
+  - Added operation WebApps.beginCreateOrUpdateConfigurationAndWait
+  - Added operation WebApps.beginDelete
+  - Added operation WebApps.beginDeleteAndWait
+  - Added operation WebApps.beginUpdate
+  - Added operation WebApps.beginUpdateAndWait
+  - Added operation WebApps.beginUpdateApplicationSettings
+  - Added operation WebApps.beginUpdateApplicationSettingsAndWait
+  - Added operation WebApps.beginUpdateConfiguration
+  - Added operation WebApps.beginUpdateConfigurationAndWait
+  - Added operation WebApps.beginUpdateConnectionStrings
+  - Added operation WebApps.beginUpdateConnectionStringsAndWait
+  - Added Interface AppServicePlansGetVirtualNetworkIntegrationOptionalParams
+  - Added Interface AppServicePlansGetVirtualNetworkIntegrationsNextOptionalParams
+  - Added Interface AppServicePlansGetVirtualNetworkIntegrationsOptionalParams
+  - Added Interface FunctionAppConfig
+  - Added Interface FunctionsAlwaysReadyConfig
+  - Added Interface FunctionsDeployment
+  - Added Interface FunctionsDeploymentStorage
+  - Added Interface FunctionsDeploymentStorageAuthentication
+  - Added Interface FunctionsRuntime
+  - Added Interface FunctionsScaleAndConcurrency
+  - Added Interface FunctionsScaleAndConcurrencyTriggers
+  - Added Interface FunctionsScaleAndConcurrencyTriggersHttp
+  - Added Interface PurgeUnusedVirtualNetworkIntegrationsOptionalParams
+  - Added Interface SwiftVirtualNetworkCollection
+  - Added Interface SwiftVirtualNetworkProxy
+  - Added Interface SwiftVirtualNetworkResourceAllocation
+  - Added Interface SwiftVirtualNetworkSubnetIpAllocation
+  - Added Interface SwiftVirtualNetworkVnetConnectionAllocation
+  - Added Interface VirtualNetworkIntegrationRequest
+  - Added Interface VirtualNetworkIntegrationsOptionalParams
+  - Added Interface WebAppsCreateOrUpdateConfigurationHeaders
+  - Added Interface WebAppsDeleteHeaders
+  - Added Interface WebAppsUpdateApplicationSettingsHeaders
+  - Added Interface WebAppsUpdateConfigurationHeaders
+  - Added Interface WebAppsUpdateConnectionStringsHeaders
+  - Added Type Alias AppServicePlansGetVirtualNetworkIntegrationResponse
+  - Added Type Alias AppServicePlansGetVirtualNetworkIntegrationsNextResponse
+  - Added Type Alias AppServicePlansGetVirtualNetworkIntegrationsResponse
+  - Added Type Alias AuthenticationType
+  - Added Type Alias PurgedUnusedVirtualNetworkSuccessResponse
+  - Added Type Alias PurgeUnusedVirtualNetworkIntegrationsResponse
+  - Added Type Alias RuntimeName
+  - Added Type Alias VirtualNetworkIntegrationsResponse
+  - Interface Site has a new optional parameter functionAppConfig
+  - Interface Site has a new optional parameter vnetBackupRestoreEnabled
+  - Interface SwiftVirtualNetwork has a new optional parameter resourceAllocation
+  - Interface SwiftVirtualNetwork has a new optional parameter subnetIpAllocation
+  - Interface SwiftVirtualNetwork has a new optional parameter vnetConnectionAllocation
+  - Interface WebAppsCreateOrUpdateConfigurationOptionalParams has a new optional parameter resumeFrom
+  - Interface WebAppsCreateOrUpdateConfigurationOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface WebAppsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface WebAppsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface WebAppsUpdateApplicationSettingsOptionalParams has a new optional parameter resumeFrom
+  - Interface WebAppsUpdateApplicationSettingsOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface WebAppsUpdateConfigurationOptionalParams has a new optional parameter resumeFrom
+  - Interface WebAppsUpdateConfigurationOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface WebAppsUpdateConnectionStringsOptionalParams has a new optional parameter resumeFrom
+  - Interface WebAppsUpdateConnectionStringsOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface WebAppsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface WebAppsUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownAuthenticationType
+  - Added Enum KnownPurgedUnusedVirtualNetworkSuccessResponse
+  - Added Enum KnownRuntimeName
+  - Added Enum KnownStorageType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation WebApps.createOrUpdateConfiguration
+  - Removed operation WebApps.delete
+  - Removed operation WebApps.update
+  - Removed operation WebApps.updateApplicationSettings
+  - Removed operation WebApps.updateConfiguration
+  - Removed operation WebApps.updateConnectionStrings
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait has a new signature
+  - Operation WebApps.createOrUpdateSwiftVirtualNetworkConnectionWithCheck has a new signature
+  - Operation WebApps.createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot has a new signature
+  - Operation WebApps.updateSwiftVirtualNetworkConnectionWithCheck has a new signature
+  - Operation WebApps.updateSwiftVirtualNetworkConnectionWithCheckSlot has a new signature
+    
+    
 ## 14.1.0 (2023-11-16)
     
 **Features**
