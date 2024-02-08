@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -39,7 +39,7 @@ import {
   InternalNetworksUpdateBgpAdministrativeStateResponse,
   InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse,
-  InternalNetworksListByL3IsolationDomainNextResponse
+  InternalNetworksListByL3IsolationDomainNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,12 +64,12 @@ export class InternalNetworksImpl implements InternalNetworks {
   public listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: InternalNetworksListByL3IsolationDomainOptionalParams
+    options?: InternalNetworksListByL3IsolationDomainOptionalParams,
   ): PagedAsyncIterableIterator<InternalNetwork> {
     const iter = this.listByL3IsolationDomainPagingAll(
       resourceGroupName,
       l3IsolationDomainName,
-      options
+      options,
     );
     return {
       next() {
@@ -86,9 +86,9 @@ export class InternalNetworksImpl implements InternalNetworks {
           resourceGroupName,
           l3IsolationDomainName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -96,7 +96,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     options?: InternalNetworksListByL3IsolationDomainOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<InternalNetwork[]> {
     let result: InternalNetworksListByL3IsolationDomainResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class InternalNetworksImpl implements InternalNetworks {
       result = await this._listByL3IsolationDomain(
         resourceGroupName,
         l3IsolationDomainName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class InternalNetworksImpl implements InternalNetworks {
         resourceGroupName,
         l3IsolationDomainName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -128,12 +128,12 @@ export class InternalNetworksImpl implements InternalNetworks {
   private async *listByL3IsolationDomainPagingAll(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: InternalNetworksListByL3IsolationDomainOptionalParams
+    options?: InternalNetworksListByL3IsolationDomainOptionalParams,
   ): AsyncIterableIterator<InternalNetwork> {
     for await (const page of this.listByL3IsolationDomainPagingPage(
       resourceGroupName,
       l3IsolationDomainName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -152,7 +152,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: InternalNetwork,
-    options?: InternalNetworksCreateOptionalParams
+    options?: InternalNetworksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternalNetworksCreateResponse>,
@@ -161,21 +161,20 @@ export class InternalNetworksImpl implements InternalNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InternalNetworksCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -184,8 +183,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -193,8 +192,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -205,9 +204,9 @@ export class InternalNetworksImpl implements InternalNetworks {
         l3IsolationDomainName,
         internalNetworkName,
         body,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       InternalNetworksCreateResponse,
@@ -215,7 +214,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -234,14 +233,14 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: InternalNetwork,
-    options?: InternalNetworksCreateOptionalParams
+    options?: InternalNetworksCreateOptionalParams,
   ): Promise<InternalNetworksCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       l3IsolationDomainName,
       internalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -257,16 +256,16 @@ export class InternalNetworksImpl implements InternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    options?: InternalNetworksGetOptionalParams
+    options?: InternalNetworksGetOptionalParams,
   ): Promise<InternalNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         l3IsolationDomainName,
         internalNetworkName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -283,7 +282,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: InternalNetworkPatch,
-    options?: InternalNetworksUpdateOptionalParams
+    options?: InternalNetworksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternalNetworksUpdateResponse>,
@@ -292,21 +291,20 @@ export class InternalNetworksImpl implements InternalNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InternalNetworksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -315,8 +313,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -324,8 +322,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -336,9 +334,9 @@ export class InternalNetworksImpl implements InternalNetworks {
         l3IsolationDomainName,
         internalNetworkName,
         body,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       InternalNetworksUpdateResponse,
@@ -346,7 +344,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -365,14 +363,14 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: InternalNetworkPatch,
-    options?: InternalNetworksUpdateOptionalParams
+    options?: InternalNetworksUpdateOptionalParams,
   ): Promise<InternalNetworksUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       l3IsolationDomainName,
       internalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -388,25 +386,24 @@ export class InternalNetworksImpl implements InternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    options?: InternalNetworksDeleteOptionalParams
+    options?: InternalNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -415,8 +412,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -424,8 +421,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -435,14 +432,14 @@ export class InternalNetworksImpl implements InternalNetworks {
         resourceGroupName,
         l3IsolationDomainName,
         internalNetworkName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -459,13 +456,13 @@ export class InternalNetworksImpl implements InternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    options?: InternalNetworksDeleteOptionalParams
+    options?: InternalNetworksDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       l3IsolationDomainName,
       internalNetworkName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -479,11 +476,11 @@ export class InternalNetworksImpl implements InternalNetworks {
   private _listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: InternalNetworksListByL3IsolationDomainOptionalParams
+    options?: InternalNetworksListByL3IsolationDomainOptionalParams,
   ): Promise<InternalNetworksListByL3IsolationDomainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3IsolationDomainName, options },
-      listByL3IsolationDomainOperationSpec
+      listByL3IsolationDomainOperationSpec,
     );
   }
 
@@ -500,7 +497,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternalNetworksUpdateAdministrativeStateResponse>,
@@ -509,21 +506,20 @@ export class InternalNetworksImpl implements InternalNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InternalNetworksUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -532,8 +528,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -541,8 +537,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -553,9 +549,9 @@ export class InternalNetworksImpl implements InternalNetworks {
         l3IsolationDomainName,
         internalNetworkName,
         body,
-        options
+        options,
       },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       InternalNetworksUpdateAdministrativeStateResponse,
@@ -563,7 +559,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -582,14 +578,14 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateAdministrativeStateOptionalParams,
   ): Promise<InternalNetworksUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       l3IsolationDomainName,
       internalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -607,7 +603,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternalNetworksUpdateBgpAdministrativeStateResponse>,
@@ -616,21 +612,20 @@ export class InternalNetworksImpl implements InternalNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InternalNetworksUpdateBgpAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -639,8 +634,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -648,8 +643,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -660,9 +655,9 @@ export class InternalNetworksImpl implements InternalNetworks {
         l3IsolationDomainName,
         internalNetworkName,
         body,
-        options
+        options,
       },
-      spec: updateBgpAdministrativeStateOperationSpec
+      spec: updateBgpAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       InternalNetworksUpdateBgpAdministrativeStateResponse,
@@ -670,7 +665,7 @@ export class InternalNetworksImpl implements InternalNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -689,14 +684,14 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   ): Promise<InternalNetworksUpdateBgpAdministrativeStateResponse> {
     const poller = await this.beginUpdateBgpAdministrativeState(
       resourceGroupName,
       l3IsolationDomainName,
       internalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -714,32 +709,29 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
-      >,
+      OperationState<InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>,
       InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -748,8 +740,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -757,8 +749,8 @@ export class InternalNetworksImpl implements InternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -769,19 +761,17 @@ export class InternalNetworksImpl implements InternalNetworks {
         l3IsolationDomainName,
         internalNetworkName,
         body,
-        options
+        options,
       },
-      spec: updateStaticRouteBfdAdministrativeStateOperationSpec
+      spec: updateStaticRouteBfdAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse,
-      OperationState<
-        InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
-      >
+      OperationState<InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -800,14 +790,14 @@ export class InternalNetworksImpl implements InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse> {
     const poller = await this.beginUpdateStaticRouteBfdAdministrativeState(
       resourceGroupName,
       l3IsolationDomainName,
       internalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -824,11 +814,11 @@ export class InternalNetworksImpl implements InternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     nextLink: string,
-    options?: InternalNetworksListByL3IsolationDomainNextOptionalParams
+    options?: InternalNetworksListByL3IsolationDomainNextOptionalParams,
   ): Promise<InternalNetworksListByL3IsolationDomainNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3IsolationDomainName, nextLink, options },
-      listByL3IsolationDomainNextOperationSpec
+      listByL3IsolationDomainNextOperationSpec,
     );
   }
 }
@@ -836,25 +826,24 @@ export class InternalNetworksImpl implements InternalNetworks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     201: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     202: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     204: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion],
@@ -863,23 +852,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.internalNetworkName
+    Parameters.internalNetworkName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -887,31 +875,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.internalNetworkName
+    Parameters.internalNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     201: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     202: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     204: {
-      bodyMapper: Mappers.InternalNetwork
+      bodyMapper: Mappers.InternalNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
@@ -920,15 +907,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.internalNetworkName
+    Parameters.internalNetworkName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -936,8 +922,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -945,53 +931,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.internalNetworkName
+    Parameters.internalNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByL3IsolationDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InternalNetworksList
+      bodyMapper: Mappers.InternalNetworksList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -1000,32 +984,31 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.internalNetworkName
+    Parameters.internalNetworkName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateBgpAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateBgpAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateBgpAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -1034,64 +1017,64 @@ const updateBgpAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.internalNetworkName
+    Parameters.internalNetworkName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const updateStaticRouteBfdAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateStaticRouteBfdAdministrativeState",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+const updateStaticRouteBfdAdministrativeStateOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateStaticRouteBfdAdministrativeState",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      201: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      202: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      204: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName,
-    Parameters.internalNetworkName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.body2,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.l3IsolationDomainName,
+      Parameters.internalNetworkName,
+    ],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
 const listByL3IsolationDomainNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InternalNetworksList
+      bodyMapper: Mappers.InternalNetworksList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

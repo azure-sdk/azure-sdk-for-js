@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -44,7 +44,7 @@ import {
   AccessControlListsValidateConfigurationOptionalParams,
   AccessControlListsValidateConfigurationResponse,
   AccessControlListsListByResourceGroupNextResponse,
-  AccessControlListsListBySubscriptionNextResponse
+  AccessControlListsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -67,7 +67,7 @@ export class AccessControlListsImpl implements AccessControlLists {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AccessControlListsListByResourceGroupOptionalParams
+    options?: AccessControlListsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AccessControlList> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -84,16 +84,16 @@ export class AccessControlListsImpl implements AccessControlLists {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AccessControlListsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessControlList[]> {
     let result: AccessControlListsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -108,7 +108,7 @@ export class AccessControlListsImpl implements AccessControlLists {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,11 +119,11 @@ export class AccessControlListsImpl implements AccessControlLists {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AccessControlListsListByResourceGroupOptionalParams
+    options?: AccessControlListsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AccessControlList> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,7 +134,7 @@ export class AccessControlListsImpl implements AccessControlLists {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AccessControlListsListBySubscriptionOptionalParams
+    options?: AccessControlListsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AccessControlList> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -149,13 +149,13 @@ export class AccessControlListsImpl implements AccessControlLists {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AccessControlListsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessControlList[]> {
     let result: AccessControlListsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -176,7 +176,7 @@ export class AccessControlListsImpl implements AccessControlLists {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AccessControlListsListBySubscriptionOptionalParams
+    options?: AccessControlListsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AccessControlList> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -194,7 +194,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlList,
-    options?: AccessControlListsCreateOptionalParams
+    options?: AccessControlListsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsCreateResponse>,
@@ -203,21 +203,20 @@ export class AccessControlListsImpl implements AccessControlLists {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessControlListsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -226,8 +225,8 @@ export class AccessControlListsImpl implements AccessControlLists {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -235,15 +234,15 @@ export class AccessControlListsImpl implements AccessControlLists {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accessControlListName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessControlListsCreateResponse,
@@ -251,7 +250,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -268,13 +267,13 @@ export class AccessControlListsImpl implements AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlList,
-    options?: AccessControlListsCreateOptionalParams
+    options?: AccessControlListsCreateOptionalParams,
   ): Promise<AccessControlListsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       accessControlListName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -288,11 +287,11 @@ export class AccessControlListsImpl implements AccessControlLists {
   get(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsGetOptionalParams
+    options?: AccessControlListsGetOptionalParams,
   ): Promise<AccessControlListsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accessControlListName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -307,7 +306,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlListPatch,
-    options?: AccessControlListsUpdateOptionalParams
+    options?: AccessControlListsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsUpdateResponse>,
@@ -316,21 +315,20 @@ export class AccessControlListsImpl implements AccessControlLists {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessControlListsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -339,8 +337,8 @@ export class AccessControlListsImpl implements AccessControlLists {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -348,15 +346,15 @@ export class AccessControlListsImpl implements AccessControlLists {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accessControlListName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessControlListsUpdateResponse,
@@ -364,7 +362,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -381,13 +379,13 @@ export class AccessControlListsImpl implements AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlListPatch,
-    options?: AccessControlListsUpdateOptionalParams
+    options?: AccessControlListsUpdateOptionalParams,
   ): Promise<AccessControlListsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       accessControlListName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -401,7 +399,7 @@ export class AccessControlListsImpl implements AccessControlLists {
   async beginDelete(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsDeleteOptionalParams
+    options?: AccessControlListsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsDeleteResponse>,
@@ -410,21 +408,20 @@ export class AccessControlListsImpl implements AccessControlLists {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessControlListsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -433,8 +430,8 @@ export class AccessControlListsImpl implements AccessControlLists {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -442,15 +439,15 @@ export class AccessControlListsImpl implements AccessControlLists {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accessControlListName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessControlListsDeleteResponse,
@@ -458,7 +455,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -473,12 +470,12 @@ export class AccessControlListsImpl implements AccessControlLists {
   async beginDeleteAndWait(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsDeleteOptionalParams
+    options?: AccessControlListsDeleteOptionalParams,
   ): Promise<AccessControlListsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accessControlListName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -490,11 +487,11 @@ export class AccessControlListsImpl implements AccessControlLists {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AccessControlListsListByResourceGroupOptionalParams
+    options?: AccessControlListsListByResourceGroupOptionalParams,
   ): Promise<AccessControlListsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -503,11 +500,11 @@ export class AccessControlListsImpl implements AccessControlLists {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AccessControlListsListBySubscriptionOptionalParams
+    options?: AccessControlListsListBySubscriptionOptionalParams,
   ): Promise<AccessControlListsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -522,7 +519,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: UpdateAdministrativeState,
-    options?: AccessControlListsUpdateAdministrativeStateOptionalParams
+    options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsUpdateAdministrativeStateResponse>,
@@ -531,21 +528,20 @@ export class AccessControlListsImpl implements AccessControlLists {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessControlListsUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -554,8 +550,8 @@ export class AccessControlListsImpl implements AccessControlLists {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -563,15 +559,15 @@ export class AccessControlListsImpl implements AccessControlLists {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accessControlListName, body, options },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessControlListsUpdateAdministrativeStateResponse,
@@ -579,7 +575,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -596,13 +592,13 @@ export class AccessControlListsImpl implements AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: UpdateAdministrativeState,
-    options?: AccessControlListsUpdateAdministrativeStateOptionalParams
+    options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
   ): Promise<AccessControlListsUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       accessControlListName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -616,7 +612,7 @@ export class AccessControlListsImpl implements AccessControlLists {
   async beginResync(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsResyncOptionalParams
+    options?: AccessControlListsResyncOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsResyncResponse>,
@@ -625,21 +621,20 @@ export class AccessControlListsImpl implements AccessControlLists {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessControlListsResyncResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -648,8 +643,8 @@ export class AccessControlListsImpl implements AccessControlLists {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -657,15 +652,15 @@ export class AccessControlListsImpl implements AccessControlLists {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accessControlListName, options },
-      spec: resyncOperationSpec
+      spec: resyncOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessControlListsResyncResponse,
@@ -673,7 +668,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -688,12 +683,12 @@ export class AccessControlListsImpl implements AccessControlLists {
   async beginResyncAndWait(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsResyncOptionalParams
+    options?: AccessControlListsResyncOptionalParams,
   ): Promise<AccessControlListsResyncResponse> {
     const poller = await this.beginResync(
       resourceGroupName,
       accessControlListName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -707,7 +702,7 @@ export class AccessControlListsImpl implements AccessControlLists {
   async beginValidateConfiguration(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsValidateConfigurationOptionalParams
+    options?: AccessControlListsValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsValidateConfigurationResponse>,
@@ -716,21 +711,20 @@ export class AccessControlListsImpl implements AccessControlLists {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessControlListsValidateConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -739,8 +733,8 @@ export class AccessControlListsImpl implements AccessControlLists {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -748,15 +742,15 @@ export class AccessControlListsImpl implements AccessControlLists {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accessControlListName, options },
-      spec: validateConfigurationOperationSpec
+      spec: validateConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessControlListsValidateConfigurationResponse,
@@ -764,7 +758,7 @@ export class AccessControlListsImpl implements AccessControlLists {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -779,12 +773,12 @@ export class AccessControlListsImpl implements AccessControlLists {
   async beginValidateConfigurationAndWait(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsValidateConfigurationOptionalParams
+    options?: AccessControlListsValidateConfigurationOptionalParams,
   ): Promise<AccessControlListsValidateConfigurationResponse> {
     const poller = await this.beginValidateConfiguration(
       resourceGroupName,
       accessControlListName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -798,11 +792,11 @@ export class AccessControlListsImpl implements AccessControlLists {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AccessControlListsListByResourceGroupNextOptionalParams
+    options?: AccessControlListsListByResourceGroupNextOptionalParams,
   ): Promise<AccessControlListsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -813,11 +807,11 @@ export class AccessControlListsImpl implements AccessControlLists {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AccessControlListsListBySubscriptionNextOptionalParams
+    options?: AccessControlListsListBySubscriptionNextOptionalParams,
   ): Promise<AccessControlListsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -825,25 +819,24 @@ export class AccessControlListsImpl implements AccessControlLists {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     201: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     202: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     204: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
@@ -851,54 +844,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accessControlListName
+    Parameters.accessControlListName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accessControlListName
+    Parameters.accessControlListName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     201: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     202: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     204: {
-      bodyMapper: Mappers.AccessControlList
+      bodyMapper: Mappers.AccessControlList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -906,101 +897,97 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accessControlListName
+    Parameters.accessControlListName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.AccessControlListsDeleteHeaders
+      headersMapper: Mappers.AccessControlListsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.AccessControlListsDeleteHeaders
+      headersMapper: Mappers.AccessControlListsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.AccessControlListsDeleteHeaders
+      headersMapper: Mappers.AccessControlListsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.AccessControlListsDeleteHeaders
+      headersMapper: Mappers.AccessControlListsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accessControlListName
+    Parameters.accessControlListName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessControlListsListResult
+      bodyMapper: Mappers.AccessControlListsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/accessControlLists",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/accessControlLists",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessControlListsListResult
+      bodyMapper: Mappers.AccessControlListsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -1008,110 +995,108 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accessControlListName
+    Parameters.accessControlListName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const resyncOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/resync",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/resync",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accessControlListName
+    Parameters.accessControlListName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const validateConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/validateConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/accessControlLists/{accessControlListName}/validateConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     201: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     202: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     204: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accessControlListName
+    Parameters.accessControlListName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessControlListsListResult
+      bodyMapper: Mappers.AccessControlListsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessControlListsListResult
+      bodyMapper: Mappers.AccessControlListsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

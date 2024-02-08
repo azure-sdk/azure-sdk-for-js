@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   ExternalNetworksUpdateAdministrativeStateResponse,
   ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse,
-  ExternalNetworksListByL3IsolationDomainNextResponse
+  ExternalNetworksListByL3IsolationDomainNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,12 +62,12 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   public listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListByL3IsolationDomainOptionalParams
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams,
   ): PagedAsyncIterableIterator<ExternalNetwork> {
     const iter = this.listByL3IsolationDomainPagingAll(
       resourceGroupName,
       l3IsolationDomainName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +84,9 @@ export class ExternalNetworksImpl implements ExternalNetworks {
           resourceGroupName,
           l3IsolationDomainName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     options?: ExternalNetworksListByL3IsolationDomainOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExternalNetwork[]> {
     let result: ExternalNetworksListByL3IsolationDomainResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
       result = await this._listByL3IsolationDomain(
         resourceGroupName,
         l3IsolationDomainName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +114,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         resourceGroupName,
         l3IsolationDomainName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,12 +126,12 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   private async *listByL3IsolationDomainPagingAll(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListByL3IsolationDomainOptionalParams
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams,
   ): AsyncIterableIterator<ExternalNetwork> {
     for await (const page of this.listByL3IsolationDomainPagingPage(
       resourceGroupName,
       l3IsolationDomainName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -150,7 +150,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: ExternalNetwork,
-    options?: ExternalNetworksCreateOptionalParams
+    options?: ExternalNetworksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExternalNetworksCreateResponse>,
@@ -159,21 +159,20 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExternalNetworksCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -182,8 +181,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -191,8 +190,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -203,9 +202,9 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         l3IsolationDomainName,
         externalNetworkName,
         body,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ExternalNetworksCreateResponse,
@@ -213,7 +212,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -232,14 +231,14 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: ExternalNetwork,
-    options?: ExternalNetworksCreateOptionalParams
+    options?: ExternalNetworksCreateOptionalParams,
   ): Promise<ExternalNetworksCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       l3IsolationDomainName,
       externalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -255,16 +254,16 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    options?: ExternalNetworksGetOptionalParams
+    options?: ExternalNetworksGetOptionalParams,
   ): Promise<ExternalNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         l3IsolationDomainName,
         externalNetworkName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -281,7 +280,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: ExternalNetworkPatch,
-    options?: ExternalNetworksUpdateOptionalParams
+    options?: ExternalNetworksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExternalNetworksUpdateResponse>,
@@ -290,21 +289,20 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExternalNetworksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -313,8 +311,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -322,8 +320,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -334,9 +332,9 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         l3IsolationDomainName,
         externalNetworkName,
         body,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ExternalNetworksUpdateResponse,
@@ -344,7 +342,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -363,14 +361,14 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: ExternalNetworkPatch,
-    options?: ExternalNetworksUpdateOptionalParams
+    options?: ExternalNetworksUpdateOptionalParams,
   ): Promise<ExternalNetworksUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       l3IsolationDomainName,
       externalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -386,25 +384,24 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    options?: ExternalNetworksDeleteOptionalParams
+    options?: ExternalNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -413,8 +410,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -422,8 +419,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -433,14 +430,14 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         resourceGroupName,
         l3IsolationDomainName,
         externalNetworkName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -457,13 +454,13 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    options?: ExternalNetworksDeleteOptionalParams
+    options?: ExternalNetworksDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       l3IsolationDomainName,
       externalNetworkName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -477,11 +474,11 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   private _listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListByL3IsolationDomainOptionalParams
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams,
   ): Promise<ExternalNetworksListByL3IsolationDomainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3IsolationDomainName, options },
-      listByL3IsolationDomainOperationSpec
+      listByL3IsolationDomainOperationSpec,
     );
   }
 
@@ -498,7 +495,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExternalNetworksUpdateAdministrativeStateResponse>,
@@ -507,21 +504,20 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExternalNetworksUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -530,8 +526,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -539,8 +535,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -551,9 +547,9 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         l3IsolationDomainName,
         externalNetworkName,
         body,
-        options
+        options,
       },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       ExternalNetworksUpdateAdministrativeStateResponse,
@@ -561,7 +557,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -580,14 +576,14 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ): Promise<ExternalNetworksUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       l3IsolationDomainName,
       externalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -605,32 +601,29 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
-      >,
+      OperationState<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>,
       ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -639,8 +632,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -648,8 +641,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -660,19 +653,17 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         l3IsolationDomainName,
         externalNetworkName,
         body,
-        options
+        options,
       },
-      spec: updateStaticRouteBfdAdministrativeStateOperationSpec
+      spec: updateStaticRouteBfdAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse,
-      OperationState<
-        ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
-      >
+      OperationState<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -691,14 +682,14 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse> {
     const poller = await this.beginUpdateStaticRouteBfdAdministrativeState(
       resourceGroupName,
       l3IsolationDomainName,
       externalNetworkName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -715,11 +706,11 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     nextLink: string,
-    options?: ExternalNetworksListByL3IsolationDomainNextOptionalParams
+    options?: ExternalNetworksListByL3IsolationDomainNextOptionalParams,
   ): Promise<ExternalNetworksListByL3IsolationDomainNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3IsolationDomainName, nextLink, options },
-      listByL3IsolationDomainNextOperationSpec
+      listByL3IsolationDomainNextOperationSpec,
     );
   }
 }
@@ -727,25 +718,24 @@ export class ExternalNetworksImpl implements ExternalNetworks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     201: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     202: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     204: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
@@ -754,23 +744,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
+    Parameters.externalNetworkName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -778,31 +767,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
+    Parameters.externalNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     201: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     202: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     204: {
-      bodyMapper: Mappers.ExternalNetwork
+      bodyMapper: Mappers.ExternalNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body20,
   queryParameters: [Parameters.apiVersion],
@@ -811,15 +799,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
+    Parameters.externalNetworkName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -827,8 +814,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -836,53 +823,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
+    Parameters.externalNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByL3IsolationDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalNetworksList
+      bodyMapper: Mappers.ExternalNetworksList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -891,64 +876,64 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
+    Parameters.externalNetworkName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const updateStaticRouteBfdAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateStaticRouteBfdAdministrativeState",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+const updateStaticRouteBfdAdministrativeStateOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateStaticRouteBfdAdministrativeState",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      201: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      202: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      204: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.body2,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.l3IsolationDomainName,
+      Parameters.externalNetworkName,
+    ],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
 const listByL3IsolationDomainNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalNetworksList
+      bodyMapper: Mappers.ExternalNetworksList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

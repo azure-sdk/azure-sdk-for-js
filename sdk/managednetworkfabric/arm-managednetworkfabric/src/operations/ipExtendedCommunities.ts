@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   IpExtendedCommunitiesDeleteOptionalParams,
   IpExtendedCommunitiesDeleteResponse,
   IpExtendedCommunitiesListByResourceGroupNextResponse,
-  IpExtendedCommunitiesListBySubscriptionNextResponse
+  IpExtendedCommunitiesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +60,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
+    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IpExtendedCommunity> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -77,16 +77,16 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IpExtendedCommunity[]> {
     let result: IpExtendedCommunitiesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,11 +112,11 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
+    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<IpExtendedCommunity> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,7 +127,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
+    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IpExtendedCommunity> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -142,13 +142,13 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: IpExtendedCommunitiesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IpExtendedCommunity[]> {
     let result: IpExtendedCommunitiesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -169,7 +169,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
+    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<IpExtendedCommunity> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -187,7 +187,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
+    options?: IpExtendedCommunitiesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpExtendedCommunitiesCreateResponse>,
@@ -196,21 +196,20 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpExtendedCommunitiesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -219,8 +218,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -228,15 +227,15 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ipExtendedCommunityName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       IpExtendedCommunitiesCreateResponse,
@@ -244,7 +243,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,13 +260,13 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
+    options?: IpExtendedCommunitiesCreateOptionalParams,
   ): Promise<IpExtendedCommunitiesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       ipExtendedCommunityName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,11 +280,11 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   get(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesGetOptionalParams
+    options?: IpExtendedCommunitiesGetOptionalParams,
   ): Promise<IpExtendedCommunitiesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ipExtendedCommunityName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -300,7 +299,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
+    options?: IpExtendedCommunitiesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpExtendedCommunitiesUpdateResponse>,
@@ -309,21 +308,20 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpExtendedCommunitiesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -332,8 +330,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -341,15 +339,15 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ipExtendedCommunityName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       IpExtendedCommunitiesUpdateResponse,
@@ -357,7 +355,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -374,13 +372,13 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
+    options?: IpExtendedCommunitiesUpdateOptionalParams,
   ): Promise<IpExtendedCommunitiesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       ipExtendedCommunityName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -394,7 +392,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   async beginDelete(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
+    options?: IpExtendedCommunitiesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpExtendedCommunitiesDeleteResponse>,
@@ -403,21 +401,20 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpExtendedCommunitiesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -426,8 +423,8 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -435,15 +432,15 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ipExtendedCommunityName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       IpExtendedCommunitiesDeleteResponse,
@@ -451,7 +448,7 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -466,12 +463,12 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   async beginDeleteAndWait(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
+    options?: IpExtendedCommunitiesDeleteOptionalParams,
   ): Promise<IpExtendedCommunitiesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       ipExtendedCommunityName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -483,11 +480,11 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
+    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
   ): Promise<IpExtendedCommunitiesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -496,11 +493,11 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
+    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams,
   ): Promise<IpExtendedCommunitiesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -513,11 +510,11 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IpExtendedCommunitiesListByResourceGroupNextOptionalParams
+    options?: IpExtendedCommunitiesListByResourceGroupNextOptionalParams,
   ): Promise<IpExtendedCommunitiesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -528,11 +525,11 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: IpExtendedCommunitiesListBySubscriptionNextOptionalParams
+    options?: IpExtendedCommunitiesListBySubscriptionNextOptionalParams,
   ): Promise<IpExtendedCommunitiesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -540,25 +537,24 @@ export class IpExtendedCommunitiesImpl implements IpExtendedCommunities {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     201: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     202: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     204: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
@@ -566,54 +562,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.ipExtendedCommunityName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.ipExtendedCommunityName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     201: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     202: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     204: {
-      bodyMapper: Mappers.IpExtendedCommunity
+      bodyMapper: Mappers.IpExtendedCommunity,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion],
@@ -621,117 +615,114 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.ipExtendedCommunityName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities/{ipExtendedCommunityName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
+      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
+      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
+      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders
+      headersMapper: Mappers.IpExtendedCommunitiesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipExtendedCommunityName
+    Parameters.ipExtendedCommunityName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.IpExtendedCommunityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/ipExtendedCommunities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.IpExtendedCommunityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.IpExtendedCommunityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpExtendedCommunityListResult
+      bodyMapper: Mappers.IpExtendedCommunityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

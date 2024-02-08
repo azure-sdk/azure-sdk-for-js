@@ -19,7 +19,7 @@ import {
   TagsUpdate,
   NetworkRacksUpdateOptionalParams,
   NetworkRacksUpdateResponse,
-  NetworkRacksDeleteOptionalParams
+  NetworkRacksDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface NetworkRacks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkRacksListByResourceGroupOptionalParams
+    options?: NetworkRacksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkRack>;
   /**
    * List all Network Rack resources in the given subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkRacksListBySubscriptionOptionalParams
+    options?: NetworkRacksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkRack>;
   /**
    * Create Network Rack resource.
@@ -52,7 +52,7 @@ export interface NetworkRacks {
     resourceGroupName: string,
     networkRackName: string,
     body: NetworkRack,
-    options?: NetworkRacksCreateOptionalParams
+    options?: NetworkRacksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkRacksCreateResponse>,
@@ -70,7 +70,7 @@ export interface NetworkRacks {
     resourceGroupName: string,
     networkRackName: string,
     body: NetworkRack,
-    options?: NetworkRacksCreateOptionalParams
+    options?: NetworkRacksCreateOptionalParams,
   ): Promise<NetworkRacksCreateResponse>;
   /**
    * Get Network Rack resource details.
@@ -81,7 +81,7 @@ export interface NetworkRacks {
   get(
     resourceGroupName: string,
     networkRackName: string,
-    options?: NetworkRacksGetOptionalParams
+    options?: NetworkRacksGetOptionalParams,
   ): Promise<NetworkRacksGetResponse>;
   /**
    * Update certain properties of the Network Rack resource.
@@ -94,7 +94,7 @@ export interface NetworkRacks {
     resourceGroupName: string,
     networkRackName: string,
     body: TagsUpdate,
-    options?: NetworkRacksUpdateOptionalParams
+    options?: NetworkRacksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkRacksUpdateResponse>,
@@ -112,7 +112,7 @@ export interface NetworkRacks {
     resourceGroupName: string,
     networkRackName: string,
     body: TagsUpdate,
-    options?: NetworkRacksUpdateOptionalParams
+    options?: NetworkRacksUpdateOptionalParams,
   ): Promise<NetworkRacksUpdateResponse>;
   /**
    * Delete Network Rack resource.
@@ -123,7 +123,7 @@ export interface NetworkRacks {
   beginDelete(
     resourceGroupName: string,
     networkRackName: string,
-    options?: NetworkRacksDeleteOptionalParams
+    options?: NetworkRacksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Network Rack resource.
@@ -134,6 +134,6 @@ export interface NetworkRacks {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkRackName: string,
-    options?: NetworkRacksDeleteOptionalParams
+    options?: NetworkRacksDeleteOptionalParams,
   ): Promise<void>;
 }

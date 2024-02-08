@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -43,7 +43,7 @@ import {
   L3IsolationDomainsCommitConfigurationOptionalParams,
   L3IsolationDomainsCommitConfigurationResponse,
   L3IsolationDomainsListByResourceGroupNextResponse,
-  L3IsolationDomainsListBySubscriptionNextResponse
+  L3IsolationDomainsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,7 +66,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: L3IsolationDomainsListByResourceGroupOptionalParams
+    options?: L3IsolationDomainsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<L3IsolationDomain> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -83,16 +83,16 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: L3IsolationDomainsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<L3IsolationDomain[]> {
     let result: L3IsolationDomainsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,11 +118,11 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: L3IsolationDomainsListByResourceGroupOptionalParams
+    options?: L3IsolationDomainsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<L3IsolationDomain> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,7 +133,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: L3IsolationDomainsListBySubscriptionOptionalParams
+    options?: L3IsolationDomainsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<L3IsolationDomain> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -148,13 +148,13 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: L3IsolationDomainsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<L3IsolationDomain[]> {
     let result: L3IsolationDomainsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -175,7 +175,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: L3IsolationDomainsListBySubscriptionOptionalParams
+    options?: L3IsolationDomainsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<L3IsolationDomain> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -195,7 +195,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: L3IsolationDomain,
-    options?: L3IsolationDomainsCreateOptionalParams
+    options?: L3IsolationDomainsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsCreateResponse>,
@@ -204,21 +204,20 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L3IsolationDomainsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -227,8 +226,8 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -236,15 +235,15 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l3IsolationDomainName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       L3IsolationDomainsCreateResponse,
@@ -252,7 +251,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -271,13 +270,13 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: L3IsolationDomain,
-    options?: L3IsolationDomainsCreateOptionalParams
+    options?: L3IsolationDomainsCreateOptionalParams,
   ): Promise<L3IsolationDomainsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       l3IsolationDomainName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -291,11 +290,11 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   get(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsGetOptionalParams
+    options?: L3IsolationDomainsGetOptionalParams,
   ): Promise<L3IsolationDomainsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3IsolationDomainName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -310,7 +309,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: L3IsolationDomainPatch,
-    options?: L3IsolationDomainsUpdateOptionalParams
+    options?: L3IsolationDomainsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsUpdateResponse>,
@@ -319,21 +318,20 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L3IsolationDomainsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -342,8 +340,8 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -351,15 +349,15 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l3IsolationDomainName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       L3IsolationDomainsUpdateResponse,
@@ -367,7 +365,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -384,13 +382,13 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: L3IsolationDomainPatch,
-    options?: L3IsolationDomainsUpdateOptionalParams
+    options?: L3IsolationDomainsUpdateOptionalParams,
   ): Promise<L3IsolationDomainsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       l3IsolationDomainName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -404,25 +402,24 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   async beginDelete(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsDeleteOptionalParams
+    options?: L3IsolationDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -431,8 +428,8 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -440,20 +437,20 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l3IsolationDomainName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -468,12 +465,12 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   async beginDeleteAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsDeleteOptionalParams
+    options?: L3IsolationDomainsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       l3IsolationDomainName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -485,11 +482,11 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: L3IsolationDomainsListByResourceGroupOptionalParams
+    options?: L3IsolationDomainsListByResourceGroupOptionalParams,
   ): Promise<L3IsolationDomainsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -498,11 +495,11 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: L3IsolationDomainsListBySubscriptionOptionalParams
+    options?: L3IsolationDomainsListBySubscriptionOptionalParams,
   ): Promise<L3IsolationDomainsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -517,7 +514,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: UpdateAdministrativeState,
-    options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams
+    options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsUpdateAdministrativeStateResponse>,
@@ -526,21 +523,20 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L3IsolationDomainsUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -549,8 +545,8 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -558,15 +554,15 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l3IsolationDomainName, body, options },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       L3IsolationDomainsUpdateAdministrativeStateResponse,
@@ -574,7 +570,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -591,13 +587,13 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: UpdateAdministrativeState,
-    options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams
+    options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ): Promise<L3IsolationDomainsUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       l3IsolationDomainName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -611,7 +607,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   async beginValidateConfiguration(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsValidateConfigurationOptionalParams
+    options?: L3IsolationDomainsValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsValidateConfigurationResponse>,
@@ -620,21 +616,20 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L3IsolationDomainsValidateConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -643,8 +638,8 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -652,15 +647,15 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l3IsolationDomainName, options },
-      spec: validateConfigurationOperationSpec
+      spec: validateConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       L3IsolationDomainsValidateConfigurationResponse,
@@ -668,7 +663,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -683,12 +678,12 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   async beginValidateConfigurationAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsValidateConfigurationOptionalParams
+    options?: L3IsolationDomainsValidateConfigurationOptionalParams,
   ): Promise<L3IsolationDomainsValidateConfigurationResponse> {
     const poller = await this.beginValidateConfiguration(
       resourceGroupName,
       l3IsolationDomainName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -702,7 +697,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   async beginCommitConfiguration(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsCommitConfigurationOptionalParams
+    options?: L3IsolationDomainsCommitConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsCommitConfigurationResponse>,
@@ -711,21 +706,20 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L3IsolationDomainsCommitConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -734,8 +728,8 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -743,15 +737,15 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l3IsolationDomainName, options },
-      spec: commitConfigurationOperationSpec
+      spec: commitConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       L3IsolationDomainsCommitConfigurationResponse,
@@ -759,7 +753,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -774,12 +768,12 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   async beginCommitConfigurationAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsCommitConfigurationOptionalParams
+    options?: L3IsolationDomainsCommitConfigurationOptionalParams,
   ): Promise<L3IsolationDomainsCommitConfigurationResponse> {
     const poller = await this.beginCommitConfiguration(
       resourceGroupName,
       l3IsolationDomainName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -793,11 +787,11 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: L3IsolationDomainsListByResourceGroupNextOptionalParams
+    options?: L3IsolationDomainsListByResourceGroupNextOptionalParams,
   ): Promise<L3IsolationDomainsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -808,11 +802,11 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: L3IsolationDomainsListBySubscriptionNextOptionalParams
+    options?: L3IsolationDomainsListBySubscriptionNextOptionalParams,
   ): Promise<L3IsolationDomainsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -820,25 +814,24 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     201: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     202: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     204: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body15,
   queryParameters: [Parameters.apiVersion],
@@ -846,54 +839,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     201: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     202: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     204: {
-      bodyMapper: Mappers.L3IsolationDomain
+      bodyMapper: Mappers.L3IsolationDomain,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
@@ -901,15 +892,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -917,77 +907,74 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3IsolationDomainsListResult
+      bodyMapper: Mappers.L3IsolationDomainsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3IsolationDomainsListResult
+      bodyMapper: Mappers.L3IsolationDomainsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -995,110 +982,108 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/validateConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/validateConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     201: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     202: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     204: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const commitConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/commitConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/commitConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
+    Parameters.l3IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3IsolationDomainsListResult
+      bodyMapper: Mappers.L3IsolationDomainsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3IsolationDomainsListResult
+      bodyMapper: Mappers.L3IsolationDomainsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

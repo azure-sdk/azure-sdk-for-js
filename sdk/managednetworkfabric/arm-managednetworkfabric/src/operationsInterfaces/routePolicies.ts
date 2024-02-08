@@ -26,7 +26,7 @@ import {
   RoutePoliciesValidateConfigurationOptionalParams,
   RoutePoliciesValidateConfigurationResponse,
   RoutePoliciesCommitConfigurationOptionalParams,
-  RoutePoliciesCommitConfigurationResponse
+  RoutePoliciesCommitConfigurationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,14 +39,14 @@ export interface RoutePolicies {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RoutePoliciesListByResourceGroupOptionalParams
+    options?: RoutePoliciesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RoutePolicy>;
   /**
    * Implements RoutePolicies list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: RoutePoliciesListBySubscriptionOptionalParams
+    options?: RoutePoliciesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RoutePolicy>;
   /**
    * Implements Route Policy PUT method.
@@ -59,7 +59,7 @@ export interface RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: RoutePolicy,
-    options?: RoutePoliciesCreateOptionalParams
+    options?: RoutePoliciesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesCreateResponse>,
@@ -77,7 +77,7 @@ export interface RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: RoutePolicy,
-    options?: RoutePoliciesCreateOptionalParams
+    options?: RoutePoliciesCreateOptionalParams,
   ): Promise<RoutePoliciesCreateResponse>;
   /**
    * Implements Route Policy GET method.
@@ -88,7 +88,7 @@ export interface RoutePolicies {
   get(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesGetOptionalParams
+    options?: RoutePoliciesGetOptionalParams,
   ): Promise<RoutePoliciesGetResponse>;
   /**
    * API to update certain properties of the Route Policy resource.
@@ -101,7 +101,7 @@ export interface RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: RoutePolicyPatch,
-    options?: RoutePoliciesUpdateOptionalParams
+    options?: RoutePoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesUpdateResponse>,
@@ -119,7 +119,7 @@ export interface RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: RoutePolicyPatch,
-    options?: RoutePoliciesUpdateOptionalParams
+    options?: RoutePoliciesUpdateOptionalParams,
   ): Promise<RoutePoliciesUpdateResponse>;
   /**
    * Implements Route Policy DELETE method.
@@ -130,7 +130,7 @@ export interface RoutePolicies {
   beginDelete(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesDeleteOptionalParams
+    options?: RoutePoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements Route Policy DELETE method.
@@ -141,7 +141,7 @@ export interface RoutePolicies {
   beginDeleteAndWait(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesDeleteOptionalParams
+    options?: RoutePoliciesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updated the admin state for this Route Policy.
@@ -154,7 +154,7 @@ export interface RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: UpdateAdministrativeState,
-    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams
+    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesUpdateAdministrativeStateResponse>,
@@ -172,7 +172,7 @@ export interface RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: UpdateAdministrativeState,
-    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams
+    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
   ): Promise<RoutePoliciesUpdateAdministrativeStateResponse>;
   /**
    * Validates the configuration of the resources.
@@ -183,7 +183,7 @@ export interface RoutePolicies {
   beginValidateConfiguration(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesValidateConfigurationOptionalParams
+    options?: RoutePoliciesValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesValidateConfigurationResponse>,
@@ -199,7 +199,7 @@ export interface RoutePolicies {
   beginValidateConfigurationAndWait(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesValidateConfigurationOptionalParams
+    options?: RoutePoliciesValidateConfigurationOptionalParams,
   ): Promise<RoutePoliciesValidateConfigurationResponse>;
   /**
    * Commits the configuration of the given resources.
@@ -210,7 +210,7 @@ export interface RoutePolicies {
   beginCommitConfiguration(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesCommitConfigurationOptionalParams
+    options?: RoutePoliciesCommitConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesCommitConfigurationResponse>,
@@ -226,6 +226,6 @@ export interface RoutePolicies {
   beginCommitConfigurationAndWait(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesCommitConfigurationOptionalParams
+    options?: RoutePoliciesCommitConfigurationOptionalParams,
   ): Promise<RoutePoliciesCommitConfigurationResponse>;
 }

@@ -21,7 +21,7 @@ import {
   NetworkInterfacesDeleteOptionalParams,
   UpdateAdministrativeState,
   NetworkInterfacesUpdateAdministrativeStateOptionalParams,
-  NetworkInterfacesUpdateAdministrativeStateResponse
+  NetworkInterfacesUpdateAdministrativeStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface NetworkInterfaces {
   listByNetworkDevice(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkInterfacesListByNetworkDeviceOptionalParams
+    options?: NetworkInterfacesListByNetworkDeviceOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Create a Network Interface resource.
@@ -51,7 +51,7 @@ export interface NetworkInterfaces {
     networkDeviceName: string,
     networkInterfaceName: string,
     body: NetworkInterface,
-    options?: NetworkInterfacesCreateOptionalParams
+    options?: NetworkInterfacesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesCreateResponse>,
@@ -71,7 +71,7 @@ export interface NetworkInterfaces {
     networkDeviceName: string,
     networkInterfaceName: string,
     body: NetworkInterface,
-    options?: NetworkInterfacesCreateOptionalParams
+    options?: NetworkInterfacesCreateOptionalParams,
   ): Promise<NetworkInterfacesCreateResponse>;
   /**
    * Get the Network Interface resource details.
@@ -84,7 +84,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     networkDeviceName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetOptionalParams
+    options?: NetworkInterfacesGetOptionalParams,
   ): Promise<NetworkInterfacesGetResponse>;
   /**
    * Update certain properties of the Network Interface resource.
@@ -99,7 +99,7 @@ export interface NetworkInterfaces {
     networkDeviceName: string,
     networkInterfaceName: string,
     body: NetworkInterfacePatch,
-    options?: NetworkInterfacesUpdateOptionalParams
+    options?: NetworkInterfacesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesUpdateResponse>,
@@ -119,7 +119,7 @@ export interface NetworkInterfaces {
     networkDeviceName: string,
     networkInterfaceName: string,
     body: NetworkInterfacePatch,
-    options?: NetworkInterfacesUpdateOptionalParams
+    options?: NetworkInterfacesUpdateOptionalParams,
   ): Promise<NetworkInterfacesUpdateResponse>;
   /**
    * Delete the Network Interface resource.
@@ -132,7 +132,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     networkDeviceName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the Network Interface resource.
@@ -145,7 +145,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     networkDeviceName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update the admin state of the Network Interface.
@@ -160,7 +160,7 @@ export interface NetworkInterfaces {
     networkDeviceName: string,
     networkInterfaceName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams
+    options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesUpdateAdministrativeStateResponse>,
@@ -180,6 +180,6 @@ export interface NetworkInterfaces {
     networkDeviceName: string,
     networkInterfaceName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams
+    options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkInterfacesUpdateAdministrativeStateResponse>;
 }

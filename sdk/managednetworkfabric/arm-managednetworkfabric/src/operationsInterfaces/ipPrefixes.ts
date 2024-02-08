@@ -20,7 +20,7 @@ import {
   IpPrefixesUpdateOptionalParams,
   IpPrefixesUpdateResponse,
   IpPrefixesDeleteOptionalParams,
-  IpPrefixesDeleteResponse
+  IpPrefixesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +33,14 @@ export interface IpPrefixes {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IpPrefixesListByResourceGroupOptionalParams
+    options?: IpPrefixesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IpPrefix>;
   /**
    * Implements IpPrefixes list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IpPrefixesListBySubscriptionOptionalParams
+    options?: IpPrefixesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IpPrefix>;
   /**
    * Implements IP Prefix PUT method.
@@ -53,7 +53,7 @@ export interface IpPrefixes {
     resourceGroupName: string,
     ipPrefixName: string,
     body: IpPrefix,
-    options?: IpPrefixesCreateOptionalParams
+    options?: IpPrefixesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpPrefixesCreateResponse>,
@@ -71,7 +71,7 @@ export interface IpPrefixes {
     resourceGroupName: string,
     ipPrefixName: string,
     body: IpPrefix,
-    options?: IpPrefixesCreateOptionalParams
+    options?: IpPrefixesCreateOptionalParams,
   ): Promise<IpPrefixesCreateResponse>;
   /**
    * Implements IP Prefix GET method.
@@ -82,7 +82,7 @@ export interface IpPrefixes {
   get(
     resourceGroupName: string,
     ipPrefixName: string,
-    options?: IpPrefixesGetOptionalParams
+    options?: IpPrefixesGetOptionalParams,
   ): Promise<IpPrefixesGetResponse>;
   /**
    * API to update certain properties of the IP Prefix resource.
@@ -95,7 +95,7 @@ export interface IpPrefixes {
     resourceGroupName: string,
     ipPrefixName: string,
     body: IpPrefixPatch,
-    options?: IpPrefixesUpdateOptionalParams
+    options?: IpPrefixesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpPrefixesUpdateResponse>,
@@ -113,7 +113,7 @@ export interface IpPrefixes {
     resourceGroupName: string,
     ipPrefixName: string,
     body: IpPrefixPatch,
-    options?: IpPrefixesUpdateOptionalParams
+    options?: IpPrefixesUpdateOptionalParams,
   ): Promise<IpPrefixesUpdateResponse>;
   /**
    * Implements IP Prefix DELETE method.
@@ -124,7 +124,7 @@ export interface IpPrefixes {
   beginDelete(
     resourceGroupName: string,
     ipPrefixName: string,
-    options?: IpPrefixesDeleteOptionalParams
+    options?: IpPrefixesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpPrefixesDeleteResponse>,
@@ -140,6 +140,6 @@ export interface IpPrefixes {
   beginDeleteAndWait(
     resourceGroupName: string,
     ipPrefixName: string,
-    options?: IpPrefixesDeleteOptionalParams
+    options?: IpPrefixesDeleteOptionalParams,
   ): Promise<IpPrefixesDeleteResponse>;
 }

@@ -25,7 +25,7 @@ import {
   NetworkFabricsProvisionResponse,
   NetworkFabricsDeprovisionOptionalParams,
   NetworkFabricsDeprovisionResponse,
-  UpdateVersion,
+  UpgradeNetworkFabricProperties,
   NetworkFabricsUpgradeOptionalParams,
   NetworkFabricsUpgradeResponse,
   NetworkFabricsRefreshConfigurationOptionalParams,
@@ -41,7 +41,7 @@ import {
   NetworkFabricsGetTopologyOptionalParams,
   NetworkFabricsGetTopologyResponse,
   NetworkFabricsCommitConfigurationOptionalParams,
-  NetworkFabricsCommitConfigurationResponse
+  NetworkFabricsCommitConfigurationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,14 +54,14 @@ export interface NetworkFabrics {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFabricsListByResourceGroupOptionalParams
+    options?: NetworkFabricsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabric>;
   /**
    * List all the Network Fabric resources in the given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkFabricsListBySubscriptionOptionalParams
+    options?: NetworkFabricsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabric>;
   /**
    * Create Network Fabric resource.
@@ -74,7 +74,7 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabric,
-    options?: NetworkFabricsCreateOptionalParams
+    options?: NetworkFabricsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsCreateResponse>,
@@ -92,7 +92,7 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabric,
-    options?: NetworkFabricsCreateOptionalParams
+    options?: NetworkFabricsCreateOptionalParams,
   ): Promise<NetworkFabricsCreateResponse>;
   /**
    * Get Network Fabric resource details.
@@ -103,7 +103,7 @@ export interface NetworkFabrics {
   get(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsGetOptionalParams
+    options?: NetworkFabricsGetOptionalParams,
   ): Promise<NetworkFabricsGetResponse>;
   /**
    * Update certain properties of the Network Fabric resource.
@@ -116,7 +116,7 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabricPatch,
-    options?: NetworkFabricsUpdateOptionalParams
+    options?: NetworkFabricsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsUpdateResponse>,
@@ -134,7 +134,7 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabricPatch,
-    options?: NetworkFabricsUpdateOptionalParams
+    options?: NetworkFabricsUpdateOptionalParams,
   ): Promise<NetworkFabricsUpdateResponse>;
   /**
    * Delete Network Fabric resource.
@@ -145,7 +145,7 @@ export interface NetworkFabrics {
   beginDelete(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsDeleteOptionalParams
+    options?: NetworkFabricsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsDeleteResponse>,
@@ -161,7 +161,7 @@ export interface NetworkFabrics {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsDeleteOptionalParams
+    options?: NetworkFabricsDeleteOptionalParams,
   ): Promise<NetworkFabricsDeleteResponse>;
   /**
    * Provisions the underlying resources in the given Network Fabric instance.
@@ -172,7 +172,7 @@ export interface NetworkFabrics {
   beginProvision(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsProvisionOptionalParams
+    options?: NetworkFabricsProvisionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsProvisionResponse>,
@@ -188,7 +188,7 @@ export interface NetworkFabrics {
   beginProvisionAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsProvisionOptionalParams
+    options?: NetworkFabricsProvisionOptionalParams,
   ): Promise<NetworkFabricsProvisionResponse>;
   /**
    * Deprovisions the underlying resources in the given Network Fabric instance.
@@ -199,7 +199,7 @@ export interface NetworkFabrics {
   beginDeprovision(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsDeprovisionOptionalParams
+    options?: NetworkFabricsDeprovisionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsDeprovisionResponse>,
@@ -215,7 +215,7 @@ export interface NetworkFabrics {
   beginDeprovisionAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsDeprovisionOptionalParams
+    options?: NetworkFabricsDeprovisionOptionalParams,
   ): Promise<NetworkFabricsDeprovisionResponse>;
   /**
    * Upgrades the version of the underlying resources in the given Network Fabric instance.
@@ -227,8 +227,8 @@ export interface NetworkFabrics {
   beginUpgrade(
     resourceGroupName: string,
     networkFabricName: string,
-    body: UpdateVersion,
-    options?: NetworkFabricsUpgradeOptionalParams
+    body: UpgradeNetworkFabricProperties,
+    options?: NetworkFabricsUpgradeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsUpgradeResponse>,
@@ -245,8 +245,8 @@ export interface NetworkFabrics {
   beginUpgradeAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    body: UpdateVersion,
-    options?: NetworkFabricsUpgradeOptionalParams
+    body: UpgradeNetworkFabricProperties,
+    options?: NetworkFabricsUpgradeOptionalParams,
   ): Promise<NetworkFabricsUpgradeResponse>;
   /**
    * Refreshes the configuration of the underlying resources in the given Network Fabric instance.
@@ -257,7 +257,7 @@ export interface NetworkFabrics {
   beginRefreshConfiguration(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsRefreshConfigurationOptionalParams
+    options?: NetworkFabricsRefreshConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsRefreshConfigurationResponse>,
@@ -273,7 +273,7 @@ export interface NetworkFabrics {
   beginRefreshConfigurationAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsRefreshConfigurationOptionalParams
+    options?: NetworkFabricsRefreshConfigurationOptionalParams,
   ): Promise<NetworkFabricsRefreshConfigurationResponse>;
   /**
    * Updates the Workload Management BFD Configuration of the underlying resources in the given Network
@@ -287,12 +287,10 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
-      >,
+      OperationState<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse>,
       NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
     >
   >;
@@ -308,7 +306,7 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
   ): Promise<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse>;
   /**
    * Updates the Infra Management BFD Configuration of the underlying resources in the given Network
@@ -322,12 +320,10 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
-      >,
+      OperationState<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse>,
       NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
     >
   >;
@@ -343,7 +339,7 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
   ): Promise<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse>;
   /**
    * Validates the configuration of the underlying resources in the given Network Fabric instance.
@@ -356,7 +352,7 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: ValidateConfigurationProperties,
-    options?: NetworkFabricsValidateConfigurationOptionalParams
+    options?: NetworkFabricsValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsValidateConfigurationResponse>,
@@ -374,7 +370,7 @@ export interface NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: ValidateConfigurationProperties,
-    options?: NetworkFabricsValidateConfigurationOptionalParams
+    options?: NetworkFabricsValidateConfigurationOptionalParams,
   ): Promise<NetworkFabricsValidateConfigurationResponse>;
   /**
    * Gets Topology of the underlying resources in the given Network Fabric instance.
@@ -385,7 +381,7 @@ export interface NetworkFabrics {
   beginGetTopology(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsGetTopologyOptionalParams
+    options?: NetworkFabricsGetTopologyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsGetTopologyResponse>,
@@ -401,7 +397,7 @@ export interface NetworkFabrics {
   beginGetTopologyAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsGetTopologyOptionalParams
+    options?: NetworkFabricsGetTopologyOptionalParams,
   ): Promise<NetworkFabricsGetTopologyResponse>;
   /**
    * Atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level.
@@ -412,7 +408,7 @@ export interface NetworkFabrics {
   beginCommitConfiguration(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsCommitConfigurationOptionalParams
+    options?: NetworkFabricsCommitConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsCommitConfigurationResponse>,
@@ -428,6 +424,6 @@ export interface NetworkFabrics {
   beginCommitConfigurationAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsCommitConfigurationOptionalParams
+    options?: NetworkFabricsCommitConfigurationOptionalParams,
   ): Promise<NetworkFabricsCommitConfigurationResponse>;
 }

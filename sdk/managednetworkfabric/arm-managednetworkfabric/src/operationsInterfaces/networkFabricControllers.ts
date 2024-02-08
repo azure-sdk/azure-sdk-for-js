@@ -20,7 +20,7 @@ import {
   NetworkFabricControllersUpdateOptionalParams,
   NetworkFabricControllersUpdateResponse,
   NetworkFabricControllersDeleteOptionalParams,
-  NetworkFabricControllersDeleteResponse
+  NetworkFabricControllersDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +33,14 @@ export interface NetworkFabricControllers {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFabricControllersListByResourceGroupOptionalParams
+    options?: NetworkFabricControllersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabricController>;
   /**
    * Lists all the NetworkFabricControllers by subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkFabricControllersListBySubscriptionOptionalParams
+    options?: NetworkFabricControllersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabricController>;
   /**
    * Creates a Network Fabric Controller.
@@ -53,7 +53,7 @@ export interface NetworkFabricControllers {
     resourceGroupName: string,
     networkFabricControllerName: string,
     body: NetworkFabricController,
-    options?: NetworkFabricControllersCreateOptionalParams
+    options?: NetworkFabricControllersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricControllersCreateResponse>,
@@ -71,7 +71,7 @@ export interface NetworkFabricControllers {
     resourceGroupName: string,
     networkFabricControllerName: string,
     body: NetworkFabricController,
-    options?: NetworkFabricControllersCreateOptionalParams
+    options?: NetworkFabricControllersCreateOptionalParams,
   ): Promise<NetworkFabricControllersCreateResponse>;
   /**
    * Shows the provisioning status of Network Fabric Controller.
@@ -82,7 +82,7 @@ export interface NetworkFabricControllers {
   get(
     resourceGroupName: string,
     networkFabricControllerName: string,
-    options?: NetworkFabricControllersGetOptionalParams
+    options?: NetworkFabricControllersGetOptionalParams,
   ): Promise<NetworkFabricControllersGetResponse>;
   /**
    * Updates are currently not supported for the Network Fabric Controller resource.
@@ -95,7 +95,7 @@ export interface NetworkFabricControllers {
     resourceGroupName: string,
     networkFabricControllerName: string,
     body: NetworkFabricControllerPatch,
-    options?: NetworkFabricControllersUpdateOptionalParams
+    options?: NetworkFabricControllersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricControllersUpdateResponse>,
@@ -113,7 +113,7 @@ export interface NetworkFabricControllers {
     resourceGroupName: string,
     networkFabricControllerName: string,
     body: NetworkFabricControllerPatch,
-    options?: NetworkFabricControllersUpdateOptionalParams
+    options?: NetworkFabricControllersUpdateOptionalParams,
   ): Promise<NetworkFabricControllersUpdateResponse>;
   /**
    * Deletes the Network Fabric Controller resource.
@@ -124,7 +124,7 @@ export interface NetworkFabricControllers {
   beginDelete(
     resourceGroupName: string,
     networkFabricControllerName: string,
-    options?: NetworkFabricControllersDeleteOptionalParams
+    options?: NetworkFabricControllersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricControllersDeleteResponse>,
@@ -140,6 +140,6 @@ export interface NetworkFabricControllers {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkFabricControllerName: string,
-    options?: NetworkFabricControllersDeleteOptionalParams
+    options?: NetworkFabricControllersDeleteOptionalParams,
   ): Promise<NetworkFabricControllersDeleteResponse>;
 }

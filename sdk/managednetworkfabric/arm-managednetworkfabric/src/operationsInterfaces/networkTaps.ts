@@ -24,7 +24,7 @@ import {
   NetworkTapsUpdateAdministrativeStateOptionalParams,
   NetworkTapsUpdateAdministrativeStateResponse,
   NetworkTapsResyncOptionalParams,
-  NetworkTapsResyncResponse
+  NetworkTapsResyncResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,14 +37,14 @@ export interface NetworkTaps {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkTapsListByResourceGroupOptionalParams
+    options?: NetworkTapsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkTap>;
   /**
    * Displays Network Taps list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkTapsListBySubscriptionOptionalParams
+    options?: NetworkTapsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkTap>;
   /**
    * Creates a Network Tap.
@@ -57,7 +57,7 @@ export interface NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: NetworkTap,
-    options?: NetworkTapsCreateOptionalParams
+    options?: NetworkTapsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapsCreateResponse>,
@@ -75,7 +75,7 @@ export interface NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: NetworkTap,
-    options?: NetworkTapsCreateOptionalParams
+    options?: NetworkTapsCreateOptionalParams,
   ): Promise<NetworkTapsCreateResponse>;
   /**
    * Retrieves details of this Network Tap.
@@ -86,7 +86,7 @@ export interface NetworkTaps {
   get(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsGetOptionalParams
+    options?: NetworkTapsGetOptionalParams,
   ): Promise<NetworkTapsGetResponse>;
   /**
    * API to update certain properties of the Network Tap resource.
@@ -99,7 +99,7 @@ export interface NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: NetworkTapPatch,
-    options?: NetworkTapsUpdateOptionalParams
+    options?: NetworkTapsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapsUpdateResponse>,
@@ -117,7 +117,7 @@ export interface NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: NetworkTapPatch,
-    options?: NetworkTapsUpdateOptionalParams
+    options?: NetworkTapsUpdateOptionalParams,
   ): Promise<NetworkTapsUpdateResponse>;
   /**
    * Deletes Network Tap.
@@ -128,7 +128,7 @@ export interface NetworkTaps {
   beginDelete(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsDeleteOptionalParams
+    options?: NetworkTapsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes Network Tap.
@@ -139,7 +139,7 @@ export interface NetworkTaps {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsDeleteOptionalParams
+    options?: NetworkTapsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Implements the operation to the underlying resources.
@@ -152,7 +152,7 @@ export interface NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkTapsUpdateAdministrativeStateOptionalParams
+    options?: NetworkTapsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapsUpdateAdministrativeStateResponse>,
@@ -170,7 +170,7 @@ export interface NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkTapsUpdateAdministrativeStateOptionalParams
+    options?: NetworkTapsUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkTapsUpdateAdministrativeStateResponse>;
   /**
    * Implements the operation to the underlying resources.
@@ -181,7 +181,7 @@ export interface NetworkTaps {
   beginResync(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsResyncOptionalParams
+    options?: NetworkTapsResyncOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapsResyncResponse>,
@@ -197,6 +197,6 @@ export interface NetworkTaps {
   beginResyncAndWait(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsResyncOptionalParams
+    options?: NetworkTapsResyncOptionalParams,
   ): Promise<NetworkTapsResyncResponse>;
 }

@@ -11,7 +11,7 @@ import {
   NetworkDeviceSku,
   NetworkDeviceSkusListBySubscriptionOptionalParams,
   NetworkDeviceSkusGetOptionalParams,
-  NetworkDeviceSkusGetResponse
+  NetworkDeviceSkusGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface NetworkDeviceSkus {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkDeviceSkusListBySubscriptionOptionalParams
+    options?: NetworkDeviceSkusListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkDeviceSku>;
   /**
    * Get a Network Device SKU details.
@@ -31,6 +31,6 @@ export interface NetworkDeviceSkus {
    */
   get(
     networkDeviceSkuName: string,
-    options?: NetworkDeviceSkusGetOptionalParams
+    options?: NetworkDeviceSkusGetOptionalParams,
   ): Promise<NetworkDeviceSkusGetResponse>;
 }

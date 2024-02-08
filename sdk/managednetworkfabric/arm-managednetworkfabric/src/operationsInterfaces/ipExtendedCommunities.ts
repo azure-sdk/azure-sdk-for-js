@@ -20,7 +20,7 @@ import {
   IpExtendedCommunitiesUpdateOptionalParams,
   IpExtendedCommunitiesUpdateResponse,
   IpExtendedCommunitiesDeleteOptionalParams,
-  IpExtendedCommunitiesDeleteResponse
+  IpExtendedCommunitiesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +33,14 @@ export interface IpExtendedCommunities {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams
+    options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IpExtendedCommunity>;
   /**
    * Implements IpExtendedCommunities list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams
+    options?: IpExtendedCommunitiesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IpExtendedCommunity>;
   /**
    * Implements IP Extended Community PUT method.
@@ -53,7 +53,7 @@ export interface IpExtendedCommunities {
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
+    options?: IpExtendedCommunitiesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpExtendedCommunitiesCreateResponse>,
@@ -71,7 +71,7 @@ export interface IpExtendedCommunities {
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     body: IpExtendedCommunity,
-    options?: IpExtendedCommunitiesCreateOptionalParams
+    options?: IpExtendedCommunitiesCreateOptionalParams,
   ): Promise<IpExtendedCommunitiesCreateResponse>;
   /**
    * Implements IP Extended Community GET method.
@@ -82,7 +82,7 @@ export interface IpExtendedCommunities {
   get(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesGetOptionalParams
+    options?: IpExtendedCommunitiesGetOptionalParams,
   ): Promise<IpExtendedCommunitiesGetResponse>;
   /**
    * API to update certain properties of the IP Extended Community resource.
@@ -95,7 +95,7 @@ export interface IpExtendedCommunities {
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
+    options?: IpExtendedCommunitiesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpExtendedCommunitiesUpdateResponse>,
@@ -113,7 +113,7 @@ export interface IpExtendedCommunities {
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     body: IpExtendedCommunityPatch,
-    options?: IpExtendedCommunitiesUpdateOptionalParams
+    options?: IpExtendedCommunitiesUpdateOptionalParams,
   ): Promise<IpExtendedCommunitiesUpdateResponse>;
   /**
    * Implements IP Extended Community DELETE method.
@@ -124,7 +124,7 @@ export interface IpExtendedCommunities {
   beginDelete(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
+    options?: IpExtendedCommunitiesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpExtendedCommunitiesDeleteResponse>,
@@ -140,6 +140,6 @@ export interface IpExtendedCommunities {
   beginDeleteAndWait(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
-    options?: IpExtendedCommunitiesDeleteOptionalParams
+    options?: IpExtendedCommunitiesDeleteOptionalParams,
   ): Promise<IpExtendedCommunitiesDeleteResponse>;
 }
