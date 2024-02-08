@@ -23,7 +23,7 @@ import {
   BookmarksCreateOrUpdateOptionalParams,
   BookmarksCreateOrUpdateResponse,
   BookmarksDeleteOptionalParams,
-  BookmarksListNextResponse
+  BookmarksListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class BookmarksImpl implements Bookmarks {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BookmarksListOptionalParams
+    options?: BookmarksListOptionalParams,
   ): PagedAsyncIterableIterator<Bookmark> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -66,9 +66,9 @@ export class BookmarksImpl implements Bookmarks {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class BookmarksImpl implements Bookmarks {
     resourceGroupName: string,
     workspaceName: string,
     options?: BookmarksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Bookmark[]> {
     let result: BookmarksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class BookmarksImpl implements Bookmarks {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +104,12 @@ export class BookmarksImpl implements Bookmarks {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BookmarksListOptionalParams
+    options?: BookmarksListOptionalParams,
   ): AsyncIterableIterator<Bookmark> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,11 +124,11 @@ export class BookmarksImpl implements Bookmarks {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BookmarksListOptionalParams
+    options?: BookmarksListOptionalParams,
   ): Promise<BookmarksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class BookmarksImpl implements Bookmarks {
     resourceGroupName: string,
     workspaceName: string,
     bookmarkId: string,
-    options?: BookmarksGetOptionalParams
+    options?: BookmarksGetOptionalParams,
   ): Promise<BookmarksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, bookmarkId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class BookmarksImpl implements Bookmarks {
     workspaceName: string,
     bookmarkId: string,
     bookmark: Bookmark,
-    options?: BookmarksCreateOrUpdateOptionalParams
+    options?: BookmarksCreateOrUpdateOptionalParams,
   ): Promise<BookmarksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, bookmarkId, bookmark, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -183,11 +183,11 @@ export class BookmarksImpl implements Bookmarks {
     resourceGroupName: string,
     workspaceName: string,
     bookmarkId: string,
-    options?: BookmarksDeleteOptionalParams
+    options?: BookmarksDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, bookmarkId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -202,11 +202,11 @@ export class BookmarksImpl implements Bookmarks {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: BookmarksListNextOptionalParams
+    options?: BookmarksListNextOptionalParams,
   ): Promise<BookmarksListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -214,38 +214,15 @@ export class BookmarksImpl implements Bookmarks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BookmarkList
+      bodyMapper: Mappers.BookmarkList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Bookmark
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -253,25 +230,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.bookmarkId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Bookmark,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.bookmarkId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Bookmark
+      bodyMapper: Mappers.Bookmark,
     },
     201: {
-      bodyMapper: Mappers.Bookmark
+      bodyMapper: Mappers.Bookmark,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.bookmark,
   queryParameters: [Parameters.apiVersion],
@@ -280,22 +277,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.bookmarkId
+    Parameters.bookmarkId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -303,29 +299,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.bookmarkId
+    Parameters.bookmarkId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BookmarkList
+      bodyMapper: Mappers.BookmarkList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

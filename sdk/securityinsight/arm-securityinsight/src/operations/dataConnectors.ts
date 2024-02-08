@@ -26,7 +26,7 @@ import {
   DataConnectorConnectBody,
   DataConnectorsConnectOptionalParams,
   DataConnectorsDisconnectOptionalParams,
-  DataConnectorsListNextResponse
+  DataConnectorsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class DataConnectorsImpl implements DataConnectors {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
+    options?: DataConnectorsListOptionalParams,
   ): PagedAsyncIterableIterator<DataConnectorUnion> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -69,9 +69,9 @@ export class DataConnectorsImpl implements DataConnectors {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +79,7 @@ export class DataConnectorsImpl implements DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     options?: DataConnectorsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataConnectorUnion[]> {
     let result: DataConnectorsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class DataConnectorsImpl implements DataConnectors {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class DataConnectorsImpl implements DataConnectors {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
+    options?: DataConnectorsListOptionalParams,
   ): AsyncIterableIterator<DataConnectorUnion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class DataConnectorsImpl implements DataConnectors {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
+    options?: DataConnectorsListOptionalParams,
   ): Promise<DataConnectorsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class DataConnectorsImpl implements DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorId: string,
-    options?: DataConnectorsGetOptionalParams
+    options?: DataConnectorsGetOptionalParams,
   ): Promise<DataConnectorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataConnectorId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,7 +167,7 @@ export class DataConnectorsImpl implements DataConnectors {
     workspaceName: string,
     dataConnectorId: string,
     dataConnector: DataConnectorUnion,
-    options?: DataConnectorsCreateOrUpdateOptionalParams
+    options?: DataConnectorsCreateOrUpdateOptionalParams,
   ): Promise<DataConnectorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -175,9 +175,9 @@ export class DataConnectorsImpl implements DataConnectors {
         workspaceName,
         dataConnectorId,
         dataConnector,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -192,11 +192,11 @@ export class DataConnectorsImpl implements DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorId: string,
-    options?: DataConnectorsDeleteOptionalParams
+    options?: DataConnectorsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataConnectorId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -213,7 +213,7 @@ export class DataConnectorsImpl implements DataConnectors {
     workspaceName: string,
     dataConnectorId: string,
     connectBody: DataConnectorConnectBody,
-    options?: DataConnectorsConnectOptionalParams
+    options?: DataConnectorsConnectOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -221,9 +221,9 @@ export class DataConnectorsImpl implements DataConnectors {
         workspaceName,
         dataConnectorId,
         connectBody,
-        options
+        options,
       },
-      connectOperationSpec
+      connectOperationSpec,
     );
   }
 
@@ -238,11 +238,11 @@ export class DataConnectorsImpl implements DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorId: string,
-    options?: DataConnectorsDisconnectOptionalParams
+    options?: DataConnectorsDisconnectOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataConnectorId, options },
-      disconnectOperationSpec
+      disconnectOperationSpec,
     );
   }
 
@@ -257,11 +257,11 @@ export class DataConnectorsImpl implements DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: DataConnectorsListNextOptionalParams
+    options?: DataConnectorsListNextOptionalParams,
   ): Promise<DataConnectorsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -269,38 +269,15 @@ export class DataConnectorsImpl implements DataConnectors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorList
+      bodyMapper: Mappers.DataConnectorList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -308,25 +285,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataConnector,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.dataConnectorId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.DataConnector,
     },
     201: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.DataConnector,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.dataConnector,
   queryParameters: [Parameters.apiVersion],
@@ -335,22 +332,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.dataConnectorId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -358,20 +354,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.dataConnectorId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const connectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/connect",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/connect",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.connectBody,
   queryParameters: [Parameters.apiVersion],
@@ -380,21 +375,20 @@ const connectOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.dataConnectorId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const disconnectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/disconnect",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/disconnect",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -402,29 +396,29 @@ const disconnectOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.dataConnectorId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorList
+      bodyMapper: Mappers.DataConnectorList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
