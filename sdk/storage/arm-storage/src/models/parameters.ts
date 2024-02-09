@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   StorageAccountCheckNameAvailabilityParameters as StorageAccountCheckNameAvailabilityParametersMapper,
@@ -38,7 +38,7 @@ import {
   QueueServiceProperties as QueueServicePropertiesMapper,
   StorageQueue as StorageQueueMapper,
   TableServiceProperties as TableServicePropertiesMapper,
-  Table as TableMapper
+  Table as TableMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -48,9 +48,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -59,10 +59,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -72,23 +72,23 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -98,19 +98,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accountName: OperationParameter = {
   parameterPath: "accountName",
-  mapper: StorageAccountCheckNameAvailabilityParametersMapper
+  mapper: StorageAccountCheckNameAvailabilityParametersMapper,
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: StorageAccountCreateParametersMapper
+  mapper: StorageAccountCreateParametersMapper,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -118,14 +118,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accountName1: OperationURLParameter = {
@@ -134,14 +134,14 @@ export const accountName1: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z0-9]+$"),
       MaxLength: 24,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "accountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expand: OperationQueryParameter = {
@@ -150,14 +150,14 @@ export const expand: OperationQueryParameter = {
     serializedName: "$expand",
     type: {
       name: "Enum",
-      allowedValues: ["geoReplicationStats", "blobRestoreStatus"]
-    }
-  }
+      allowedValues: ["geoReplicationStats", "blobRestoreStatus"],
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: StorageAccountUpdateParametersMapper
+  mapper: StorageAccountUpdateParametersMapper,
 };
 
 export const expand1: OperationQueryParameter = {
@@ -167,24 +167,24 @@ export const expand1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const regenerateKey: OperationParameter = {
   parameterPath: "regenerateKey",
-  mapper: StorageAccountRegenerateKeyParametersMapper
+  mapper: StorageAccountRegenerateKeyParametersMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: AccountSasParametersMapper
+  mapper: AccountSasParametersMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ServiceSasParametersMapper
+  mapper: ServiceSasParametersMapper,
 };
 
 export const failoverType: OperationQueryParameter = {
@@ -194,9 +194,9 @@ export const failoverType: OperationQueryParameter = {
     isConstant: true,
     serializedName: "failoverType",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const requestType: OperationQueryParameter = {
@@ -205,14 +205,14 @@ export const requestType: OperationQueryParameter = {
     serializedName: "requestType",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: StorageAccountMigrationMapper
+  mapper: StorageAccountMigrationMapper,
 };
 
 export const migrationName: OperationURLParameter = {
@@ -221,14 +221,14 @@ export const migrationName: OperationURLParameter = {
     serializedName: "migrationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BlobRestoreParametersMapper
+  mapper: BlobRestoreParametersMapper,
 };
 
 export const accountName2: OperationURLParameter = {
@@ -236,14 +236,14 @@ export const accountName2: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 24,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "accountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -252,10 +252,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const deletedAccountName: OperationURLParameter = {
@@ -263,14 +263,14 @@ export const deletedAccountName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 24,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "deletedAccountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location: OperationURLParameter = {
@@ -279,9 +279,9 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const managementPolicyName: OperationURLParameter = {
@@ -290,14 +290,14 @@ export const managementPolicyName: OperationURLParameter = {
     serializedName: "managementPolicyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: ManagementPolicyMapper
+  mapper: ManagementPolicyMapper,
 };
 
 export const blobInventoryPolicyName: OperationURLParameter = {
@@ -306,14 +306,14 @@ export const blobInventoryPolicyName: OperationURLParameter = {
     serializedName: "blobInventoryPolicyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties1: OperationParameter = {
   parameterPath: "properties",
-  mapper: BlobInventoryPolicyMapper
+  mapper: BlobInventoryPolicyMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -322,33 +322,33 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties2: OperationParameter = {
   parameterPath: "properties",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const objectReplicationPolicyId: OperationURLParameter = {
   parameterPath: "objectReplicationPolicyId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "objectReplicationPolicyId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties3: OperationParameter = {
   parameterPath: "properties",
-  mapper: ObjectReplicationPolicyMapper
+  mapper: ObjectReplicationPolicyMapper,
 };
 
 export const username: OperationURLParameter = {
@@ -356,24 +356,24 @@ export const username: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "username",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties4: OperationParameter = {
   parameterPath: "properties",
-  mapper: LocalUserMapper
+  mapper: LocalUserMapper,
 };
 
 export const encryptionScope: OperationParameter = {
   parameterPath: "encryptionScope",
-  mapper: EncryptionScopeMapper
+  mapper: EncryptionScopeMapper,
 };
 
 export const encryptionScopeName: OperationURLParameter = {
@@ -381,14 +381,14 @@ export const encryptionScopeName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "encryptionScopeName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const maxpagesize: OperationQueryParameter = {
@@ -396,13 +396,13 @@ export const maxpagesize: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 5000,
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "$maxpagesize",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -410,9 +410,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const include: OperationQueryParameter = {
@@ -420,14 +420,14 @@ export const include: OperationQueryParameter = {
   mapper: {
     serializedName: "$include",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BlobServicePropertiesMapper
+  mapper: BlobServicePropertiesMapper,
 };
 
 export const blobServicesName: OperationURLParameter = {
@@ -437,9 +437,9 @@ export const blobServicesName: OperationURLParameter = {
     isConstant: true,
     serializedName: "BlobServicesName",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const maxpagesize1: OperationQueryParameter = {
@@ -447,9 +447,9 @@ export const maxpagesize1: OperationQueryParameter = {
   mapper: {
     serializedName: "$maxpagesize",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const include1: OperationQueryParameter = {
@@ -457,14 +457,14 @@ export const include1: OperationQueryParameter = {
   mapper: {
     serializedName: "$include",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const blobContainer: OperationParameter = {
   parameterPath: "blobContainer",
-  mapper: BlobContainerMapper
+  mapper: BlobContainerMapper,
 };
 
 export const containerName: OperationURLParameter = {
@@ -472,24 +472,24 @@ export const containerName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "containerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const legalHold: OperationParameter = {
   parameterPath: "legalHold",
-  mapper: LegalHoldMapper
+  mapper: LegalHoldMapper,
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: ImmutabilityPolicyMapper
+  mapper: ImmutabilityPolicyMapper,
 };
 
 export const immutabilityPolicyName: OperationURLParameter = {
@@ -499,9 +499,9 @@ export const immutabilityPolicyName: OperationURLParameter = {
     isConstant: true,
     serializedName: "immutabilityPolicyName",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifMatch: OperationParameter = {
@@ -509,9 +509,9 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifMatch1: OperationParameter = {
@@ -520,19 +520,19 @@ export const ifMatch1: OperationParameter = {
     serializedName: "If-Match",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: LeaseContainerRequestMapper
+  mapper: LeaseContainerRequestMapper,
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: FileServicePropertiesMapper
+  mapper: FileServicePropertiesMapper,
 };
 
 export const fileServicesName: OperationURLParameter = {
@@ -542,9 +542,9 @@ export const fileServicesName: OperationURLParameter = {
     isConstant: true,
     serializedName: "FileServicesName",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expand2: OperationQueryParameter = {
@@ -552,14 +552,14 @@ export const expand2: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileShare: OperationParameter = {
   parameterPath: "fileShare",
-  mapper: FileShareMapper
+  mapper: FileShareMapper,
 };
 
 export const shareName: OperationURLParameter = {
@@ -567,14 +567,14 @@ export const shareName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "shareName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const xMsSnapshot: OperationParameter = {
@@ -582,9 +582,9 @@ export const xMsSnapshot: OperationParameter = {
   mapper: {
     serializedName: "x-ms-snapshot",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const include2: OperationQueryParameter = {
@@ -592,24 +592,24 @@ export const include2: OperationQueryParameter = {
   mapper: {
     serializedName: "$include",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deletedShare: OperationParameter = {
   parameterPath: "deletedShare",
-  mapper: DeletedShareMapper
+  mapper: DeletedShareMapper,
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: LeaseShareRequestMapper
+  mapper: LeaseShareRequestMapper,
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: QueueServicePropertiesMapper
+  mapper: QueueServicePropertiesMapper,
 };
 
 export const queueServiceName: OperationURLParameter = {
@@ -619,14 +619,14 @@ export const queueServiceName: OperationURLParameter = {
     isConstant: true,
     serializedName: "queueServiceName",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const queue: OperationParameter = {
   parameterPath: "queue",
-  mapper: StorageQueueMapper
+  mapper: StorageQueueMapper,
 };
 
 export const queueName: OperationURLParameter = {
@@ -635,19 +635,19 @@ export const queueName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "queueName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters12: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TableServicePropertiesMapper
+  mapper: TableServicePropertiesMapper,
 };
 
 export const tableServiceName: OperationURLParameter = {
@@ -657,14 +657,14 @@ export const tableServiceName: OperationURLParameter = {
     isConstant: true,
     serializedName: "tableServiceName",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters13: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: TableMapper
+  mapper: TableMapper,
 };
 
 export const tableName: OperationURLParameter = {
@@ -673,12 +673,12 @@ export const tableName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[A-Za-z][A-Za-z0-9]{2,62}$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "tableName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
