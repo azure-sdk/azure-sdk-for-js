@@ -34,11 +34,11 @@ export class IPGeodataImpl implements IPGeodata {
   get(
     resourceGroupName: string,
     ipAddress: string,
-    options?: IPGeodataGetOptionalParams
+    options?: IPGeodataGetOptionalParams,
   ): Promise<IPGeodataGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ipAddress, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -46,23 +46,22 @@ export class IPGeodataImpl implements IPGeodata {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SecurityInsights/enrichment/ip/geodata/",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SecurityInsights/enrichment/ip/geodata/",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnrichmentIpGeodata
+      bodyMapper: Mappers.EnrichmentIpGeodata,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.ipAddress],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

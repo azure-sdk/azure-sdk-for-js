@@ -9,7 +9,7 @@
 import {
   DataConnectorsCheckRequirementsUnion,
   DataConnectorsCheckRequirementsPostOptionalParams,
-  DataConnectorsCheckRequirementsPostResponse
+  DataConnectorsCheckRequirementsPostResponse,
 } from "../models";
 
 /** Interface representing a DataConnectorsCheckRequirementsOperations. */
@@ -25,6 +25,6 @@ export interface DataConnectorsCheckRequirementsOperations {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion,
-    options?: DataConnectorsCheckRequirementsPostOptionalParams
+    options?: DataConnectorsCheckRequirementsPostOptionalParams,
   ): Promise<DataConnectorsCheckRequirementsPostResponse>;
 }

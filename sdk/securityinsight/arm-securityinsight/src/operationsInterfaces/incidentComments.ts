@@ -14,7 +14,7 @@ import {
   IncidentCommentsGetResponse,
   IncidentCommentsCreateOrUpdateOptionalParams,
   IncidentCommentsCreateOrUpdateResponse,
-  IncidentCommentsDeleteOptionalParams
+  IncidentCommentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface IncidentComments {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentCommentsListOptionalParams
+    options?: IncidentCommentsListOptionalParams,
   ): PagedAsyncIterableIterator<IncidentComment>;
   /**
    * Gets an incident comment.
@@ -46,7 +46,7 @@ export interface IncidentComments {
     workspaceName: string,
     incidentId: string,
     incidentCommentId: string,
-    options?: IncidentCommentsGetOptionalParams
+    options?: IncidentCommentsGetOptionalParams,
   ): Promise<IncidentCommentsGetResponse>;
   /**
    * Creates or updates the incident comment.
@@ -63,7 +63,7 @@ export interface IncidentComments {
     incidentId: string,
     incidentCommentId: string,
     incidentComment: IncidentComment,
-    options?: IncidentCommentsCreateOrUpdateOptionalParams
+    options?: IncidentCommentsCreateOrUpdateOptionalParams,
   ): Promise<IncidentCommentsCreateOrUpdateResponse>;
   /**
    * Delete the incident comment.
@@ -78,6 +78,6 @@ export interface IncidentComments {
     workspaceName: string,
     incidentId: string,
     incidentCommentId: string,
-    options?: IncidentCommentsDeleteOptionalParams
+    options?: IncidentCommentsDeleteOptionalParams,
   ): Promise<void>;
 }

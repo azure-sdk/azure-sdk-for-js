@@ -17,7 +17,7 @@ import {
   DataConnectorsDeleteOptionalParams,
   DataConnectorConnectBody,
   DataConnectorsConnectOptionalParams,
-  DataConnectorsDisconnectOptionalParams
+  DataConnectorsDisconnectOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface DataConnectors {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
+    options?: DataConnectorsListOptionalParams,
   ): PagedAsyncIterableIterator<DataConnectorUnion>;
   /**
    * Gets a data connector.
@@ -45,7 +45,7 @@ export interface DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorId: string,
-    options?: DataConnectorsGetOptionalParams
+    options?: DataConnectorsGetOptionalParams,
   ): Promise<DataConnectorsGetResponse>;
   /**
    * Creates or updates the data connector.
@@ -60,7 +60,7 @@ export interface DataConnectors {
     workspaceName: string,
     dataConnectorId: string,
     dataConnector: DataConnectorUnion,
-    options?: DataConnectorsCreateOrUpdateOptionalParams
+    options?: DataConnectorsCreateOrUpdateOptionalParams,
   ): Promise<DataConnectorsCreateOrUpdateResponse>;
   /**
    * Delete the data connector.
@@ -73,7 +73,7 @@ export interface DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorId: string,
-    options?: DataConnectorsDeleteOptionalParams
+    options?: DataConnectorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Connects a data connector.
@@ -88,7 +88,7 @@ export interface DataConnectors {
     workspaceName: string,
     dataConnectorId: string,
     connectBody: DataConnectorConnectBody,
-    options?: DataConnectorsConnectOptionalParams
+    options?: DataConnectorsConnectOptionalParams,
   ): Promise<void>;
   /**
    * Disconnect a data connector.
@@ -101,6 +101,6 @@ export interface DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorId: string,
-    options?: DataConnectorsDisconnectOptionalParams
+    options?: DataConnectorsDisconnectOptionalParams,
   ): Promise<void>;
 }

@@ -18,13 +18,14 @@ import {
   ThreatIntelligenceIndicatorsListNextOptionalParams,
   ThreatIntelligenceIndicatorsListOptionalParams,
   ThreatIntelligenceIndicatorsListResponse,
-  ThreatIntelligenceIndicatorsListNextResponse
+  ThreatIntelligenceIndicatorsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ThreatIntelligenceIndicators operations. */
 export class ThreatIntelligenceIndicatorsImpl
-  implements ThreatIntelligenceIndicators {
+  implements ThreatIntelligenceIndicators
+{
   private readonly client: SecurityInsights;
 
   /**
@@ -44,7 +45,7 @@ export class ThreatIntelligenceIndicatorsImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorsListOptionalParams
+    options?: ThreatIntelligenceIndicatorsListOptionalParams,
   ): PagedAsyncIterableIterator<ThreatIntelligenceInformationUnion> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -62,9 +63,9 @@ export class ThreatIntelligenceIndicatorsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +73,7 @@ export class ThreatIntelligenceIndicatorsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: ThreatIntelligenceIndicatorsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ThreatIntelligenceInformationUnion[]> {
     let result: ThreatIntelligenceIndicatorsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class ThreatIntelligenceIndicatorsImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +101,12 @@ export class ThreatIntelligenceIndicatorsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorsListOptionalParams
+    options?: ThreatIntelligenceIndicatorsListOptionalParams,
   ): AsyncIterableIterator<ThreatIntelligenceInformationUnion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,11 +121,11 @@ export class ThreatIntelligenceIndicatorsImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorsListOptionalParams
+    options?: ThreatIntelligenceIndicatorsListOptionalParams,
   ): Promise<ThreatIntelligenceIndicatorsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -139,11 +140,11 @@ export class ThreatIntelligenceIndicatorsImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: ThreatIntelligenceIndicatorsListNextOptionalParams
+    options?: ThreatIntelligenceIndicatorsListNextOptionalParams,
   ): Promise<ThreatIntelligenceIndicatorsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -151,51 +152,50 @@ export class ThreatIntelligenceIndicatorsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/threatIntelligence/main/indicators",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/threatIntelligence/main/indicators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ThreatIntelligenceInformationList
+      bodyMapper: Mappers.ThreatIntelligenceInformationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ThreatIntelligenceInformationList
+      bodyMapper: Mappers.ThreatIntelligenceInformationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
