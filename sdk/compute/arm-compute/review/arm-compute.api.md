@@ -1265,8 +1265,12 @@ export interface DataDiskImageEncryption extends DiskImageEncryption {
 
 // @public
 export interface DataDisksToAttach {
+    caching?: CachingTypes;
+    deleteOption?: DiskDeleteOptionTypes;
+    diskEncryptionSet?: DiskEncryptionSetParameters;
     diskId: string;
     lun?: number;
+    writeAcceleratorEnabled?: boolean;
 }
 
 // @public

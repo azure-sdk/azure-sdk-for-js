@@ -1,15 +1,15 @@
 # Release History
+    
+## 21.5.0 (2024-02-12)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface DataDisksToAttach has a new optional parameter caching
+  - Interface DataDisksToAttach has a new optional parameter deleteOption
+  - Interface DataDisksToAttach has a new optional parameter diskEncryptionSet
+  - Interface DataDisksToAttach has a new optional parameter writeAcceleratorEnabled
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**
