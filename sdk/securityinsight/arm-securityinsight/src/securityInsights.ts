@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -19,24 +19,41 @@ import {
   ActionsImpl,
   AlertRuleTemplatesImpl,
   AutomationRulesImpl,
+  EntitiesImpl,
   IncidentsImpl,
+  BillingStatisticsImpl,
   BookmarksImpl,
   BookmarkRelationsImpl,
   BookmarkOperationsImpl,
+  ContentPackagesImpl,
+  ContentPackageImpl,
+  ProductPackagesImpl,
+  ProductPackageImpl,
+  ProductTemplatesImpl,
+  ProductTemplateImpl,
+  ContentTemplatesImpl,
+  ContentTemplateImpl,
   IPGeodataImpl,
   DomainWhoisImpl,
-  EntitiesImpl,
   EntitiesGetTimelineImpl,
   EntitiesRelationsImpl,
   EntityRelationsImpl,
   EntityQueriesImpl,
   EntityQueryTemplatesImpl,
   FileImportsImpl,
+  HuntsImpl,
+  HuntRelationsImpl,
+  HuntCommentsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
+  IncidentTasksImpl,
   MetadataImpl,
   OfficeConsentsImpl,
   SentinelOnboardingStatesImpl,
+  GetRecommendationsImpl,
+  GetImpl,
+  UpdateImpl,
+  ReevaluateImpl,
   SecurityMLAnalyticsSettingsImpl,
   ProductSettingsImpl,
   SourceControlOperationsImpl,
@@ -44,35 +61,61 @@ import {
   ThreatIntelligenceIndicatorImpl,
   ThreatIntelligenceIndicatorsImpl,
   ThreatIntelligenceIndicatorMetricsImpl,
+  TriggeredAnalyticsRuleRunOperationsImpl,
+  GetTriggeredAnalyticsRuleRunsImpl,
+  AlertRuleOperationsImpl,
   WatchlistsImpl,
   WatchlistItemsImpl,
+  WorkspaceManagerAssignmentsImpl,
+  WorkspaceManagerAssignmentJobsImpl,
+  WorkspaceManagerConfigurationsImpl,
+  WorkspaceManagerGroupsImpl,
+  WorkspaceManagerMembersImpl,
+  DataConnectorDefinitionsImpl,
   DataConnectorsImpl,
   DataConnectorsCheckRequirementsOperationsImpl,
-  OperationsImpl
+  OperationsImpl,
 } from "./operations";
 import {
   AlertRules,
   Actions,
   AlertRuleTemplates,
   AutomationRules,
+  Entities,
   Incidents,
+  BillingStatistics,
   Bookmarks,
   BookmarkRelations,
   BookmarkOperations,
+  ContentPackages,
+  ContentPackage,
+  ProductPackages,
+  ProductPackage,
+  ProductTemplates,
+  ProductTemplate,
+  ContentTemplates,
+  ContentTemplate,
   IPGeodata,
   DomainWhois,
-  Entities,
   EntitiesGetTimeline,
   EntitiesRelations,
   EntityRelations,
   EntityQueries,
   EntityQueryTemplates,
   FileImports,
+  Hunts,
+  HuntRelations,
+  HuntComments,
   IncidentComments,
   IncidentRelations,
+  IncidentTasks,
   Metadata,
   OfficeConsents,
   SentinelOnboardingStates,
+  GetRecommendations,
+  Get,
+  Update,
+  Reevaluate,
   SecurityMLAnalyticsSettings,
   ProductSettings,
   SourceControlOperations,
@@ -80,13 +123,33 @@ import {
   ThreatIntelligenceIndicator,
   ThreatIntelligenceIndicators,
   ThreatIntelligenceIndicatorMetrics,
+  TriggeredAnalyticsRuleRunOperations,
+  GetTriggeredAnalyticsRuleRuns,
+  AlertRuleOperations,
   Watchlists,
   WatchlistItems,
+  WorkspaceManagerAssignments,
+  WorkspaceManagerAssignmentJobs,
+  WorkspaceManagerConfigurations,
+  WorkspaceManagerGroups,
+  WorkspaceManagerMembers,
+  DataConnectorDefinitions,
   DataConnectors,
   DataConnectorsCheckRequirementsOperations,
-  Operations
+  Operations,
 } from "./operationsInterfaces";
-import { SecurityInsightsOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  SecurityInsightsOptionalParams,
+  EnrichmentIpAddressBody,
+  EnrichmentType,
+  ListGeodataByIpOptionalParams,
+  ListGeodataByIpResponse,
+  EnrichmentDomainBody,
+  ListWhoisByDomainOptionalParams,
+  ListWhoisByDomainResponse,
+} from "./models";
 
 export class SecurityInsights extends coreClient.ServiceClient {
   $host: string;
@@ -102,7 +165,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: SecurityInsightsOptionalParams
+    options?: SecurityInsightsOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -117,7 +180,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
     }
     const defaults: SecurityInsightsOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-securityinsight/1.0.0-beta.7`;
@@ -130,20 +193,21 @@ export class SecurityInsights extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -153,7 +217,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -163,9 +227,9 @@ export class SecurityInsights extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -173,50 +237,81 @@ export class SecurityInsights extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2024-01-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
     this.automationRules = new AutomationRulesImpl(this);
+    this.entities = new EntitiesImpl(this);
     this.incidents = new IncidentsImpl(this);
+    this.billingStatistics = new BillingStatisticsImpl(this);
     this.bookmarks = new BookmarksImpl(this);
     this.bookmarkRelations = new BookmarkRelationsImpl(this);
     this.bookmarkOperations = new BookmarkOperationsImpl(this);
+    this.contentPackages = new ContentPackagesImpl(this);
+    this.contentPackage = new ContentPackageImpl(this);
+    this.productPackages = new ProductPackagesImpl(this);
+    this.productPackage = new ProductPackageImpl(this);
+    this.productTemplates = new ProductTemplatesImpl(this);
+    this.productTemplate = new ProductTemplateImpl(this);
+    this.contentTemplates = new ContentTemplatesImpl(this);
+    this.contentTemplate = new ContentTemplateImpl(this);
     this.iPGeodata = new IPGeodataImpl(this);
     this.domainWhois = new DomainWhoisImpl(this);
-    this.entities = new EntitiesImpl(this);
     this.entitiesGetTimeline = new EntitiesGetTimelineImpl(this);
     this.entitiesRelations = new EntitiesRelationsImpl(this);
     this.entityRelations = new EntityRelationsImpl(this);
     this.entityQueries = new EntityQueriesImpl(this);
     this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
     this.fileImports = new FileImportsImpl(this);
+    this.hunts = new HuntsImpl(this);
+    this.huntRelations = new HuntRelationsImpl(this);
+    this.huntComments = new HuntCommentsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
+    this.incidentTasks = new IncidentTasksImpl(this);
     this.metadata = new MetadataImpl(this);
     this.officeConsents = new OfficeConsentsImpl(this);
     this.sentinelOnboardingStates = new SentinelOnboardingStatesImpl(this);
+    this.getRecommendations = new GetRecommendationsImpl(this);
+    this.get = new GetImpl(this);
+    this.update = new UpdateImpl(this);
+    this.reevaluate = new ReevaluateImpl(this);
     this.securityMLAnalyticsSettings = new SecurityMLAnalyticsSettingsImpl(
-      this
+      this,
     );
     this.productSettings = new ProductSettingsImpl(this);
     this.sourceControlOperations = new SourceControlOperationsImpl(this);
     this.sourceControls = new SourceControlsImpl(this);
     this.threatIntelligenceIndicator = new ThreatIntelligenceIndicatorImpl(
-      this
+      this,
     );
     this.threatIntelligenceIndicators = new ThreatIntelligenceIndicatorsImpl(
-      this
+      this,
     );
-    this.threatIntelligenceIndicatorMetrics = new ThreatIntelligenceIndicatorMetricsImpl(
-      this
+    this.threatIntelligenceIndicatorMetrics =
+      new ThreatIntelligenceIndicatorMetricsImpl(this);
+    this.triggeredAnalyticsRuleRunOperations =
+      new TriggeredAnalyticsRuleRunOperationsImpl(this);
+    this.getTriggeredAnalyticsRuleRuns = new GetTriggeredAnalyticsRuleRunsImpl(
+      this,
     );
+    this.alertRuleOperations = new AlertRuleOperationsImpl(this);
     this.watchlists = new WatchlistsImpl(this);
     this.watchlistItems = new WatchlistItemsImpl(this);
-    this.dataConnectors = new DataConnectorsImpl(this);
-    this.dataConnectorsCheckRequirementsOperations = new DataConnectorsCheckRequirementsOperationsImpl(
-      this
+    this.workspaceManagerAssignments = new WorkspaceManagerAssignmentsImpl(
+      this,
     );
+    this.workspaceManagerAssignmentJobs =
+      new WorkspaceManagerAssignmentJobsImpl(this);
+    this.workspaceManagerConfigurations =
+      new WorkspaceManagerConfigurationsImpl(this);
+    this.workspaceManagerGroups = new WorkspaceManagerGroupsImpl(this);
+    this.workspaceManagerMembers = new WorkspaceManagerMembersImpl(this);
+    this.dataConnectorDefinitions = new DataConnectorDefinitionsImpl(this);
+    this.dataConnectors = new DataConnectorsImpl(this);
+    this.dataConnectorsCheckRequirementsOperations =
+      new DataConnectorsCheckRequirementsOperationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -230,7 +325,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -244,33 +339,98 @@ export class SecurityInsights extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
+  /**
+   * Get geodata for a single IP address
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param enrichmentType Enrichment type
+   * @param ipAddressBody IP address (v4 or v6) to be enriched
+   * @param options The options parameters.
+   */
+  listGeodataByIp(
+    resourceGroupName: string,
+    workspaceName: string,
+    enrichmentType: EnrichmentType,
+    ipAddressBody: EnrichmentIpAddressBody,
+    options?: ListGeodataByIpOptionalParams,
+  ): Promise<ListGeodataByIpResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        enrichmentType,
+        ipAddressBody,
+        options,
+      },
+      listGeodataByIpOperationSpec,
+    );
+  }
+
+  /**
+   * Get whois information for a single domain name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param enrichmentType Enrichment type
+   * @param domainBody Domain name to be enriched. Only domain name is accepted
+   * @param options The options parameters.
+   */
+  listWhoisByDomain(
+    resourceGroupName: string,
+    workspaceName: string,
+    enrichmentType: EnrichmentType,
+    domainBody: EnrichmentDomainBody,
+    options?: ListWhoisByDomainOptionalParams,
+  ): Promise<ListWhoisByDomainResponse> {
+    return this.sendOperationRequest(
+      { resourceGroupName, workspaceName, enrichmentType, domainBody, options },
+      listWhoisByDomainOperationSpec,
+    );
   }
 
   alertRules: AlertRules;
   actions: Actions;
   alertRuleTemplates: AlertRuleTemplates;
   automationRules: AutomationRules;
+  entities: Entities;
   incidents: Incidents;
+  billingStatistics: BillingStatistics;
   bookmarks: Bookmarks;
   bookmarkRelations: BookmarkRelations;
   bookmarkOperations: BookmarkOperations;
+  contentPackages: ContentPackages;
+  contentPackage: ContentPackage;
+  productPackages: ProductPackages;
+  productPackage: ProductPackage;
+  productTemplates: ProductTemplates;
+  productTemplate: ProductTemplate;
+  contentTemplates: ContentTemplates;
+  contentTemplate: ContentTemplate;
   iPGeodata: IPGeodata;
   domainWhois: DomainWhois;
-  entities: Entities;
   entitiesGetTimeline: EntitiesGetTimeline;
   entitiesRelations: EntitiesRelations;
   entityRelations: EntityRelations;
   entityQueries: EntityQueries;
   entityQueryTemplates: EntityQueryTemplates;
   fileImports: FileImports;
+  hunts: Hunts;
+  huntRelations: HuntRelations;
+  huntComments: HuntComments;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
+  incidentTasks: IncidentTasks;
   metadata: Metadata;
   officeConsents: OfficeConsents;
   sentinelOnboardingStates: SentinelOnboardingStates;
+  getRecommendations: GetRecommendations;
+  get: Get;
+  update: Update;
+  reevaluate: Reevaluate;
   securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
   productSettings: ProductSettings;
   sourceControlOperations: SourceControlOperations;
@@ -278,9 +438,69 @@ export class SecurityInsights extends coreClient.ServiceClient {
   threatIntelligenceIndicator: ThreatIntelligenceIndicator;
   threatIntelligenceIndicators: ThreatIntelligenceIndicators;
   threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
+  triggeredAnalyticsRuleRunOperations: TriggeredAnalyticsRuleRunOperations;
+  getTriggeredAnalyticsRuleRuns: GetTriggeredAnalyticsRuleRuns;
+  alertRuleOperations: AlertRuleOperations;
   watchlists: Watchlists;
   watchlistItems: WatchlistItems;
+  workspaceManagerAssignments: WorkspaceManagerAssignments;
+  workspaceManagerAssignmentJobs: WorkspaceManagerAssignmentJobs;
+  workspaceManagerConfigurations: WorkspaceManagerConfigurations;
+  workspaceManagerGroups: WorkspaceManagerGroups;
+  workspaceManagerMembers: WorkspaceManagerMembers;
+  dataConnectorDefinitions: DataConnectorDefinitions;
   dataConnectors: DataConnectors;
   dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
   operations: Operations;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const listGeodataByIpOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/enrichment/{enrichmentType}/listGeodataByIp",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnrichmentIpGeodataAutoGenerated,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.ipAddressBody,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.enrichmentType,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listWhoisByDomainOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/enrichment/{enrichmentType}/listWhoisByDomain",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnrichmentDomainWhois,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.domainBody,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.enrichmentType,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};

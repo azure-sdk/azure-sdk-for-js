@@ -15993,7 +15993,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-/86cc8p5i+7U2ku9ISejz4pq8ntxsnH2h6n53lTSjNTtPNa1nZVCY6zRCWiL3nG7gVte+/o1NoJSY+5+Gz1x+g==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-OB40CWaKiBntB9Q+4gaq0fdckCr/6lCttOag8uwXdm/oy/JL6mA9lPcf5ZaY+Gvg938q/5zU/EkxB6kIg6Pf/A==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -16006,9 +16006,10 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.14)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
@@ -20064,7 +20065,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-uEhCBBO+t2FK/uNgd2eJYGIbex8VF25jUIC7u7XH5XAppDQzxRTQn28i600weYE6zfM0iv14+pC0Db9w+tGayg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-obXb6vm/bNL9CLo3VIhpsCeY0v9qbzpa8/iCAGWGHLQCqiKrC38nOBVU86j6McQhLyTeviWOz04ax4b0w2Df8g==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20100,8 +20101,6 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.14)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:

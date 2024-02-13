@@ -15,7 +15,7 @@ import {
   WatchlistsDeleteOptionalParams,
   WatchlistsDeleteResponse,
   WatchlistsCreateOrUpdateOptionalParams,
-  WatchlistsCreateOrUpdateResponse
+  WatchlistsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Watchlists {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WatchlistsListOptionalParams
+    options?: WatchlistsListOptionalParams,
   ): PagedAsyncIterableIterator<Watchlist>;
   /**
    * Gets a watchlist, without its watchlist items.
@@ -43,7 +43,7 @@ export interface Watchlists {
     resourceGroupName: string,
     workspaceName: string,
     watchlistAlias: string,
-    options?: WatchlistsGetOptionalParams
+    options?: WatchlistsGetOptionalParams,
   ): Promise<WatchlistsGetResponse>;
   /**
    * Delete a watchlist.
@@ -56,7 +56,7 @@ export interface Watchlists {
     resourceGroupName: string,
     workspaceName: string,
     watchlistAlias: string,
-    options?: WatchlistsDeleteOptionalParams
+    options?: WatchlistsDeleteOptionalParams,
   ): Promise<WatchlistsDeleteResponse>;
   /**
    * Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content
@@ -76,6 +76,6 @@ export interface Watchlists {
     workspaceName: string,
     watchlistAlias: string,
     watchlist: Watchlist,
-    options?: WatchlistsCreateOrUpdateOptionalParams
+    options?: WatchlistsCreateOrUpdateOptionalParams,
   ): Promise<WatchlistsCreateOrUpdateResponse>;
 }
