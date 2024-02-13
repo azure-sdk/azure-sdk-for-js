@@ -9,61 +9,61 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Module,
-  ModuleListByAutomationAccountOptionalParams,
-  ModuleDeleteOptionalParams,
-  ModuleGetOptionalParams,
-  ModuleGetResponse,
+  PowerShell72ModuleListByAutomationAccountOptionalParams,
+  PowerShell72ModuleDeleteOptionalParams,
+  PowerShell72ModuleGetOptionalParams,
+  PowerShell72ModuleGetResponse,
   ModuleCreateOrUpdateParameters,
-  ModuleCreateOrUpdateOptionalParams,
-  ModuleCreateOrUpdateResponse,
+  PowerShell72ModuleCreateOrUpdateOptionalParams,
+  PowerShell72ModuleCreateOrUpdateResponse,
   ModuleUpdateParameters,
-  ModuleUpdateOptionalParams,
-  ModuleUpdateResponse,
+  PowerShell72ModuleUpdateOptionalParams,
+  PowerShell72ModuleUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ModuleOperations. */
-export interface ModuleOperations {
+/** Interface representing a PowerShell72Module. */
+export interface PowerShell72Module {
   /**
-   * Retrieve a list of modules.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Retrieve a list of PowerShell72 modules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
    */
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Module>;
   /**
    * Delete the module by name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param moduleName The name of module.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ModuleDeleteOptionalParams,
+    options?: PowerShell72ModuleDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the module identified by module name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param moduleName The name of module.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ModuleGetOptionalParams,
-  ): Promise<ModuleGetResponse>;
+    options?: PowerShell72ModuleGetOptionalParams,
+  ): Promise<PowerShell72ModuleGetResponse>;
   /**
    * Create or Update the module identified by module name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param moduleName The name of module.
    * @param parameters The create or update parameters for module.
@@ -74,11 +74,11 @@ export interface ModuleOperations {
     automationAccountName: string,
     moduleName: string,
     parameters: ModuleCreateOrUpdateParameters,
-    options?: ModuleCreateOrUpdateOptionalParams,
-  ): Promise<ModuleCreateOrUpdateResponse>;
+    options?: PowerShell72ModuleCreateOrUpdateOptionalParams,
+  ): Promise<PowerShell72ModuleCreateOrUpdateResponse>;
   /**
    * Update the module identified by module name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param moduleName The name of module.
    * @param parameters The update parameters for module.
@@ -89,6 +89,6 @@ export interface ModuleOperations {
     automationAccountName: string,
     moduleName: string,
     parameters: ModuleUpdateParameters,
-    options?: ModuleUpdateOptionalParams,
-  ): Promise<ModuleUpdateResponse>;
+    options?: PowerShell72ModuleUpdateOptionalParams,
+  ): Promise<PowerShell72ModuleUpdateResponse>;
 }

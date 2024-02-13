@@ -15,7 +15,7 @@ import { AutomationClient } from "../automationClient";
 import {
   Statistics,
   StatisticsListByAutomationAccountOptionalParams,
-  StatisticsListByAutomationAccountResponse
+  StatisticsListByAutomationAccountResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +40,12 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: StatisticsListByAutomationAccountOptionalParams
+    options?: StatisticsListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Statistics> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +62,9 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,13 +72,13 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
     resourceGroupName: string,
     automationAccountName: string,
     options?: StatisticsListByAutomationAccountOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Statistics[]> {
     let result: StatisticsListByAutomationAccountResponse;
     result = await this._listByAutomationAccount(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -86,12 +86,12 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: StatisticsListByAutomationAccountOptionalParams
+    options?: StatisticsListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<Statistics> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -106,11 +106,11 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: StatisticsListByAutomationAccountOptionalParams
+    options?: StatisticsListByAutomationAccountOptionalParams,
   ): Promise<StatisticsListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 }
@@ -118,24 +118,23 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/statistics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/statistics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StatisticsListResult
+      bodyMapper: Mappers.StatisticsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

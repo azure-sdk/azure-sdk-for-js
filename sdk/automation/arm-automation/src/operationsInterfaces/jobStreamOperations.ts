@@ -11,7 +11,7 @@ import {
   JobStream,
   JobStreamListByJobOptionalParams,
   JobStreamGetOptionalParams,
-  JobStreamGetResponse
+  JobStreamGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface JobStreamOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobStreamListByJobOptionalParams
+    options?: JobStreamListByJobOptionalParams,
   ): PagedAsyncIterableIterator<JobStream>;
   /**
    * Retrieve the job stream identified by job stream id.
@@ -43,6 +43,6 @@ export interface JobStreamOperations {
     automationAccountName: string,
     jobName: string,
     jobStreamId: string,
-    options?: JobStreamGetOptionalParams
+    options?: JobStreamGetOptionalParams,
   ): Promise<JobStreamGetResponse>;
 }

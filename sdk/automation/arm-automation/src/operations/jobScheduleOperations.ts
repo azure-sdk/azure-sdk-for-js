@@ -24,7 +24,7 @@ import {
   JobScheduleCreateParameters,
   JobScheduleCreateOptionalParams,
   JobScheduleCreateResponse,
-  JobScheduleListByAutomationAccountNextResponse
+  JobScheduleListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,12 +49,12 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: JobScheduleListByAutomationAccountOptionalParams
+    options?: JobScheduleListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<JobSchedule> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     options?: JobScheduleListByAutomationAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobSchedule[]> {
     let result: JobScheduleListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
       result = await this._listByAutomationAccount(
         resourceGroupName,
         automationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +101,7 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
         resourceGroupName,
         automationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: JobScheduleListByAutomationAccountOptionalParams
+    options?: JobScheduleListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<JobSchedule> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +135,11 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobScheduleId: string,
-    options?: JobScheduleDeleteOptionalParams
+    options?: JobScheduleDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, jobScheduleId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobScheduleId: string,
-    options?: JobScheduleGetOptionalParams
+    options?: JobScheduleGetOptionalParams,
   ): Promise<JobScheduleGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, jobScheduleId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,7 +175,7 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
     automationAccountName: string,
     jobScheduleId: string,
     parameters: JobScheduleCreateParameters,
-    options?: JobScheduleCreateOptionalParams
+    options?: JobScheduleCreateOptionalParams,
   ): Promise<JobScheduleCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -183,9 +183,9 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
         automationAccountName,
         jobScheduleId,
         parameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -198,11 +198,11 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: JobScheduleListByAutomationAccountOptionalParams
+    options?: JobScheduleListByAutomationAccountOptionalParams,
   ): Promise<JobScheduleListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 
@@ -218,11 +218,11 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: JobScheduleListByAutomationAccountNextOptionalParams
+    options?: JobScheduleListByAutomationAccountNextOptionalParams,
   ): Promise<JobScheduleListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
-      listByAutomationAccountNextOperationSpec
+      listByAutomationAccountNextOperationSpec,
     );
   }
 }
@@ -230,114 +230,110 @@ export class JobScheduleOperationsImpl implements JobScheduleOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.jobScheduleId
+    Parameters.jobScheduleId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobSchedule
+      bodyMapper: Mappers.JobSchedule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.jobScheduleId
+    Parameters.jobScheduleId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules/{jobScheduleId}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.JobSchedule
+      bodyMapper: Mappers.JobSchedule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters18,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters23,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.jobScheduleId
+    Parameters.jobScheduleId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobSchedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobScheduleListResult
+      bodyMapper: Mappers.JobScheduleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobScheduleListResult
+      bodyMapper: Mappers.JobScheduleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
