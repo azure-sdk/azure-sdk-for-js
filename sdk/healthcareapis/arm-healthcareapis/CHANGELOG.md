@@ -1,15 +1,16 @@
 # Release History
+    
+## 3.1.0 (2024-02-13)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface SmartIdentityProviderApplication
+  - Added Interface SmartIdentityProviderConfiguration
+  - Added Type Alias SmartDataActions
+  - Interface FhirServiceAuthenticationConfiguration has a new optional parameter smartIdentityProviders
+  - Added Enum KnownSmartDataActions
+    
+    
 ## 3.0.0 (2023-12-07)
     
 **Features**
