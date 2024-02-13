@@ -161,7 +161,7 @@ export interface AnalyzeDocumentQueryParamProperties {
 
 // @public
 export interface AnalyzeDocumentRequest {
-    base64Source?: string;
+    bytesSource?: string;
     urlSource?: string;
 }
 
@@ -486,7 +486,7 @@ export interface ClassifyDocumentQueryParamProperties {
 
 // @public
 export interface ClassifyDocumentRequest {
-    base64Source?: string;
+    bytesSource?: string;
     urlSource?: string;
 }
 
@@ -1209,7 +1209,7 @@ export interface InnerErrorOutput {
 export function isUnexpected(response: ListOperations200Response | ListOperationsDefaultResponse): response is ListOperationsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse): response is GetDocumentModelBuildOperationDefaultResponse;
+export function isUnexpected(response: GetDocumentModelBuildOperation200Response | GetDocumentModelComposeOperation200Response | GetDocumentModelCopyToOperation200Response | GetDocumentClassifierBuildOperation200Response | GetOperation200Response | GetDocumentModelBuildOperationDefaultResponse): response is GetDocumentModelBuildOperationDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetResourceInfo200Response | GetResourceInfoDefaultResponse): response is GetResourceInfoDefaultResponse;
@@ -1218,7 +1218,7 @@ export function isUnexpected(response: GetResourceInfo200Response | GetResourceI
 export function isUnexpected(response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse): response is GetAnalyzeResultDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse): response is AnalyzeDocumentFromStreamDefaultResponse;
+export function isUnexpected(response: AnalyzeDocumentFromStream202Response | AnalyzeDocument202Response | AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse): response is AnalyzeDocumentFromStreamDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetModel200Response | GetModelDefaultResponse): response is GetModelDefaultResponse;
@@ -1254,7 +1254,7 @@ export function isUnexpected(response: GetClassifier200Response | GetClassifierD
 export function isUnexpected(response: DeleteClassifier204Response | DeleteClassifierDefaultResponse): response is DeleteClassifierDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse): response is ClassifyDocumentFromStreamDefaultResponse;
+export function isUnexpected(response: ClassifyDocumentFromStream202Response | ClassifyDocument202Response | ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentLogicalResponse | ClassifyDocumentFromStreamDefaultResponse): response is ClassifyDocumentFromStreamDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetClassifyResult200Response | GetClassifyResultDefaultResponse): response is GetClassifyResultDefaultResponse;
@@ -1332,7 +1332,7 @@ export interface ListOperationsDefaultResponse extends HttpResponse {
 export type ListOperationsParameters = RequestParameters;
 
 // @public
-export type OperationDetailsOutput = DocumentModelBuildOperationDetailsOutput | DocumentModelComposeOperationDetailsOutput | DocumentModelCopyToOperationDetailsOutput | DocumentClassifierBuildOperationDetailsOutput;
+export type OperationDetailsOutput = OperationDetailsOutputParent | DocumentModelBuildOperationDetailsOutput | DocumentModelComposeOperationDetailsOutput | DocumentModelCopyToOperationDetailsOutput | DocumentClassifierBuildOperationDetailsOutput;
 
 // @public
 export interface OperationDetailsOutputParent {

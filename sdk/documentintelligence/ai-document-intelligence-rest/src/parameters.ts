@@ -27,7 +27,11 @@ export interface AnalyzeDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AnalyzeDocumentFromStreamQueryParamProperties {
@@ -41,7 +45,7 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
   stringIndexType?: string;
   /** List of optional analysis features. */
@@ -51,7 +55,7 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
   /**
    * Format of the analyze result top-level content.
    *
-   * Possible values: text, markdown
+   * Possible values: "text", "markdown"
    */
   outputContentFormat?: string;
 }
@@ -76,10 +80,11 @@ export interface AnalyzeDocumentFromStreamMediaTypesParam {
     | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 }
 
-export type AnalyzeDocumentFromStreamParameters = AnalyzeDocumentFromStreamQueryParam &
-  AnalyzeDocumentFromStreamMediaTypesParam &
-  AnalyzeDocumentFromStreamBodyParam &
-  RequestParameters;
+export type AnalyzeDocumentFromStreamParameters =
+  AnalyzeDocumentFromStreamQueryParam &
+    AnalyzeDocumentFromStreamMediaTypesParam &
+    AnalyzeDocumentFromStreamBodyParam &
+    RequestParameters;
 
 export interface AnalyzeDocumentBodyParam {
   /** Analyze request parameters. */
@@ -97,7 +102,7 @@ export interface AnalyzeDocumentQueryParamProperties {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
   stringIndexType?: string;
   /** List of optional analysis features. */
@@ -107,7 +112,7 @@ export interface AnalyzeDocumentQueryParamProperties {
   /**
    * Format of the analyze result top-level content.
    *
-   * Possible values: text, markdown
+   * Possible values: "text", "markdown"
    */
   outputContentFormat?: string;
 }
@@ -146,7 +151,8 @@ export interface AuthorizeModelCopyBodyParam {
   body: AuthorizeCopyRequest;
 }
 
-export type AuthorizeModelCopyParameters = AuthorizeModelCopyBodyParam & RequestParameters;
+export type AuthorizeModelCopyParameters = AuthorizeModelCopyBodyParam &
+  RequestParameters;
 
 export interface CopyModelToBodyParam {
   /** Copy to request parameters. */
@@ -162,7 +168,8 @@ export interface BuildClassifierBodyParam {
   body: BuildDocumentClassifierRequest;
 }
 
-export type BuildClassifierParameters = BuildClassifierBodyParam & RequestParameters;
+export type BuildClassifierParameters = BuildClassifierBodyParam &
+  RequestParameters;
 export type ListClassifiersParameters = RequestParameters;
 export type GetClassifierParameters = RequestParameters;
 export type DeleteClassifierParameters = RequestParameters;
@@ -173,20 +180,24 @@ export interface ClassifyDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface ClassifyDocumentFromStreamQueryParamProperties {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
   stringIndexType?: string;
   /**
    * Document splitting mode.
    *
-   * Possible values: auto, none, perPage
+   * Possible values: "auto", "none", "perPage"
    */
   split?: string;
 }
@@ -211,10 +222,11 @@ export interface ClassifyDocumentFromStreamMediaTypesParam {
     | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 }
 
-export type ClassifyDocumentFromStreamParameters = ClassifyDocumentFromStreamQueryParam &
-  ClassifyDocumentFromStreamMediaTypesParam &
-  ClassifyDocumentFromStreamBodyParam &
-  RequestParameters;
+export type ClassifyDocumentFromStreamParameters =
+  ClassifyDocumentFromStreamQueryParam &
+    ClassifyDocumentFromStreamMediaTypesParam &
+    ClassifyDocumentFromStreamBodyParam &
+    RequestParameters;
 
 export interface ClassifyDocumentBodyParam {
   /** Classify request parameters. */
@@ -225,13 +237,13 @@ export interface ClassifyDocumentQueryParamProperties {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
   stringIndexType?: string;
   /**
    * Document splitting mode.
    *
-   * Possible values: auto, none, perPage
+   * Possible values: "auto", "none", "perPage"
    */
   split?: string;
 }

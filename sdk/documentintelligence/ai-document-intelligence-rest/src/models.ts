@@ -22,7 +22,7 @@ export interface ClassifierDocumentTypeDetails {
   /**
    * Type of training data source.
    *
-   * Possible values: url, base64, azureBlob, azureBlobFileList
+   * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
    */
   sourceKind?: string;
   /**
@@ -41,13 +41,13 @@ export interface ClassifierDocumentTypeDetails {
 
 /** Document analysis parameters. */
 export interface AnalyzeDocumentRequest {
-  /** Document URL to analyze.  Either urlSource or base64Source must be specified. */
+  /** Document URL to analyze.  Either urlSource or bytesSource must be specified. */
   urlSource?: string;
   /**
-   * Base64 encoding of the document to analyze.  Either urlSource or base64Source
+   * Document bytes to analyze.  Either urlSource or bytesSource
    * must be specified.
    */
-  base64Source?: string;
+  bytesSource?: string;
 }
 
 /** Request body to build a new custom document model. */
@@ -59,7 +59,7 @@ export interface BuildDocumentModelRequest {
   /**
    * Custom document model build mode.
    *
-   * Possible values: template, neural
+   * Possible values: "template", "neural"
    */
   buildMode: string;
   /**
@@ -138,11 +138,11 @@ export interface BuildDocumentClassifierRequest {
 
 /** Document classification parameters. */
 export interface ClassifyDocumentRequest {
-  /** Document URL to classify.  Either urlSource or base64Source must be specified. */
+  /** Document URL to classify.  Either urlSource or bytesSource must be specified. */
   urlSource?: string;
   /**
-   * Base64 encoding of the document to classify.  Either urlSource or base64Source
+   * Document bytes to classify.  Either urlSource or bytesSource
    * must be specified.
    */
-  base64Source?: string;
+  bytesSource?: string;
 }
