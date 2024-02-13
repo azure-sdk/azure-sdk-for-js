@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ThreatIntelligenceInformationUnion,
-  ThreatIntelligenceIndicatorsListOptionalParams
+  ThreatIntelligenceIndicatorsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface ThreatIntelligenceIndicators {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorsListOptionalParams
+    options?: ThreatIntelligenceIndicatorsListOptionalParams,
   ): PagedAsyncIterableIterator<ThreatIntelligenceInformationUnion>;
 }

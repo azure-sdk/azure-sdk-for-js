@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FileImport,
   FileImportsListOptionalParams,
@@ -16,7 +16,7 @@ import {
   FileImportsCreateOptionalParams,
   FileImportsCreateResponse,
   FileImportsDeleteOptionalParams,
-  FileImportsDeleteResponse
+  FileImportsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface FileImports {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FileImportsListOptionalParams
+    options?: FileImportsListOptionalParams,
   ): PagedAsyncIterableIterator<FileImport>;
   /**
    * Gets a file import.
@@ -44,7 +44,7 @@ export interface FileImports {
     resourceGroupName: string,
     workspaceName: string,
     fileImportId: string,
-    options?: FileImportsGetOptionalParams
+    options?: FileImportsGetOptionalParams,
   ): Promise<FileImportsGetResponse>;
   /**
    * Creates the file import.
@@ -59,7 +59,7 @@ export interface FileImports {
     workspaceName: string,
     fileImportId: string,
     fileImport: FileImport,
-    options?: FileImportsCreateOptionalParams
+    options?: FileImportsCreateOptionalParams,
   ): Promise<FileImportsCreateResponse>;
   /**
    * Delete the file import.
@@ -72,10 +72,10 @@ export interface FileImports {
     resourceGroupName: string,
     workspaceName: string,
     fileImportId: string,
-    options?: FileImportsDeleteOptionalParams
+    options?: FileImportsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<FileImportsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<FileImportsDeleteResponse>,
       FileImportsDeleteResponse
     >
   >;
@@ -90,6 +90,6 @@ export interface FileImports {
     resourceGroupName: string,
     workspaceName: string,
     fileImportId: string,
-    options?: FileImportsDeleteOptionalParams
+    options?: FileImportsDeleteOptionalParams,
   ): Promise<FileImportsDeleteResponse>;
 }

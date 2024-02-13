@@ -11,7 +11,7 @@ import {
   AlertRuleTemplateUnion,
   AlertRuleTemplatesListOptionalParams,
   AlertRuleTemplatesGetOptionalParams,
-  AlertRuleTemplatesGetResponse
+  AlertRuleTemplatesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface AlertRuleTemplates {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRuleTemplatesListOptionalParams
+    options?: AlertRuleTemplatesListOptionalParams,
   ): PagedAsyncIterableIterator<AlertRuleTemplateUnion>;
   /**
    * Gets the alert rule template.
@@ -39,6 +39,6 @@ export interface AlertRuleTemplates {
     resourceGroupName: string,
     workspaceName: string,
     alertRuleTemplateId: string,
-    options?: AlertRuleTemplatesGetOptionalParams
+    options?: AlertRuleTemplatesGetOptionalParams,
   ): Promise<AlertRuleTemplatesGetResponse>;
 }

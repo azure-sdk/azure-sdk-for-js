@@ -25,7 +25,7 @@ import {
   IncidentsCreateOrUpdateOptionalParams,
   IncidentsCreateOrUpdateResponse,
   IncidentsDeleteOptionalParams,
-  TeamProperties,
+  TeamInformation,
   IncidentsCreateTeamOptionalParams,
   IncidentsCreateTeamResponse,
   IncidentsListAlertsOptionalParams,
@@ -34,7 +34,7 @@ import {
   IncidentsListBookmarksResponse,
   IncidentsListEntitiesOptionalParams,
   IncidentsListEntitiesResponse,
-  IncidentsListNextResponse
+  IncidentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class IncidentsImpl implements Incidents {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IncidentsListOptionalParams
+    options?: IncidentsListOptionalParams,
   ): PagedAsyncIterableIterator<Incident> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -77,9 +77,9 @@ export class IncidentsImpl implements Incidents {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     options?: IncidentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Incident[]> {
     let result: IncidentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class IncidentsImpl implements Incidents {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class IncidentsImpl implements Incidents {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IncidentsListOptionalParams
+    options?: IncidentsListOptionalParams,
   ): AsyncIterableIterator<Incident> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentIdentifier: string,
-    options?: IncidentsRunPlaybookOptionalParams
+    options?: IncidentsRunPlaybookOptionalParams,
   ): Promise<IncidentsRunPlaybookResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentIdentifier, options },
-      runPlaybookOperationSpec
+      runPlaybookOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class IncidentsImpl implements Incidents {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IncidentsListOptionalParams
+    options?: IncidentsListOptionalParams,
   ): Promise<IncidentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsGetOptionalParams
+    options?: IncidentsGetOptionalParams,
   ): Promise<IncidentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -194,11 +194,11 @@ export class IncidentsImpl implements Incidents {
     workspaceName: string,
     incidentId: string,
     incident: Incident,
-    options?: IncidentsCreateOrUpdateOptionalParams
+    options?: IncidentsCreateOrUpdateOptionalParams,
   ): Promise<IncidentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, incident, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -213,11 +213,11 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsDeleteOptionalParams
+    options?: IncidentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -234,12 +234,12 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    teamProperties: TeamProperties,
-    options?: IncidentsCreateTeamOptionalParams
+    teamProperties: TeamInformation,
+    options?: IncidentsCreateTeamOptionalParams,
   ): Promise<IncidentsCreateTeamResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, teamProperties, options },
-      createTeamOperationSpec
+      createTeamOperationSpec,
     );
   }
 
@@ -254,11 +254,11 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsListAlertsOptionalParams
+    options?: IncidentsListAlertsOptionalParams,
   ): Promise<IncidentsListAlertsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, options },
-      listAlertsOperationSpec
+      listAlertsOperationSpec,
     );
   }
 
@@ -273,11 +273,11 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsListBookmarksOptionalParams
+    options?: IncidentsListBookmarksOptionalParams,
   ): Promise<IncidentsListBookmarksResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, options },
-      listBookmarksOperationSpec
+      listBookmarksOperationSpec,
     );
   }
 
@@ -292,11 +292,11 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsListEntitiesOptionalParams
+    options?: IncidentsListEntitiesOptionalParams,
   ): Promise<IncidentsListEntitiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, options },
-      listEntitiesOperationSpec
+      listEntitiesOperationSpec,
     );
   }
 
@@ -311,11 +311,11 @@ export class IncidentsImpl implements Incidents {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: IncidentsListNextOptionalParams
+    options?: IncidentsListNextOptionalParams,
   ): Promise<IncidentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -323,71 +323,68 @@ export class IncidentsImpl implements Incidents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const runPlaybookOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentIdentifier}/runPlaybook",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentIdentifier}/runPlaybook",
   httpMethod: "POST",
   responses: {
     204: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.requestBody,
+  requestBody: Parameters.requestBody1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentIdentifier
+    Parameters.incidentIdentifier,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentList
+      bodyMapper: Mappers.IncidentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Incident
+      bodyMapper: Mappers.Incident,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -395,25 +392,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Incident
+      bodyMapper: Mappers.Incident,
     },
     201: {
-      bodyMapper: Mappers.Incident
+      bodyMapper: Mappers.Incident,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.incident,
   queryParameters: [Parameters.apiVersion],
@@ -422,22 +418,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -445,22 +440,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createTeamOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/createTeam",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/createTeam",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TeamInformation
+      bodyMapper: Mappers.TeamInformation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.teamProperties,
   queryParameters: [Parameters.apiVersion],
@@ -469,23 +463,22 @@ const createTeamOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listAlertsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/alerts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/alerts",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentAlertList
+      bodyMapper: Mappers.IncidentAlertList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -493,22 +486,21 @@ const listAlertsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBookmarksOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/bookmarks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/bookmarks",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentBookmarkList
+      bodyMapper: Mappers.IncidentBookmarkList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -516,22 +508,21 @@ const listBookmarksOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listEntitiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/entities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/entities",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentEntitiesResponse
+      bodyMapper: Mappers.IncidentEntitiesResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -539,29 +530,29 @@ const listEntitiesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentList
+      bodyMapper: Mappers.IncidentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
