@@ -11,6 +11,52 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface AnalysisCreate {
+    // (undocumented)
+    config: AnalysisCreateConfig;
+}
+
+// @public (undocumented)
+export interface AnalysisCreateConfig {
+    // (undocumented)
+    files?: NginxConfigurationFile[];
+    // (undocumented)
+    package?: NginxConfigurationPackage;
+    // (undocumented)
+    protectedFiles?: NginxConfigurationFile[];
+    rootFile?: string;
+}
+
+// @public
+export interface AnalysisError {
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    directive: string;
+    file: string;
+    id?: string;
+    // (undocumented)
+    line: number;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    rule: string;
+}
+
+// @public
+export interface AnalysisResult {
+    // (undocumented)
+    data?: AnalysisResultData;
+    status: string;
+}
+
+// @public (undocumented)
+export interface AnalysisResultData {
+    // (undocumented)
+    errors?: AnalysisError[];
+}
+
+// @public
 export interface Certificates {
     beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CertificatesCreateOrUpdateResponse>, CertificatesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
@@ -59,6 +105,7 @@ export type CertificatesListResponse = NginxCertificateListResponse;
 
 // @public
 export interface Configurations {
+    analysis(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsAnalysisOptionalParams): Promise<ConfigurationsAnalysisResponse>;
     beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationsCreateOrUpdateResponse>, ConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<ConfigurationsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -66,6 +113,14 @@ export interface Configurations {
     get(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsGetOptionalParams): Promise<ConfigurationsGetResponse>;
     list(resourceGroupName: string, deploymentName: string, options?: ConfigurationsListOptionalParams): PagedAsyncIterableIterator<NginxConfiguration>;
 }
+
+// @public
+export interface ConfigurationsAnalysisOptionalParams extends coreClient.OperationOptions {
+    body?: AnalysisCreate;
+}
+
+// @public
+export type ConfigurationsAnalysisResponse = AnalysisResult;
 
 // @public
 export interface ConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -183,16 +238,19 @@ export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOpt
 // @public
 export type DeploymentsUpdateResponse = NginxDeployment;
 
-// @public (undocumented)
-export interface ErrorResponseBody {
-    // (undocumented)
-    code?: string;
-    // (undocumented)
-    details?: ErrorResponseBody[];
-    // (undocumented)
-    message?: string;
-    // (undocumented)
-    target?: string;
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -260,6 +318,14 @@ export interface NginxCertificate {
 }
 
 // @public (undocumented)
+export interface NginxCertificateErrorResponseBody {
+    // (undocumented)
+    code?: string;
+    // (undocumented)
+    message?: string;
+}
+
+// @public (undocumented)
 export interface NginxCertificateListResponse {
     // (undocumented)
     nextLink?: string;
@@ -270,12 +336,17 @@ export interface NginxCertificateListResponse {
 // @public (undocumented)
 export interface NginxCertificateProperties {
     // (undocumented)
+    certificateError?: NginxCertificateErrorResponseBody;
+    // (undocumented)
     certificateVirtualPath?: string;
+    readonly keyVaultSecretCreated?: Date;
     // (undocumented)
     keyVaultSecretId?: string;
+    readonly keyVaultSecretVersion?: string;
     // (undocumented)
     keyVirtualPath?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly sha1Thumbprint?: string;
 }
 
 // @public (undocumented)
@@ -534,8 +605,7 @@ export type ProvisioningState = string;
 
 // @public (undocumented)
 export interface ResourceProviderDefaultErrorResponse {
-    // (undocumented)
-    error?: ErrorResponseBody;
+    error?: ErrorDetail;
 }
 
 // @public (undocumented)
