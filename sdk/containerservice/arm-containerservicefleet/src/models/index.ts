@@ -129,6 +129,49 @@ export interface FleetListResult {
   nextLink?: string;
 }
 
+/** The FleetHubProfile configures the fleet hub. */
+export interface FleetHubProfile {
+  /** DNS prefix used to create the FQDN for the Fleet hub. */
+  dnsPrefix?: string;
+  /** The access profile for the Fleet hub API server. */
+  apiServerAccessProfile?: APIServerAccessProfile;
+  /** The agent profile for the Fleet hub. */
+  agentProfile?: AgentProfile;
+  /**
+   * The FQDN of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * The Kubernetes version of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * The Azure Portal FQDN of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly portalFqdn?: string;
+}
+
+/** Access profile for the Fleet hub API server. */
+export interface APIServerAccessProfile {
+  /** Whether to create the Fleet hub as a private cluster or not. */
+  enablePrivateCluster?: boolean;
+  /** Whether to enable apiserver vnet integration for the Fleet hub or not. */
+  enableVnetIntegration?: boolean;
+  /** The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new Fleet with BYO vnet. */
+  subnetId?: string;
+}
+
+/** Agent profile for the Fleet hub. */
+export interface AgentProfile {
+  /** The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet and subnet will be generated and used. */
+  subnetId?: string;
+  /** The virtual machine size of the Fleet hub. */
+  vmSize?: string;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
@@ -493,6 +536,8 @@ export interface Fleet extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: FleetProvisioningState;
+  /** The FleetHubProfile configures the Fleet's hub. */
+  hubProfile?: FleetHubProfile;
 }
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
@@ -666,7 +711,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -683,7 +728,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -708,7 +753,7 @@ export enum KnownFleetProvisioningState {
   /** The provisioning state of a fleet being updated. */
   Updating = "Updating",
   /** The provisioning state of a fleet being deleted. */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -734,7 +779,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -758,7 +803,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -786,7 +831,7 @@ export enum KnownFleetMemberProvisioningState {
   /** The provisioning state of a member leaving a fleet. */
   Leaving = "Leaving",
   /** The provisioning state of a member being updated. */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -810,7 +855,7 @@ export enum KnownUpdateRunProvisioningState {
   /** Resource creation failed. */
   Failed = "Failed",
   /** Resource creation was canceled. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -829,7 +874,7 @@ export enum KnownManagedClusterUpgradeType {
   /** Full upgrades the control plane and all agent pools of the target ManagedClusters. */
   Full = "Full",
   /** NodeImageOnly upgrades only the node images of the target ManagedClusters. */
-  NodeImageOnly = "NodeImageOnly"
+  NodeImageOnly = "NodeImageOnly",
 }
 
 /**
@@ -847,7 +892,7 @@ export enum KnownNodeImageSelectionType {
   /** Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. */
   Latest = "Latest",
   /** The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. */
-  Consistent = "Consistent"
+  Consistent = "Consistent",
 }
 
 /**
@@ -875,7 +920,7 @@ export enum KnownUpdateState {
   /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has failed. */
   Failed = "Failed",
   /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has completed. */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -900,7 +945,7 @@ export enum KnownFleetUpdateStrategyProvisioningState {
   /** Resource creation failed. */
   Failed = "Failed",
   /** Resource creation was canceled. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -1153,7 +1198,8 @@ export interface FleetUpdateStrategiesListByFleetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFleet operation. */
-export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
+export type FleetUpdateStrategiesListByFleetResponse =
+  FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
 export interface FleetUpdateStrategiesGetOptionalParams
@@ -1194,7 +1240,8 @@ export interface FleetUpdateStrategiesListByFleetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFleetNext operation. */
-export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
+export type FleetUpdateStrategiesListByFleetNextResponse =
+  FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceFleetClientOptionalParams
