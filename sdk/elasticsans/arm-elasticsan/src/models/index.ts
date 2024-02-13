@@ -202,76 +202,12 @@ export interface ElasticSanList {
   readonly nextLink?: string;
 }
 
-/** Elastic San response properties. */
-export interface ElasticSanProperties {
-  /** resource sku */
-  sku: Sku;
-  /** Logical zone for Elastic San resource; example: ["1"]. */
-  availabilityZones?: string[];
-  /**
-   * State of the operation on the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStates;
-  /** Base size of the Elastic San appliance in TiB. */
-  baseSizeTiB: number;
-  /** Extended size of the Elastic San appliance in TiB. */
-  extendedCapacitySizeTiB: number;
-  /**
-   * Total size of the provisioned Volumes in GiB.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalVolumeSizeGiB?: number;
-  /**
-   * Total number of volume groups in this Elastic San appliance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly volumeGroupCount?: number;
-  /**
-   * Total Provisioned IOPS of the Elastic San appliance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalIops?: number;
-  /**
-   * Total Provisioned MBps Elastic San appliance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalMBps?: number;
-  /**
-   * Total size of the Elastic San appliance in TB.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalSizeTiB?: number;
-  /**
-   * The list of Private Endpoint Connections.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess;
-}
-
 /** The SKU name. Required for account creation; optional for update. */
 export interface Sku {
   /** The sku name. */
   name: SkuName;
   /** The sku tier. */
   tier?: SkuTier;
-}
-
-/**  Response for PrivateEndpoint connection properties */
-export interface PrivateEndpointConnectionProperties {
-  /**
-   * Provisioning State of Private Endpoint connection resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStates;
-  /** Private Endpoint resource */
-  privateEndpoint?: PrivateEndpoint;
-  /** Private Link Service Connection State. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /**  List of resources private endpoint is mapped */
-  groupIds?: string[];
 }
 
 /** Response for PrivateEndpoint */
@@ -335,14 +271,8 @@ export interface SystemData {
 
 /** Response for ElasticSan update request. */
 export interface ElasticSanUpdate {
-  /** Properties of ElasticSan. */
-  properties?: ElasticSanUpdateProperties;
   /** Update tags */
   tags?: { [propertyName: string]: string };
-}
-
-/** Elastic San update properties. */
-export interface ElasticSanUpdateProperties {
   /** Base size of the Elastic San appliance in TiB. */
   baseSizeTiB?: number;
   /** Extended size of the Elastic San appliance in TiB. */
@@ -392,28 +322,6 @@ export interface UserAssignedIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
-}
-
-/** VolumeGroup response properties. */
-export interface VolumeGroupProperties {
-  /**
-   * State of the operation on the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStates;
-  /** Type of storage target */
-  protocolType?: StorageTargetType;
-  /** Type of encryption */
-  encryption?: EncryptionType;
-  /** Encryption Properties describing Key Vault and Identity information */
-  encryptionProperties?: EncryptionProperties;
-  /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
-  /**
-   * The list of Private Endpoint Connections.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
 /** The encryption settings on the volume group. */
@@ -473,12 +381,6 @@ export interface VirtualNetworkRule {
 export interface VolumeGroupUpdate {
   /** The identity of the resource. */
   identity?: Identity;
-  /** Properties of VolumeGroup. */
-  properties?: VolumeGroupUpdateProperties;
-}
-
-/** VolumeGroup response properties. */
-export interface VolumeGroupUpdateProperties {
   /** Type of storage target */
   protocolType?: StorageTargetType;
   /** Type of encryption */
@@ -487,31 +389,6 @@ export interface VolumeGroupUpdateProperties {
   encryptionProperties?: EncryptionProperties;
   /** A collection of rules governing the accessibility from specific network locations. */
   networkAcls?: NetworkRuleSet;
-}
-
-/** Volume response properties. */
-export interface VolumeProperties {
-  /**
-   * Unique Id of the volume in GUID format
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly volumeId?: string;
-  /** State of the operation on the resource. */
-  creationData?: SourceCreationData;
-  /** Volume size. */
-  sizeGiB: number;
-  /**
-   * Storage target information
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageTarget?: IscsiTargetInfo;
-  /** Parent resource information. */
-  managedBy?: ManagedByInfo;
-  /**
-   * State of the operation on the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStates;
 }
 
 /** Data source used when creating the volume. */
@@ -556,12 +433,6 @@ export interface ManagedByInfo {
 
 /** Response for Volume request. */
 export interface VolumeUpdate {
-  /** Properties of Volume. */
-  properties?: VolumeUpdateProperties;
-}
-
-/** Volume response properties. */
-export interface VolumeUpdateProperties {
   /** Volume size. */
   sizeGiB?: number;
   /** Parent resource information. */
@@ -601,8 +472,51 @@ export interface PrivateLinkResourceListResult {
   readonly nextLink?: string;
 }
 
-/** Properties of a private link resource. */
-export interface PrivateLinkResourceProperties {
+/** List of Snapshots */
+export interface SnapshotList {
+  /** An array of Snapshot objects. */
+  value?: Snapshot[];
+  /**
+   * URI to fetch the next section of the paginated response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Data used when creating a volume snapshot. */
+export interface SnapshotCreationData {
+  /** Fully qualified resource ID of the volume. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}" */
+  sourceId: string;
+}
+
+/**  Response for PrivateEndpoint Connection object */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * Provisioning State of Private Endpoint connection resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+  /** Private Endpoint resource */
+  privateEndpoint?: PrivateEndpoint;
+  /** Private Link Service Connection State. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**  List of resources private endpoint is mapped */
+  groupIds?: string[];
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** A private link resource */
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -617,19 +531,106 @@ export interface PrivateLinkResourceProperties {
   requiredZoneNames?: string[];
 }
 
-/** List of Snapshots */
-export interface SnapshotList {
-  /** An array of Snapshot objects. */
-  value?: Snapshot[];
+/** Response for ElasticSan request. */
+export interface ElasticSan extends TrackedResource {
+  /** resource sku */
+  sku: Sku;
+  /** Logical zone for Elastic San resource; example: ["1"]. */
+  availabilityZones?: string[];
   /**
-   * URI to fetch the next section of the paginated response.
+   * State of the operation on the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly provisioningState?: ProvisioningStates;
+  /** Base size of the Elastic San appliance in TiB. */
+  baseSizeTiB: number;
+  /** Extended size of the Elastic San appliance in TiB. */
+  extendedCapacitySizeTiB: number;
+  /**
+   * Total size of the provisioned Volumes in GiB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalVolumeSizeGiB?: number;
+  /**
+   * Total number of volume groups in this Elastic San appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly volumeGroupCount?: number;
+  /**
+   * Total Provisioned IOPS of the Elastic San appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalIops?: number;
+  /**
+   * Total Provisioned MBps Elastic San appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalMBps?: number;
+  /**
+   * Total size of the Elastic San appliance in TB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalSizeTiB?: number;
+  /**
+   * The list of Private Endpoint Connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
-/** Properties for Snapshot. */
-export interface SnapshotProperties {
+/** Response for Volume Group request. */
+export interface VolumeGroup extends ProxyResource {
+  /** The identity of the resource. */
+  identity?: Identity;
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+  /** Type of storage target */
+  protocolType?: StorageTargetType;
+  /** Type of encryption */
+  encryption?: EncryptionType;
+  /** Encryption Properties describing Key Vault and Identity information */
+  encryptionProperties?: EncryptionProperties;
+  /** A collection of rules governing the accessibility from specific network locations. */
+  networkAcls?: NetworkRuleSet;
+  /**
+   * The list of Private Endpoint Connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
+/** Response for Volume request. */
+export interface Volume extends ProxyResource {
+  /**
+   * Unique Id of the volume in GUID format
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly volumeId?: string;
+  /** State of the operation on the resource. */
+  creationData?: SourceCreationData;
+  /** Volume size. */
+  sizeGiB: number;
+  /**
+   * Storage target information
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageTarget?: IscsiTargetInfo;
+  /** Parent resource information. */
+  managedBy?: ManagedByInfo;
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+}
+
+/** Response for Volume Snapshot request. */
+export interface Snapshot extends ProxyResource {
   /** Data used when creating a volume snapshot. */
   creationData: SnapshotCreationData;
   /**
@@ -647,61 +648,6 @@ export interface SnapshotProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly volumeName?: string;
-}
-
-/** Data used when creating a volume snapshot. */
-export interface SnapshotCreationData {
-  /** Fully qualified resource ID of the volume. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}" */
-  sourceId: string;
-}
-
-/**  Response for PrivateEndpoint Connection object */
-export interface PrivateEndpointConnection extends Resource {
-  /** Private Endpoint Connection Properties. */
-  properties: PrivateEndpointConnectionProperties;
-}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** A private link resource */
-export interface PrivateLinkResource extends Resource {
-  /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
-}
-
-/** Response for ElasticSan request. */
-export interface ElasticSan extends TrackedResource {
-  /** Properties of ElasticSan. */
-  properties: ElasticSanProperties;
-}
-
-/** Response for Volume Group request. */
-export interface VolumeGroup extends ProxyResource {
-  /** The identity of the resource. */
-  identity?: Identity;
-  /** Properties of VolumeGroup. */
-  properties?: VolumeGroupProperties;
-}
-
-/** Response for Volume request. */
-export interface Volume extends ProxyResource {
-  /** Properties of Volume. */
-  properties: VolumeProperties;
-}
-
-/** Response for Volume Snapshot request. */
-export interface Snapshot extends ProxyResource {
-  /** Properties of Volume Snapshot. */
-  properties: SnapshotProperties;
 }
 
 /** Defines headers for ElasticSans_update operation. */
@@ -751,7 +697,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -768,7 +714,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -785,7 +731,7 @@ export enum KnownSkuName {
   /** Premium locally redundant storage */
   PremiumLRS = "Premium_LRS",
   /** Premium zone redundant storage */
-  PremiumZRS = "Premium_ZRS"
+  PremiumZRS = "Premium_ZRS",
 }
 
 /**
@@ -801,7 +747,7 @@ export type SkuName = string;
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
   /** Premium Tier */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -830,7 +776,7 @@ export enum KnownProvisioningStates {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -858,7 +804,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Failed */
   Failed = "Failed",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -882,7 +828,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -902,7 +848,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -922,7 +868,7 @@ export enum KnownIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -941,7 +887,7 @@ export enum KnownStorageTargetType {
   /** Iscsi */
   Iscsi = "Iscsi",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -959,7 +905,7 @@ export enum KnownEncryptionType {
   /** Volume is encrypted at rest with Platform managed key. It is the default encryption type. */
   EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey",
   /** Volume is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
-  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey"
+  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
 }
 
 /**
@@ -975,7 +921,7 @@ export type EncryptionType = string;
 /** Known values of {@link Action} that the service accepts. */
 export enum KnownAction {
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -998,7 +944,7 @@ export enum KnownVolumeCreateOption {
   /** Disk */
   Disk = "Disk",
   /** DiskRestorePoint */
-  DiskRestorePoint = "DiskRestorePoint"
+  DiskRestorePoint = "DiskRestorePoint",
 }
 
 /**
@@ -1031,7 +977,7 @@ export enum KnownOperationalStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** StoppedDeallocated */
-  StoppedDeallocated = "Stopped (deallocated)"
+  StoppedDeallocated = "Stopped (deallocated)",
 }
 
 /**
@@ -1055,7 +1001,7 @@ export enum KnownXMsDeleteSnapshots {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1073,7 +1019,7 @@ export enum KnownXMsForceDelete {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1291,7 +1237,8 @@ export interface PrivateEndpointConnectionsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1314,14 +1261,16 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByElasticSanOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByElasticSan operation. */
-export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByElasticSanResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface VolumeSnapshotsListByVolumeGroupOptionalParams
