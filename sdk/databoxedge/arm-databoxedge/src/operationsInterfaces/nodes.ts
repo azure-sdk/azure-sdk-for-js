@@ -21,6 +21,6 @@ export interface Nodes {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: NodesListByDataBoxEdgeDeviceOptionalParams
+    options?: NodesListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<Node>;
 }
