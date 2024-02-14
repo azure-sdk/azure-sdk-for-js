@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AvailabilitySet,
   AvailabilitySetsListByResourceGroupOptionalParams,
@@ -17,9 +17,10 @@ import {
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsCreateOrUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
+  AvailabilitySetsDeleteResponse,
   ResourcePatch,
   AvailabilitySetsUpdateOptionalParams,
-  AvailabilitySetsUpdateResponse
+  AvailabilitySetsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,113 +28,118 @@ import {
 export interface AvailabilitySets {
   /**
    * List of AvailabilitySets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AvailabilitySetsListByResourceGroupOptionalParams
+    options?: AvailabilitySetsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
    * List of AvailabilitySets in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
+    options?: AvailabilitySetsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
    * Implements AvailabilitySet GET method.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsGetOptionalParams
+    availabilitySetResourceName: string,
+    options?: AvailabilitySetsGetOptionalParams,
   ): Promise<AvailabilitySetsGetResponse>;
   /**
    * Onboards the ScVmm availability set as an Azure resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body Request payload.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: AvailabilitySet,
-    options?: AvailabilitySetsCreateOrUpdateOptionalParams
+    options?: AvailabilitySetsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsCreateOrUpdateResponse>,
       AvailabilitySetsCreateOrUpdateResponse
     >
   >;
   /**
    * Onboards the ScVmm availability set as an Azure resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body Request payload.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: AvailabilitySet,
-    options?: AvailabilitySetsCreateOrUpdateOptionalParams
+    options?: AvailabilitySetsCreateOrUpdateOptionalParams,
   ): Promise<AvailabilitySetsCreateOrUpdateResponse>;
   /**
    * Deregisters the ScVmm availability set from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    availabilitySetResourceName: string,
+    options?: AvailabilitySetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AvailabilitySetsDeleteResponse>,
+      AvailabilitySetsDeleteResponse
+    >
+  >;
   /**
    * Deregisters the ScVmm availability set from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsDeleteOptionalParams
-  ): Promise<void>;
+    availabilitySetResourceName: string,
+    options?: AvailabilitySetsDeleteOptionalParams,
+  ): Promise<AvailabilitySetsDeleteResponse>;
   /**
    * Updates the AvailabilitySets resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body AvailabilitySets patch payload.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: ResourcePatch,
-    options?: AvailabilitySetsUpdateOptionalParams
+    options?: AvailabilitySetsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsUpdateResponse>,
       AvailabilitySetsUpdateResponse
     >
   >;
   /**
    * Updates the AvailabilitySets resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body AvailabilitySets patch payload.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: ResourcePatch,
-    options?: AvailabilitySetsUpdateOptionalParams
+    options?: AvailabilitySetsUpdateOptionalParams,
   ): Promise<AvailabilitySetsUpdateResponse>;
 }
