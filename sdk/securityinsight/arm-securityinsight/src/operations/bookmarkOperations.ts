@@ -14,7 +14,7 @@ import { SecurityInsights } from "../securityInsights";
 import {
   BookmarkExpandParameters,
   BookmarkExpandOptionalParams,
-  BookmarkExpandOperationResponse
+  BookmarkExpandOperationResponse,
 } from "../models";
 
 /** Class containing BookmarkOperations operations. */
@@ -42,11 +42,11 @@ export class BookmarkOperationsImpl implements BookmarkOperations {
     workspaceName: string,
     bookmarkId: string,
     parameters: BookmarkExpandParameters,
-    options?: BookmarkExpandOptionalParams
+    options?: BookmarkExpandOptionalParams,
   ): Promise<BookmarkExpandOperationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, bookmarkId, parameters, options },
-      expandOperationSpec
+      expandOperationSpec,
     );
   }
 }
@@ -54,27 +54,26 @@ export class BookmarkOperationsImpl implements BookmarkOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const expandOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}/expand",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}/expand",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BookmarkExpandResponse
+      bodyMapper: Mappers.BookmarkExpandResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.bookmarkId
+    Parameters.bookmarkId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

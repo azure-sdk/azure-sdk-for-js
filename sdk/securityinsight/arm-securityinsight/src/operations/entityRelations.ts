@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
   EntityRelationsGetRelationOptionalParams,
-  EntityRelationsGetRelationResponse
+  EntityRelationsGetRelationResponse,
 } from "../models";
 
 /** Class containing EntityRelations operations. */
@@ -41,11 +41,11 @@ export class EntityRelationsImpl implements EntityRelations {
     workspaceName: string,
     entityId: string,
     relationName: string,
-    options?: EntityRelationsGetRelationOptionalParams
+    options?: EntityRelationsGetRelationOptionalParams,
   ): Promise<EntityRelationsGetRelationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, entityId, relationName, options },
-      getRelationOperationSpec
+      getRelationOperationSpec,
     );
   }
 }
@@ -53,16 +53,15 @@ export class EntityRelationsImpl implements EntityRelations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getRelationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/relations/{relationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/relations/{relationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Relation
+      bodyMapper: Mappers.Relation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -70,9 +69,9 @@ const getRelationOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
+    Parameters.entityId,
     Parameters.relationName,
-    Parameters.entityId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

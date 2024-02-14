@@ -19,6 +19,6 @@ export interface IPGeodata {
   get(
     resourceGroupName: string,
     ipAddress: string,
-    options?: IPGeodataGetOptionalParams
+    options?: IPGeodataGetOptionalParams,
   ): Promise<IPGeodataGetResponse>;
 }
