@@ -2230,6 +2230,17 @@ export interface Extension {
 export type FileFormat = string;
 
 // @public
+export interface FilterDefinition {
+    commandLine?: string;
+    processName?: string;
+    runAsElevated?: string;
+    userGroupId?: string;
+    userGroupName?: string;
+    userId?: string;
+    userName?: string;
+}
+
+// @public
 export interface Galleries {
     beginCreateOrUpdate(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
@@ -3470,6 +3481,7 @@ export enum KnownLinuxVMGuestPatchMode {
 // @public
 export enum KnownMode {
     Audit = "Audit",
+    Disabled = "Disabled",
     Enforce = "Enforce"
 }
 
@@ -4592,8 +4604,41 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 // @public
 export interface ProxyAgentSettings {
     enabled?: boolean;
+    // (undocumented)
+    imds?: ProxyAgentSettingsImds;
     keyIncarnationId?: number;
+    // (undocumented)
+    wireserver?: ProxyAgentSettingsWireserver;
+}
+
+// @public (undocumented)
+export interface ProxyAgentSettingsImds {
+    accessControlProfile?: ProxyAgentSettingsImdsAccessControlProfile;
+    accessControlProfileReferenceId?: string;
+    autoUpgradeAccessControlProfile?: boolean;
+}
+
+// @public
+export interface ProxyAgentSettingsImdsAccessControlProfile {
     mode?: Mode;
+    rules?: {
+        [propertyName: string]: RuleDefinition[];
+    };
+}
+
+// @public (undocumented)
+export interface ProxyAgentSettingsWireserver {
+    accessControlProfile?: ProxyAgentSettingsWireserverAccessControlProfile;
+    accessControlProfileReferenceId?: string;
+    autoUpgradeAccessControlProfile?: boolean;
+}
+
+// @public
+export interface ProxyAgentSettingsWireserverAccessControlProfile {
+    mode?: Mode;
+    rules?: {
+        [propertyName: string]: RuleDefinition[];
+    };
 }
 
 // @public
@@ -5162,6 +5207,14 @@ export interface RollingUpgradeStatusInfo extends Resource {
     readonly policy?: RollingUpgradePolicy;
     readonly progress?: RollingUpgradeProgressInfo;
     readonly runningStatus?: RollingUpgradeRunningStatus;
+}
+
+// @public
+export interface RuleDefinition {
+    filters?: FilterDefinition[];
+    queryParameters?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public

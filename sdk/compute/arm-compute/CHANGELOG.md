@@ -1,15 +1,24 @@
 # Release History
+    
+## 22.0.0 (2024-02-14)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
+  - Added Interface FilterDefinition
+  - Added Interface ProxyAgentSettingsImds
+  - Added Interface ProxyAgentSettingsImdsAccessControlProfile
+  - Added Interface ProxyAgentSettingsWireserver
+  - Added Interface ProxyAgentSettingsWireserverAccessControlProfile
+  - Added Interface RuleDefinition
+  - Interface ProxyAgentSettings has a new optional parameter imds
+  - Interface ProxyAgentSettings has a new optional parameter wireserver
+  - Enum KnownMode has a new value Disabled
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ProxyAgentSettings no longer has parameter mode
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**
