@@ -14,12 +14,12 @@ import { AzureOrbital } from "../azureOrbital";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   OperationsResultsGetOptionalParams,
-  OperationsResultsGetResponse
+  OperationsResultsGetResponse,
 } from "../models";
 
 /** Class containing OperationsResults operations. */
@@ -43,7 +43,7 @@ export class OperationsResultsImpl implements OperationsResults {
   async beginGet(
     location: string,
     operationId: string,
-    options?: OperationsResultsGetOptionalParams
+    options?: OperationsResultsGetOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OperationsResultsGetResponse>,
@@ -52,21 +52,20 @@ export class OperationsResultsImpl implements OperationsResults {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OperationsResultsGetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -75,8 +74,8 @@ export class OperationsResultsImpl implements OperationsResults {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -84,15 +83,15 @@ export class OperationsResultsImpl implements OperationsResults {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { location, operationId, options },
-      spec: getOperationSpec
+      spec: getOperationSpec,
     });
     const poller = await createHttpPoller<
       OperationsResultsGetResponse,
@@ -100,7 +99,7 @@ export class OperationsResultsImpl implements OperationsResults {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -115,7 +114,7 @@ export class OperationsResultsImpl implements OperationsResults {
   async beginGetAndWait(
     location: string,
     operationId: string,
-    options?: OperationsResultsGetOptionalParams
+    options?: OperationsResultsGetOptionalParams,
   ): Promise<OperationsResultsGetResponse> {
     const poller = await this.beginGet(location, operationId, options);
     return poller.pollUntilDone();
@@ -125,33 +124,32 @@ export class OperationsResultsImpl implements OperationsResults {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/locations/{location}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/locations/{location}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResult
+      bodyMapper: Mappers.OperationResult,
     },
     201: {
-      bodyMapper: Mappers.OperationResult
+      bodyMapper: Mappers.OperationResult,
     },
     202: {
-      bodyMapper: Mappers.OperationResult
+      bodyMapper: Mappers.OperationResult,
     },
     204: {
-      bodyMapper: Mappers.OperationResult
+      bodyMapper: Mappers.OperationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location2,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

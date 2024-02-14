@@ -9,7 +9,7 @@
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OperationsResultsGetOptionalParams,
-  OperationsResultsGetResponse
+  OperationsResultsGetResponse,
 } from "../models";
 
 /** Interface representing a OperationsResults. */
@@ -23,7 +23,7 @@ export interface OperationsResults {
   beginGet(
     location: string,
     operationId: string,
-    options?: OperationsResultsGetOptionalParams
+    options?: OperationsResultsGetOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OperationsResultsGetResponse>,
@@ -39,6 +39,6 @@ export interface OperationsResults {
   beginGetAndWait(
     location: string,
     operationId: string,
-    options?: OperationsResultsGetOptionalParams
+    options?: OperationsResultsGetOptionalParams,
   ): Promise<OperationsResultsGetResponse>;
 }
