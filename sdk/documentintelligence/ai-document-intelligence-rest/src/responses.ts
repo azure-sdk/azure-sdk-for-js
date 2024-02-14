@@ -32,45 +32,53 @@ export interface ListOperationsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface GetDocumentModelBuildOperation200Response extends HttpResponse {
+export interface GetDocumentModelBuildOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentModelBuildOperationDetailsOutput;
 }
 
-export interface GetDocumentModelBuildOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentModelBuildOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface GetDocumentModelComposeOperation200Response extends HttpResponse {
+export interface GetDocumentModelComposeOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentModelComposeOperationDetailsOutput;
 }
 
-export interface GetDocumentModelComposeOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentModelComposeOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface GetDocumentModelCopyToOperation200Response extends HttpResponse {
+export interface GetDocumentModelCopyToOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentModelCopyToOperationDetailsOutput;
 }
 
-export interface GetDocumentModelCopyToOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentModelCopyToOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface GetDocumentClassifierBuildOperation200Response extends HttpResponse {
+export interface GetDocumentClassifierBuildOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentClassifierBuildOperationDetailsOutput;
 }
 
-export interface GetDocumentClassifierBuildOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentClassifierBuildOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -313,13 +321,15 @@ export interface ClassifyDocumentFromStream202Response extends HttpResponse {
   headers: RawHttpHeaders & ClassifyDocumentFromStream202Headers;
 }
 
-export interface ClassifyDocumentFromStreamDefaultResponse extends HttpResponse {
+export interface ClassifyDocumentFromStreamDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The final response for long-running classifyDocumentFromStream operation */
-export interface ClassifyDocumentFromStreamLogicalResponse extends HttpResponse {
+export interface ClassifyDocumentFromStreamLogicalResponse
+  extends HttpResponse {
   status: "200";
 }
 

@@ -22,7 +22,7 @@ export interface ClassifierDocumentTypeDetails {
   /**
    * Type of training data source.
    *
-   * Possible values: url, base64, azureBlob, azureBlobFileList
+   * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
    */
   sourceKind?: string;
   /**
@@ -59,7 +59,7 @@ export interface BuildDocumentModelRequest {
   /**
    * Custom document model build mode.
    *
-   * Possible values: template, neural
+   * Possible values: "template", "neural"
    */
   buildMode: string;
   /**
