@@ -150,6 +150,9 @@ export interface DNSZoneResponse extends DNSZone {
 }
 
 // @public
+export type EnhancedSecurityState = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -254,6 +257,14 @@ export enum KnownCrossSubscriptionRestoreState {
 }
 
 // @public
+export enum KnownEnhancedSecurityState {
+    AlwaysON = "AlwaysON",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
@@ -342,6 +353,7 @@ export enum KnownSoftDeleteState {
 // @public
 export enum KnownStandardTierStorageRedundancy {
     GeoRedundant = "GeoRedundant",
+    Invalid = "Invalid",
     LocallyRedundant = "LocallyRedundant",
     ZoneRedundant = "ZoneRedundant"
 }
@@ -722,6 +734,8 @@ export type SkuName = string;
 
 // @public
 export interface SoftDeleteSettings {
+    // (undocumented)
+    enhancedSecurityState?: EnhancedSecurityState;
     softDeleteRetentionPeriodInDays?: number;
     // (undocumented)
     softDeleteState?: SoftDeleteState;
@@ -899,8 +913,8 @@ export interface VaultPropertiesMoveDetails {
 
 // @public
 export interface VaultPropertiesRedundancySettings {
-    readonly crossRegionRestore?: CrossRegionRestore;
-    readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
+    crossRegionRestore?: CrossRegionRestore;
+    standardTierStorageRedundancy?: StandardTierStorageRedundancy;
 }
 
 // @public

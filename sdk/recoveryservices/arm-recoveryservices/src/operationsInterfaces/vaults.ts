@@ -19,7 +19,7 @@ import {
   VaultsDeleteOptionalParams,
   PatchVault,
   VaultsUpdateOptionalParams,
-  VaultsUpdateResponse
+  VaultsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Vaults {
    * @param options The options parameters.
    */
   listBySubscriptionId(
-    options?: VaultsListBySubscriptionIdOptionalParams
+    options?: VaultsListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<Vault>;
   /**
    * Retrieve a list of Vaults.
@@ -39,7 +39,7 @@ export interface Vaults {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VaultsListByResourceGroupOptionalParams
+    options?: VaultsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Vault>;
   /**
    * Get the Vault details.
@@ -50,7 +50,7 @@ export interface Vaults {
   get(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultsGetOptionalParams
+    options?: VaultsGetOptionalParams,
   ): Promise<VaultsGetResponse>;
   /**
    * Creates or updates a Recovery Services vault.
@@ -63,7 +63,7 @@ export interface Vaults {
     resourceGroupName: string,
     vaultName: string,
     vault: Vault,
-    options?: VaultsCreateOrUpdateOptionalParams
+    options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VaultsCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface Vaults {
     resourceGroupName: string,
     vaultName: string,
     vault: Vault,
-    options?: VaultsCreateOrUpdateOptionalParams
+    options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<VaultsCreateOrUpdateResponse>;
   /**
    * Deletes a vault.
@@ -92,7 +92,7 @@ export interface Vaults {
   delete(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultsDeleteOptionalParams
+    options?: VaultsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the vault.
@@ -105,7 +105,7 @@ export interface Vaults {
     resourceGroupName: string,
     vaultName: string,
     vault: PatchVault,
-    options?: VaultsUpdateOptionalParams
+    options?: VaultsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
   >;
@@ -120,6 +120,6 @@ export interface Vaults {
     resourceGroupName: string,
     vaultName: string,
     vault: PatchVault,
-    options?: VaultsUpdateOptionalParams
+    options?: VaultsUpdateOptionalParams,
   ): Promise<VaultsUpdateResponse>;
 }
