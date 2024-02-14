@@ -16,7 +16,7 @@ import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementCli
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -45,7 +45,7 @@ import {
   DatabasesForceUnlinkOptionalParams,
   FlushParameters,
   DatabasesFlushOptionalParams,
-  DatabasesListByClusterNextResponse
+  DatabasesListByClusterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,12 +70,12 @@ export class DatabasesImpl implements Databases {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: DatabasesListByClusterOptionalParams
+    options?: DatabasesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Database> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -92,9 +92,9 @@ export class DatabasesImpl implements Databases {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -102,7 +102,7 @@ export class DatabasesImpl implements Databases {
     resourceGroupName: string,
     clusterName: string,
     options?: DatabasesListByClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Database[]> {
     let result: DatabasesListByClusterResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +110,7 @@ export class DatabasesImpl implements Databases {
       result = await this._listByCluster(
         resourceGroupName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -122,7 +122,7 @@ export class DatabasesImpl implements Databases {
         resourceGroupName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -134,12 +134,12 @@ export class DatabasesImpl implements Databases {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: DatabasesListByClusterOptionalParams
+    options?: DatabasesListByClusterOptionalParams,
   ): AsyncIterableIterator<Database> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,11 +154,11 @@ export class DatabasesImpl implements Databases {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: DatabasesListByClusterOptionalParams
+    options?: DatabasesListByClusterOptionalParams,
   ): Promise<DatabasesListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -175,7 +175,7 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOptionalParams
+    options?: DatabasesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesCreateResponse>,
@@ -184,21 +184,20 @@ export class DatabasesImpl implements Databases {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DatabasesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +206,8 @@ export class DatabasesImpl implements Databases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,8 +215,8 @@ export class DatabasesImpl implements Databases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -228,9 +227,9 @@ export class DatabasesImpl implements Databases {
         clusterName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       DatabasesCreateResponse,
@@ -238,7 +237,7 @@ export class DatabasesImpl implements Databases {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -257,14 +256,14 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOptionalParams
+    options?: DatabasesCreateOptionalParams,
   ): Promise<DatabasesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       clusterName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -282,7 +281,7 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUpdate,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesUpdateResponse>,
@@ -291,21 +290,20 @@ export class DatabasesImpl implements Databases {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DatabasesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -314,8 +312,8 @@ export class DatabasesImpl implements Databases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -323,8 +321,8 @@ export class DatabasesImpl implements Databases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -335,9 +333,9 @@ export class DatabasesImpl implements Databases {
         clusterName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DatabasesUpdateResponse,
@@ -345,7 +343,7 @@ export class DatabasesImpl implements Databases {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -364,14 +362,14 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUpdate,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<DatabasesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,11 +385,11 @@ export class DatabasesImpl implements Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesGetOptionalParams
+    options?: DatabasesGetOptionalParams,
   ): Promise<DatabasesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, databaseName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -406,25 +404,24 @@ export class DatabasesImpl implements Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -433,8 +430,8 @@ export class DatabasesImpl implements Databases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -442,20 +439,20 @@ export class DatabasesImpl implements Databases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, databaseName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -472,13 +469,13 @@ export class DatabasesImpl implements Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       databaseName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -494,11 +491,11 @@ export class DatabasesImpl implements Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesListKeysOptionalParams
+    options?: DatabasesListKeysOptionalParams,
   ): Promise<DatabasesListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, databaseName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -515,7 +512,7 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: RegenerateKeyParameters,
-    options?: DatabasesRegenerateKeyOptionalParams
+    options?: DatabasesRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesRegenerateKeyResponse>,
@@ -524,21 +521,20 @@ export class DatabasesImpl implements Databases {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DatabasesRegenerateKeyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -547,8 +543,8 @@ export class DatabasesImpl implements Databases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -556,8 +552,8 @@ export class DatabasesImpl implements Databases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -568,9 +564,9 @@ export class DatabasesImpl implements Databases {
         clusterName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: regenerateKeyOperationSpec
+      spec: regenerateKeyOperationSpec,
     });
     const poller = await createHttpPoller<
       DatabasesRegenerateKeyResponse,
@@ -578,7 +574,7 @@ export class DatabasesImpl implements Databases {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -597,14 +593,14 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: RegenerateKeyParameters,
-    options?: DatabasesRegenerateKeyOptionalParams
+    options?: DatabasesRegenerateKeyOptionalParams,
   ): Promise<DatabasesRegenerateKeyResponse> {
     const poller = await this.beginRegenerateKey(
       resourceGroupName,
       clusterName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -622,25 +618,24 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: ImportClusterParameters,
-    options?: DatabasesImportOptionalParams
+    options?: DatabasesImportOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -649,8 +644,8 @@ export class DatabasesImpl implements Databases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -658,8 +653,8 @@ export class DatabasesImpl implements Databases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -670,14 +665,14 @@ export class DatabasesImpl implements Databases {
         clusterName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: importOperationSpec
+      spec: importOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -696,14 +691,14 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: ImportClusterParameters,
-    options?: DatabasesImportOptionalParams
+    options?: DatabasesImportOptionalParams,
   ): Promise<void> {
     const poller = await this.beginImport(
       resourceGroupName,
       clusterName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -721,25 +716,24 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: ExportClusterParameters,
-    options?: DatabasesExportOptionalParams
+    options?: DatabasesExportOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -748,8 +742,8 @@ export class DatabasesImpl implements Databases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -757,8 +751,8 @@ export class DatabasesImpl implements Databases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -769,14 +763,14 @@ export class DatabasesImpl implements Databases {
         clusterName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: exportOperationSpec
+      spec: exportOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -795,14 +789,14 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: ExportClusterParameters,
-    options?: DatabasesExportOptionalParams
+    options?: DatabasesExportOptionalParams,
   ): Promise<void> {
     const poller = await this.beginExport(
       resourceGroupName,
       clusterName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -820,25 +814,24 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: ForceUnlinkParameters,
-    options?: DatabasesForceUnlinkOptionalParams
+    options?: DatabasesForceUnlinkOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -847,8 +840,8 @@ export class DatabasesImpl implements Databases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -856,8 +849,8 @@ export class DatabasesImpl implements Databases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -868,14 +861,14 @@ export class DatabasesImpl implements Databases {
         clusterName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: forceUnlinkOperationSpec
+      spec: forceUnlinkOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -894,14 +887,14 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: ForceUnlinkParameters,
-    options?: DatabasesForceUnlinkOptionalParams
+    options?: DatabasesForceUnlinkOptionalParams,
   ): Promise<void> {
     const poller = await this.beginForceUnlink(
       resourceGroupName,
       clusterName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -919,25 +912,24 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: FlushParameters,
-    options?: DatabasesFlushOptionalParams
+    options?: DatabasesFlushOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -946,8 +938,8 @@ export class DatabasesImpl implements Databases {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -955,8 +947,8 @@ export class DatabasesImpl implements Databases {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -967,14 +959,14 @@ export class DatabasesImpl implements Databases {
         clusterName,
         databaseName,
         parameters,
-        options
+        options,
       },
-      spec: flushOperationSpec
+      spec: flushOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -993,14 +985,14 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     databaseName: string,
     parameters: FlushParameters,
-    options?: DatabasesFlushOptionalParams
+    options?: DatabasesFlushOptionalParams,
   ): Promise<void> {
     const poller = await this.beginFlush(
       resourceGroupName,
       clusterName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1016,11 +1008,11 @@ export class DatabasesImpl implements Databases {
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: DatabasesListByClusterNextOptionalParams
+    options?: DatabasesListByClusterNextOptionalParams,
   ): Promise<DatabasesListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listByClusterNextOperationSpec
+      listByClusterNextOperationSpec,
     );
   }
 }
@@ -1028,47 +1020,45 @@ export class DatabasesImpl implements Databases {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseList
+      bodyMapper: Mappers.DatabaseList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     201: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     202: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     204: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -1077,32 +1067,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     201: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     202: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     204: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -1111,23 +1100,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Database
+      bodyMapper: Mappers.Database,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1135,14 +1123,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1150,8 +1137,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1159,22 +1146,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1182,31 +1168,30 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/regenerateKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/regenerateKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     201: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     202: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     204: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -1215,15 +1200,14 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const importOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/import",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/import",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1231,8 +1215,8 @@ const importOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -1241,15 +1225,14 @@ const importOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const exportOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/export",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/export",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1257,8 +1240,8 @@ const exportOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -1267,15 +1250,14 @@ const exportOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const forceUnlinkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceUnlink",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceUnlink",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1283,8 +1265,8 @@ const forceUnlinkOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -1293,15 +1275,14 @@ const forceUnlinkOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const flushOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/flush",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/flush",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1309,8 +1290,8 @@ const flushOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -1319,30 +1300,30 @@ const flushOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseList
+      bodyMapper: Mappers.DatabaseList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
