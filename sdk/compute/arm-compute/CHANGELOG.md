@@ -1,15 +1,15 @@
 # Release History
+    
+## 21.5.0 (2024-02-14)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Placement
+  - Added Type Alias ZonePlacementPolicyType
+  - Interface VirtualMachine has a new optional parameter placement
+  - Added Enum KnownZonePlacementPolicyType
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**
