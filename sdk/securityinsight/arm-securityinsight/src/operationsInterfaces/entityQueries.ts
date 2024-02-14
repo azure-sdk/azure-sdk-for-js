@@ -15,7 +15,7 @@ import {
   CustomEntityQueryUnion,
   EntityQueriesCreateOrUpdateOptionalParams,
   EntityQueriesCreateOrUpdateResponse,
-  EntityQueriesDeleteOptionalParams
+  EntityQueriesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface EntityQueries {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams
+    options?: EntityQueriesListOptionalParams,
   ): PagedAsyncIterableIterator<EntityQueryUnion>;
   /**
    * Gets an entity query.
@@ -43,7 +43,7 @@ export interface EntityQueries {
     resourceGroupName: string,
     workspaceName: string,
     entityQueryId: string,
-    options?: EntityQueriesGetOptionalParams
+    options?: EntityQueriesGetOptionalParams,
   ): Promise<EntityQueriesGetResponse>;
   /**
    * Creates or updates the entity query.
@@ -58,7 +58,7 @@ export interface EntityQueries {
     workspaceName: string,
     entityQueryId: string,
     entityQuery: CustomEntityQueryUnion,
-    options?: EntityQueriesCreateOrUpdateOptionalParams
+    options?: EntityQueriesCreateOrUpdateOptionalParams,
   ): Promise<EntityQueriesCreateOrUpdateResponse>;
   /**
    * Delete the entity query.
@@ -71,6 +71,6 @@ export interface EntityQueries {
     resourceGroupName: string,
     workspaceName: string,
     entityQueryId: string,
-    options?: EntityQueriesDeleteOptionalParams
+    options?: EntityQueriesDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -12,7 +12,7 @@ import {
   OfficeConsentsListOptionalParams,
   OfficeConsentsGetOptionalParams,
   OfficeConsentsGetResponse,
-  OfficeConsentsDeleteOptionalParams
+  OfficeConsentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface OfficeConsents {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OfficeConsentsListOptionalParams
+    options?: OfficeConsentsListOptionalParams,
   ): PagedAsyncIterableIterator<OfficeConsent>;
   /**
    * Gets an office365 consent.
@@ -40,7 +40,7 @@ export interface OfficeConsents {
     resourceGroupName: string,
     workspaceName: string,
     consentId: string,
-    options?: OfficeConsentsGetOptionalParams
+    options?: OfficeConsentsGetOptionalParams,
   ): Promise<OfficeConsentsGetResponse>;
   /**
    * Delete the office365 consent.
@@ -53,6 +53,6 @@ export interface OfficeConsents {
     resourceGroupName: string,
     workspaceName: string,
     consentId: string,
-    options?: OfficeConsentsDeleteOptionalParams
+    options?: OfficeConsentsDeleteOptionalParams,
   ): Promise<void>;
 }
