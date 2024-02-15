@@ -1,15 +1,55 @@
 # Release History
+    
+## 33.1.0 (2024-02-15)
+    
+**Features**
 
-## 33.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group FirewallPolicyDeployments
+  - Added operation group FirewallPolicyDrafts
+  - Added operation group FirewallPolicyRuleCollectionGroupDrafts
+  - Added operation group List
+  - Added operation NetworkVirtualAppliances.restart
+  - Added operation VpnLinkConnections.beginPutSharedKey
+  - Added operation VpnLinkConnections.beginPutSharedKeyAndWait
+  - Added operation VpnLinkConnections.sharedKeyGet
+  - Added Interface ConnectionMonitorEndpointLocationDetails
+  - Added Interface FirewallPolicyDeploymentsDeployHeaders
+  - Added Interface FirewallPolicyDeploymentsDeployOptionalParams
+  - Added Interface FirewallPolicyDraft
+  - Added Interface FirewallPolicyDraftsCreateOrUpdateOptionalParams
+  - Added Interface FirewallPolicyDraftsDeleteOptionalParams
+  - Added Interface FirewallPolicyDraftsGetOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraft
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsDeleteOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsGetOptionalParams
+  - Added Interface HeaderValueMatcher
+  - Added Interface ListVpnLinkConnectionsSharedKeyOptionalParams
+  - Added Interface ListVpnLinkConnectionsSharedKeyResult
+  - Added Interface NetworkVirtualApplianceInstanceIds
+  - Added Interface NetworkVirtualAppliancesRestartOptionalParams
+  - Added Interface SharedKey
+  - Added Interface SharedKeyProperties
+  - Added Interface VpnLinkConnectionsPutSharedKeyOptionalParams
+  - Added Interface VpnLinkConnectionsSharedKeyGetOptionalParams
+  - Added Type Alias FirewallPolicyDeploymentsDeployResponse
+  - Added Type Alias FirewallPolicyDraftsCreateOrUpdateResponse
+  - Added Type Alias FirewallPolicyDraftsGetResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupDraftsGetResponse
+  - Added Type Alias ListVpnLinkConnectionsSharedKeyResponse
+  - Added Type Alias VpnLinkConnectionsPutSharedKeyResponse
+  - Added Type Alias VpnLinkConnectionsSharedKeyGetResponse
+  - Interface ApplicationGatewayHeaderConfiguration has a new optional parameter headerValueMatcher
+  - Interface BastionHost has a new optional parameter zones
+  - Interface ConnectionMonitorEndpoint has a new optional parameter locationDetails
+  - Interface ConnectionMonitorEndpoint has a new optional parameter subscriptionId
+  - Interface VpnSiteLinkConnection has a new optional parameter dpdTimeoutSeconds
+  - Enum KnownEndpointType has a new value AzureArcNetwork
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value NetworkSecurityGroupEnabled
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value RouteTableEnabled
+    
+    
 ## 33.0.0 (2023-12-07)
     
 **Features**

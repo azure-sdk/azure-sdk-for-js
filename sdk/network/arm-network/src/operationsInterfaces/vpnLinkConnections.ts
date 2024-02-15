@@ -12,8 +12,13 @@ import {
   VpnSiteLinkConnection,
   VpnLinkConnectionsListByVpnConnectionOptionalParams,
   VpnLinkConnectionsResetConnectionOptionalParams,
+  VpnLinkConnectionsSharedKeyGetOptionalParams,
+  VpnLinkConnectionsSharedKeyGetResponse,
+  SharedKeyProperties,
+  VpnLinkConnectionsPutSharedKeyOptionalParams,
+  VpnLinkConnectionsPutSharedKeyResponse,
   VpnLinkConnectionsGetIkeSasOptionalParams,
-  VpnLinkConnectionsGetIkeSasResponse
+  VpnLinkConnectionsGetIkeSasResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +35,7 @@ export interface VpnLinkConnections {
     resourceGroupName: string,
     gatewayName: string,
     connectionName: string,
-    options?: VpnLinkConnectionsListByVpnConnectionOptionalParams
+    options?: VpnLinkConnectionsListByVpnConnectionOptionalParams,
   ): PagedAsyncIterableIterator<VpnSiteLinkConnection>;
   /**
    * Resets the VpnLink connection specified.
@@ -45,7 +50,7 @@ export interface VpnLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnLinkConnectionsResetConnectionOptionalParams
+    options?: VpnLinkConnectionsResetConnectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resets the VpnLink connection specified.
@@ -60,8 +65,70 @@ export interface VpnLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnLinkConnectionsResetConnectionOptionalParams
+    options?: VpnLinkConnectionsResetConnectionOptionalParams,
   ): Promise<void>;
+  /**
+   * Get the shared key of VpnLink connection specified.
+   * @param resourceGroupName The name of the resource group.
+   * @param gatewayName The name of the gateway.
+   * @param connectionName The name of the vpn connection.
+   * @param linkConnectionName The name of the vpn link connection.
+   * @param sharedKeyName The name of the vpn link connection shared key.
+   * @param options The options parameters.
+   */
+  sharedKeyGet(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string,
+    sharedKeyName: string,
+    options?: VpnLinkConnectionsSharedKeyGetOptionalParams,
+  ): Promise<VpnLinkConnectionsSharedKeyGetResponse>;
+  /**
+   * Put the shared key of VpnLink connection specified.
+   * @param resourceGroupName The name of the resource group.
+   * @param gatewayName The name of the gateway.
+   * @param connectionName The name of the vpn connection.
+   * @param linkConnectionName The name of the vpn link connection.
+   * @param sharedKeyName The name of the vpn link connection shared key.
+   * @param parameters Parameters supplied to the Begin Set vpn site link connection Shared key operation
+   *                   throughNetwork resource provider.
+   * @param options The options parameters.
+   */
+  beginPutSharedKey(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string,
+    sharedKeyName: string,
+    parameters: SharedKeyProperties,
+    options?: VpnLinkConnectionsPutSharedKeyOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VpnLinkConnectionsPutSharedKeyResponse>,
+      VpnLinkConnectionsPutSharedKeyResponse
+    >
+  >;
+  /**
+   * Put the shared key of VpnLink connection specified.
+   * @param resourceGroupName The name of the resource group.
+   * @param gatewayName The name of the gateway.
+   * @param connectionName The name of the vpn connection.
+   * @param linkConnectionName The name of the vpn link connection.
+   * @param sharedKeyName The name of the vpn link connection shared key.
+   * @param parameters Parameters supplied to the Begin Set vpn site link connection Shared key operation
+   *                   throughNetwork resource provider.
+   * @param options The options parameters.
+   */
+  beginPutSharedKeyAndWait(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string,
+    sharedKeyName: string,
+    parameters: SharedKeyProperties,
+    options?: VpnLinkConnectionsPutSharedKeyOptionalParams,
+  ): Promise<VpnLinkConnectionsPutSharedKeyResponse>;
   /**
    * Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group.
    * @param resourceGroupName The name of the resource group.
@@ -75,7 +142,7 @@ export interface VpnLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnLinkConnectionsGetIkeSasOptionalParams
+    options?: VpnLinkConnectionsGetIkeSasOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VpnLinkConnectionsGetIkeSasResponse>,
@@ -95,6 +162,6 @@ export interface VpnLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnLinkConnectionsGetIkeSasOptionalParams
+    options?: VpnLinkConnectionsGetIkeSasOptionalParams,
   ): Promise<VpnLinkConnectionsGetIkeSasResponse>;
 }
