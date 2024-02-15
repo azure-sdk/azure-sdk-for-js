@@ -1,15 +1,18 @@
 # Release History
+    
+## 5.2.0 (2024-02-15)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group SubscriptionOperation
+  - Added Interface SubscriptionCreationResult
+  - Added Interface SubscriptionOperationGetHeaders
+  - Added Interface SubscriptionOperationGetOptionalParams
+  - Added Type Alias SubscriptionOperationGetResponse
+  - Interface PutTenantPolicyRequestProperties has a new optional parameter tenantChangeAllowedTenants
+  - Interface TenantPolicy has a new optional parameter tenantChangeAllowedTenants
+    
+    
 ## 5.1.0 (2022-11-11)
     
 **Features**
@@ -88,4 +91,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

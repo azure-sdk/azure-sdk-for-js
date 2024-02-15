@@ -8,7 +8,7 @@
 
 import {
   BillingAccountGetPolicyOptionalParams,
-  BillingAccountGetPolicyResponse
+  BillingAccountGetPolicyResponse,
 } from "../models";
 
 /** Interface representing a BillingAccount. */
@@ -20,6 +20,6 @@ export interface BillingAccount {
    */
   getPolicy(
     billingAccountId: string,
-    options?: BillingAccountGetPolicyOptionalParams
+    options?: BillingAccountGetPolicyOptionalParams,
   ): Promise<BillingAccountGetPolicyResponse>;
 }
