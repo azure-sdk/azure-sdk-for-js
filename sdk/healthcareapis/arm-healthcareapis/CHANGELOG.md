@@ -1,15 +1,13 @@
 # Release History
+    
+## 3.1.0 (2024-02-16)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface StorageConfiguration
+  - Interface DicomService has a new optional parameter storageConfiguration
+    
+    
 ## 3.0.0 (2023-12-07)
     
 **Features**

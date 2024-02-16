@@ -41,6 +41,7 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceUrl?: string;
+    storageConfiguration?: StorageConfiguration;
     readonly systemData?: SystemData;
 }
 
@@ -1082,6 +1083,12 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ServicesUpdateResponse = ServicesDescription;
+
+// @public
+export interface StorageConfiguration {
+    fileSystemName?: string;
+    storageResourceId?: string;
+}
 
 // @public
 export interface SystemData {
