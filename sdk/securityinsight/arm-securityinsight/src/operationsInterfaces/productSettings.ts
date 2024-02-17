@@ -14,7 +14,7 @@ import {
   ProductSettingsDeleteOptionalParams,
   SettingsUnion,
   ProductSettingsUpdateOptionalParams,
-  ProductSettingsUpdateResponse
+  ProductSettingsUpdateResponse,
 } from "../models";
 
 /** Interface representing a ProductSettings. */
@@ -28,7 +28,7 @@ export interface ProductSettings {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ProductSettingsListOptionalParams
+    options?: ProductSettingsListOptionalParams,
   ): Promise<ProductSettingsListResponse>;
   /**
    * Gets a setting.
@@ -41,7 +41,7 @@ export interface ProductSettings {
     resourceGroupName: string,
     workspaceName: string,
     settingsName: string,
-    options?: ProductSettingsGetOptionalParams
+    options?: ProductSettingsGetOptionalParams,
   ): Promise<ProductSettingsGetResponse>;
   /**
    * Delete setting of the product.
@@ -54,7 +54,7 @@ export interface ProductSettings {
     resourceGroupName: string,
     workspaceName: string,
     settingsName: string,
-    options?: ProductSettingsDeleteOptionalParams
+    options?: ProductSettingsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates setting.
@@ -69,6 +69,6 @@ export interface ProductSettings {
     workspaceName: string,
     settingsName: string,
     settings: SettingsUnion,
-    options?: ProductSettingsUpdateOptionalParams
+    options?: ProductSettingsUpdateOptionalParams,
   ): Promise<ProductSettingsUpdateResponse>;
 }

@@ -14,7 +14,7 @@ import {
   BookmarkRelationsGetResponse,
   BookmarkRelationsCreateOrUpdateOptionalParams,
   BookmarkRelationsCreateOrUpdateResponse,
-  BookmarkRelationsDeleteOptionalParams
+  BookmarkRelationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface BookmarkRelations {
     resourceGroupName: string,
     workspaceName: string,
     bookmarkId: string,
-    options?: BookmarkRelationsListOptionalParams
+    options?: BookmarkRelationsListOptionalParams,
   ): PagedAsyncIterableIterator<Relation>;
   /**
    * Gets a bookmark relation.
@@ -46,7 +46,7 @@ export interface BookmarkRelations {
     workspaceName: string,
     bookmarkId: string,
     relationName: string,
-    options?: BookmarkRelationsGetOptionalParams
+    options?: BookmarkRelationsGetOptionalParams,
   ): Promise<BookmarkRelationsGetResponse>;
   /**
    * Creates the bookmark relation.
@@ -63,7 +63,7 @@ export interface BookmarkRelations {
     bookmarkId: string,
     relationName: string,
     relation: Relation,
-    options?: BookmarkRelationsCreateOrUpdateOptionalParams
+    options?: BookmarkRelationsCreateOrUpdateOptionalParams,
   ): Promise<BookmarkRelationsCreateOrUpdateResponse>;
   /**
    * Delete the bookmark relation.
@@ -78,6 +78,6 @@ export interface BookmarkRelations {
     workspaceName: string,
     bookmarkId: string,
     relationName: string,
-    options?: BookmarkRelationsDeleteOptionalParams
+    options?: BookmarkRelationsDeleteOptionalParams,
   ): Promise<void>;
 }

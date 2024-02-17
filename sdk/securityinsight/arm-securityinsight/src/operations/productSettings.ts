@@ -19,7 +19,7 @@ import {
   ProductSettingsDeleteOptionalParams,
   SettingsUnion,
   ProductSettingsUpdateOptionalParams,
-  ProductSettingsUpdateResponse
+  ProductSettingsUpdateResponse,
 } from "../models";
 
 /** Class containing ProductSettings operations. */
@@ -43,11 +43,11 @@ export class ProductSettingsImpl implements ProductSettings {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ProductSettingsListOptionalParams
+    options?: ProductSettingsListOptionalParams,
   ): Promise<ProductSettingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -62,11 +62,11 @@ export class ProductSettingsImpl implements ProductSettings {
     resourceGroupName: string,
     workspaceName: string,
     settingsName: string,
-    options?: ProductSettingsGetOptionalParams
+    options?: ProductSettingsGetOptionalParams,
   ): Promise<ProductSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, settingsName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -81,11 +81,11 @@ export class ProductSettingsImpl implements ProductSettings {
     resourceGroupName: string,
     workspaceName: string,
     settingsName: string,
-    options?: ProductSettingsDeleteOptionalParams
+    options?: ProductSettingsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, settingsName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -102,11 +102,11 @@ export class ProductSettingsImpl implements ProductSettings {
     workspaceName: string,
     settingsName: string,
     settings: SettingsUnion,
-    options?: ProductSettingsUpdateOptionalParams
+    options?: ProductSettingsUpdateOptionalParams,
   ): Promise<ProductSettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, settingsName, settings, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -114,38 +114,15 @@ export class ProductSettingsImpl implements ProductSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SettingList
+      bodyMapper: Mappers.SettingList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Settings
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -153,21 +130,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.settingsName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Settings,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.settingsName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -175,22 +172,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.settingsName
+    Parameters.settingsName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Settings
+      bodyMapper: Mappers.Settings,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.settings,
   queryParameters: [Parameters.apiVersion],
@@ -199,9 +195,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.settingsName
+    Parameters.settingsName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

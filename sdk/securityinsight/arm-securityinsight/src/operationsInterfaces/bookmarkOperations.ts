@@ -9,7 +9,7 @@
 import {
   BookmarkExpandParameters,
   BookmarkExpandOptionalParams,
-  BookmarkExpandOperationResponse
+  BookmarkExpandOperationResponse,
 } from "../models";
 
 /** Interface representing a BookmarkOperations. */
@@ -27,6 +27,6 @@ export interface BookmarkOperations {
     workspaceName: string,
     bookmarkId: string,
     parameters: BookmarkExpandParameters,
-    options?: BookmarkExpandOptionalParams
+    options?: BookmarkExpandOptionalParams,
   ): Promise<BookmarkExpandOperationResponse>;
 }

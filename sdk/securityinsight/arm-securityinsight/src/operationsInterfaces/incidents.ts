@@ -17,7 +17,7 @@ import {
   IncidentsCreateOrUpdateOptionalParams,
   IncidentsCreateOrUpdateResponse,
   IncidentsDeleteOptionalParams,
-  TeamProperties,
+  TeamInformation,
   IncidentsCreateTeamOptionalParams,
   IncidentsCreateTeamResponse,
   IncidentsListAlertsOptionalParams,
@@ -25,7 +25,7 @@ import {
   IncidentsListBookmarksOptionalParams,
   IncidentsListBookmarksResponse,
   IncidentsListEntitiesOptionalParams,
-  IncidentsListEntitiesResponse
+  IncidentsListEntitiesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface Incidents {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IncidentsListOptionalParams
+    options?: IncidentsListOptionalParams,
   ): PagedAsyncIterableIterator<Incident>;
   /**
    * Triggers playbook on a specific incident
@@ -53,7 +53,7 @@ export interface Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentIdentifier: string,
-    options?: IncidentsRunPlaybookOptionalParams
+    options?: IncidentsRunPlaybookOptionalParams,
   ): Promise<IncidentsRunPlaybookResponse>;
   /**
    * Gets an incident.
@@ -66,7 +66,7 @@ export interface Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsGetOptionalParams
+    options?: IncidentsGetOptionalParams,
   ): Promise<IncidentsGetResponse>;
   /**
    * Creates or updates the incident.
@@ -81,7 +81,7 @@ export interface Incidents {
     workspaceName: string,
     incidentId: string,
     incident: Incident,
-    options?: IncidentsCreateOrUpdateOptionalParams
+    options?: IncidentsCreateOrUpdateOptionalParams,
   ): Promise<IncidentsCreateOrUpdateResponse>;
   /**
    * Delete the incident.
@@ -94,7 +94,7 @@ export interface Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsDeleteOptionalParams
+    options?: IncidentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Creates a Microsoft team to investigate the incident by sharing information and insights between
@@ -109,8 +109,8 @@ export interface Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    teamProperties: TeamProperties,
-    options?: IncidentsCreateTeamOptionalParams
+    teamProperties: TeamInformation,
+    options?: IncidentsCreateTeamOptionalParams,
   ): Promise<IncidentsCreateTeamResponse>;
   /**
    * Gets all incident alerts.
@@ -123,7 +123,7 @@ export interface Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsListAlertsOptionalParams
+    options?: IncidentsListAlertsOptionalParams,
   ): Promise<IncidentsListAlertsResponse>;
   /**
    * Gets all incident bookmarks.
@@ -136,7 +136,7 @@ export interface Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsListBookmarksOptionalParams
+    options?: IncidentsListBookmarksOptionalParams,
   ): Promise<IncidentsListBookmarksResponse>;
   /**
    * Gets all incident related entities.
@@ -149,6 +149,6 @@ export interface Incidents {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentsListEntitiesOptionalParams
+    options?: IncidentsListEntitiesOptionalParams,
   ): Promise<IncidentsListEntitiesResponse>;
 }
