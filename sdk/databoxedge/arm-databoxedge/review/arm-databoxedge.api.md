@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessLevel = string;
@@ -30,9 +30,9 @@ export interface AddonList {
 
 // @public
 export interface Addons {
-    beginCreateOrUpdate(deviceName: string, roleName: string, addonName: string, resourceGroupName: string, addon: AddonUnion, options?: AddonsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AddonsCreateOrUpdateResponse>, AddonsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, roleName: string, addonName: string, resourceGroupName: string, addon: AddonUnion, options?: AddonsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AddonsCreateOrUpdateResponse>, AddonsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, roleName: string, addonName: string, resourceGroupName: string, addon: AddonUnion, options?: AddonsCreateOrUpdateOptionalParams): Promise<AddonsCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, roleName: string, addonName: string, resourceGroupName: string, options?: AddonsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, roleName: string, addonName: string, resourceGroupName: string, options?: AddonsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, roleName: string, addonName: string, resourceGroupName: string, options?: AddonsDeleteOptionalParams): Promise<void>;
     get(deviceName: string, roleName: string, addonName: string, resourceGroupName: string, options?: AddonsGetOptionalParams): Promise<AddonsGetResponse>;
     listByRole(deviceName: string, roleName: string, resourceGroupName: string, options?: AddonsListByRoleOptionalParams): PagedAsyncIterableIterator<AddonUnion>;
@@ -226,9 +226,9 @@ export interface BandwidthSchedule extends ARMBaseModel {
 
 // @public
 export interface BandwidthSchedules {
-    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, parameters: BandwidthSchedule, options?: BandwidthSchedulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BandwidthSchedulesCreateOrUpdateResponse>, BandwidthSchedulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, parameters: BandwidthSchedule, options?: BandwidthSchedulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BandwidthSchedulesCreateOrUpdateResponse>, BandwidthSchedulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, name: string, resourceGroupName: string, parameters: BandwidthSchedule, options?: BandwidthSchedulesCreateOrUpdateOptionalParams): Promise<BandwidthSchedulesCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: BandwidthSchedulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: BandwidthSchedulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, name: string, resourceGroupName: string, options?: BandwidthSchedulesDeleteOptionalParams): Promise<void>;
     get(deviceName: string, name: string, resourceGroupName: string, options?: BandwidthSchedulesGetOptionalParams): Promise<BandwidthSchedulesGetResponse>;
     listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<BandwidthSchedule>;
@@ -306,6 +306,46 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface ClusterCapacityViewData {
+    fqdn?: string;
+    gpuCapacity?: ClusterGpuCapacity;
+    lastRefreshedTime?: Date;
+    memoryCapacity?: ClusterMemoryCapacity;
+    totalProvisionedNonHpnCores?: number;
+}
+
+// @public
+export interface ClusterGpuCapacity {
+    gpuFreeUnitsCount?: number;
+    gpuReservedForFailoverUnitsCount?: number;
+    gpuTotalUnitsCount?: number;
+    gpuType?: string;
+    gpuUsedUnitsCount?: number;
+}
+
+// @public
+export interface ClusterMemoryCapacity {
+    clusterFailoverMemoryMb?: number;
+    clusterFragmentationMemoryMb?: number;
+    clusterFreeMemoryMb?: number;
+    clusterHypervReserveMemoryMb?: number;
+    clusterInfraVmMemoryMb?: number;
+    clusterMemoryUsedByVmsMb?: number;
+    clusterNonFailoverVmMb?: number;
+    clusterTotalMemoryMb?: number;
+    clusterUsedMemoryMb?: number;
+}
+
+// @public
+export interface ClusterStorageViewData {
+    clusterFreeStorageMb?: number;
+    clusterTotalStorageMb?: number;
+}
+
+// @public
+export type ClusterWitnessType = string;
+
+// @public
 export interface CniConfig {
     readonly podSubnet?: string;
     readonly serviceSubnet?: string;
@@ -344,11 +384,11 @@ export interface ContainerList {
 
 // @public
 export interface Containers {
-    beginCreateOrUpdate(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, container: Container, options?: ContainersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainersCreateOrUpdateResponse>, ContainersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, container: Container, options?: ContainersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainersCreateOrUpdateResponse>, ContainersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, container: Container, options?: ContainersCreateOrUpdateOptionalParams): Promise<ContainersCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, options?: ContainersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, options?: ContainersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, options?: ContainersDeleteOptionalParams): Promise<void>;
-    beginRefresh(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, options?: ContainersRefreshOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRefresh(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, options?: ContainersRefreshOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRefreshAndWait(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, options?: ContainersRefreshOptionalParams): Promise<void>;
     get(deviceName: string, storageAccountName: string, containerName: string, resourceGroupName: string, options?: ContainersGetOptionalParams): Promise<ContainersGetResponse>;
     listByStorageAccount(deviceName: string, storageAccountName: string, resourceGroupName: string, options?: ContainersListByStorageAccountOptionalParams): PagedAsyncIterableIterator<Container>;
@@ -406,7 +446,7 @@ export type CreatedByType = string;
 export interface DataBoxEdgeDevice extends ARMBaseModel {
     readonly configuredRoleTypes?: RoleTypes[];
     readonly culture?: string;
-    dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
+    readonly dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
     dataResidency?: DataResidency;
     readonly description?: string;
     readonly deviceHcsVersion?: string;
@@ -418,7 +458,8 @@ export interface DataBoxEdgeDevice extends ARMBaseModel {
     etag?: string;
     readonly friendlyName?: string;
     identity?: ResourceIdentity;
-    kind?: DataBoxEdgeDeviceKind;
+    readonly kind?: DataBoxEdgeDeviceKind;
+    readonly kubernetesWorkloadProfile?: string;
     location: string;
     readonly modelDescription?: string;
     readonly nodeCount?: number;
@@ -439,13 +480,20 @@ export interface DataBoxEdgeDeviceExtendedInfo extends ARMBaseModel {
     channelIntegrityKeyVersion?: string;
     clientSecretStoreId?: string;
     clientSecretStoreUrl?: string;
+    readonly cloudWitnessContainerName?: string;
+    readonly cloudWitnessStorageAccountName?: string;
+    readonly cloudWitnessStorageEndpoint?: string;
+    readonly clusterWitnessType?: ClusterWitnessType;
     readonly deviceSecrets?: {
         [propertyName: string]: Secret;
     };
     encryptionKey?: string;
     encryptionKeyThumbprint?: string;
+    readonly fileShareWitnessLocation?: string;
+    readonly fileShareWitnessUsername?: string;
     keyVaultSyncStatus?: KeyVaultSyncStatus;
     readonly resourceKey?: string;
+    readonly systemData?: SystemData;
 }
 
 // @public
@@ -495,6 +543,10 @@ export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
     bandwidthSchedules: BandwidthSchedules;
     // (undocumented)
     containers: Containers;
+    // (undocumented)
+    deviceCapacityCheck: DeviceCapacityCheck;
+    // (undocumented)
+    deviceCapacityInfoOperations: DeviceCapacityInfoOperations;
     // (undocumented)
     devices: Devices;
     // (undocumented)
@@ -587,16 +639,58 @@ export interface DCAccessCode {
 }
 
 // @public
+export interface DeviceCapacityCheck {
+    beginCheckResourceCreationFeasibility(resourceGroupName: string, deviceName: string, deviceCapacityRequestInfo: DeviceCapacityRequestInfo, options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCheckResourceCreationFeasibilityAndWait(resourceGroupName: string, deviceName: string, deviceCapacityRequestInfo: DeviceCapacityRequestInfo, options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams): Promise<void>;
+}
+
+// @public
+export interface DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams extends coreClient.OperationOptions {
+    capacityName?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeviceCapacityInfo extends ARMBaseModel {
+    clusterComputeCapacityInfo?: ClusterCapacityViewData;
+    clusterStorageCapacityInfo?: ClusterStorageViewData;
+    nodeCapacityInfos?: {
+        [propertyName: string]: HostCapacity;
+    };
+    readonly systemData?: SystemData;
+    timeStamp?: Date;
+}
+
+// @public
+export interface DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeviceCapacityInfoGetDeviceCapacityInfoResponse = DeviceCapacityInfo;
+
+// @public
+export interface DeviceCapacityInfoOperations {
+    getDeviceCapacityInfo(resourceGroupName: string, deviceName: string, options?: DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams): Promise<DeviceCapacityInfoGetDeviceCapacityInfoResponse>;
+}
+
+// @public
+export interface DeviceCapacityRequestInfo {
+    vmPlacementQuery: string[][];
+    vmPlacementResults?: VmPlacementRequestResult[];
+}
+
+// @public
 export interface Devices {
-    beginCreateOrUpdateSecuritySettings(deviceName: string, resourceGroupName: string, securitySettings: SecuritySettings, options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateOrUpdateSecuritySettings(deviceName: string, resourceGroupName: string, securitySettings: SecuritySettings, options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateOrUpdateSecuritySettingsAndWait(deviceName: string, resourceGroupName: string, securitySettings: SecuritySettings, options?: DevicesCreateOrUpdateSecuritySettingsOptionalParams): Promise<void>;
-    beginDelete(deviceName: string, resourceGroupName: string, options?: DevicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, resourceGroupName: string, options?: DevicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, resourceGroupName: string, options?: DevicesDeleteOptionalParams): Promise<void>;
-    beginDownloadUpdates(deviceName: string, resourceGroupName: string, options?: DevicesDownloadUpdatesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDownloadUpdates(deviceName: string, resourceGroupName: string, options?: DevicesDownloadUpdatesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDownloadUpdatesAndWait(deviceName: string, resourceGroupName: string, options?: DevicesDownloadUpdatesOptionalParams): Promise<void>;
-    beginInstallUpdates(deviceName: string, resourceGroupName: string, options?: DevicesInstallUpdatesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginInstallUpdates(deviceName: string, resourceGroupName: string, options?: DevicesInstallUpdatesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginInstallUpdatesAndWait(deviceName: string, resourceGroupName: string, options?: DevicesInstallUpdatesOptionalParams): Promise<void>;
-    beginScanForUpdates(deviceName: string, resourceGroupName: string, options?: DevicesScanForUpdatesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginScanForUpdates(deviceName: string, resourceGroupName: string, options?: DevicesScanForUpdatesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginScanForUpdatesAndWait(deviceName: string, resourceGroupName: string, options?: DevicesScanForUpdatesOptionalParams): Promise<void>;
     createOrUpdate(deviceName: string, resourceGroupName: string, dataBoxEdgeDevice: DataBoxEdgeDevice, options?: DevicesCreateOrUpdateOptionalParams): Promise<DevicesCreateOrUpdateResponse>;
     generateCertificate(deviceName: string, resourceGroupName: string, options?: DevicesGenerateCertificateOptionalParams): Promise<DevicesGenerateCertificateResponse>;
@@ -679,7 +773,6 @@ export interface DevicesInstallUpdatesOptionalParams extends coreClient.Operatio
 
 // @public
 export interface DevicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -695,7 +788,6 @@ export type DevicesListByResourceGroupResponse = DataBoxEdgeDeviceList;
 
 // @public
 export interface DevicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -753,9 +845,9 @@ export interface DiagnosticRemoteSupportSettings extends ARMBaseModel {
 
 // @public
 export interface DiagnosticSettings {
-    beginUpdateDiagnosticProactiveLogCollectionSettings(deviceName: string, resourceGroupName: string, proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings, options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams): Promise<PollerLike<PollOperationState<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>, DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>>;
+    beginUpdateDiagnosticProactiveLogCollectionSettings(deviceName: string, resourceGroupName: string, proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings, options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>, DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>>;
     beginUpdateDiagnosticProactiveLogCollectionSettingsAndWait(deviceName: string, resourceGroupName: string, proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings, options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams): Promise<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>;
-    beginUpdateDiagnosticRemoteSupportSettings(deviceName: string, resourceGroupName: string, diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings, options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams): Promise<PollerLike<PollOperationState<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>, DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>>;
+    beginUpdateDiagnosticRemoteSupportSettings(deviceName: string, resourceGroupName: string, diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings, options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>, DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>>;
     beginUpdateDiagnosticRemoteSupportSettingsAndWait(deviceName: string, resourceGroupName: string, diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings, options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams): Promise<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>;
     getDiagnosticProactiveLogCollectionSettings(deviceName: string, resourceGroupName: string, options?: DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams): Promise<DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse>;
     getDiagnosticRemoteSupportSettings(deviceName: string, resourceGroupName: string, options?: DiagnosticSettingsGetDiagnosticRemoteSupportSettingsOptionalParams): Promise<DiagnosticSettingsGetDiagnosticRemoteSupportSettingsResponse>;
@@ -864,6 +956,18 @@ export interface GenerateCertResponse {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface HostCapacity {
+    availableGpuCount?: number;
+    effectiveAvailableMemoryMbOnHost?: number;
+    gpuType?: string;
+    hostName?: string;
+    numaNodesData?: NumaNodeData[];
+    vmUsedMemory?: {
+        [propertyName: string]: VmMemory;
+    };
+}
 
 // @public
 export type HostPlatformType = string;
@@ -1045,6 +1149,13 @@ export enum KnownClientPermissionType {
     NoAccess = "NoAccess",
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
+}
+
+// @public
+export enum KnownClusterWitnessType {
+    Cloud = "Cloud",
+    FileShare = "FileShare",
+    None = "None"
 }
 
 // @public
@@ -1391,13 +1502,17 @@ export enum KnownSkuAvailability {
 export enum KnownSkuName {
     Edge = "Edge",
     EdgeMRMini = "EdgeMR_Mini",
+    EdgeMRTCP = "EdgeMR_TCP",
     EdgePBase = "EdgeP_Base",
     EdgePHigh = "EdgeP_High",
     EdgePRBase = "EdgePR_Base",
     EdgePRBaseUPS = "EdgePR_Base_UPS",
     EP21281T4Mx1W = "EP2_128_1T4_Mx1_W",
+    EP2128GPU1Mx1W = "EP2_128_GPU1_Mx1_W",
     EP22562T4W = "EP2_256_2T4_W",
+    EP2256GPU2Mx1 = "EP2_256_GPU2_Mx1",
     EP2641VPUW = "EP2_64_1VPU_W",
+    EP264Mx1W = "EP2_64_Mx1_W",
     Gateway = "Gateway",
     GPU = "GPU",
     Management = "Management",
@@ -1592,6 +1707,7 @@ export type KubernetesState = string;
 
 // @public
 export interface LoadBalancerConfig {
+    ipRange?: string[];
     readonly type?: string;
     readonly version?: string;
 }
@@ -1665,9 +1781,9 @@ export type MetricUnit = string;
 
 // @public
 export interface MonitoringConfig {
-    beginCreateOrUpdate(deviceName: string, roleName: string, resourceGroupName: string, monitoringMetricConfiguration: MonitoringMetricConfiguration, options?: MonitoringConfigCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<MonitoringConfigCreateOrUpdateResponse>, MonitoringConfigCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, roleName: string, resourceGroupName: string, monitoringMetricConfiguration: MonitoringMetricConfiguration, options?: MonitoringConfigCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoringConfigCreateOrUpdateResponse>, MonitoringConfigCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, roleName: string, resourceGroupName: string, monitoringMetricConfiguration: MonitoringMetricConfiguration, options?: MonitoringConfigCreateOrUpdateOptionalParams): Promise<MonitoringConfigCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, roleName: string, resourceGroupName: string, options?: MonitoringConfigDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, roleName: string, resourceGroupName: string, options?: MonitoringConfigDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, roleName: string, resourceGroupName: string, options?: MonitoringConfigDeleteOptionalParams): Promise<void>;
     get(deviceName: string, roleName: string, resourceGroupName: string, options?: MonitoringConfigGetOptionalParams): Promise<MonitoringConfigGetResponse>;
     list(deviceName: string, roleName: string, resourceGroupName: string, options?: MonitoringConfigListOptionalParams): PagedAsyncIterableIterator<MonitoringMetricConfiguration>;
@@ -1831,6 +1947,17 @@ export type NodesListByDataBoxEdgeDeviceResponse = NodeList_2;
 export type NodeStatus = string;
 
 // @public
+export interface NumaNodeData {
+    effectiveAvailableMemoryInMb?: number;
+    freeVCpuIndexesForHpn?: number[];
+    logicalCoreCountPerCore?: number;
+    numaNodeIndex?: number;
+    totalMemoryInMb?: number;
+    vCpuIndexesForHpn?: number[];
+    vCpuIndexesForRoot?: number[];
+}
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     isDataAction?: boolean;
@@ -1889,7 +2016,9 @@ export interface Order extends ARMBaseModel {
     contactInformation?: ContactDetails;
     readonly currentStatus?: OrderStatus;
     readonly deliveryTrackingInfo?: TrackingInfo[];
+    readonly kind?: string;
     readonly orderHistory?: OrderStatus[];
+    readonly orderId?: string;
     readonly returnTrackingInfo?: TrackingInfo[];
     readonly serialNumber?: string;
     shipmentType?: ShipmentType;
@@ -1905,9 +2034,9 @@ export interface OrderList {
 
 // @public
 export interface Orders {
-    beginCreateOrUpdate(deviceName: string, resourceGroupName: string, order: Order, options?: OrdersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<OrdersCreateOrUpdateResponse>, OrdersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, resourceGroupName: string, order: Order, options?: OrdersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OrdersCreateOrUpdateResponse>, OrdersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, resourceGroupName: string, order: Order, options?: OrdersCreateOrUpdateOptionalParams): Promise<OrdersCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, resourceGroupName: string, options?: OrdersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, resourceGroupName: string, options?: OrdersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, resourceGroupName: string, options?: OrdersDeleteOptionalParams): Promise<void>;
     get(deviceName: string, resourceGroupName: string, options?: OrdersGetOptionalParams): Promise<OrdersGetResponse>;
     listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: OrdersListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<Order>;
@@ -2030,12 +2159,6 @@ export interface ResourceMoveDetails {
 export type ResourceMoveStatus = string;
 
 // @public
-export interface ResourceTypeSku {
-    readonly resourceType?: string;
-    readonly skus?: SkuInformation[];
-}
-
-// @public
 export interface Role extends ARMBaseModel {
     kind: RoleTypes;
     readonly systemData?: SystemData;
@@ -2049,9 +2172,9 @@ export interface RoleList {
 
 // @public
 export interface Roles {
-    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, role: RoleUnion, options?: RolesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<RolesCreateOrUpdateResponse>, RolesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, role: RoleUnion, options?: RolesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RolesCreateOrUpdateResponse>, RolesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, name: string, resourceGroupName: string, role: RoleUnion, options?: RolesCreateOrUpdateOptionalParams): Promise<RolesCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: RolesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: RolesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, name: string, resourceGroupName: string, options?: RolesDeleteOptionalParams): Promise<void>;
     get(deviceName: string, name: string, resourceGroupName: string, options?: RolesGetOptionalParams): Promise<RolesGetResponse>;
     listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: RolesListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<RoleUnion>;
@@ -2158,11 +2281,11 @@ export interface ShareList {
 
 // @public
 export interface Shares {
-    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, share: Share, options?: SharesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SharesCreateOrUpdateResponse>, SharesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, share: Share, options?: SharesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SharesCreateOrUpdateResponse>, SharesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, name: string, resourceGroupName: string, share: Share, options?: SharesCreateOrUpdateOptionalParams): Promise<SharesCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: SharesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: SharesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, name: string, resourceGroupName: string, options?: SharesDeleteOptionalParams): Promise<void>;
-    beginRefresh(deviceName: string, name: string, resourceGroupName: string, options?: SharesRefreshOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRefresh(deviceName: string, name: string, resourceGroupName: string, options?: SharesRefreshOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRefreshAndWait(deviceName: string, name: string, resourceGroupName: string, options?: SharesRefreshOptionalParams): Promise<void>;
     get(deviceName: string, name: string, resourceGroupName: string, options?: SharesGetOptionalParams): Promise<SharesGetResponse>;
     listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: SharesListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<Share>;
@@ -2239,25 +2362,6 @@ export interface SkuCost {
 }
 
 // @public
-export interface SkuInformation {
-    readonly costs?: SkuCost[];
-    readonly family?: string;
-    readonly kind?: string;
-    readonly locationInfo?: SkuLocationInfo[];
-    readonly locations?: string[];
-    readonly name?: string;
-    readonly requiredFeatures?: string[];
-    readonly requiredQuotaIds?: string[];
-    readonly tier?: string;
-}
-
-// @public
-export interface SkuInformationList {
-    readonly nextLink?: string;
-    readonly value?: ResourceTypeSku[];
-}
-
-// @public
 export interface SkuLocationInfo {
     readonly location?: string;
     readonly sites?: string[];
@@ -2311,9 +2415,9 @@ export interface StorageAccountCredentialList {
 
 // @public
 export interface StorageAccountCredentials {
-    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, storageAccountCredential: StorageAccountCredential, options?: StorageAccountCredentialsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<StorageAccountCredentialsCreateOrUpdateResponse>, StorageAccountCredentialsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, storageAccountCredential: StorageAccountCredential, options?: StorageAccountCredentialsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAccountCredentialsCreateOrUpdateResponse>, StorageAccountCredentialsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, name: string, resourceGroupName: string, storageAccountCredential: StorageAccountCredential, options?: StorageAccountCredentialsCreateOrUpdateOptionalParams): Promise<StorageAccountCredentialsCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: StorageAccountCredentialsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: StorageAccountCredentialsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, name: string, resourceGroupName: string, options?: StorageAccountCredentialsDeleteOptionalParams): Promise<void>;
     get(deviceName: string, name: string, resourceGroupName: string, options?: StorageAccountCredentialsGetOptionalParams): Promise<StorageAccountCredentialsGetResponse>;
     listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<StorageAccountCredential>;
@@ -2363,9 +2467,9 @@ export interface StorageAccountList {
 
 // @public
 export interface StorageAccounts {
-    beginCreateOrUpdate(deviceName: string, storageAccountName: string, resourceGroupName: string, storageAccount: StorageAccount, options?: StorageAccountsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<StorageAccountsCreateOrUpdateResponse>, StorageAccountsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, storageAccountName: string, resourceGroupName: string, storageAccount: StorageAccount, options?: StorageAccountsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAccountsCreateOrUpdateResponse>, StorageAccountsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, storageAccountName: string, resourceGroupName: string, storageAccount: StorageAccount, options?: StorageAccountsCreateOrUpdateOptionalParams): Promise<StorageAccountsCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, storageAccountName: string, resourceGroupName: string, options?: StorageAccountsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, storageAccountName: string, resourceGroupName: string, options?: StorageAccountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, storageAccountName: string, resourceGroupName: string, options?: StorageAccountsDeleteOptionalParams): Promise<void>;
     get(deviceName: string, storageAccountName: string, resourceGroupName: string, options?: StorageAccountsGetOptionalParams): Promise<StorageAccountsGetResponse>;
     listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: StorageAccountsListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<StorageAccount>;
@@ -2423,7 +2527,7 @@ export type SubscriptionState = string;
 
 // @public
 export interface SupportPackages {
-    beginTriggerSupportPackage(deviceName: string, resourceGroupName: string, triggerSupportPackageRequest: TriggerSupportPackageRequest, options?: SupportPackagesTriggerSupportPackageOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTriggerSupportPackage(deviceName: string, resourceGroupName: string, triggerSupportPackageRequest: TriggerSupportPackageRequest, options?: SupportPackagesTriggerSupportPackageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerSupportPackageAndWait(deviceName: string, resourceGroupName: string, triggerSupportPackageRequest: TriggerSupportPackageRequest, options?: SupportPackagesTriggerSupportPackageOptionalParams): Promise<void>;
 }
 
@@ -2476,9 +2580,9 @@ export interface TriggerList {
 
 // @public
 export interface Triggers {
-    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, trigger: TriggerUnion, options?: TriggersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TriggersCreateOrUpdateResponse>, TriggersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, trigger: TriggerUnion, options?: TriggersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TriggersCreateOrUpdateResponse>, TriggersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, name: string, resourceGroupName: string, trigger: TriggerUnion, options?: TriggersCreateOrUpdateOptionalParams): Promise<TriggersCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: TriggersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: TriggersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, name: string, resourceGroupName: string, options?: TriggersDeleteOptionalParams): Promise<void>;
     get(deviceName: string, name: string, resourceGroupName: string, options?: TriggersGetOptionalParams): Promise<TriggersGetResponse>;
     listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: TriggersListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<TriggerUnion>;
@@ -2508,7 +2612,6 @@ export type TriggersGetResponse = TriggerUnion;
 
 // @public
 export interface TriggersListByDataBoxEdgeDeviceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2644,9 +2747,9 @@ export interface UserList {
 
 // @public
 export interface Users {
-    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(deviceName: string, name: string, resourceGroupName: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<UsersCreateOrUpdateResponse>;
-    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: UsersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(deviceName: string, name: string, resourceGroupName: string, options?: UsersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(deviceName: string, name: string, resourceGroupName: string, options?: UsersDeleteOptionalParams): Promise<void>;
     get(deviceName: string, name: string, resourceGroupName: string, options?: UsersGetOptionalParams): Promise<UsersGetResponse>;
     listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: UsersListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<User>;
@@ -2676,7 +2779,6 @@ export type UsersGetResponse = User;
 
 // @public
 export interface UsersListByDataBoxEdgeDeviceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2692,6 +2794,20 @@ export type UsersListByDataBoxEdgeDeviceResponse = UserList;
 
 // @public
 export type UserType = string;
+
+// @public
+export interface VmMemory {
+    currentMemoryUsageMB?: number;
+    startupMemoryMB?: number;
+}
+
+// @public
+export interface VmPlacementRequestResult {
+    isFeasible?: boolean;
+    message?: string;
+    messageCode?: string;
+    vmSize?: string[];
+}
 
 // (No @packageDocumentation comment for this package)
 
