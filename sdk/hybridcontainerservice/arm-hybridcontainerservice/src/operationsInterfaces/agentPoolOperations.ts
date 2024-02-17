@@ -16,7 +16,7 @@ import {
   AgentPoolCreateOrUpdateOptionalParams,
   AgentPoolCreateOrUpdateResponse,
   AgentPoolDeleteOptionalParams,
-  AgentPoolDeleteResponse
+  AgentPoolDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface AgentPoolOperations {
    */
   listByProvisionedCluster(
     connectedClusterResourceUri: string,
-    options?: AgentPoolListByProvisionedClusterOptionalParams
+    options?: AgentPoolListByProvisionedClusterOptionalParams,
   ): PagedAsyncIterableIterator<AgentPool>;
   /**
    * Gets the specified agent pool in the provisioned cluster
@@ -42,7 +42,7 @@ export interface AgentPoolOperations {
   get(
     connectedClusterResourceUri: string,
     agentPoolName: string,
-    options?: AgentPoolGetOptionalParams
+    options?: AgentPoolGetOptionalParams,
   ): Promise<AgentPoolGetResponse>;
   /**
    * Creates or updates the agent pool in the provisioned cluster
@@ -56,7 +56,7 @@ export interface AgentPoolOperations {
     connectedClusterResourceUri: string,
     agentPoolName: string,
     agentPool: AgentPool,
-    options?: AgentPoolCreateOrUpdateOptionalParams
+    options?: AgentPoolCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolCreateOrUpdateResponse>,
@@ -75,7 +75,7 @@ export interface AgentPoolOperations {
     connectedClusterResourceUri: string,
     agentPoolName: string,
     agentPool: AgentPool,
-    options?: AgentPoolCreateOrUpdateOptionalParams
+    options?: AgentPoolCreateOrUpdateOptionalParams,
   ): Promise<AgentPoolCreateOrUpdateResponse>;
   /**
    * Deletes the specified agent pool in the provisioned cluster
@@ -87,7 +87,7 @@ export interface AgentPoolOperations {
   beginDelete(
     connectedClusterResourceUri: string,
     agentPoolName: string,
-    options?: AgentPoolDeleteOptionalParams
+    options?: AgentPoolDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolDeleteResponse>,
@@ -104,6 +104,6 @@ export interface AgentPoolOperations {
   beginDeleteAndWait(
     connectedClusterResourceUri: string,
     agentPoolName: string,
-    options?: AgentPoolDeleteOptionalParams
+    options?: AgentPoolDeleteOptionalParams,
   ): Promise<AgentPoolDeleteResponse>;
 }

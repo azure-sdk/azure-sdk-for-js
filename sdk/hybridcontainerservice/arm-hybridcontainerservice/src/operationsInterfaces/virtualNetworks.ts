@@ -20,7 +20,7 @@ import {
   VirtualNetworksDeleteResponse,
   VirtualNetworksPatch,
   VirtualNetworksUpdateOptionalParams,
-  VirtualNetworksUpdateResponse
+  VirtualNetworksUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +33,14 @@ export interface VirtualNetworks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualNetworksListByResourceGroupOptionalParams
+    options?: VirtualNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
    * Lists the virtual networks in the specified subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: VirtualNetworksListBySubscriptionOptionalParams
+    options?: VirtualNetworksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
    * Gets the specified virtual network resource
@@ -51,7 +51,7 @@ export interface VirtualNetworks {
   retrieve(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: VirtualNetworksRetrieveOptionalParams
+    options?: VirtualNetworksRetrieveOptionalParams,
   ): Promise<VirtualNetworksRetrieveResponse>;
   /**
    * Creates or updates the virtual network resource
@@ -64,7 +64,7 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     virtualNetworks: VirtualNetwork,
-    options?: VirtualNetworksCreateOrUpdateOptionalParams
+    options?: VirtualNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualNetworksCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     virtualNetworks: VirtualNetwork,
-    options?: VirtualNetworksCreateOrUpdateOptionalParams
+    options?: VirtualNetworksCreateOrUpdateOptionalParams,
   ): Promise<VirtualNetworksCreateOrUpdateResponse>;
   /**
    * Deletes the specified virtual network resource
@@ -93,7 +93,7 @@ export interface VirtualNetworks {
   beginDelete(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: VirtualNetworksDeleteOptionalParams
+    options?: VirtualNetworksDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualNetworksDeleteResponse>,
@@ -109,7 +109,7 @@ export interface VirtualNetworks {
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: VirtualNetworksDeleteOptionalParams
+    options?: VirtualNetworksDeleteOptionalParams,
   ): Promise<VirtualNetworksDeleteResponse>;
   /**
    * Patches the virtual network resource
@@ -122,7 +122,7 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     virtualNetworks: VirtualNetworksPatch,
-    options?: VirtualNetworksUpdateOptionalParams
+    options?: VirtualNetworksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualNetworksUpdateResponse>,
@@ -140,6 +140,6 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     virtualNetworks: VirtualNetworksPatch,
-    options?: VirtualNetworksUpdateOptionalParams
+    options?: VirtualNetworksUpdateOptionalParams,
   ): Promise<VirtualNetworksUpdateResponse>;
 }

@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ProvisionedCluster as ProvisionedClusterMapper,
@@ -18,7 +18,7 @@ import {
   KubernetesVersionProfile as KubernetesVersionProfileMapper,
   VmSkuProfile as VmSkuProfileMapper,
   VirtualNetwork as VirtualNetworkMapper,
-  VirtualNetworksPatch as VirtualNetworksPatchMapper
+  VirtualNetworksPatch as VirtualNetworksPatchMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -28,9 +28,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -39,10 +39,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const connectedClusterResourceUri: OperationURLParameter = {
@@ -51,10 +51,10 @@ export const connectedClusterResourceUri: OperationURLParameter = {
     serializedName: "connectedClusterResourceUri",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -64,9 +64,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -76,14 +76,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const provisionedClusterInstance: OperationParameter = {
   parameterPath: "provisionedClusterInstance",
-  mapper: ProvisionedClusterMapper
+  mapper: ProvisionedClusterMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -92,15 +92,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const body: OperationParameter = {
   parameterPath: "body",
-  mapper: HybridIdentityMetadataMapper
+  mapper: HybridIdentityMetadataMapper,
 };
 
 export const agentPoolName: OperationURLParameter = {
@@ -109,19 +109,19 @@ export const agentPoolName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z][a-z0-9]{2,11}$"),
       MaxLength: 12,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "agentPoolName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const agentPool: OperationParameter = {
   parameterPath: "agentPool",
-  mapper: AgentPoolMapper
+  mapper: AgentPoolMapper,
 };
 
 export const customLocationResourceUri: OperationURLParameter = {
@@ -130,20 +130,20 @@ export const customLocationResourceUri: OperationURLParameter = {
     serializedName: "customLocationResourceUri",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const kubernetesVersions: OperationParameter = {
   parameterPath: "kubernetesVersions",
-  mapper: KubernetesVersionProfileMapper
+  mapper: KubernetesVersionProfileMapper,
 };
 
 export const skus: OperationParameter = {
   parameterPath: "skus",
-  mapper: VmSkuProfileMapper
+  mapper: VmSkuProfileMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -152,9 +152,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -162,14 +162,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const virtualNetworkName: OperationURLParameter = {
@@ -177,25 +177,25 @@ export const virtualNetworkName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
       ),
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "virtualNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const virtualNetworks: OperationParameter = {
   parameterPath: "virtualNetworks",
-  mapper: VirtualNetworkMapper
+  mapper: VirtualNetworkMapper,
 };
 
 export const virtualNetworks1: OperationParameter = {
   parameterPath: "virtualNetworks",
-  mapper: VirtualNetworksPatchMapper
+  mapper: VirtualNetworksPatchMapper,
 };
