@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
   DomainWhoisGetOptionalParams,
-  DomainWhoisGetResponse
+  DomainWhoisGetResponse,
 } from "../models";
 
 /** Class containing DomainWhois operations. */
@@ -37,11 +37,11 @@ export class DomainWhoisImpl implements DomainWhois {
   get(
     resourceGroupName: string,
     domain: string,
-    options?: DomainWhoisGetOptionalParams
+    options?: DomainWhoisGetOptionalParams,
   ): Promise<DomainWhoisGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, domain, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,23 +49,22 @@ export class DomainWhoisImpl implements DomainWhois {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SecurityInsights/enrichment/domain/whois/",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SecurityInsights/enrichment/domain/whois/",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnrichmentDomainWhois
+      bodyMapper: Mappers.EnrichmentDomainWhois,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.domain],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

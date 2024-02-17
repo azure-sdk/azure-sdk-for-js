@@ -11,7 +11,7 @@ import {
   EntityQueryTemplateUnion,
   EntityQueryTemplatesListOptionalParams,
   EntityQueryTemplatesGetOptionalParams,
-  EntityQueryTemplatesGetResponse
+  EntityQueryTemplatesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface EntityQueryTemplates {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
+    options?: EntityQueryTemplatesListOptionalParams,
   ): PagedAsyncIterableIterator<EntityQueryTemplateUnion>;
   /**
    * Gets an entity query.
@@ -39,6 +39,6 @@ export interface EntityQueryTemplates {
     resourceGroupName: string,
     workspaceName: string,
     entityQueryTemplateId: string,
-    options?: EntityQueryTemplatesGetOptionalParams
+    options?: EntityQueryTemplatesGetOptionalParams,
   ): Promise<EntityQueryTemplatesGetResponse>;
 }
