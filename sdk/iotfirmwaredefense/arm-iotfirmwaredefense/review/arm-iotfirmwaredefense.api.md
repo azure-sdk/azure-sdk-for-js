@@ -13,81 +13,57 @@ export type ActionType = string;
 
 // @public
 export interface BinaryHardening {
+    listByFirmware(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: BinaryHardeningListByFirmwareOptionalParams): PagedAsyncIterableIterator<BinaryHardeningResource>;
+}
+
+// @public
+export interface BinaryHardeningListByFirmwareNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BinaryHardeningListByFirmwareNextResponse = BinaryHardeningListResult;
+
+// @public
+export interface BinaryHardeningListByFirmwareOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BinaryHardeningListByFirmwareResponse = BinaryHardeningListResult;
+
+// @public
+export interface BinaryHardeningListResult {
+    nextLink?: string;
+    readonly value?: BinaryHardeningResource[];
+}
+
+// @public
+export interface BinaryHardeningResource extends Resource {
     architecture?: string;
     binaryHardeningId?: string;
-    canary?: CanaryFlag;
+    canary?: boolean;
     class?: string;
-    nx?: NxFlag;
-    path?: string;
-    pie?: PieFlag;
-    relro?: RelroFlag;
+    filePath?: string;
+    nx?: boolean;
+    pie?: boolean;
+    relro?: boolean;
     rpath?: string;
     runpath?: string;
-    stripped?: StrippedFlag;
+    stripped?: boolean;
 }
 
 // @public
-export interface BinaryHardeningList {
-    nextLink?: string;
-    readonly value?: BinaryHardening[];
-}
-
-// @public
-export interface BinaryHardeningSummary {
+export interface BinaryHardeningSummaryResource extends SummaryResourceProperties {
     canary?: number;
     nx?: number;
     pie?: number;
     relro?: number;
     stripped?: number;
+    summaryType: "BinaryHardening";
     totalFiles?: number;
 }
 
 // @public
-export type CanaryFlag = string;
-
-// @public
-export interface Component {
-    componentId?: string;
-    componentName?: string;
-    isUpdateAvailable?: IsUpdateAvailable;
-    license?: string;
-    paths?: string[];
-    releaseDate?: Date;
-    version?: string;
-}
-
-// @public
-export interface ComponentList {
-    nextLink?: string;
-    readonly value?: Component[];
-}
-
-// @public
 export type CreatedByType = string;
-
-// @public
-export interface CryptoCertificate {
-    cryptoCertId?: string;
-    encoding?: string;
-    expirationDate?: Date;
-    readonly filePaths?: string[];
-    fingerprint?: string;
-    isExpired?: IsExpired;
-    isSelfSigned?: IsSelfSigned;
-    isShortKeySize?: IsShortKeySize;
-    issuedDate?: Date;
-    issuer?: CryptoCertificateEntity;
-    isWeakSignature?: IsWeakSignature;
-    keyAlgorithm?: string;
-    keySize?: number;
-    name?: string;
-    pairedKey?: PairedKey;
-    role?: string;
-    serialNumber?: string;
-    signatureAlgorithm?: string;
-    subject?: CryptoCertificateEntity;
-    usage?: string[];
-}
 
 // @public
 export interface CryptoCertificateEntity {
@@ -99,64 +75,111 @@ export interface CryptoCertificateEntity {
 }
 
 // @public
-export interface CryptoCertificateList {
+export interface CryptoCertificateListResult {
     nextLink?: string;
-    readonly value?: CryptoCertificate[];
+    readonly value?: CryptoCertificateResource[];
 }
 
 // @public
-export interface CryptoCertificateSummary {
+export interface CryptoCertificateResource extends Resource {
+    cryptoCertId?: string;
+    encoding?: string;
+    expirationDate?: Date;
+    readonly filePaths?: string[];
+    fingerprint?: string;
+    isExpired?: boolean;
+    isSelfSigned?: boolean;
+    isShortKeySize?: boolean;
+    issuedDate?: Date;
+    issuer?: CryptoCertificateEntity;
+    isWeakSignature?: boolean;
+    keyAlgorithm?: string;
+    keySize?: number;
+    namePropertiesName?: string;
+    pairedKey?: PairedKey;
+    role?: string;
+    serialNumber?: string;
+    signatureAlgorithm?: string;
+    subject?: CryptoCertificateEntity;
+    usage?: string[];
+}
+
+// @public
+export interface CryptoCertificates {
+    listByFirmware(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: CryptoCertificatesListByFirmwareOptionalParams): PagedAsyncIterableIterator<CryptoCertificateResource>;
+}
+
+// @public
+export interface CryptoCertificatesListByFirmwareNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CryptoCertificatesListByFirmwareNextResponse = CryptoCertificateListResult;
+
+// @public
+export interface CryptoCertificatesListByFirmwareOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CryptoCertificatesListByFirmwareResponse = CryptoCertificateListResult;
+
+// @public
+export interface CryptoCertificateSummaryResource extends SummaryResourceProperties {
     expired?: number;
     expiringSoon?: number;
     pairedKeys?: number;
     selfSigned?: number;
     shortKeySize?: number;
+    summaryType: "CryptoCertificate";
     totalCertificates?: number;
     weakSignature?: number;
 }
 
 // @public
-interface CryptoKey_2 {
+export interface CryptoKeyListResult {
+    nextLink?: string;
+    readonly value?: CryptoKeyResource[];
+}
+
+// @public
+export interface CryptoKeyResource extends Resource {
     cryptoKeyId?: string;
     readonly filePaths?: string[];
-    isShortKeySize?: IsShortKeySize;
+    isShortKeySize?: boolean;
     keyAlgorithm?: string;
     keySize?: number;
     keyType?: string;
     pairedKey?: PairedKey;
     usage?: string[];
 }
-export { CryptoKey_2 as CryptoKey }
 
 // @public
-export interface CryptoKeyList {
-    nextLink?: string;
-    readonly value?: CryptoKey_2[];
+export interface CryptoKeys {
+    listByFirmware(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: CryptoKeysListByFirmwareOptionalParams): PagedAsyncIterableIterator<CryptoKeyResource>;
 }
 
 // @public
-export interface CryptoKeySummary {
+export interface CryptoKeysListByFirmwareNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CryptoKeysListByFirmwareNextResponse = CryptoKeyListResult;
+
+// @public
+export interface CryptoKeysListByFirmwareOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CryptoKeysListByFirmwareResponse = CryptoKeyListResult;
+
+// @public
+export interface CryptoKeySummaryResource extends SummaryResourceProperties {
     pairedKeys?: number;
     privateKeys?: number;
     publicKeys?: number;
     shortKeySize?: number;
+    summaryType: "CryptoKey";
     totalKeys?: number;
-}
-
-// @public
-export interface Cve {
-    component?: Record<string, unknown>;
-    cveId?: string;
-    cvssScore?: string;
-    cvssV2Score?: string;
-    cvssV3Score?: string;
-    cvssVersion?: string;
-    description?: string;
-    readonly links?: CveLink[];
-    name?: string;
-    publishDate?: Date;
-    severity?: string;
-    updatedDate?: Date;
 }
 
 // @public
@@ -173,18 +196,51 @@ export interface CveLink {
 }
 
 // @public
-export interface CveList {
+export interface CveListResult {
     nextLink?: string;
-    readonly value?: Cve[];
+    readonly value?: CveResource[];
 }
 
 // @public
-export interface CveSummary {
+export interface CveResource extends Resource {
+    component?: CveComponent;
+    cveId?: string;
+    cvssScore?: string;
+    cvssV2Score?: string;
+    cvssV3Score?: string;
+    cvssVersion?: string;
+    description?: string;
+    readonly links?: CveLink[];
+    namePropertiesName?: string;
+    severity?: string;
+}
+
+// @public
+export interface Cves {
+    listByFirmware(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: CvesListByFirmwareOptionalParams): PagedAsyncIterableIterator<CveResource>;
+}
+
+// @public
+export interface CvesListByFirmwareNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CvesListByFirmwareNextResponse = CveListResult;
+
+// @public
+export interface CvesListByFirmwareOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CvesListByFirmwareResponse = CveListResult;
+
+// @public
+export interface CveSummary extends SummaryResourceProperties {
     critical?: number;
     high?: number;
     low?: number;
     medium?: number;
-    undefined?: number;
+    summaryType: "CVE";
     unknown?: number;
 }
 
@@ -209,98 +265,17 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface Firmware extends ProxyResource {
+export interface Firmware extends Resource {
     description?: string;
     fileName?: string;
     fileSize?: number;
     model?: string;
     readonly provisioningState?: ProvisioningState;
     status?: Status;
-    statusMessages?: Record<string, unknown>[];
+    statusMessages?: StatusMessage[];
     vendor?: string;
     version?: string;
 }
-
-// @public
-export interface FirmwareCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareCreateResponse = Firmware;
-
-// @public
-export interface FirmwareDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface FirmwareGenerateBinaryHardeningDetailsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateBinaryHardeningDetailsResponse = BinaryHardening;
-
-// @public
-export interface FirmwareGenerateBinaryHardeningSummaryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateBinaryHardeningSummaryResponse = BinaryHardeningSummary;
-
-// @public
-export interface FirmwareGenerateComponentDetailsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateComponentDetailsResponse = Component;
-
-// @public
-export interface FirmwareGenerateCryptoCertificateSummaryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateCryptoCertificateSummaryResponse = CryptoCertificateSummary;
-
-// @public
-export interface FirmwareGenerateCryptoKeySummaryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateCryptoKeySummaryResponse = CryptoKeySummary;
-
-// @public
-export interface FirmwareGenerateCveSummaryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateCveSummaryResponse = CveSummary;
-
-// @public
-export interface FirmwareGenerateDownloadUrlOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateDownloadUrlResponse = UrlToken;
-
-// @public
-export interface FirmwareGenerateFilesystemDownloadUrlOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateFilesystemDownloadUrlResponse = UrlToken;
-
-// @public
-export interface FirmwareGenerateSummaryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGenerateSummaryResponse = FirmwareSummary;
-
-// @public
-export interface FirmwareGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareGetResponse = Firmware;
 
 // @public
 export interface FirmwareList {
@@ -309,129 +284,64 @@ export interface FirmwareList {
 }
 
 // @public
-export interface FirmwareListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+export interface Firmwares {
+    create(resourceGroupName: string, workspaceName: string, firmwareId: string, firmware: Firmware, options?: FirmwaresCreateOptionalParams): Promise<FirmwaresCreateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwaresDeleteOptionalParams): Promise<void>;
+    generateDownloadUrl(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwaresGenerateDownloadUrlOptionalParams): Promise<FirmwaresGenerateDownloadUrlResponse>;
+    generateFilesystemDownloadUrl(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwaresGenerateFilesystemDownloadUrlOptionalParams): Promise<FirmwaresGenerateFilesystemDownloadUrlResponse>;
+    get(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwaresGetOptionalParams): Promise<FirmwaresGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: FirmwaresListByWorkspaceOptionalParams): PagedAsyncIterableIterator<Firmware>;
+    update(resourceGroupName: string, workspaceName: string, firmwareId: string, firmware: FirmwareUpdateDefinition, options?: FirmwaresUpdateOptionalParams): Promise<FirmwaresUpdateResponse>;
 }
 
 // @public
-export type FirmwareListByWorkspaceNextResponse = FirmwareList;
-
-// @public
-export interface FirmwareListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+export interface FirmwaresCreateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FirmwareListByWorkspaceResponse = FirmwareList;
+export type FirmwaresCreateResponse = Firmware;
 
 // @public
-export interface FirmwareListGenerateBinaryHardeningListNextOptionalParams extends coreClient.OperationOptions {
+export interface FirmwaresDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FirmwareListGenerateBinaryHardeningListNextResponse = BinaryHardeningList;
-
-// @public
-export interface FirmwareListGenerateBinaryHardeningListOptionalParams extends coreClient.OperationOptions {
+export interface FirmwaresGenerateDownloadUrlOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FirmwareListGenerateBinaryHardeningListResponse = BinaryHardeningList;
+export type FirmwaresGenerateDownloadUrlResponse = UrlToken;
 
 // @public
-export interface FirmwareListGenerateComponentListNextOptionalParams extends coreClient.OperationOptions {
+export interface FirmwaresGenerateFilesystemDownloadUrlOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FirmwareListGenerateComponentListNextResponse = ComponentList;
+export type FirmwaresGenerateFilesystemDownloadUrlResponse = UrlToken;
 
 // @public
-export interface FirmwareListGenerateComponentListOptionalParams extends coreClient.OperationOptions {
+export interface FirmwaresGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FirmwareListGenerateComponentListResponse = ComponentList;
+export type FirmwaresGetResponse = Firmware;
 
 // @public
-export interface FirmwareListGenerateCryptoCertificateListNextOptionalParams extends coreClient.OperationOptions {
+export interface FirmwaresListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FirmwareListGenerateCryptoCertificateListNextResponse = CryptoCertificateList;
+export type FirmwaresListByWorkspaceNextResponse = FirmwareList;
 
 // @public
-export interface FirmwareListGenerateCryptoCertificateListOptionalParams extends coreClient.OperationOptions {
+export interface FirmwaresListByWorkspaceOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FirmwareListGenerateCryptoCertificateListResponse = CryptoCertificateList;
+export type FirmwaresListByWorkspaceResponse = FirmwareList;
 
 // @public
-export interface FirmwareListGenerateCryptoKeyListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareListGenerateCryptoKeyListNextResponse = CryptoKeyList;
-
-// @public
-export interface FirmwareListGenerateCryptoKeyListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareListGenerateCryptoKeyListResponse = CryptoKeyList;
-
-// @public
-export interface FirmwareListGenerateCveListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareListGenerateCveListNextResponse = CveList;
-
-// @public
-export interface FirmwareListGenerateCveListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareListGenerateCveListResponse = CveList;
-
-// @public
-export interface FirmwareListGeneratePasswordHashListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareListGeneratePasswordHashListNextResponse = PasswordHashList;
-
-// @public
-export interface FirmwareListGeneratePasswordHashListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareListGeneratePasswordHashListResponse = PasswordHashList;
-
-// @public
-export interface FirmwareOperations {
-    create(resourceGroupName: string, workspaceName: string, firmwareId: string, firmware: Firmware, options?: FirmwareCreateOptionalParams): Promise<FirmwareCreateResponse>;
-    delete(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareDeleteOptionalParams): Promise<void>;
-    generateBinaryHardeningDetails(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateBinaryHardeningDetailsOptionalParams): Promise<FirmwareGenerateBinaryHardeningDetailsResponse>;
-    generateBinaryHardeningSummary(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateBinaryHardeningSummaryOptionalParams): Promise<FirmwareGenerateBinaryHardeningSummaryResponse>;
-    generateComponentDetails(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateComponentDetailsOptionalParams): Promise<FirmwareGenerateComponentDetailsResponse>;
-    generateCryptoCertificateSummary(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateCryptoCertificateSummaryOptionalParams): Promise<FirmwareGenerateCryptoCertificateSummaryResponse>;
-    generateCryptoKeySummary(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateCryptoKeySummaryOptionalParams): Promise<FirmwareGenerateCryptoKeySummaryResponse>;
-    generateCveSummary(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateCveSummaryOptionalParams): Promise<FirmwareGenerateCveSummaryResponse>;
-    generateDownloadUrl(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateDownloadUrlOptionalParams): Promise<FirmwareGenerateDownloadUrlResponse>;
-    generateFilesystemDownloadUrl(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateFilesystemDownloadUrlOptionalParams): Promise<FirmwareGenerateFilesystemDownloadUrlResponse>;
-    generateSummary(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGenerateSummaryOptionalParams): Promise<FirmwareGenerateSummaryResponse>;
-    get(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareGetOptionalParams): Promise<FirmwareGetResponse>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: FirmwareListByWorkspaceOptionalParams): PagedAsyncIterableIterator<Firmware>;
-    listGenerateBinaryHardeningList(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareListGenerateBinaryHardeningListOptionalParams): PagedAsyncIterableIterator<BinaryHardening>;
-    listGenerateComponentList(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareListGenerateComponentListOptionalParams): PagedAsyncIterableIterator<Component>;
-    listGenerateCryptoCertificateList(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareListGenerateCryptoCertificateListOptionalParams): PagedAsyncIterableIterator<CryptoCertificate>;
-    listGenerateCryptoKeyList(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareListGenerateCryptoKeyListOptionalParams): PagedAsyncIterableIterator<CryptoKey_2>;
-    listGenerateCveList(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareListGenerateCveListOptionalParams): PagedAsyncIterableIterator<Cve>;
-    listGeneratePasswordHashList(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: FirmwareListGeneratePasswordHashListOptionalParams): PagedAsyncIterableIterator<PasswordHash>;
-    update(resourceGroupName: string, workspaceName: string, firmwareId: string, firmware: FirmwareUpdateDefinition, options?: FirmwareUpdateOptionalParams): Promise<FirmwareUpdateResponse>;
-}
-
-// @public
-export interface FirmwareSummary {
+export interface FirmwareSummary extends SummaryResourceProperties {
     analysisTimeSeconds?: number;
     binaryCount?: number;
     componentCount?: number;
@@ -439,7 +349,15 @@ export interface FirmwareSummary {
     extractedSize?: number;
     fileSize?: number;
     rootFileSystems?: number;
+    summaryType: "Firmware";
 }
+
+// @public
+export interface FirmwaresUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FirmwaresUpdateResponse = Firmware;
 
 // @public
 export interface FirmwareUpdateDefinition {
@@ -449,17 +367,10 @@ export interface FirmwareUpdateDefinition {
     model?: string;
     readonly provisioningState?: ProvisioningState;
     status?: Status;
-    statusMessages?: Record<string, unknown>[];
+    statusMessages?: StatusMessage[];
     vendor?: string;
     version?: string;
 }
-
-// @public
-export interface FirmwareUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FirmwareUpdateResponse = Firmware;
 
 // @public
 export interface GenerateUploadUrlRequest {
@@ -477,11 +388,25 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    firmwareOperations: FirmwareOperations;
+    binaryHardening: BinaryHardening;
+    // (undocumented)
+    cryptoCertificates: CryptoCertificates;
+    // (undocumented)
+    cryptoKeys: CryptoKeys;
+    // (undocumented)
+    cves: Cves;
+    // (undocumented)
+    firmwares: Firmwares;
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    passwordHashes: PasswordHashes;
+    // (undocumented)
+    sbomComponents: SbomComponents;
+    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    summaries: Summaries;
     // (undocumented)
     workspaces: Workspaces;
 }
@@ -494,29 +419,8 @@ export interface IoTFirmwareDefenseClientOptionalParams extends coreClient.Servi
 }
 
 // @public
-export type IsExpired = string;
-
-// @public
-export type IsSelfSigned = string;
-
-// @public
-export type IsShortKeySize = string;
-
-// @public
-export type IsUpdateAvailable = string;
-
-// @public
-export type IsWeakSignature = string;
-
-// @public
 export enum KnownActionType {
     Internal = "Internal"
-}
-
-// @public
-export enum KnownCanaryFlag {
-    False = "False",
-    True = "True"
 }
 
 // @public
@@ -528,52 +432,10 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownIsExpired {
-    False = "False",
-    True = "True"
-}
-
-// @public
-export enum KnownIsSelfSigned {
-    False = "False",
-    True = "True"
-}
-
-// @public
-export enum KnownIsShortKeySize {
-    False = "False",
-    True = "True"
-}
-
-// @public
-export enum KnownIsUpdateAvailable {
-    False = "False",
-    True = "True"
-}
-
-// @public
-export enum KnownIsWeakSignature {
-    False = "False",
-    True = "True"
-}
-
-// @public
-export enum KnownNxFlag {
-    False = "False",
-    True = "True"
-}
-
-// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
-}
-
-// @public
-export enum KnownPieFlag {
-    False = "False",
-    True = "True"
 }
 
 // @public
@@ -582,12 +444,6 @@ export enum KnownProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
     Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownRelroFlag {
-    False = "False",
-    True = "True"
 }
 
 // @public
@@ -600,13 +456,22 @@ export enum KnownStatus {
 }
 
 // @public
-export enum KnownStrippedFlag {
-    False = "False",
-    True = "True"
+export enum KnownSummaryName {
+    BinaryHardening = "BinaryHardening",
+    CryptoCertificate = "CryptoCertificate",
+    CryptoKey = "CryptoKey",
+    CVE = "CVE",
+    Firmware = "Firmware"
 }
 
 // @public
-export type NxFlag = string;
+export enum KnownSummaryType {
+    BinaryHardening = "BinaryHardening",
+    CryptoCertificate = "CryptoCertificate",
+    CryptoKey = "CryptoKey",
+    CVE = "CVE",
+    Firmware = "Firmware"
+}
 
 // @public
 export interface Operation {
@@ -655,13 +520,37 @@ export type Origin = string;
 
 // @public
 export interface PairedKey {
-    additionalProperties?: Record<string, unknown>;
     id?: string;
     type?: string;
 }
 
 // @public
-export interface PasswordHash {
+export interface PasswordHashes {
+    listByFirmware(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: PasswordHashesListByFirmwareOptionalParams): PagedAsyncIterableIterator<PasswordHashResource>;
+}
+
+// @public
+export interface PasswordHashesListByFirmwareNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PasswordHashesListByFirmwareNextResponse = PasswordHashListResult;
+
+// @public
+export interface PasswordHashesListByFirmwareOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PasswordHashesListByFirmwareResponse = PasswordHashListResult;
+
+// @public
+export interface PasswordHashListResult {
+    nextLink?: string;
+    readonly value?: PasswordHashResource[];
+}
+
+// @public
+export interface PasswordHashResource extends Resource {
     algorithm?: string;
     context?: string;
     filePath?: string;
@@ -672,23 +561,7 @@ export interface PasswordHash {
 }
 
 // @public
-export interface PasswordHashList {
-    nextLink?: string;
-    readonly value?: PasswordHash[];
-}
-
-// @public
-export type PieFlag = string;
-
-// @public
 export type ProvisioningState = string;
-
-// @public
-export interface ProxyResource extends Resource {
-}
-
-// @public
-export type RelroFlag = string;
 
 // @public
 export interface Resource {
@@ -699,10 +572,99 @@ export interface Resource {
 }
 
 // @public
+export interface SbomComponentListResult {
+    nextLink?: string;
+    readonly value?: SbomComponentResource[];
+}
+
+// @public
+export interface SbomComponentResource extends Resource {
+    componentId?: string;
+    componentName?: string;
+    filePaths?: string[];
+    license?: string;
+    version?: string;
+}
+
+// @public
+export interface SbomComponents {
+    listByFirmware(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: SbomComponentsListByFirmwareOptionalParams): PagedAsyncIterableIterator<SbomComponentResource>;
+}
+
+// @public
+export interface SbomComponentsListByFirmwareNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SbomComponentsListByFirmwareNextResponse = SbomComponentListResult;
+
+// @public
+export interface SbomComponentsListByFirmwareOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SbomComponentsListByFirmwareResponse = SbomComponentListResult;
+
+// @public
 export type Status = string;
 
 // @public
-export type StrippedFlag = string;
+export interface StatusMessage {
+    errorCode?: number;
+    message?: string;
+}
+
+// @public
+export interface Summaries {
+    get(resourceGroupName: string, workspaceName: string, firmwareId: string, summaryName: SummaryName, options?: SummariesGetOptionalParams): Promise<SummariesGetResponse>;
+    listByFirmware(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: SummariesListByFirmwareOptionalParams): PagedAsyncIterableIterator<SummaryResource>;
+}
+
+// @public
+export interface SummariesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesGetResponse = SummaryResource;
+
+// @public
+export interface SummariesListByFirmwareNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesListByFirmwareNextResponse = SummaryListResult;
+
+// @public
+export interface SummariesListByFirmwareOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SummariesListByFirmwareResponse = SummaryListResult;
+
+// @public
+export interface SummaryListResult {
+    nextLink?: string;
+    readonly value?: SummaryResource[];
+}
+
+// @public
+export type SummaryName = string;
+
+// @public
+export interface SummaryResource extends Resource {
+    readonly properties?: SummaryResourcePropertiesUnion;
+}
+
+// @public
+export interface SummaryResourceProperties {
+    summaryType: "Firmware" | "CVE" | "BinaryHardening" | "CryptoCertificate" | "CryptoKey";
+}
+
+// @public (undocumented)
+export type SummaryResourcePropertiesUnion = SummaryResourceProperties | FirmwareSummary | CveSummary | BinaryHardeningSummaryResource | CryptoCertificateSummaryResource | CryptoKeySummaryResource;
+
+// @public
+export type SummaryType = string;
 
 // @public
 export interface SystemData {
@@ -724,7 +686,6 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface UrlToken {
-    readonly uploadUrl?: string;
     readonly url?: string;
 }
 
