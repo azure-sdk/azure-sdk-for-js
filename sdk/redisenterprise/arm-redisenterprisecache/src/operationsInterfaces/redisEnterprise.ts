@@ -19,7 +19,7 @@ import {
   RedisEnterpriseUpdateResponse,
   RedisEnterpriseDeleteOptionalParams,
   RedisEnterpriseGetOptionalParams,
-  RedisEnterpriseGetResponse
+  RedisEnterpriseGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface RedisEnterprise {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RedisEnterpriseListByResourceGroupOptionalParams
+    options?: RedisEnterpriseListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Gets all RedisEnterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
   list(
-    options?: RedisEnterpriseListOptionalParams
+    options?: RedisEnterpriseListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
@@ -52,7 +52,7 @@ export interface RedisEnterprise {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: RedisEnterpriseCreateOptionalParams
+    options?: RedisEnterpriseCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RedisEnterpriseCreateResponse>,
@@ -70,7 +70,7 @@ export interface RedisEnterprise {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: RedisEnterpriseCreateOptionalParams
+    options?: RedisEnterpriseCreateOptionalParams,
   ): Promise<RedisEnterpriseCreateResponse>;
   /**
    * Updates an existing RedisEnterprise cluster
@@ -83,7 +83,7 @@ export interface RedisEnterprise {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterUpdate,
-    options?: RedisEnterpriseUpdateOptionalParams
+    options?: RedisEnterpriseUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RedisEnterpriseUpdateResponse>,
@@ -101,7 +101,7 @@ export interface RedisEnterprise {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterUpdate,
-    options?: RedisEnterpriseUpdateOptionalParams
+    options?: RedisEnterpriseUpdateOptionalParams,
   ): Promise<RedisEnterpriseUpdateResponse>;
   /**
    * Deletes a RedisEnterprise cache cluster.
@@ -112,7 +112,7 @@ export interface RedisEnterprise {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: RedisEnterpriseDeleteOptionalParams
+    options?: RedisEnterpriseDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a RedisEnterprise cache cluster.
@@ -123,7 +123,7 @@ export interface RedisEnterprise {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: RedisEnterpriseDeleteOptionalParams
+    options?: RedisEnterpriseDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about a RedisEnterprise cluster
@@ -134,6 +134,6 @@ export interface RedisEnterprise {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: RedisEnterpriseGetOptionalParams
+    options?: RedisEnterpriseGetOptionalParams,
   ): Promise<RedisEnterpriseGetResponse>;
 }

@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateLinkResource,
-  PrivateLinkResourcesListByClusterOptionalParams
+  PrivateLinkResourcesListByClusterOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface PrivateLinkResources {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateLinkResourcesListByClusterOptionalParams
+    options?: PrivateLinkResourcesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
 }
