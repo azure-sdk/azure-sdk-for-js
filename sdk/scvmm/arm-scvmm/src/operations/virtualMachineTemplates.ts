@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualMachineTemplate,
   VirtualMachineTemplatesListByResourceGroupNextOptionalParams,
@@ -28,11 +32,12 @@ import {
   VirtualMachineTemplatesCreateOrUpdateOptionalParams,
   VirtualMachineTemplatesCreateOrUpdateResponse,
   VirtualMachineTemplatesDeleteOptionalParams,
+  VirtualMachineTemplatesDeleteResponse,
   ResourcePatch,
   VirtualMachineTemplatesUpdateOptionalParams,
   VirtualMachineTemplatesUpdateResponse,
   VirtualMachineTemplatesListByResourceGroupNextResponse,
-  VirtualMachineTemplatesListBySubscriptionNextResponse
+  VirtualMachineTemplatesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,12 +55,12 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
 
   /**
    * List of VirtualMachineTemplates in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams
+    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineTemplate> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -72,16 +77,16 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: VirtualMachineTemplatesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualMachineTemplate[]> {
     let result: VirtualMachineTemplatesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +101,7 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,11 +112,11 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams
+    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<VirtualMachineTemplate> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,7 +127,7 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: VirtualMachineTemplatesListBySubscriptionOptionalParams
+    options?: VirtualMachineTemplatesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineTemplate> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -137,13 +142,13 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: VirtualMachineTemplatesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualMachineTemplate[]> {
     let result: VirtualMachineTemplatesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -164,7 +169,7 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: VirtualMachineTemplatesListBySubscriptionOptionalParams
+    options?: VirtualMachineTemplatesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<VirtualMachineTemplate> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -173,24 +178,24 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
 
   /**
    * Implements VirtualMachineTemplate GET method.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesGetOptionalParams
+    options?: VirtualMachineTemplatesGetOptionalParams,
   ): Promise<VirtualMachineTemplatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineTemplateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Onboards the ScVmm VM Template as an Azure VM Template resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param body Request payload.
    * @param options The options parameters.
@@ -199,30 +204,29 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     resourceGroupName: string,
     virtualMachineTemplateName: string,
     body: VirtualMachineTemplate,
-    options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams
+    options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesCreateOrUpdateResponse>,
       VirtualMachineTemplatesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualMachineTemplatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -231,8 +235,8 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -240,20 +244,23 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineTemplateName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineTemplateName, body, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineTemplatesCreateOrUpdateResponse,
+      OperationState<VirtualMachineTemplatesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,7 +268,7 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
 
   /**
    * Onboards the ScVmm VM Template as an Azure VM Template resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param body Request payload.
    * @param options The options parameters.
@@ -270,45 +277,49 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     resourceGroupName: string,
     virtualMachineTemplateName: string,
     body: VirtualMachineTemplate,
-    options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams
+    options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineTemplatesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       virtualMachineTemplateName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Deregisters the ScVmm VM Template from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: VirtualMachineTemplatesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesDeleteResponse>,
+      VirtualMachineTemplatesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualMachineTemplatesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -317,8 +328,8 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -326,20 +337,23 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineTemplateName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineTemplateName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineTemplatesDeleteResponse,
+      OperationState<VirtualMachineTemplatesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -347,26 +361,26 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
 
   /**
    * Deregisters the ScVmm VM Template from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesDeleteOptionalParams
-  ): Promise<void> {
+    options?: VirtualMachineTemplatesDeleteOptionalParams,
+  ): Promise<VirtualMachineTemplatesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       virtualMachineTemplateName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Updates the VirtualMachineTemplate resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param body VirtualMachineTemplates patch details.
    * @param options The options parameters.
@@ -375,30 +389,29 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     resourceGroupName: string,
     virtualMachineTemplateName: string,
     body: ResourcePatch,
-    options?: VirtualMachineTemplatesUpdateOptionalParams
+    options?: VirtualMachineTemplatesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesUpdateResponse>,
       VirtualMachineTemplatesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualMachineTemplatesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -407,8 +420,8 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -416,20 +429,23 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineTemplateName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineTemplateName, body, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineTemplatesUpdateResponse,
+      OperationState<VirtualMachineTemplatesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -437,7 +453,7 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
 
   /**
    * Updates the VirtualMachineTemplate resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualMachineTemplateName Name of the VirtualMachineTemplate.
    * @param body VirtualMachineTemplates patch details.
    * @param options The options parameters.
@@ -446,29 +462,29 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     resourceGroupName: string,
     virtualMachineTemplateName: string,
     body: ResourcePatch,
-    options?: VirtualMachineTemplatesUpdateOptionalParams
+    options?: VirtualMachineTemplatesUpdateOptionalParams,
   ): Promise<VirtualMachineTemplatesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       virtualMachineTemplateName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * List of VirtualMachineTemplates in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams
+    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams,
   ): Promise<VirtualMachineTemplatesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -477,28 +493,28 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: VirtualMachineTemplatesListBySubscriptionOptionalParams
+    options?: VirtualMachineTemplatesListBySubscriptionOptionalParams,
   ): Promise<VirtualMachineTemplatesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: VirtualMachineTemplatesListByResourceGroupNextOptionalParams
+    options?: VirtualMachineTemplatesListByResourceGroupNextOptionalParams,
   ): Promise<VirtualMachineTemplatesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -509,11 +525,11 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: VirtualMachineTemplatesListBySubscriptionNextOptionalParams
+    options?: VirtualMachineTemplatesListBySubscriptionNextOptionalParams,
   ): Promise<VirtualMachineTemplatesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -521,103 +537,107 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineTemplateName
+    Parameters.virtualMachineTemplateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     201: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     202: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     204: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineTemplateName
+    Parameters.virtualMachineTemplateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VirtualMachineTemplatesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachineTemplatesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachineTemplatesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachineTemplatesDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineTemplateName
+    Parameters.virtualMachineTemplateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     201: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     202: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     204: {
-      bodyMapper: Mappers.VirtualMachineTemplate
+      bodyMapper: Mappers.VirtualMachineTemplate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -625,86 +645,84 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualMachineTemplateName
+    Parameters.virtualMachineTemplateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineTemplateListResult
+      bodyMapper: Mappers.VirtualMachineTemplateListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualMachineTemplates",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualMachineTemplates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineTemplateListResult
+      bodyMapper: Mappers.VirtualMachineTemplateListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineTemplateListResult
+      bodyMapper: Mappers.VirtualMachineTemplateListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineTemplateListResult
+      bodyMapper: Mappers.VirtualMachineTemplateListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
