@@ -27,7 +27,7 @@ import {
   ManagedInstancesUpdateResponse,
   ManagedInstancesFailoverOptionalParams,
   ManagedInstancesStartOptionalParams,
-  ManagedInstancesStopOptionalParams
+  ManagedInstancesStopOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface ManagedInstances {
    * @param options The options parameters.
    */
   list(
-    options?: ManagedInstancesListOptionalParams
+    options?: ManagedInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstance>;
   /**
    * Gets a list of all managed instances in an instance pool.
@@ -50,7 +50,7 @@ export interface ManagedInstances {
   listByInstancePool(
     resourceGroupName: string,
     instancePoolName: string,
-    options?: ManagedInstancesListByInstancePoolOptionalParams
+    options?: ManagedInstancesListByInstancePoolOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstance>;
   /**
    * Gets a list of managed instances in a resource group.
@@ -60,7 +60,7 @@ export interface ManagedInstances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ManagedInstancesListByResourceGroupOptionalParams
+    options?: ManagedInstancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstance>;
   /**
    * Gets the collection of outbound network dependencies for the given managed instance.
@@ -72,7 +72,7 @@ export interface ManagedInstances {
   listOutboundNetworkDependenciesByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams
+    options?: ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
    * Get top resource consuming queries of a managed instance.
@@ -84,7 +84,7 @@ export interface ManagedInstances {
   listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesListByManagedInstanceOptionalParams
+    options?: ManagedInstancesListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<TopQueries>;
   /**
    * Gets a managed instance.
@@ -96,7 +96,7 @@ export interface ManagedInstances {
   get(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesGetOptionalParams
+    options?: ManagedInstancesGetOptionalParams,
   ): Promise<ManagedInstancesGetResponse>;
   /**
    * Creates or updates a managed instance.
@@ -110,7 +110,7 @@ export interface ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     parameters: ManagedInstance,
-    options?: ManagedInstancesCreateOrUpdateOptionalParams
+    options?: ManagedInstancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstancesCreateOrUpdateResponse>,
@@ -129,7 +129,7 @@ export interface ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     parameters: ManagedInstance,
-    options?: ManagedInstancesCreateOrUpdateOptionalParams
+    options?: ManagedInstancesCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstancesCreateOrUpdateResponse>;
   /**
    * Deletes a managed instance.
@@ -141,7 +141,7 @@ export interface ManagedInstances {
   beginDelete(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesDeleteOptionalParams
+    options?: ManagedInstancesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a managed instance.
@@ -153,7 +153,7 @@ export interface ManagedInstances {
   beginDeleteAndWait(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesDeleteOptionalParams
+    options?: ManagedInstancesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a managed instance.
@@ -167,7 +167,7 @@ export interface ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     parameters: ManagedInstanceUpdate,
-    options?: ManagedInstancesUpdateOptionalParams
+    options?: ManagedInstancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstancesUpdateResponse>,
@@ -186,7 +186,7 @@ export interface ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     parameters: ManagedInstanceUpdate,
-    options?: ManagedInstancesUpdateOptionalParams
+    options?: ManagedInstancesUpdateOptionalParams,
   ): Promise<ManagedInstancesUpdateResponse>;
   /**
    * Failovers a managed instance.
@@ -198,7 +198,7 @@ export interface ManagedInstances {
   beginFailover(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesFailoverOptionalParams
+    options?: ManagedInstancesFailoverOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Failovers a managed instance.
@@ -210,7 +210,7 @@ export interface ManagedInstances {
   beginFailoverAndWait(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesFailoverOptionalParams
+    options?: ManagedInstancesFailoverOptionalParams,
   ): Promise<void>;
   /**
    * Starts the managed instance.
@@ -222,7 +222,7 @@ export interface ManagedInstances {
   beginStart(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesStartOptionalParams
+    options?: ManagedInstancesStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts the managed instance.
@@ -234,7 +234,7 @@ export interface ManagedInstances {
   beginStartAndWait(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesStartOptionalParams
+    options?: ManagedInstancesStartOptionalParams,
   ): Promise<void>;
   /**
    * Stops the managed instance.
@@ -246,7 +246,7 @@ export interface ManagedInstances {
   beginStop(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesStopOptionalParams
+    options?: ManagedInstancesStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops the managed instance.
@@ -258,6 +258,6 @@ export interface ManagedInstances {
   beginStopAndWait(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstancesStopOptionalParams
+    options?: ManagedInstancesStopOptionalParams,
   ): Promise<void>;
 }
