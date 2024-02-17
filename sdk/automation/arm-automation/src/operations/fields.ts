@@ -15,7 +15,7 @@ import { AutomationClient } from "../automationClient";
 import {
   TypeField,
   FieldsListByTypeOptionalParams,
-  FieldsListByTypeResponse
+  FieldsListByTypeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,14 +44,14 @@ export class FieldsImpl implements Fields {
     automationAccountName: string,
     moduleName: string,
     typeName: string,
-    options?: FieldsListByTypeOptionalParams
+    options?: FieldsListByTypeOptionalParams,
   ): PagedAsyncIterableIterator<TypeField> {
     const iter = this.listByTypePagingAll(
       resourceGroupName,
       automationAccountName,
       moduleName,
       typeName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class FieldsImpl implements Fields {
           moduleName,
           typeName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class FieldsImpl implements Fields {
     moduleName: string,
     typeName: string,
     options?: FieldsListByTypeOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<TypeField[]> {
     let result: FieldsListByTypeResponse;
     result = await this._listByType(
@@ -90,7 +90,7 @@ export class FieldsImpl implements Fields {
       automationAccountName,
       moduleName,
       typeName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -100,14 +100,14 @@ export class FieldsImpl implements Fields {
     automationAccountName: string,
     moduleName: string,
     typeName: string,
-    options?: FieldsListByTypeOptionalParams
+    options?: FieldsListByTypeOptionalParams,
   ): AsyncIterableIterator<TypeField> {
     for await (const page of this.listByTypePagingPage(
       resourceGroupName,
       automationAccountName,
       moduleName,
       typeName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class FieldsImpl implements Fields {
     automationAccountName: string,
     moduleName: string,
     typeName: string,
-    options?: FieldsListByTypeOptionalParams
+    options?: FieldsListByTypeOptionalParams,
   ): Promise<FieldsListByTypeResponse> {
     return this.client.sendOperationRequest(
       {
@@ -134,9 +134,9 @@ export class FieldsImpl implements Fields {
         automationAccountName,
         moduleName,
         typeName,
-        options
+        options,
       },
-      listByTypeOperationSpec
+      listByTypeOperationSpec,
     );
   }
 }
@@ -144,26 +144,25 @@ export class FieldsImpl implements Fields {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByTypeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/types/{typeName}/fields",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/types/{typeName}/fields",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TypeFieldListResult
+      bodyMapper: Mappers.TypeFieldListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.moduleName,
-    Parameters.typeName
+    Parameters.typeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
