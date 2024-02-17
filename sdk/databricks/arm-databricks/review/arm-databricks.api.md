@@ -113,6 +113,15 @@ export interface AddressSpace {
     addressPrefixes?: string[];
 }
 
+// @public
+export interface AutomaticClusterUpdateDefinition {
+    // (undocumented)
+    value?: AutomaticClusterUpdateValue;
+}
+
+// @public
+export type AutomaticClusterUpdateValue = string;
+
 // @public (undocumented)
 export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -143,6 +152,19 @@ export interface AzureDatabricksManagementClientOptionalParams extends coreClien
 }
 
 // @public
+export interface ComplianceSecurityProfileDefinition {
+    complianceStandards?: ComplianceStandard[];
+    // (undocumented)
+    value?: ComplianceSecurityProfileValue;
+}
+
+// @public
+export type ComplianceSecurityProfileValue = string;
+
+// @public
+export type ComplianceStandard = string;
+
+// @public
 export interface CreatedBy {
     readonly applicationId?: string;
     readonly oid?: string;
@@ -154,6 +176,12 @@ export type CreatedByType = string;
 
 // @public
 export type CustomParameterType = string;
+
+// @public
+export interface DefaultCatalogProperties {
+    initialName?: string;
+    initialType?: InitialType;
+}
 
 // @public
 export interface Encryption {
@@ -200,6 +228,22 @@ export interface EndpointDetail {
 }
 
 // @public
+export interface EnhancedSecurityComplianceDefinition {
+    automaticClusterUpdate?: AutomaticClusterUpdateDefinition;
+    complianceSecurityProfile?: ComplianceSecurityProfileDefinition;
+    enhancedSecurityMonitoring?: EnhancedSecurityMonitoringDefinition;
+}
+
+// @public
+export interface EnhancedSecurityMonitoringDefinition {
+    // (undocumented)
+    value?: EnhancedSecurityMonitoringValue;
+}
+
+// @public
+export type EnhancedSecurityMonitoringValue = string;
+
+// @public
 export interface ErrorDetail {
     code: string;
     message: string;
@@ -235,7 +279,32 @@ export interface GroupIdInformationProperties {
 }
 
 // @public
+export type IdentityType = string;
+
+// @public
+export type InitialType = string;
+
+// @public
 export type KeySource = string;
+
+// @public
+export enum KnownAutomaticClusterUpdateValue {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownComplianceSecurityProfileValue {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownComplianceStandard {
+    Hipaa = "HIPAA",
+    None = "NONE",
+    PCIDSS = "PCI_DSS"
+}
 
 // @public
 export enum KnownCreatedByType {
@@ -255,6 +324,24 @@ export enum KnownCustomParameterType {
 // @public
 export enum KnownEncryptionKeySource {
     MicrosoftKeyvault = "Microsoft.Keyvault"
+}
+
+// @public
+export enum KnownEnhancedSecurityMonitoringValue {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownInitialType {
+    HiveMetastore = "HiveMetastore",
+    UnityCatalog = "UnityCatalog"
 }
 
 // @public
@@ -284,6 +371,12 @@ export enum KnownPeeringState {
     Connected = "Connected",
     Disconnected = "Disconnected",
     Initiated = "Initiated"
+}
+
+// @public
+export enum KnownPrivateDbfsAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -427,6 +520,9 @@ export type PeeringProvisioningState = string;
 
 // @public
 export type PeeringState = string;
+
+// @public
+export type PrivateDbfsAccess = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -674,14 +770,19 @@ export type VNetPeeringListByWorkspaceResponse = VirtualNetworkPeeringList;
 
 // @public
 export interface Workspace extends TrackedResource {
+    accessConnector?: WorkspacePropertiesAccessConnector;
     authorizations?: WorkspaceProviderAuthorization[];
     createdBy?: CreatedBy;
     readonly createdDateTime?: Date;
+    defaultCatalog?: DefaultCatalogProperties;
     readonly diskEncryptionSetId?: string;
     encryption?: WorkspacePropertiesEncryption;
+    enhancedSecurityCompliance?: EnhancedSecurityComplianceDefinition;
+    readonly isUcEnabled?: boolean;
     managedDiskIdentity?: ManagedIdentityConfiguration;
     managedResourceGroupId: string;
     parameters?: WorkspaceCustomParameters;
+    privateDbfsAccess?: PrivateDbfsAccess;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -746,6 +847,13 @@ export interface WorkspaceListResult {
 }
 
 // @public
+export interface WorkspacePropertiesAccessConnector {
+    id: string;
+    identityType: IdentityType;
+    userAssignedIdentityId?: string;
+}
+
+// @public
 export interface WorkspacePropertiesEncryption {
     entities: EncryptionEntitiesDefinition;
 }
@@ -781,6 +889,7 @@ export type WorkspacesCreateOrUpdateResponse = Workspace;
 // @public
 export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
+    retainUcData?: boolean;
     updateIntervalInMs?: number;
 }
 
