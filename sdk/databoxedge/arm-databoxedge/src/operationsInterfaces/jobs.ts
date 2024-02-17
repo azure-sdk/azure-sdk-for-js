@@ -21,6 +21,6 @@ export interface Jobs {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: JobsGetOptionalParams
+    options?: JobsGetOptionalParams,
   ): Promise<JobsGetResponse>;
 }
