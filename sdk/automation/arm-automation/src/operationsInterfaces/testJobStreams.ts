@@ -11,7 +11,7 @@ import {
   JobStream,
   TestJobStreamsListByTestJobOptionalParams,
   TestJobStreamsGetOptionalParams,
-  TestJobStreamsGetResponse
+  TestJobStreamsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface TestJobStreams {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobStreamsListByTestJobOptionalParams
+    options?: TestJobStreamsListByTestJobOptionalParams,
   ): PagedAsyncIterableIterator<JobStream>;
   /**
    * Retrieve a test job stream of the test job identified by runbook name and stream id.
@@ -43,6 +43,6 @@ export interface TestJobStreams {
     automationAccountName: string,
     runbookName: string,
     jobStreamId: string,
-    options?: TestJobStreamsGetOptionalParams
+    options?: TestJobStreamsGetOptionalParams,
   ): Promise<TestJobStreamsGetResponse>;
 }
