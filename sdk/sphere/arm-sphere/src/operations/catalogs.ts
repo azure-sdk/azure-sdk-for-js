@@ -16,7 +16,7 @@ import { AzureSphereManagementClient } from "../azureSphereManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -59,7 +59,7 @@ import {
   CatalogsListDeploymentsNextResponse,
   CatalogsListDeviceGroupsNextResponse,
   CatalogsListDeviceInsightsNextResponse,
-  CatalogsListDevicesNextResponse
+  CatalogsListDevicesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,7 +80,7 @@ export class CatalogsImpl implements Catalogs {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: CatalogsListBySubscriptionOptionalParams
+    options?: CatalogsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Catalog> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -95,13 +95,13 @@ export class CatalogsImpl implements Catalogs {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: CatalogsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Catalog[]> {
     let result: CatalogsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -122,7 +122,7 @@ export class CatalogsImpl implements Catalogs {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: CatalogsListBySubscriptionOptionalParams
+    options?: CatalogsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Catalog> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -136,7 +136,7 @@ export class CatalogsImpl implements Catalogs {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: CatalogsListByResourceGroupOptionalParams
+    options?: CatalogsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Catalog> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -153,16 +153,16 @@ export class CatalogsImpl implements Catalogs {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: CatalogsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Catalog[]> {
     let result: CatalogsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -177,7 +177,7 @@ export class CatalogsImpl implements Catalogs {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -188,11 +188,11 @@ export class CatalogsImpl implements Catalogs {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: CatalogsListByResourceGroupOptionalParams
+    options?: CatalogsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Catalog> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -207,12 +207,12 @@ export class CatalogsImpl implements Catalogs {
   public listDeployments(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDeploymentsOptionalParams
+    options?: CatalogsListDeploymentsOptionalParams,
   ): PagedAsyncIterableIterator<Deployment> {
     const iter = this.listDeploymentsPagingAll(
       resourceGroupName,
       catalogName,
-      options
+      options,
     );
     return {
       next() {
@@ -229,9 +229,9 @@ export class CatalogsImpl implements Catalogs {
           resourceGroupName,
           catalogName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -239,7 +239,7 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     options?: CatalogsListDeploymentsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Deployment[]> {
     let result: CatalogsListDeploymentsResponse;
     let continuationToken = settings?.continuationToken;
@@ -247,7 +247,7 @@ export class CatalogsImpl implements Catalogs {
       result = await this._listDeployments(
         resourceGroupName,
         catalogName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -259,7 +259,7 @@ export class CatalogsImpl implements Catalogs {
         resourceGroupName,
         catalogName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -271,12 +271,12 @@ export class CatalogsImpl implements Catalogs {
   private async *listDeploymentsPagingAll(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDeploymentsOptionalParams
+    options?: CatalogsListDeploymentsOptionalParams,
   ): AsyncIterableIterator<Deployment> {
     for await (const page of this.listDeploymentsPagingPage(
       resourceGroupName,
       catalogName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -293,13 +293,13 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     listDeviceGroupsRequest: ListDeviceGroupsRequest,
-    options?: CatalogsListDeviceGroupsOptionalParams
+    options?: CatalogsListDeviceGroupsOptionalParams,
   ): PagedAsyncIterableIterator<DeviceGroup> {
     const iter = this.listDeviceGroupsPagingAll(
       resourceGroupName,
       catalogName,
       listDeviceGroupsRequest,
-      options
+      options,
     );
     return {
       next() {
@@ -317,9 +317,9 @@ export class CatalogsImpl implements Catalogs {
           catalogName,
           listDeviceGroupsRequest,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -328,7 +328,7 @@ export class CatalogsImpl implements Catalogs {
     catalogName: string,
     listDeviceGroupsRequest: ListDeviceGroupsRequest,
     options?: CatalogsListDeviceGroupsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeviceGroup[]> {
     let result: CatalogsListDeviceGroupsResponse;
     let continuationToken = settings?.continuationToken;
@@ -337,7 +337,7 @@ export class CatalogsImpl implements Catalogs {
         resourceGroupName,
         catalogName,
         listDeviceGroupsRequest,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -350,7 +350,7 @@ export class CatalogsImpl implements Catalogs {
         catalogName,
         listDeviceGroupsRequest,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -363,13 +363,13 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     listDeviceGroupsRequest: ListDeviceGroupsRequest,
-    options?: CatalogsListDeviceGroupsOptionalParams
+    options?: CatalogsListDeviceGroupsOptionalParams,
   ): AsyncIterableIterator<DeviceGroup> {
     for await (const page of this.listDeviceGroupsPagingPage(
       resourceGroupName,
       catalogName,
       listDeviceGroupsRequest,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -384,12 +384,12 @@ export class CatalogsImpl implements Catalogs {
   public listDeviceInsights(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDeviceInsightsOptionalParams
+    options?: CatalogsListDeviceInsightsOptionalParams,
   ): PagedAsyncIterableIterator<DeviceInsight> {
     const iter = this.listDeviceInsightsPagingAll(
       resourceGroupName,
       catalogName,
-      options
+      options,
     );
     return {
       next() {
@@ -406,9 +406,9 @@ export class CatalogsImpl implements Catalogs {
           resourceGroupName,
           catalogName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -416,7 +416,7 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     options?: CatalogsListDeviceInsightsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeviceInsight[]> {
     let result: CatalogsListDeviceInsightsResponse;
     let continuationToken = settings?.continuationToken;
@@ -424,7 +424,7 @@ export class CatalogsImpl implements Catalogs {
       result = await this._listDeviceInsights(
         resourceGroupName,
         catalogName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -436,7 +436,7 @@ export class CatalogsImpl implements Catalogs {
         resourceGroupName,
         catalogName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -448,12 +448,12 @@ export class CatalogsImpl implements Catalogs {
   private async *listDeviceInsightsPagingAll(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDeviceInsightsOptionalParams
+    options?: CatalogsListDeviceInsightsOptionalParams,
   ): AsyncIterableIterator<DeviceInsight> {
     for await (const page of this.listDeviceInsightsPagingPage(
       resourceGroupName,
       catalogName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -468,12 +468,12 @@ export class CatalogsImpl implements Catalogs {
   public listDevices(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDevicesOptionalParams
+    options?: CatalogsListDevicesOptionalParams,
   ): PagedAsyncIterableIterator<Device> {
     const iter = this.listDevicesPagingAll(
       resourceGroupName,
       catalogName,
-      options
+      options,
     );
     return {
       next() {
@@ -490,9 +490,9 @@ export class CatalogsImpl implements Catalogs {
           resourceGroupName,
           catalogName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -500,7 +500,7 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     options?: CatalogsListDevicesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Device[]> {
     let result: CatalogsListDevicesResponse;
     let continuationToken = settings?.continuationToken;
@@ -516,7 +516,7 @@ export class CatalogsImpl implements Catalogs {
         resourceGroupName,
         catalogName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -528,12 +528,12 @@ export class CatalogsImpl implements Catalogs {
   private async *listDevicesPagingAll(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDevicesOptionalParams
+    options?: CatalogsListDevicesOptionalParams,
   ): AsyncIterableIterator<Device> {
     for await (const page of this.listDevicesPagingPage(
       resourceGroupName,
       catalogName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -544,11 +544,11 @@ export class CatalogsImpl implements Catalogs {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: CatalogsListBySubscriptionOptionalParams
+    options?: CatalogsListBySubscriptionOptionalParams,
   ): Promise<CatalogsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -559,11 +559,11 @@ export class CatalogsImpl implements Catalogs {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: CatalogsListByResourceGroupOptionalParams
+    options?: CatalogsListByResourceGroupOptionalParams,
   ): Promise<CatalogsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -576,11 +576,11 @@ export class CatalogsImpl implements Catalogs {
   get(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsGetOptionalParams
+    options?: CatalogsGetOptionalParams,
   ): Promise<CatalogsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -595,7 +595,7 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     resource: Catalog,
-    options?: CatalogsCreateOrUpdateOptionalParams
+    options?: CatalogsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CatalogsCreateOrUpdateResponse>,
@@ -604,21 +604,20 @@ export class CatalogsImpl implements Catalogs {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CatalogsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -627,8 +626,8 @@ export class CatalogsImpl implements Catalogs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -636,15 +635,15 @@ export class CatalogsImpl implements Catalogs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, catalogName, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       CatalogsCreateOrUpdateResponse,
@@ -652,7 +651,7 @@ export class CatalogsImpl implements Catalogs {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -669,13 +668,13 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     resource: Catalog,
-    options?: CatalogsCreateOrUpdateOptionalParams
+    options?: CatalogsCreateOrUpdateOptionalParams,
   ): Promise<CatalogsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       catalogName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -691,11 +690,11 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     properties: CatalogUpdate,
-    options?: CatalogsUpdateOptionalParams
+    options?: CatalogsUpdateOptionalParams,
   ): Promise<CatalogsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, properties, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -708,25 +707,24 @@ export class CatalogsImpl implements Catalogs {
   async beginDelete(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsDeleteOptionalParams
+    options?: CatalogsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -735,8 +733,8 @@ export class CatalogsImpl implements Catalogs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -744,20 +742,20 @@ export class CatalogsImpl implements Catalogs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, catalogName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -772,12 +770,12 @@ export class CatalogsImpl implements Catalogs {
   async beginDeleteAndWait(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsDeleteOptionalParams
+    options?: CatalogsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       catalogName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -791,11 +789,11 @@ export class CatalogsImpl implements Catalogs {
   countDevices(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsCountDevicesOptionalParams
+    options?: CatalogsCountDevicesOptionalParams,
   ): Promise<CatalogsCountDevicesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, options },
-      countDevicesOperationSpec
+      countDevicesOperationSpec,
     );
   }
 
@@ -808,11 +806,11 @@ export class CatalogsImpl implements Catalogs {
   private _listDeployments(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDeploymentsOptionalParams
+    options?: CatalogsListDeploymentsOptionalParams,
   ): Promise<CatalogsListDeploymentsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, options },
-      listDeploymentsOperationSpec
+      listDeploymentsOperationSpec,
     );
   }
 
@@ -827,11 +825,11 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     listDeviceGroupsRequest: ListDeviceGroupsRequest,
-    options?: CatalogsListDeviceGroupsOptionalParams
+    options?: CatalogsListDeviceGroupsOptionalParams,
   ): Promise<CatalogsListDeviceGroupsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, listDeviceGroupsRequest, options },
-      listDeviceGroupsOperationSpec
+      listDeviceGroupsOperationSpec,
     );
   }
 
@@ -844,11 +842,11 @@ export class CatalogsImpl implements Catalogs {
   private _listDeviceInsights(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDeviceInsightsOptionalParams
+    options?: CatalogsListDeviceInsightsOptionalParams,
   ): Promise<CatalogsListDeviceInsightsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, options },
-      listDeviceInsightsOperationSpec
+      listDeviceInsightsOperationSpec,
     );
   }
 
@@ -861,11 +859,11 @@ export class CatalogsImpl implements Catalogs {
   private _listDevices(
     resourceGroupName: string,
     catalogName: string,
-    options?: CatalogsListDevicesOptionalParams
+    options?: CatalogsListDevicesOptionalParams,
   ): Promise<CatalogsListDevicesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, options },
-      listDevicesOperationSpec
+      listDevicesOperationSpec,
     );
   }
 
@@ -876,11 +874,11 @@ export class CatalogsImpl implements Catalogs {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: CatalogsListBySubscriptionNextOptionalParams
+    options?: CatalogsListBySubscriptionNextOptionalParams,
   ): Promise<CatalogsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -893,11 +891,11 @@ export class CatalogsImpl implements Catalogs {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: CatalogsListByResourceGroupNextOptionalParams
+    options?: CatalogsListByResourceGroupNextOptionalParams,
   ): Promise<CatalogsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -912,11 +910,11 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     nextLink: string,
-    options?: CatalogsListDeploymentsNextOptionalParams
+    options?: CatalogsListDeploymentsNextOptionalParams,
   ): Promise<CatalogsListDeploymentsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, nextLink, options },
-      listDeploymentsNextOperationSpec
+      listDeploymentsNextOperationSpec,
     );
   }
 
@@ -933,7 +931,7 @@ export class CatalogsImpl implements Catalogs {
     catalogName: string,
     listDeviceGroupsRequest: ListDeviceGroupsRequest,
     nextLink: string,
-    options?: CatalogsListDeviceGroupsNextOptionalParams
+    options?: CatalogsListDeviceGroupsNextOptionalParams,
   ): Promise<CatalogsListDeviceGroupsNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -941,9 +939,9 @@ export class CatalogsImpl implements Catalogs {
         catalogName,
         listDeviceGroupsRequest,
         nextLink,
-        options
+        options,
       },
-      listDeviceGroupsNextOperationSpec
+      listDeviceGroupsNextOperationSpec,
     );
   }
 
@@ -958,11 +956,11 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     nextLink: string,
-    options?: CatalogsListDeviceInsightsNextOptionalParams
+    options?: CatalogsListDeviceInsightsNextOptionalParams,
   ): Promise<CatalogsListDeviceInsightsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, nextLink, options },
-      listDeviceInsightsNextOperationSpec
+      listDeviceInsightsNextOperationSpec,
     );
   }
 
@@ -977,11 +975,11 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     catalogName: string,
     nextLink: string,
-    options?: CatalogsListDevicesNextOptionalParams
+    options?: CatalogsListDevicesNextOptionalParams,
   ): Promise<CatalogsListDevicesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, nextLink, options },
-      listDevicesNextOperationSpec
+      listDevicesNextOperationSpec,
     );
   }
 }
@@ -989,85 +987,81 @@ export class CatalogsImpl implements Catalogs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureSphere/catalogs",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureSphere/catalogs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogListResult
+      bodyMapper: Mappers.CatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogListResult
+      bodyMapper: Mappers.CatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Catalog,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.catalogName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     201: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     202: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     204: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
@@ -1075,23 +1069,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
@@ -1099,15 +1092,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1115,80 +1107,77 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const countDevicesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/countDevices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/countDevices",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CountDeviceResponse
+      bodyMapper: Mappers.CountDeviceResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeploymentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/listDeployments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/listDeployments",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentListResult
+      bodyMapper: Mappers.DeploymentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.maxpagesize
+    Parameters.maxpagesize,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeviceGroupsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/listDeviceGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/listDeviceGroups",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceGroupListResult
+      bodyMapper: Mappers.DeviceGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.listDeviceGroupsRequest,
   queryParameters: [
@@ -1196,195 +1185,193 @@ const listDeviceGroupsOperationSpec: coreClient.OperationSpec = {
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.maxpagesize
+    Parameters.maxpagesize,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listDeviceInsightsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/listDeviceInsights",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/listDeviceInsights",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedDeviceInsight
+      bodyMapper: Mappers.PagedDeviceInsight,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.maxpagesize
+    Parameters.maxpagesize,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDevicesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/listDevices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/listDevices",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceListResult
+      bodyMapper: Mappers.DeviceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.maxpagesize
+    Parameters.maxpagesize,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogListResult
+      bodyMapper: Mappers.CatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogListResult
+      bodyMapper: Mappers.CatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeploymentsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentListResult
+      bodyMapper: Mappers.DeploymentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeviceGroupsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceGroupListResult
+      bodyMapper: Mappers.DeviceGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listDeviceInsightsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedDeviceInsight
+      bodyMapper: Mappers.PagedDeviceInsight,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDevicesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceListResult
+      bodyMapper: Mappers.DeviceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
