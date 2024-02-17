@@ -22,7 +22,7 @@ import {
   ProvisionedClusterInstancesListUserKubeconfigOptionalParams,
   ProvisionedClusterInstancesListUserKubeconfigResponse,
   ProvisionedClusterInstancesListAdminKubeconfigOptionalParams,
-  ProvisionedClusterInstancesListAdminKubeconfigResponse
+  ProvisionedClusterInstancesListAdminKubeconfigResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface ProvisionedClusterInstances {
    */
   list(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListOptionalParams
+    options?: ProvisionedClusterInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<ProvisionedCluster>;
   /**
    * Gets the provisioned cluster instance
@@ -46,7 +46,7 @@ export interface ProvisionedClusterInstances {
    */
   get(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesGetOptionalParams
+    options?: ProvisionedClusterInstancesGetOptionalParams,
   ): Promise<ProvisionedClusterInstancesGetResponse>;
   /**
    * Creates or updates the provisioned cluster instance
@@ -58,7 +58,7 @@ export interface ProvisionedClusterInstances {
   beginCreateOrUpdate(
     connectedClusterResourceUri: string,
     provisionedClusterInstance: ProvisionedCluster,
-    options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams
+    options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProvisionedClusterInstancesCreateOrUpdateResponse>,
@@ -75,7 +75,7 @@ export interface ProvisionedClusterInstances {
   beginCreateOrUpdateAndWait(
     connectedClusterResourceUri: string,
     provisionedClusterInstance: ProvisionedCluster,
-    options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams
+    options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams,
   ): Promise<ProvisionedClusterInstancesCreateOrUpdateResponse>;
   /**
    * Deletes the provisioned cluster instance
@@ -85,7 +85,7 @@ export interface ProvisionedClusterInstances {
    */
   beginDelete(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesDeleteOptionalParams
+    options?: ProvisionedClusterInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProvisionedClusterInstancesDeleteResponse>,
@@ -100,7 +100,7 @@ export interface ProvisionedClusterInstances {
    */
   beginDeleteAndWait(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesDeleteOptionalParams
+    options?: ProvisionedClusterInstancesDeleteOptionalParams,
   ): Promise<ProvisionedClusterInstancesDeleteResponse>;
   /**
    * Gets the upgrade profile of a provisioned cluster
@@ -110,7 +110,7 @@ export interface ProvisionedClusterInstances {
    */
   getUpgradeProfile(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesGetUpgradeProfileOptionalParams
+    options?: ProvisionedClusterInstancesGetUpgradeProfileOptionalParams,
   ): Promise<ProvisionedClusterInstancesGetUpgradeProfileResponse>;
   /**
    * Lists the user credentials of the provisioned cluster (can only be used within private network)
@@ -120,7 +120,7 @@ export interface ProvisionedClusterInstances {
    */
   beginListUserKubeconfig(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams
+    options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProvisionedClusterInstancesListUserKubeconfigResponse>,
@@ -135,7 +135,7 @@ export interface ProvisionedClusterInstances {
    */
   beginListUserKubeconfigAndWait(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams
+    options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams,
   ): Promise<ProvisionedClusterInstancesListUserKubeconfigResponse>;
   /**
    * Lists the admin credentials of the provisioned cluster (can only be used within private network)
@@ -145,7 +145,7 @@ export interface ProvisionedClusterInstances {
    */
   beginListAdminKubeconfig(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams
+    options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProvisionedClusterInstancesListAdminKubeconfigResponse>,
@@ -160,6 +160,6 @@ export interface ProvisionedClusterInstances {
    */
   beginListAdminKubeconfigAndWait(
     connectedClusterResourceUri: string,
-    options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams
+    options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams,
   ): Promise<ProvisionedClusterInstancesListAdminKubeconfigResponse>;
 }
