@@ -328,6 +328,10 @@ export interface CountDeviceResponse extends CountElementsResponse {
 }
 
 // @public
+export interface CountDevicesResponse extends CountElementsResponse {
+}
+
+// @public
 export interface CountElementsResponse {
     value: number;
 }
@@ -779,12 +783,6 @@ export type ImagesListByCatalogResponse = ImageListResult;
 export type ImageType = string;
 
 // @public
-export interface ImageUploadRequestBody {
-    // (undocumented)
-    images: string;
-}
-
-// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -879,6 +877,12 @@ export enum KnownRegionalDataBoundary {
 export enum KnownUpdatePolicy {
     No3RdPartyAppUpdates = "No3rdPartyAppUpdates",
     UpdateAll = "UpdateAll"
+}
+
+// @public
+export enum KnownVersions {
+    V20220901 = "2022-09-01-preview",
+    V20240401 = "2024-04-01"
 }
 
 // @public
@@ -1106,6 +1110,9 @@ export interface TrackedResource extends Resource {
 
 // @public
 export type UpdatePolicy = string;
+
+// @public
+export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 
