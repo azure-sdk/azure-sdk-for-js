@@ -58,8 +58,27 @@ export type CreatedByType = string;
 
 // @public
 export interface DataProduct extends TrackedResource {
+    readonly availableMinorVersions?: string[];
+    readonly consumptionEndpoints?: ConsumptionEndpointsProperties;
+    currentMinorVersion?: string;
+    customerEncryptionKey?: EncryptionKeyDetails;
+    customerManagedKeyEncryptionEnabled?: ControlState;
+    readonly documentation?: string;
     identity?: ManagedServiceIdentity;
-    properties?: DataProductProperties;
+    readonly keyVaultUrl?: string;
+    majorVersion?: string;
+    managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+    networkacls?: DataProductNetworkAcls;
+    owners?: string[];
+    privateLinksEnabled?: ControlState;
+    product?: string;
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: ControlState;
+    publisher?: string;
+    purviewAccount?: string;
+    purviewCollection?: string;
+    redundancy?: ControlState;
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -81,30 +100,6 @@ export interface DataProductNetworkAcls {
     defaultAction: DefaultAction;
     ipRules: IPRules[];
     virtualNetworkRule: VirtualNetworkRule[];
-}
-
-// @public
-export interface DataProductProperties {
-    readonly availableMinorVersions?: string[];
-    readonly consumptionEndpoints?: ConsumptionEndpointsProperties;
-    currentMinorVersion?: string;
-    customerEncryptionKey?: EncryptionKeyDetails;
-    customerManagedKeyEncryptionEnabled?: ControlState;
-    readonly documentation?: string;
-    readonly keyVaultUrl?: string;
-    majorVersion: string;
-    managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
-    networkacls?: DataProductNetworkAcls;
-    owners?: string[];
-    privateLinksEnabled?: ControlState;
-    product: string;
-    readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: ControlState;
-    publisher: string;
-    purviewAccount?: string;
-    purviewCollection?: string;
-    redundancy?: ControlState;
-    readonly resourceGuid?: string;
 }
 
 // @public
@@ -134,19 +129,14 @@ export type DataProductsAddUserRoleResponse = RoleAssignmentDetail;
 
 // @public
 export interface DataProductsCatalog extends ProxyResource {
-    properties?: DataProductsCatalogProperties;
+    readonly provisioningState?: ProvisioningState;
+    publishers?: PublisherInformation[];
 }
 
 // @public
 export interface DataProductsCatalogListResult {
     nextLink?: string;
     value: DataProductsCatalog[];
-}
-
-// @public
-export interface DataProductsCatalogProperties {
-    readonly provisioningState?: ProvisioningState;
-    publishers: PublisherInformation[];
 }
 
 // @public
@@ -294,20 +284,15 @@ export type DataProductsUpdateResponse = DataProduct;
 
 // @public
 export interface DataProductUpdate {
-    identity?: ManagedServiceIdentity;
-    properties?: DataProductUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface DataProductUpdateProperties {
     currentMinorVersion?: string;
+    identity?: ManagedServiceIdentity;
     owners?: string[];
     privateLinksEnabled?: ControlState;
     purviewAccount?: string;
     purviewCollection?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -320,17 +305,6 @@ export interface DataProductVersion {
 
 // @public
 export interface DataType extends ProxyResource {
-    properties?: DataTypeProperties;
-}
-
-// @public
-export interface DataTypeListResult {
-    nextLink?: string;
-    value: DataType[];
-}
-
-// @public
-export interface DataTypeProperties {
     databaseCacheRetention?: number;
     databaseRetention?: number;
     readonly provisioningState?: ProvisioningState;
@@ -338,6 +312,12 @@ export interface DataTypeProperties {
     readonly stateReason?: string;
     storageOutputRetention?: number;
     readonly visualizationUrl?: string;
+}
+
+// @public
+export interface DataTypeListResult {
+    nextLink?: string;
+    value: DataType[];
 }
 
 // @public
@@ -447,11 +427,6 @@ export type DataTypesUpdateResponse = DataType;
 
 // @public
 export interface DataTypeUpdate {
-    properties?: DataTypeUpdateProperties;
-}
-
-// @public
-export interface DataTypeUpdateProperties {
     databaseCacheRetention?: number;
     databaseRetention?: number;
     state?: DataTypeState;

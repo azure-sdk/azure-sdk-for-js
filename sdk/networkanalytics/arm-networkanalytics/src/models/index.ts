@@ -129,68 +129,6 @@ export interface DataProductListResult {
   nextLink?: string;
 }
 
-/** The data product properties. */
-export interface DataProductProperties {
-  /**
-   * The resource GUID property of the data product resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * Latest provisioning state  of data product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Data product publisher name. */
-  publisher: string;
-  /** Product name of data product. */
-  product: string;
-  /** Major version of data product. */
-  majorVersion: string;
-  /** List of name or email associated with data product resource deployment. */
-  owners?: string[];
-  /** Flag to enable or disable redundancy for data product. */
-  redundancy?: ControlState;
-  /** Purview account url for data product to connect to. */
-  purviewAccount?: string;
-  /** Purview collection url for data product to connect to. */
-  purviewCollection?: string;
-  /** Flag to enable or disable private link for data product resource. */
-  privateLinksEnabled?: ControlState;
-  /** Flag to enable or disable public access of data product resource. */
-  publicNetworkAccess?: ControlState;
-  /** Flag to enable customer managed key encryption for data product. */
-  customerManagedKeyEncryptionEnabled?: ControlState;
-  /** Customer managed encryption key details for data product. */
-  customerEncryptionKey?: EncryptionKeyDetails;
-  /** Network rule set for data product. */
-  networkacls?: DataProductNetworkAcls;
-  /** Managed resource group configuration. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
-  /**
-   * List of available minor versions of the data product resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableMinorVersions?: string[];
-  /** Current configured minor version of the data product resource. */
-  currentMinorVersion?: string;
-  /**
-   * Documentation link for the data product based on definition file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly documentation?: string;
-  /**
-   * Resource links which exposed to the customer to query the data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly consumptionEndpoints?: ConsumptionEndpointsProperties;
-  /**
-   * Key vault url.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keyVaultUrl?: string;
-}
-
 /** Encryption key details. */
 export interface EncryptionKeyDetails {
   /** The Uri of the key vault. */
@@ -353,17 +291,6 @@ export interface DataProductsCatalogListResult {
   nextLink?: string;
 }
 
-/** Details for data catalog properties. */
-export interface DataProductsCatalogProperties {
-  /**
-   * The data catalog provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The data product publisher information. */
-  publishers: PublisherInformation[];
-}
-
 /** Details for Publisher Information. */
 export interface PublisherInformation {
   /** Name of the publisher. */
@@ -394,12 +321,6 @@ export interface DataProductUpdate {
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the DataProduct. */
-  properties?: DataProductUpdateProperties;
-}
-
-/** The updatable properties of the DataProduct. */
-export interface DataProductUpdateProperties {
   /** List of name or email associated with data product resource deployment. */
   owners?: string[];
   /** Purview account url for data product to connect to. */
@@ -454,41 +375,8 @@ export interface DataTypeListResult {
   nextLink?: string;
 }
 
-/** The data type properties */
-export interface DataTypeProperties {
-  /**
-   * Latest provisioning state  of data product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** State of data type. */
-  state?: DataTypeState;
-  /**
-   * Reason for the state of data type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stateReason?: string;
-  /** Field for storage output retention in days. */
-  storageOutputRetention?: number;
-  /** Field for database cache retention in days. */
-  databaseCacheRetention?: number;
-  /** Field for database data retention in days. */
-  databaseRetention?: number;
-  /**
-   * Url for data visualization.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly visualizationUrl?: string;
-}
-
 /** The type used for update operations of the DataType. */
 export interface DataTypeUpdate {
-  /** The updatable properties of the DataType. */
-  properties?: DataTypeUpdateProperties;
-}
-
-/** The updatable properties of the DataType. */
-export interface DataTypeUpdateProperties {
   /** State of data type. */
   state?: DataTypeState;
   /** Field for storage output retention in days. */
@@ -572,22 +460,104 @@ export interface ProxyResource extends Resource {}
 
 /** The data product resource. */
 export interface DataProduct extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: DataProductProperties;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
+  /**
+   * The resource GUID property of the data product resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * Latest provisioning state  of data product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Data product publisher name. */
+  publisher?: string;
+  /** Product name of data product. */
+  product?: string;
+  /** Major version of data product. */
+  majorVersion?: string;
+  /** List of name or email associated with data product resource deployment. */
+  owners?: string[];
+  /** Flag to enable or disable redundancy for data product. */
+  redundancy?: ControlState;
+  /** Purview account url for data product to connect to. */
+  purviewAccount?: string;
+  /** Purview collection url for data product to connect to. */
+  purviewCollection?: string;
+  /** Flag to enable or disable private link for data product resource. */
+  privateLinksEnabled?: ControlState;
+  /** Flag to enable or disable public access of data product resource. */
+  publicNetworkAccess?: ControlState;
+  /** Flag to enable customer managed key encryption for data product. */
+  customerManagedKeyEncryptionEnabled?: ControlState;
+  /** Customer managed encryption key details for data product. */
+  customerEncryptionKey?: EncryptionKeyDetails;
+  /** Network rule set for data product. */
+  networkacls?: DataProductNetworkAcls;
+  /** Managed resource group configuration. */
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  /**
+   * List of available minor versions of the data product resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableMinorVersions?: string[];
+  /** Current configured minor version of the data product resource. */
+  currentMinorVersion?: string;
+  /**
+   * Documentation link for the data product based on definition file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documentation?: string;
+  /**
+   * Resource links which exposed to the customer to query the data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly consumptionEndpoints?: ConsumptionEndpointsProperties;
+  /**
+   * Key vault url.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyVaultUrl?: string;
 }
 
 /** The data catalog resource. */
 export interface DataProductsCatalog extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: DataProductsCatalogProperties;
+  /**
+   * The data catalog provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The data product publisher information. */
+  publishers?: PublisherInformation[];
 }
 
 /** The data type resource. */
 export interface DataType extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: DataTypeProperties;
+  /**
+   * Latest provisioning state  of data product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** State of data type. */
+  state?: DataTypeState;
+  /**
+   * Reason for the state of data type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stateReason?: string;
+  /** Field for storage output retention in days. */
+  storageOutputRetention?: number;
+  /** Field for database cache retention in days. */
+  databaseCacheRetention?: number;
+  /** Field for database data retention in days. */
+  databaseRetention?: number;
+  /**
+   * Url for data visualization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly visualizationUrl?: string;
 }
 
 /** Defines headers for DataProducts_create operation. */
@@ -649,7 +619,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -666,7 +636,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -693,7 +663,7 @@ export enum KnownProvisioningState {
   /** Represents an operation under deletion. */
   Deleting = "Deleting",
   /** Represents an accepted operation. */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -716,7 +686,7 @@ export enum KnownControlState {
   /** Field to enable a setting. */
   Enabled = "Enabled",
   /** Field to disable a setting. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -734,7 +704,7 @@ export enum KnownDefaultAction {
   /** Represents allow action. */
   Allow = "Allow",
   /** Represents deny action. */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -756,7 +726,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -780,7 +750,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -803,7 +773,7 @@ export enum KnownDataProductUserRole {
    * Field to specify user of type SensitiveReader.
    * This user has privileged access to read sensitive data of a data product.
    */
-  SensitiveReader = "SensitiveReader"
+  SensitiveReader = "SensitiveReader",
 }
 
 /**
@@ -822,7 +792,7 @@ export enum KnownDataTypeState {
   /** Field to specify stopped state. */
   Stopped = "Stopped",
   /** Field to specify running state. */
-  Running = "Running"
+  Running = "Running",
 }
 
 /**
@@ -844,7 +814,7 @@ export enum KnownBypass {
   /** Represents bypassing metrics traffic. */
   Metrics = "Metrics",
   /** Represents bypassing azure services traffic. */
-  AzureServices = "AzureServices"
+  AzureServices = "AzureServices",
 }
 
 /**
@@ -862,7 +832,7 @@ export type Bypass = string;
 /** Known values of {@link Versions} that the service accepts. */
 export enum KnownVersions {
   /** The 2023-11-15 stable version. */
-  V20231115 = "2023-11-15"
+  V20231115 = "2023-11-15",
 }
 
 /**
@@ -957,7 +927,8 @@ export interface DataProductsGenerateStorageAccountSasTokenOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateStorageAccountSasToken operation. */
-export type DataProductsGenerateStorageAccountSasTokenResponse = AccountSasToken;
+export type DataProductsGenerateStorageAccountSasTokenResponse =
+  AccountSasToken;
 
 /** Optional parameters. */
 export interface DataProductsListRolesAssignmentsOptionalParams
@@ -993,14 +964,16 @@ export interface DataProductsCatalogsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type DataProductsCatalogsListBySubscriptionResponse = DataProductsCatalogListResult;
+export type DataProductsCatalogsListBySubscriptionResponse =
+  DataProductsCatalogListResult;
 
 /** Optional parameters. */
 export interface DataProductsCatalogsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DataProductsCatalogsListByResourceGroupResponse = DataProductsCatalogListResult;
+export type DataProductsCatalogsListByResourceGroupResponse =
+  DataProductsCatalogListResult;
 
 /** Optional parameters. */
 export interface DataProductsCatalogsGetOptionalParams
@@ -1014,14 +987,16 @@ export interface DataProductsCatalogsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type DataProductsCatalogsListBySubscriptionNextResponse = DataProductsCatalogListResult;
+export type DataProductsCatalogsListBySubscriptionNextResponse =
+  DataProductsCatalogListResult;
 
 /** Optional parameters. */
 export interface DataProductsCatalogsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DataProductsCatalogsListByResourceGroupNextResponse = DataProductsCatalogListResult;
+export type DataProductsCatalogsListByResourceGroupNextResponse =
+  DataProductsCatalogListResult;
 
 /** Optional parameters. */
 export interface DataTypesListByDataProductOptionalParams
@@ -1090,7 +1065,8 @@ export interface DataTypesGenerateStorageContainerSasTokenOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateStorageContainerSasToken operation. */
-export type DataTypesGenerateStorageContainerSasTokenResponse = ContainerSasToken;
+export type DataTypesGenerateStorageContainerSasTokenResponse =
+  ContainerSasToken;
 
 /** Optional parameters. */
 export interface DataTypesListByDataProductNextOptionalParams
