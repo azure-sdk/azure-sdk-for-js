@@ -26,6 +26,9 @@ export interface AzureMonitorAlertSettings {
 export type BackupStorageVersion = string;
 
 // @public
+export type BcdrSecurityLevel = string;
+
+// @public
 export interface CapabilitiesProperties {
     // (undocumented)
     dnsZones?: DNSZone[];
@@ -150,6 +153,9 @@ export interface DNSZoneResponse extends DNSZone {
 }
 
 // @public
+export type EnhancedSecurityState = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -233,6 +239,15 @@ export enum KnownBackupStorageVersion {
 }
 
 // @public
+export enum KnownBcdrSecurityLevel {
+    Excellent = "Excellent",
+    Fair = "Fair",
+    Good = "Good",
+    NotSupported = "NotSupported",
+    Poor = "Poor"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -251,6 +266,14 @@ export enum KnownCrossSubscriptionRestoreState {
     Disabled = "Disabled",
     Enabled = "Enabled",
     PermanentlyDisabled = "PermanentlyDisabled"
+}
+
+// @public
+export enum KnownEnhancedSecurityState {
+    AlwaysON = "AlwaysON",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
 }
 
 // @public
@@ -342,6 +365,7 @@ export enum KnownSoftDeleteState {
 // @public
 export enum KnownStandardTierStorageRedundancy {
     GeoRedundant = "GeoRedundant",
+    Invalid = "Invalid",
     LocallyRedundant = "LocallyRedundant",
     ZoneRedundant = "ZoneRedundant"
 }
@@ -722,6 +746,8 @@ export type SkuName = string;
 
 // @public
 export interface SoftDeleteSettings {
+    // (undocumented)
+    enhancedSecurityState?: EnhancedSecurityState;
     softDeleteRetentionPeriodInDays?: number;
     // (undocumented)
     softDeleteState?: SoftDeleteState;
@@ -865,6 +891,7 @@ export type VaultPrivateEndpointState = string;
 // @public
 export interface VaultProperties {
     readonly backupStorageVersion?: BackupStorageVersion;
+    readonly bcdrSecurityLevel?: BcdrSecurityLevel;
     encryption?: VaultPropertiesEncryption;
     monitoringSettings?: MonitoringSettings;
     moveDetails?: VaultPropertiesMoveDetails;
@@ -899,8 +926,8 @@ export interface VaultPropertiesMoveDetails {
 
 // @public
 export interface VaultPropertiesRedundancySettings {
-    readonly crossRegionRestore?: CrossRegionRestore;
-    readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
+    crossRegionRestore?: CrossRegionRestore;
+    standardTierStorageRedundancy?: StandardTierStorageRedundancy;
 }
 
 // @public
