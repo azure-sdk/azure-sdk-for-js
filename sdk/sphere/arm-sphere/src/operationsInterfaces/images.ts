@@ -15,7 +15,7 @@ import {
   ImagesGetResponse,
   ImagesCreateOrUpdateOptionalParams,
   ImagesCreateOrUpdateResponse,
-  ImagesDeleteOptionalParams
+  ImagesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Images {
   listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: ImagesListByCatalogOptionalParams
+    options?: ImagesListByCatalogOptionalParams,
   ): PagedAsyncIterableIterator<Image>;
   /**
    * Get a Image
@@ -43,7 +43,7 @@ export interface Images {
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesGetOptionalParams
+    options?: ImagesGetOptionalParams,
   ): Promise<ImagesGetResponse>;
   /**
    * Create a Image
@@ -58,7 +58,7 @@ export interface Images {
     catalogName: string,
     imageName: string,
     resource: Image,
-    options?: ImagesCreateOrUpdateOptionalParams
+    options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ImagesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface Images {
     catalogName: string,
     imageName: string,
     resource: Image,
-    options?: ImagesCreateOrUpdateOptionalParams
+    options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<ImagesCreateOrUpdateResponse>;
   /**
    * Delete a Image
@@ -91,7 +91,7 @@ export interface Images {
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesDeleteOptionalParams
+    options?: ImagesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Image
@@ -104,6 +104,6 @@ export interface Images {
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesDeleteOptionalParams
+    options?: ImagesDeleteOptionalParams,
   ): Promise<void>;
 }

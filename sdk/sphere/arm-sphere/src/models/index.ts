@@ -695,7 +695,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -712,7 +712,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -739,7 +739,7 @@ export enum KnownProvisioningState {
   /** The resource is being deleted */
   Deleting = "Deleting",
   /** The resource create request has been accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -766,7 +766,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -790,7 +790,7 @@ export enum KnownCertificateStatus {
   /** Certificate has expired */
   Expired = "Expired",
   /** Certificate has been revoked */
-  Revoked = "Revoked"
+  Revoked = "Revoked",
 }
 
 /**
@@ -810,7 +810,7 @@ export enum KnownRegionalDataBoundary {
   /** No data boundary */
   None = "None",
   /** EU data boundary */
-  EU = "EU"
+  EU = "EU",
 }
 
 /**
@@ -872,7 +872,7 @@ export enum KnownImageType {
   /** manifest set image type */
   ManifestSet = "ManifestSet",
   /** Other image type */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -912,7 +912,7 @@ export enum KnownOSFeedType {
   /** Retail OS feed type. */
   Retail = "Retail",
   /** Retail evaluation OS feed type. */
-  RetailEval = "RetailEval"
+  RetailEval = "RetailEval",
 }
 
 /**
@@ -930,7 +930,7 @@ export enum KnownUpdatePolicy {
   /** Update all policy. */
   UpdateAll = "UpdateAll",
   /** No update for 3rd party app policy. */
-  No3RdPartyAppUpdates = "No3rdPartyAppUpdates"
+  No3RdPartyAppUpdates = "No3rdPartyAppUpdates",
 }
 
 /**
@@ -948,7 +948,7 @@ export enum KnownAllowCrashDumpCollection {
   /** Crash dump collection enabled */
   Enabled = "Enabled",
   /** Crash dump collection disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -966,7 +966,7 @@ export enum KnownCapabilityType {
   /** Application development capability */
   ApplicationDevelopment = "ApplicationDevelopment",
   /** Field servicing capability */
-  FieldServicing = "FieldServicing"
+  FieldServicing = "FieldServicing",
 }
 
 /**
@@ -1190,7 +1190,8 @@ export interface CertificatesRetrieveProofOfPossessionNonceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the retrieveProofOfPossessionNonce operation. */
-export type CertificatesRetrieveProofOfPossessionNonceResponse = ProofOfPossessionNonceResponse;
+export type CertificatesRetrieveProofOfPossessionNonceResponse =
+  ProofOfPossessionNonceResponse;
 
 /** Optional parameters. */
 export interface CertificatesListByCatalogNextOptionalParams
@@ -1322,7 +1323,8 @@ export interface ProductsGenerateDefaultDeviceGroupsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateDefaultDeviceGroupsNext operation. */
-export type ProductsGenerateDefaultDeviceGroupsNextResponse = DeviceGroupListResult;
+export type ProductsGenerateDefaultDeviceGroupsNextResponse =
+  DeviceGroupListResult;
 
 /** Optional parameters. */
 export interface DeviceGroupsListByProductOptionalParams
@@ -1513,7 +1515,8 @@ export interface DevicesGenerateCapabilityImageOptionalParams
 }
 
 /** Contains response data for the generateCapabilityImage operation. */
-export type DevicesGenerateCapabilityImageResponse = SignedCapabilityImageResponse;
+export type DevicesGenerateCapabilityImageResponse =
+  SignedCapabilityImageResponse;
 
 /** Optional parameters. */
 export interface DevicesListByDeviceGroupNextOptionalParams
