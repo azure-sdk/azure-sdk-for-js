@@ -5,13 +5,19 @@ import {
   ListOperations200Response,
   ListOperationsDefaultResponse,
   GetDocumentModelBuildOperation200Response,
+  GetDocumentModelComposeOperation200Response,
+  GetDocumentModelCopyToOperation200Response,
+  GetDocumentClassifierBuildOperation200Response,
+  GetOperation200Response,
   GetDocumentModelBuildOperationDefaultResponse,
   GetResourceInfo200Response,
   GetResourceInfoDefaultResponse,
   GetAnalyzeResult200Response,
   GetAnalyzeResultDefaultResponse,
   AnalyzeDocumentFromStream202Response,
+  AnalyzeDocument202Response,
   AnalyzeDocumentFromStreamLogicalResponse,
+  AnalyzeDocumentLogicalResponse,
   AnalyzeDocumentFromStreamDefaultResponse,
   GetModel200Response,
   GetModelDefaultResponse,
@@ -40,7 +46,9 @@ import {
   DeleteClassifier204Response,
   DeleteClassifierDefaultResponse,
   ClassifyDocumentFromStream202Response,
+  ClassifyDocument202Response,
   ClassifyDocumentFromStreamLogicalResponse,
+  ClassifyDocumentLogicalResponse,
   ClassifyDocumentFromStreamDefaultResponse,
   GetClassifyResult200Response,
   GetClassifyResultDefaultResponse,
@@ -79,6 +87,10 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | GetDocumentModelBuildOperation200Response
+    | GetDocumentModelComposeOperation200Response
+    | GetDocumentModelCopyToOperation200Response
+    | GetDocumentClassifierBuildOperation200Response
+    | GetOperation200Response
     | GetDocumentModelBuildOperationDefaultResponse,
 ): response is GetDocumentModelBuildOperationDefaultResponse;
 export function isUnexpected(
@@ -90,7 +102,9 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | AnalyzeDocumentFromStream202Response
+    | AnalyzeDocument202Response
     | AnalyzeDocumentFromStreamLogicalResponse
+    | AnalyzeDocumentLogicalResponse
     | AnalyzeDocumentFromStreamDefaultResponse,
 ): response is AnalyzeDocumentFromStreamDefaultResponse;
 export function isUnexpected(
@@ -100,16 +114,25 @@ export function isUnexpected(
   response: DeleteModel204Response | DeleteModelDefaultResponse,
 ): response is DeleteModelDefaultResponse;
 export function isUnexpected(
-  response: BuildModel202Response | BuildModelLogicalResponse | BuildModelDefaultResponse,
+  response:
+    | BuildModel202Response
+    | BuildModelLogicalResponse
+    | BuildModelDefaultResponse,
 ): response is BuildModelDefaultResponse;
 export function isUnexpected(
-  response: ComposeModel202Response | ComposeModelLogicalResponse | ComposeModelDefaultResponse,
+  response:
+    | ComposeModel202Response
+    | ComposeModelLogicalResponse
+    | ComposeModelDefaultResponse,
 ): response is ComposeModelDefaultResponse;
 export function isUnexpected(
   response: AuthorizeModelCopy200Response | AuthorizeModelCopyDefaultResponse,
 ): response is AuthorizeModelCopyDefaultResponse;
 export function isUnexpected(
-  response: CopyModelTo202Response | CopyModelToLogicalResponse | CopyModelToDefaultResponse,
+  response:
+    | CopyModelTo202Response
+    | CopyModelToLogicalResponse
+    | CopyModelToDefaultResponse,
 ): response is CopyModelToDefaultResponse;
 export function isUnexpected(
   response: ListModels200Response | ListModelsDefaultResponse,
@@ -132,7 +155,9 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | ClassifyDocumentFromStream202Response
+    | ClassifyDocument202Response
     | ClassifyDocumentFromStreamLogicalResponse
+    | ClassifyDocumentLogicalResponse
     | ClassifyDocumentFromStreamDefaultResponse,
 ): response is ClassifyDocumentFromStreamDefaultResponse;
 export function isUnexpected(
@@ -143,13 +168,19 @@ export function isUnexpected(
     | ListOperations200Response
     | ListOperationsDefaultResponse
     | GetDocumentModelBuildOperation200Response
+    | GetDocumentModelComposeOperation200Response
+    | GetDocumentModelCopyToOperation200Response
+    | GetDocumentClassifierBuildOperation200Response
+    | GetOperation200Response
     | GetDocumentModelBuildOperationDefaultResponse
     | GetResourceInfo200Response
     | GetResourceInfoDefaultResponse
     | GetAnalyzeResult200Response
     | GetAnalyzeResultDefaultResponse
     | AnalyzeDocumentFromStream202Response
+    | AnalyzeDocument202Response
     | AnalyzeDocumentFromStreamLogicalResponse
+    | AnalyzeDocumentLogicalResponse
     | AnalyzeDocumentFromStreamDefaultResponse
     | GetModel200Response
     | GetModelDefaultResponse
@@ -178,7 +209,9 @@ export function isUnexpected(
     | DeleteClassifier204Response
     | DeleteClassifierDefaultResponse
     | ClassifyDocumentFromStream202Response
+    | ClassifyDocument202Response
     | ClassifyDocumentFromStreamLogicalResponse
+    | ClassifyDocumentLogicalResponse
     | ClassifyDocumentFromStreamDefaultResponse
     | GetClassifyResult200Response
     | GetClassifyResultDefaultResponse,
@@ -233,17 +266,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
