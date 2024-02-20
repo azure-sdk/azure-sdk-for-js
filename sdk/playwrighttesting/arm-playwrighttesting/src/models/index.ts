@@ -291,7 +291,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -308,7 +308,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -325,7 +325,7 @@ export enum KnownEnablementStatus {
   /** The feature is Enabled. */
   Enabled = "Enabled",
   /** The feature is Disabled. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -349,7 +349,7 @@ export enum KnownProvisioningState {
   /** Deletion in progress */
   Deleting = "Deleting",
   /** Change accepted for processing */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -374,7 +374,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -394,7 +394,7 @@ export enum KnownFreeTrialState {
   /** The free-trial is Active. */
   Active = "Active",
   /** The free-trial is Expired. */
-  Expired = "Expired"
+  Expired = "Expired",
 }
 
 /**
@@ -410,7 +410,7 @@ export type FreeTrialState = string;
 /** Known values of {@link QuotaNames} that the service accepts. */
 export enum KnownQuotaNames {
   /** The quota details for scalable execution feature. When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  ScalableExecution = "ScalableExecution"
+  ScalableExecution = "ScalableExecution",
 }
 
 /**
