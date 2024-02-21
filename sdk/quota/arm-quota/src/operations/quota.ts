@@ -16,7 +16,7 @@ import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   QuotaCreateOrUpdateResponse,
   QuotaUpdateOptionalParams,
   QuotaUpdateResponse,
-  QuotaListNextResponse
+  QuotaListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class QuotaImpl implements Quota {
    */
   public list(
     scope: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): PagedAsyncIterableIterator<CurrentQuotaLimitBase> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -73,14 +73,14 @@ export class QuotaImpl implements Quota {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: QuotaListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CurrentQuotaLimitBase[]> {
     let result: QuotaListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class QuotaImpl implements Quota {
 
   private async *listPagingAll(
     scope: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): AsyncIterableIterator<CurrentQuotaLimitBase> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -112,25 +112,25 @@ export class QuotaImpl implements Quota {
   /**
    * Get the quota limit of a resource. The response can be used to determine the remaining quota to
    * calculate a new quota limit that can be submitted with a PUT request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     scope: string,
-    options?: QuotaGetOptionalParams
+    resourceName: string,
+    options?: QuotaGetOptionalParams,
   ): Promise<QuotaGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, scope, options },
-      getOperationSpec
+      { scope, resourceName, options },
+      getOperationSpec,
     );
   }
 
@@ -142,23 +142,23 @@ export class QuotaImpl implements Quota {
    * example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the
    * detailed status of the request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param createQuotaRequest Quota request payload.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<QuotaCreateOrUpdateResponse>,
@@ -167,21 +167,20 @@ export class QuotaImpl implements Quota {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<QuotaCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -190,8 +189,8 @@ export class QuotaImpl implements Quota {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -199,15 +198,15 @@ export class QuotaImpl implements Quota {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceName, scope, createQuotaRequest, options },
-      spec: createOrUpdateOperationSpec
+      args: { scope, resourceName, createQuotaRequest, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       QuotaCreateOrUpdateResponse,
@@ -215,7 +214,7 @@ export class QuotaImpl implements Quota {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -229,29 +228,29 @@ export class QuotaImpl implements Quota {
    * example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the
    * detailed status of the request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param createQuotaRequest Quota request payload.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<QuotaCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
-      resourceName,
       scope,
+      resourceName,
       createQuotaRequest,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -263,43 +262,42 @@ export class QuotaImpl implements Quota {
    * example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the
    * detailed status of the request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param createQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
   async beginUpdate(
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<QuotaUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -308,8 +306,8 @@ export class QuotaImpl implements Quota {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -317,15 +315,15 @@ export class QuotaImpl implements Quota {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceName, scope, createQuotaRequest, options },
-      spec: updateOperationSpec
+      args: { scope, resourceName, createQuotaRequest, options },
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       QuotaUpdateResponse,
@@ -333,7 +331,7 @@ export class QuotaImpl implements Quota {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -346,29 +344,29 @@ export class QuotaImpl implements Quota {
    * example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the
    * detailed status of the request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param createQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<QuotaUpdateResponse> {
     const poller = await this.beginUpdate(
-      resourceName,
       scope,
+      resourceName,
       createQuotaRequest,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -385,11 +383,11 @@ export class QuotaImpl implements Quota {
    */
   private _list(
     scope: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): Promise<QuotaListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -406,11 +404,11 @@ export class QuotaImpl implements Quota {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: QuotaListNextOptionalParams
+    options?: QuotaListNextOptionalParams,
   ): Promise<QuotaListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -423,70 +421,70 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.CurrentQuotaLimitBase,
-      headersMapper: Mappers.QuotaGetHeaders
+      headersMapper: Mappers.QuotaGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceName, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.resourceName1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     201: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     202: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     204: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   requestBody: Parameters.createQuotaRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceName, Parameters.scope],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.resourceName1],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     201: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     202: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     204: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   requestBody: Parameters.createQuotaRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceName, Parameters.scope],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.resourceName1],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Quota/quotas",
@@ -494,16 +492,16 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.QuotaLimits,
-      headersMapper: Mappers.QuotaListHeaders
+      headersMapper: Mappers.QuotaListHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -511,13 +509,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.QuotaLimits,
-      headersMapper: Mappers.QuotaListNextHeaders
+      headersMapper: Mappers.QuotaListNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

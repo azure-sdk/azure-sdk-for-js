@@ -1,15 +1,150 @@
 # Release History
+    
+## 1.1.0-beta.1 (2024-02-21)
+    
+**Features**
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group GroupQuotaEnforcement
+  - Added operation group GroupQuotaLimits
+  - Added operation group GroupQuotaLimitsRequests
+  - Added operation group GroupQuotas
+  - Added operation group GroupQuotaSubscriptionQuotaAllocation
+  - Added operation group GroupQuotaSubscriptionQuotaAllocationRequests
+  - Added operation group GroupQuotaSubscriptions
+  - Added operation group SubscriptionRequests
+  - Added Interface AdditionalAttributes
+  - Added Interface AllocatedToSubscription
+  - Added Interface BillingAccountId
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface GroupingId
+  - Added Interface GroupQuotaDetails
+  - Added Interface GroupQuotaDetailsName
+  - Added Interface GroupQuotaEnforcementCreateOrUpdateHeaders
+  - Added Interface GroupQuotaEnforcementCreateOrUpdateOptionalParams
+  - Added Interface GroupQuotaEnforcementGetOptionalParams
+  - Added Interface GroupQuotaEnforcementListNextOptionalParams
+  - Added Interface GroupQuotaEnforcementListOptionalParams
+  - Added Interface GroupQuotaEnforcementUpdateHeaders
+  - Added Interface GroupQuotaEnforcementUpdateOptionalParams
+  - Added Interface GroupQuotaLimit
+  - Added Interface GroupQuotaLimitList
+  - Added Interface GroupQuotaLimitsCreateOrUpdateHeaders
+  - Added Interface GroupQuotaLimitsCreateOrUpdateOptionalParams
+  - Added Interface GroupQuotaLimitsGetOptionalParams
+  - Added Interface GroupQuotaLimitsListNextOptionalParams
+  - Added Interface GroupQuotaLimitsListOptionalParams
+  - Added Interface GroupQuotaLimitsRequestsGetOptionalParams
+  - Added Interface GroupQuotaLimitsRequestsListNextOptionalParams
+  - Added Interface GroupQuotaLimitsRequestsListOptionalParams
+  - Added Interface GroupQuotaLimitsUpdateHeaders
+  - Added Interface GroupQuotaLimitsUpdateOptionalParams
+  - Added Interface GroupQuotaList
+  - Added Interface GroupQuotasCreateOrUpdateHeaders
+  - Added Interface GroupQuotasCreateOrUpdateOptionalParams
+  - Added Interface GroupQuotasDeleteOptionalParams
+  - Added Interface GroupQuotasEnforcementListResponse
+  - Added Interface GroupQuotasEnforcementResponse
+  - Added Interface GroupQuotasEnforcementResponseProperties
+  - Added Interface GroupQuotasEntity
+  - Added Interface GroupQuotasEntityBase
+  - Added Interface GroupQuotasGetOptionalParams
+  - Added Interface GroupQuotasListNextOptionalParams
+  - Added Interface GroupQuotasListOptionalParams
+  - Added Interface GroupQuotaSubscriptionId
+  - Added Interface GroupQuotaSubscriptionIdList
+  - Added Interface GroupQuotaSubscriptionIdProperties
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateHeaders
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateOptionalParams
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationGetOptionalParams
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationListNextOptionalParams
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationListOptionalParams
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationRequestsGetOptionalParams
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationRequestsListNextOptionalParams
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationRequestsListOptionalParams
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationUpdateHeaders
+  - Added Interface GroupQuotaSubscriptionQuotaAllocationUpdateOptionalParams
+  - Added Interface GroupQuotaSubscriptionRequestStatus
+  - Added Interface GroupQuotaSubscriptionRequestStatusList
+  - Added Interface GroupQuotaSubscriptionRequestStatusProperties
+  - Added Interface GroupQuotaSubscriptionsCreateOrUpdateHeaders
+  - Added Interface GroupQuotaSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface GroupQuotaSubscriptionsDeleteOptionalParams
+  - Added Interface GroupQuotaSubscriptionsGetOptionalParams
+  - Added Interface GroupQuotaSubscriptionsListNextOptionalParams
+  - Added Interface GroupQuotaSubscriptionsListOptionalParams
+  - Added Interface GroupQuotaSubscriptionsUpdateHeaders
+  - Added Interface GroupQuotaSubscriptionsUpdateOptionalParams
+  - Added Interface GroupQuotasUpdateHeaders
+  - Added Interface GroupQuotasUpdateOptionalParams
+  - Added Interface LROResponse
+  - Added Interface LROResponseProperties
+  - Added Interface ProxyResource
+  - Added Interface QuotaAllocationRequestBase
+  - Added Interface QuotaAllocationRequestBaseProperties
+  - Added Interface QuotaAllocationRequestBasePropertiesName
+  - Added Interface QuotaAllocationRequestStatus
+  - Added Interface QuotaAllocationRequestStatusList
+  - Added Interface QuotaAllocationRequestStatusProperties
+  - Added Interface Resource
+  - Added Interface ResourceBaseRequest
+  - Added Interface SubmittedResourceRequestStatus
+  - Added Interface SubmittedResourceRequestStatusList
+  - Added Interface SubscriptionGroupQuotaAssignment
+  - Added Interface SubscriptionQuotaAllocationRequestList
+  - Added Interface SubscriptionQuotaAllocations
+  - Added Interface SubscriptionQuotaAllocationsList
+  - Added Interface SubscriptionQuotaDetails
+  - Added Interface SubscriptionQuotaDetailsName
+  - Added Interface SubscriptionRequestsGetOptionalParams
+  - Added Interface SubscriptionRequestsListNextOptionalParams
+  - Added Interface SubscriptionRequestsListOptionalParams
+  - Added Interface SystemData
+  - Added Type Alias CreatedByType
+  - Added Type Alias EnvironmentType
+  - Added Type Alias GroupingIdType
+  - Added Type Alias GroupQuotaEnforcementCreateOrUpdateResponse
+  - Added Type Alias GroupQuotaEnforcementGetResponse
+  - Added Type Alias GroupQuotaEnforcementListNextResponse
+  - Added Type Alias GroupQuotaEnforcementListResponse
+  - Added Type Alias GroupQuotaEnforcementUpdateResponse
+  - Added Type Alias GroupQuotaLimitsCreateOrUpdateResponse
+  - Added Type Alias GroupQuotaLimitsGetResponse
+  - Added Type Alias GroupQuotaLimitsListNextResponse
+  - Added Type Alias GroupQuotaLimitsListResponse
+  - Added Type Alias GroupQuotaLimitsRequestsGetResponse
+  - Added Type Alias GroupQuotaLimitsRequestsListNextResponse
+  - Added Type Alias GroupQuotaLimitsRequestsListResponse
+  - Added Type Alias GroupQuotaLimitsUpdateResponse
+  - Added Type Alias GroupQuotasCreateOrUpdateResponse
+  - Added Type Alias GroupQuotasGetResponse
+  - Added Type Alias GroupQuotasListNextResponse
+  - Added Type Alias GroupQuotasListResponse
+  - Added Type Alias GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateResponse
+  - Added Type Alias GroupQuotaSubscriptionQuotaAllocationGetResponse
+  - Added Type Alias GroupQuotaSubscriptionQuotaAllocationListNextResponse
+  - Added Type Alias GroupQuotaSubscriptionQuotaAllocationListResponse
+  - Added Type Alias GroupQuotaSubscriptionQuotaAllocationRequestsGetResponse
+  - Added Type Alias GroupQuotaSubscriptionQuotaAllocationRequestsListNextResponse
+  - Added Type Alias GroupQuotaSubscriptionQuotaAllocationRequestsListResponse
+  - Added Type Alias GroupQuotaSubscriptionQuotaAllocationUpdateResponse
+  - Added Type Alias GroupQuotaSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias GroupQuotaSubscriptionsGetResponse
+  - Added Type Alias GroupQuotaSubscriptionsListNextResponse
+  - Added Type Alias GroupQuotaSubscriptionsListResponse
+  - Added Type Alias GroupQuotaSubscriptionsUpdateResponse
+  - Added Type Alias GroupQuotasUpdateResponse
+  - Added Type Alias RequestState
+  - Added Type Alias SubscriptionRequestsGetResponse
+  - Added Type Alias SubscriptionRequestsListNextResponse
+  - Added Type Alias SubscriptionRequestsListResponse
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownEnvironmentType
+  - Added Enum KnownGroupingIdType
+  - Added Enum KnownRequestState
+    
+    
 ## 1.0.0 (2023-11-23)
 
-The package of @azure/arm-quota is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
+The package of @azure/arm-quota is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

@@ -16,7 +16,7 @@ import {
   QuotaCreateOrUpdateOptionalParams,
   QuotaCreateOrUpdateResponse,
   QuotaUpdateOptionalParams,
-  QuotaUpdateResponse
+  QuotaUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,26 +34,26 @@ export interface Quota {
    */
   list(
     scope: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
   /**
    * Get the quota limit of a resource. The response can be used to determine the remaining quota to
    * calculate a new quota limit that can be submitted with a PUT request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     scope: string,
-    options?: QuotaGetOptionalParams
+    resourceName: string,
+    options?: QuotaGetOptionalParams,
   ): Promise<QuotaGetResponse>;
   /**
    * Create or update the quota limit for the specified resource with the requested value. To update the
@@ -63,23 +63,23 @@ export interface Quota {
    * example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the
    * detailed status of the request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param createQuotaRequest Quota request payload.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<QuotaCreateOrUpdateResponse>,
@@ -94,23 +94,23 @@ export interface Quota {
    * example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the
    * detailed status of the request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param createQuotaRequest Quota request payload.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<QuotaCreateOrUpdateResponse>;
   /**
    * Update the quota limit for a specific resource to the specified value:
@@ -119,23 +119,23 @@ export interface Quota {
    * example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the
    * detailed status of the request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param createQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
   beginUpdate(
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
   >;
@@ -146,22 +146,22 @@ export interface Quota {
    * example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the
    * detailed status of the request.
-   * @param resourceName Resource name for a given resource provider. For example:
-   *                     - SKU name for Microsoft.Compute
-   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
-   *                      For Microsoft.Network PublicIPAddresses.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param resourceName Resource name for a given resource provider. For example:
+   *                     - SKU name for Microsoft.Compute
+   *                     - SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
+   *                      For Microsoft.Network PublicIPAddresses.
    * @param createQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<QuotaUpdateResponse>;
 }
