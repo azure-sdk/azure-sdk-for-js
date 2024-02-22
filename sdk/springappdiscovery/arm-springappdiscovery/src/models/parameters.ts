@@ -16,6 +16,7 @@ import {
   SpringbootsitesPatch as SpringbootsitesPatchMapper,
   SpringbootserversModel as SpringbootserversModelMapper,
   SpringbootserversPatch as SpringbootserversPatchMapper,
+  SpringbootappsModel as SpringbootappsModelMapper,
   SpringbootappsPatch as SpringbootappsPatchMapper,
 } from "../models/mappers";
 
@@ -193,6 +194,11 @@ export const springbootappsName: OperationURLParameter = {
 };
 
 export const springbootapps: OperationParameter = {
+  parameterPath: "springbootapps",
+  mapper: SpringbootappsModelMapper,
+};
+
+export const springbootapps1: OperationParameter = {
   parameterPath: "springbootapps",
   mapper: SpringbootappsPatchMapper,
 };

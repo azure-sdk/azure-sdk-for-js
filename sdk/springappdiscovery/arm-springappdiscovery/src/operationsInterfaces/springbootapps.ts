@@ -14,6 +14,10 @@ import {
   SpringbootappsListBySubscriptionOptionalParams,
   SpringbootappsGetOptionalParams,
   SpringbootappsGetResponse,
+  SpringbootappsCreateOrUpdateOptionalParams,
+  SpringbootappsCreateOrUpdateResponse,
+  SpringbootappsDeleteOptionalParams,
+  SpringbootappsDeleteResponse,
   SpringbootappsPatch,
   SpringbootappsUpdateOptionalParams,
   SpringbootappsUpdateResponse,
@@ -56,25 +60,71 @@ export interface Springbootapps {
     options?: SpringbootappsGetOptionalParams,
   ): Promise<SpringbootappsGetResponse>;
   /**
-   * Update a springbootapps resource.
+   * Create a springbootapps resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName The springbootsites name.
    * @param springbootappsName The springbootapps name.
-   * @param springbootapps Update a springbootapps payload.
+   * @param springbootapps Create a springbootapps payload.
    * @param options The options parameters.
    */
-  beginUpdate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     siteName: string,
     springbootappsName: string,
-    springbootapps: SpringbootappsPatch,
-    options?: SpringbootappsUpdateOptionalParams,
+    springbootapps: SpringbootappsModel,
+    options?: SpringbootappsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SpringbootappsUpdateResponse>,
-      SpringbootappsUpdateResponse
+      OperationState<SpringbootappsCreateOrUpdateResponse>,
+      SpringbootappsCreateOrUpdateResponse
     >
   >;
+  /**
+   * Create a springbootapps resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param siteName The springbootsites name.
+   * @param springbootappsName The springbootapps name.
+   * @param springbootapps Create a springbootapps payload.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    siteName: string,
+    springbootappsName: string,
+    springbootapps: SpringbootappsModel,
+    options?: SpringbootappsCreateOrUpdateOptionalParams,
+  ): Promise<SpringbootappsCreateOrUpdateResponse>;
+  /**
+   * Delete a springbootapps resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param siteName The springbootsites name.
+   * @param springbootappsName The springbootapps name.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    siteName: string,
+    springbootappsName: string,
+    options?: SpringbootappsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SpringbootappsDeleteResponse>,
+      SpringbootappsDeleteResponse
+    >
+  >;
+  /**
+   * Delete a springbootapps resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param siteName The springbootsites name.
+   * @param springbootappsName The springbootapps name.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    siteName: string,
+    springbootappsName: string,
+    options?: SpringbootappsDeleteOptionalParams,
+  ): Promise<SpringbootappsDeleteResponse>;
   /**
    * Update a springbootapps resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -83,7 +133,7 @@ export interface Springbootapps {
    * @param springbootapps Update a springbootapps payload.
    * @param options The options parameters.
    */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     siteName: string,
     springbootappsName: string,
