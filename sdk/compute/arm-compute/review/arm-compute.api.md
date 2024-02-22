@@ -3222,6 +3222,7 @@ export enum KnownDiffDiskOptions {
 // @public
 export enum KnownDiffDiskPlacement {
     CacheDisk = "CacheDisk",
+    NvmeDisk = "NvmeDisk",
     ResourceDisk = "ResourceDisk"
 }
 

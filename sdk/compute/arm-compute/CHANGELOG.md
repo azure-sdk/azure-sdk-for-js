@@ -1,15 +1,12 @@
 # Release History
+    
+## 21.5.0 (2024-02-22)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownDiffDiskPlacement has a new value NvmeDisk
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**
