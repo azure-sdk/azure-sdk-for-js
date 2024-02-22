@@ -11801,7 +11801,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-FRJ3gO/tBeuRowAtEtro6l4A14hSmQhOd+iKkNKYIK8/F0XXUkwR8rZ5lukB2JCZKvB7Z/B7am0NsaxjyY2nsg==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-7pqxtESMMSlKn/1G3pXGg5ARQKzBTndd1OYyLEJgzMAUjdjWo9YQ3KWypHi8U8/lapIQpWNS7wN1uElrN4dauw==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -11814,9 +11814,10 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
