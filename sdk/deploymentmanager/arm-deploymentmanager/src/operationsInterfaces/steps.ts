@@ -13,7 +13,7 @@ import {
   StepsGetResponse,
   StepsDeleteOptionalParams,
   StepsListOptionalParams,
-  StepsListResponse
+  StepsListResponse,
 } from "../models";
 
 /** Interface representing a Steps. */
@@ -27,7 +27,7 @@ export interface Steps {
   createOrUpdate(
     resourceGroupName: string,
     stepName: string,
-    options?: StepsCreateOrUpdateOptionalParams
+    options?: StepsCreateOrUpdateOptionalParams,
   ): Promise<StepsCreateOrUpdateResponse>;
   /**
    * Gets the step.
@@ -38,7 +38,7 @@ export interface Steps {
   get(
     resourceGroupName: string,
     stepName: string,
-    options?: StepsGetOptionalParams
+    options?: StepsGetOptionalParams,
   ): Promise<StepsGetResponse>;
   /**
    * Deletes the step.
@@ -49,7 +49,7 @@ export interface Steps {
   delete(
     resourceGroupName: string,
     stepName: string,
-    options?: StepsDeleteOptionalParams
+    options?: StepsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Lists the steps in a resource group.
@@ -58,6 +58,6 @@ export interface Steps {
    */
   list(
     resourceGroupName: string,
-    options?: StepsListOptionalParams
+    options?: StepsListOptionalParams,
   ): Promise<StepsListResponse>;
 }

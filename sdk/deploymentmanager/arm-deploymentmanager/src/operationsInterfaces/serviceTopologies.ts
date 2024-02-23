@@ -14,7 +14,7 @@ import {
   ServiceTopologiesGetResponse,
   ServiceTopologiesDeleteOptionalParams,
   ServiceTopologiesListOptionalParams,
-  ServiceTopologiesListResponse
+  ServiceTopologiesListResponse,
 } from "../models";
 
 /** Interface representing a ServiceTopologies. */
@@ -30,7 +30,7 @@ export interface ServiceTopologies {
     resourceGroupName: string,
     serviceTopologyName: string,
     serviceTopologyInfo: ServiceTopologyResource,
-    options?: ServiceTopologiesCreateOrUpdateOptionalParams
+    options?: ServiceTopologiesCreateOrUpdateOptionalParams,
   ): Promise<ServiceTopologiesCreateOrUpdateResponse>;
   /**
    * Gets the service topology.
@@ -41,7 +41,7 @@ export interface ServiceTopologies {
   get(
     resourceGroupName: string,
     serviceTopologyName: string,
-    options?: ServiceTopologiesGetOptionalParams
+    options?: ServiceTopologiesGetOptionalParams,
   ): Promise<ServiceTopologiesGetResponse>;
   /**
    * Deletes the service topology.
@@ -52,7 +52,7 @@ export interface ServiceTopologies {
   delete(
     resourceGroupName: string,
     serviceTopologyName: string,
-    options?: ServiceTopologiesDeleteOptionalParams
+    options?: ServiceTopologiesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Lists the service topologies in the resource group.
@@ -61,6 +61,6 @@ export interface ServiceTopologies {
    */
   list(
     resourceGroupName: string,
-    options?: ServiceTopologiesListOptionalParams
+    options?: ServiceTopologiesListOptionalParams,
   ): Promise<ServiceTopologiesListResponse>;
 }

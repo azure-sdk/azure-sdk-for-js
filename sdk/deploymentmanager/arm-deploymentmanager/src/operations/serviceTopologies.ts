@@ -19,7 +19,7 @@ import {
   ServiceTopologiesGetResponse,
   ServiceTopologiesDeleteOptionalParams,
   ServiceTopologiesListOptionalParams,
-  ServiceTopologiesListResponse
+  ServiceTopologiesListResponse,
 } from "../models";
 
 /** Class containing ServiceTopologies operations. */
@@ -45,11 +45,11 @@ export class ServiceTopologiesImpl implements ServiceTopologies {
     resourceGroupName: string,
     serviceTopologyName: string,
     serviceTopologyInfo: ServiceTopologyResource,
-    options?: ServiceTopologiesCreateOrUpdateOptionalParams
+    options?: ServiceTopologiesCreateOrUpdateOptionalParams,
   ): Promise<ServiceTopologiesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceTopologyName, serviceTopologyInfo, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -62,11 +62,11 @@ export class ServiceTopologiesImpl implements ServiceTopologies {
   get(
     resourceGroupName: string,
     serviceTopologyName: string,
-    options?: ServiceTopologiesGetOptionalParams
+    options?: ServiceTopologiesGetOptionalParams,
   ): Promise<ServiceTopologiesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceTopologyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -79,11 +79,11 @@ export class ServiceTopologiesImpl implements ServiceTopologies {
   delete(
     resourceGroupName: string,
     serviceTopologyName: string,
-    options?: ServiceTopologiesDeleteOptionalParams
+    options?: ServiceTopologiesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceTopologyName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -94,11 +94,11 @@ export class ServiceTopologiesImpl implements ServiceTopologies {
    */
   list(
     resourceGroupName: string,
-    options?: ServiceTopologiesListOptionalParams
+    options?: ServiceTopologiesListOptionalParams,
   ): Promise<ServiceTopologiesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -106,16 +106,15 @@ export class ServiceTopologiesImpl implements ServiceTopologies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.ServiceTopologyResource
+      bodyMapper: Mappers.ServiceTopologyResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.serviceTopologyInfo,
   queryParameters: [Parameters.apiVersion],
@@ -123,58 +122,55 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceTopologyName
+    Parameters.serviceTopologyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceTopologyResource
+      bodyMapper: Mappers.ServiceTopologyResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceTopologyName
+    Parameters.serviceTopologyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceTopologyName
+    Parameters.serviceTopologyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies",
   httpMethod: "GET",
   responses: {
     200: {
@@ -182,21 +178,21 @@ const listOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ServiceTopologyResource" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "ServiceTopologyResource" },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

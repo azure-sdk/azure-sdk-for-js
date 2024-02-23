@@ -13,7 +13,7 @@ import {
   ArtifactSourcesGetResponse,
   ArtifactSourcesDeleteOptionalParams,
   ArtifactSourcesListOptionalParams,
-  ArtifactSourcesListResponse
+  ArtifactSourcesListResponse,
 } from "../models";
 
 /** Interface representing a ArtifactSources. */
@@ -27,7 +27,7 @@ export interface ArtifactSources {
   createOrUpdate(
     resourceGroupName: string,
     artifactSourceName: string,
-    options?: ArtifactSourcesCreateOrUpdateOptionalParams
+    options?: ArtifactSourcesCreateOrUpdateOptionalParams,
   ): Promise<ArtifactSourcesCreateOrUpdateResponse>;
   /**
    * Gets an artifact source.
@@ -38,7 +38,7 @@ export interface ArtifactSources {
   get(
     resourceGroupName: string,
     artifactSourceName: string,
-    options?: ArtifactSourcesGetOptionalParams
+    options?: ArtifactSourcesGetOptionalParams,
   ): Promise<ArtifactSourcesGetResponse>;
   /**
    * Deletes an artifact source.
@@ -49,7 +49,7 @@ export interface ArtifactSources {
   delete(
     resourceGroupName: string,
     artifactSourceName: string,
-    options?: ArtifactSourcesDeleteOptionalParams
+    options?: ArtifactSourcesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Lists the artifact sources in a resource group.
@@ -58,6 +58,6 @@ export interface ArtifactSources {
    */
   list(
     resourceGroupName: string,
-    options?: ArtifactSourcesListOptionalParams
+    options?: ArtifactSourcesListOptionalParams,
   ): Promise<ArtifactSourcesListResponse>;
 }

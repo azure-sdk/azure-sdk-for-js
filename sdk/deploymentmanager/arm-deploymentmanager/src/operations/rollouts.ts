@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDeploymentManager } from "../azureDeploymentManager";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RolloutsCreateOrUpdateOptionalParams,
   RolloutsCreateOrUpdateResponse,
@@ -24,7 +28,7 @@ import {
   RolloutsRestartOptionalParams,
   RolloutsRestartResponse,
   RolloutsListOptionalParams,
-  RolloutsListResponse
+  RolloutsListResponse,
 } from "../models";
 
 /** Class containing Rollouts operations. */
@@ -49,30 +53,29 @@ export class RolloutsImpl implements Rollouts {
   async beginCreateOrUpdate(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsCreateOrUpdateOptionalParams
+    options?: RolloutsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RolloutsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RolloutsCreateOrUpdateResponse>,
       RolloutsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RolloutsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -81,8 +84,8 @@ export class RolloutsImpl implements Rollouts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -90,19 +93,22 @@ export class RolloutsImpl implements Rollouts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, rolloutName, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, rolloutName, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      RolloutsCreateOrUpdateResponse,
+      OperationState<RolloutsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -118,12 +124,12 @@ export class RolloutsImpl implements Rollouts {
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsCreateOrUpdateOptionalParams
+    options?: RolloutsCreateOrUpdateOptionalParams,
   ): Promise<RolloutsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       rolloutName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -137,11 +143,11 @@ export class RolloutsImpl implements Rollouts {
   get(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsGetOptionalParams
+    options?: RolloutsGetOptionalParams,
   ): Promise<RolloutsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, rolloutName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -154,11 +160,11 @@ export class RolloutsImpl implements Rollouts {
   delete(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsDeleteOptionalParams
+    options?: RolloutsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, rolloutName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -171,11 +177,11 @@ export class RolloutsImpl implements Rollouts {
   cancel(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsCancelOptionalParams
+    options?: RolloutsCancelOptionalParams,
   ): Promise<RolloutsCancelResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, rolloutName, options },
-      cancelOperationSpec
+      cancelOperationSpec,
     );
   }
 
@@ -188,11 +194,11 @@ export class RolloutsImpl implements Rollouts {
   restart(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsRestartOptionalParams
+    options?: RolloutsRestartOptionalParams,
   ): Promise<RolloutsRestartResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, rolloutName, options },
-      restartOperationSpec
+      restartOperationSpec,
     );
   }
 
@@ -203,11 +209,11 @@ export class RolloutsImpl implements Rollouts {
    */
   list(
     resourceGroupName: string,
-    options?: RolloutsListOptionalParams
+    options?: RolloutsListOptionalParams,
   ): Promise<RolloutsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -215,29 +221,28 @@ export class RolloutsImpl implements Rollouts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.RolloutRequest,
-      headersMapper: Mappers.RolloutsCreateOrUpdateHeaders
+      headersMapper: Mappers.RolloutsCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.RolloutRequest,
-      headersMapper: Mappers.RolloutsCreateOrUpdateHeaders
+      headersMapper: Mappers.RolloutsCreateOrUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.RolloutRequest,
-      headersMapper: Mappers.RolloutsCreateOrUpdateHeaders
+      headersMapper: Mappers.RolloutsCreateOrUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.RolloutRequest,
-      headersMapper: Mappers.RolloutsCreateOrUpdateHeaders
+      headersMapper: Mappers.RolloutsCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.rolloutRequest,
   queryParameters: [Parameters.apiVersion],
@@ -245,122 +250,117 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rolloutName
+    Parameters.rolloutName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Rollout
+      bodyMapper: Mappers.Rollout,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.retryAttempt],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rolloutName
+    Parameters.rolloutName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rolloutName
+    Parameters.rolloutName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Rollout
+      bodyMapper: Mappers.Rollout,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rolloutName
+    Parameters.rolloutName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}/restart",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}/restart",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Rollout
+      bodyMapper: Mappers.Rollout,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipSucceeded],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.rolloutName
+    Parameters.rolloutName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Rollout" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "Rollout" } },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

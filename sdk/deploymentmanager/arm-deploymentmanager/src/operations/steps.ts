@@ -18,7 +18,7 @@ import {
   StepsGetResponse,
   StepsDeleteOptionalParams,
   StepsListOptionalParams,
-  StepsListResponse
+  StepsListResponse,
 } from "../models";
 
 /** Class containing Steps operations. */
@@ -42,11 +42,11 @@ export class StepsImpl implements Steps {
   createOrUpdate(
     resourceGroupName: string,
     stepName: string,
-    options?: StepsCreateOrUpdateOptionalParams
+    options?: StepsCreateOrUpdateOptionalParams,
   ): Promise<StepsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, stepName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -59,11 +59,11 @@ export class StepsImpl implements Steps {
   get(
     resourceGroupName: string,
     stepName: string,
-    options?: StepsGetOptionalParams
+    options?: StepsGetOptionalParams,
   ): Promise<StepsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, stepName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -76,11 +76,11 @@ export class StepsImpl implements Steps {
   delete(
     resourceGroupName: string,
     stepName: string,
-    options?: StepsDeleteOptionalParams
+    options?: StepsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, stepName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -91,11 +91,11 @@ export class StepsImpl implements Steps {
    */
   list(
     resourceGroupName: string,
-    options?: StepsListOptionalParams
+    options?: StepsListOptionalParams,
   ): Promise<StepsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -103,16 +103,15 @@ export class StepsImpl implements Steps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.StepResource
+      bodyMapper: Mappers.StepResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.stepInfo,
   queryParameters: [Parameters.apiVersion],
@@ -120,78 +119,75 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.stepName
+    Parameters.stepName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StepResource
+      bodyMapper: Mappers.StepResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.stepName
+    Parameters.stepName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.stepName
+    Parameters.stepName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "StepResource" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "StepResource" } },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

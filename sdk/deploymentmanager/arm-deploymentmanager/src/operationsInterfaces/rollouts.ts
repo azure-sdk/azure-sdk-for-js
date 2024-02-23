@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RolloutsCreateOrUpdateOptionalParams,
   RolloutsCreateOrUpdateResponse,
@@ -18,7 +18,7 @@ import {
   RolloutsRestartOptionalParams,
   RolloutsRestartResponse,
   RolloutsListOptionalParams,
-  RolloutsListResponse
+  RolloutsListResponse,
 } from "../models";
 
 /** Interface representing a Rollouts. */
@@ -33,10 +33,10 @@ export interface Rollouts {
   beginCreateOrUpdate(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsCreateOrUpdateOptionalParams
+    options?: RolloutsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RolloutsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RolloutsCreateOrUpdateResponse>,
       RolloutsCreateOrUpdateResponse
     >
   >;
@@ -50,7 +50,7 @@ export interface Rollouts {
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsCreateOrUpdateOptionalParams
+    options?: RolloutsCreateOrUpdateOptionalParams,
   ): Promise<RolloutsCreateOrUpdateResponse>;
   /**
    * Gets detailed information of a rollout.
@@ -61,7 +61,7 @@ export interface Rollouts {
   get(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsGetOptionalParams
+    options?: RolloutsGetOptionalParams,
   ): Promise<RolloutsGetResponse>;
   /**
    * Only rollouts in terminal state can be deleted.
@@ -72,7 +72,7 @@ export interface Rollouts {
   delete(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsDeleteOptionalParams
+    options?: RolloutsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Only running rollouts can be canceled.
@@ -83,7 +83,7 @@ export interface Rollouts {
   cancel(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsCancelOptionalParams
+    options?: RolloutsCancelOptionalParams,
   ): Promise<RolloutsCancelResponse>;
   /**
    * Only failed rollouts can be restarted.
@@ -94,7 +94,7 @@ export interface Rollouts {
   restart(
     resourceGroupName: string,
     rolloutName: string,
-    options?: RolloutsRestartOptionalParams
+    options?: RolloutsRestartOptionalParams,
   ): Promise<RolloutsRestartResponse>;
   /**
    * Lists the rollouts in a resource group.
@@ -103,6 +103,6 @@ export interface Rollouts {
    */
   list(
     resourceGroupName: string,
-    options?: RolloutsListOptionalParams
+    options?: RolloutsListOptionalParams,
   ): Promise<RolloutsListResponse>;
 }

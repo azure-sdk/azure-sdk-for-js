@@ -6,8 +6,8 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface ApiKeyAuthentication extends RestRequestAuthentication {
@@ -319,7 +319,7 @@ export interface RolloutRequestProperties {
 
 // @public
 export interface Rollouts {
-    beginCreateOrUpdate(resourceGroupName: string, rolloutName: string, options?: RolloutsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<RolloutsCreateOrUpdateResponse>, RolloutsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, rolloutName: string, options?: RolloutsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RolloutsCreateOrUpdateResponse>, RolloutsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, rolloutName: string, options?: RolloutsCreateOrUpdateOptionalParams): Promise<RolloutsCreateOrUpdateResponse>;
     cancel(resourceGroupName: string, rolloutName: string, options?: RolloutsCancelOptionalParams): Promise<RolloutsCancelResponse>;
     delete(resourceGroupName: string, rolloutName: string, options?: RolloutsDeleteOptionalParams): Promise<void>;
@@ -529,7 +529,7 @@ export interface ServiceUnitResourceProperties extends ServiceUnitProperties {
 
 // @public
 export interface ServiceUnits {
-    beginCreateOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, serviceUnitInfo: ServiceUnitResource, options?: ServiceUnitsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServiceUnitsCreateOrUpdateResponse>, ServiceUnitsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, serviceUnitInfo: ServiceUnitResource, options?: ServiceUnitsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServiceUnitsCreateOrUpdateResponse>, ServiceUnitsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, serviceUnitInfo: ServiceUnitResource, options?: ServiceUnitsCreateOrUpdateOptionalParams): Promise<ServiceUnitsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: ServiceUnitsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: ServiceUnitsGetOptionalParams): Promise<ServiceUnitsGetResponse>;

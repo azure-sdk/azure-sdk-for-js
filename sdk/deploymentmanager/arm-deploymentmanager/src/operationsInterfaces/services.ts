@@ -14,7 +14,7 @@ import {
   ServicesGetResponse,
   ServicesDeleteOptionalParams,
   ServicesListOptionalParams,
-  ServicesListResponse
+  ServicesListResponse,
 } from "../models";
 
 /** Interface representing a Services. */
@@ -32,7 +32,7 @@ export interface Services {
     serviceTopologyName: string,
     serviceName: string,
     serviceInfo: ServiceResource,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
    * Gets the service.
@@ -45,7 +45,7 @@ export interface Services {
     resourceGroupName: string,
     serviceTopologyName: string,
     serviceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse>;
   /**
    * Deletes the service.
@@ -58,7 +58,7 @@ export interface Services {
     resourceGroupName: string,
     serviceTopologyName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Lists the services in the service topology.
@@ -69,6 +69,6 @@ export interface Services {
   list(
     resourceGroupName: string,
     serviceTopologyName: string,
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): Promise<ServicesListResponse>;
 }

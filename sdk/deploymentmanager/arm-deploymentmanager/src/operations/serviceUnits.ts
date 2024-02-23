@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDeploymentManager } from "../azureDeploymentManager";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ServiceUnitResource,
   ServiceUnitsCreateOrUpdateOptionalParams,
@@ -21,7 +25,7 @@ import {
   ServiceUnitsGetResponse,
   ServiceUnitsDeleteOptionalParams,
   ServiceUnitsListOptionalParams,
-  ServiceUnitsListResponse
+  ServiceUnitsListResponse,
 } from "../models";
 
 /** Class containing ServiceUnits operations. */
@@ -52,30 +56,29 @@ export class ServiceUnitsImpl implements ServiceUnits {
     serviceName: string,
     serviceUnitName: string,
     serviceUnitInfo: ServiceUnitResource,
-    options?: ServiceUnitsCreateOrUpdateOptionalParams
+    options?: ServiceUnitsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServiceUnitsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServiceUnitsCreateOrUpdateResponse>,
       ServiceUnitsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServiceUnitsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -84,8 +87,8 @@ export class ServiceUnitsImpl implements ServiceUnits {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -93,26 +96,29 @@ export class ServiceUnitsImpl implements ServiceUnits {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceTopologyName,
         serviceName,
         serviceUnitName,
         serviceUnitInfo,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServiceUnitsCreateOrUpdateResponse,
+      OperationState<ServiceUnitsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -134,7 +140,7 @@ export class ServiceUnitsImpl implements ServiceUnits {
     serviceName: string,
     serviceUnitName: string,
     serviceUnitInfo: ServiceUnitResource,
-    options?: ServiceUnitsCreateOrUpdateOptionalParams
+    options?: ServiceUnitsCreateOrUpdateOptionalParams,
   ): Promise<ServiceUnitsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -142,7 +148,7 @@ export class ServiceUnitsImpl implements ServiceUnits {
       serviceName,
       serviceUnitName,
       serviceUnitInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -160,7 +166,7 @@ export class ServiceUnitsImpl implements ServiceUnits {
     serviceTopologyName: string,
     serviceName: string,
     serviceUnitName: string,
-    options?: ServiceUnitsGetOptionalParams
+    options?: ServiceUnitsGetOptionalParams,
   ): Promise<ServiceUnitsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -168,9 +174,9 @@ export class ServiceUnitsImpl implements ServiceUnits {
         serviceTopologyName,
         serviceName,
         serviceUnitName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -187,7 +193,7 @@ export class ServiceUnitsImpl implements ServiceUnits {
     serviceTopologyName: string,
     serviceName: string,
     serviceUnitName: string,
-    options?: ServiceUnitsDeleteOptionalParams
+    options?: ServiceUnitsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -195,9 +201,9 @@ export class ServiceUnitsImpl implements ServiceUnits {
         serviceTopologyName,
         serviceName,
         serviceUnitName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -212,11 +218,11 @@ export class ServiceUnitsImpl implements ServiceUnits {
     resourceGroupName: string,
     serviceTopologyName: string,
     serviceName: string,
-    options?: ServiceUnitsListOptionalParams
+    options?: ServiceUnitsListOptionalParams,
   ): Promise<ServiceUnitsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceTopologyName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -224,29 +230,28 @@ export class ServiceUnitsImpl implements ServiceUnits {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.ServiceUnitResource,
-      headersMapper: Mappers.ServiceUnitsCreateOrUpdateHeaders
+      headersMapper: Mappers.ServiceUnitsCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.ServiceUnitResource,
-      headersMapper: Mappers.ServiceUnitsCreateOrUpdateHeaders
+      headersMapper: Mappers.ServiceUnitsCreateOrUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.ServiceUnitResource,
-      headersMapper: Mappers.ServiceUnitsCreateOrUpdateHeaders
+      headersMapper: Mappers.ServiceUnitsCreateOrUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.ServiceUnitResource,
-      headersMapper: Mappers.ServiceUnitsCreateOrUpdateHeaders
+      headersMapper: Mappers.ServiceUnitsCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.serviceUnitInfo,
   queryParameters: [Parameters.apiVersion],
@@ -256,23 +261,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName,
     Parameters.serviceName,
-    Parameters.serviceUnitName
+    Parameters.serviceUnitName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceUnitResource
+      bodyMapper: Mappers.ServiceUnitResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -281,21 +285,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName,
     Parameters.serviceName,
-    Parameters.serviceUnitName
+    Parameters.serviceUnitName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -304,14 +307,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName,
     Parameters.serviceName,
-    Parameters.serviceUnitName
+    Parameters.serviceUnitName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits",
   httpMethod: "GET",
   responses: {
     200: {
@@ -319,14 +321,14 @@ const listOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ServiceUnitResource" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "ServiceUnitResource" },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -334,8 +336,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

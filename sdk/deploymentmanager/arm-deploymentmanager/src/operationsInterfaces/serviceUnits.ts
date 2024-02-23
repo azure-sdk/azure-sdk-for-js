@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServiceUnitResource,
   ServiceUnitsCreateOrUpdateOptionalParams,
@@ -15,7 +15,7 @@ import {
   ServiceUnitsGetResponse,
   ServiceUnitsDeleteOptionalParams,
   ServiceUnitsListOptionalParams,
-  ServiceUnitsListResponse
+  ServiceUnitsListResponse,
 } from "../models";
 
 /** Interface representing a ServiceUnits. */
@@ -36,10 +36,10 @@ export interface ServiceUnits {
     serviceName: string,
     serviceUnitName: string,
     serviceUnitInfo: ServiceUnitResource,
-    options?: ServiceUnitsCreateOrUpdateOptionalParams
+    options?: ServiceUnitsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServiceUnitsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServiceUnitsCreateOrUpdateResponse>,
       ServiceUnitsCreateOrUpdateResponse
     >
   >;
@@ -59,7 +59,7 @@ export interface ServiceUnits {
     serviceName: string,
     serviceUnitName: string,
     serviceUnitInfo: ServiceUnitResource,
-    options?: ServiceUnitsCreateOrUpdateOptionalParams
+    options?: ServiceUnitsCreateOrUpdateOptionalParams,
   ): Promise<ServiceUnitsCreateOrUpdateResponse>;
   /**
    * Gets the service unit.
@@ -74,7 +74,7 @@ export interface ServiceUnits {
     serviceTopologyName: string,
     serviceName: string,
     serviceUnitName: string,
-    options?: ServiceUnitsGetOptionalParams
+    options?: ServiceUnitsGetOptionalParams,
   ): Promise<ServiceUnitsGetResponse>;
   /**
    * Deletes the service unit.
@@ -89,7 +89,7 @@ export interface ServiceUnits {
     serviceTopologyName: string,
     serviceName: string,
     serviceUnitName: string,
-    options?: ServiceUnitsDeleteOptionalParams
+    options?: ServiceUnitsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Lists the service units under a service in the service topology.
@@ -102,6 +102,6 @@ export interface ServiceUnits {
     resourceGroupName: string,
     serviceTopologyName: string,
     serviceName: string,
-    options?: ServiceUnitsListOptionalParams
+    options?: ServiceUnitsListOptionalParams,
   ): Promise<ServiceUnitsListResponse>;
 }

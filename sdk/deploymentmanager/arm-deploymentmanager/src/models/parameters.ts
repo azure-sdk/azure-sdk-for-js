@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ServiceTopologyResource as ServiceTopologyResourceMapper,
@@ -17,7 +17,7 @@ import {
   ServiceUnitResource as ServiceUnitResourceMapper,
   StepResource as StepResourceMapper,
   RolloutRequest as RolloutRequestMapper,
-  ArtifactSource as ArtifactSourceMapper
+  ArtifactSource as ArtifactSourceMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -27,14 +27,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const serviceTopologyInfo: OperationParameter = {
   parameterPath: "serviceTopologyInfo",
-  mapper: ServiceTopologyResourceMapper
+  mapper: ServiceTopologyResourceMapper,
 };
 
 export const accept: OperationParameter = {
@@ -44,9 +44,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -55,10 +55,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -67,9 +67,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -78,14 +78,14 @@ export const resourceGroupName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const serviceTopologyName: OperationURLParameter = {
@@ -94,9 +94,9 @@ export const serviceTopologyName: OperationURLParameter = {
     serializedName: "serviceTopologyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -106,14 +106,14 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const serviceInfo: OperationParameter = {
   parameterPath: "serviceInfo",
-  mapper: ServiceResourceMapper
+  mapper: ServiceResourceMapper,
 };
 
 export const serviceName: OperationURLParameter = {
@@ -122,14 +122,14 @@ export const serviceName: OperationURLParameter = {
     serializedName: "serviceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const serviceUnitInfo: OperationParameter = {
   parameterPath: "serviceUnitInfo",
-  mapper: ServiceUnitResourceMapper
+  mapper: ServiceUnitResourceMapper,
 };
 
 export const serviceUnitName: OperationURLParameter = {
@@ -138,14 +138,14 @@ export const serviceUnitName: OperationURLParameter = {
     serializedName: "serviceUnitName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const stepInfo: OperationParameter = {
   parameterPath: ["options", "stepInfo"],
-  mapper: StepResourceMapper
+  mapper: StepResourceMapper,
 };
 
 export const stepName: OperationURLParameter = {
@@ -154,14 +154,14 @@ export const stepName: OperationURLParameter = {
     serializedName: "stepName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const rolloutRequest: OperationParameter = {
   parameterPath: ["options", "rolloutRequest"],
-  mapper: RolloutRequestMapper
+  mapper: RolloutRequestMapper,
 };
 
 export const rolloutName: OperationURLParameter = {
@@ -170,9 +170,9 @@ export const rolloutName: OperationURLParameter = {
     serializedName: "rolloutName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const retryAttempt: OperationQueryParameter = {
@@ -180,9 +180,9 @@ export const retryAttempt: OperationQueryParameter = {
   mapper: {
     serializedName: "retryAttempt",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const skipSucceeded: OperationQueryParameter = {
@@ -190,14 +190,14 @@ export const skipSucceeded: OperationQueryParameter = {
   mapper: {
     serializedName: "skipSucceeded",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const artifactSourceInfo: OperationParameter = {
   parameterPath: ["options", "artifactSourceInfo"],
-  mapper: ArtifactSourceMapper
+  mapper: ArtifactSourceMapper,
 };
 
 export const artifactSourceName: OperationURLParameter = {
@@ -206,7 +206,7 @@ export const artifactSourceName: OperationURLParameter = {
     serializedName: "artifactSourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

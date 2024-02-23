@@ -18,7 +18,7 @@ import {
   ArtifactSourcesGetResponse,
   ArtifactSourcesDeleteOptionalParams,
   ArtifactSourcesListOptionalParams,
-  ArtifactSourcesListResponse
+  ArtifactSourcesListResponse,
 } from "../models";
 
 /** Class containing ArtifactSources operations. */
@@ -42,11 +42,11 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   createOrUpdate(
     resourceGroupName: string,
     artifactSourceName: string,
-    options?: ArtifactSourcesCreateOrUpdateOptionalParams
+    options?: ArtifactSourcesCreateOrUpdateOptionalParams,
   ): Promise<ArtifactSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, artifactSourceName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -59,11 +59,11 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   get(
     resourceGroupName: string,
     artifactSourceName: string,
-    options?: ArtifactSourcesGetOptionalParams
+    options?: ArtifactSourcesGetOptionalParams,
   ): Promise<ArtifactSourcesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, artifactSourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -76,11 +76,11 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   delete(
     resourceGroupName: string,
     artifactSourceName: string,
-    options?: ArtifactSourcesDeleteOptionalParams
+    options?: ArtifactSourcesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, artifactSourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -91,11 +91,11 @@ export class ArtifactSourcesImpl implements ArtifactSources {
    */
   list(
     resourceGroupName: string,
-    options?: ArtifactSourcesListOptionalParams
+    options?: ArtifactSourcesListOptionalParams,
   ): Promise<ArtifactSourcesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -103,16 +103,15 @@ export class ArtifactSourcesImpl implements ArtifactSources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.ArtifactSource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.artifactSourceInfo,
   queryParameters: [Parameters.apiVersion],
@@ -120,78 +119,75 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.artifactSourceName
+    Parameters.artifactSourceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.ArtifactSource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.artifactSourceName
+    Parameters.artifactSourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.artifactSourceName
+    Parameters.artifactSourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ArtifactSource" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "ArtifactSource" } },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

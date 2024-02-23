@@ -674,8 +674,8 @@ export interface ServiceUnitsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ServiceUnitsCreateOrUpdateResponse = ServiceUnitsCreateOrUpdateHeaders &
-  ServiceUnitResource;
+export type ServiceUnitsCreateOrUpdateResponse =
+  ServiceUnitsCreateOrUpdateHeaders & ServiceUnitResource;
 
 /** Optional parameters. */
 export interface ServiceUnitsGetOptionalParams
