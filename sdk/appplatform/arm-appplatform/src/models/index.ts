@@ -2995,7 +2995,7 @@ export enum KnownProvisioningState {
   /** Moved */
   Moved = "Moved",
   /** MoveFailed */
-  MoveFailed = "MoveFailed"
+  MoveFailed = "MoveFailed",
 }
 
 /**
@@ -3022,7 +3022,7 @@ export enum KnownTrafficDirection {
   /** Inbound */
   Inbound = "Inbound",
   /** Outbound */
-  Outbound = "Outbound"
+  Outbound = "Outbound",
 }
 
 /**
@@ -3040,7 +3040,7 @@ export enum KnownPowerState {
   /** Running */
   Running = "Running",
   /** Stopped */
-  Stopped = "Stopped"
+  Stopped = "Stopped",
 }
 
 /**
@@ -3062,7 +3062,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -3086,7 +3086,7 @@ export enum KnownLastModifiedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -3106,7 +3106,7 @@ export enum KnownTestKeyType {
   /** Primary */
   Primary = "Primary",
   /** Secondary */
-  Secondary = "Secondary"
+  Secondary = "Secondary",
 }
 
 /**
@@ -3132,7 +3132,7 @@ export enum KnownApmProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -3160,7 +3160,7 @@ export enum KnownConfigServerState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -3187,7 +3187,7 @@ export enum KnownConfigurationServiceProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3208,7 +3208,7 @@ export enum KnownConfigurationServiceGeneration {
   /** Gen1 */
   Gen1 = "Gen1",
   /** Gen2 */
-  Gen2 = "Gen2"
+  Gen2 = "Gen2",
 }
 
 /**
@@ -3226,7 +3226,7 @@ export enum KnownGitImplementation {
   /** GoGit */
   GoGit = "go-git",
   /** Libgit2 */
-  Libgit2 = "libgit2"
+  Libgit2 = "libgit2",
 }
 
 /**
@@ -3250,7 +3250,7 @@ export enum KnownServiceRegistryProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3279,7 +3279,7 @@ export enum KnownApplicationLiveViewProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -3309,7 +3309,7 @@ export enum KnownDevToolPortalProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -3331,7 +3331,7 @@ export enum KnownDevToolPortalFeatureState {
   /** Enable the plugin in Dev Tool Portal. */
   Enabled = "Enabled",
   /** Disable the plugin in Dev Tool Portal. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -3357,7 +3357,7 @@ export enum KnownContainerRegistryProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -3385,7 +3385,7 @@ export enum KnownBuildServiceProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3412,7 +3412,7 @@ export enum KnownBuildProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3441,7 +3441,7 @@ export enum KnownTriggeredBuildResultProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -3471,7 +3471,7 @@ export enum KnownBindingType {
   /** NewRelic */
   NewRelic = "NewRelic",
   /** ElasticAPM */
-  ElasticAPM = "ElasticAPM"
+  ElasticAPM = "ElasticAPM",
 }
 
 /**
@@ -3499,7 +3499,7 @@ export enum KnownBuildpackBindingProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3526,7 +3526,7 @@ export enum KnownBuildResultProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3551,7 +3551,7 @@ export enum KnownKPackBuildStageProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3577,7 +3577,7 @@ export enum KnownBuilderProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3602,7 +3602,7 @@ export enum KnownMonitoringSettingState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -3628,7 +3628,7 @@ export enum KnownAppResourceProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3647,7 +3647,7 @@ export type AppResourceProvisioningState = string;
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
   /** AzureFileVolume */
-  AzureFileVolume = "AzureFileVolume"
+  AzureFileVolume = "AzureFileVolume",
 }
 
 /**
@@ -3664,7 +3664,7 @@ export enum KnownSessionAffinity {
   /** Cookie */
   Cookie = "Cookie",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -3682,7 +3682,7 @@ export enum KnownBackendProtocol {
   /** Grpc */
   Grpc = "GRPC",
   /** Default */
-  Default = "Default"
+  Default = "Default",
 }
 
 /**
@@ -3704,7 +3704,7 @@ export enum KnownManagedIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -3722,7 +3722,7 @@ export type ManagedIdentityType = string;
 /** Known values of {@link StorageType} that the service accepts. */
 export enum KnownStorageType {
   /** StorageAccount */
-  StorageAccount = "StorageAccount"
+  StorageAccount = "StorageAccount",
 }
 
 /**
@@ -3745,7 +3745,7 @@ export enum KnownCertificateResourceProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3772,7 +3772,7 @@ export enum KnownCustomDomainResourceProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3795,7 +3795,7 @@ export enum KnownProbeActionType {
   /** TCPSocketAction */
   TCPSocketAction = "TCPSocketAction",
   /** ExecAction */
-  ExecAction = "ExecAction"
+  ExecAction = "ExecAction",
 }
 
 /**
@@ -3818,7 +3818,7 @@ export enum KnownDeploymentResourceProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3838,7 +3838,7 @@ export enum KnownDeploymentResourceStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** Running */
-  Running = "Running"
+  Running = "Running",
 }
 
 /**
@@ -3854,7 +3854,7 @@ export type DeploymentResourceStatus = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -3875,7 +3875,7 @@ export enum KnownSupportedRuntimeValue {
   /** Java17 */
   Java17 = "Java_17",
   /** NetCore31 */
-  NetCore31 = "NetCore_31"
+  NetCore31 = "NetCore_31",
 }
 
 /**
@@ -3895,7 +3895,7 @@ export enum KnownSupportedRuntimePlatform {
   /** Java */
   Java = "Java",
   /** NETCore */
-  NETCore = ".NET Core"
+  NETCore = ".NET Core",
 }
 
 /**
@@ -3915,7 +3915,7 @@ export enum KnownSkuScaleType {
   /** Manual */
   Manual = "Manual",
   /** Automatic */
-  Automatic = "Automatic"
+  Automatic = "Automatic",
 }
 
 /**
@@ -3934,7 +3934,7 @@ export enum KnownResourceSkuRestrictionsType {
   /** Location */
   Location = "Location",
   /** Zone */
-  Zone = "Zone"
+  Zone = "Zone",
 }
 
 /**
@@ -3952,7 +3952,7 @@ export enum KnownResourceSkuRestrictionsReasonCode {
   /** QuotaId */
   QuotaId = "QuotaId",
   /** NotAvailableForSubscription */
-  NotAvailableForSubscription = "NotAvailableForSubscription"
+  NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
 /**
@@ -3976,7 +3976,7 @@ export enum KnownGatewayProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3997,7 +3997,7 @@ export enum KnownGatewayCertificateVerification {
   /** Enable certificate verification in Spring Cloud Gateway. */
   Enabled = "Enabled",
   /** Disable certificate verification in Spring Cloud Gateway. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -4015,7 +4015,7 @@ export enum KnownGatewayRouteConfigProtocol {
   /** Http */
   Http = "HTTP",
   /** Https */
-  Https = "HTTPS"
+  Https = "HTTPS",
 }
 
 /**
@@ -4039,7 +4039,7 @@ export enum KnownApiPortalProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -4060,7 +4060,7 @@ export enum KnownApiPortalApiTryOutEnabledState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -4086,7 +4086,7 @@ export enum KnownApplicationAcceleratorProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -4116,7 +4116,7 @@ export enum KnownCustomizedAcceleratorProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -4138,7 +4138,7 @@ export enum KnownCustomizedAcceleratorType {
   /** Accelerator */
   Accelerator = "Accelerator",
   /** Fragment */
-  Fragment = "Fragment"
+  Fragment = "Fragment",
 }
 
 /**
@@ -4156,7 +4156,7 @@ export enum KnownCustomizedAcceleratorValidateResultState {
   /** Customized accelerator properties are valid. */
   Valid = "Valid",
   /** Customized accelerator properties are invalid. */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -4180,7 +4180,7 @@ export enum KnownPredefinedAcceleratorProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -4201,7 +4201,7 @@ export enum KnownPredefinedAcceleratorState {
   /** Enable the predefined accelerator. */
   Enabled = "Enabled",
   /** Disable the predefined accelerator. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -4219,7 +4219,7 @@ export enum KnownKeyVaultCertificateAutoSync {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -4237,7 +4237,7 @@ export enum KnownHttpSchemeType {
   /** Http */
   Http = "HTTP",
   /** Https */
-  Https = "HTTPS"
+  Https = "HTTPS",
 }
 
 /**
@@ -4343,7 +4343,8 @@ export interface ServicesFlushVnetDnsSettingOptionalParams
 }
 
 /** Contains response data for the flushVnetDnsSetting operation. */
-export type ServicesFlushVnetDnsSettingResponse = ServicesFlushVnetDnsSettingHeaders;
+export type ServicesFlushVnetDnsSettingResponse =
+  ServicesFlushVnetDnsSettingHeaders;
 
 /** Optional parameters. */
 export interface ServicesListSupportedApmTypesOptionalParams
@@ -4403,7 +4404,8 @@ export interface ServicesListSupportedServerVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedServerVersions operation. */
-export type ServicesListSupportedServerVersionsResponse = SupportedServerVersions;
+export type ServicesListSupportedServerVersionsResponse =
+  SupportedServerVersions;
 
 /** Optional parameters. */
 export interface ServicesListSupportedApmTypesNextOptionalParams
@@ -4431,7 +4433,8 @@ export interface ServicesListSupportedServerVersionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedServerVersionsNext operation. */
-export type ServicesListSupportedServerVersionsNextResponse = SupportedServerVersions;
+export type ServicesListSupportedServerVersionsNextResponse =
+  SupportedServerVersions;
 
 /** Optional parameters. */
 export interface ApmsListOptionalParams extends coreClient.OperationOptions {}
@@ -4542,7 +4545,8 @@ export interface ConfigurationServicesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationServicesCreateOrUpdateResponse = ConfigurationServiceResource;
+export type ConfigurationServicesCreateOrUpdateResponse =
+  ConfigurationServiceResource;
 
 /** Optional parameters. */
 export interface ConfigurationServicesDeleteOptionalParams
@@ -4558,7 +4562,8 @@ export interface ConfigurationServicesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConfigurationServicesListResponse = ConfigurationServiceResourceCollection;
+export type ConfigurationServicesListResponse =
+  ConfigurationServiceResourceCollection;
 
 /** Optional parameters. */
 export interface ConfigurationServicesValidateOptionalParams
@@ -4570,7 +4575,8 @@ export interface ConfigurationServicesValidateOptionalParams
 }
 
 /** Contains response data for the validate operation. */
-export type ConfigurationServicesValidateResponse = ConfigurationServiceSettingsValidateResult;
+export type ConfigurationServicesValidateResponse =
+  ConfigurationServiceSettingsValidateResult;
 
 /** Optional parameters. */
 export interface ConfigurationServicesValidateResourceOptionalParams
@@ -4582,14 +4588,16 @@ export interface ConfigurationServicesValidateResourceOptionalParams
 }
 
 /** Contains response data for the validateResource operation. */
-export type ConfigurationServicesValidateResourceResponse = ConfigurationServiceSettingsValidateResult;
+export type ConfigurationServicesValidateResourceResponse =
+  ConfigurationServiceSettingsValidateResult;
 
 /** Optional parameters. */
 export interface ConfigurationServicesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ConfigurationServicesListNextResponse = ConfigurationServiceResourceCollection;
+export type ConfigurationServicesListNextResponse =
+  ConfigurationServiceResourceCollection;
 
 /** Optional parameters. */
 export interface ServiceRegistriesGetOptionalParams
@@ -4631,14 +4639,16 @@ export interface ServiceRegistriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ServiceRegistriesListNextResponse = ServiceRegistryResourceCollection;
+export type ServiceRegistriesListNextResponse =
+  ServiceRegistryResourceCollection;
 
 /** Optional parameters. */
 export interface ApplicationLiveViewsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ApplicationLiveViewsListResponse = ApplicationLiveViewResourceCollection;
+export type ApplicationLiveViewsListResponse =
+  ApplicationLiveViewResourceCollection;
 
 /** Optional parameters. */
 export interface ApplicationLiveViewsGetOptionalParams
@@ -4657,7 +4667,8 @@ export interface ApplicationLiveViewsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApplicationLiveViewsCreateOrUpdateResponse = ApplicationLiveViewResource;
+export type ApplicationLiveViewsCreateOrUpdateResponse =
+  ApplicationLiveViewResource;
 
 /** Optional parameters. */
 export interface ApplicationLiveViewsDeleteOptionalParams
@@ -4669,14 +4680,16 @@ export interface ApplicationLiveViewsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ApplicationLiveViewsDeleteResponse = ApplicationLiveViewsDeleteHeaders;
+export type ApplicationLiveViewsDeleteResponse =
+  ApplicationLiveViewsDeleteHeaders;
 
 /** Optional parameters. */
 export interface ApplicationLiveViewsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ApplicationLiveViewsListNextResponse = ApplicationLiveViewResourceCollection;
+export type ApplicationLiveViewsListNextResponse =
+  ApplicationLiveViewResourceCollection;
 
 /** Optional parameters. */
 export interface DevToolPortalsListOptionalParams
@@ -4728,7 +4741,8 @@ export interface ContainerRegistriesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ContainerRegistriesListResponse = ContainerRegistryResourceCollection;
+export type ContainerRegistriesListResponse =
+  ContainerRegistryResourceCollection;
 
 /** Optional parameters. */
 export interface ContainerRegistriesGetOptionalParams
@@ -4747,7 +4761,8 @@ export interface ContainerRegistriesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ContainerRegistriesCreateOrUpdateResponse = ContainerRegistryResource;
+export type ContainerRegistriesCreateOrUpdateResponse =
+  ContainerRegistryResource;
 
 /** Optional parameters. */
 export interface ContainerRegistriesDeleteOptionalParams
@@ -4759,7 +4774,8 @@ export interface ContainerRegistriesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ContainerRegistriesDeleteResponse = ContainerRegistriesDeleteHeaders;
+export type ContainerRegistriesDeleteResponse =
+  ContainerRegistriesDeleteHeaders;
 
 /** Optional parameters. */
 export interface ContainerRegistriesValidateOptionalParams
@@ -4771,14 +4787,16 @@ export interface ContainerRegistriesValidateOptionalParams
 }
 
 /** Contains response data for the validate operation. */
-export type ContainerRegistriesValidateResponse = ContainerRegistryValidateResult;
+export type ContainerRegistriesValidateResponse =
+  ContainerRegistryValidateResult;
 
 /** Optional parameters. */
 export interface ContainerRegistriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ContainerRegistriesListNextResponse = ContainerRegistryResourceCollection;
+export type ContainerRegistriesListNextResponse =
+  ContainerRegistryResourceCollection;
 
 /** Optional parameters. */
 export interface BuildServiceListBuildServicesOptionalParams
@@ -4872,14 +4890,16 @@ export interface BuildServiceListSupportedBuildpacksOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedBuildpacks operation. */
-export type BuildServiceListSupportedBuildpacksResponse = SupportedBuildpacksCollection;
+export type BuildServiceListSupportedBuildpacksResponse =
+  SupportedBuildpacksCollection;
 
 /** Optional parameters. */
 export interface BuildServiceGetSupportedBuildpackOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSupportedBuildpack operation. */
-export type BuildServiceGetSupportedBuildpackResponse = SupportedBuildpackResource;
+export type BuildServiceGetSupportedBuildpackResponse =
+  SupportedBuildpackResource;
 
 /** Optional parameters. */
 export interface BuildServiceListSupportedStacksOptionalParams
@@ -4921,7 +4941,8 @@ export interface BuildpackBindingListForClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForCluster operation. */
-export type BuildpackBindingListForClusterResponse = BuildpackBindingResourceCollection;
+export type BuildpackBindingListForClusterResponse =
+  BuildpackBindingResourceCollection;
 
 /** Optional parameters. */
 export interface BuildpackBindingGetOptionalParams
@@ -4963,14 +4984,16 @@ export interface BuildpackBindingListForClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForClusterNext operation. */
-export type BuildpackBindingListForClusterNextResponse = BuildpackBindingResourceCollection;
+export type BuildpackBindingListForClusterNextResponse =
+  BuildpackBindingResourceCollection;
 
 /** Optional parameters. */
 export interface BuildpackBindingListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BuildpackBindingListNextResponse = BuildpackBindingResourceCollection;
+export type BuildpackBindingListNextResponse =
+  BuildpackBindingResourceCollection;
 
 /** Optional parameters. */
 export interface BuildServiceBuilderGetOptionalParams
@@ -5026,7 +5049,8 @@ export interface BuildServiceAgentPoolListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type BuildServiceAgentPoolListResponse = BuildServiceAgentPoolResourceCollection;
+export type BuildServiceAgentPoolListResponse =
+  BuildServiceAgentPoolResourceCollection;
 
 /** Optional parameters. */
 export interface BuildServiceAgentPoolGetOptionalParams
@@ -5045,14 +5069,16 @@ export interface BuildServiceAgentPoolUpdatePutOptionalParams
 }
 
 /** Contains response data for the updatePut operation. */
-export type BuildServiceAgentPoolUpdatePutResponse = BuildServiceAgentPoolResource;
+export type BuildServiceAgentPoolUpdatePutResponse =
+  BuildServiceAgentPoolResource;
 
 /** Optional parameters. */
 export interface BuildServiceAgentPoolListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BuildServiceAgentPoolListNextResponse = BuildServiceAgentPoolResourceCollection;
+export type BuildServiceAgentPoolListNextResponse =
+  BuildServiceAgentPoolResourceCollection;
 
 /** Optional parameters. */
 export interface MonitoringSettingsGetOptionalParams
@@ -5524,7 +5550,8 @@ export interface DeploymentsListForClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForClusterNext operation. */
-export type DeploymentsListForClusterNextResponse = DeploymentResourceCollection;
+export type DeploymentsListForClusterNextResponse =
+  DeploymentResourceCollection;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -5545,7 +5572,8 @@ export interface RuntimeVersionsListRuntimeVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRuntimeVersions operation. */
-export type RuntimeVersionsListRuntimeVersionsResponse = AvailableRuntimeVersions;
+export type RuntimeVersionsListRuntimeVersionsResponse =
+  AvailableRuntimeVersions;
 
 /** Optional parameters. */
 export interface SkusListOptionalParams extends coreClient.OperationOptions {}
@@ -5642,7 +5670,8 @@ export interface GatewayRouteConfigsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GatewayRouteConfigsCreateOrUpdateResponse = GatewayRouteConfigResource;
+export type GatewayRouteConfigsCreateOrUpdateResponse =
+  GatewayRouteConfigResource;
 
 /** Optional parameters. */
 export interface GatewayRouteConfigsDeleteOptionalParams
@@ -5658,14 +5687,16 @@ export interface GatewayRouteConfigsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GatewayRouteConfigsListResponse = GatewayRouteConfigResourceCollection;
+export type GatewayRouteConfigsListResponse =
+  GatewayRouteConfigResourceCollection;
 
 /** Optional parameters. */
 export interface GatewayRouteConfigsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type GatewayRouteConfigsListNextResponse = GatewayRouteConfigResourceCollection;
+export type GatewayRouteConfigsListNextResponse =
+  GatewayRouteConfigResourceCollection;
 
 /** Optional parameters. */
 export interface GatewayCustomDomainsGetOptionalParams
@@ -5684,7 +5715,8 @@ export interface GatewayCustomDomainsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GatewayCustomDomainsCreateOrUpdateResponse = GatewayCustomDomainResource;
+export type GatewayCustomDomainsCreateOrUpdateResponse =
+  GatewayCustomDomainResource;
 
 /** Optional parameters. */
 export interface GatewayCustomDomainsDeleteOptionalParams
@@ -5700,14 +5732,16 @@ export interface GatewayCustomDomainsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GatewayCustomDomainsListResponse = GatewayCustomDomainResourceCollection;
+export type GatewayCustomDomainsListResponse =
+  GatewayCustomDomainResourceCollection;
 
 /** Optional parameters. */
 export interface GatewayCustomDomainsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type GatewayCustomDomainsListNextResponse = GatewayCustomDomainResourceCollection;
+export type GatewayCustomDomainsListNextResponse =
+  GatewayCustomDomainResourceCollection;
 
 /** Optional parameters. */
 export interface ApiPortalsGetOptionalParams
@@ -5775,7 +5809,8 @@ export interface ApiPortalCustomDomainsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiPortalCustomDomainsCreateOrUpdateResponse = ApiPortalCustomDomainResource;
+export type ApiPortalCustomDomainsCreateOrUpdateResponse =
+  ApiPortalCustomDomainResource;
 
 /** Optional parameters. */
 export interface ApiPortalCustomDomainsDeleteOptionalParams
@@ -5791,21 +5826,24 @@ export interface ApiPortalCustomDomainsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ApiPortalCustomDomainsListResponse = ApiPortalCustomDomainResourceCollection;
+export type ApiPortalCustomDomainsListResponse =
+  ApiPortalCustomDomainResourceCollection;
 
 /** Optional parameters. */
 export interface ApiPortalCustomDomainsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ApiPortalCustomDomainsListNextResponse = ApiPortalCustomDomainResourceCollection;
+export type ApiPortalCustomDomainsListNextResponse =
+  ApiPortalCustomDomainResourceCollection;
 
 /** Optional parameters. */
 export interface ApplicationAcceleratorsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ApplicationAcceleratorsListResponse = ApplicationAcceleratorResourceCollection;
+export type ApplicationAcceleratorsListResponse =
+  ApplicationAcceleratorResourceCollection;
 
 /** Optional parameters. */
 export interface ApplicationAcceleratorsGetOptionalParams
@@ -5824,7 +5862,8 @@ export interface ApplicationAcceleratorsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApplicationAcceleratorsCreateOrUpdateResponse = ApplicationAcceleratorResource;
+export type ApplicationAcceleratorsCreateOrUpdateResponse =
+  ApplicationAcceleratorResource;
 
 /** Optional parameters. */
 export interface ApplicationAcceleratorsDeleteOptionalParams
@@ -5836,21 +5875,24 @@ export interface ApplicationAcceleratorsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ApplicationAcceleratorsDeleteResponse = ApplicationAcceleratorsDeleteHeaders;
+export type ApplicationAcceleratorsDeleteResponse =
+  ApplicationAcceleratorsDeleteHeaders;
 
 /** Optional parameters. */
 export interface ApplicationAcceleratorsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ApplicationAcceleratorsListNextResponse = ApplicationAcceleratorResourceCollection;
+export type ApplicationAcceleratorsListNextResponse =
+  ApplicationAcceleratorResourceCollection;
 
 /** Optional parameters. */
 export interface CustomizedAcceleratorsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type CustomizedAcceleratorsListResponse = CustomizedAcceleratorResourceCollection;
+export type CustomizedAcceleratorsListResponse =
+  CustomizedAcceleratorResourceCollection;
 
 /** Optional parameters. */
 export interface CustomizedAcceleratorsGetOptionalParams
@@ -5869,7 +5911,8 @@ export interface CustomizedAcceleratorsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CustomizedAcceleratorsCreateOrUpdateResponse = CustomizedAcceleratorResource;
+export type CustomizedAcceleratorsCreateOrUpdateResponse =
+  CustomizedAcceleratorResource;
 
 /** Optional parameters. */
 export interface CustomizedAcceleratorsDeleteOptionalParams
@@ -5881,7 +5924,8 @@ export interface CustomizedAcceleratorsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type CustomizedAcceleratorsDeleteResponse = CustomizedAcceleratorsDeleteHeaders;
+export type CustomizedAcceleratorsDeleteResponse =
+  CustomizedAcceleratorsDeleteHeaders;
 
 /** Optional parameters. */
 export interface CustomizedAcceleratorsValidateOptionalParams
@@ -5893,21 +5937,24 @@ export interface CustomizedAcceleratorsValidateOptionalParams
 }
 
 /** Contains response data for the validate operation. */
-export type CustomizedAcceleratorsValidateResponse = CustomizedAcceleratorValidateResult;
+export type CustomizedAcceleratorsValidateResponse =
+  CustomizedAcceleratorValidateResult;
 
 /** Optional parameters. */
 export interface CustomizedAcceleratorsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type CustomizedAcceleratorsListNextResponse = CustomizedAcceleratorResourceCollection;
+export type CustomizedAcceleratorsListNextResponse =
+  CustomizedAcceleratorResourceCollection;
 
 /** Optional parameters. */
 export interface PredefinedAcceleratorsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PredefinedAcceleratorsListResponse = PredefinedAcceleratorResourceCollection;
+export type PredefinedAcceleratorsListResponse =
+  PredefinedAcceleratorResourceCollection;
 
 /** Optional parameters. */
 export interface PredefinedAcceleratorsGetOptionalParams
@@ -5939,7 +5986,8 @@ export interface PredefinedAcceleratorsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PredefinedAcceleratorsListNextResponse = PredefinedAcceleratorResourceCollection;
+export type PredefinedAcceleratorsListNextResponse =
+  PredefinedAcceleratorResourceCollection;
 
 /** Optional parameters. */
 export interface AppPlatformManagementClientOptionalParams
