@@ -14,7 +14,10 @@ import {
   CodeVersionsGetOptionalParams,
   CodeVersionsGetResponse,
   CodeVersionsCreateOrUpdateOptionalParams,
-  CodeVersionsCreateOrUpdateResponse
+  CodeVersionsCreateOrUpdateResponse,
+  PendingUploadRequestDto,
+  CodeVersionsCreateOrGetStartPendingUploadOptionalParams,
+  CodeVersionsCreateOrGetStartPendingUploadResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +34,7 @@ export interface CodeVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: CodeVersionsListOptionalParams
+    options?: CodeVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<CodeVersion>;
   /**
    * Delete version.
@@ -46,7 +49,7 @@ export interface CodeVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: CodeVersionsDeleteOptionalParams
+    options?: CodeVersionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get version.
@@ -61,7 +64,7 @@ export interface CodeVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: CodeVersionsGetOptionalParams
+    options?: CodeVersionsGetOptionalParams,
   ): Promise<CodeVersionsGetResponse>;
   /**
    * Create or update version.
@@ -78,6 +81,23 @@ export interface CodeVersions {
     name: string,
     version: string,
     body: CodeVersion,
-    options?: CodeVersionsCreateOrUpdateOptionalParams
+    options?: CodeVersionsCreateOrUpdateOptionalParams,
   ): Promise<CodeVersionsCreateOrUpdateResponse>;
+  /**
+   * Generate a storage location and credential for the client to upload a code asset to.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param version Version identifier. This is case-sensitive.
+   * @param body Pending upload request object
+   * @param options The options parameters.
+   */
+  createOrGetStartPendingUpload(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: PendingUploadRequestDto,
+    options?: CodeVersionsCreateOrGetStartPendingUploadOptionalParams,
+  ): Promise<CodeVersionsCreateOrGetStartPendingUploadResponse>;
 }
