@@ -1287,7 +1287,7 @@ export enum KnownProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Deleted */
-  Deleted = "Deleted"
+  Deleted = "Deleted",
 }
 
 /**
@@ -1310,7 +1310,7 @@ export enum KnownNaptEnabled {
   /** NAPT is enabled */
   Enabled = "Enabled",
   /** NAPT is disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1332,7 +1332,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1356,7 +1356,7 @@ export enum KnownDiagnosticsPackageStatus {
   /** Collected */
   Collected = "Collected",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -1380,7 +1380,7 @@ export enum KnownPacketCaptureStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -1400,7 +1400,7 @@ export enum KnownDesiredInstallationState {
   /** Don't install the packet core. */
   Uninstalled = "Uninstalled",
   /** Install the packet core. */
-  Installed = "Installed"
+  Installed = "Installed",
 }
 
 /**
@@ -1432,7 +1432,7 @@ export enum KnownInstallationState {
   /** The packet core is rolling back to its previous version. */
   RollingBack = "RollingBack",
   /** The packet core is in failed state. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1457,7 +1457,7 @@ export enum KnownReinstallRequired {
   /** A reinstall of the packet core is required. */
   Required = "Required",
   /** A reinstall of the packet core is not required. */
-  NotRequired = "NotRequired"
+  NotRequired = "NotRequired",
 }
 
 /**
@@ -1489,7 +1489,7 @@ export enum KnownInstallationReason {
   /** A reinstall is required as the packet core is running with out-of-date control plane access network virtual IP address. */
   ControlPlaneAccessVirtualIpv4AddressesHasChanged = "ControlPlaneAccessVirtualIpv4AddressesHasChanged",
   /** A reinstall is required as the packet core is running with out-of-date user plane access network virtual IP address. */
-  UserPlaneAccessVirtualIpv4AddressesHasChanged = "UserPlaneAccessVirtualIpv4AddressesHasChanged"
+  UserPlaneAccessVirtualIpv4AddressesHasChanged = "UserPlaneAccessVirtualIpv4AddressesHasChanged",
 }
 
 /**
@@ -1514,7 +1514,7 @@ export enum KnownPlatformType {
   /** If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other. */
   AKSHCI = "AKS-HCI",
   /** If this option is chosen, you must set one of "azureStackHciCluster", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other. */
-  ThreePAzureStackHCI = "3P-AZURE-STACK-HCI"
+  ThreePAzureStackHCI = "3P-AZURE-STACK-HCI",
 }
 
 /**
@@ -1538,7 +1538,7 @@ export enum KnownBillingSku {
   /** 5 Gbps, 500 active SIMs plan */
   G5 = "G5",
   /** 10 Gbps, 1000 active SIMs plan */
-  G10 = "G10"
+  G10 = "G10",
 }
 
 /**
@@ -1559,7 +1559,7 @@ export enum KnownAuthenticationType {
   /** Use AAD SSO to authenticate the user (this requires internet access). */
   AAD = "AAD",
   /** Use locally stored passwords to authenticate the user. */
-  Password = "Password"
+  Password = "Password",
 }
 
 /**
@@ -1579,7 +1579,7 @@ export enum KnownCertificateProvisioningState {
   /** The certificate has been provisioned. */
   Provisioned = "Provisioned",
   /** The certificate failed to be provisioned. The "reason" property explains why. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1598,7 +1598,7 @@ export enum KnownManagedServiceIdentityType {
   /** None */
   None = "None",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -1624,7 +1624,7 @@ export enum KnownVersionState {
   /** This version is active and suitable for production use. */
   Active = "Active",
   /** This version is deprecated and is no longer supported. */
-  Deprecated = "Deprecated"
+  Deprecated = "Deprecated",
 }
 
 /**
@@ -1646,7 +1646,7 @@ export enum KnownRecommendedVersion {
   /** This is the recommended version to use for new packet core control plane deployments. */
   Recommended = "Recommended",
   /** This is not the recommended version to use for new packet core control plane deployments. */
-  NotRecommended = "NotRecommended"
+  NotRecommended = "NotRecommended",
 }
 
 /**
@@ -1664,7 +1664,7 @@ export enum KnownObsoleteVersion {
   /** This version is obsolete for use in new packet core control plane deployments. */
   Obsolete = "Obsolete",
   /** This version is not obsolete for use in new packet core control plane deployments. */
-  NotObsolete = "NotObsolete"
+  NotObsolete = "NotObsolete",
 }
 
 /**
@@ -1682,7 +1682,7 @@ export enum KnownPreemptionCapability {
   /** Cannot preempt */
   NotPreempt = "NotPreempt",
   /** May preempt */
-  MayPreempt = "MayPreempt"
+  MayPreempt = "MayPreempt",
 }
 
 /**
@@ -1700,7 +1700,7 @@ export enum KnownPreemptionVulnerability {
   /** Cannot be preempted */
   NotPreemptable = "NotPreemptable",
   /** May be preempted */
-  Preemptable = "Preemptable"
+  Preemptable = "Preemptable",
 }
 
 /**
@@ -1718,7 +1718,7 @@ export enum KnownTrafficControlPermission {
   /** Traffic matching this rule is allowed to flow. */
   Enabled = "Enabled",
   /** Traffic matching this rule is not allowed to flow. */
-  Blocked = "Blocked"
+  Blocked = "Blocked",
 }
 
 /**
@@ -1738,7 +1738,7 @@ export enum KnownSdfDirection {
   /** Traffic flowing from the data network to the UE. */
   Downlink = "Downlink",
   /** Traffic flowing both to and from the UE. */
-  Bidirectional = "Bidirectional"
+  Bidirectional = "Bidirectional",
 }
 
 /**
@@ -1759,7 +1759,7 @@ export enum KnownSimState {
   /** The SIM is enabled. */
   Enabled = "Enabled",
   /** The SIM cannot be enabled because some of the associated configuration is invalid. */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -1786,7 +1786,7 @@ export enum KnownSiteProvisioningState {
   /** The resource is provisioned on this site. */
   Provisioned = "Provisioned",
   /** The resource failed to be provisioned on this site. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1808,7 +1808,7 @@ export enum KnownPduSessionType {
   /** IPv4 */
   IPv4 = "IPv4",
   /** IPv6 */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -1863,14 +1863,16 @@ export interface AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreDataPlane operation. */
-export type AttachedDataNetworksListByPacketCoreDataPlaneResponse = AttachedDataNetworkListResult;
+export type AttachedDataNetworksListByPacketCoreDataPlaneResponse =
+  AttachedDataNetworkListResult;
 
 /** Optional parameters. */
 export interface AttachedDataNetworksListByPacketCoreDataPlaneNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreDataPlaneNext operation. */
-export type AttachedDataNetworksListByPacketCoreDataPlaneNextResponse = AttachedDataNetworkListResult;
+export type AttachedDataNetworksListByPacketCoreDataPlaneNextResponse =
+  AttachedDataNetworkListResult;
 
 /** Optional parameters. */
 export interface DataNetworksDeleteOptionalParams
@@ -1954,14 +1956,16 @@ export interface DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlane operation. */
-export type DiagnosticsPackagesListByPacketCoreControlPlaneResponse = DiagnosticsPackageListResult;
+export type DiagnosticsPackagesListByPacketCoreControlPlaneResponse =
+  DiagnosticsPackageListResult;
 
 /** Optional parameters. */
 export interface DiagnosticsPackagesListByPacketCoreControlPlaneNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlaneNext operation. */
-export type DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse = DiagnosticsPackageListResult;
+export type DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse =
+  DiagnosticsPackageListResult;
 
 /** Optional parameters. */
 export interface MobileNetworksDeleteOptionalParams
@@ -2017,14 +2021,16 @@ export interface MobileNetworksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type MobileNetworksListBySubscriptionNextResponse = MobileNetworkListResult;
+export type MobileNetworksListBySubscriptionNextResponse =
+  MobileNetworkListResult;
 
 /** Optional parameters. */
 export interface MobileNetworksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type MobileNetworksListByResourceGroupNextResponse = MobileNetworkListResult;
+export type MobileNetworksListByResourceGroupNextResponse =
+  MobileNetworkListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2085,14 +2091,16 @@ export interface PacketCapturesListByPacketCoreControlPlaneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlane operation. */
-export type PacketCapturesListByPacketCoreControlPlaneResponse = PacketCaptureListResult;
+export type PacketCapturesListByPacketCoreControlPlaneResponse =
+  PacketCaptureListResult;
 
 /** Optional parameters. */
 export interface PacketCapturesListByPacketCoreControlPlaneNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlaneNext operation. */
-export type PacketCapturesListByPacketCoreControlPlaneNextResponse = PacketCaptureListResult;
+export type PacketCapturesListByPacketCoreControlPlaneNextResponse =
+  PacketCaptureListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesDeleteOptionalParams
@@ -2120,7 +2128,8 @@ export interface PacketCoreControlPlanesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PacketCoreControlPlanesCreateOrUpdateResponse = PacketCoreControlPlane;
+export type PacketCoreControlPlanesCreateOrUpdateResponse =
+  PacketCoreControlPlane;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesUpdateTagsOptionalParams
@@ -2134,14 +2143,16 @@ export interface PacketCoreControlPlanesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type PacketCoreControlPlanesListBySubscriptionResponse = PacketCoreControlPlaneListResult;
+export type PacketCoreControlPlanesListBySubscriptionResponse =
+  PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type PacketCoreControlPlanesListByResourceGroupResponse = PacketCoreControlPlaneListResult;
+export type PacketCoreControlPlanesListByResourceGroupResponse =
+  PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesRollbackOptionalParams
@@ -2177,63 +2188,72 @@ export interface PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
 }
 
 /** Contains response data for the collectDiagnosticsPackage operation. */
-export type PacketCoreControlPlanesCollectDiagnosticsPackageResponse = AsyncOperationStatus;
+export type PacketCoreControlPlanesCollectDiagnosticsPackageResponse =
+  AsyncOperationStatus;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PacketCoreControlPlanesListBySubscriptionNextResponse = PacketCoreControlPlaneListResult;
+export type PacketCoreControlPlanesListBySubscriptionNextResponse =
+  PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type PacketCoreControlPlanesListByResourceGroupNextResponse = PacketCoreControlPlaneListResult;
+export type PacketCoreControlPlanesListByResourceGroupNextResponse =
+  PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PacketCoreControlPlaneVersionsGetResponse = PacketCoreControlPlaneVersion;
+export type PacketCoreControlPlaneVersionsGetResponse =
+  PacketCoreControlPlaneVersion;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PacketCoreControlPlaneVersionsListResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsListResponse =
+  PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBySubscription operation. */
-export type PacketCoreControlPlaneVersionsGetBySubscriptionResponse = PacketCoreControlPlaneVersion;
+export type PacketCoreControlPlaneVersionsGetBySubscriptionResponse =
+  PacketCoreControlPlaneVersion;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type PacketCoreControlPlaneVersionsListBySubscriptionResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsListBySubscriptionResponse =
+  PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PacketCoreControlPlaneVersionsListNextResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsListNextResponse =
+  PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PacketCoreControlPlaneVersionsListBySubscriptionNextResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsListBySubscriptionNextResponse =
+  PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreDataPlanesDeleteOptionalParams
@@ -2275,14 +2295,16 @@ export interface PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlane operation. */
-export type PacketCoreDataPlanesListByPacketCoreControlPlaneResponse = PacketCoreDataPlaneListResult;
+export type PacketCoreDataPlanesListByPacketCoreControlPlaneResponse =
+  PacketCoreDataPlaneListResult;
 
 /** Optional parameters. */
 export interface PacketCoreDataPlanesListByPacketCoreControlPlaneNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPacketCoreControlPlaneNext operation. */
-export type PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse = PacketCoreDataPlaneListResult;
+export type PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse =
+  PacketCoreDataPlaneListResult;
 
 /** Optional parameters. */
 export interface ServicesDeleteOptionalParams
