@@ -47,7 +47,7 @@ import {
   FirmwareGenerateCryptoCertificateSummaryOptionalParams,
   FirmwareGenerateCryptoCertificateSummaryResponse,
   FirmwareGenerateCryptoKeySummaryOptionalParams,
-  FirmwareGenerateCryptoKeySummaryResponse
+  FirmwareGenerateCryptoKeySummaryResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,7 +62,7 @@ export interface FirmwareOperations {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FirmwareListByWorkspaceOptionalParams
+    options?: FirmwareListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<Firmware>;
   /**
    * The operation to list all components result for a firmware.
@@ -75,7 +75,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateComponentListOptionalParams
+    options?: FirmwareListGenerateComponentListOptionalParams,
   ): PagedAsyncIterableIterator<Component>;
   /**
    * The operation to list all binary hardening result for a firmware.
@@ -88,7 +88,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateBinaryHardeningListOptionalParams
+    options?: FirmwareListGenerateBinaryHardeningListOptionalParams,
   ): PagedAsyncIterableIterator<BinaryHardening>;
   /**
    * The operation to list all password hashes for a firmware.
@@ -101,7 +101,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGeneratePasswordHashListOptionalParams
+    options?: FirmwareListGeneratePasswordHashListOptionalParams,
   ): PagedAsyncIterableIterator<PasswordHash>;
   /**
    * The operation to list all cve results for a firmware.
@@ -114,7 +114,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCveListOptionalParams
+    options?: FirmwareListGenerateCveListOptionalParams,
   ): PagedAsyncIterableIterator<Cve>;
   /**
    * The operation to list all crypto certificates for a firmware.
@@ -127,7 +127,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCryptoCertificateListOptionalParams
+    options?: FirmwareListGenerateCryptoCertificateListOptionalParams,
   ): PagedAsyncIterableIterator<CryptoCertificate>;
   /**
    * The operation to list all crypto keys for a firmware.
@@ -140,7 +140,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCryptoKeyListOptionalParams
+    options?: FirmwareListGenerateCryptoKeyListOptionalParams,
   ): PagedAsyncIterableIterator<CryptoKey>;
   /**
    * The operation to create a firmware.
@@ -155,7 +155,7 @@ export interface FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     firmware: Firmware,
-    options?: FirmwareCreateOptionalParams
+    options?: FirmwareCreateOptionalParams,
   ): Promise<FirmwareCreateResponse>;
   /**
    * The operation to update firmware.
@@ -170,7 +170,7 @@ export interface FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     firmware: FirmwareUpdateDefinition,
-    options?: FirmwareUpdateOptionalParams
+    options?: FirmwareUpdateOptionalParams,
   ): Promise<FirmwareUpdateResponse>;
   /**
    * The operation to delete a firmware.
@@ -183,7 +183,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareDeleteOptionalParams
+    options?: FirmwareDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get firmware.
@@ -196,7 +196,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGetOptionalParams
+    options?: FirmwareGetOptionalParams,
   ): Promise<FirmwareGetResponse>;
   /**
    * The operation to a url for file download.
@@ -209,7 +209,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateDownloadUrlOptionalParams
+    options?: FirmwareGenerateDownloadUrlOptionalParams,
   ): Promise<FirmwareGenerateDownloadUrlResponse>;
   /**
    * The operation to a url for tar file download.
@@ -222,7 +222,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateFilesystemDownloadUrlOptionalParams
+    options?: FirmwareGenerateFilesystemDownloadUrlOptionalParams,
   ): Promise<FirmwareGenerateFilesystemDownloadUrlResponse>;
   /**
    * The operation to get a scan summary.
@@ -235,7 +235,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateSummaryOptionalParams
+    options?: FirmwareGenerateSummaryOptionalParams,
   ): Promise<FirmwareGenerateSummaryResponse>;
   /**
    * The operation to get component details for a firmware.
@@ -248,7 +248,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateComponentDetailsOptionalParams
+    options?: FirmwareGenerateComponentDetailsOptionalParams,
   ): Promise<FirmwareGenerateComponentDetailsResponse>;
   /**
    * The operation to list the binary hardening summary percentages for a firmware.
@@ -261,7 +261,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateBinaryHardeningSummaryOptionalParams
+    options?: FirmwareGenerateBinaryHardeningSummaryOptionalParams,
   ): Promise<FirmwareGenerateBinaryHardeningSummaryResponse>;
   /**
    * The operation to get binary hardening details for a firmware.
@@ -274,7 +274,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateBinaryHardeningDetailsOptionalParams
+    options?: FirmwareGenerateBinaryHardeningDetailsOptionalParams,
   ): Promise<FirmwareGenerateBinaryHardeningDetailsResponse>;
   /**
    * The operation to provide a high level summary of the CVEs reported for the firmware image.
@@ -287,7 +287,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateCveSummaryOptionalParams
+    options?: FirmwareGenerateCveSummaryOptionalParams,
   ): Promise<FirmwareGenerateCveSummaryResponse>;
   /**
    * The operation to provide a high level summary of the discovered cryptographic certificates reported
@@ -301,7 +301,7 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateCryptoCertificateSummaryOptionalParams
+    options?: FirmwareGenerateCryptoCertificateSummaryOptionalParams,
   ): Promise<FirmwareGenerateCryptoCertificateSummaryResponse>;
   /**
    * The operation to provide a high level summary of the discovered cryptographic keys reported for the
@@ -315,6 +315,6 @@ export interface FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateCryptoKeySummaryOptionalParams
+    options?: FirmwareGenerateCryptoKeySummaryOptionalParams,
   ): Promise<FirmwareGenerateCryptoKeySummaryResponse>;
 }

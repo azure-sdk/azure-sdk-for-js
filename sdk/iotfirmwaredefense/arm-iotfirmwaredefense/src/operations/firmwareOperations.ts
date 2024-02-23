@@ -74,7 +74,7 @@ import {
   FirmwareListGeneratePasswordHashListNextResponse,
   FirmwareListGenerateCveListNextResponse,
   FirmwareListGenerateCryptoCertificateListNextResponse,
-  FirmwareListGenerateCryptoKeyListNextResponse
+  FirmwareListGenerateCryptoKeyListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -99,12 +99,12 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FirmwareListByWorkspaceOptionalParams
+    options?: FirmwareListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<Firmware> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -121,9 +121,9 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -131,7 +131,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     options?: FirmwareListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Firmware[]> {
     let result: FirmwareListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -139,7 +139,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -151,7 +151,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -163,12 +163,12 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FirmwareListByWorkspaceOptionalParams
+    options?: FirmwareListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<Firmware> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -185,13 +185,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateComponentListOptionalParams
+    options?: FirmwareListGenerateComponentListOptionalParams,
   ): PagedAsyncIterableIterator<Component> {
     const iter = this.listGenerateComponentListPagingAll(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     );
     return {
       next() {
@@ -209,9 +209,9 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
           workspaceName,
           firmwareId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -220,7 +220,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     options?: FirmwareListGenerateComponentListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Component[]> {
     let result: FirmwareListGenerateComponentListResponse;
     let continuationToken = settings?.continuationToken;
@@ -229,7 +229,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         resourceGroupName,
         workspaceName,
         firmwareId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -242,7 +242,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         workspaceName,
         firmwareId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -255,13 +255,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateComponentListOptionalParams
+    options?: FirmwareListGenerateComponentListOptionalParams,
   ): AsyncIterableIterator<Component> {
     for await (const page of this.listGenerateComponentListPagingPage(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -278,13 +278,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateBinaryHardeningListOptionalParams
+    options?: FirmwareListGenerateBinaryHardeningListOptionalParams,
   ): PagedAsyncIterableIterator<BinaryHardening> {
     const iter = this.listGenerateBinaryHardeningListPagingAll(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     );
     return {
       next() {
@@ -302,9 +302,9 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
           workspaceName,
           firmwareId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -313,7 +313,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     options?: FirmwareListGenerateBinaryHardeningListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BinaryHardening[]> {
     let result: FirmwareListGenerateBinaryHardeningListResponse;
     let continuationToken = settings?.continuationToken;
@@ -322,7 +322,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         resourceGroupName,
         workspaceName,
         firmwareId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -335,7 +335,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         workspaceName,
         firmwareId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -348,13 +348,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateBinaryHardeningListOptionalParams
+    options?: FirmwareListGenerateBinaryHardeningListOptionalParams,
   ): AsyncIterableIterator<BinaryHardening> {
     for await (const page of this.listGenerateBinaryHardeningListPagingPage(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -371,13 +371,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGeneratePasswordHashListOptionalParams
+    options?: FirmwareListGeneratePasswordHashListOptionalParams,
   ): PagedAsyncIterableIterator<PasswordHash> {
     const iter = this.listGeneratePasswordHashListPagingAll(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     );
     return {
       next() {
@@ -395,9 +395,9 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
           workspaceName,
           firmwareId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -406,7 +406,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     options?: FirmwareListGeneratePasswordHashListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PasswordHash[]> {
     let result: FirmwareListGeneratePasswordHashListResponse;
     let continuationToken = settings?.continuationToken;
@@ -415,7 +415,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         resourceGroupName,
         workspaceName,
         firmwareId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -428,7 +428,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         workspaceName,
         firmwareId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -441,13 +441,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGeneratePasswordHashListOptionalParams
+    options?: FirmwareListGeneratePasswordHashListOptionalParams,
   ): AsyncIterableIterator<PasswordHash> {
     for await (const page of this.listGeneratePasswordHashListPagingPage(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -464,13 +464,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCveListOptionalParams
+    options?: FirmwareListGenerateCveListOptionalParams,
   ): PagedAsyncIterableIterator<Cve> {
     const iter = this.listGenerateCveListPagingAll(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     );
     return {
       next() {
@@ -488,9 +488,9 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
           workspaceName,
           firmwareId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -499,7 +499,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     options?: FirmwareListGenerateCveListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Cve[]> {
     let result: FirmwareListGenerateCveListResponse;
     let continuationToken = settings?.continuationToken;
@@ -508,7 +508,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         resourceGroupName,
         workspaceName,
         firmwareId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -521,7 +521,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         workspaceName,
         firmwareId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -534,13 +534,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCveListOptionalParams
+    options?: FirmwareListGenerateCveListOptionalParams,
   ): AsyncIterableIterator<Cve> {
     for await (const page of this.listGenerateCveListPagingPage(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -557,13 +557,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCryptoCertificateListOptionalParams
+    options?: FirmwareListGenerateCryptoCertificateListOptionalParams,
   ): PagedAsyncIterableIterator<CryptoCertificate> {
     const iter = this.listGenerateCryptoCertificateListPagingAll(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     );
     return {
       next() {
@@ -581,9 +581,9 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
           workspaceName,
           firmwareId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -592,7 +592,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     options?: FirmwareListGenerateCryptoCertificateListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CryptoCertificate[]> {
     let result: FirmwareListGenerateCryptoCertificateListResponse;
     let continuationToken = settings?.continuationToken;
@@ -601,7 +601,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         resourceGroupName,
         workspaceName,
         firmwareId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -614,7 +614,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         workspaceName,
         firmwareId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -627,13 +627,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCryptoCertificateListOptionalParams
+    options?: FirmwareListGenerateCryptoCertificateListOptionalParams,
   ): AsyncIterableIterator<CryptoCertificate> {
     for await (const page of this.listGenerateCryptoCertificateListPagingPage(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -650,13 +650,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCryptoKeyListOptionalParams
+    options?: FirmwareListGenerateCryptoKeyListOptionalParams,
   ): PagedAsyncIterableIterator<CryptoKey> {
     const iter = this.listGenerateCryptoKeyListPagingAll(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     );
     return {
       next() {
@@ -674,9 +674,9 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
           workspaceName,
           firmwareId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -685,7 +685,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     options?: FirmwareListGenerateCryptoKeyListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CryptoKey[]> {
     let result: FirmwareListGenerateCryptoKeyListResponse;
     let continuationToken = settings?.continuationToken;
@@ -694,7 +694,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         resourceGroupName,
         workspaceName,
         firmwareId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -707,7 +707,7 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
         workspaceName,
         firmwareId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -720,13 +720,13 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCryptoKeyListOptionalParams
+    options?: FirmwareListGenerateCryptoKeyListOptionalParams,
   ): AsyncIterableIterator<CryptoKey> {
     for await (const page of this.listGenerateCryptoKeyListPagingPage(
       resourceGroupName,
       workspaceName,
       firmwareId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -741,11 +741,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FirmwareListByWorkspaceOptionalParams
+    options?: FirmwareListByWorkspaceOptionalParams,
   ): Promise<FirmwareListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -762,11 +762,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     firmware: Firmware,
-    options?: FirmwareCreateOptionalParams
+    options?: FirmwareCreateOptionalParams,
   ): Promise<FirmwareCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, firmware, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -783,11 +783,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     firmware: FirmwareUpdateDefinition,
-    options?: FirmwareUpdateOptionalParams
+    options?: FirmwareUpdateOptionalParams,
   ): Promise<FirmwareUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, firmware, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -802,11 +802,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareDeleteOptionalParams
+    options?: FirmwareDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -821,11 +821,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGetOptionalParams
+    options?: FirmwareGetOptionalParams,
   ): Promise<FirmwareGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -840,11 +840,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateDownloadUrlOptionalParams
+    options?: FirmwareGenerateDownloadUrlOptionalParams,
   ): Promise<FirmwareGenerateDownloadUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateDownloadUrlOperationSpec
+      generateDownloadUrlOperationSpec,
     );
   }
 
@@ -859,11 +859,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateFilesystemDownloadUrlOptionalParams
+    options?: FirmwareGenerateFilesystemDownloadUrlOptionalParams,
   ): Promise<FirmwareGenerateFilesystemDownloadUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateFilesystemDownloadUrlOperationSpec
+      generateFilesystemDownloadUrlOperationSpec,
     );
   }
 
@@ -878,11 +878,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateSummaryOptionalParams
+    options?: FirmwareGenerateSummaryOptionalParams,
   ): Promise<FirmwareGenerateSummaryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateSummaryOperationSpec
+      generateSummaryOperationSpec,
     );
   }
 
@@ -897,11 +897,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateComponentListOptionalParams
+    options?: FirmwareListGenerateComponentListOptionalParams,
   ): Promise<FirmwareListGenerateComponentListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      listGenerateComponentListOperationSpec
+      listGenerateComponentListOperationSpec,
     );
   }
 
@@ -916,11 +916,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateComponentDetailsOptionalParams
+    options?: FirmwareGenerateComponentDetailsOptionalParams,
   ): Promise<FirmwareGenerateComponentDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateComponentDetailsOperationSpec
+      generateComponentDetailsOperationSpec,
     );
   }
 
@@ -935,11 +935,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateBinaryHardeningListOptionalParams
+    options?: FirmwareListGenerateBinaryHardeningListOptionalParams,
   ): Promise<FirmwareListGenerateBinaryHardeningListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      listGenerateBinaryHardeningListOperationSpec
+      listGenerateBinaryHardeningListOperationSpec,
     );
   }
 
@@ -954,11 +954,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateBinaryHardeningSummaryOptionalParams
+    options?: FirmwareGenerateBinaryHardeningSummaryOptionalParams,
   ): Promise<FirmwareGenerateBinaryHardeningSummaryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateBinaryHardeningSummaryOperationSpec
+      generateBinaryHardeningSummaryOperationSpec,
     );
   }
 
@@ -973,11 +973,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateBinaryHardeningDetailsOptionalParams
+    options?: FirmwareGenerateBinaryHardeningDetailsOptionalParams,
   ): Promise<FirmwareGenerateBinaryHardeningDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateBinaryHardeningDetailsOperationSpec
+      generateBinaryHardeningDetailsOperationSpec,
     );
   }
 
@@ -992,11 +992,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGeneratePasswordHashListOptionalParams
+    options?: FirmwareListGeneratePasswordHashListOptionalParams,
   ): Promise<FirmwareListGeneratePasswordHashListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      listGeneratePasswordHashListOperationSpec
+      listGeneratePasswordHashListOperationSpec,
     );
   }
 
@@ -1011,11 +1011,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCveListOptionalParams
+    options?: FirmwareListGenerateCveListOptionalParams,
   ): Promise<FirmwareListGenerateCveListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      listGenerateCveListOperationSpec
+      listGenerateCveListOperationSpec,
     );
   }
 
@@ -1030,11 +1030,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateCveSummaryOptionalParams
+    options?: FirmwareGenerateCveSummaryOptionalParams,
   ): Promise<FirmwareGenerateCveSummaryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateCveSummaryOperationSpec
+      generateCveSummaryOperationSpec,
     );
   }
 
@@ -1050,11 +1050,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateCryptoCertificateSummaryOptionalParams
+    options?: FirmwareGenerateCryptoCertificateSummaryOptionalParams,
   ): Promise<FirmwareGenerateCryptoCertificateSummaryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateCryptoCertificateSummaryOperationSpec
+      generateCryptoCertificateSummaryOperationSpec,
     );
   }
 
@@ -1070,11 +1070,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareGenerateCryptoKeySummaryOptionalParams
+    options?: FirmwareGenerateCryptoKeySummaryOptionalParams,
   ): Promise<FirmwareGenerateCryptoKeySummaryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      generateCryptoKeySummaryOperationSpec
+      generateCryptoKeySummaryOperationSpec,
     );
   }
 
@@ -1089,11 +1089,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCryptoCertificateListOptionalParams
+    options?: FirmwareListGenerateCryptoCertificateListOptionalParams,
   ): Promise<FirmwareListGenerateCryptoCertificateListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      listGenerateCryptoCertificateListOperationSpec
+      listGenerateCryptoCertificateListOperationSpec,
     );
   }
 
@@ -1108,11 +1108,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    options?: FirmwareListGenerateCryptoKeyListOptionalParams
+    options?: FirmwareListGenerateCryptoKeyListOptionalParams,
   ): Promise<FirmwareListGenerateCryptoKeyListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
-      listGenerateCryptoKeyListOperationSpec
+      listGenerateCryptoKeyListOperationSpec,
     );
   }
 
@@ -1127,11 +1127,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: FirmwareListByWorkspaceNextOptionalParams
+    options?: FirmwareListByWorkspaceNextOptionalParams,
   ): Promise<FirmwareListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 
@@ -1149,11 +1149,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     nextLink: string,
-    options?: FirmwareListGenerateComponentListNextOptionalParams
+    options?: FirmwareListGenerateComponentListNextOptionalParams,
   ): Promise<FirmwareListGenerateComponentListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, nextLink, options },
-      listGenerateComponentListNextOperationSpec
+      listGenerateComponentListNextOperationSpec,
     );
   }
 
@@ -1171,11 +1171,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     nextLink: string,
-    options?: FirmwareListGenerateBinaryHardeningListNextOptionalParams
+    options?: FirmwareListGenerateBinaryHardeningListNextOptionalParams,
   ): Promise<FirmwareListGenerateBinaryHardeningListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, nextLink, options },
-      listGenerateBinaryHardeningListNextOperationSpec
+      listGenerateBinaryHardeningListNextOperationSpec,
     );
   }
 
@@ -1193,11 +1193,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     nextLink: string,
-    options?: FirmwareListGeneratePasswordHashListNextOptionalParams
+    options?: FirmwareListGeneratePasswordHashListNextOptionalParams,
   ): Promise<FirmwareListGeneratePasswordHashListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, nextLink, options },
-      listGeneratePasswordHashListNextOperationSpec
+      listGeneratePasswordHashListNextOperationSpec,
     );
   }
 
@@ -1214,11 +1214,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     nextLink: string,
-    options?: FirmwareListGenerateCveListNextOptionalParams
+    options?: FirmwareListGenerateCveListNextOptionalParams,
   ): Promise<FirmwareListGenerateCveListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, nextLink, options },
-      listGenerateCveListNextOperationSpec
+      listGenerateCveListNextOperationSpec,
     );
   }
 
@@ -1236,11 +1236,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     nextLink: string,
-    options?: FirmwareListGenerateCryptoCertificateListNextOptionalParams
+    options?: FirmwareListGenerateCryptoCertificateListNextOptionalParams,
   ): Promise<FirmwareListGenerateCryptoCertificateListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, nextLink, options },
-      listGenerateCryptoCertificateListNextOperationSpec
+      listGenerateCryptoCertificateListNextOperationSpec,
     );
   }
 
@@ -1258,11 +1258,11 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
     workspaceName: string,
     firmwareId: string,
     nextLink: string,
-    options?: FirmwareListGenerateCryptoKeyListNextOptionalParams
+    options?: FirmwareListGenerateCryptoKeyListNextOptionalParams,
   ): Promise<FirmwareListGenerateCryptoKeyListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, nextLink, options },
-      listGenerateCryptoKeyListNextOperationSpec
+      listGenerateCryptoKeyListNextOperationSpec,
     );
   }
 }
@@ -1270,41 +1270,39 @@ export class FirmwareOperationsImpl implements FirmwareOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirmwareList
+      bodyMapper: Mappers.FirmwareList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Firmware
+      bodyMapper: Mappers.Firmware,
     },
     201: {
-      bodyMapper: Mappers.Firmware
+      bodyMapper: Mappers.Firmware,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.firmware,
   queryParameters: [Parameters.apiVersion],
@@ -1313,26 +1311,25 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Firmware
+      bodyMapper: Mappers.Firmware,
     },
     201: {
-      bodyMapper: Mappers.Firmware
+      bodyMapper: Mappers.Firmware,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.firmware1,
   queryParameters: [Parameters.apiVersion],
@@ -1341,22 +1338,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1364,22 +1360,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Firmware
+      bodyMapper: Mappers.Firmware,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1387,22 +1382,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateDownloadUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateDownloadUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateDownloadUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UrlToken
+      bodyMapper: Mappers.UrlToken,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1410,22 +1404,21 @@ const generateDownloadUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateFilesystemDownloadUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateFilesystemDownloadUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateFilesystemDownloadUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UrlToken
+      bodyMapper: Mappers.UrlToken,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1433,22 +1426,21 @@ const generateFilesystemDownloadUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateSummaryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateSummary",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateSummary",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.FirmwareSummary
+      bodyMapper: Mappers.FirmwareSummary,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1456,22 +1448,21 @@ const generateSummaryOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listGenerateComponentListOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateComponentList",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateComponentList",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentList
+      bodyMapper: Mappers.ComponentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1479,22 +1470,21 @@ const listGenerateComponentListOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateComponentDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateComponentDetails",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateComponentDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Component
+      bodyMapper: Mappers.Component,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1502,22 +1492,21 @@ const generateComponentDetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listGenerateBinaryHardeningListOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateBinaryHardeningList",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateBinaryHardeningList",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BinaryHardeningList
+      bodyMapper: Mappers.BinaryHardeningList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1525,22 +1514,21 @@ const listGenerateBinaryHardeningListOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateBinaryHardeningSummaryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateBinaryHardeningSummary",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateBinaryHardeningSummary",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BinaryHardeningSummary
+      bodyMapper: Mappers.BinaryHardeningSummary,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1548,22 +1536,21 @@ const generateBinaryHardeningSummaryOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateBinaryHardeningDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateBinaryHardeningDetails",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateBinaryHardeningDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BinaryHardening
+      bodyMapper: Mappers.BinaryHardening,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1571,22 +1558,21 @@ const generateBinaryHardeningDetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listGeneratePasswordHashListOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generatePasswordHashList",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generatePasswordHashList",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PasswordHashList
+      bodyMapper: Mappers.PasswordHashList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1594,22 +1580,21 @@ const listGeneratePasswordHashListOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listGenerateCveListOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCveList",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCveList",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CveList
+      bodyMapper: Mappers.CveList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1617,22 +1602,21 @@ const listGenerateCveListOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateCveSummaryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCveSummary",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCveSummary",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CveSummary
+      bodyMapper: Mappers.CveSummary,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1640,45 +1624,44 @@ const generateCveSummaryOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const generateCryptoCertificateSummaryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCryptoCertificateSummary",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CryptoCertificateSummary
+const generateCryptoCertificateSummaryOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCryptoCertificateSummary",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CryptoCertificateSummary,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.firmwareId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.workspaceName,
+      Parameters.firmwareId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const generateCryptoKeySummaryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCryptoKeySummary",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCryptoKeySummary",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CryptoKeySummary
+      bodyMapper: Mappers.CryptoKeySummary,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1686,45 +1669,44 @@ const generateCryptoKeySummaryOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listGenerateCryptoCertificateListOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCryptoCertificateList",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CryptoCertificateList
+const listGenerateCryptoCertificateListOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCryptoCertificateList",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CryptoCertificateList,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.firmwareId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.workspaceName,
+      Parameters.firmwareId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listGenerateCryptoKeyListOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCryptoKeyList",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateCryptoKeyList",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CryptoKeyList
+      bodyMapper: Mappers.CryptoKeyList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1732,42 +1714,42 @@ const listGenerateCryptoKeyListOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirmwareList
+      bodyMapper: Mappers.FirmwareList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listGenerateComponentListNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentList
+      bodyMapper: Mappers.ComponentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -1775,65 +1757,67 @@ const listGenerateComponentListNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.firmwareId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listGenerateBinaryHardeningListNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BinaryHardeningList
+const listGenerateBinaryHardeningListNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.BinaryHardeningList,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.firmwareId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listGeneratePasswordHashListNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PasswordHashList
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.workspaceName,
+      Parameters.firmwareId,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listGeneratePasswordHashListNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PasswordHashList,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.firmwareId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.workspaceName,
+      Parameters.firmwareId,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listGenerateCveListNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CveList
+      bodyMapper: Mappers.CveList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -1841,43 +1825,44 @@ const listGenerateCveListNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.firmwareId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listGenerateCryptoCertificateListNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CryptoCertificateList
+const listGenerateCryptoCertificateListNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CryptoCertificateList,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.firmwareId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.workspaceName,
+      Parameters.firmwareId,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listGenerateCryptoKeyListNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CryptoKeyList
+      bodyMapper: Mappers.CryptoKeyList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -1885,8 +1870,8 @@ const listGenerateCryptoKeyListNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.firmwareId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

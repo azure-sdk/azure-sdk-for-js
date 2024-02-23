@@ -646,7 +646,7 @@ export enum KnownStatus {
   /** Ready */
   Ready = "Ready",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -671,7 +671,7 @@ export enum KnownProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -695,7 +695,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -715,7 +715,7 @@ export enum KnownIsUpdateAvailable {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -733,7 +733,7 @@ export enum KnownNxFlag {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -751,7 +751,7 @@ export enum KnownPieFlag {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -769,7 +769,7 @@ export enum KnownRelroFlag {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -787,7 +787,7 @@ export enum KnownCanaryFlag {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -805,7 +805,7 @@ export enum KnownStrippedFlag {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -823,7 +823,7 @@ export enum KnownIsExpired {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -841,7 +841,7 @@ export enum KnownIsSelfSigned {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -859,7 +859,7 @@ export enum KnownIsWeakSignature {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -877,7 +877,7 @@ export enum KnownIsShortKeySize {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -897,7 +897,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -914,7 +914,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -998,14 +998,16 @@ export interface FirmwareListGenerateBinaryHardeningListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGenerateBinaryHardeningList operation. */
-export type FirmwareListGenerateBinaryHardeningListResponse = BinaryHardeningList;
+export type FirmwareListGenerateBinaryHardeningListResponse =
+  BinaryHardeningList;
 
 /** Optional parameters. */
 export interface FirmwareGenerateBinaryHardeningSummaryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateBinaryHardeningSummary operation. */
-export type FirmwareGenerateBinaryHardeningSummaryResponse = BinaryHardeningSummary;
+export type FirmwareGenerateBinaryHardeningSummaryResponse =
+  BinaryHardeningSummary;
 
 /** Optional parameters. */
 export interface FirmwareGenerateBinaryHardeningDetailsOptionalParams
@@ -1040,7 +1042,8 @@ export interface FirmwareGenerateCryptoCertificateSummaryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateCryptoCertificateSummary operation. */
-export type FirmwareGenerateCryptoCertificateSummaryResponse = CryptoCertificateSummary;
+export type FirmwareGenerateCryptoCertificateSummaryResponse =
+  CryptoCertificateSummary;
 
 /** Optional parameters. */
 export interface FirmwareGenerateCryptoKeySummaryOptionalParams
@@ -1054,7 +1057,8 @@ export interface FirmwareListGenerateCryptoCertificateListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGenerateCryptoCertificateList operation. */
-export type FirmwareListGenerateCryptoCertificateListResponse = CryptoCertificateList;
+export type FirmwareListGenerateCryptoCertificateListResponse =
+  CryptoCertificateList;
 
 /** Optional parameters. */
 export interface FirmwareListGenerateCryptoKeyListOptionalParams
@@ -1082,7 +1086,8 @@ export interface FirmwareListGenerateBinaryHardeningListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGenerateBinaryHardeningListNext operation. */
-export type FirmwareListGenerateBinaryHardeningListNextResponse = BinaryHardeningList;
+export type FirmwareListGenerateBinaryHardeningListNextResponse =
+  BinaryHardeningList;
 
 /** Optional parameters. */
 export interface FirmwareListGeneratePasswordHashListNextOptionalParams
@@ -1103,7 +1108,8 @@ export interface FirmwareListGenerateCryptoCertificateListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGenerateCryptoCertificateListNext operation. */
-export type FirmwareListGenerateCryptoCertificateListNextResponse = CryptoCertificateList;
+export type FirmwareListGenerateCryptoCertificateListNextResponse =
+  CryptoCertificateList;
 
 /** Optional parameters. */
 export interface FirmwareListGenerateCryptoKeyListNextOptionalParams
