@@ -340,17 +340,6 @@ export interface ProvisionedClusterListResult {
   nextLink?: string;
 }
 
-/** Control plane and agent pool upgrade profiles. */
-export interface ProvisionedClusterUpgradeProfileProperties {
-  /**
-   * Provisioning state of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /** The list of available kubernetes version upgrades for the control plane. */
-  controlPlaneProfile: ProvisionedClusterPoolUpgradeProfile;
-}
-
 /** The list of available kubernetes versions for upgrade. */
 export interface ProvisionedClusterPoolUpgradeProfile {
   /**
@@ -379,19 +368,6 @@ export interface ProvisionedClusterPoolUpgradeProfileProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isPreview?: boolean;
-}
-
-/** Defines the resource properties for the hybrid identity metadata. */
-export interface HybridIdentityMetadataProperties {
-  /** Unique id of the parent provisioned cluster resource. */
-  resourceUid?: string;
-  /** Onboarding public key for provisioning the Managed identity for the connected cluster. */
-  publicKey?: string;
-  /**
-   * Provisioning state of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceProvisioningState;
 }
 
 /** List of hybridIdentityMetadata. */
@@ -807,24 +783,66 @@ export interface ProvisionedCluster extends ProxyResource {
 
 /** The list of available kubernetes version upgrades for the provisioned cluster. */
 export interface ProvisionedClusterUpgradeProfile extends ProxyResource {
-  /** The properties of the upgrade profile. */
-  properties: ProvisionedClusterUpgradeProfileProperties;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** The list of available kubernetes version upgrades for the control plane. */
+  controlPlaneProfile: ProvisionedClusterPoolUpgradeProfile;
 }
 
 /** Defines the hybridIdentityMetadata. */
 export interface HybridIdentityMetadata extends ProxyResource {
-  /** Resource properties. */
-  properties: HybridIdentityMetadataProperties;
+  /** Unique id of the parent provisioned cluster resource. */
+  resourceUid?: string;
+  /** Onboarding public key for provisioning the Managed identity for the connected cluster. */
+  publicKey?: string;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
 }
 
 /** The agentPool resource definition */
 export interface AgentPool extends ProxyResource {
-  /** Properties of the agent pool resource */
-  properties?: AgentPoolProperties;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
   /** Extended location pointing to the underlying infrastructure */
   extendedLocation?: ExtendedLocation;
+  /** The particular KubernetesVersion Image OS Type (Linux, Windows) */
+  osType?: OsType;
+  /** Specifies the OS SKU used by the agent pool. The default is CBLMariner if OSType is Linux. The default is Windows2019 when OSType is Windows. */
+  osSKU?: Ossku;
+  /** The node labels to be persisted across all nodes in agent pool. */
+  nodeLabels?: { [propertyName: string]: string };
+  /** Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
+  nodeTaints?: string[];
+  /** The maximum number of nodes for auto-scaling */
+  maxCount?: number;
+  /** The minimum number of nodes for auto-scaling */
+  minCount?: number;
+  /** Whether to enable auto-scaler. Default value is false */
+  enableAutoScaling?: boolean;
+  /** The maximum number of pods that can run on a node. */
+  maxPods?: number;
+  /** Number of nodes in the agent pool. The default value is 1. */
+  count?: number;
+  /** The VM sku size of the agent pool node VMs. */
+  vmSize?: string;
+  /**
+   * Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * The status of the latest long running operation for the agent pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** The observed status of the agent pool. */
+  status?: AgentPoolProvisioningStatusStatus;
 }
 
 /** The supported kubernetes versions. */
@@ -894,7 +912,7 @@ export interface VirtualNetworksDeleteHeaders {
 /** Known values of {@link NetworkPolicy} that the service accepts. */
 export enum KnownNetworkPolicy {
   /** Calico */
-  Calico = "calico"
+  Calico = "calico",
 }
 
 /**
@@ -911,7 +929,7 @@ export enum KnownOsType {
   /** Windows */
   Windows = "Windows",
   /** Linux */
-  Linux = "Linux"
+  Linux = "Linux",
 }
 
 /**
@@ -931,7 +949,7 @@ export enum KnownOssku {
   /** Use Windows2019 as the OS for node images. */
   Windows2019 = "Windows2019",
   /** Use Windows2022 as the OS for node images. */
-  Windows2022 = "Windows2022"
+  Windows2022 = "Windows2022",
 }
 
 /**
@@ -964,7 +982,7 @@ export enum KnownResourceProvisioningState {
   /** Upgrading */
   Upgrading = "Upgrading",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -1001,7 +1019,7 @@ export enum KnownAddonPhase {
   /** Failed */
   Failed = "failed",
   /** Upgrading */
-  Upgrading = "upgrading"
+  Upgrading = "upgrading",
 }
 
 /**
@@ -1027,7 +1045,7 @@ export enum KnownAzureHybridBenefit {
   /** False */
   False = "False",
   /** NotApplicable */
-  NotApplicable = "NotApplicable"
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -1050,7 +1068,7 @@ export enum KnownExpander {
   /** Selects the node group that has the highest priority assigned by the user. It's configuration is described in more details [here](https:\//github.com\/kubernetes\/autoscaler\/blob\/master\/cluster-autoscaler\/expander\/priority\/readme.md). */
   Priority = "priority",
   /** Used when you don't have a particular need for the node groups to scale differently. */
-  Random = "random"
+  Random = "random",
 }
 
 /**
@@ -1068,7 +1086,7 @@ export type Expander = string;
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
   /** CustomLocation */
-  CustomLocation = "CustomLocation"
+  CustomLocation = "CustomLocation",
 }
 
 /**
@@ -1089,7 +1107,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1111,7 +1129,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -1128,7 +1146,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -1157,7 +1175,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -1193,7 +1211,8 @@ export interface ProvisionedClusterInstancesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ProvisionedClusterInstancesCreateOrUpdateResponse = ProvisionedCluster;
+export type ProvisionedClusterInstancesCreateOrUpdateResponse =
+  ProvisionedCluster;
 
 /** Optional parameters. */
 export interface ProvisionedClusterInstancesDeleteOptionalParams
@@ -1205,21 +1224,24 @@ export interface ProvisionedClusterInstancesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ProvisionedClusterInstancesDeleteResponse = ProvisionedClusterInstancesDeleteHeaders;
+export type ProvisionedClusterInstancesDeleteResponse =
+  ProvisionedClusterInstancesDeleteHeaders;
 
 /** Optional parameters. */
 export interface ProvisionedClusterInstancesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ProvisionedClusterInstancesListResponse = ProvisionedClusterListResult;
+export type ProvisionedClusterInstancesListResponse =
+  ProvisionedClusterListResult;
 
 /** Optional parameters. */
 export interface ProvisionedClusterInstancesGetUpgradeProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUpgradeProfile operation. */
-export type ProvisionedClusterInstancesGetUpgradeProfileResponse = ProvisionedClusterUpgradeProfile;
+export type ProvisionedClusterInstancesGetUpgradeProfileResponse =
+  ProvisionedClusterUpgradeProfile;
 
 /** Optional parameters. */
 export interface ProvisionedClusterInstancesListUserKubeconfigOptionalParams
@@ -1231,7 +1253,8 @@ export interface ProvisionedClusterInstancesListUserKubeconfigOptionalParams
 }
 
 /** Contains response data for the listUserKubeconfig operation. */
-export type ProvisionedClusterInstancesListUserKubeconfigResponse = ListCredentialResponse;
+export type ProvisionedClusterInstancesListUserKubeconfigResponse =
+  ListCredentialResponse;
 
 /** Optional parameters. */
 export interface ProvisionedClusterInstancesListAdminKubeconfigOptionalParams
@@ -1243,14 +1266,16 @@ export interface ProvisionedClusterInstancesListAdminKubeconfigOptionalParams
 }
 
 /** Contains response data for the listAdminKubeconfig operation. */
-export type ProvisionedClusterInstancesListAdminKubeconfigResponse = ListCredentialResponse;
+export type ProvisionedClusterInstancesListAdminKubeconfigResponse =
+  ListCredentialResponse;
 
 /** Optional parameters. */
 export interface ProvisionedClusterInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ProvisionedClusterInstancesListNextResponse = ProvisionedClusterListResult;
+export type ProvisionedClusterInstancesListNextResponse =
+  ProvisionedClusterListResult;
 
 /** Optional parameters. */
 export interface HybridIdentityMetadataPutOptionalParams
@@ -1276,21 +1301,24 @@ export interface HybridIdentityMetadataDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type HybridIdentityMetadataDeleteResponse = HybridIdentityMetadataDeleteHeaders;
+export type HybridIdentityMetadataDeleteResponse =
+  HybridIdentityMetadataDeleteHeaders;
 
 /** Optional parameters. */
 export interface HybridIdentityMetadataListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type HybridIdentityMetadataListByClusterResponse = HybridIdentityMetadataList;
+export type HybridIdentityMetadataListByClusterResponse =
+  HybridIdentityMetadataList;
 
 /** Optional parameters. */
 export interface HybridIdentityMetadataListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
-export type HybridIdentityMetadataListByClusterNextResponse = HybridIdentityMetadataList;
+export type HybridIdentityMetadataListByClusterNextResponse =
+  HybridIdentityMetadataList;
 
 /** Optional parameters. */
 export interface AgentPoolGetOptionalParams
@@ -1366,7 +1394,8 @@ export interface DeleteKubernetesVersionsOptionalParams
 }
 
 /** Contains response data for the deleteKubernetesVersions operation. */
-export type DeleteKubernetesVersionsResponse = HybridContainerServiceClientDeleteKubernetesVersionsHeaders;
+export type DeleteKubernetesVersionsResponse =
+  HybridContainerServiceClientDeleteKubernetesVersionsHeaders;
 
 /** Optional parameters. */
 export interface GetVMSkusOptionalParams extends coreClient.OperationOptions {}
@@ -1395,7 +1424,8 @@ export interface DeleteVMSkusOptionalParams
 }
 
 /** Contains response data for the deleteVMSkus operation. */
-export type DeleteVMSkusResponse = HybridContainerServiceClientDeleteVMSkusHeaders;
+export type DeleteVMSkusResponse =
+  HybridContainerServiceClientDeleteVMSkusHeaders;
 
 /** Optional parameters. */
 export interface KubernetesVersionsListOptionalParams
@@ -1486,28 +1516,32 @@ export interface VirtualNetworksListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type VirtualNetworksListByResourceGroupResponse = VirtualNetworksListResult;
+export type VirtualNetworksListByResourceGroupResponse =
+  VirtualNetworksListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworksListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type VirtualNetworksListBySubscriptionResponse = VirtualNetworksListResult;
+export type VirtualNetworksListBySubscriptionResponse =
+  VirtualNetworksListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualNetworksListByResourceGroupNextResponse = VirtualNetworksListResult;
+export type VirtualNetworksListByResourceGroupNextResponse =
+  VirtualNetworksListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type VirtualNetworksListBySubscriptionNextResponse = VirtualNetworksListResult;
+export type VirtualNetworksListBySubscriptionNextResponse =
+  VirtualNetworksListResult;
 
 /** Optional parameters. */
 export interface HybridContainerServiceClientOptionalParams

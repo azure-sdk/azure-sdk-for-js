@@ -20,6 +20,6 @@ export interface VMSkus {
    */
   list(
     customLocationResourceUri: string,
-    options?: VMSkusListOptionalParams
+    options?: VMSkusListOptionalParams,
   ): PagedAsyncIterableIterator<VmSkuProfile>;
 }

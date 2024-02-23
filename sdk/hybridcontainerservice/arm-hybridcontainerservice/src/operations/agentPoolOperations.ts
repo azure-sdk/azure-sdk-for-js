@@ -16,7 +16,7 @@ import { HybridContainerServiceClient } from "../hybridContainerServiceClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   AgentPoolCreateOrUpdateResponse,
   AgentPoolDeleteOptionalParams,
   AgentPoolDeleteResponse,
-  AgentPoolListByProvisionedClusterNextResponse
+  AgentPoolListByProvisionedClusterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,11 +54,11 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
    */
   public listByProvisionedCluster(
     connectedClusterResourceUri: string,
-    options?: AgentPoolListByProvisionedClusterOptionalParams
+    options?: AgentPoolListByProvisionedClusterOptionalParams,
   ): PagedAsyncIterableIterator<AgentPool> {
     const iter = this.listByProvisionedClusterPagingAll(
       connectedClusterResourceUri,
-      options
+      options,
     );
     return {
       next() {
@@ -74,23 +74,23 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
         return this.listByProvisionedClusterPagingPage(
           connectedClusterResourceUri,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByProvisionedClusterPagingPage(
     connectedClusterResourceUri: string,
     options?: AgentPoolListByProvisionedClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AgentPool[]> {
     let result: AgentPoolListByProvisionedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByProvisionedCluster(
         connectedClusterResourceUri,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +101,7 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
       result = await this._listByProvisionedClusterNext(
         connectedClusterResourceUri,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,11 +112,11 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
 
   private async *listByProvisionedClusterPagingAll(
     connectedClusterResourceUri: string,
-    options?: AgentPoolListByProvisionedClusterOptionalParams
+    options?: AgentPoolListByProvisionedClusterOptionalParams,
   ): AsyncIterableIterator<AgentPool> {
     for await (const page of this.listByProvisionedClusterPagingPage(
       connectedClusterResourceUri,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   get(
     connectedClusterResourceUri: string,
     agentPoolName: string,
-    options?: AgentPoolGetOptionalParams
+    options?: AgentPoolGetOptionalParams,
   ): Promise<AgentPoolGetResponse> {
     return this.client.sendOperationRequest(
       { connectedClusterResourceUri, agentPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -152,7 +152,7 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
     connectedClusterResourceUri: string,
     agentPoolName: string,
     agentPool: AgentPool,
-    options?: AgentPoolCreateOrUpdateOptionalParams
+    options?: AgentPoolCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolCreateOrUpdateResponse>,
@@ -161,21 +161,20 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AgentPoolCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -184,8 +183,8 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -193,15 +192,15 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { connectedClusterResourceUri, agentPoolName, agentPool, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AgentPoolCreateOrUpdateResponse,
@@ -209,7 +208,7 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -227,13 +226,13 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
     connectedClusterResourceUri: string,
     agentPoolName: string,
     agentPool: AgentPool,
-    options?: AgentPoolCreateOrUpdateOptionalParams
+    options?: AgentPoolCreateOrUpdateOptionalParams,
   ): Promise<AgentPoolCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       connectedClusterResourceUri,
       agentPoolName,
       agentPool,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -248,7 +247,7 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   async beginDelete(
     connectedClusterResourceUri: string,
     agentPoolName: string,
-    options?: AgentPoolDeleteOptionalParams
+    options?: AgentPoolDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolDeleteResponse>,
@@ -257,21 +256,20 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AgentPoolDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -280,8 +278,8 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -289,15 +287,15 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { connectedClusterResourceUri, agentPoolName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       AgentPoolDeleteResponse,
@@ -305,7 +303,7 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -321,12 +319,12 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   async beginDeleteAndWait(
     connectedClusterResourceUri: string,
     agentPoolName: string,
-    options?: AgentPoolDeleteOptionalParams
+    options?: AgentPoolDeleteOptionalParams,
   ): Promise<AgentPoolDeleteResponse> {
     const poller = await this.beginDelete(
       connectedClusterResourceUri,
       agentPoolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -339,11 +337,11 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
    */
   private _listByProvisionedCluster(
     connectedClusterResourceUri: string,
-    options?: AgentPoolListByProvisionedClusterOptionalParams
+    options?: AgentPoolListByProvisionedClusterOptionalParams,
   ): Promise<AgentPoolListByProvisionedClusterResponse> {
     return this.client.sendOperationRequest(
       { connectedClusterResourceUri, options },
-      listByProvisionedClusterOperationSpec
+      listByProvisionedClusterOperationSpec,
     );
   }
 
@@ -358,11 +356,11 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   private _listByProvisionedClusterNext(
     connectedClusterResourceUri: string,
     nextLink: string,
-    options?: AgentPoolListByProvisionedClusterNextOptionalParams
+    options?: AgentPoolListByProvisionedClusterNextOptionalParams,
   ): Promise<AgentPoolListByProvisionedClusterNextResponse> {
     return this.client.sendOperationRequest(
       { connectedClusterResourceUri, nextLink, options },
-      listByProvisionedClusterNextOperationSpec
+      listByProvisionedClusterNextOperationSpec,
     );
   }
 }
@@ -370,121 +368,117 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+  path: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.connectedClusterResourceUri,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+  path: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     201: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     202: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     204: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.agentPool,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.connectedClusterResourceUri,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+  path: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.AgentPoolDeleteHeaders
+      headersMapper: Mappers.AgentPoolDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.AgentPoolDeleteHeaders
+      headersMapper: Mappers.AgentPoolDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.AgentPoolDeleteHeaders
+      headersMapper: Mappers.AgentPoolDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.AgentPoolDeleteHeaders
+      headersMapper: Mappers.AgentPoolDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.connectedClusterResourceUri,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProvisionedClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
+  path: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPoolListResult
+      bodyMapper: Mappers.AgentPoolListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.connectedClusterResourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProvisionedClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPoolListResult
+      bodyMapper: Mappers.AgentPoolListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.connectedClusterResourceUri,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

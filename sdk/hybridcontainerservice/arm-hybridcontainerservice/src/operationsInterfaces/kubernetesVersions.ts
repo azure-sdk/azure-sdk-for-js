@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   KubernetesVersionProfile,
-  KubernetesVersionsListOptionalParams
+  KubernetesVersionsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,6 +23,6 @@ export interface KubernetesVersions {
    */
   list(
     customLocationResourceUri: string,
-    options?: KubernetesVersionsListOptionalParams
+    options?: KubernetesVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<KubernetesVersionProfile>;
 }

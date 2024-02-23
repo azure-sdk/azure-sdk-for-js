@@ -16,7 +16,7 @@ import {
   HybridIdentityMetadataGetOptionalParams,
   HybridIdentityMetadataGetResponse,
   HybridIdentityMetadataDeleteOptionalParams,
-  HybridIdentityMetadataDeleteResponse
+  HybridIdentityMetadataDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface HybridIdentityMetadataOperations {
    */
   listByCluster(
     connectedClusterResourceUri: string,
-    options?: HybridIdentityMetadataListByClusterOptionalParams
+    options?: HybridIdentityMetadataListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<HybridIdentityMetadata>;
   /**
    * Creates the hybrid identity metadata proxy resource that facilitates the managed identity
@@ -43,7 +43,7 @@ export interface HybridIdentityMetadataOperations {
   put(
     connectedClusterResourceUri: string,
     body: HybridIdentityMetadata,
-    options?: HybridIdentityMetadataPutOptionalParams
+    options?: HybridIdentityMetadataPutOptionalParams,
   ): Promise<HybridIdentityMetadataPutResponse>;
   /**
    * Get the hybrid identity metadata proxy resource.
@@ -53,7 +53,7 @@ export interface HybridIdentityMetadataOperations {
    */
   get(
     connectedClusterResourceUri: string,
-    options?: HybridIdentityMetadataGetOptionalParams
+    options?: HybridIdentityMetadataGetOptionalParams,
   ): Promise<HybridIdentityMetadataGetResponse>;
   /**
    * Deletes the hybrid identity metadata proxy resource.
@@ -63,7 +63,7 @@ export interface HybridIdentityMetadataOperations {
    */
   beginDelete(
     connectedClusterResourceUri: string,
-    options?: HybridIdentityMetadataDeleteOptionalParams
+    options?: HybridIdentityMetadataDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<HybridIdentityMetadataDeleteResponse>,
@@ -78,6 +78,6 @@ export interface HybridIdentityMetadataOperations {
    */
   beginDeleteAndWait(
     connectedClusterResourceUri: string,
-    options?: HybridIdentityMetadataDeleteOptionalParams
+    options?: HybridIdentityMetadataDeleteOptionalParams,
   ): Promise<HybridIdentityMetadataDeleteResponse>;
 }

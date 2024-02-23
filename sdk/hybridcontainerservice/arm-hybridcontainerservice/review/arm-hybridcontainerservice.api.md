@@ -26,11 +26,25 @@ export interface AddonStatusProfile {
 
 // @public
 export interface AgentPool extends ProxyResource {
+    count?: number;
+    enableAutoScaling?: boolean;
     extendedLocation?: ExtendedLocation;
-    properties?: AgentPoolProperties;
+    readonly kubernetesVersion?: string;
+    maxCount?: number;
+    maxPods?: number;
+    minCount?: number;
+    nodeLabels?: {
+        [propertyName: string]: string;
+    };
+    nodeTaints?: string[];
+    osSKU?: Ossku;
+    osType?: OsType;
+    readonly provisioningState?: ResourceProvisioningState;
+    status?: AgentPoolProvisioningStatusStatus;
     tags?: {
         [propertyName: string]: string;
     };
+    vmSize?: string;
 }
 
 // @public
@@ -303,7 +317,9 @@ export interface HybridContainerServiceClientOptionalParams extends coreClient.S
 
 // @public
 export interface HybridIdentityMetadata extends ProxyResource {
-    properties: HybridIdentityMetadataProperties;
+    readonly provisioningState?: ResourceProvisioningState;
+    publicKey?: string;
+    resourceUid?: string;
 }
 
 // @public
@@ -355,13 +371,6 @@ export interface HybridIdentityMetadataOperations {
     get(connectedClusterResourceUri: string, options?: HybridIdentityMetadataGetOptionalParams): Promise<HybridIdentityMetadataGetResponse>;
     listByCluster(connectedClusterResourceUri: string, options?: HybridIdentityMetadataListByClusterOptionalParams): PagedAsyncIterableIterator<HybridIdentityMetadata>;
     put(connectedClusterResourceUri: string, body: HybridIdentityMetadata, options?: HybridIdentityMetadataPutOptionalParams): Promise<HybridIdentityMetadataPutResponse>;
-}
-
-// @public
-export interface HybridIdentityMetadataProperties {
-    readonly provisioningState?: ResourceProvisioningState;
-    publicKey?: string;
-    resourceUid?: string;
 }
 
 // @public
@@ -818,11 +827,6 @@ export interface ProvisionedClusterPropertiesStatus {
 
 // @public
 export interface ProvisionedClusterUpgradeProfile extends ProxyResource {
-    properties: ProvisionedClusterUpgradeProfileProperties;
-}
-
-// @public
-export interface ProvisionedClusterUpgradeProfileProperties {
     controlPlaneProfile: ProvisionedClusterPoolUpgradeProfile;
     readonly provisioningState?: ResourceProvisioningState;
 }
