@@ -8,47 +8,42 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AssessedMachines } from "../operationsInterfaces";
+import { AssessedMachinesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMigrateV2 } from "../azureMigrateV2";
+import { AzureMigrateAssessmentService } from "../azureMigrateAssessmentService";
 import {
   AssessedMachine,
-  AssessedMachinesListByAssessmentNextOptionalParams,
-  AssessedMachinesListByAssessmentOptionalParams,
-  AssessedMachinesListByAssessmentResponse,
-  AssessedMachinesGetOptionalParams,
-  AssessedMachinesGetResponse,
-  AssessedMachinesListByAssessmentNextResponse
+  AssessedMachinesOperationsListByAssessmentNextOptionalParams,
+  AssessedMachinesOperationsListByAssessmentOptionalParams,
+  AssessedMachinesOperationsListByAssessmentResponse,
+  AssessedMachinesOperationsGetOptionalParams,
+  AssessedMachinesOperationsGetResponse,
+  AssessedMachinesOperationsListByAssessmentNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AssessedMachines operations. */
-export class AssessedMachinesImpl implements AssessedMachines {
-  private readonly client: AzureMigrateV2;
+/** Class containing AssessedMachinesOperations operations. */
+export class AssessedMachinesOperationsImpl
+  implements AssessedMachinesOperations
+{
+  private readonly client: AzureMigrateAssessmentService;
 
   /**
-   * Initialize a new instance of the class AssessedMachines class.
+   * Initialize a new instance of the class AssessedMachinesOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMigrateV2) {
+  constructor(client: AzureMigrateAssessmentService) {
     this.client = client;
   }
 
   /**
-   * Get list of machines that assessed as part of the specified assessment. Returns a json array of
-   * objects of type 'assessedMachine' as specified in the Models section.
-   *
-   * Whenever an assessment is created or updated, it goes under computation. During this phase, the
-   * 'status' field of Assessment object reports 'Computing'.
-   * During the period when the assessment is under computation, the list of assessed machines is empty
-   * and no assessed machines are returned by this call.
-   *
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
-   * @param assessmentName Unique name of an assessment within a project.
+   * List AssessedMachine resources by Assessment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param groupName Group ARM name
+   * @param assessmentName Machine Assessment ARM name
    * @param options The options parameters.
    */
   public listByAssessment(
@@ -56,14 +51,14 @@ export class AssessedMachinesImpl implements AssessedMachines {
     projectName: string,
     groupName: string,
     assessmentName: string,
-    options?: AssessedMachinesListByAssessmentOptionalParams
+    options?: AssessedMachinesOperationsListByAssessmentOptionalParams,
   ): PagedAsyncIterableIterator<AssessedMachine> {
     const iter = this.listByAssessmentPagingAll(
       resourceGroupName,
       projectName,
       groupName,
       assessmentName,
-      options
+      options,
     );
     return {
       next() {
@@ -82,9 +77,9 @@ export class AssessedMachinesImpl implements AssessedMachines {
           groupName,
           assessmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -93,10 +88,10 @@ export class AssessedMachinesImpl implements AssessedMachines {
     projectName: string,
     groupName: string,
     assessmentName: string,
-    options?: AssessedMachinesListByAssessmentOptionalParams,
-    settings?: PageSettings
+    options?: AssessedMachinesOperationsListByAssessmentOptionalParams,
+    settings?: PageSettings,
   ): AsyncIterableIterator<AssessedMachine[]> {
-    let result: AssessedMachinesListByAssessmentResponse;
+    let result: AssessedMachinesOperationsListByAssessmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAssessment(
@@ -104,7 +99,7 @@ export class AssessedMachinesImpl implements AssessedMachines {
         projectName,
         groupName,
         assessmentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -118,7 +113,7 @@ export class AssessedMachinesImpl implements AssessedMachines {
         groupName,
         assessmentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -132,32 +127,25 @@ export class AssessedMachinesImpl implements AssessedMachines {
     projectName: string,
     groupName: string,
     assessmentName: string,
-    options?: AssessedMachinesListByAssessmentOptionalParams
+    options?: AssessedMachinesOperationsListByAssessmentOptionalParams,
   ): AsyncIterableIterator<AssessedMachine> {
     for await (const page of this.listByAssessmentPagingPage(
       resourceGroupName,
       projectName,
       groupName,
       assessmentName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Get list of machines that assessed as part of the specified assessment. Returns a json array of
-   * objects of type 'assessedMachine' as specified in the Models section.
-   *
-   * Whenever an assessment is created or updated, it goes under computation. During this phase, the
-   * 'status' field of Assessment object reports 'Computing'.
-   * During the period when the assessment is under computation, the list of assessed machines is empty
-   * and no assessed machines are returned by this call.
-   *
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
-   * @param assessmentName Unique name of an assessment within a project.
+   * List AssessedMachine resources by Assessment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param groupName Group ARM name
+   * @param assessmentName Machine Assessment ARM name
    * @param options The options parameters.
    */
   private _listByAssessment(
@@ -165,22 +153,21 @@ export class AssessedMachinesImpl implements AssessedMachines {
     projectName: string,
     groupName: string,
     assessmentName: string,
-    options?: AssessedMachinesListByAssessmentOptionalParams
-  ): Promise<AssessedMachinesListByAssessmentResponse> {
+    options?: AssessedMachinesOperationsListByAssessmentOptionalParams,
+  ): Promise<AssessedMachinesOperationsListByAssessmentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, groupName, assessmentName, options },
-      listByAssessmentOperationSpec
+      listByAssessmentOperationSpec,
     );
   }
 
   /**
-   * Get an assessed machine with its size & cost estimate that was evaluated in the specified
-   * assessment.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
-   * @param assessmentName Unique name of an assessment within a project.
-   * @param assessedMachineName Unique name of an assessed machine evaluated as part of an assessment.
+   * Get a AssessedMachine
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param groupName Group ARM name
+   * @param assessmentName Machine Assessment ARM name
+   * @param assessedMachineName Machine assessment Assessed Machine ARM name
    * @param options The options parameters.
    */
   get(
@@ -189,8 +176,8 @@ export class AssessedMachinesImpl implements AssessedMachines {
     groupName: string,
     assessmentName: string,
     assessedMachineName: string,
-    options?: AssessedMachinesGetOptionalParams
-  ): Promise<AssessedMachinesGetResponse> {
+    options?: AssessedMachinesOperationsGetOptionalParams,
+  ): Promise<AssessedMachinesOperationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,18 +185,18 @@ export class AssessedMachinesImpl implements AssessedMachines {
         groupName,
         assessmentName,
         assessedMachineName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * ListByAssessmentNext
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
-   * @param assessmentName Unique name of an assessment within a project.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName Assessment Project Name
+   * @param groupName Group ARM name
+   * @param assessmentName Machine Assessment ARM name
    * @param nextLink The nextLink from the previous successful call to the ListByAssessment method.
    * @param options The options parameters.
    */
@@ -219,8 +206,8 @@ export class AssessedMachinesImpl implements AssessedMachines {
     groupName: string,
     assessmentName: string,
     nextLink: string,
-    options?: AssessedMachinesListByAssessmentNextOptionalParams
-  ): Promise<AssessedMachinesListByAssessmentNextResponse> {
+    options?: AssessedMachinesOperationsListByAssessmentNextOptionalParams,
+  ): Promise<AssessedMachinesOperationsListByAssessmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,9 +215,9 @@ export class AssessedMachinesImpl implements AssessedMachines {
         groupName,
         assessmentName,
         nextLink,
-        options
+        options,
       },
-      listByAssessmentNextOperationSpec
+      listByAssessmentNextOperationSpec,
     );
   }
 }
@@ -238,42 +225,44 @@ export class AssessedMachinesImpl implements AssessedMachines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAssessmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AssessedMachineResultList,
-      headersMapper: Mappers.AssessedMachinesListByAssessmentHeaders
+      bodyMapper: Mappers.AssessedMachineListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.pageSize,
+    Parameters.continuationToken,
+    Parameters.totalRecordCount,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.groupName,
-    Parameters.assessmentName
+    Parameters.assessmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines/{assessedMachineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines/{assessedMachineName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.AssessedMachine,
-      headersMapper: Mappers.AssessedMachinesGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -283,32 +272,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.projectName,
     Parameters.groupName,
     Parameters.assessmentName,
-    Parameters.assessedMachineName
+    Parameters.assessedMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAssessmentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AssessedMachineResultList,
-      headersMapper: Mappers.AssessedMachinesListByAssessmentNextHeaders
+      bodyMapper: Mappers.AssessedMachineListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.nextLink,
     Parameters.groupName,
-    Parameters.assessmentName
+    Parameters.assessmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

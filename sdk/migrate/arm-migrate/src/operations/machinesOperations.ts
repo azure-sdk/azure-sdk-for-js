@@ -8,30 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateLinkResourceOperations } from "../operationsInterfaces";
+import { MachinesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMigrateAssessmentService } from "../azureMigrateAssessmentService";
 import {
-  PrivateLinkResource,
-  PrivateLinkResourceOperationsListByAssessmentProjectNextOptionalParams,
-  PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams,
-  PrivateLinkResourceOperationsListByAssessmentProjectResponse,
-  PrivateLinkResourceOperationsGetOptionalParams,
-  PrivateLinkResourceOperationsGetResponse,
-  PrivateLinkResourceOperationsListByAssessmentProjectNextResponse,
+  Machine,
+  MachinesOperationsListByAssessmentProjectNextOptionalParams,
+  MachinesOperationsListByAssessmentProjectOptionalParams,
+  MachinesOperationsListByAssessmentProjectResponse,
+  MachinesOperationsGetOptionalParams,
+  MachinesOperationsGetResponse,
+  MachinesOperationsListByAssessmentProjectNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateLinkResourceOperations operations. */
-export class PrivateLinkResourceOperationsImpl
-  implements PrivateLinkResourceOperations
-{
+/** Class containing MachinesOperations operations. */
+export class MachinesOperationsImpl implements MachinesOperations {
   private readonly client: AzureMigrateAssessmentService;
 
   /**
-   * Initialize a new instance of the class PrivateLinkResourceOperations class.
+   * Initialize a new instance of the class MachinesOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMigrateAssessmentService) {
@@ -39,7 +37,7 @@ export class PrivateLinkResourceOperationsImpl
   }
 
   /**
-   * List PrivateLinkResource resources by AssessmentProject
+   * List Machine resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -47,8 +45,8 @@ export class PrivateLinkResourceOperationsImpl
   public listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateLinkResource> {
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams,
+  ): PagedAsyncIterableIterator<Machine> {
     const iter = this.listByAssessmentProjectPagingAll(
       resourceGroupName,
       projectName,
@@ -78,10 +76,10 @@ export class PrivateLinkResourceOperationsImpl
   private async *listByAssessmentProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams,
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result: PrivateLinkResourceOperationsListByAssessmentProjectResponse;
+  ): AsyncIterableIterator<Machine[]> {
+    let result: MachinesOperationsListByAssessmentProjectResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAssessmentProject(
@@ -111,8 +109,8 @@ export class PrivateLinkResourceOperationsImpl
   private async *listByAssessmentProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams,
-  ): AsyncIterableIterator<PrivateLinkResource> {
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams,
+  ): AsyncIterableIterator<Machine> {
     for await (const page of this.listByAssessmentProjectPagingPage(
       resourceGroupName,
       projectName,
@@ -123,7 +121,7 @@ export class PrivateLinkResourceOperationsImpl
   }
 
   /**
-   * List PrivateLinkResource resources by AssessmentProject
+   * List Machine resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -131,8 +129,8 @@ export class PrivateLinkResourceOperationsImpl
   private _listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateLinkResourceOperationsListByAssessmentProjectOptionalParams,
-  ): Promise<PrivateLinkResourceOperationsListByAssessmentProjectResponse> {
+    options?: MachinesOperationsListByAssessmentProjectOptionalParams,
+  ): Promise<MachinesOperationsListByAssessmentProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
       listByAssessmentProjectOperationSpec,
@@ -140,20 +138,20 @@ export class PrivateLinkResourceOperationsImpl
   }
 
   /**
-   * Get a PrivateLinkResource
+   * Get a Machine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateLinkResourceName Private link resource ARM name
+   * @param machineName Assessible Machine ARM name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    privateLinkResourceName: string,
-    options?: PrivateLinkResourceOperationsGetOptionalParams,
-  ): Promise<PrivateLinkResourceOperationsGetResponse> {
+    machineName: string,
+    options?: MachinesOperationsGetOptionalParams,
+  ): Promise<MachinesOperationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, privateLinkResourceName, options },
+      { resourceGroupName, projectName, machineName, options },
       getOperationSpec,
     );
   }
@@ -170,8 +168,8 @@ export class PrivateLinkResourceOperationsImpl
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: PrivateLinkResourceOperationsListByAssessmentProjectNextOptionalParams,
-  ): Promise<PrivateLinkResourceOperationsListByAssessmentProjectNextResponse> {
+    options?: MachinesOperationsListByAssessmentProjectNextOptionalParams,
+  ): Promise<MachinesOperationsListByAssessmentProjectNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
       listByAssessmentProjectNextOperationSpec,
@@ -182,17 +180,23 @@ export class PrivateLinkResourceOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/machines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult,
+      bodyMapper: Mappers.MachineListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.pageSize,
+    Parameters.continuationToken,
+    Parameters.totalRecordCount,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -203,11 +207,11 @@ const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateLinkResources/{privateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/machines/{machineName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResource,
+      bodyMapper: Mappers.Machine,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -219,7 +223,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateLinkResourceName,
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -229,7 +233,7 @@ const listByAssessmentProjectNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult,
+      bodyMapper: Mappers.MachineListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

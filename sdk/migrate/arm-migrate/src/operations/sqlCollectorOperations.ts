@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnectionOperations } from "../operationsInterfaces";
+import { SqlCollectorOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,27 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectNextOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectResponse,
-  PrivateEndpointConnectionOperationsGetOptionalParams,
-  PrivateEndpointConnectionOperationsGetResponse,
-  PrivateEndpointConnectionOperationsUpdateOptionalParams,
-  PrivateEndpointConnectionOperationsUpdateResponse,
-  PrivateEndpointConnectionOperationsDeleteOptionalParams,
-  PrivateEndpointConnectionOperationsListByAssessmentProjectNextResponse,
+  SqlCollector,
+  SqlCollectorOperationsListByAssessmentProjectNextOptionalParams,
+  SqlCollectorOperationsListByAssessmentProjectOptionalParams,
+  SqlCollectorOperationsListByAssessmentProjectResponse,
+  SqlCollectorOperationsGetOptionalParams,
+  SqlCollectorOperationsGetResponse,
+  SqlCollectorOperationsCreateOptionalParams,
+  SqlCollectorOperationsCreateResponse,
+  SqlCollectorOperationsDeleteOptionalParams,
+  SqlCollectorOperationsListByAssessmentProjectNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnectionOperations operations. */
-export class PrivateEndpointConnectionOperationsImpl
-  implements PrivateEndpointConnectionOperations
-{
+/** Class containing SqlCollectorOperations operations. */
+export class SqlCollectorOperationsImpl implements SqlCollectorOperations {
   private readonly client: AzureMigrateAssessmentService;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnectionOperations class.
+   * Initialize a new instance of the class SqlCollectorOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMigrateAssessmentService) {
@@ -48,7 +46,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * List PrivateEndpointConnection resources by AssessmentProject
+   * List SqlCollector resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -56,8 +54,8 @@ export class PrivateEndpointConnectionOperationsImpl
   public listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: SqlCollectorOperationsListByAssessmentProjectOptionalParams,
+  ): PagedAsyncIterableIterator<SqlCollector> {
     const iter = this.listByAssessmentProjectPagingAll(
       resourceGroupName,
       projectName,
@@ -87,10 +85,10 @@ export class PrivateEndpointConnectionOperationsImpl
   private async *listByAssessmentProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
+    options?: SqlCollectorOperationsListByAssessmentProjectOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionOperationsListByAssessmentProjectResponse;
+  ): AsyncIterableIterator<SqlCollector[]> {
+    let result: SqlCollectorOperationsListByAssessmentProjectResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAssessmentProject(
@@ -120,8 +118,8 @@ export class PrivateEndpointConnectionOperationsImpl
   private async *listByAssessmentProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: SqlCollectorOperationsListByAssessmentProjectOptionalParams,
+  ): AsyncIterableIterator<SqlCollector> {
     for await (const page of this.listByAssessmentProjectPagingPage(
       resourceGroupName,
       projectName,
@@ -132,7 +130,7 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * List PrivateEndpointConnection resources by AssessmentProject
+   * List SqlCollector resources by AssessmentProject
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
    * @param options The options parameters.
@@ -140,8 +138,8 @@ export class PrivateEndpointConnectionOperationsImpl
   private _listByAssessmentProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectOptionalParams,
-  ): Promise<PrivateEndpointConnectionOperationsListByAssessmentProjectResponse> {
+    options?: SqlCollectorOperationsListByAssessmentProjectOptionalParams,
+  ): Promise<SqlCollectorOperationsListByAssessmentProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
       listByAssessmentProjectOperationSpec,
@@ -149,53 +147,48 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Get a PrivateEndpointConnection
+   * Get a SqlCollector
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param collectorName Sql collector ARM name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionOperationsGetOptionalParams,
-  ): Promise<PrivateEndpointConnectionOperationsGetResponse> {
+    collectorName: string,
+    options?: SqlCollectorOperationsGetOptionalParams,
+  ): Promise<SqlCollectorOperationsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        projectName,
-        privateEndpointConnectionName,
-        options,
-      },
+      { resourceGroupName, projectName, collectorName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a PrivateEndpointConnection
+   * Create a SqlCollector
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param collectorName Sql collector ARM name.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  async beginCreate(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    resource: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionOperationsUpdateOptionalParams,
+    collectorName: string,
+    resource: SqlCollector,
+    options?: SqlCollectorOperationsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<PrivateEndpointConnectionOperationsUpdateResponse>,
-      PrivateEndpointConnectionOperationsUpdateResponse
+      OperationState<SqlCollectorOperationsCreateResponse>,
+      SqlCollectorOperationsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PrivateEndpointConnectionOperationsUpdateResponse> => {
+    ): Promise<SqlCollectorOperationsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -235,15 +228,15 @@ export class PrivateEndpointConnectionOperationsImpl
       args: {
         resourceGroupName,
         projectName,
-        privateEndpointConnectionName,
+        collectorName,
         resource,
         options,
       },
-      spec: updateOperationSpec,
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      PrivateEndpointConnectionOperationsUpdateResponse,
-      OperationState<PrivateEndpointConnectionOperationsUpdateResponse>
+      SqlCollectorOperationsCreateResponse,
+      OperationState<SqlCollectorOperationsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -254,24 +247,24 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Create a PrivateEndpointConnection
+   * Create a SqlCollector
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param collectorName Sql collector ARM name.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    resource: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionOperationsUpdateOptionalParams,
-  ): Promise<PrivateEndpointConnectionOperationsUpdateResponse> {
-    const poller = await this.beginUpdate(
+    collectorName: string,
+    resource: SqlCollector,
+    options?: SqlCollectorOperationsCreateOptionalParams,
+  ): Promise<SqlCollectorOperationsCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       projectName,
-      privateEndpointConnectionName,
+      collectorName,
       resource,
       options,
     );
@@ -279,25 +272,20 @@ export class PrivateEndpointConnectionOperationsImpl
   }
 
   /**
-   * Delete a PrivateEndpointConnection
+   * Delete a SqlCollector
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName Assessment Project Name
-   * @param privateEndpointConnectionName Private endpoint connection ARM name
+   * @param collectorName Sql collector ARM name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     projectName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionOperationsDeleteOptionalParams,
+    collectorName: string,
+    options?: SqlCollectorOperationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        projectName,
-        privateEndpointConnectionName,
-        options,
-      },
+      { resourceGroupName, projectName, collectorName, options },
       deleteOperationSpec,
     );
   }
@@ -314,8 +302,8 @@ export class PrivateEndpointConnectionOperationsImpl
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionOperationsListByAssessmentProjectNextOptionalParams,
-  ): Promise<PrivateEndpointConnectionOperationsListByAssessmentProjectNextResponse> {
+    options?: SqlCollectorOperationsListByAssessmentProjectNextOptionalParams,
+  ): Promise<SqlCollectorOperationsListByAssessmentProjectNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
       listByAssessmentProjectNextOperationSpec,
@@ -326,11 +314,11 @@ export class PrivateEndpointConnectionOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/sqlcollectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.SqlCollectorListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -347,11 +335,11 @@ const listByAssessmentProjectOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/sqlcollectors/{collectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.SqlCollector,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -363,46 +351,46 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName,
+    Parameters.collectorName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/sqlcollectors/{collectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.SqlCollector,
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.SqlCollector,
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.SqlCollector,
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.SqlCollector,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource7,
+  requestBody: Parameters.resource9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName,
+    Parameters.collectorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/sqlcollectors/{collectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -417,7 +405,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.privateEndpointConnectionName,
+    Parameters.collectorName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -427,7 +415,7 @@ const listByAssessmentProjectNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.SqlCollectorListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
