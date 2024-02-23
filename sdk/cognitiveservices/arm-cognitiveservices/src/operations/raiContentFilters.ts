@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateLinkResources } from "../operationsInterfaces";
+import { RaiContentFilters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
 import {
-  PrivateLinkResourcesListOptionalParams,
-  PrivateLinkResourcesListResponse,
+  RaiContentFiltersListOptionalParams,
+  RaiContentFiltersListResponse,
 } from "../models";
 
-/** Class containing PrivateLinkResources operations. */
-export class PrivateLinkResourcesImpl implements PrivateLinkResources {
+/** Class containing RaiContentFilters operations. */
+export class RaiContentFiltersImpl implements RaiContentFilters {
   private readonly client: CognitiveServicesManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateLinkResources class.
+   * Initialize a new instance of the class RaiContentFilters class.
    * @param client Reference to the service client
    */
   constructor(client: CognitiveServicesManagementClient) {
@@ -29,18 +29,16 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   }
 
   /**
-   * Gets the private link resources that need to be created for a Cognitive Services account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
+   * List Content Filters types.
+   * @param location Resource location.
    * @param options The options parameters.
    */
   list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: PrivateLinkResourcesListOptionalParams,
-  ): Promise<PrivateLinkResourcesListResponse> {
+    location: string,
+    options?: RaiContentFiltersListOptionalParams,
+  ): Promise<RaiContentFiltersListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
+      { location, options },
       listOperationSpec,
     );
   }
@@ -49,11 +47,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateLinkResources",
-  httpMethod: "GET",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/raiContentFilters",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult,
+      bodyMapper: Mappers.RaiContentFilterListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -62,9 +60,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

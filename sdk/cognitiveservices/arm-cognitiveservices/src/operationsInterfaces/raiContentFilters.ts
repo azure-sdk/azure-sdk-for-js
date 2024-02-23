@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Model, ModelsListOptionalParams } from "../models";
+import {
+  RaiContentFiltersListOptionalParams,
+  RaiContentFiltersListResponse,
+} from "../models";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a Models. */
-export interface Models {
+/** Interface representing a RaiContentFilters. */
+export interface RaiContentFilters {
   /**
-   * List Models.
+   * List Content Filters types.
    * @param location Resource location.
    * @param options The options parameters.
    */
   list(
     location: string,
-    options?: ModelsListOptionalParams,
-  ): PagedAsyncIterableIterator<Model>;
+    options?: RaiContentFiltersListOptionalParams,
+  ): Promise<RaiContentFiltersListResponse>;
 }
