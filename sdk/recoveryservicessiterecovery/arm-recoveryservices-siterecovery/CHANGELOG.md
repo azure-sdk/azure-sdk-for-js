@@ -1,18 +1,118 @@
 # Release History
     
-## 5.2.0 (2024-02-09)
+## 6.0.0 (2024-02-26)
     
 **Features**
 
-  - Added operation ReplicationFabrics.beginRemoveInfra
-  - Added operation ReplicationFabrics.beginRemoveInfraAndWait
+  - Added operation group ClusterRecoveryPointOperations
+  - Added operation group ClusterRecoveryPoints
+  - Added operation group ReplicationProtectionClusters
+  - Added operation ReplicationProtectionContainers.beginSwitchClusterProtection
+  - Added operation ReplicationProtectionContainers.beginSwitchClusterProtectionAndWait
+  - Added Interface A2AApplyClusterRecoveryPointInput
+  - Added Interface A2AClusterRecoveryPointDetails
+  - Added Interface A2AClusterTestFailoverInput
+  - Added Interface A2AClusterUnplannedFailoverInput
+  - Added Interface A2AProtectedItemDetail
+  - Added Interface A2AReplicationProtectionClusterDetails
+  - Added Interface A2ASharedDiskIRErrorDetails
+  - Added Interface A2ASharedDiskReplicationDetails
+  - Added Interface A2ASwitchClusterProtectionInput
+  - Added Interface ApplyClusterRecoveryPointInput
+  - Added Interface ApplyClusterRecoveryPointInputProperties
+  - Added Interface ApplyClusterRecoveryPointProviderSpecificInput
+  - Added Interface ClusterFailoverJobDetails
+  - Added Interface ClusterProviderSpecificRecoveryPointDetails
+  - Added Interface ClusterRecoveryPoint
+  - Added Interface ClusterRecoveryPointCollection
+  - Added Interface ClusterRecoveryPointGetOptionalParams
+  - Added Interface ClusterRecoveryPointProperties
+  - Added Interface ClusterRecoveryPointsListByReplicationProtectionClusterNextOptionalParams
+  - Added Interface ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams
+  - Added Interface ClusterSwitchProtectionJobDetails
+  - Added Interface ClusterTestFailoverCleanupInput
+  - Added Interface ClusterTestFailoverCleanupInputProperties
+  - Added Interface ClusterTestFailoverInput
+  - Added Interface ClusterTestFailoverInputProperties
+  - Added Interface ClusterTestFailoverJobDetails
+  - Added Interface ClusterTestFailoverProviderSpecificInput
+  - Added Interface ClusterUnplannedFailoverInput
+  - Added Interface ClusterUnplannedFailoverInputProperties
+  - Added Interface ClusterUnplannedFailoverProviderSpecificInput
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
-  - Added Interface ReplicationFabricsRemoveInfraHeaders
-  - Added Interface ReplicationFabricsRemoveInfraOptionalParams
-  - Added Type Alias ReplicationFabricsRemoveInfraResponse
-  - Interface A2AEnableProtectionInput has a new optional parameter autoProtectionOfDataDisk
+  - Added Interface RegisteredClusterNodes
+  - Added Interface ReplicationClusterProviderSpecificSettings
+  - Added Interface ReplicationProtectionCluster
+  - Added Interface ReplicationProtectionClusterCollection
+  - Added Interface ReplicationProtectionClusterProperties
+  - Added Interface ReplicationProtectionClustersApplyRecoveryPointHeaders
+  - Added Interface ReplicationProtectionClustersApplyRecoveryPointOptionalParams
+  - Added Interface ReplicationProtectionClustersCreateOptionalParams
+  - Added Interface ReplicationProtectionClustersFailoverCommitHeaders
+  - Added Interface ReplicationProtectionClustersFailoverCommitOptionalParams
+  - Added Interface ReplicationProtectionClustersGetOperationResultsOptionalParams
+  - Added Interface ReplicationProtectionClustersGetOptionalParams
+  - Added Interface ReplicationProtectionClustersListByReplicationProtectionContainersNextOptionalParams
+  - Added Interface ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams
+  - Added Interface ReplicationProtectionClustersListNextOptionalParams
+  - Added Interface ReplicationProtectionClustersListOptionalParams
+  - Added Interface ReplicationProtectionClustersPurgeHeaders
+  - Added Interface ReplicationProtectionClustersPurgeOptionalParams
+  - Added Interface ReplicationProtectionClustersRepairReplicationHeaders
+  - Added Interface ReplicationProtectionClustersRepairReplicationOptionalParams
+  - Added Interface ReplicationProtectionClustersTestFailoverCleanupHeaders
+  - Added Interface ReplicationProtectionClustersTestFailoverCleanupOptionalParams
+  - Added Interface ReplicationProtectionClustersTestFailoverHeaders
+  - Added Interface ReplicationProtectionClustersTestFailoverOptionalParams
+  - Added Interface ReplicationProtectionClustersUnplannedFailoverHeaders
+  - Added Interface ReplicationProtectionClustersUnplannedFailoverOptionalParams
+  - Added Interface ReplicationProtectionContainersSwitchClusterProtectionHeaders
+  - Added Interface ReplicationProtectionContainersSwitchClusterProtectionOptionalParams
+  - Added Interface ReplicationProtectionContainersSwitchProtectionHeaders
+  - Added Interface ServiceDefaultError
+  - Added Interface ServiceDefaultErrorError
+  - Added Interface SharedDiskReplicationItemProperties
+  - Added Interface SharedDiskReplicationProviderSpecificSettings
+  - Added Interface SwitchClusterProtectionInput
+  - Added Interface SwitchClusterProtectionInputProperties
+  - Added Interface SwitchClusterProtectionProviderSpecificInput
+  - Added Type Alias ApplyClusterRecoveryPointProviderSpecificInputUnion
+  - Added Type Alias ClusterProviderSpecificRecoveryPointDetailsUnion
+  - Added Type Alias ClusterRecoveryPointGetResponse
+  - Added Type Alias ClusterRecoveryPointsListByReplicationProtectionClusterNextResponse
+  - Added Type Alias ClusterRecoveryPointsListByReplicationProtectionClusterResponse
+  - Added Type Alias ClusterRecoveryPointType
+  - Added Type Alias ClusterTestFailoverProviderSpecificInputUnion
+  - Added Type Alias ClusterUnplannedFailoverProviderSpecificInputUnion
+  - Added Type Alias ReplicationClusterProviderSpecificSettingsUnion
+  - Added Type Alias ReplicationProtectionClustersApplyRecoveryPointResponse
+  - Added Type Alias ReplicationProtectionClustersCreateResponse
+  - Added Type Alias ReplicationProtectionClustersFailoverCommitResponse
+  - Added Type Alias ReplicationProtectionClustersGetOperationResultsResponse
+  - Added Type Alias ReplicationProtectionClustersGetResponse
+  - Added Type Alias ReplicationProtectionClustersListByReplicationProtectionContainersNextResponse
+  - Added Type Alias ReplicationProtectionClustersListByReplicationProtectionContainersResponse
+  - Added Type Alias ReplicationProtectionClustersListNextResponse
+  - Added Type Alias ReplicationProtectionClustersListResponse
+  - Added Type Alias ReplicationProtectionClustersPurgeResponse
+  - Added Type Alias ReplicationProtectionClustersRepairReplicationResponse
+  - Added Type Alias ReplicationProtectionClustersTestFailoverCleanupResponse
+  - Added Type Alias ReplicationProtectionClustersTestFailoverResponse
+  - Added Type Alias ReplicationProtectionClustersUnplannedFailoverResponse
+  - Added Type Alias ReplicationProtectionContainersSwitchClusterProtectionResponse
+  - Added Type Alias SharedDiskReplicationProviderSpecificSettingsUnion
+  - Added Type Alias SwitchClusterProtectionProviderSpecificInputUnion
+  - Interface A2AEnableProtectionInput has a new optional parameter protectionClusterId
+  - Interface A2AReplicationDetails has a new optional parameter isClusterInfraReady
+  - Interface A2AReplicationDetails has a new optional parameter protectionClusterId
+  - Type of parameter instanceType of interface JobDetails is changed from "AsrJobDetails" | "ExportJobDetails" | "FailoverJobDetails" | "SwitchProtectionJobDetails" | "TestFailoverJobDetails" to "AsrJobDetails" | "ClusterFailoverJobDetails" | "ClusterSwitchProtectionJobDetails" | "ClusterTestFailoverJobDetails" | "ExportJobDetails" | "FailoverJobDetails" | "SwitchProtectionJobDetails" | "TestFailoverJobDetails"
+  - Added Enum KnownClusterRecoveryPointType
+
+**Breaking Changes**
+
+  - Class SiteRecoveryManagementClient has a new signature
     
     
 ## 5.1.0 (2023-09-08)

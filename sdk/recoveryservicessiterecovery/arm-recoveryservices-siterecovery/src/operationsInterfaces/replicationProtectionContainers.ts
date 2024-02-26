@@ -21,6 +21,9 @@ import {
   ReplicationProtectionContainersDiscoverProtectableItemOptionalParams,
   ReplicationProtectionContainersDiscoverProtectableItemResponse,
   ReplicationProtectionContainersDeleteOptionalParams,
+  SwitchClusterProtectionInput,
+  ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ReplicationProtectionContainersSwitchClusterProtectionResponse,
   SwitchProtectionInput,
   ReplicationProtectionContainersSwitchProtectionOptionalParams,
   ReplicationProtectionContainersSwitchProtectionResponse,
@@ -185,6 +188,35 @@ export interface ReplicationProtectionContainers {
     protectionContainerName: string,
     options?: ReplicationProtectionContainersDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Operation to switch protection from one container to another.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param switchInput Switch protection input.
+   * @param options The options parameters.
+   */
+  beginSwitchClusterProtection(
+    resourceGroupName: string,
+    switchInput: SwitchClusterProtectionInput,
+    options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainersSwitchClusterProtectionResponse>,
+      ReplicationProtectionContainersSwitchClusterProtectionResponse
+    >
+  >;
+  /**
+   * Operation to switch protection from one container to another.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param switchInput Switch protection input.
+   * @param options The options parameters.
+   */
+  beginSwitchClusterProtectionAndWait(
+    resourceGroupName: string,
+    switchInput: SwitchClusterProtectionInput,
+    options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ): Promise<ReplicationProtectionContainersSwitchClusterProtectionResponse>;
   /**
    * Operation to switch protection from one container to another or one replication provider to another.
    * @param resourceName The name of the recovery services vault.
