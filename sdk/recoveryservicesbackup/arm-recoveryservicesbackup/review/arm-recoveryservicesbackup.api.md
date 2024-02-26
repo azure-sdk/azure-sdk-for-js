@@ -239,6 +239,8 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
     policyType?: IaasvmPolicyType;
     retentionPolicy?: RetentionPolicyUnion;
     schedulePolicy?: SchedulePolicyUnion;
+    // (undocumented)
+    snapshotConsistencyType?: IaasVMSnapshotConsistencyType;
     tieringPolicy?: {
         [propertyName: string]: TieringPolicy;
     };
@@ -1893,6 +1895,9 @@ export interface IaasVMRestoreWithRehydrationRequest extends IaasVMRestoreReques
 }
 
 // @public
+export type IaasVMSnapshotConsistencyType = string;
+
+// @public
 export interface IdentityBasedRestoreDetails {
     objectType?: string;
     targetStorageAccountId?: string;
@@ -2242,6 +2247,11 @@ export enum KnownIaasvmPolicyType {
     Invalid = "Invalid",
     V1 = "V1",
     V2 = "V2"
+}
+
+// @public
+export enum KnownIaasVMSnapshotConsistencyType {
+    OnlyCrashConsistent = "OnlyCrashConsistent"
 }
 
 // @public
