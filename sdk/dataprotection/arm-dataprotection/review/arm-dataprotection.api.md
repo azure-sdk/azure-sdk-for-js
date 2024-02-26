@@ -1844,6 +1844,7 @@ export interface KubernetesClusterRestoreCriteria extends ItemLevelRestoreCriter
     };
     objectType: "KubernetesClusterRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    resourceModifierReference?: NamespacedNameResource;
     restoreHookReferences?: NamespacedNameResource[];
 }
 
@@ -1861,6 +1862,7 @@ export interface KubernetesClusterVaultTierRestoreCriteria extends ItemLevelRest
     };
     objectType: "KubernetesClusterVaultTierRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    resourceModifierReference?: NamespacedNameResource;
     restoreHookReferences?: NamespacedNameResource[];
     stagingResourceGroupId?: string;
     stagingStorageAccountId?: string;
