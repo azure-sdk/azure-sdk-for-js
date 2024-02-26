@@ -20,6 +20,16 @@ export interface AbsoluteMonthlySchedule {
 export type AddonAutoscaling = string;
 
 // @public
+export interface AdvancedNetworking {
+    observability?: AdvancedNetworkingObservability;
+}
+
+// @public
+export interface AdvancedNetworkingObservability {
+    enabled?: boolean;
+}
+
+// @public
 export interface AgentPool extends SubResource {
     artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
     availabilityZones?: string[];
@@ -33,6 +43,7 @@ export interface AgentPool extends SubResource {
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
+    gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
     gpuProfile?: AgentPoolGPUProfile;
     hostGroupID?: string;
@@ -57,6 +68,7 @@ export interface AgentPool extends SubResource {
     osDiskType?: OSDiskType;
     osSKU?: Ossku;
     osType?: OSType;
+    podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
     readonly provisioningState?: string;
@@ -102,6 +114,11 @@ export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
 // @public
 export interface AgentPoolDeleteMachinesParameter {
     machineNames: string[];
+}
+
+// @public
+export interface AgentPoolGatewayProfile {
+    publicIPPrefixSize?: number;
 }
 
 // @public (undocumented)
@@ -285,6 +302,9 @@ export interface AgentPoolWindowsProfile {
 }
 
 // @public
+export type ArtifactSource = string;
+
+// @public
 export interface AzureKeyVaultKms {
     enabled?: boolean;
     keyId?: string;
@@ -377,6 +397,7 @@ export interface ContainerServiceLinuxProfile {
 
 // @public
 export interface ContainerServiceNetworkProfile {
+    advancedNetworking?: AdvancedNetworking;
     dnsServiceIP?: string;
     ipFamilies?: IpFamily[];
     kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
@@ -394,6 +415,7 @@ export interface ContainerServiceNetworkProfile {
     podCidrs?: string[];
     serviceCidr?: string;
     serviceCidrs?: string[];
+    staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
 }
 
 // @public
@@ -601,6 +623,7 @@ export enum KnownAddonAutoscaling {
 
 // @public
 export enum KnownAgentPoolMode {
+    Gateway = "Gateway",
     System = "System",
     User = "User"
 }
@@ -616,6 +639,12 @@ export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
     VirtualMachines = "VirtualMachines",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
+}
+
+// @public
+export enum KnownArtifactSource {
+    Cache = "Cache",
+    Direct = "Direct"
 }
 
 // @public
@@ -841,6 +870,12 @@ export enum KnownOutboundType {
 }
 
 // @public
+export enum KnownPodIPAllocationMode {
+    DynamicIndividual = "DynamicIndividual",
+    StaticBlock = "StaticBlock"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -978,6 +1013,7 @@ export type KubernetesSupportPlan = string;
 // @public
 export interface KubernetesVersion {
     capabilities?: KubernetesVersionCapabilities;
+    isDefault?: boolean;
     isPreview?: boolean;
     patchVersions?: {
         [propertyName: string]: KubernetesPatchVersion;
@@ -1145,6 +1181,7 @@ export interface ManagedCluster extends TrackedResource {
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
     azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
+    bootstrapProfile?: ManagedClusterBootstrapProfile;
     creationData?: CreationData;
     readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
@@ -1162,6 +1199,7 @@ export interface ManagedCluster extends TrackedResource {
         [propertyName: string]: UserAssignedIdentity;
     };
     ingressProfile?: ManagedClusterIngressProfile;
+    kind?: string;
     kubernetesVersion?: string;
     linuxProfile?: ContainerServiceLinuxProfile;
     readonly maxAgentPools?: number;
@@ -1238,6 +1276,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
+    gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
     gpuProfile?: AgentPoolGPUProfile;
     hostGroupID?: string;
@@ -1262,6 +1301,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     osDiskType?: OSDiskType;
     osSKU?: Ossku;
     osType?: OSType;
+    podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
     readonly provisioningState?: string;
@@ -1308,25 +1348,42 @@ export interface ManagedClusterAutoUpgradeProfile {
 
 // @public
 export interface ManagedClusterAzureMonitorProfile {
-    logs?: ManagedClusterAzureMonitorProfileLogs;
+    appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
+    containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
     metrics?: ManagedClusterAzureMonitorProfileMetrics;
 }
 
 // @public
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
+    autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
+    openTelemetryLogs?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs;
+    openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
     enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+    enabled?: boolean;
+    port?: number;
 }
 
 // @public
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
     enabled?: boolean;
+    port?: number;
 }
 
 // @public
 export interface ManagedClusterAzureMonitorProfileContainerInsights {
+    disableCustomMetrics?: boolean;
+    disablePrometheusMetricsScraping?: boolean;
     enabled?: boolean;
     logAnalyticsWorkspaceResourceId?: string;
-    windowsHostLogs?: ManagedClusterAzureMonitorProfileWindowsHostLogs;
+    syslogPort?: number;
 }
 
 // @public
@@ -1336,21 +1393,15 @@ export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
 }
 
 // @public
-export interface ManagedClusterAzureMonitorProfileLogs {
-    appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
-    containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
-}
-
-// @public
 export interface ManagedClusterAzureMonitorProfileMetrics {
-    appMonitoringOpenTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
     enabled: boolean;
     kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
 }
 
 // @public
-export interface ManagedClusterAzureMonitorProfileWindowsHostLogs {
-    enabled?: boolean;
+export interface ManagedClusterBootstrapProfile {
+    artifactSource?: ArtifactSource;
+    containerRegistryId?: string;
 }
 
 // @public
@@ -2067,6 +2118,11 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 export type ManagedClustersStopResponse = ManagedClustersStopHeaders;
 
 // @public
+export interface ManagedClusterStaticEgressGatewayProfile {
+    enabled?: boolean;
+}
+
+// @public
 export interface ManagedClusterStorageProfile {
     blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
@@ -2347,6 +2403,9 @@ export interface OutboundEnvironmentEndpointCollection {
 
 // @public
 export type OutboundType = string;
+
+// @public
+export type PodIPAllocationMode = string;
 
 // @public
 export interface PortRange {

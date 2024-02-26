@@ -110,6 +110,8 @@ export interface KubernetesVersion {
   version?: string;
   /** Capabilities on this Kubernetes version. */
   capabilities?: KubernetesVersionCapabilities;
+  /** Whether this version is default. */
+  isDefault?: boolean;
   /** Whether this version is in preview mode. */
   isPreview?: boolean;
   /** Patch versions of Kubernetes release */
@@ -233,6 +235,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** The maximum number of pods that can run on a node. */
   maxPods?: number;
   /** The operating system type. The default is Linux. */
@@ -328,6 +332,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   virtualMachinesProfile?: VirtualMachinesProfile;
   /** The status of nodes in a VirtualMachines agent pool. */
   virtualMachineNodesStatus?: VirtualMachineNodes[];
+  /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
+  gatewayProfile?: AgentPoolGatewayProfile;
 }
 
 /** Settings for upgrading an agentpool */
@@ -520,6 +526,12 @@ export interface VirtualMachineNodes {
   count?: number;
 }
 
+/** Profile of the managed cluster gateway agent pool. */
+export interface AgentPoolGatewayProfile {
+  /** The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31. */
+  publicIPPrefixSize?: number;
+}
+
 /** Profile for Linux VMs in the container service cluster. */
 export interface ContainerServiceLinuxProfile {
   /** The administrator username to use for Linux VMs. */
@@ -702,6 +714,8 @@ export interface ContainerServiceNetworkProfile {
   loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
   /** Profile of the cluster NAT gateway. */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
+  /** The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway. */
+  staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
   /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
   podCidrs?: string[];
   /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
@@ -712,6 +726,8 @@ export interface ContainerServiceNetworkProfile {
   kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
   /** This addon can be used to configure network monitoring and generate network monitoring data in Prometheus format */
   monitoring?: NetworkMonitoring;
+  /** Advanced Networking profile for enabling observability on a cluster. For more information see aka.ms/aksadvancednetworking. */
+  advancedNetworking?: AdvancedNetworking;
 }
 
 /** Profile of the managed cluster load balancer. */
@@ -776,6 +792,12 @@ export interface ManagedClusterManagedOutboundIPProfile {
   count?: number;
 }
 
+/** The Static Egress Gateway addon configuration for the cluster. */
+export interface ManagedClusterStaticEgressGatewayProfile {
+  /** Indicates if Static Egress Gateway addon is enabled or not. */
+  enabled?: boolean;
+}
+
 /** Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/ where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be '1-23'. */
 export interface ContainerServiceNetworkProfileKubeProxyConfig {
   /** Whether to enable on kube-proxy on the cluster (if no 'kubeProxyConfig' exists, kube-proxy is enabled in AKS by default without these customizations). */
@@ -801,6 +823,18 @@ export interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
 /** This addon can be used to configure network monitoring and generate network monitoring data in Prometheus format */
 export interface NetworkMonitoring {
   /** Enable or disable the network monitoring plugin on the cluster */
+  enabled?: boolean;
+}
+
+/** Advanced Networking profile for enabling observability on a cluster. For more information see aka.ms/aksadvancednetworking. */
+export interface AdvancedNetworking {
+  /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
+  observability?: AdvancedNetworkingObservability;
+}
+
+/** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
+export interface AdvancedNetworkingObservability {
+  /** Indicates the enablement of Advanced Networking observability functionalities on clusters. */
   enabled?: boolean;
 }
 
@@ -1093,8 +1127,10 @@ export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
 export interface ManagedClusterAzureMonitorProfile {
   /** Metrics profile for the prometheus service addon */
   metrics?: ManagedClusterAzureMonitorProfileMetrics;
-  /** Logs profile for the Azure Monitor Infrastructure and Application Logs. Collect out-of-the-box Kubernetes infrastructure & application logs to send to Azure Monitor. See aka.ms/AzureMonitorContainerInsights for an overview. */
-  logs?: ManagedClusterAzureMonitorProfileLogs;
+  /** Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
+  containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
+  /** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
 }
 
 /** Metrics profile for the prometheus service addon */
@@ -1103,8 +1139,6 @@ export interface ManagedClusterAzureMonitorProfileMetrics {
   enabled: boolean;
   /** Kube State Metrics for prometheus addon profile for the container service cluster */
   kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
-  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-  appMonitoringOpenTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
 }
 
 /** Kube State Metrics for prometheus addon profile for the container service cluster */
@@ -1115,40 +1149,50 @@ export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
   metricAnnotationsAllowList?: string;
 }
 
-/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
-  /** Indicates if Application Monitoring Open Telemetry Metrics is enabled or not. */
-  enabled?: boolean;
-}
-
-/** Logs profile for the Azure Monitor Infrastructure and Application Logs. Collect out-of-the-box Kubernetes infrastructure & application logs to send to Azure Monitor. See aka.ms/AzureMonitorContainerInsights for an overview. */
-export interface ManagedClusterAzureMonitorProfileLogs {
-  /** Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
-  containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
-  /** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-  appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
-}
-
 /** Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
 export interface ManagedClusterAzureMonitorProfileContainerInsights {
   /** Indicates if Azure Monitor Container Insights Logs Addon is enabled or not. */
   enabled?: boolean;
   /** Fully Qualified ARM Resource Id of Azure Log Analytics Workspace for storing Azure Monitor Container Insights Logs. */
   logAnalyticsWorkspaceResourceId?: string;
-  /** Windows Host Logs Profile for Kubernetes Windows Nodes Log Collection. Collects ETW, Event Logs and Text logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
-  windowsHostLogs?: ManagedClusterAzureMonitorProfileWindowsHostLogs;
-}
-
-/** Windows Host Logs Profile for Kubernetes Windows Nodes Log Collection. Collects ETW, Event Logs and Text logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
-export interface ManagedClusterAzureMonitorProfileWindowsHostLogs {
-  /** Indicates if Windows Host Log Collection is enabled or not for Azure Monitor Container Insights Logs Addon. */
-  enabled?: boolean;
+  /** The syslog host port. If not specified, the default port is 28330. */
+  syslogPort?: number;
+  /** Indicates whether custom metrics collection has to be disabled or not. If not specified the default is false. No custom metrics will be emitted if this field is false but the container insights enabled field is false */
+  disableCustomMetrics?: boolean;
+  /** Indicates whether prometheus metrics scraping is disabled or not. If not specified the default is false. No prometheus metrics will be emitted if this field is false but the container insights enabled field is false */
+  disablePrometheusMetricsScraping?: boolean;
 }
 
 /** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
-  /** Indicates if Application Monitoring enabled or not. */
+  /** Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
+  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
+  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  openTelemetryLogs?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs;
+}
+
+/** Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
+  /** Indicates if Application Monitoring Auto Instrumentation is enabled or not. */
   enabled?: boolean;
+}
+
+/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
+  /** Indicates if Application Monitoring Open Telemetry Metrics is enabled or not. */
+  enabled?: boolean;
+  /** The Open Telemetry host port for Open Telemetry metrics. If not specified, the default port is 28333. */
+  port?: number;
+}
+
+/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+  /** Indicates if Application Monitoring Open Telemetry Logs and traces is enabled or not. */
+  enabled?: boolean;
+  /** The Open Telemetry host port for Open Telemetry logs and traces. If not specified, the default port is 28331. */
+  port?: number;
 }
 
 /** The Safeguards profile. */
@@ -1249,6 +1293,14 @@ export interface ManagedClusterAIToolchainOperatorProfile {
 export interface ManagedClusterNodeProvisioningProfile {
   /** Once the mode it set to Auto, it cannot be changed back to Manual. */
   mode?: NodeProvisioningMode;
+}
+
+/** The bootstrap profile. */
+export interface ManagedClusterBootstrapProfile {
+  /** The source where the artifacts are downloaded from. */
+  artifactSource?: ArtifactSource;
+  /** The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. */
+  containerRegistryId?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -2130,6 +2182,8 @@ export interface AgentPool extends SubResource {
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** The maximum number of pods that can run on a node. */
   maxPods?: number;
   /** The operating system type. The default is Linux. */
@@ -2225,6 +2279,8 @@ export interface AgentPool extends SubResource {
   virtualMachinesProfile?: VirtualMachinesProfile;
   /** The status of nodes in a VirtualMachines agent pool. */
   virtualMachineNodesStatus?: VirtualMachineNodes[];
+  /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
+  gatewayProfile?: AgentPoolGatewayProfile;
 }
 
 /** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
@@ -2247,6 +2303,8 @@ export interface ManagedCluster extends TrackedResource {
   extendedLocation?: ExtendedLocation;
   /** The identity of the managed cluster, if configured. */
   identity?: ManagedClusterIdentity;
+  /** This is primarily used to expose different UI experiences in the portal for different kinds */
+  kind?: string;
   /**
    * The current provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2365,6 +2423,8 @@ export interface ManagedCluster extends TrackedResource {
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
   /** Node provisioning settings that apply to the whole cluster. */
   nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
+  /** Profile of the cluster bootstrap configuration. */
+  bootstrapProfile?: ManagedClusterBootstrapProfile;
 }
 
 /** Managed cluster Access Profile. */
@@ -2674,6 +2734,24 @@ export enum KnownWorkloadRuntime {
  */
 export type WorkloadRuntime = string;
 
+/** Known values of {@link PodIPAllocationMode} that the service accepts. */
+export enum KnownPodIPAllocationMode {
+  /** Each pod gets a single IP address assigned. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode */
+  DynamicIndividual = "DynamicIndividual",
+  /** Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger */
+  StaticBlock = "StaticBlock",
+}
+
+/**
+ * Defines values for PodIPAllocationMode. \
+ * {@link KnownPodIPAllocationMode} can be used interchangeably with PodIPAllocationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DynamicIndividual**: Each pod gets a single IP address assigned. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode \
+ * **StaticBlock**: Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger
+ */
+export type PodIPAllocationMode = string;
+
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
   /** Use Linux. */
@@ -2770,6 +2848,8 @@ export enum KnownAgentPoolMode {
   System = "System",
   /** User agent pools are primarily for hosting your application pods. */
   User = "User",
+  /** Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\//aka.ms\/aks\/static-egress-gateway. */
+  Gateway = "Gateway",
 }
 
 /**
@@ -2778,7 +2858,8 @@ export enum KnownAgentPoolMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **System**: System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory. \
- * **User**: User agent pools are primarily for hosting your application pods.
+ * **User**: User agent pools are primarily for hosting your application pods. \
+ * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\/\/aka.ms\/aks\/static-egress-gateway.
  */
 export type AgentPoolMode = string;
 
@@ -3363,6 +3444,24 @@ export enum KnownNodeProvisioningMode {
  * **Auto**: Nodes are provisioned automatically by AKS using Karpenter. Fixed size Node Pools can still be created, but autoscaling Node Pools cannot be. (See aka.ms\/aks\/nap for more details).
  */
 export type NodeProvisioningMode = string;
+
+/** Known values of {@link ArtifactSource} that the service accepts. */
+export enum KnownArtifactSource {
+  /** pull images from Azure Container Registry with cache */
+  Cache = "Cache",
+  /** pull images from Microsoft Artifact Registry */
+  Direct = "Direct",
+}
+
+/**
+ * Defines values for ArtifactSource. \
+ * {@link KnownArtifactSource} can be used interchangeably with ArtifactSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Cache**: pull images from Azure Container Registry with cache \
+ * **Direct**: pull images from Microsoft Artifact Registry
+ */
+export type ArtifactSource = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
