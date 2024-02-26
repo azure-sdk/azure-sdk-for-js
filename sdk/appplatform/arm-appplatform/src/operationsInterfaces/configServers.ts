@@ -17,7 +17,7 @@ import {
   ConfigServersUpdatePatchResponse,
   ConfigServerSettings,
   ConfigServersValidateOptionalParams,
-  ConfigServersValidateResponse
+  ConfigServersValidateResponse,
 } from "../models";
 
 /** Interface representing a ConfigServers. */
@@ -32,7 +32,7 @@ export interface ConfigServers {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigServersGetOptionalParams
+    options?: ConfigServersGetOptionalParams,
   ): Promise<ConfigServersGetResponse>;
   /**
    * Update the config server.
@@ -46,7 +46,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    options?: ConfigServersUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersUpdatePutResponse>,
@@ -65,7 +65,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    options?: ConfigServersUpdatePutOptionalParams,
   ): Promise<ConfigServersUpdatePutResponse>;
   /**
    * Update the config server.
@@ -79,7 +79,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    options?: ConfigServersUpdatePatchOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersUpdatePatchResponse>,
@@ -98,7 +98,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    options?: ConfigServersUpdatePatchOptionalParams,
   ): Promise<ConfigServersUpdatePatchResponse>;
   /**
    * Check if the config server settings are valid.
@@ -112,7 +112,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
+    options?: ConfigServersValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersValidateResponse>,
@@ -131,6 +131,6 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
+    options?: ConfigServersValidateOptionalParams,
   ): Promise<ConfigServersValidateResponse>;
 }

@@ -14,7 +14,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,7 +27,7 @@ import {
   ConfigServersUpdatePatchResponse,
   ConfigServerSettings,
   ConfigServersValidateOptionalParams,
-  ConfigServersValidateResponse
+  ConfigServersValidateResponse,
 } from "../models";
 
 /** Class containing ConfigServers operations. */
@@ -52,11 +52,11 @@ export class ConfigServersImpl implements ConfigServers {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigServersGetOptionalParams
+    options?: ConfigServersGetOptionalParams,
   ): Promise<ConfigServersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -72,7 +72,7 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    options?: ConfigServersUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersUpdatePutResponse>,
@@ -81,21 +81,20 @@ export class ConfigServersImpl implements ConfigServers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigServersUpdatePutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -104,8 +103,8 @@ export class ConfigServersImpl implements ConfigServers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -113,22 +112,22 @@ export class ConfigServersImpl implements ConfigServers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, configServerResource, options },
-      spec: updatePutOperationSpec
+      spec: updatePutOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigServersUpdatePutResponse,
       OperationState<ConfigServersUpdatePutResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -146,13 +145,13 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    options?: ConfigServersUpdatePutOptionalParams,
   ): Promise<ConfigServersUpdatePutResponse> {
     const poller = await this.beginUpdatePut(
       resourceGroupName,
       serviceName,
       configServerResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -169,7 +168,7 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    options?: ConfigServersUpdatePatchOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersUpdatePatchResponse>,
@@ -178,21 +177,20 @@ export class ConfigServersImpl implements ConfigServers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigServersUpdatePatchResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -201,8 +199,8 @@ export class ConfigServersImpl implements ConfigServers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -210,22 +208,22 @@ export class ConfigServersImpl implements ConfigServers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, configServerResource, options },
-      spec: updatePatchOperationSpec
+      spec: updatePatchOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigServersUpdatePatchResponse,
       OperationState<ConfigServersUpdatePatchResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -243,13 +241,13 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    options?: ConfigServersUpdatePatchOptionalParams,
   ): Promise<ConfigServersUpdatePatchResponse> {
     const poller = await this.beginUpdatePatch(
       resourceGroupName,
       serviceName,
       configServerResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -266,7 +264,7 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
+    options?: ConfigServersValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersValidateResponse>,
@@ -275,21 +273,20 @@ export class ConfigServersImpl implements ConfigServers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigServersValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -298,8 +295,8 @@ export class ConfigServersImpl implements ConfigServers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -307,15 +304,15 @@ export class ConfigServersImpl implements ConfigServers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, configServerSettings, options },
-      spec: validateOperationSpec
+      spec: validateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigServersValidateResponse,
@@ -323,7 +320,7 @@ export class ConfigServersImpl implements ConfigServers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -341,13 +338,13 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
+    options?: ConfigServersValidateOptionalParams,
   ): Promise<ConfigServersValidateResponse> {
     const poller = await this.beginValidate(
       resourceGroupName,
       serviceName,
       configServerSettings,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -356,47 +353,45 @@ export class ConfigServersImpl implements ConfigServers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updatePutOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     201: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     202: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     204: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.configServerResource,
   queryParameters: [Parameters.apiVersion],
@@ -404,32 +399,31 @@ const updatePutOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updatePatchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     201: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     202: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     204: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.configServerResource,
   queryParameters: [Parameters.apiVersion],
@@ -437,32 +431,31 @@ const updatePatchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
+      bodyMapper: Mappers.ConfigServerSettingsValidateResult,
     },
     201: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
+      bodyMapper: Mappers.ConfigServerSettingsValidateResult,
     },
     202: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
+      bodyMapper: Mappers.ConfigServerSettingsValidateResult,
     },
     204: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
+      bodyMapper: Mappers.ConfigServerSettingsValidateResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.configServerSettings,
   queryParameters: [Parameters.apiVersion],
@@ -470,9 +463,9 @@ const validateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
