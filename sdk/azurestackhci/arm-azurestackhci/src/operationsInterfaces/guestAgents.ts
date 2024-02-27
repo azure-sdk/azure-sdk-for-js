@@ -20,6 +20,6 @@ export interface GuestAgents {
    */
   list(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams
+    options?: GuestAgentsListOptionalParams,
   ): PagedAsyncIterableIterator<GuestAgent>;
 }

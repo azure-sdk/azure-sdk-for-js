@@ -20,7 +20,7 @@ import {
   LogicalNetworksDeleteResponse,
   LogicalNetworksUpdateRequest,
   LogicalNetworksUpdateOptionalParams,
-  LogicalNetworksUpdateResponse
+  LogicalNetworksUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface LogicalNetworksOperations {
    */
   list(
     resourceGroupName: string,
-    options?: LogicalNetworksListOptionalParams
+    options?: LogicalNetworksListOptionalParams,
   ): PagedAsyncIterableIterator<LogicalNetworks>;
   /**
    * Lists all of the logical networks in the specified subscription. Use the nextLink property in the
@@ -42,7 +42,7 @@ export interface LogicalNetworksOperations {
    * @param options The options parameters.
    */
   listAll(
-    options?: LogicalNetworksListAllOptionalParams
+    options?: LogicalNetworksListAllOptionalParams,
   ): PagedAsyncIterableIterator<LogicalNetworks>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -52,7 +52,7 @@ export interface LogicalNetworksOperations {
   get(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksGetOptionalParams
+    options?: LogicalNetworksGetOptionalParams,
   ): Promise<LogicalNetworksGetResponse>;
   /**
    * The operation to create or update a logical network. Please note some properties can be set only
@@ -66,7 +66,7 @@ export interface LogicalNetworksOperations {
     resourceGroupName: string,
     logicalNetworkName: string,
     logicalNetworks: LogicalNetworks,
-    options?: LogicalNetworksCreateOrUpdateOptionalParams
+    options?: LogicalNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogicalNetworksCreateOrUpdateResponse>,
@@ -85,7 +85,7 @@ export interface LogicalNetworksOperations {
     resourceGroupName: string,
     logicalNetworkName: string,
     logicalNetworks: LogicalNetworks,
-    options?: LogicalNetworksCreateOrUpdateOptionalParams
+    options?: LogicalNetworksCreateOrUpdateOptionalParams,
   ): Promise<LogicalNetworksCreateOrUpdateResponse>;
   /**
    * The operation to delete a logical network.
@@ -96,7 +96,7 @@ export interface LogicalNetworksOperations {
   beginDelete(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksDeleteOptionalParams
+    options?: LogicalNetworksDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogicalNetworksDeleteResponse>,
@@ -112,7 +112,7 @@ export interface LogicalNetworksOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksDeleteOptionalParams
+    options?: LogicalNetworksDeleteOptionalParams,
   ): Promise<LogicalNetworksDeleteResponse>;
   /**
    * The operation to update a logical network.
@@ -125,7 +125,7 @@ export interface LogicalNetworksOperations {
     resourceGroupName: string,
     logicalNetworkName: string,
     logicalNetworks: LogicalNetworksUpdateRequest,
-    options?: LogicalNetworksUpdateOptionalParams
+    options?: LogicalNetworksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogicalNetworksUpdateResponse>,
@@ -143,6 +143,6 @@ export interface LogicalNetworksOperations {
     resourceGroupName: string,
     logicalNetworkName: string,
     logicalNetworks: LogicalNetworksUpdateRequest,
-    options?: LogicalNetworksUpdateOptionalParams
+    options?: LogicalNetworksUpdateOptionalParams,
   ): Promise<LogicalNetworksUpdateResponse>;
 }
