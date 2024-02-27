@@ -1,15 +1,50 @@
 # Release History
+    
+## 33.1.0 (2024-02-27)
+    
+**Features**
 
-## 33.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group FirewallPolicyDeployments
+  - Added operation group FirewallPolicyDrafts
+  - Added operation group FirewallPolicyRuleCollectionGroupDrafts
+  - Added operation NetworkVirtualAppliances.restart
+  - Added Interface ConnectionMonitorEndpointLocationDetails
+  - Added Interface FirewallPolicyDeploymentsDeployHeaders
+  - Added Interface FirewallPolicyDeploymentsDeployOptionalParams
+  - Added Interface FirewallPolicyDraft
+  - Added Interface FirewallPolicyDraftsCreateOrUpdateOptionalParams
+  - Added Interface FirewallPolicyDraftsDeleteOptionalParams
+  - Added Interface FirewallPolicyDraftsGetOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraft
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsDeleteOptionalParams
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftsGetOptionalParams
+  - Added Interface HeaderValueMatcher
+  - Added Interface NetworkVirtualApplianceInstanceIds
+  - Added Interface NetworkVirtualAppliancesRestartOptionalParams
+  - Added Type Alias FirewallPolicyDeploymentsDeployResponse
+  - Added Type Alias FirewallPolicyDraftsCreateOrUpdateResponse
+  - Added Type Alias FirewallPolicyDraftsGetResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateResponse
+  - Added Type Alias FirewallPolicyRuleCollectionGroupDraftsGetResponse
+  - Interface ApplicationGatewayHeaderConfiguration has a new optional parameter headerValueMatcher
+  - Interface BastionHost has a new optional parameter zones
+  - Interface ConnectionMonitorEndpoint has a new optional parameter locationDetails
+  - Interface ConnectionMonitorEndpoint has a new optional parameter subscriptionId
+  - Interface ExpressRouteCircuit has a new optional parameter enableDirectPortRateLimit
+  - Interface FlowLog has a new optional parameter identity
+  - Interface FlowLogInformation has a new optional parameter identity
+  - Interface VirtualNetworkPeering has a new optional parameter enableOnlyIPv6Peering
+  - Interface VirtualNetworkPeering has a new optional parameter localAddressSpace
+  - Interface VirtualNetworkPeering has a new optional parameter localSubnetNames
+  - Interface VirtualNetworkPeering has a new optional parameter localVirtualNetworkAddressSpace
+  - Interface VirtualNetworkPeering has a new optional parameter peerCompleteVnets
+  - Interface VirtualNetworkPeering has a new optional parameter remoteSubnetNames
+  - Enum KnownEndpointType has a new value AzureArcNetwork
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value NetworkSecurityGroupEnabled
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value RouteTableEnabled
+    
+    
 ## 33.0.0 (2023-12-07)
     
 **Features**
