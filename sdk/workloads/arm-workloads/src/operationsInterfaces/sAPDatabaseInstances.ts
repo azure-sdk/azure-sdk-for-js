@@ -22,7 +22,7 @@ import {
   SAPDatabaseInstancesStartInstanceOptionalParams,
   SAPDatabaseInstancesStartInstanceResponse,
   SAPDatabaseInstancesStopInstanceOptionalParams,
-  SAPDatabaseInstancesStopInstanceResponse
+  SAPDatabaseInstancesStopInstanceResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface SAPDatabaseInstances {
   list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams
+    options?: SAPDatabaseInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<SAPDatabaseInstance>;
   /**
    * Gets the SAP Database Instance resource.
@@ -51,7 +51,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesGetOptionalParams
+    options?: SAPDatabaseInstancesGetOptionalParams,
   ): Promise<SAPDatabaseInstancesGetResponse>;
   /**
    * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
@@ -66,7 +66,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesCreateOptionalParams
+    options?: SAPDatabaseInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesCreateResponse>,
@@ -86,7 +86,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesCreateOptionalParams
+    options?: SAPDatabaseInstancesCreateOptionalParams,
   ): Promise<SAPDatabaseInstancesCreateResponse>;
   /**
    * Updates the Database resource.
@@ -100,7 +100,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesUpdateOptionalParams
+    options?: SAPDatabaseInstancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesUpdateResponse>,
@@ -119,7 +119,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesUpdateOptionalParams
+    options?: SAPDatabaseInstancesUpdateOptionalParams,
   ): Promise<SAPDatabaseInstancesUpdateResponse>;
   /**
    * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
@@ -134,7 +134,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesDeleteOptionalParams
+    options?: SAPDatabaseInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesDeleteResponse>,
@@ -154,7 +154,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesDeleteOptionalParams
+    options?: SAPDatabaseInstancesDeleteOptionalParams,
   ): Promise<SAPDatabaseInstancesDeleteResponse>;
   /**
    * Starts the database instance of the SAP system.
@@ -168,7 +168,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStartInstanceOptionalParams
+    options?: SAPDatabaseInstancesStartInstanceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesStartInstanceResponse>,
@@ -187,7 +187,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStartInstanceOptionalParams
+    options?: SAPDatabaseInstancesStartInstanceOptionalParams,
   ): Promise<SAPDatabaseInstancesStartInstanceResponse>;
   /**
    * Stops the database instance of the SAP system.
@@ -201,7 +201,7 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStopInstanceOptionalParams
+    options?: SAPDatabaseInstancesStopInstanceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesStopInstanceResponse>,
@@ -220,6 +220,6 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStopInstanceOptionalParams
+    options?: SAPDatabaseInstancesStopInstanceOptionalParams,
   ): Promise<SAPDatabaseInstancesStopInstanceResponse>;
 }

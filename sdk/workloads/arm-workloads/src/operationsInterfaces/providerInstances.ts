@@ -16,7 +16,7 @@ import {
   ProviderInstancesCreateOptionalParams,
   ProviderInstancesCreateResponse,
   ProviderInstancesDeleteOptionalParams,
-  ProviderInstancesDeleteResponse
+  ProviderInstancesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ProviderInstances {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderInstance>;
   /**
    * Gets properties of a provider instance for the specified subscription, resource group, SAP monitor
@@ -46,7 +46,7 @@ export interface ProviderInstances {
     resourceGroupName: string,
     monitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesGetOptionalParams
+    options?: ProviderInstancesGetOptionalParams,
   ): Promise<ProviderInstancesGetResponse>;
   /**
    * Creates a provider instance for the specified subscription, resource group, SAP monitor name, and
@@ -62,7 +62,7 @@ export interface ProviderInstances {
     monitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProviderInstancesCreateResponse>,
@@ -83,7 +83,7 @@ export interface ProviderInstances {
     monitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<ProviderInstancesCreateResponse>;
   /**
    * Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and
@@ -97,7 +97,7 @@ export interface ProviderInstances {
     resourceGroupName: string,
     monitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
+    options?: ProviderInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProviderInstancesDeleteResponse>,
@@ -116,6 +116,6 @@ export interface ProviderInstances {
     resourceGroupName: string,
     monitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
+    options?: ProviderInstancesDeleteOptionalParams,
   ): Promise<ProviderInstancesDeleteResponse>;
 }
