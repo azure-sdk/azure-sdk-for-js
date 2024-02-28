@@ -330,6 +330,7 @@ export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityRe
 // @public
 export interface CapacityReservationGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
     expand?: ExpandTypesForGetCapacityReservationGroups;
+    resourceIdsOnly?: ResourceIdOptionsForGetCapacityReservationGroups;
 }
 
 // @public
@@ -1265,8 +1266,12 @@ export interface DataDiskImageEncryption extends DiskImageEncryption {
 
 // @public
 export interface DataDisksToAttach {
+    caching?: CachingTypes;
+    deleteOption?: DiskDeleteOptionTypes;
+    diskEncryptionSet?: DiskEncryptionSetParameters;
     diskId: string;
     lun?: number;
+    writeAcceleratorEnabled?: boolean;
 }
 
 // @public
@@ -3222,6 +3227,7 @@ export enum KnownDiffDiskOptions {
 // @public
 export enum KnownDiffDiskPlacement {
     CacheDisk = "CacheDisk",
+    NvmeDisk = "NvmeDisk",
     ResourceDisk = "ResourceDisk"
 }
 
@@ -3644,6 +3650,13 @@ export enum KnownReplicationStatusTypes {
 }
 
 // @public
+export enum KnownResourceIdOptionsForGetCapacityReservationGroups {
+    All = "All",
+    CreatedInSubscription = "CreatedInSubscription",
+    SharedWithSubscription = "SharedWithSubscription"
+}
+
+// @public
 export enum KnownRestorePointCollectionExpandOptions {
     RestorePoints = "restorePoints"
 }
@@ -4015,6 +4028,11 @@ export enum KnownWindowsVMGuestPatchMode {
     AutomaticByOS = "AutomaticByOS",
     AutomaticByPlatform = "AutomaticByPlatform",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownZonePlacementPolicyType {
+    Any = "Any"
 }
 
 // @public
@@ -4414,6 +4432,13 @@ export interface PirSharedGalleryResource extends PirResource {
 }
 
 // @public
+export interface Placement {
+    excludeZones?: string[];
+    includeZones?: string[];
+    zonePlacementPolicy?: ZonePlacementPolicyType;
+}
+
+// @public
 export interface Plan {
     name?: string;
     product?: string;
@@ -4722,6 +4747,9 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+
+// @public
+export type ResourceIdOptionsForGetCapacityReservationGroups = string;
 
 // @public
 export interface ResourceInstanceViewStatus {
@@ -6018,6 +6046,7 @@ export interface VirtualMachine extends Resource {
     readonly managedBy?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
+    placement?: Placement;
     plan?: Plan;
     platformFaultDomain?: number;
     priority?: VirtualMachinePriorityTypes;
@@ -8290,6 +8319,9 @@ export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
 }
+
+// @public
+export type ZonePlacementPolicyType = string;
 
 // (No @packageDocumentation comment for this package)
 
