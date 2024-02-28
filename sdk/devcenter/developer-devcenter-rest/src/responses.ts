@@ -13,6 +13,7 @@ import {
   ScheduleOutput,
   PagedDevBoxOutput,
   DevBoxOutput,
+  ResourceOperationStatusOutput,
   RemoteConnectionOutput,
   PagedDevBoxActionOutput,
   DevBoxActionOutput,
@@ -208,7 +209,7 @@ export interface CreateDevBoxDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & CreateDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running CreateDevBox operation */
+/** The final response for long-running createDevBox operation */
 export interface CreateDevBoxLogicalResponse extends HttpResponse {
   status: "200";
   body: DevBoxOutput;
@@ -242,7 +243,7 @@ export interface DeleteDevBoxDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & DeleteDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running DeleteDevBox operation */
+/** The final response for long-running deleteDevBox operation */
 export interface DeleteDevBoxLogicalResponse extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
@@ -256,7 +257,7 @@ export interface StartDevBox202Headers {
 /** The request has been accepted for processing, but processing has not yet completed. */
 export interface StartDevBox202Response extends HttpResponse {
   status: "202";
-  body: OperationStatusOutput;
+  body: ResourceOperationStatusOutput;
   headers: RawHttpHeaders & StartDevBox202Headers;
 }
 
@@ -271,10 +272,10 @@ export interface StartDevBoxDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & StartDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running StartDevBox operation */
+/** The final response for long-running startDevBox operation */
 export interface StartDevBoxLogicalResponse extends HttpResponse {
   status: "200";
-  body: OperationStatusOutput;
+  body: ResourceOperationStatusOutput;
 }
 
 export interface StopDevBox202Headers {
@@ -285,7 +286,7 @@ export interface StopDevBox202Headers {
 /** The request has been accepted for processing, but processing has not yet completed. */
 export interface StopDevBox202Response extends HttpResponse {
   status: "202";
-  body: OperationStatusOutput;
+  body: ResourceOperationStatusOutput;
   headers: RawHttpHeaders & StopDevBox202Headers;
 }
 
@@ -300,10 +301,10 @@ export interface StopDevBoxDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & StopDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running StopDevBox operation */
+/** The final response for long-running stopDevBox operation */
 export interface StopDevBoxLogicalResponse extends HttpResponse {
   status: "200";
-  body: OperationStatusOutput;
+  body: ResourceOperationStatusOutput;
 }
 
 export interface RestartDevBox202Headers {
@@ -314,7 +315,7 @@ export interface RestartDevBox202Headers {
 /** The request has been accepted for processing, but processing has not yet completed. */
 export interface RestartDevBox202Response extends HttpResponse {
   status: "202";
-  body: OperationStatusOutput;
+  body: ResourceOperationStatusOutput;
   headers: RawHttpHeaders & RestartDevBox202Headers;
 }
 
@@ -329,10 +330,10 @@ export interface RestartDevBoxDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & RestartDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running RestartDevBox operation */
+/** The final response for long-running restartDevBox operation */
 export interface RestartDevBoxLogicalResponse extends HttpResponse {
   status: "200";
-  body: OperationStatusOutput;
+  body: ResourceOperationStatusOutput;
 }
 
 /** The request has succeeded. */
@@ -543,7 +544,7 @@ export interface CreateOrUpdateEnvironmentDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & CreateOrUpdateEnvironmentDefaultHeaders;
 }
 
-/** The final response for long-running CreateOrUpdateEnvironment operation */
+/** The final response for long-running createOrUpdateEnvironment operation */
 export interface CreateOrUpdateEnvironmentLogicalResponse extends HttpResponse {
   status: "200";
   body: EnvironmentOutput;
@@ -577,7 +578,7 @@ export interface DeleteEnvironmentDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & DeleteEnvironmentDefaultHeaders;
 }
 
-/** The final response for long-running DeleteEnvironment operation */
+/** The final response for long-running deleteEnvironment operation */
 export interface DeleteEnvironmentLogicalResponse extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
@@ -628,14 +629,16 @@ export interface ListEnvironmentDefinitionsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentDefinitionsDefaultResponse extends HttpResponse {
+export interface ListEnvironmentDefinitionsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListEnvironmentDefinitionsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListEnvironmentDefinitionsByCatalog200Response extends HttpResponse {
+export interface ListEnvironmentDefinitionsByCatalog200Response
+  extends HttpResponse {
   status: "200";
   body: PagedEnvironmentDefinitionOutput;
 }
@@ -645,7 +648,8 @@ export interface ListEnvironmentDefinitionsByCatalogDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentDefinitionsByCatalogDefaultResponse extends HttpResponse {
+export interface ListEnvironmentDefinitionsByCatalogDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListEnvironmentDefinitionsByCatalogDefaultHeaders;

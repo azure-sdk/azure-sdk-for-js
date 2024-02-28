@@ -27,7 +27,7 @@ export type AzureDeveloperDevCenterClient = Client & {
 
 // @public
 export interface CatalogOutput {
-    name: string;
+    readonly name: string;
 }
 
 // @public
@@ -376,7 +376,7 @@ export interface Environment {
     catalogName: string;
     environmentDefinitionName: string;
     environmentType: string;
-    parameters?: unknown;
+    parameters?: Record<string, string>;
 }
 
 // @public
@@ -384,7 +384,7 @@ export interface EnvironmentDefinitionOutput {
     catalogName: string;
     description?: string;
     id: string;
-    name: string;
+    readonly name: string;
     parameters?: Array<EnvironmentDefinitionParameterOutput>;
     parametersSchema?: string;
     templatePath?: string;
@@ -408,8 +408,8 @@ export interface EnvironmentOutput {
     environmentDefinitionName: string;
     environmentType: string;
     readonly error?: ErrorModel;
-    readonly name?: string;
-    parameters?: any;
+    readonly name: string;
+    parameters?: Record<string, string>;
     readonly provisioningState?: string;
     readonly resourceGroupId?: string;
     readonly user?: string;
@@ -931,19 +931,7 @@ export interface ListAllDevBoxesByUserDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListAllDevBoxesByUserParameters = ListAllDevBoxesByUserQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListAllDevBoxesByUserQueryParam {
-    // (undocumented)
-    queryParameters?: ListAllDevBoxesByUserQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListAllDevBoxesByUserQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListAllDevBoxesByUserParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListAllDevBoxesDefaultHeaders {
@@ -961,19 +949,7 @@ export interface ListAllDevBoxesDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListAllDevBoxesParameters = ListAllDevBoxesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListAllDevBoxesQueryParam {
-    // (undocumented)
-    queryParameters?: ListAllDevBoxesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListAllDevBoxesQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListAllDevBoxesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListAllEnvironments {
@@ -1004,18 +980,7 @@ export interface ListAllEnvironmentsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListAllEnvironmentsParameters = ListAllEnvironmentsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListAllEnvironmentsQueryParam {
-    // (undocumented)
-    queryParameters?: ListAllEnvironmentsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListAllEnvironmentsQueryParamProperties {
-    top?: number;
-}
+export type ListAllEnvironmentsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListCatalogs {
@@ -1046,18 +1011,7 @@ export interface ListCatalogsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListCatalogsParameters = ListCatalogsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListCatalogsQueryParam {
-    // (undocumented)
-    queryParameters?: ListCatalogsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListCatalogsQueryParamProperties {
-    top?: number;
-}
+export type ListCatalogsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListDevBoxActions {
@@ -1119,19 +1073,7 @@ export interface ListDevBoxesDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListDevBoxesParameters = ListDevBoxesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListDevBoxesQueryParam {
-    // (undocumented)
-    queryParameters?: ListDevBoxesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListDevBoxesQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListDevBoxesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListEnvironmentDefinitions {
@@ -1175,18 +1117,7 @@ export interface ListEnvironmentDefinitionsByCatalogDefaultResponse extends Http
 }
 
 // @public (undocumented)
-export type ListEnvironmentDefinitionsByCatalogParameters = ListEnvironmentDefinitionsByCatalogQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListEnvironmentDefinitionsByCatalogQueryParam {
-    // (undocumented)
-    queryParameters?: ListEnvironmentDefinitionsByCatalogQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListEnvironmentDefinitionsByCatalogQueryParamProperties {
-    top?: number;
-}
+export type ListEnvironmentDefinitionsByCatalogParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListEnvironmentDefinitionsDefaultHeaders {
@@ -1204,18 +1135,7 @@ export interface ListEnvironmentDefinitionsDefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export type ListEnvironmentDefinitionsParameters = ListEnvironmentDefinitionsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListEnvironmentDefinitionsQueryParam {
-    // (undocumented)
-    queryParameters?: ListEnvironmentDefinitionsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListEnvironmentDefinitionsQueryParamProperties {
-    top?: number;
-}
+export type ListEnvironmentDefinitionsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListEnvironments {
@@ -1246,18 +1166,7 @@ export interface ListEnvironmentsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListEnvironmentsParameters = ListEnvironmentsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListEnvironmentsQueryParam {
-    // (undocumented)
-    queryParameters?: ListEnvironmentsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListEnvironmentsQueryParamProperties {
-    top?: number;
-}
+export type ListEnvironmentsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListEnvironmentTypes {
@@ -1288,18 +1197,7 @@ export interface ListEnvironmentTypesDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListEnvironmentTypesParameters = ListEnvironmentTypesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListEnvironmentTypesQueryParam {
-    // (undocumented)
-    queryParameters?: ListEnvironmentTypesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListEnvironmentTypesQueryParamProperties {
-    top?: number;
-}
+export type ListEnvironmentTypesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListPools {
@@ -1330,19 +1228,7 @@ export interface ListPoolsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListPoolsParameters = ListPoolsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListPoolsQueryParam {
-    // (undocumented)
-    queryParameters?: ListPoolsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListPoolsQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListPoolsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListProjects {
@@ -1373,19 +1259,7 @@ export interface ListProjectsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListProjectsParameters = ListProjectsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListProjectsQueryParam {
-    // (undocumented)
-    queryParameters?: ListProjectsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListProjectsQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListProjectsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListSchedules {
@@ -1416,45 +1290,27 @@ export interface ListSchedulesDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListSchedulesParameters = ListSchedulesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListSchedulesQueryParam {
-    // (undocumented)
-    queryParameters?: ListSchedulesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListSchedulesQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export interface OperationStatusErrorOutput {
-    code?: string;
-    message?: string;
-}
+export type ListSchedulesParameters = RequestParameters;
 
 // @public
 export interface OperationStatusOutput {
     endTime?: string;
-    error?: OperationStatusErrorOutput;
+    error?: ErrorModel;
     id?: string;
     name?: string;
     percentComplete?: number;
-    properties?: any;
+    properties?: string;
     resourceId?: string;
     startTime?: string;
     status: string;
 }
 
 // @public
-export interface OSDisk {
+export interface OsDisk {
 }
 
 // @public
-export interface OSDiskOutput {
+export interface OsDiskOutput {
     readonly diskSizeGB?: number;
 }
 
@@ -1530,6 +1386,14 @@ export interface RemoteConnectionOutput {
     webUrl?: string;
 }
 
+// @public
+export interface ResourceOperationStatusOutput {
+    error?: ErrorModel;
+    id: string;
+    result?: OperationStatusOutput;
+    status: string;
+}
+
 // @public (undocumented)
 export interface RestartDevBox {
     post(options?: RestartDevBoxParameters): StreamableMethod<RestartDevBox202Response | RestartDevBoxDefaultResponse>;
@@ -1543,7 +1407,7 @@ export interface RestartDevBox202Headers {
 // @public
 export interface RestartDevBox202Response extends HttpResponse {
     // (undocumented)
-    body: OperationStatusOutput;
+    body: ResourceOperationStatusOutput;
     // (undocumented)
     headers: RawHttpHeaders & RestartDevBox202Headers;
     // (undocumented)
@@ -1568,7 +1432,7 @@ export interface RestartDevBoxDefaultResponse extends HttpResponse {
 // @public
 export interface RestartDevBoxLogicalResponse extends HttpResponse {
     // (undocumented)
-    body: OperationStatusOutput;
+    body: ResourceOperationStatusOutput;
     // (undocumented)
     status: "200";
 }
@@ -1660,7 +1524,7 @@ export interface StartDevBox202Headers {
 // @public
 export interface StartDevBox202Response extends HttpResponse {
     // (undocumented)
-    body: OperationStatusOutput;
+    body: ResourceOperationStatusOutput;
     // (undocumented)
     headers: RawHttpHeaders & StartDevBox202Headers;
     // (undocumented)
@@ -1685,7 +1549,7 @@ export interface StartDevBoxDefaultResponse extends HttpResponse {
 // @public
 export interface StartDevBoxLogicalResponse extends HttpResponse {
     // (undocumented)
-    body: OperationStatusOutput;
+    body: ResourceOperationStatusOutput;
     // (undocumented)
     status: "200";
 }
@@ -1706,7 +1570,7 @@ export interface StopDevBox202Headers {
 // @public
 export interface StopDevBox202Response extends HttpResponse {
     // (undocumented)
-    body: OperationStatusOutput;
+    body: ResourceOperationStatusOutput;
     // (undocumented)
     headers: RawHttpHeaders & StopDevBox202Headers;
     // (undocumented)
@@ -1731,7 +1595,7 @@ export interface StopDevBoxDefaultResponse extends HttpResponse {
 // @public
 export interface StopDevBoxLogicalResponse extends HttpResponse {
     // (undocumented)
-    body: OperationStatusOutput;
+    body: ResourceOperationStatusOutput;
     // (undocumented)
     status: "200";
 }
@@ -1758,12 +1622,12 @@ export interface StopOnDisconnectConfigurationOutput {
 
 // @public
 export interface StorageProfile {
-    osDisk?: OSDisk;
+    osDisk?: OsDisk;
 }
 
 // @public
 export interface StorageProfileOutput {
-    osDisk?: OSDiskOutput;
+    osDisk?: OsDiskOutput;
 }
 
 // (No @packageDocumentation comment for this package)
