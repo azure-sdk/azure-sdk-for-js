@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -21,7 +21,7 @@ import {
   EmailServicesImpl,
   SenderUsernamesImpl,
   SuppressionListsImpl,
-  SuppressionListAddressesImpl
+  SuppressionListAddressesImpl,
 } from "./operations";
 import {
   Operations,
@@ -30,7 +30,7 @@ import {
   EmailServices,
   SenderUsernames,
   SuppressionLists,
-  SuppressionListAddresses
+  SuppressionListAddresses,
 } from "./operationsInterfaces";
 import { CommunicationServiceManagementClientOptionalParams } from "./models";
 
@@ -48,7 +48,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: CommunicationServiceManagementClientOptionalParams
+    options?: CommunicationServiceManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -63,7 +63,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
     }
     const defaults: CommunicationServiceManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-communication/4.1.0-beta.3`;
@@ -76,20 +76,21 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -99,7 +100,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -109,9 +110,9 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -139,7 +140,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -153,7 +154,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

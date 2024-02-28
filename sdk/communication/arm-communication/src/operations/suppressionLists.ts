@@ -23,7 +23,7 @@ import {
   SuppressionListsCreateOrUpdateOptionalParams,
   SuppressionListsCreateOrUpdateResponse,
   SuppressionListsDeleteOptionalParams,
-  SuppressionListsListByDomainNextResponse
+  SuppressionListsListByDomainNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,13 +50,13 @@ export class SuppressionListsImpl implements SuppressionLists {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: SuppressionListsListByDomainOptionalParams
+    options?: SuppressionListsListByDomainOptionalParams,
   ): PagedAsyncIterableIterator<SuppressionListResource> {
     const iter = this.listByDomainPagingAll(
       resourceGroupName,
       emailServiceName,
       domainName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class SuppressionListsImpl implements SuppressionLists {
           emailServiceName,
           domainName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class SuppressionListsImpl implements SuppressionLists {
     emailServiceName: string,
     domainName: string,
     options?: SuppressionListsListByDomainOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SuppressionListResource[]> {
     let result: SuppressionListsListByDomainResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class SuppressionListsImpl implements SuppressionLists {
         resourceGroupName,
         emailServiceName,
         domainName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class SuppressionListsImpl implements SuppressionLists {
         emailServiceName,
         domainName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class SuppressionListsImpl implements SuppressionLists {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: SuppressionListsListByDomainOptionalParams
+    options?: SuppressionListsListByDomainOptionalParams,
   ): AsyncIterableIterator<SuppressionListResource> {
     for await (const page of this.listByDomainPagingPage(
       resourceGroupName,
       emailServiceName,
       domainName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +143,11 @@ export class SuppressionListsImpl implements SuppressionLists {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: SuppressionListsListByDomainOptionalParams
+    options?: SuppressionListsListByDomainOptionalParams,
   ): Promise<SuppressionListsListByDomainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, emailServiceName, domainName, options },
-      listByDomainOperationSpec
+      listByDomainOperationSpec,
     );
   }
 
@@ -164,7 +164,7 @@ export class SuppressionListsImpl implements SuppressionLists {
     emailServiceName: string,
     domainName: string,
     suppressionListName: string,
-    options?: SuppressionListsGetOptionalParams
+    options?: SuppressionListsGetOptionalParams,
   ): Promise<SuppressionListsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -172,9 +172,9 @@ export class SuppressionListsImpl implements SuppressionLists {
         emailServiceName,
         domainName,
         suppressionListName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -194,7 +194,7 @@ export class SuppressionListsImpl implements SuppressionLists {
     domainName: string,
     suppressionListName: string,
     parameters: SuppressionListResource,
-    options?: SuppressionListsCreateOrUpdateOptionalParams
+    options?: SuppressionListsCreateOrUpdateOptionalParams,
   ): Promise<SuppressionListsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -203,9 +203,9 @@ export class SuppressionListsImpl implements SuppressionLists {
         domainName,
         suppressionListName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -222,7 +222,7 @@ export class SuppressionListsImpl implements SuppressionLists {
     emailServiceName: string,
     domainName: string,
     suppressionListName: string,
-    options?: SuppressionListsDeleteOptionalParams
+    options?: SuppressionListsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -230,9 +230,9 @@ export class SuppressionListsImpl implements SuppressionLists {
         emailServiceName,
         domainName,
         suppressionListName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -249,11 +249,11 @@ export class SuppressionListsImpl implements SuppressionLists {
     emailServiceName: string,
     domainName: string,
     nextLink: string,
-    options?: SuppressionListsListByDomainNextOptionalParams
+    options?: SuppressionListsListByDomainNextOptionalParams,
   ): Promise<SuppressionListsListByDomainNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, emailServiceName, domainName, nextLink, options },
-      listByDomainNextOperationSpec
+      listByDomainNextOperationSpec,
     );
   }
 }
@@ -261,39 +261,15 @@ export class SuppressionListsImpl implements SuppressionLists {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SuppressionListResourceCollection
+      bodyMapper: Mappers.SuppressionListResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.emailServiceName,
-    Parameters.domainName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists/{suppressionListName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SuppressionListResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -302,25 +278,46 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.emailServiceName,
     Parameters.domainName1,
-    Parameters.suppressionListName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists/{suppressionListName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SuppressionListResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName1,
+    Parameters.suppressionListName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists/{suppressionListName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists/{suppressionListName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SuppressionListResource
+      bodyMapper: Mappers.SuppressionListResource,
     },
     201: {
-      bodyMapper: Mappers.SuppressionListResource
+      bodyMapper: Mappers.SuppressionListResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -330,22 +327,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.emailServiceName,
     Parameters.domainName1,
-    Parameters.suppressionListName
+    Parameters.suppressionListName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists/{suppressionListName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/suppressionLists/{suppressionListName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -354,21 +350,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.emailServiceName,
     Parameters.domainName1,
-    Parameters.suppressionListName
+    Parameters.suppressionListName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDomainNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SuppressionListResourceCollection
+      bodyMapper: Mappers.SuppressionListResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -376,8 +372,8 @@ const listByDomainNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.emailServiceName,
-    Parameters.domainName1
+    Parameters.domainName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
