@@ -1,15 +1,79 @@
 # Release History
+    
+## 3.1.0-beta.1 (2024-02-28)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group EurekaServers
+  - Added operation Gateways.beginUpdateCapacity
+  - Added operation Gateways.beginUpdateCapacityAndWait
+  - Added Interface CustomScaleRule
+  - Added Interface EurekaServerProperties
+  - Added Interface EurekaServerResource
+  - Added Interface EurekaServerResourceCollection
+  - Added Interface EurekaServersGetOptionalParams
+  - Added Interface EurekaServersListOptionalParams
+  - Added Interface EurekaServersUpdatePatchHeaders
+  - Added Interface EurekaServersUpdatePatchOptionalParams
+  - Added Interface EurekaServersUpdatePutHeaders
+  - Added Interface EurekaServersUpdatePutOptionalParams
+  - Added Interface GatewayLocalResponseCachePerInstanceProperties
+  - Added Interface GatewayLocalResponseCachePerRouteProperties
+  - Added Interface GatewayResponseCacheProperties
+  - Added Interface GatewaysUpdateCapacityHeaders
+  - Added Interface GatewaysUpdateCapacityOptionalParams
+  - Added Interface HttpScaleRule
+  - Added Interface MaintenanceScheduleConfiguration
+  - Added Interface QueueScaleRule
+  - Added Interface Scale
+  - Added Interface ScaleRule
+  - Added Interface ScaleRuleAuth
+  - Added Interface Secret
+  - Added Interface TcpScaleRule
+  - Added Interface WeeklyMaintenanceScheduleConfiguration
+  - Added Type Alias ApmType
+  - Added Type Alias ConfigServerEnabledState
+  - Added Type Alias EurekaServerEnabledState
+  - Added Type Alias EurekaServersGetResponse
+  - Added Type Alias EurekaServersListResponse
+  - Added Type Alias EurekaServerState
+  - Added Type Alias EurekaServersUpdatePatchResponse
+  - Added Type Alias EurekaServersUpdatePutResponse
+  - Added Type Alias Frequency
+  - Added Type Alias GatewayResponseCachePropertiesUnion
+  - Added Type Alias GatewaysUpdateCapacityResponse
+  - Added Type Alias MaintenanceScheduleConfigurationUnion
+  - Added Type Alias PrivateLinkState
+  - Added Type Alias TestEndpointAuthState
+  - Added Type Alias WeekDay
+  - Interface AppResourceProperties has a new optional parameter secrets
+  - Interface AppResourceProperties has a new optional parameter testEndpointAuthState
+  - Interface AppResourceProperties has a new optional parameter workloadProfileName
+  - Interface BuildpackProperties has a new optional parameter version
+  - Interface ClusterResourceProperties has a new optional parameter infraResourceGroup
+  - Interface ClusterResourceProperties has a new optional parameter maintenanceScheduleConfiguration
+  - Interface ClusterResourceProperties has a new optional parameter managedEnvironmentId
+  - Interface ConfigServerProperties has a new optional parameter enabledState
+  - Interface ConfigurationServiceSettings has a new optional parameter refreshIntervalInSeconds
+  - Interface DeploymentSettings has a new optional parameter scale
+  - Interface DeploymentsListOptionalParams has a new optional parameter expand
+  - Interface GatewayProperties has a new optional parameter addonConfigs
+  - Interface GatewayProperties has a new optional parameter apmTypes
+  - Interface GatewayProperties has a new optional parameter responseCacheProperties
+  - Interface ServiceVNetAddons has a new optional parameter privateLinkState
+  - Interface SupportedBuildpackResourceProperties has a new optional parameter version
+  - Added Enum KnownApmType
+  - Added Enum KnownConfigServerEnabledState
+  - Added Enum KnownEurekaServerEnabledState
+  - Added Enum KnownEurekaServerState
+  - Added Enum KnownFrequency
+  - Added Enum KnownPrivateLinkState
+  - Added Enum KnownTestEndpointAuthState
+  - Added Enum KnownWeekDay
+  - Enum KnownBindingType has a new value CACertificates
+  - Enum KnownSupportedRuntimeValue has a new value Java21
+    
+    
 ## 3.0.0 (2024-01-10)
     
 **Features**

@@ -318,6 +318,9 @@ export interface ApmsListSecretKeysOptionalParams extends coreClient.OperationOp
 // @public
 export type ApmsListSecretKeysResponse = ApmSecretKeys;
 
+// @public
+export type ApmType = string;
+
 // @public (undocumented)
 export interface ApplicationAcceleratorComponent {
     readonly instances?: ApplicationAcceleratorInstance[];
@@ -562,6 +565,8 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     devToolPortals: DevToolPortals;
     // (undocumented)
+    eurekaServers: EurekaServers;
+    // (undocumented)
     gatewayCustomDomains: GatewayCustomDomains;
     // (undocumented)
     gatewayRouteConfigs: GatewayRouteConfigs;
@@ -621,9 +626,12 @@ export interface AppResourceProperties {
     persistentDisk?: PersistentDisk;
     readonly provisioningState?: AppResourceProvisioningState;
     public?: boolean;
+    secrets?: Secret[];
     temporaryDisk?: TemporaryDisk;
+    testEndpointAuthState?: TestEndpointAuthState;
     readonly url?: string;
     vnetAddons?: AppVNetAddons;
+    workloadProfileName?: string;
 }
 
 // @public
@@ -952,6 +960,7 @@ export interface BuildpackBindingResourceCollection {
 // @public
 export interface BuildpackProperties {
     id?: string;
+    readonly version?: string;
 }
 
 // @public
@@ -1425,6 +1434,9 @@ export interface CloudErrorBody {
 // @public
 export interface ClusterResourceProperties {
     readonly fqdn?: string;
+    infraResourceGroup?: string;
+    maintenanceScheduleConfiguration?: MaintenanceScheduleConfigurationUnion;
+    managedEnvironmentId?: string;
     marketplaceResource?: MarketplaceResource;
     networkProfile?: NetworkProfile;
     readonly powerState?: PowerState;
@@ -1435,6 +1447,9 @@ export interface ClusterResourceProperties {
     // (undocumented)
     zoneRedundant?: boolean;
 }
+
+// @public
+export type ConfigServerEnabledState = string;
 
 // @public
 export interface ConfigServerGitProperty {
@@ -1453,6 +1468,7 @@ export interface ConfigServerGitProperty {
 // @public
 export interface ConfigServerProperties {
     configServer?: ConfigServerSettings;
+    enabledState?: ConfigServerEnabledState;
     error?: ErrorModel;
     readonly provisioningState?: ConfigServerState;
 }
@@ -1627,6 +1643,7 @@ export interface ConfigurationServicesDeleteOptionalParams extends coreClient.Op
 // @public
 export interface ConfigurationServiceSettings {
     gitProperty?: ConfigurationServiceGitProperty;
+    refreshIntervalInSeconds?: number;
 }
 
 // @public
@@ -2050,6 +2067,15 @@ export interface CustomPersistentDiskResource {
 }
 
 // @public
+export interface CustomScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    type?: string;
+}
+
+// @public
 export interface DeploymentInstance {
     readonly discoveryStatus?: string;
     readonly name?: string;
@@ -2170,6 +2196,7 @@ export interface DeploymentSettings {
     livenessProbe?: Probe;
     readinessProbe?: Probe;
     resourceRequests?: ResourceRequests;
+    scale?: Scale;
     startupProbe?: Probe;
     terminationGracePeriodSeconds?: number;
 }
@@ -2232,6 +2259,7 @@ export type DeploymentsListNextResponse = DeploymentResourceCollection;
 
 // @public
 export interface DeploymentsListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
     version?: string[];
 }
 
@@ -2407,10 +2435,91 @@ export interface ErrorModel {
 }
 
 // @public
+export type EurekaServerEnabledState = string;
+
+// @public
+export interface EurekaServerProperties {
+    enabledState?: EurekaServerEnabledState;
+    error?: ErrorModel;
+    readonly provisioningState?: EurekaServerState;
+}
+
+// @public
+export interface EurekaServerResource extends ProxyResource {
+    properties?: EurekaServerProperties;
+}
+
+// @public
+export interface EurekaServerResourceCollection {
+    nextLink?: string;
+    value?: EurekaServerResource[];
+}
+
+// @public
+export interface EurekaServers {
+    beginUpdatePatch(resourceGroupName: string, serviceName: string, eurekaServerResource: EurekaServerResource, options?: EurekaServersUpdatePatchOptionalParams): Promise<SimplePollerLike<OperationState<EurekaServersUpdatePatchResponse>, EurekaServersUpdatePatchResponse>>;
+    beginUpdatePatchAndWait(resourceGroupName: string, serviceName: string, eurekaServerResource: EurekaServerResource, options?: EurekaServersUpdatePatchOptionalParams): Promise<EurekaServersUpdatePatchResponse>;
+    beginUpdatePut(resourceGroupName: string, serviceName: string, eurekaServerResource: EurekaServerResource, options?: EurekaServersUpdatePutOptionalParams): Promise<SimplePollerLike<OperationState<EurekaServersUpdatePutResponse>, EurekaServersUpdatePutResponse>>;
+    beginUpdatePutAndWait(resourceGroupName: string, serviceName: string, eurekaServerResource: EurekaServerResource, options?: EurekaServersUpdatePutOptionalParams): Promise<EurekaServersUpdatePutResponse>;
+    get(resourceGroupName: string, serviceName: string, options?: EurekaServersGetOptionalParams): Promise<EurekaServersGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: EurekaServersListOptionalParams): Promise<EurekaServersListResponse>;
+}
+
+// @public
+export interface EurekaServersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EurekaServersGetResponse = EurekaServerResource;
+
+// @public
+export interface EurekaServersListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EurekaServersListResponse = EurekaServerResourceCollection;
+
+// @public
+export type EurekaServerState = string;
+
+// @public
+export interface EurekaServersUpdatePatchHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface EurekaServersUpdatePatchOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EurekaServersUpdatePatchResponse = EurekaServerResource;
+
+// @public
+export interface EurekaServersUpdatePutHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface EurekaServersUpdatePutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EurekaServersUpdatePutResponse = EurekaServerResource;
+
+// @public
 export interface ExecAction extends ProbeAction {
     command?: string[];
     type: "ExecAction";
 }
+
+// @public
+export type Frequency = string;
 
 // @public
 export interface GatewayApiMetadataProperties {
@@ -2517,6 +2626,20 @@ export interface GatewayInstance {
 }
 
 // @public
+export interface GatewayLocalResponseCachePerInstanceProperties extends GatewayResponseCacheProperties {
+    responseCacheType: "LocalCachePerInstance";
+    size?: string;
+    timeToLive?: string;
+}
+
+// @public
+export interface GatewayLocalResponseCachePerRouteProperties extends GatewayResponseCacheProperties {
+    responseCacheType: "LocalCachePerRoute";
+    size?: string;
+    timeToLive?: string;
+}
+
+// @public
 export interface GatewayOperatorProperties {
     readonly instances?: GatewayInstance[];
     readonly resourceRequests?: GatewayOperatorResourceRequests;
@@ -2531,8 +2654,12 @@ export interface GatewayOperatorResourceRequests {
 
 // @public
 export interface GatewayProperties {
+    addonConfigs?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
     apiMetadataProperties?: GatewayApiMetadataProperties;
     apms?: ApmReference[];
+    apmTypes?: ApmType[];
     clientAuth?: GatewayPropertiesClientAuth;
     corsProperties?: GatewayCorsProperties;
     environmentVariables?: GatewayPropertiesEnvironmentVariables;
@@ -2542,6 +2669,7 @@ export interface GatewayProperties {
     readonly provisioningState?: GatewayProvisioningState;
     public?: boolean;
     resourceRequests?: GatewayResourceRequests;
+    responseCacheProperties?: GatewayResponseCachePropertiesUnion;
     ssoProperties?: SsoProperties;
     readonly url?: string;
 }
@@ -2582,6 +2710,14 @@ export interface GatewayResourceRequests {
     cpu?: string;
     memory?: string;
 }
+
+// @public
+export interface GatewayResponseCacheProperties {
+    responseCacheType: "LocalCachePerRoute" | "LocalCachePerInstance";
+}
+
+// @public (undocumented)
+export type GatewayResponseCachePropertiesUnion = GatewayResponseCacheProperties | GatewayLocalResponseCachePerRouteProperties | GatewayLocalResponseCachePerInstanceProperties;
 
 // @public
 export interface GatewayRouteConfigOpenApiProperties {
@@ -2668,6 +2804,8 @@ export interface Gateways {
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<void>;
     beginRestart(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysRestartOptionalParams): Promise<void>;
+    beginUpdateCapacity(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayCapacityResource: SkuObject, options?: GatewaysUpdateCapacityOptionalParams): Promise<SimplePollerLike<OperationState<GatewaysUpdateCapacityResponse>, GatewaysUpdateCapacityResponse>>;
+    beginUpdateCapacityAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayCapacityResource: SkuObject, options?: GatewaysUpdateCapacityOptionalParams): Promise<GatewaysUpdateCapacityResponse>;
     get(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysGetOptionalParams): Promise<GatewaysGetResponse>;
     list(resourceGroupName: string, serviceName: string, options?: GatewaysListOptionalParams): PagedAsyncIterableIterator<GatewayResource>;
     listEnvSecrets(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysListEnvSecretsOptionalParams): Promise<GatewaysListEnvSecretsResponse>;
@@ -2732,6 +2870,21 @@ export interface GatewaysRestartOptionalParams extends coreClient.OperationOptio
 }
 
 // @public
+export interface GatewaysUpdateCapacityHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface GatewaysUpdateCapacityOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GatewaysUpdateCapacityResponse = GatewayResource;
+
+// @public
 export interface GatewaysValidateDomainOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2769,6 +2922,14 @@ export interface HttpGetAction extends ProbeAction {
     path?: string;
     scheme?: HttpSchemeType;
     type: "HTTPGetAction";
+}
+
+// @public
+export interface HttpScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -2851,6 +3012,15 @@ export enum KnownApmProvisioningState {
 }
 
 // @public
+export enum KnownApmType {
+    AppDynamics = "AppDynamics",
+    ApplicationInsights = "ApplicationInsights",
+    Dynatrace = "Dynatrace",
+    ElasticAPM = "ElasticAPM",
+    NewRelic = "NewRelic"
+}
+
+// @public
 export enum KnownApplicationAcceleratorProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -2890,6 +3060,7 @@ export enum KnownBindingType {
     ApacheSkyWalking = "ApacheSkyWalking",
     AppDynamics = "AppDynamics",
     ApplicationInsights = "ApplicationInsights",
+    CACertificates = "CACertificates",
     Dynatrace = "Dynatrace",
     ElasticAPM = "ElasticAPM",
     NewRelic = "NewRelic"
@@ -2947,6 +3118,12 @@ export enum KnownCertificateResourceProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownConfigServerEnabledState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -3053,6 +3230,25 @@ export enum KnownDevToolPortalProvisioningState {
 }
 
 // @public
+export enum KnownEurekaServerEnabledState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEurekaServerState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownFrequency {
+    Weekly = "Weekly"
+}
+
+// @public
 export enum KnownGatewayCertificateVerification {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -3145,6 +3341,12 @@ export enum KnownPredefinedAcceleratorState {
 }
 
 // @public
+export enum KnownPrivateLinkState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownProbeActionType {
     ExecAction = "ExecAction",
     HttpGetAction = "HTTPGetAction",
@@ -3215,8 +3417,15 @@ export enum KnownSupportedRuntimePlatform {
 export enum KnownSupportedRuntimeValue {
     Java11 = "Java_11",
     Java17 = "Java_17",
+    Java21 = "Java_21",
     Java8 = "Java_8",
     NetCore31 = "NetCore_31"
+}
+
+// @public
+export enum KnownTestEndpointAuthState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -3247,6 +3456,17 @@ export enum KnownType {
 }
 
 // @public
+export enum KnownWeekDay {
+    Friday = "Friday",
+    Monday = "Monday",
+    Saturday = "Saturday",
+    Sunday = "Sunday",
+    Thursday = "Thursday",
+    Tuesday = "Tuesday",
+    Wednesday = "Wednesday"
+}
+
+// @public
 export type KPackBuildStageProvisioningState = string;
 
 // @public
@@ -3269,6 +3489,14 @@ export interface LogSpecification {
     displayName?: string;
     name?: string;
 }
+
+// @public
+export interface MaintenanceScheduleConfiguration {
+    frequency: "Weekly";
+}
+
+// @public (undocumented)
+export type MaintenanceScheduleConfigurationUnion = MaintenanceScheduleConfiguration | WeeklyMaintenanceScheduleConfiguration;
 
 // @public
 export interface ManagedIdentityProperties {
@@ -3540,6 +3768,9 @@ export type PredefinedAcceleratorsListResponse = PredefinedAcceleratorResourceCo
 export type PredefinedAcceleratorState = string;
 
 // @public
+export type PrivateLinkState = string;
+
+// @public
 export interface Probe {
     disableProbe: boolean;
     failureThreshold?: number;
@@ -3566,6 +3797,13 @@ export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface QueueScaleRule {
+    auth?: ScaleRuleAuth[];
+    queueLength?: number;
+    queueName?: string;
 }
 
 // @public
@@ -3680,6 +3918,34 @@ export interface RuntimeVersionsListRuntimeVersionsOptionalParams extends coreCl
 
 // @public
 export type RuntimeVersionsListRuntimeVersionsResponse = AvailableRuntimeVersions;
+
+// @public
+export interface Scale {
+    maxReplicas?: number;
+    minReplicas?: number;
+    rules?: ScaleRule[];
+}
+
+// @public
+export interface ScaleRule {
+    azureQueue?: QueueScaleRule;
+    custom?: CustomScaleRule;
+    http?: HttpScaleRule;
+    name?: string;
+    tcp?: TcpScaleRule;
+}
+
+// @public
+export interface ScaleRuleAuth {
+    secretRef?: string;
+    triggerParameter?: string;
+}
+
+// @public
+export interface Secret {
+    name?: string;
+    value?: string;
+}
 
 // @public
 export interface ServiceRegistries {
@@ -3991,6 +4257,7 @@ export type ServicesUpdateResponse = ServiceResource;
 export interface ServiceVNetAddons {
     dataPlanePublicEndpoint?: boolean;
     logStreamPublicEndpoint?: boolean;
+    privateLinkState?: PrivateLinkState;
 }
 
 // @public
@@ -4153,6 +4420,7 @@ export interface SupportedBuildpackResource extends ProxyResource {
 // @public
 export interface SupportedBuildpackResourceProperties {
     buildpackId?: string;
+    version?: string;
 }
 
 // @public
@@ -4215,6 +4483,14 @@ export interface SystemData {
 }
 
 // @public
+export interface TcpScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface TCPSocketAction extends ProbeAction {
     type: "TCPSocketAction";
 }
@@ -4224,6 +4500,9 @@ export interface TemporaryDisk {
     mountPath?: string;
     sizeInGB?: number;
 }
+
+// @public
+export type TestEndpointAuthState = string;
 
 // @public
 export interface TestKeys {
@@ -4300,6 +4579,17 @@ export interface WarUploadedUserSourceInfo extends UploadedUserSourceInfo {
     runtimeVersion?: string;
     serverVersion?: string;
     type: "War";
+}
+
+// @public
+export type WeekDay = string;
+
+// @public
+export interface WeeklyMaintenanceScheduleConfiguration extends MaintenanceScheduleConfiguration {
+    day: WeekDay;
+    readonly duration?: string;
+    frequency: "Weekly";
+    hour: number;
 }
 
 // (No @packageDocumentation comment for this package)
