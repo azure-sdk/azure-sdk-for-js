@@ -26,7 +26,7 @@ import {
   CreatorsDeleteOptionalParams,
   CreatorsGetOptionalParams,
   CreatorsGetResponse,
-  CreatorsListByAccountNextResponse
+  CreatorsListByAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,12 +51,12 @@ export class CreatorsImpl implements Creators {
   public listByAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: CreatorsListByAccountOptionalParams
+    options?: CreatorsListByAccountOptionalParams,
   ): PagedAsyncIterableIterator<Creator> {
     const iter = this.listByAccountPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +73,9 @@ export class CreatorsImpl implements Creators {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class CreatorsImpl implements Creators {
     resourceGroupName: string,
     accountName: string,
     options?: CreatorsListByAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Creator[]> {
     let result: CreatorsListByAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class CreatorsImpl implements Creators {
       result = await this._listByAccount(
         resourceGroupName,
         accountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +103,7 @@ export class CreatorsImpl implements Creators {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class CreatorsImpl implements Creators {
   private async *listByAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: CreatorsListByAccountOptionalParams
+    options?: CreatorsListByAccountOptionalParams,
   ): AsyncIterableIterator<Creator> {
     for await (const page of this.listByAccountPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +135,11 @@ export class CreatorsImpl implements Creators {
   private _listByAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: CreatorsListByAccountOptionalParams
+    options?: CreatorsListByAccountOptionalParams,
   ): Promise<CreatorsListByAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listByAccountOperationSpec
+      listByAccountOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class CreatorsImpl implements Creators {
     accountName: string,
     creatorName: string,
     creatorResource: Creator,
-    options?: CreatorsCreateOrUpdateOptionalParams
+    options?: CreatorsCreateOrUpdateOptionalParams,
   ): Promise<CreatorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, creatorName, creatorResource, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -179,7 +179,7 @@ export class CreatorsImpl implements Creators {
     accountName: string,
     creatorName: string,
     creatorUpdateParameters: CreatorUpdateParameters,
-    options?: CreatorsUpdateOptionalParams
+    options?: CreatorsUpdateOptionalParams,
   ): Promise<CreatorsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -187,9 +187,9 @@ export class CreatorsImpl implements Creators {
         accountName,
         creatorName,
         creatorUpdateParameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class CreatorsImpl implements Creators {
     resourceGroupName: string,
     accountName: string,
     creatorName: string,
-    options?: CreatorsDeleteOptionalParams
+    options?: CreatorsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, creatorName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -223,11 +223,11 @@ export class CreatorsImpl implements Creators {
     resourceGroupName: string,
     accountName: string,
     creatorName: string,
-    options?: CreatorsGetOptionalParams
+    options?: CreatorsGetOptionalParams,
   ): Promise<CreatorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, creatorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -242,11 +242,11 @@ export class CreatorsImpl implements Creators {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: CreatorsListByAccountNextOptionalParams
+    options?: CreatorsListByAccountNextOptionalParams,
   ): Promise<CreatorsListByAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listByAccountNextOperationSpec
+      listByAccountNextOperationSpec,
     );
   }
 }
@@ -254,41 +254,39 @@ export class CreatorsImpl implements Creators {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CreatorList
+      bodyMapper: Mappers.CreatorList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Creator
+      bodyMapper: Mappers.Creator,
     },
     201: {
-      bodyMapper: Mappers.Creator
+      bodyMapper: Mappers.Creator,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.creatorResource,
   queryParameters: [Parameters.apiVersion],
@@ -297,23 +295,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.creatorName
+    Parameters.creatorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Creator
+      bodyMapper: Mappers.Creator,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.creatorUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -322,22 +319,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.creatorName
+    Parameters.creatorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -345,22 +341,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.creatorName
+    Parameters.creatorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Creator
+      bodyMapper: Mappers.Creator,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -368,29 +363,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.creatorName
+    Parameters.creatorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CreatorList
+      bodyMapper: Mappers.CreatorList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
