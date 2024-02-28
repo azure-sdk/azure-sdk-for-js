@@ -551,16 +551,10 @@ export interface CrossSubscriptionRestoreSettings {
 
 /** The redundancy Settings of a Vault */
 export interface VaultPropertiesRedundancySettings {
-  /**
-   * The storage redundancy setting of a vault
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
-  /**
-   * Flag to show if Cross Region Restore is enabled on the Vault or not
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly crossRegionRestore?: CrossRegionRestore;
+  /** The storage redundancy setting of a vault */
+  standardTierStorageRedundancy?: StandardTierStorageRedundancy;
+  /** Flag to show if Cross Region Restore is enabled on the Vault or not */
+  crossRegionRestore?: CrossRegionRestore;
 }
 
 /** Security Settings of the vault */
@@ -586,6 +580,7 @@ export interface SoftDeleteSettings {
   softDeleteState?: SoftDeleteState;
   /** Soft delete retention period in days */
   softDeleteRetentionPeriodInDays?: number;
+  enhancedSecurityState?: EnhancedSecurityState;
 }
 
 /** Identifies the unique system identifier for each Azure resource. */
@@ -855,7 +850,7 @@ export enum KnownAuthType {
   /** AccessControlService */
   AccessControlService = "AccessControlService",
   /** AzureActiveDirectory */
-  AzureActiveDirectory = "AzureActiveDirectory"
+  AzureActiveDirectory = "AzureActiveDirectory",
 }
 
 /**
@@ -878,7 +873,7 @@ export enum KnownVaultSubResourceType {
   /** AzureBackupSecondary */
   AzureBackupSecondary = "AzureBackup_secondary",
   /** AzureSiteRecovery */
-  AzureSiteRecovery = "AzureSiteRecovery"
+  AzureSiteRecovery = "AzureSiteRecovery",
 }
 
 /**
@@ -901,7 +896,7 @@ export enum KnownResourceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -925,7 +920,7 @@ export enum KnownVaultUpgradeState {
   /** Upgraded */
   Upgraded = "Upgraded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -945,7 +940,7 @@ export enum KnownTriggerType {
   /** UserTriggered */
   UserTriggered = "UserTriggered",
   /** ForcedUpgrade */
-  ForcedUpgrade = "ForcedUpgrade"
+  ForcedUpgrade = "ForcedUpgrade",
 }
 
 /**
@@ -967,7 +962,7 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -991,7 +986,7 @@ export enum KnownPrivateEndpointConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1011,7 +1006,7 @@ export enum KnownVaultPrivateEndpointState {
   /** None */
   None = "None",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -1029,7 +1024,7 @@ export enum KnownInfrastructureEncryptionState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1063,7 +1058,7 @@ export enum KnownResourceMoveState {
   /** CriticalFailure */
   CriticalFailure = "CriticalFailure",
   /** PartialSuccess */
-  PartialSuccess = "PartialSuccess"
+  PartialSuccess = "PartialSuccess",
 }
 
 /**
@@ -1091,7 +1086,7 @@ export enum KnownBackupStorageVersion {
   /** V2 */
   V2 = "V2",
   /** Unassigned */
-  Unassigned = "Unassigned"
+  Unassigned = "Unassigned",
 }
 
 /**
@@ -1110,7 +1105,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1128,7 +1123,7 @@ export enum KnownAlertsState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1148,7 +1143,7 @@ export enum KnownCrossSubscriptionRestoreState {
   /** Disabled */
   Disabled = "Disabled",
   /** PermanentlyDisabled */
-  PermanentlyDisabled = "PermanentlyDisabled"
+  PermanentlyDisabled = "PermanentlyDisabled",
 }
 
 /**
@@ -1164,12 +1159,14 @@ export type CrossSubscriptionRestoreState = string;
 
 /** Known values of {@link StandardTierStorageRedundancy} that the service accepts. */
 export enum KnownStandardTierStorageRedundancy {
+  /** Invalid */
+  Invalid = "Invalid",
   /** LocallyRedundant */
   LocallyRedundant = "LocallyRedundant",
   /** GeoRedundant */
   GeoRedundant = "GeoRedundant",
   /** ZoneRedundant */
-  ZoneRedundant = "ZoneRedundant"
+  ZoneRedundant = "ZoneRedundant",
 }
 
 /**
@@ -1177,6 +1174,7 @@ export enum KnownStandardTierStorageRedundancy {
  * {@link KnownStandardTierStorageRedundancy} can be used interchangeably with StandardTierStorageRedundancy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Invalid** \
  * **LocallyRedundant** \
  * **GeoRedundant** \
  * **ZoneRedundant**
@@ -1188,7 +1186,7 @@ export enum KnownCrossRegionRestore {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1208,7 +1206,7 @@ export enum KnownImmutabilityState {
   /** Unlocked */
   Unlocked = "Unlocked",
   /** Locked */
-  Locked = "Locked"
+  Locked = "Locked",
 }
 
 /**
@@ -1231,7 +1229,7 @@ export enum KnownSoftDeleteState {
   /** Disabled */
   Disabled = "Disabled",
   /** AlwaysON */
-  AlwaysON = "AlwaysON"
+  AlwaysON = "AlwaysON",
 }
 
 /**
@@ -1246,6 +1244,30 @@ export enum KnownSoftDeleteState {
  */
 export type SoftDeleteState = string;
 
+/** Known values of {@link EnhancedSecurityState} that the service accepts. */
+export enum KnownEnhancedSecurityState {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** AlwaysON */
+  AlwaysON = "AlwaysON",
+}
+
+/**
+ * Defines values for EnhancedSecurityState. \
+ * {@link KnownEnhancedSecurityState} can be used interchangeably with EnhancedSecurityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Enabled** \
+ * **Disabled** \
+ * **AlwaysON**
+ */
+export type EnhancedSecurityState = string;
+
 /** Known values of {@link MultiUserAuthorization} that the service accepts. */
 export enum KnownMultiUserAuthorization {
   /** Invalid */
@@ -1253,7 +1275,7 @@ export enum KnownMultiUserAuthorization {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1276,7 +1298,7 @@ export enum KnownSecureScoreLevel {
   /** Adequate */
   Adequate = "Adequate",
   /** Maximum */
-  Maximum = "Maximum"
+  Maximum = "Maximum",
 }
 
 /**
@@ -1296,7 +1318,7 @@ export enum KnownSkuName {
   /** Standard */
   Standard = "Standard",
   /** RS0 */
-  RS0 = "RS0"
+  RS0 = "RS0",
 }
 
 /**
@@ -1318,7 +1340,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1346,7 +1368,7 @@ export enum KnownUsagesUnit {
   /** CountPerSecond */
   CountPerSecond = "CountPerSecond",
   /** BytesPerSecond */
-  BytesPerSecond = "BytesPerSecond"
+  BytesPerSecond = "BytesPerSecond",
 }
 
 /**
@@ -1407,7 +1429,8 @@ export interface RecoveryServicesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type RecoveryServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+export type RecoveryServicesCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface RecoveryServicesCapabilitiesOptionalParams
