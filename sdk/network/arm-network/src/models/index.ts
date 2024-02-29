@@ -5793,22 +5793,28 @@ export interface GroupByVariable {
 
 /** Allow to exclude some variable satisfy the condition for the WAF check. */
 export interface ManagedRulesDefinition {
+  /** The allowlists that are applied on the policy. */
+  allowlists?: AllowlistEntry[];
   /** The Exclusions that are applied on the policy. */
   exclusions?: OwaspCrsExclusionEntry[];
   /** The managed rule sets that are associated with the policy. */
   managedRuleSets: ManagedRuleSet[];
 }
 
-/** Allow to exclude some variable satisfy the condition for the WAF check. */
-export interface OwaspCrsExclusionEntry {
-  /** The variable to be excluded. */
-  matchVariable: OwaspCrsExclusionEntryMatchVariable;
-  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
-  selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
-  /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
-  selector: string;
-  /** The managed rule sets that are associated with the exclusion. */
-  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
+/** Allows a request when the condition is satisfied. */
+export interface AllowlistEntry {
+  /** The variable on which we evaluate the allowlist condition */
+  matchVariable: AllowlistEntryMatchVariable;
+  /** Allowed values for the matchVariable */
+  values?: string[];
+  /** Operates on the allowed values for the matchVariable */
+  valueMatchOperator: AllowlistEntryValueMatchOperator;
+  /** When matchVariable is a collection (e.g, headers), operate on the selector */
+  selectorMatchOperator?: AllowlistEntrySelectorMatchOperator;
+  /** When matchVariable is a collection (e.g, headers), this identifies the collection's key. */
+  selector?: string;
+  /** The managed rule sets that are associated with the allowlist. */
+  allowlistManagedRuleSets?: ExclusionManagedRuleSet[];
 }
 
 /** Defines a managed rule set for Exclusions. */
@@ -5833,6 +5839,18 @@ export interface ExclusionManagedRuleGroup {
 export interface ExclusionManagedRule {
   /** Identifier for the managed rule. */
   ruleId: string;
+}
+
+/** Allow to exclude some variable satisfy the condition for the WAF check. */
+export interface OwaspCrsExclusionEntry {
+  /** The variable to be excluded. */
+  matchVariable: OwaspCrsExclusionEntryMatchVariable;
+  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
+  selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
+  /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
+  selector: string;
+  /** The managed rule sets that are associated with the exclusion. */
+  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
 }
 
 /** Defines a managed rule set. */
@@ -16200,6 +16218,78 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
  * **Deleting**
  */
 export type WebApplicationFirewallPolicyResourceState = string;
+
+/** Known values of {@link AllowlistEntryMatchVariable} that the service accepts. */
+export enum KnownAllowlistEntryMatchVariable {
+  /** RequestURI */
+  RequestURI = "RequestURI",
+  /** RemoteAddr */
+  RemoteAddr = "RemoteAddr",
+  /** RequestHeader */
+  RequestHeader = "RequestHeader",
+}
+
+/**
+ * Defines values for AllowlistEntryMatchVariable. \
+ * {@link KnownAllowlistEntryMatchVariable} can be used interchangeably with AllowlistEntryMatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestURI** \
+ * **RemoteAddr** \
+ * **RequestHeader**
+ */
+export type AllowlistEntryMatchVariable = string;
+
+/** Known values of {@link AllowlistEntryValueMatchOperator} that the service accepts. */
+export enum KnownAllowlistEntryValueMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** Contains */
+  Contains = "Contains",
+  /** StartsWith */
+  StartsWith = "StartsWith",
+  /** EndsWith */
+  EndsWith = "EndsWith",
+  /** IPMatch */
+  IPMatch = "IPMatch",
+}
+
+/**
+ * Defines values for AllowlistEntryValueMatchOperator. \
+ * {@link KnownAllowlistEntryValueMatchOperator} can be used interchangeably with AllowlistEntryValueMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **Contains** \
+ * **StartsWith** \
+ * **EndsWith** \
+ * **IPMatch**
+ */
+export type AllowlistEntryValueMatchOperator = string;
+
+/** Known values of {@link AllowlistEntrySelectorMatchOperator} that the service accepts. */
+export enum KnownAllowlistEntrySelectorMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** Contains */
+  Contains = "Contains",
+  /** StartsWith */
+  StartsWith = "StartsWith",
+  /** EndsWith */
+  EndsWith = "EndsWith",
+}
+
+/**
+ * Defines values for AllowlistEntrySelectorMatchOperator. \
+ * {@link KnownAllowlistEntrySelectorMatchOperator} can be used interchangeably with AllowlistEntrySelectorMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **Contains** \
+ * **StartsWith** \
+ * **EndsWith**
+ */
+export type AllowlistEntrySelectorMatchOperator = string;
 
 /** Known values of {@link OwaspCrsExclusionEntryMatchVariable} that the service accepts. */
 export enum KnownOwaspCrsExclusionEntryMatchVariable {

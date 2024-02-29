@@ -16505,6 +16505,18 @@ export const ManagedRulesDefinition: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ManagedRulesDefinition",
     modelProperties: {
+      allowlists: {
+        serializedName: "allowlists",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AllowlistEntry",
+            },
+          },
+        },
+      },
       exclusions: {
         serializedName: "exclusions",
         type: {
@@ -16534,10 +16546,10 @@ export const ManagedRulesDefinition: coreClient.CompositeMapper = {
   },
 };
 
-export const OwaspCrsExclusionEntry: coreClient.CompositeMapper = {
+export const AllowlistEntry: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OwaspCrsExclusionEntry",
+    className: "AllowlistEntry",
     modelProperties: {
       matchVariable: {
         serializedName: "matchVariable",
@@ -16546,22 +16558,38 @@ export const OwaspCrsExclusionEntry: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      valueMatchOperator: {
+        serializedName: "valueMatchOperator",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
       selectorMatchOperator: {
         serializedName: "selectorMatchOperator",
-        required: true,
         type: {
           name: "String",
         },
       },
       selector: {
         serializedName: "selector",
-        required: true,
         type: {
           name: "String",
         },
       },
-      exclusionManagedRuleSets: {
-        serializedName: "exclusionManagedRuleSets",
+      allowlistManagedRuleSets: {
+        serializedName: "allowlistManagedRuleSets",
         type: {
           name: "Sequence",
           element: {
@@ -16649,6 +16677,48 @@ export const ExclusionManagedRule: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OwaspCrsExclusionEntry: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OwaspCrsExclusionEntry",
+    modelProperties: {
+      matchVariable: {
+        serializedName: "matchVariable",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      selectorMatchOperator: {
+        serializedName: "selectorMatchOperator",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      selector: {
+        serializedName: "selector",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      exclusionManagedRuleSets: {
+        serializedName: "exclusionManagedRuleSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExclusionManagedRuleSet",
+            },
+          },
         },
       },
     },

@@ -1,10 +1,18 @@
 # Release History
     
-## 33.1.0 (2024-02-02)
+## 33.1.0 (2024-02-29)
     
 **Features**
 
+  - Added Interface AllowlistEntry
+  - Added Type Alias AllowlistEntryMatchVariable
+  - Added Type Alias AllowlistEntrySelectorMatchOperator
+  - Added Type Alias AllowlistEntryValueMatchOperator
   - Interface BastionHost has a new optional parameter zones
+  - Interface ManagedRulesDefinition has a new optional parameter allowlists
+  - Added Enum KnownAllowlistEntryMatchVariable
+  - Added Enum KnownAllowlistEntrySelectorMatchOperator
+  - Added Enum KnownAllowlistEntryValueMatchOperator
   - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value NetworkSecurityGroupEnabled
   - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value RouteTableEnabled
     

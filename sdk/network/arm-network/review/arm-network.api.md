@@ -261,6 +261,25 @@ export type AdminRulesListResponse = AdminRuleListResult;
 export type AdminState = string;
 
 // @public
+export interface AllowlistEntry {
+    allowlistManagedRuleSets?: ExclusionManagedRuleSet[];
+    matchVariable: AllowlistEntryMatchVariable;
+    selector?: string;
+    selectorMatchOperator?: AllowlistEntrySelectorMatchOperator;
+    valueMatchOperator: AllowlistEntryValueMatchOperator;
+    values?: string[];
+}
+
+// @public
+export type AllowlistEntryMatchVariable = string;
+
+// @public
+export type AllowlistEntrySelectorMatchOperator = string;
+
+// @public
+export type AllowlistEntryValueMatchOperator = string;
+
+// @public
 export interface ApplicationGateway extends Resource {
     authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
     autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
@@ -6017,6 +6036,30 @@ export enum KnownAdminState {
 }
 
 // @public
+export enum KnownAllowlistEntryMatchVariable {
+    RemoteAddr = "RemoteAddr",
+    RequestHeader = "RequestHeader",
+    RequestURI = "RequestURI"
+}
+
+// @public
+export enum KnownAllowlistEntrySelectorMatchOperator {
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equals = "Equals",
+    StartsWith = "StartsWith"
+}
+
+// @public
+export enum KnownAllowlistEntryValueMatchOperator {
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equals = "Equals",
+    IPMatch = "IPMatch",
+    StartsWith = "StartsWith"
+}
+
+// @public
 export enum KnownApplicationGatewayBackendHealthServerHealth {
     Down = "Down",
     Draining = "Draining",
@@ -8225,6 +8268,7 @@ export interface ManagedRuleOverride {
 
 // @public
 export interface ManagedRulesDefinition {
+    allowlists?: AllowlistEntry[];
     exclusions?: OwaspCrsExclusionEntry[];
     managedRuleSets: ManagedRuleSet[];
 }
