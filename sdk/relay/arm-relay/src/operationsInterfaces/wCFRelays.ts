@@ -8,15 +8,10 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  WcfRelay,
-  WCFRelaysListByNamespaceOptionalParams,
   AuthorizationRule,
   WCFRelaysListAuthorizationRulesOptionalParams,
-  WCFRelaysCreateOrUpdateOptionalParams,
-  WCFRelaysCreateOrUpdateResponse,
-  WCFRelaysDeleteOptionalParams,
-  WCFRelaysGetOptionalParams,
-  WCFRelaysGetResponse,
+  WcfRelay,
+  WCFRelaysListByNamespaceOptionalParams,
   WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
   WCFRelaysCreateOrUpdateAuthorizationRuleResponse,
   WCFRelaysDeleteAuthorizationRuleOptionalParams,
@@ -26,23 +21,17 @@ import {
   WCFRelaysListKeysResponse,
   RegenerateAccessKeyParameters,
   WCFRelaysRegenerateKeysOptionalParams,
-  WCFRelaysRegenerateKeysResponse
+  WCFRelaysRegenerateKeysResponse,
+  WCFRelaysCreateOrUpdateOptionalParams,
+  WCFRelaysCreateOrUpdateResponse,
+  WCFRelaysDeleteOptionalParams,
+  WCFRelaysGetOptionalParams,
+  WCFRelaysGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WCFRelays. */
 export interface WCFRelays {
-  /**
-   * Lists the WCF relays within the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param options The options parameters.
-   */
-  listByNamespace(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: WCFRelaysListByNamespaceOptionalParams
-  ): PagedAsyncIterableIterator<WcfRelay>;
   /**
    * Authorization rules for a WCF relay.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -54,49 +43,19 @@ export interface WCFRelays {
     resourceGroupName: string,
     namespaceName: string,
     relayName: string,
-    options?: WCFRelaysListAuthorizationRulesOptionalParams
+    options?: WCFRelaysListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule>;
   /**
-   * Creates or updates a WCF relay. This operation is idempotent.
+   * Lists the WCF relays within the namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param relayName The relay name.
-   * @param parameters Parameters supplied to create a WCF relay.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    relayName: string,
-    parameters: WcfRelay,
-    options?: WCFRelaysCreateOrUpdateOptionalParams
-  ): Promise<WCFRelaysCreateOrUpdateResponse>;
-  /**
-   * Deletes a WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param relayName The relay name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    namespaceName: string,
-    relayName: string,
-    options?: WCFRelaysDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Returns the description for the specified WCF relay.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param relayName The relay name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    namespaceName: string,
-    relayName: string,
-    options?: WCFRelaysGetOptionalParams
-  ): Promise<WCFRelaysGetResponse>;
+    options?: WCFRelaysListByNamespaceOptionalParams,
+  ): PagedAsyncIterableIterator<WcfRelay>;
   /**
    * Creates or updates an authorization rule for a WCF relay.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -112,7 +71,7 @@ export interface WCFRelays {
     relayName: string,
     authorizationRuleName: string,
     parameters: AuthorizationRule,
-    options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<WCFRelaysCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a WCF relay authorization rule.
@@ -127,7 +86,7 @@ export interface WCFRelays {
     namespaceName: string,
     relayName: string,
     authorizationRuleName: string,
-    options?: WCFRelaysDeleteAuthorizationRuleOptionalParams
+    options?: WCFRelaysDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Get authorizationRule for a WCF relay by name.
@@ -142,7 +101,7 @@ export interface WCFRelays {
     namespaceName: string,
     relayName: string,
     authorizationRuleName: string,
-    options?: WCFRelaysGetAuthorizationRuleOptionalParams
+    options?: WCFRelaysGetAuthorizationRuleOptionalParams,
   ): Promise<WCFRelaysGetAuthorizationRuleResponse>;
   /**
    * Primary and secondary connection strings to the WCF relay.
@@ -157,7 +116,7 @@ export interface WCFRelays {
     namespaceName: string,
     relayName: string,
     authorizationRuleName: string,
-    options?: WCFRelaysListKeysOptionalParams
+    options?: WCFRelaysListKeysOptionalParams,
   ): Promise<WCFRelaysListKeysResponse>;
   /**
    * Regenerates the primary or secondary connection strings to the WCF relay.
@@ -174,6 +133,47 @@ export interface WCFRelays {
     relayName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: WCFRelaysRegenerateKeysOptionalParams
+    options?: WCFRelaysRegenerateKeysOptionalParams,
   ): Promise<WCFRelaysRegenerateKeysResponse>;
+  /**
+   * Creates or updates a WCF relay. This operation is idempotent.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param relayName The relay name.
+   * @param parameters Parameters supplied to create a WCF relay.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    relayName: string,
+    parameters: WcfRelay,
+    options?: WCFRelaysCreateOrUpdateOptionalParams,
+  ): Promise<WCFRelaysCreateOrUpdateResponse>;
+  /**
+   * Deletes a WCF relay.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param relayName The relay name.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    relayName: string,
+    options?: WCFRelaysDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Returns the description for the specified WCF relay.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param relayName The relay name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    relayName: string,
+    options?: WCFRelaysGetOptionalParams,
+  ): Promise<WCFRelaysGetResponse>;
 }
