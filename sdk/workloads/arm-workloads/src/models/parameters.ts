@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SAPSizingRecommendationRequest as SAPSizingRecommendationRequestMapper,
@@ -28,7 +28,7 @@ import {
   Monitor as MonitorMapper,
   UpdateMonitorRequest as UpdateMonitorRequestMapper,
   ProviderInstance as ProviderInstanceMapper,
-  SapLandscapeMonitor as SapLandscapeMonitorMapper
+  SapLandscapeMonitor as SapLandscapeMonitorMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -38,14 +38,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sAPSizingRecommendation: OperationParameter = {
   parameterPath: ["options", "sAPSizingRecommendation"],
-  mapper: SAPSizingRecommendationRequestMapper
+  mapper: SAPSizingRecommendationRequestMapper,
 };
 
 export const accept: OperationParameter = {
@@ -55,9 +55,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -66,38 +66,38 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -107,29 +107,29 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sAPSupportedSku: OperationParameter = {
   parameterPath: ["options", "sAPSupportedSku"],
-  mapper: SAPSupportedSkusRequestMapper
+  mapper: SAPSupportedSkusRequestMapper,
 };
 
 export const sAPDiskConfigurations: OperationParameter = {
   parameterPath: ["options", "sAPDiskConfigurations"],
-  mapper: SAPDiskConfigurationsRequestMapper
+  mapper: SAPDiskConfigurationsRequestMapper,
 };
 
 export const sAPAvailabilityZoneDetails: OperationParameter = {
   parameterPath: ["options", "sAPAvailabilityZoneDetails"],
-  mapper: SAPAvailabilityZoneDetailsRequestMapper
+  mapper: SAPAvailabilityZoneDetailsRequestMapper,
 };
 
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: SAPVirtualInstanceMapper
+  mapper: SAPVirtualInstanceMapper,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -137,14 +137,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sapVirtualInstanceName: OperationURLParameter = {
@@ -153,19 +153,19 @@ export const sapVirtualInstanceName: OperationURLParameter = {
     serializedName: "sapVirtualInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: UpdateSAPVirtualInstanceRequestMapper
+  mapper: UpdateSAPVirtualInstanceRequestMapper,
 };
 
 export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: StopRequestMapper
+  mapper: StopRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -174,10 +174,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const centralInstanceName: OperationURLParameter = {
@@ -186,19 +186,19 @@ export const centralInstanceName: OperationURLParameter = {
     serializedName: "centralInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body3: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: SAPCentralServerInstanceMapper
+  mapper: SAPCentralServerInstanceMapper,
 };
 
 export const body4: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: UpdateSAPCentralInstanceRequestMapper
+  mapper: UpdateSAPCentralInstanceRequestMapper,
 };
 
 export const databaseInstanceName: OperationURLParameter = {
@@ -207,19 +207,19 @@ export const databaseInstanceName: OperationURLParameter = {
     serializedName: "databaseInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: SAPDatabaseInstanceMapper
+  mapper: SAPDatabaseInstanceMapper,
 };
 
 export const body6: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: UpdateSAPDatabaseInstanceRequestMapper
+  mapper: UpdateSAPDatabaseInstanceRequestMapper,
 };
 
 export const applicationInstanceName: OperationURLParameter = {
@@ -228,19 +228,19 @@ export const applicationInstanceName: OperationURLParameter = {
     serializedName: "applicationInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body7: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: SAPApplicationServerInstanceMapper
+  mapper: SAPApplicationServerInstanceMapper,
 };
 
 export const body8: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: UpdateSAPApplicationInstanceRequestMapper
+  mapper: UpdateSAPApplicationInstanceRequestMapper,
 };
 
 export const monitorName: OperationURLParameter = {
@@ -249,19 +249,19 @@ export const monitorName: OperationURLParameter = {
     serializedName: "monitorName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const monitorParameter: OperationParameter = {
   parameterPath: "monitorParameter",
-  mapper: MonitorMapper
+  mapper: MonitorMapper,
 };
 
 export const body9: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdateMonitorRequestMapper
+  mapper: UpdateMonitorRequestMapper,
 };
 
 export const providerInstanceName: OperationURLParameter = {
@@ -270,17 +270,17 @@ export const providerInstanceName: OperationURLParameter = {
     serializedName: "providerInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const providerInstanceParameter: OperationParameter = {
   parameterPath: "providerInstanceParameter",
-  mapper: ProviderInstanceMapper
+  mapper: ProviderInstanceMapper,
 };
 
 export const sapLandscapeMonitorParameter: OperationParameter = {
   parameterPath: "sapLandscapeMonitorParameter",
-  mapper: SapLandscapeMonitorMapper
+  mapper: SapLandscapeMonitorMapper,
 };
