@@ -7,22 +7,21 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByServiceOptionalParams,
-  PrivateEndpointConnectionsUpdateOptionalParams,
-  PrivateEndpointConnectionsUpdateResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse,
+  NetworkSecurityPerimeterConfiguration,
+  NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetResponse,
+  NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  NetworkSecurityPerimeterConfigurationsReconcileResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a PrivateEndpointConnections. */
-export interface PrivateEndpointConnections {
+/** Interface representing a NetworkSecurityPerimeterConfigurations. */
+export interface NetworkSecurityPerimeterConfigurations {
   /**
-   * Gets a list of all private endpoint connections in the given service.
+   * Gets a list of network security perimeter configurations for a search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
@@ -32,57 +31,60 @@ export interface PrivateEndpointConnections {
   listByService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
   /**
-   * Updates a private endpoint connection to the search service in the given resource group.
+   * Gets a network security perimeter configuration.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
-   * @param privateEndpointConnection The definition of the private endpoint connection to update.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    searchServiceName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateOptionalParams,
-  ): Promise<PrivateEndpointConnectionsUpdateResponse>;
-  /**
-   * Gets the details of the private endpoint connection to the search service in the given resource
-   * group.
-   * @param resourceGroupName The name of the resource group within the current subscription. You can
-   *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
+   * @param nspConfigName The network security configuration name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     searchServiceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
-  ): Promise<PrivateEndpointConnectionsGetResponse>;
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
   /**
-   * Disconnects the private endpoint connection and deletes it from the search service.
+   * Reconcile network security perimeter configuration for the Azure AI Search resource provider. This
+   * triggers a manual resync with network security perimeter configurations by ensuring the search
+   * service carries the latest configuration.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
+   * @param nspConfigName The network security configuration name.
    * @param options The options parameters.
    */
-  delete(
+  beginReconcile(
     resourceGroupName: string,
     searchServiceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ): Promise<PrivateEndpointConnectionsDeleteResponse>;
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>,
+      NetworkSecurityPerimeterConfigurationsReconcileResponse
+    >
+  >;
+  /**
+   * Reconcile network security perimeter configuration for the Azure AI Search resource provider. This
+   * triggers a manual resync with network security perimeter configurations by ensuring the search
+   * service carries the latest configuration.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param nspConfigName The network security configuration name.
+   * @param options The options parameters.
+   */
+  beginReconcileAndWait(
+    resourceGroupName: string,
+    searchServiceName: string,
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
 }

@@ -8,34 +8,38 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SearchManagementClient } from "../searchManagementClient";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByServiceNextOptionalParams,
-  PrivateEndpointConnectionsListByServiceOptionalParams,
-  PrivateEndpointConnectionsListByServiceResponse,
-  PrivateEndpointConnectionsUpdateOptionalParams,
-  PrivateEndpointConnectionsUpdateResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse,
-  PrivateEndpointConnectionsListByServiceNextResponse,
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
+  NetworkSecurityPerimeterConfiguration,
+  NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams,
+  NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
+  NetworkSecurityPerimeterConfigurationsListByServiceResponse,
+  NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetResponse,
+  NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  NetworkSecurityPerimeterConfigurationsReconcileResponse,
+  NetworkSecurityPerimeterConfigurationsListByServiceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
+/** Class containing NetworkSecurityPerimeterConfigurations operations. */
+export class NetworkSecurityPerimeterConfigurationsImpl
+  implements NetworkSecurityPerimeterConfigurations
 {
   private readonly client: SearchManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnections class.
+   * Initialize a new instance of the class NetworkSecurityPerimeterConfigurations class.
    * @param client Reference to the service client
    */
   constructor(client: SearchManagementClient) {
@@ -43,7 +47,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets a list of all private endpoint connections in the given service.
+   * Gets a list of network security perimeter configurations for a search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
@@ -53,8 +57,8 @@ export class PrivateEndpointConnectionsImpl
   public listByService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       searchServiceName,
@@ -84,10 +88,10 @@ export class PrivateEndpointConnectionsImpl
   private async *listByServicePagingPage(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
+    options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionsListByServiceResponse;
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration[]> {
+    let result: NetworkSecurityPerimeterConfigurationsListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByService(
@@ -117,8 +121,8 @@ export class PrivateEndpointConnectionsImpl
   private async *listByServicePagingAll(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       searchServiceName,
@@ -129,92 +133,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Updates a private endpoint connection to the search service in the given resource group.
-   * @param resourceGroupName The name of the resource group within the current subscription. You can
-   *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
-   * @param privateEndpointConnection The definition of the private endpoint connection to update.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    searchServiceName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateOptionalParams,
-  ): Promise<PrivateEndpointConnectionsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        searchServiceName,
-        privateEndpointConnectionName,
-        privateEndpointConnection,
-        options,
-      },
-      updateOperationSpec,
-    );
-  }
-
-  /**
-   * Gets the details of the private endpoint connection to the search service in the given resource
-   * group.
-   * @param resourceGroupName The name of the resource group within the current subscription. You can
-   *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    searchServiceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        searchServiceName,
-        privateEndpointConnectionName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Disconnects the private endpoint connection and deletes it from the search service.
-   * @param resourceGroupName The name of the resource group within the current subscription. You can
-   *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    searchServiceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ): Promise<PrivateEndpointConnectionsDeleteResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        searchServiceName,
-        privateEndpointConnectionName,
-        options,
-      },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Gets a list of all private endpoint connections in the given service.
+   * Gets a list of network security perimeter configurations for a search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
@@ -224,12 +143,136 @@ export class PrivateEndpointConnectionsImpl
   private _listByService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
-  ): Promise<PrivateEndpointConnectionsListByServiceResponse> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, options },
       listByServiceOperationSpec,
     );
+  }
+
+  /**
+   * Gets a network security perimeter configuration.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param nspConfigName The network security configuration name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, searchServiceName, nspConfigName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Reconcile network security perimeter configuration for the Azure AI Search resource provider. This
+   * triggers a manual resync with network security perimeter configurations by ensuring the search
+   * service carries the latest configuration.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param nspConfigName The network security configuration name.
+   * @param options The options parameters.
+   */
+  async beginReconcile(
+    resourceGroupName: string,
+    searchServiceName: string,
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>,
+      NetworkSecurityPerimeterConfigurationsReconcileResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, searchServiceName, nspConfigName, options },
+      spec: reconcileOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NetworkSecurityPerimeterConfigurationsReconcileResponse,
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reconcile network security perimeter configuration for the Azure AI Search resource provider. This
+   * triggers a manual resync with network security perimeter configurations by ensuring the search
+   * service carries the latest configuration.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param nspConfigName The network security configuration name.
+   * @param options The options parameters.
+   */
+  async beginReconcileAndWait(
+    resourceGroupName: string,
+    searchServiceName: string,
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse> {
+    const poller = await this.beginReconcile(
+      resourceGroupName,
+      searchServiceName,
+      nspConfigName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -245,8 +288,8 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     searchServiceName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListByServiceNextOptionalParams,
-  ): Promise<PrivateEndpointConnectionsListByServiceNextResponse> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, nextLink, options },
       listByServiceNextOperationSpec,
@@ -256,40 +299,33 @@ export class PrivateEndpointConnectionsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "PUT",
+const listByServiceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.privateEndpointConnection,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType,
-  ],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations/{nspConfigName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -301,19 +337,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName,
+    Parameters.nspConfigName,
   ],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  headerParameters: [Parameters.accept],
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "DELETE",
+const reconcileOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations/{nspConfigName}/reconcile",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
     },
-    404: {},
+    201: {
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -324,30 +372,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName,
+    Parameters.nspConfigName,
   ],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer,
-};
-const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.searchServiceName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
@@ -355,7 +382,7 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -368,6 +395,6 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  headerParameters: [Parameters.accept],
   serializer,
 };
