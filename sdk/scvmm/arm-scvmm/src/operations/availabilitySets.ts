@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AvailabilitySet,
   AvailabilitySetsListByResourceGroupNextOptionalParams,
@@ -28,11 +32,12 @@ import {
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsCreateOrUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
+  AvailabilitySetsDeleteResponse,
   ResourcePatch,
   AvailabilitySetsUpdateOptionalParams,
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsListByResourceGroupNextResponse,
-  AvailabilitySetsListBySubscriptionNextResponse
+  AvailabilitySetsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,12 +55,12 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * List of AvailabilitySets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AvailabilitySetsListByResourceGroupOptionalParams
+    options?: AvailabilitySetsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -72,16 +77,16 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AvailabilitySetsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailabilitySet[]> {
     let result: AvailabilitySetsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +101,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,11 +112,11 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AvailabilitySetsListByResourceGroupOptionalParams
+    options?: AvailabilitySetsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AvailabilitySet> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,7 +127,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
+    options?: AvailabilitySetsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -137,13 +142,13 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AvailabilitySetsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailabilitySet[]> {
     let result: AvailabilitySetsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -164,7 +169,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
+    options?: AvailabilitySetsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AvailabilitySet> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -173,56 +178,55 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Implements AvailabilitySet GET method.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsGetOptionalParams
+    availabilitySetResourceName: string,
+    options?: AvailabilitySetsGetOptionalParams,
   ): Promise<AvailabilitySetsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, availabilitySetName, options },
-      getOperationSpec
+      { resourceGroupName, availabilitySetResourceName, options },
+      getOperationSpec,
     );
   }
 
   /**
    * Onboards the ScVmm availability set as an Azure resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: AvailabilitySet,
-    options?: AvailabilitySetsCreateOrUpdateOptionalParams
+    options?: AvailabilitySetsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsCreateOrUpdateResponse>,
       AvailabilitySetsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AvailabilitySetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -231,8 +235,8 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -240,20 +244,23 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetResourceName, body, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsCreateOrUpdateResponse,
+      OperationState<AvailabilitySetsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,54 +268,58 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Onboards the ScVmm availability set as an Azure resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: AvailabilitySet,
-    options?: AvailabilitySetsCreateOrUpdateOptionalParams
+    options?: AvailabilitySetsCreateOrUpdateOptionalParams,
   ): Promise<AvailabilitySetsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      availabilitySetName,
+      availabilitySetResourceName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Deregisters the ScVmm availability set from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    availabilitySetResourceName: string,
+    options?: AvailabilitySetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AvailabilitySetsDeleteResponse>,
+      AvailabilitySetsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<AvailabilitySetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -317,8 +328,8 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -326,19 +337,22 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetResourceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsDeleteResponse,
+      OperationState<AvailabilitySetsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -346,58 +360,57 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Deregisters the ScVmm availability set from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
-    options?: AvailabilitySetsDeleteOptionalParams
-  ): Promise<void> {
+    availabilitySetResourceName: string,
+    options?: AvailabilitySetsDeleteOptionalParams,
+  ): Promise<AvailabilitySetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      availabilitySetName,
-      options
+      availabilitySetResourceName,
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Updates the AvailabilitySets resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body AvailabilitySets patch payload.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: ResourcePatch,
-    options?: AvailabilitySetsUpdateOptionalParams
+    options?: AvailabilitySetsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsUpdateResponse>,
       AvailabilitySetsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AvailabilitySetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -406,8 +419,8 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -415,20 +428,23 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetResourceName, body, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsUpdateResponse,
+      OperationState<AvailabilitySetsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -436,38 +452,38 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Updates the AvailabilitySets resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body AvailabilitySets patch payload.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: ResourcePatch,
-    options?: AvailabilitySetsUpdateOptionalParams
+    options?: AvailabilitySetsUpdateOptionalParams,
   ): Promise<AvailabilitySetsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      availabilitySetName,
+      availabilitySetResourceName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * List of AvailabilitySets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AvailabilitySetsListByResourceGroupOptionalParams
+    options?: AvailabilitySetsListByResourceGroupOptionalParams,
   ): Promise<AvailabilitySetsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -476,28 +492,28 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
+    options?: AvailabilitySetsListBySubscriptionOptionalParams,
   ): Promise<AvailabilitySetsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AvailabilitySetsListByResourceGroupNextOptionalParams
+    options?: AvailabilitySetsListByResourceGroupNextOptionalParams,
   ): Promise<AvailabilitySetsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -508,11 +524,11 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AvailabilitySetsListBySubscriptionNextOptionalParams
+    options?: AvailabilitySetsListBySubscriptionNextOptionalParams,
   ): Promise<AvailabilitySetsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -520,103 +536,107 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.availabilitySetName
+    Parameters.availabilitySetResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     201: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     202: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     204: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.availabilitySetName
+    Parameters.availabilitySetResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AvailabilitySetsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AvailabilitySetsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AvailabilitySetsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AvailabilitySetsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.availabilitySetName
+    Parameters.availabilitySetResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     201: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     202: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     204: {
-      bodyMapper: Mappers.AvailabilitySet
+      bodyMapper: Mappers.AvailabilitySet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -624,86 +644,84 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.availabilitySetName
+    Parameters.availabilitySetResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilitySetListResult
+      bodyMapper: Mappers.AvailabilitySetListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/availabilitySets",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/availabilitySets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilitySetListResult
+      bodyMapper: Mappers.AvailabilitySetListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilitySetListResult
+      bodyMapper: Mappers.AvailabilitySetListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilitySetListResult
+      bodyMapper: Mappers.AvailabilitySetListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
