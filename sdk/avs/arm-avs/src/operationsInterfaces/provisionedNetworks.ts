@@ -8,41 +8,37 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ScriptCmdlet,
-  ScriptCmdletsListOptionalParams,
-  ScriptCmdletsGetOptionalParams,
-  ScriptCmdletsGetResponse,
+  ProvisionedNetwork,
+  ProvisionedNetworksListByPrivateCloudOptionalParams,
+  ProvisionedNetworksGetOptionalParams,
+  ProvisionedNetworksGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ScriptCmdlets. */
-export interface ScriptCmdlets {
+/** Interface representing a ProvisionedNetworks. */
+export interface ProvisionedNetworks {
   /**
-   * List ScriptCmdlet resources by ScriptPackage
+   * List ProvisionedNetwork resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package.
    * @param options The options parameters.
    */
-  list(
+  listByPrivateCloud(
     resourceGroupName: string,
     privateCloudName: string,
-    scriptPackageName: string,
-    options?: ScriptCmdletsListOptionalParams,
-  ): PagedAsyncIterableIterator<ScriptCmdlet>;
+    options?: ProvisionedNetworksListByPrivateCloudOptionalParams,
+  ): PagedAsyncIterableIterator<ProvisionedNetwork>;
   /**
-   * Get a ScriptCmdlet
+   * Get a ProvisionedNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptPackageName Name of the script package.
-   * @param scriptCmdletName Name of the script cmdlet.
+   * @param provisionedNetworkName Name of the cloud link.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    scriptPackageName: string,
-    scriptCmdletName: string,
-    options?: ScriptCmdletsGetOptionalParams,
-  ): Promise<ScriptCmdletsGetResponse>;
+    provisionedNetworkName: string,
+    options?: ProvisionedNetworksGetOptionalParams,
+  ): Promise<ProvisionedNetworksGetResponse>;
 }
