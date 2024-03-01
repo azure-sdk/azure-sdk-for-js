@@ -84,7 +84,7 @@ export interface FleetCredentialResults {
 
 // @public
 export interface FleetListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Fleet[];
 }
 
@@ -98,7 +98,7 @@ export interface FleetMember extends ProxyResource {
 
 // @public
 export interface FleetMemberListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: FleetMember[];
 }
 
@@ -369,7 +369,7 @@ export interface FleetUpdateStrategy extends ProxyResource {
 
 // @public
 export interface FleetUpdateStrategyListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: FleetUpdateStrategy[];
 }
 
@@ -618,7 +618,7 @@ export interface UpdateRun extends ProxyResource {
 
 // @public
 export interface UpdateRunListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: UpdateRun[];
 }
 
