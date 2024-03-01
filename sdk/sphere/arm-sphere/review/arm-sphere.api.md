@@ -60,7 +60,7 @@ export interface Catalog extends TrackedResource {
 
 // @public
 export interface CatalogListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Catalog[];
 }
 
@@ -253,7 +253,7 @@ export interface CertificateChainResponse {
 
 // @public
 export interface CertificateListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Certificate[];
 }
 
@@ -328,6 +328,10 @@ export interface CountDeviceResponse extends CountElementsResponse {
 }
 
 // @public
+export interface CountDevicesResponse extends CountElementsResponse {
+}
+
+// @public
 export interface CountElementsResponse {
     value: number;
 }
@@ -345,7 +349,7 @@ export interface Deployment extends ProxyResource {
 
 // @public
 export interface DeploymentListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Deployment[];
 }
 
@@ -434,7 +438,7 @@ export interface DeviceGroup extends ProxyResource {
 
 // @public
 export interface DeviceGroupListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: DeviceGroup[];
 }
 
@@ -563,7 +567,7 @@ export interface DeviceInsight {
 
 // @public
 export interface DeviceListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Device[];
 }
 
@@ -710,7 +714,7 @@ export { Image_2 as Image }
 
 // @public
 export interface ImageListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Image_2[];
 }
 
@@ -777,12 +781,6 @@ export type ImagesListByCatalogResponse = ImageListResult;
 
 // @public
 export type ImageType = string;
-
-// @public
-export interface ImageUploadRequestBody {
-    // (undocumented)
-    images: string;
-}
 
 // @public
 export enum KnownActionType {
@@ -882,6 +880,12 @@ export enum KnownUpdatePolicy {
 }
 
 // @public
+export enum KnownVersions {
+    V20220901 = "2022-09-01-preview",
+    V20240401 = "2024-04-01"
+}
+
+// @public
 export interface ListDeviceGroupsRequest {
     deviceGroupName?: string;
 }
@@ -936,7 +940,7 @@ export type OSFeedType = string;
 
 // @public
 export interface PagedDeviceInsight {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: DeviceInsight[];
 }
 
@@ -948,7 +952,7 @@ export interface Product extends ProxyResource {
 
 // @public
 export interface ProductListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Product[];
 }
 
@@ -1106,6 +1110,9 @@ export interface TrackedResource extends Resource {
 
 // @public
 export type UpdatePolicy = string;
+
+// @public
+export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 
