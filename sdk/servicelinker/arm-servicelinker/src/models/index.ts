@@ -448,7 +448,7 @@ export enum KnownTargetServiceType {
   /** ConfluentBootstrapServer */
   ConfluentBootstrapServer = "ConfluentBootstrapServer",
   /** ConfluentSchemaRegistry */
-  ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+  ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
 }
 
 /**
@@ -473,7 +473,7 @@ export enum KnownAuthType {
   /** ServicePrincipalCertificate */
   ServicePrincipalCertificate = "servicePrincipalCertificate",
   /** Secret */
-  Secret = "secret"
+  Secret = "secret",
 }
 
 /**
@@ -510,7 +510,9 @@ export enum KnownClientType {
   /** Nodejs */
   Nodejs = "nodejs",
   /** SpringBoot */
-  SpringBoot = "springBoot"
+  SpringBoot = "springBoot",
+  /** KafkaSpringBoot */
+  KafkaSpringBoot = "kafka-springBoot",
 }
 
 /**
@@ -527,7 +529,8 @@ export enum KnownClientType {
  * **ruby** \
  * **django** \
  * **nodejs** \
- * **springBoot**
+ * **springBoot** \
+ * **kafka-springBoot**
  */
 export type ClientType = string;
 
@@ -536,7 +539,7 @@ export enum KnownVNetSolutionType {
   /** ServiceEndpoint */
   ServiceEndpoint = "serviceEndpoint",
   /** PrivateLink */
-  PrivateLink = "privateLink"
+  PrivateLink = "privateLink",
 }
 
 /**
@@ -558,7 +561,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -580,7 +583,7 @@ export enum KnownValidationResultStatus {
   /** Failure */
   Failure = "failure",
   /** Warning */
-  Warning = "warning"
+  Warning = "warning",
 }
 
 /**
@@ -601,7 +604,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -618,7 +621,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -633,7 +636,7 @@ export type ActionType = string;
 /** Known values of {@link AzureResourceType} that the service accepts. */
 export enum KnownAzureResourceType {
   /** KeyVault */
-  KeyVault = "KeyVault"
+  KeyVault = "KeyVault",
 }
 
 /**
@@ -652,7 +655,7 @@ export enum KnownSecretType {
   /** KeyVaultSecretUri */
   KeyVaultSecretUri = "keyVaultSecretUri",
   /** KeyVaultSecretReference */
-  KeyVaultSecretReference = "keyVaultSecretReference"
+  KeyVaultSecretReference = "keyVaultSecretReference",
 }
 
 /**
