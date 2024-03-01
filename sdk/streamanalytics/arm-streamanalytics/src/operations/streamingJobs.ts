@@ -718,8 +718,8 @@ const createOrReplaceOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
   ],
@@ -747,8 +747,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
   ],
   mediaType: "json",
@@ -854,7 +854,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -900,7 +900,7 @@ const scaleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -917,9 +917,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -937,8 +937,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,

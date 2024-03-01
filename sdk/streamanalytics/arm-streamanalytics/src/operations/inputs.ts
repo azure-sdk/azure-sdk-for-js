@@ -374,8 +374,8 @@ const createOrReplaceOperationSpec: coreClient.OperationSpec = {
     Parameters.inputName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
   ],
@@ -404,8 +404,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.inputName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
   ],
   mediaType: "json",
@@ -505,7 +505,7 @@ const testOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName,
     Parameters.inputName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -522,10 +522,10 @@ const listByStreamingJobNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
