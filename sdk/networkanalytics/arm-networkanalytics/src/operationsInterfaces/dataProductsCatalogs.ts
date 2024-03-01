@@ -12,7 +12,7 @@ import {
   DataProductsCatalogsListBySubscriptionOptionalParams,
   DataProductsCatalogsListByResourceGroupOptionalParams,
   DataProductsCatalogsGetOptionalParams,
-  DataProductsCatalogsGetResponse
+  DataProductsCatalogsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,7 +23,7 @@ export interface DataProductsCatalogs {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DataProductsCatalogsListBySubscriptionOptionalParams
+    options?: DataProductsCatalogsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DataProductsCatalog>;
   /**
    * List data catalog by resource group.
@@ -32,7 +32,7 @@ export interface DataProductsCatalogs {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DataProductsCatalogsListByResourceGroupOptionalParams
+    options?: DataProductsCatalogsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataProductsCatalog>;
   /**
    * Retrieve data type resource.
@@ -41,6 +41,6 @@ export interface DataProductsCatalogs {
    */
   get(
     resourceGroupName: string,
-    options?: DataProductsCatalogsGetOptionalParams
+    options?: DataProductsCatalogsGetOptionalParams,
   ): Promise<DataProductsCatalogsGetResponse>;
 }
