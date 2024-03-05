@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,13 +30,14 @@ import {
   ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse,
   ServerAzureADOnlyAuthenticationsDeleteOptionalParams,
-  ServerAzureADOnlyAuthenticationsListByServerNextResponse
+  ServerAzureADOnlyAuthenticationsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerAzureADOnlyAuthentications operations. */
 export class ServerAzureADOnlyAuthenticationsImpl
-  implements ServerAzureADOnlyAuthentications {
+  implements ServerAzureADOnlyAuthentications
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -57,12 +58,12 @@ export class ServerAzureADOnlyAuthenticationsImpl
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams
+    options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerAzureADOnlyAuthentication> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +80,9 @@ export class ServerAzureADOnlyAuthenticationsImpl
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +90,7 @@ export class ServerAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     serverName: string,
     options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerAzureADOnlyAuthentication[]> {
     let result: ServerAzureADOnlyAuthenticationsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +106,7 @@ export class ServerAzureADOnlyAuthenticationsImpl
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,15 +118,33 @@ export class ServerAzureADOnlyAuthenticationsImpl
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams
+    options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerAzureADOnlyAuthentication> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets a list of server Azure Active Directory only authentications.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param options The options parameters.
+   */
+  private _listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams,
+  ): Promise<ServerAzureADOnlyAuthenticationsListByServerResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, options },
+      listByServerOperationSpec,
+    );
   }
 
   /**
@@ -140,11 +159,11 @@ export class ServerAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     serverName: string,
     authenticationName: AuthenticationName,
-    options?: ServerAzureADOnlyAuthenticationsGetOptionalParams
+    options?: ServerAzureADOnlyAuthenticationsGetOptionalParams,
   ): Promise<ServerAzureADOnlyAuthenticationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, authenticationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -164,7 +183,7 @@ export class ServerAzureADOnlyAuthenticationsImpl
     serverName: string,
     authenticationName: AuthenticationName,
     parameters: ServerAzureADOnlyAuthentication,
-    options?: ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
+    options?: ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse>,
@@ -173,21 +192,20 @@ export class ServerAzureADOnlyAuthenticationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -196,8 +214,8 @@ export class ServerAzureADOnlyAuthenticationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -205,8 +223,8 @@ export class ServerAzureADOnlyAuthenticationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -217,16 +235,16 @@ export class ServerAzureADOnlyAuthenticationsImpl
         serverName,
         authenticationName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse,
       OperationState<ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -248,14 +266,14 @@ export class ServerAzureADOnlyAuthenticationsImpl
     serverName: string,
     authenticationName: AuthenticationName,
     parameters: ServerAzureADOnlyAuthentication,
-    options?: ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
+    options?: ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ): Promise<ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       authenticationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -272,25 +290,24 @@ export class ServerAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     serverName: string,
     authenticationName: AuthenticationName,
-    options?: ServerAzureADOnlyAuthenticationsDeleteOptionalParams
+    options?: ServerAzureADOnlyAuthenticationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -299,8 +316,8 @@ export class ServerAzureADOnlyAuthenticationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -308,19 +325,19 @@ export class ServerAzureADOnlyAuthenticationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, authenticationName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -338,33 +355,15 @@ export class ServerAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     serverName: string,
     authenticationName: AuthenticationName,
-    options?: ServerAzureADOnlyAuthenticationsDeleteOptionalParams
+    options?: ServerAzureADOnlyAuthenticationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
       authenticationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets a list of server Azure Active Directory only authentications.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param options The options parameters.
-   */
-  private _listByServer(
-    resourceGroupName: string,
-    serverName: string,
-    options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams
-  ): Promise<ServerAzureADOnlyAuthenticationsListByServerResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listByServerOperationSpec
-    );
   }
 
   /**
@@ -379,121 +378,134 @@ export class ServerAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ServerAzureADOnlyAuthenticationsListByServerNextOptionalParams
+    options?: ServerAzureADOnlyAuthenticationsListByServerNextOptionalParams,
   ): Promise<ServerAzureADOnlyAuthenticationsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications/{authenticationName}",
+const listByServerOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAzureADOnlyAuthentication
+      bodyMapper: Mappers.AzureADOnlyAuthListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.authenticationName
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications/{authenticationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerAzureADOnlyAuthentication,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.authenticationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications/{authenticationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications/{authenticationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerAzureADOnlyAuthentication,
     },
     201: {
-      bodyMapper: Mappers.ServerAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerAzureADOnlyAuthentication,
     },
     202: {
-      bodyMapper: Mappers.ServerAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerAzureADOnlyAuthentication,
     },
     204: {
-      bodyMapper: Mappers.ServerAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerAzureADOnlyAuthentication,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters44,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters85,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.authenticationName
+    Parameters.subscriptionId,
+    Parameters.authenticationName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications/{authenticationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications/{authenticationName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.authenticationName
-  ],
-  serializer
-};
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/azureADOnlyAuthentications",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AzureADOnlyAuthListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.authenticationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureADOnlyAuthListResult
+      bodyMapper: Mappers.AzureADOnlyAuthListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

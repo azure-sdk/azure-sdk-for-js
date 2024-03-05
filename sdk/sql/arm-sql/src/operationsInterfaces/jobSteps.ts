@@ -9,20 +9,36 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   JobStep,
-  JobStepsListByVersionOptionalParams,
   JobStepsListByJobOptionalParams,
-  JobStepsGetByVersionOptionalParams,
-  JobStepsGetByVersionResponse,
+  JobStepsListByVersionOptionalParams,
   JobStepsGetOptionalParams,
   JobStepsGetResponse,
   JobStepsCreateOrUpdateOptionalParams,
   JobStepsCreateOrUpdateResponse,
-  JobStepsDeleteOptionalParams
+  JobStepsDeleteOptionalParams,
+  JobStepsGetByVersionOptionalParams,
+  JobStepsGetByVersionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobSteps. */
 export interface JobSteps {
+  /**
+   * Gets all job steps for a job's current version.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job to get.
+   * @param options The options parameters.
+   */
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: JobStepsListByJobOptionalParams,
+  ): PagedAsyncIterableIterator<JobStep>;
   /**
    * Gets all job steps in the specified job version.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -39,44 +55,8 @@ export interface JobSteps {
     jobAgentName: string,
     jobName: string,
     jobVersion: number,
-    options?: JobStepsListByVersionOptionalParams
+    options?: JobStepsListByVersionOptionalParams,
   ): PagedAsyncIterableIterator<JobStep>;
-  /**
-   * Gets all job steps for a job's current version.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job to get.
-   * @param options The options parameters.
-   */
-  listByJob(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    options?: JobStepsListByJobOptionalParams
-  ): PagedAsyncIterableIterator<JobStep>;
-  /**
-   * Gets the specified version of a job step.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job.
-   * @param jobVersion The version of the job to get.
-   * @param stepName The name of the job step.
-   * @param options The options parameters.
-   */
-  getByVersion(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    jobVersion: number,
-    stepName: string,
-    options?: JobStepsGetByVersionOptionalParams
-  ): Promise<JobStepsGetByVersionResponse>;
   /**
    * Gets a job step in a job's current version.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -93,7 +73,7 @@ export interface JobSteps {
     jobAgentName: string,
     jobName: string,
     stepName: string,
-    options?: JobStepsGetOptionalParams
+    options?: JobStepsGetOptionalParams,
   ): Promise<JobStepsGetResponse>;
   /**
    * Creates or updates a job step. This will implicitly create a new job version.
@@ -113,7 +93,7 @@ export interface JobSteps {
     jobName: string,
     stepName: string,
     parameters: JobStep,
-    options?: JobStepsCreateOrUpdateOptionalParams
+    options?: JobStepsCreateOrUpdateOptionalParams,
   ): Promise<JobStepsCreateOrUpdateResponse>;
   /**
    * Deletes a job step. This will implicitly create a new job version.
@@ -131,6 +111,26 @@ export interface JobSteps {
     jobAgentName: string,
     jobName: string,
     stepName: string,
-    options?: JobStepsDeleteOptionalParams
+    options?: JobStepsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Gets the specified version of a job step.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job.
+   * @param jobVersion The version of the job to get.
+   * @param stepName The name of the job step.
+   * @param options The options parameters.
+   */
+  getByVersion(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobVersion: number,
+    stepName: string,
+    options?: JobStepsGetByVersionOptionalParams,
+  ): Promise<JobStepsGetByVersionResponse>;
 }

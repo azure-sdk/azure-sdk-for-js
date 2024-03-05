@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { EncryptionProtectors } from "../operationsInterfaces";
+import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  EncryptionProtector,
-  EncryptionProtectorsListByServerNextOptionalParams,
-  EncryptionProtectorsListByServerOptionalParams,
-  EncryptionProtectorsListByServerResponse,
-  EncryptionProtectorName,
-  EncryptionProtectorsGetOptionalParams,
-  EncryptionProtectorsGetResponse,
-  EncryptionProtectorsCreateOrUpdateOptionalParams,
-  EncryptionProtectorsCreateOrUpdateResponse,
-  EncryptionProtectorsRevalidateOptionalParams,
-  EncryptionProtectorsListByServerNextResponse,
+  NetworkSecurityPerimeterConfiguration,
+  NetworkSecurityPerimeterConfigurationsListByServerNextOptionalParams,
+  NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
+  NetworkSecurityPerimeterConfigurationsListByServerResponse,
+  NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetResponse,
+  NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  NetworkSecurityPerimeterConfigurationsReconcileResponse,
+  NetworkSecurityPerimeterConfigurationsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EncryptionProtectors operations. */
-export class EncryptionProtectorsImpl implements EncryptionProtectors {
+/** Class containing NetworkSecurityPerimeterConfigurations operations. */
+export class NetworkSecurityPerimeterConfigurationsImpl
+  implements NetworkSecurityPerimeterConfigurations
+{
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class EncryptionProtectors class.
+   * Initialize a new instance of the class NetworkSecurityPerimeterConfigurations class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -47,7 +47,7 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
   }
 
   /**
-   * Gets a list of server encryption protectors
+   * Gets a list of NSP configurations for a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -56,8 +56,8 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: EncryptionProtectorsListByServerOptionalParams,
-  ): PagedAsyncIterableIterator<EncryptionProtector> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
@@ -87,10 +87,10 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: EncryptionProtectorsListByServerOptionalParams,
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<EncryptionProtector[]> {
-    let result: EncryptionProtectorsListByServerResponse;
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration[]> {
+    let result: NetworkSecurityPerimeterConfigurationsListByServerResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
@@ -116,8 +116,8 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: EncryptionProtectorsListByServerOptionalParams,
-  ): AsyncIterableIterator<EncryptionProtector> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
@@ -128,7 +128,7 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
   }
 
   /**
-   * Gets a list of server encryption protectors
+   * Gets a list of NSP configurations for a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -137,8 +137,8 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: EncryptionProtectorsListByServerOptionalParams,
-  ): Promise<EncryptionProtectorsListByServerResponse> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
       listByServerOperationSpec,
@@ -146,50 +146,48 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
   }
 
   /**
-   * Gets a server encryption protector.
+   * Gets a network security perimeter configuration.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param encryptionProtectorName The name of the encryption protector to be retrieved.
+   * @param nspConfigName
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    encryptionProtectorName: EncryptionProtectorName,
-    options?: EncryptionProtectorsGetOptionalParams,
-  ): Promise<EncryptionProtectorsGetResponse> {
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, encryptionProtectorName, options },
+      { resourceGroupName, serverName, nspConfigName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Updates an existing encryption protector.
+   * Reconcile network security perimeter configuration for SQL Resource Provider
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param encryptionProtectorName The name of the encryption protector to be updated.
-   * @param parameters The requested encryption protector resource state.
+   * @param nspConfigName
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginReconcile(
     resourceGroupName: string,
     serverName: string,
-    encryptionProtectorName: EncryptionProtectorName,
-    parameters: EncryptionProtector,
-    options?: EncryptionProtectorsCreateOrUpdateOptionalParams,
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<EncryptionProtectorsCreateOrUpdateResponse>,
-      EncryptionProtectorsCreateOrUpdateResponse
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>,
+      NetworkSecurityPerimeterConfigurationsReconcileResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<EncryptionProtectorsCreateOrUpdateResponse> => {
+    ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -226,135 +224,39 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serverName,
-        encryptionProtectorName,
-        parameters,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
+      args: { resourceGroupName, serverName, nspConfigName, options },
+      spec: reconcileOperationSpec,
     });
     const poller = await createHttpPoller<
-      EncryptionProtectorsCreateOrUpdateResponse,
-      OperationState<EncryptionProtectorsCreateOrUpdateResponse>
+      NetworkSecurityPerimeterConfigurationsReconcileResponse,
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Updates an existing encryption protector.
+   * Reconcile network security perimeter configuration for SQL Resource Provider
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param encryptionProtectorName The name of the encryption protector to be updated.
-   * @param parameters The requested encryption protector resource state.
+   * @param nspConfigName
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginReconcileAndWait(
     resourceGroupName: string,
     serverName: string,
-    encryptionProtectorName: EncryptionProtectorName,
-    parameters: EncryptionProtector,
-    options?: EncryptionProtectorsCreateOrUpdateOptionalParams,
-  ): Promise<EncryptionProtectorsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse> {
+    const poller = await this.beginReconcile(
       resourceGroupName,
       serverName,
-      encryptionProtectorName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Revalidates an existing encryption protector.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param encryptionProtectorName The name of the encryption protector to be updated.
-   * @param options The options parameters.
-   */
-  async beginRevalidate(
-    resourceGroupName: string,
-    serverName: string,
-    encryptionProtectorName: EncryptionProtectorName,
-    options?: EncryptionProtectorsRevalidateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serverName, encryptionProtectorName, options },
-      spec: revalidateOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Revalidates an existing encryption protector.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param encryptionProtectorName The name of the encryption protector to be updated.
-   * @param options The options parameters.
-   */
-  async beginRevalidateAndWait(
-    resourceGroupName: string,
-    serverName: string,
-    encryptionProtectorName: EncryptionProtectorName,
-    options?: EncryptionProtectorsRevalidateOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginRevalidate(
-      resourceGroupName,
-      serverName,
-      encryptionProtectorName,
+      nspConfigName,
       options,
     );
     return poller.pollUntilDone();
@@ -372,8 +274,8 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: EncryptionProtectorsListByServerNextOptionalParams,
-  ): Promise<EncryptionProtectorsListByServerNextResponse> {
+    options?: NetworkSecurityPerimeterConfigurationsListByServerNextOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
       listByServerNextOperationSpec,
@@ -384,11 +286,11 @@ export class EncryptionProtectorsImpl implements EncryptionProtectors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/networkSecurityPerimeterConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionProtectorListResult,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -405,11 +307,11 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/networkSecurityPerimeterConfigurations/{nspConfigName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionProtector,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -421,52 +323,27 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.subscriptionId,
-    Parameters.encryptionProtectorName,
+    Parameters.nspConfigName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EncryptionProtector,
-    },
-    201: {
-      bodyMapper: Mappers.EncryptionProtector,
-    },
-    202: {
-      bodyMapper: Mappers.EncryptionProtector,
-    },
-    204: {
-      bodyMapper: Mappers.EncryptionProtector,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters27,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId,
-    Parameters.encryptionProtectorName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const revalidateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}/revalidate",
+const reconcileOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/networkSecurityPerimeterConfigurations/{nspConfigName}/reconcile",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -477,7 +354,7 @@ const revalidateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.subscriptionId,
-    Parameters.encryptionProtectorName,
+    Parameters.nspConfigName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -487,7 +364,7 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionProtectorListResult,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

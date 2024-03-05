@@ -15,7 +15,7 @@ import {
   OutboundFirewallRulesGetResponse,
   OutboundFirewallRulesCreateOrUpdateOptionalParams,
   OutboundFirewallRulesCreateOrUpdateResponse,
-  OutboundFirewallRulesDeleteOptionalParams
+  OutboundFirewallRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface OutboundFirewallRules {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: OutboundFirewallRulesListByServerOptionalParams
+    options?: OutboundFirewallRulesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<OutboundFirewallRule>;
   /**
    * Gets an outbound firewall rule.
@@ -45,7 +45,7 @@ export interface OutboundFirewallRules {
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesGetOptionalParams
+    options?: OutboundFirewallRulesGetOptionalParams,
   ): Promise<OutboundFirewallRulesGetResponse>;
   /**
    * Create a outbound firewall rule with a given name.
@@ -53,15 +53,13 @@ export interface OutboundFirewallRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param outboundRuleFqdn
-   * @param parameters An Azure SQL DB Server Outbound Firewall Rule.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    parameters: OutboundFirewallRule,
-    options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
+    options?: OutboundFirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OutboundFirewallRulesCreateOrUpdateResponse>,
@@ -74,15 +72,13 @@ export interface OutboundFirewallRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param outboundRuleFqdn
-   * @param parameters An Azure SQL DB Server Outbound Firewall Rule.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    parameters: OutboundFirewallRule,
-    options?: OutboundFirewallRulesCreateOrUpdateOptionalParams
+    options?: OutboundFirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<OutboundFirewallRulesCreateOrUpdateResponse>;
   /**
    * Deletes a outbound firewall rule with a given name.
@@ -96,7 +92,7 @@ export interface OutboundFirewallRules {
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesDeleteOptionalParams
+    options?: OutboundFirewallRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a outbound firewall rule with a given name.
@@ -110,6 +106,6 @@ export interface OutboundFirewallRules {
     resourceGroupName: string,
     serverName: string,
     outboundRuleFqdn: string,
-    options?: OutboundFirewallRulesDeleteOptionalParams
+    options?: OutboundFirewallRulesDeleteOptionalParams,
   ): Promise<void>;
 }

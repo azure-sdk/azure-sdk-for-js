@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -28,13 +28,14 @@ import {
   DatabaseExtensions,
   DatabaseExtensionsCreateOrUpdateOptionalParams,
   DatabaseExtensionsCreateOrUpdateResponse,
-  DatabaseExtensionsListByDatabaseNextResponse
+  DatabaseExtensionsListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseExtensionsOperations operations. */
 export class DatabaseExtensionsOperationsImpl
-  implements DatabaseExtensionsOperations {
+  implements DatabaseExtensionsOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -57,13 +58,13 @@ export class DatabaseExtensionsOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseExtensionsListByDatabaseOptionalParams
+    options?: DatabaseExtensionsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ImportExportExtensionsOperationResult> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +82,9 @@ export class DatabaseExtensionsOperationsImpl
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +93,7 @@ export class DatabaseExtensionsOperationsImpl
     serverName: string,
     databaseName: string,
     options?: DatabaseExtensionsListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ImportExportExtensionsOperationResult[]> {
     let result: DatabaseExtensionsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +102,7 @@ export class DatabaseExtensionsOperationsImpl
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +115,7 @@ export class DatabaseExtensionsOperationsImpl
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,16 +128,36 @@ export class DatabaseExtensionsOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseExtensionsListByDatabaseOptionalParams
+    options?: DatabaseExtensionsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<ImportExportExtensionsOperationResult> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * List database extension. This will return an empty list as it is not supported.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabaseExtensionsListByDatabaseOptionalParams,
+  ): Promise<DatabaseExtensionsListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec,
+    );
   }
 
   /**
@@ -153,16 +174,16 @@ export class DatabaseExtensionsOperationsImpl
     serverName: string,
     databaseName: string,
     extensionName: string,
-    options?: DatabaseExtensionsGetOptionalParams
+    options?: DatabaseExtensionsGetOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, extensionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Perform a database extension operation, like polybase import
+   * Perform a database extension operation, like database import, database export, or polybase import
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -177,7 +198,7 @@ export class DatabaseExtensionsOperationsImpl
     databaseName: string,
     extensionName: string,
     parameters: DatabaseExtensions,
-    options?: DatabaseExtensionsCreateOrUpdateOptionalParams
+    options?: DatabaseExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabaseExtensionsCreateOrUpdateResponse>,
@@ -186,21 +207,20 @@ export class DatabaseExtensionsOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DatabaseExtensionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +229,8 @@ export class DatabaseExtensionsOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,8 +238,8 @@ export class DatabaseExtensionsOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -231,23 +251,23 @@ export class DatabaseExtensionsOperationsImpl
         databaseName,
         extensionName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DatabaseExtensionsCreateOrUpdateResponse,
       OperationState<DatabaseExtensionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Perform a database extension operation, like polybase import
+   * Perform a database extension operation, like database import, database export, or polybase import
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -262,7 +282,7 @@ export class DatabaseExtensionsOperationsImpl
     databaseName: string,
     extensionName: string,
     parameters: DatabaseExtensions,
-    options?: DatabaseExtensionsCreateOrUpdateOptionalParams
+    options?: DatabaseExtensionsCreateOrUpdateOptionalParams,
   ): Promise<DatabaseExtensionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -270,29 +290,9 @@ export class DatabaseExtensionsOperationsImpl
       databaseName,
       extensionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * List database extension. This will return an empty list as it is not supported.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  private _listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabaseExtensionsListByDatabaseOptionalParams
-  ): Promise<DatabaseExtensionsListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
-    );
   }
 
   /**
@@ -309,104 +309,113 @@ export class DatabaseExtensionsOperationsImpl
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: DatabaseExtensionsListByDatabaseNextOptionalParams
+    options?: DatabaseExtensionsListByDatabaseNextOptionalParams,
   ): Promise<DatabaseExtensionsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}",
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions",
   httpMethod: "GET",
-  responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion6],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImportExportExtensionsOperationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.extensionName
+    Parameters.subscriptionId,
   ],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.extensionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportExportExtensionsOperationResult
+      bodyMapper: Mappers.ImportExportExtensionsOperationResult,
     },
     201: {
-      bodyMapper: Mappers.ImportExportExtensionsOperationResult
+      bodyMapper: Mappers.ImportExportExtensionsOperationResult,
     },
     202: {
-      bodyMapper: Mappers.ImportExportExtensionsOperationResult
+      bodyMapper: Mappers.ImportExportExtensionsOperationResult,
     },
     204: {
-      bodyMapper: Mappers.ImportExportExtensionsOperationResult
+      bodyMapper: Mappers.ImportExportExtensionsOperationResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters59,
-  queryParameters: [Parameters.apiVersion6],
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.extensionName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImportExportExtensionsOperationListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [
-    Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
+    Parameters.extensionName,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportExportExtensionsOperationListResult
+      bodyMapper: Mappers.ImportExportExtensionsOperationListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

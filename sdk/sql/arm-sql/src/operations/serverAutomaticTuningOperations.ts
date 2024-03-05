@@ -16,12 +16,13 @@ import {
   ServerAutomaticTuningGetResponse,
   ServerAutomaticTuning,
   ServerAutomaticTuningUpdateOptionalParams,
-  ServerAutomaticTuningUpdateResponse
+  ServerAutomaticTuningUpdateResponse,
 } from "../models";
 
 /** Class containing ServerAutomaticTuningOperations operations. */
 export class ServerAutomaticTuningOperationsImpl
-  implements ServerAutomaticTuningOperations {
+  implements ServerAutomaticTuningOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -42,11 +43,11 @@ export class ServerAutomaticTuningOperationsImpl
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAutomaticTuningGetOptionalParams
+    options?: ServerAutomaticTuningGetOptionalParams,
   ): Promise<ServerAutomaticTuningGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -62,11 +63,11 @@ export class ServerAutomaticTuningOperationsImpl
     resourceGroupName: string,
     serverName: string,
     parameters: ServerAutomaticTuning,
-    options?: ServerAutomaticTuningUpdateOptionalParams
+    options?: ServerAutomaticTuningUpdateOptionalParams,
   ): Promise<ServerAutomaticTuningUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -74,44 +75,46 @@ export class ServerAutomaticTuningOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAutomaticTuning
+      bodyMapper: Mappers.ServerAutomaticTuning,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAutomaticTuning
+      bodyMapper: Mappers.ServerAutomaticTuning,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters42,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters83,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

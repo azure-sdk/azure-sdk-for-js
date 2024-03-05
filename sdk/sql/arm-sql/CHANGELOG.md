@@ -1,32 +1,54 @@
 # Release History
-
-## 10.1.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 10.1.0-beta.3 (2023-12-18)
+    
+## 11.0.0-beta.1 (2024-03-05)
     
 **Features**
 
   - Added operation group JobPrivateEndpoints
+  - Added operation group NetworkSecurityPerimeterConfigurations
+  - Added operation DistributedAvailabilityGroups.beginFailover
+  - Added operation DistributedAvailabilityGroups.beginFailoverAndWait
+  - Added operation DistributedAvailabilityGroups.beginSetRole
+  - Added operation DistributedAvailabilityGroups.beginSetRoleAndWait
   - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
   - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
+  - Added operation GeoBackupPolicies.list
   - Added operation LongTermRetentionBackups.beginChangeAccessTier
   - Added operation LongTermRetentionBackups.beginChangeAccessTierAndWait
   - Added operation LongTermRetentionBackups.beginChangeAccessTierByResourceGroup
   - Added operation LongTermRetentionBackups.beginChangeAccessTierByResourceGroupAndWait
+  - Added operation ManagedDatabaseSensitivityLabels.listByDatabase
+  - Added operation ManagedInstanceLongTermRetentionPolicies.beginDelete
+  - Added operation ManagedInstanceLongTermRetentionPolicies.beginDeleteAndWait
+  - Added operation ManagedInstances.beginRefreshStatus
+  - Added operation ManagedInstances.beginRefreshStatusAndWait
+  - Added operation ReplicationLinks.beginCreateOrUpdate
+  - Added operation ReplicationLinks.beginCreateOrUpdateAndWait
+  - Added operation ReplicationLinks.beginUpdate
+  - Added operation ReplicationLinks.beginUpdateAndWait
+  - Added operation SensitivityLabels.listByDatabase
+  - Added Interface CertificateInfo
   - Added Interface ChangeLongTermRetentionBackupAccessTierParameters
+  - Added Interface DataMaskingRulesListByDatabaseNextOptionalParams
+  - Added Interface DistributedAvailabilityGroupDatabase
+  - Added Interface DistributedAvailabilityGroupSetRole
+  - Added Interface DistributedAvailabilityGroupsFailoverHeaders
+  - Added Interface DistributedAvailabilityGroupsFailoverOptionalParams
+  - Added Interface DistributedAvailabilityGroupsFailoverRequest
+  - Added Interface DistributedAvailabilityGroupsSetRoleOptionalParams
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
   - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
   - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  - Added Interface FreeLimitExhaustionBehaviorCapability
+  - Added Interface GeoBackupPoliciesListNextOptionalParams
+  - Added Interface GeoBackupPoliciesListOptionalParams
+  - Added Interface JobAgentEditionCapability
+  - Added Interface JobAgentIdentity
+  - Added Interface JobAgentServiceLevelObjectiveCapability
+  - Added Interface JobAgentUserAssignedIdentity
+  - Added Interface JobAgentVersionCapability
   - Added Interface JobPrivateEndpoint
   - Added Interface JobPrivateEndpointListResult
   - Added Interface JobPrivateEndpointsCreateOrUpdateOptionalParams
@@ -36,30 +58,134 @@
   - Added Interface JobPrivateEndpointsListByAgentOptionalParams
   - Added Interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
   - Added Interface LongTermRetentionBackupsChangeAccessTierOptionalParams
+  - Added Interface ManagedDatabaseSensitivityLabelsListByDatabaseNextOptionalParams
+  - Added Interface ManagedDatabaseSensitivityLabelsListByDatabaseOptionalParams
+  - Added Interface ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams
+  - Added Interface ManagedInstancesRefreshStatusOptionalParams
+  - Added Interface MaxLimitRangeCapability
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationListResult
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByServerNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByServerOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NSPConfigAccessRule
+  - Added Interface NSPConfigAccessRuleProperties
+  - Added Interface NSPConfigAssociation
+  - Added Interface NSPConfigNetworkSecurityPerimeterRule
+  - Added Interface NSPConfigPerimeter
+  - Added Interface NSPConfigProfile
+  - Added Interface NSPProvisioningIssue
+  - Added Interface NSPProvisioningIssueProperties
+  - Added Interface PerDatabaseAutoPauseDelayTimeRange
+  - Added Interface PhaseDetails
+  - Added Interface RefreshExternalGovernanceStatusOperationResultMI
+  - Added Interface ReplicationLinksCreateOrUpdateOptionalParams
+  - Added Interface ReplicationLinksUpdateOptionalParams
+  - Added Interface ReplicationLinkUpdate
+  - Added Interface SensitivityLabelsListByDatabaseNextOptionalParams
+  - Added Interface SensitivityLabelsListByDatabaseOptionalParams
+  - Added Interface ServerUsagesListByServerNextOptionalParams
+  - Added Interface UpsertManagedServerOperationStepWithEstimatesAndDuration
+  - Added Interface ZonePinningCapability
+  - Added Type Alias AuthMetadataLookupModes
   - Added Type Alias BackupStorageAccessTier
+  - Added Type Alias ClientClassificationSource
+  - Added Type Alias DataMaskingPolicyName
+  - Added Type Alias DataMaskingRulesListByDatabaseNextResponse
+  - Added Type Alias DistributedAvailabilityGroupsFailoverResponse
+  - Added Type Alias DistributedAvailabilityGroupsSetRoleResponse
+  - Added Type Alias FailoverGroupDatabasesSecondaryType
   - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+  - Added Type Alias FailoverModeType
+  - Added Type Alias FailoverType
   - Added Type Alias FreeLimitExhaustionBehavior
+  - Added Type Alias FreemiumType
+  - Added Type Alias GeoBackupPoliciesListNextResponse
+  - Added Type Alias GeoBackupPoliciesListResponse
+  - Added Type Alias HybridSecondaryUsage
+  - Added Type Alias HybridSecondaryUsageDetected
+  - Added Type Alias InstanceRole
+  - Added Type Alias JobAgentIdentityType
   - Added Type Alias JobPrivateEndpointsCreateOrUpdateResponse
   - Added Type Alias JobPrivateEndpointsGetResponse
   - Added Type Alias JobPrivateEndpointsListByAgentNextResponse
   - Added Type Alias JobPrivateEndpointsListByAgentResponse
+  - Added Type Alias LinkRole
   - Added Type Alias LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
   - Added Type Alias LongTermRetentionBackupsChangeAccessTierResponse
+  - Added Type Alias ManagedDatabaseSensitivityLabelsListByDatabaseNextResponse
+  - Added Type Alias ManagedDatabaseSensitivityLabelsListByDatabaseResponse
+  - Added Type Alias ManagedInstanceDatabaseFormat
+  - Added Type Alias ManagedInstanceLongTermRetentionPoliciesDeleteResponse
+  - Added Type Alias ManagedInstancesRefreshStatusResponse
+  - Added Type Alias ManagedInstancesStartResponse
+  - Added Type Alias ManagedInstancesStopResponse
   - Added Type Alias MinimalTlsVersion
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListByServerNextResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListByServerResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsReconcileResponse
+  - Added Type Alias Phase
+  - Added Type Alias ReplicaConnectedState
+  - Added Type Alias ReplicaSynchronizationHealth
+  - Added Type Alias ReplicationLinksCreateOrUpdateResponse
+  - Added Type Alias ReplicationLinksUpdateResponse
+  - Added Type Alias ReplicationModeType
+  - Added Type Alias RoleChangeType
+  - Added Type Alias SecurityAlertPolicyNameAutoGenerated
+  - Added Type Alias SeedingModeType
+  - Added Type Alias SensitivityLabelsListByDatabaseNextResponse
+  - Added Type Alias SensitivityLabelsListByDatabaseResponse
+  - Added Type Alias ServerUsagesListByServerNextResponse
+  - Added Type Alias Status
   - Interface Database has a new optional parameter encryptionProtectorAutoRotation
   - Interface Database has a new optional parameter freeLimitExhaustionBehavior
   - Interface Database has a new optional parameter useFreeLimit
+  - Interface DatabaseExtensions has a new optional parameter administratorLogin
+  - Interface DatabaseExtensions has a new optional parameter administratorLoginPassword
+  - Interface DatabaseExtensions has a new optional parameter authenticationType
+  - Interface DatabaseExtensions has a new optional parameter databaseEdition
+  - Interface DatabaseExtensions has a new optional parameter maxSizeBytes
+  - Interface DatabaseExtensions has a new optional parameter networkIsolation
+  - Interface DatabaseExtensions has a new optional parameter serviceObjectiveName
+  - Interface DatabaseOperation has a new optional parameter operationPhaseDetails
   - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
   - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
   - Interface DatabaseUpdate has a new optional parameter useFreeLimit
+  - Interface DataMaskingRuleListResult has a new optional parameter nextLink
+  - Interface DistributedAvailabilityGroup has a new optional parameter databases
+  - Interface DistributedAvailabilityGroup has a new optional parameter distributedAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter failoverMode
+  - Interface DistributedAvailabilityGroup has a new optional parameter instanceAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter instanceLinkRole
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerEndpoint
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerLinkRole
+  - Interface DistributedAvailabilityGroup has a new optional parameter seedingMode
+  - Interface EditionCapability has a new optional parameter zonePinning
+  - Interface ElasticPool has a new optional parameter autoPauseDelay
   - Interface ElasticPool has a new optional parameter availabilityZone
   - Interface ElasticPool has a new optional parameter minCapacity
   - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPoolEditionCapability has a new optional parameter zonePinning
+  - Interface ElasticPoolPerDatabaseSettings has a new optional parameter autoPauseDelay
+  - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedAutoPauseDelay
+  - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedMinCapacities
+  - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedPerDatabaseAutoPauseDelay
+  - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedZones
+  - Interface ElasticPoolUpdate has a new optional parameter autoPauseDelay
   - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
   - Interface ElasticPoolUpdate has a new optional parameter minCapacity
   - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface FailoverGroup has a new optional parameter secondaryType
   - Interface FailoverGroupReadOnlyEndpoint has a new optional parameter targetServer
   - Interface FailoverGroupUpdate has a new optional parameter partnerServers
+  - Interface FailoverGroupUpdate has a new optional parameter secondaryType
+  - Interface GeoBackupPolicyListResult has a new optional parameter nextLink
+  - Interface ImportExportExtensionsOperationResult has a new optional parameter blobUri
+  - Interface ImportExportExtensionsOperationResult has a new optional parameter privateEndpointConnections
+  - Interface ImportExportExtensionsOperationResult has a new optional parameter queuedTime
   - Interface InstancePool has a new optional parameter dnsZone
   - Interface InstancePool has a new optional parameter maintenanceConfigurationId
   - Interface InstancePoolUpdate has a new optional parameter dnsZone
@@ -68,77 +194,152 @@
   - Interface InstancePoolUpdate has a new optional parameter sku
   - Interface InstancePoolUpdate has a new optional parameter subnetId
   - Interface InstancePoolUpdate has a new optional parameter vCores
+  - Interface JobAgent has a new optional parameter identity
+  - Interface JobAgentUpdate has a new optional parameter identity
+  - Interface JobAgentUpdate has a new optional parameter sku
+  - Interface LocationCapabilities has a new optional parameter supportedJobAgentVersions
   - Interface LongTermRetentionBackup has a new optional parameter backupStorageAccessTier
   - Interface LongTermRetentionBackup has a new optional parameter isBackupImmutable
-  - Interface LongTermRetentionPolicy has a new optional parameter backupStorageAccessTier
-  - Interface LongTermRetentionPolicy has a new optional parameter makeBackupsImmutable
+  - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter filter
+  - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter skip
+  - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter top
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams has a new optional parameter filter
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams has a new optional parameter skip
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams has a new optional parameter top
   - Interface ManagedDatabase has a new optional parameter isLedgerOn
   - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface ManagedInstance has a new optional parameter authenticationMetadata
+  - Interface ManagedInstance has a new optional parameter createTime
+  - Interface ManagedInstance has a new optional parameter databaseFormat
+  - Interface ManagedInstance has a new optional parameter externalGovernanceStatus
+  - Interface ManagedInstance has a new optional parameter hybridSecondaryUsage
+  - Interface ManagedInstance has a new optional parameter hybridSecondaryUsageDetected
+  - Interface ManagedInstance has a new optional parameter isGeneralPurposeV2
+  - Interface ManagedInstance has a new optional parameter pricingModel
+  - Interface ManagedInstance has a new optional parameter storageIOps
+  - Interface ManagedInstance has a new optional parameter storageThroughputMBps
+  - Interface ManagedInstance has a new optional parameter totalMemoryMB
+  - Interface ManagedInstance has a new optional parameter virtualClusterId
+  - Interface ManagedInstanceEditionCapability has a new optional parameter isGeneralPurposeV2
+  - Interface ManagedInstanceFamilyCapability has a new optional parameter zoneRedundant
+  - Interface ManagedInstanceLongTermRetentionBackup has a new optional parameter backupStorageAccessTier
+  - Interface ManagedInstanceLongTermRetentionPolicy has a new optional parameter backupStorageAccessTier
+  - Interface ManagedInstancePrivateLinkProperties has a new optional parameter requiredZoneNames
+  - Interface ManagedInstanceUpdate has a new optional parameter authenticationMetadata
+  - Interface ManagedInstanceUpdate has a new optional parameter createTime
+  - Interface ManagedInstanceUpdate has a new optional parameter databaseFormat
+  - Interface ManagedInstanceUpdate has a new optional parameter externalGovernanceStatus
+  - Interface ManagedInstanceUpdate has a new optional parameter hybridSecondaryUsage
+  - Interface ManagedInstanceUpdate has a new optional parameter hybridSecondaryUsageDetected
+  - Interface ManagedInstanceUpdate has a new optional parameter isGeneralPurposeV2
+  - Interface ManagedInstanceUpdate has a new optional parameter pricingModel
+  - Interface ManagedInstanceUpdate has a new optional parameter storageIOps
+  - Interface ManagedInstanceUpdate has a new optional parameter storageThroughputMBps
+  - Interface ManagedInstanceUpdate has a new optional parameter totalMemoryMB
+  - Interface ManagedInstanceUpdate has a new optional parameter virtualClusterId
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter includedStorageIOps
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter includedStorageThroughputMBps
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter iopsIncludedValueOverrideFactorPerSelectedStorageGB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter iopsMinValueOverrideFactorPerSelectedStorageGB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter supportedMemoryLimitsMB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter supportedStorageIOps
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter supportedStorageThroughputMBps
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter throughputMBpsIncludedValueOverrideFactorPerSelectedStorageGB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter throughputMBpsMinValueOverrideFactorPerSelectedStorageGB
   - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface ReplicationLink has a new optional parameter partnerDatabaseId
+  - Interface SensitivityLabel has a new optional parameter clientClassificationSource
   - Interface Server has a new optional parameter isIPv6Enabled
   - Interface ServerUpdate has a new optional parameter isIPv6Enabled
+  - Interface ServerUsageListResult has a new optional parameter nextLink
+  - Interface ServiceObjectiveCapability has a new optional parameter supportedFreeLimitExhaustionBehaviors
+  - Interface ServiceObjectiveCapability has a new optional parameter supportedZones
+  - Interface ServiceObjectiveCapability has a new optional parameter zonePinning
+  - Interface SqlManagementClientOptionalParams has a new optional parameter apiVersion
   - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
+  - Added Enum KnownAuthMetadataLookupModes
   - Added Enum KnownBackupStorageAccessTier
+  - Added Enum KnownClientClassificationSource
+  - Added Enum KnownDataMaskingPolicyName
+  - Added Enum KnownFailoverGroupDatabasesSecondaryType
+  - Added Enum KnownFailoverModeType
+  - Added Enum KnownFailoverType
   - Added Enum KnownFreeLimitExhaustionBehavior
+  - Added Enum KnownFreemiumType
+  - Added Enum KnownHybridSecondaryUsage
+  - Added Enum KnownHybridSecondaryUsageDetected
+  - Added Enum KnownInstanceRole
+  - Added Enum KnownJobAgentIdentityType
+  - Added Enum KnownLinkRole
+  - Added Enum KnownManagedInstanceDatabaseFormat
   - Added Enum KnownMinimalTlsVersion
+  - Added Enum KnownPhase
+  - Added Enum KnownReplicaConnectedState
+  - Added Enum KnownReplicaSynchronizationHealth
+  - Added Enum KnownReplicationModeType
+  - Added Enum KnownRoleChangeType
+  - Added Enum KnownSecurityAlertPolicyNameAutoGenerated
+  - Added Enum KnownSeedingModeType
+  - Added Enum KnownStatus
+  - Enum KnownCapabilityGroup has a new value SupportedJobAgentVersions
+  - Enum KnownOperationMode has a new value Export
+  - Enum KnownOperationMode has a new value Import
+  - Enum KnownStorageCapabilityStorageAccountType has a new value Gzrs
+
+**Breaking Changes**
+
+  - Removed operation group ElasticPoolActivities
+  - Removed operation group ElasticPoolDatabaseActivities
+  - Removed operation group ServerCommunicationLinks
+  - Removed operation group ServiceObjectives
+  - Removed operation Databases.listMetricDefinitions
+  - Removed operation Databases.listMetrics
+  - Removed operation ElasticPools.listMetricDefinitions
+  - Removed operation ElasticPools.listMetrics
+  - Removed operation GeoBackupPolicies.listByDatabase
+  - Operation DataMaskingPolicies.createOrUpdate has a new signature
+  - Operation DataMaskingPolicies.get has a new signature
+  - Operation DataMaskingRules.createOrUpdate has a new signature
+  - Operation DataMaskingRules.listByDatabase has a new signature
+  - Operation ManagedServerSecurityAlertPolicies.beginCreateOrUpdate has a new signature
+  - Operation ManagedServerSecurityAlertPolicies.beginCreateOrUpdateAndWait has a new signature
+  - Operation ManagedServerSecurityAlertPolicies.get has a new signature
+  - Operation OutboundFirewallRules.beginCreateOrUpdate has a new signature
+  - Operation OutboundFirewallRules.beginCreateOrUpdateAndWait has a new signature
+  - Operation ServerSecurityAlertPolicies.beginCreateOrUpdate has a new signature
+  - Operation ServerSecurityAlertPolicies.beginCreateOrUpdateAndWait has a new signature
+  - Operation ServerSecurityAlertPolicies.get has a new signature
+  - Interface DistributedAvailabilityGroup no longer has parameter lastHardenedLsn
+  - Interface DistributedAvailabilityGroup no longer has parameter linkState
+  - Interface DistributedAvailabilityGroup no longer has parameter primaryAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup no longer has parameter secondaryAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup no longer has parameter sourceEndpoint
+  - Interface DistributedAvailabilityGroup no longer has parameter sourceReplicaId
+  - Interface DistributedAvailabilityGroup no longer has parameter targetDatabase
+  - Interface DistributedAvailabilityGroup no longer has parameter targetReplicaId
+  - Interface ManagedInstanceEditionCapability no longer has parameter zoneRedundant
+  - Interface ServerUsage no longer has parameter name
+  - Interface ServerUsage no longer has parameter nextResetTime
+  - Interface ServerUsage no longer has parameter resourceName
+  - Type of parameter replicationMode of interface DistributedAvailabilityGroup is changed from ReplicationMode to ReplicationModeType
+  - Type of parameter provisioningState of interface ManagedInstance is changed from ManagedInstancePropertiesProvisioningState to ProvisioningState
+  - Type of parameter stepsList of interface ManagedInstanceOperationSteps is changed from UpsertManagedServerOperationStep[] to UpsertManagedServerOperationStepWithEstimatesAndDuration[]
+  - Type of parameter provisioningState of interface ManagedInstanceUpdate is changed from ManagedInstancePropertiesProvisioningState to ProvisioningState
   - Type of parameter minimalTlsVersion of interface Server is changed from string to MinimalTlsVersion
   - Type of parameter minimalTlsVersion of interface ServerUpdate is changed from string to MinimalTlsVersion
+  - Class SqlManagementClient no longer has parameter elasticPoolActivities
+  - Class SqlManagementClient no longer has parameter elasticPoolDatabaseActivities
+  - Class SqlManagementClient no longer has parameter serverCommunicationLinks
+  - Class SqlManagementClient no longer has parameter serviceObjectives
+  - Removed Enum KnownManagedInstancePropertiesProvisioningState
+  - Removed Enum KnownPrimaryAggregationType
+  - Removed Enum KnownReplicationMode
+  - Removed Enum KnownServiceObjectiveName
+  - Removed Enum KnownUnitDefinitionType
+  - Removed Enum KnownUnitType
+  - Removed Enum KnownUpsertManagedServerOperationStepStatus
     
     
-## 10.1.0-beta.2 (2023-09-20)
-
-**Features**
-
-  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
-  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
-  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
-  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
-  - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
-  - Added Type Alias FreeLimitExhaustionBehavior
-  - Interface Database has a new optional parameter encryptionProtectorAutoRotation
-  - Interface Database has a new optional parameter freeLimitExhaustionBehavior
-  - Interface Database has a new optional parameter useFreeLimit
-  - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
-  - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
-  - Interface DatabaseUpdate has a new optional parameter useFreeLimit
-  - Interface ElasticPool has a new optional parameter availabilityZone
-  - Interface ElasticPool has a new optional parameter minCapacity
-  - Interface ElasticPool has a new optional parameter preferredEnclaveType
-  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
-  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
-  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
-  - Interface FailoverGroupReadOnlyEndpoint has a new optional parameter targetServer
-  - Interface FailoverGroupUpdate has a new optional parameter partnerServers
-  - Interface ManagedDatabase has a new optional parameter isLedgerOn
-  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
-  - Interface PrivateEndpointConnection has a new optional parameter groupIds
-  - Interface Server has a new optional parameter isIPv6Enabled
-  - Interface ServerUpdate has a new optional parameter isIPv6Enabled
-  - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
-  - Added Enum KnownFreeLimitExhaustionBehavior
-
-
-## 10.1.0-beta.1 (2023-07-28)
-
-**Features**
-
-  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
-  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
-  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
-  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
-  - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
-  - Interface ElasticPool has a new optional parameter availabilityZone
-  - Interface ElasticPool has a new optional parameter minCapacity
-  - Interface ElasticPool has a new optional parameter preferredEnclaveType
-  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
-  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
-  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
-  - Interface ManagedDatabase has a new optional parameter isLedgerOn
-  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
-  - Interface PrivateEndpointConnection has a new optional parameter groupIds
-  - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
-
-
 ## 10.0.0 (2023-03-22)
     
 **Features**
@@ -861,4 +1062,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

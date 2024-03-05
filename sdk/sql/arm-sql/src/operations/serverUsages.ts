@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ServerUsages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -14,8 +15,10 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   ServerUsage,
+  ServerUsagesListByServerNextOptionalParams,
   ServerUsagesListByServerOptionalParams,
-  ServerUsagesListByServerResponse
+  ServerUsagesListByServerResponse,
+  ServerUsagesListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +35,7 @@ export class ServerUsagesImpl implements ServerUsages {
   }
 
   /**
-   * Returns server usages.
+   * Gets server usages.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -41,12 +44,12 @@ export class ServerUsagesImpl implements ServerUsages {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerUsagesListByServerOptionalParams
+    options?: ServerUsagesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerUsage> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -63,9 +66,9 @@ export class ServerUsagesImpl implements ServerUsages {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,29 +76,47 @@ export class ServerUsagesImpl implements ServerUsages {
     resourceGroupName: string,
     serverName: string,
     options?: ServerUsagesListByServerOptionalParams,
-    _settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerUsage[]> {
     let result: ServerUsagesListByServerResponse;
-    result = await this._listByServer(resourceGroupName, serverName, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByServer(resourceGroupName, serverName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServerNext(
+        resourceGroupName,
+        serverName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerUsagesListByServerOptionalParams
+    options?: ServerUsagesListByServerOptionalParams,
   ): AsyncIterableIterator<ServerUsage> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Returns server usages.
+   * Gets server usages.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -104,11 +125,31 @@ export class ServerUsagesImpl implements ServerUsages {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerUsagesListByServerOptionalParams
+    options?: ServerUsagesListByServerOptionalParams,
   ): Promise<ServerUsagesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServerNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param nextLink The nextLink from the previous successful call to the ListByServer method.
+   * @param options The options parameters.
+   */
+  private _listByServerNext(
+    resourceGroupName: string,
+    serverName: string,
+    nextLink: string,
+    options?: ServerUsagesListByServerNextOptionalParams,
+  ): Promise<ServerUsagesListByServerNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, nextLink, options },
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -116,21 +157,44 @@ export class ServerUsagesImpl implements ServerUsages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerUsageListResult
-    }
+      bodyMapper: Mappers.ServerUsageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByServerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerUsageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

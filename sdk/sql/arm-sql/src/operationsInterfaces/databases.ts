@@ -9,10 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  Metric,
-  DatabasesListMetricsOptionalParams,
-  MetricDefinition,
-  DatabasesListMetricDefinitionsOptionalParams,
   Database,
   DatabasesListByServerOptionalParams,
   DatabasesListByElasticPoolOptionalParams,
@@ -38,42 +34,12 @@ import {
   DatabasesPauseResponse,
   DatabasesResumeOptionalParams,
   DatabasesResumeResponse,
-  DatabasesUpgradeDataWarehouseOptionalParams
+  DatabasesUpgradeDataWarehouseOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Databases. */
 export interface Databases {
-  /**
-   * Returns database metrics.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param filter An OData filter expression that describes a subset of metrics to return.
-   * @param options The options parameters.
-   */
-  listMetrics(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    filter: string,
-    options?: DatabasesListMetricsOptionalParams
-  ): PagedAsyncIterableIterator<Metric>;
-  /**
-   * Returns database metric definitions.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  listMetricDefinitions(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabasesListMetricDefinitionsOptionalParams
-  ): PagedAsyncIterableIterator<MetricDefinition>;
   /**
    * Gets a list of databases.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -84,7 +50,7 @@ export interface Databases {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: DatabasesListByServerOptionalParams
+    options?: DatabasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Database>;
   /**
    * Gets a list of databases in an elastic pool.
@@ -98,7 +64,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: DatabasesListByElasticPoolOptionalParams
+    options?: DatabasesListByElasticPoolOptionalParams,
   ): PagedAsyncIterableIterator<Database>;
   /**
    * Gets a list of inaccessible databases in a logical server
@@ -110,7 +76,7 @@ export interface Databases {
   listInaccessibleByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: DatabasesListInaccessibleByServerOptionalParams
+    options?: DatabasesListInaccessibleByServerOptionalParams,
   ): PagedAsyncIterableIterator<Database>;
   /**
    * Gets a database.
@@ -124,7 +90,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesGetOptionalParams
+    options?: DatabasesGetOptionalParams,
   ): Promise<DatabasesGetResponse>;
   /**
    * Creates a new database or updates an existing database.
@@ -140,7 +106,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOrUpdateOptionalParams
+    options?: DatabasesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesCreateOrUpdateResponse>,
@@ -161,7 +127,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOrUpdateOptionalParams
+    options?: DatabasesCreateOrUpdateOptionalParams,
   ): Promise<DatabasesCreateOrUpdateResponse>;
   /**
    * Deletes the database.
@@ -175,7 +141,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the database.
@@ -189,7 +155,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates an existing database.
@@ -205,7 +171,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: DatabaseUpdate,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesUpdateResponse>,
@@ -226,7 +192,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: DatabaseUpdate,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<DatabasesUpdateResponse>;
   /**
    * Exports a database.
@@ -242,7 +208,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: ExportDatabaseDefinition,
-    options?: DatabasesExportOptionalParams
+    options?: DatabasesExportOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesExportResponse>,
@@ -263,7 +229,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: ExportDatabaseDefinition,
-    options?: DatabasesExportOptionalParams
+    options?: DatabasesExportOptionalParams,
   ): Promise<DatabasesExportResponse>;
   /**
    * Failovers a database.
@@ -277,7 +243,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesFailoverOptionalParams
+    options?: DatabasesFailoverOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Failovers a database.
@@ -291,7 +257,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesFailoverOptionalParams
+    options?: DatabasesFailoverOptionalParams,
   ): Promise<void>;
   /**
    * Imports a bacpac into a new database.
@@ -307,7 +273,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: ImportExistingDatabaseDefinition,
-    options?: DatabasesImportOptionalParams
+    options?: DatabasesImportOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesImportResponse>,
@@ -328,7 +294,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: ImportExistingDatabaseDefinition,
-    options?: DatabasesImportOptionalParams
+    options?: DatabasesImportOptionalParams,
   ): Promise<DatabasesImportResponse>;
   /**
    * Renames a database.
@@ -344,7 +310,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: ResourceMoveDefinition,
-    options?: DatabasesRenameOptionalParams
+    options?: DatabasesRenameOptionalParams,
   ): Promise<void>;
   /**
    * Pauses a database.
@@ -358,7 +324,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesPauseOptionalParams
+    options?: DatabasesPauseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesPauseResponse>,
@@ -377,7 +343,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesPauseOptionalParams
+    options?: DatabasesPauseOptionalParams,
   ): Promise<DatabasesPauseResponse>;
   /**
    * Resumes a database.
@@ -391,7 +357,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesResumeOptionalParams
+    options?: DatabasesResumeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesResumeResponse>,
@@ -410,7 +376,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesResumeOptionalParams
+    options?: DatabasesResumeOptionalParams,
   ): Promise<DatabasesResumeResponse>;
   /**
    * Upgrades a data warehouse.
@@ -424,7 +390,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesUpgradeDataWarehouseOptionalParams
+    options?: DatabasesUpgradeDataWarehouseOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Upgrades a data warehouse.
@@ -438,6 +404,6 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesUpgradeDataWarehouseOptionalParams
+    options?: DatabasesUpgradeDataWarehouseOptionalParams,
   ): Promise<void>;
 }

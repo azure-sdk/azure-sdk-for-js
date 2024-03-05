@@ -23,13 +23,14 @@ import {
   DatabaseSecurityAlertPoliciesGetResponse,
   DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   DatabaseSecurityAlertPoliciesCreateOrUpdateResponse,
-  DatabaseSecurityAlertPoliciesListByDatabaseNextResponse
+  DatabaseSecurityAlertPoliciesListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseSecurityAlertPolicies operations. */
 export class DatabaseSecurityAlertPoliciesImpl
-  implements DatabaseSecurityAlertPolicies {
+  implements DatabaseSecurityAlertPolicies
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -52,13 +53,13 @@ export class DatabaseSecurityAlertPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams
+    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseSecurityAlertPolicy> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +77,9 @@ export class DatabaseSecurityAlertPoliciesImpl
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +88,7 @@ export class DatabaseSecurityAlertPoliciesImpl
     serverName: string,
     databaseName: string,
     options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatabaseSecurityAlertPolicy[]> {
     let result: DatabaseSecurityAlertPoliciesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +97,7 @@ export class DatabaseSecurityAlertPoliciesImpl
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +110,7 @@ export class DatabaseSecurityAlertPoliciesImpl
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,16 +123,36 @@ export class DatabaseSecurityAlertPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams
+    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
   ): AsyncIterableIterator<DatabaseSecurityAlertPolicy> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets a list of database's security alert policies.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the  server.
+   * @param databaseName The name of the  database for which the security alert policy is defined.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
+  ): Promise<DatabaseSecurityAlertPoliciesListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec,
+    );
   }
 
   /**
@@ -148,7 +169,7 @@ export class DatabaseSecurityAlertPoliciesImpl
     serverName: string,
     databaseName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
-    options?: DatabaseSecurityAlertPoliciesGetOptionalParams
+    options?: DatabaseSecurityAlertPoliciesGetOptionalParams,
   ): Promise<DatabaseSecurityAlertPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -156,9 +177,9 @@ export class DatabaseSecurityAlertPoliciesImpl
         serverName,
         databaseName,
         securityAlertPolicyName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -178,7 +199,7 @@ export class DatabaseSecurityAlertPoliciesImpl
     databaseName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: DatabaseSecurityAlertPolicy,
-    options?: DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DatabaseSecurityAlertPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -187,29 +208,9 @@ export class DatabaseSecurityAlertPoliciesImpl
         databaseName,
         securityAlertPolicyName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Gets a list of database's security alert policies.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the  server.
-   * @param databaseName The name of the  database for which the security alert policy is defined.
-   * @param options The options parameters.
-   */
-  private _listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams
-  ): Promise<DatabaseSecurityAlertPoliciesListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -227,104 +228,109 @@ export class DatabaseSecurityAlertPoliciesImpl
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: DatabaseSecurityAlertPoliciesListByDatabaseNextOptionalParams
+    options?: DatabaseSecurityAlertPoliciesListByDatabaseNextOptionalParams,
   ): Promise<DatabaseSecurityAlertPoliciesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseSecurityAlertPolicy
+      bodyMapper: Mappers.DatabaseSecurityAlertListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.securityAlertPolicyName
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseSecurityAlertPolicy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.securityAlertPolicyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseSecurityAlertPolicy
+      bodyMapper: Mappers.DatabaseSecurityAlertPolicy,
     },
     201: {
-      bodyMapper: Mappers.DatabaseSecurityAlertPolicy
+      bodyMapper: Mappers.DatabaseSecurityAlertPolicy,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters14,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters12,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.securityAlertPolicyName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatabaseSecurityAlertListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
+    Parameters.securityAlertPolicyName,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseSecurityAlertListResult
+      bodyMapper: Mappers.DatabaseSecurityAlertListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

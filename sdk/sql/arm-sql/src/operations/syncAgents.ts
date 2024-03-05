@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   SyncAgentsGenerateKeyOptionalParams,
   SyncAgentsGenerateKeyResponse,
   SyncAgentsListByServerNextResponse,
-  SyncAgentsListLinkedDatabasesNextResponse
+  SyncAgentsListLinkedDatabasesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,12 +62,12 @@ export class SyncAgentsImpl implements SyncAgents {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: SyncAgentsListByServerOptionalParams
+    options?: SyncAgentsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<SyncAgent> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +84,9 @@ export class SyncAgentsImpl implements SyncAgents {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     options?: SyncAgentsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SyncAgent[]> {
     let result: SyncAgentsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +110,7 @@ export class SyncAgentsImpl implements SyncAgents {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +122,12 @@ export class SyncAgentsImpl implements SyncAgents {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: SyncAgentsListByServerOptionalParams
+    options?: SyncAgentsListByServerOptionalParams,
   ): AsyncIterableIterator<SyncAgent> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,13 +145,13 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     syncAgentName: string,
-    options?: SyncAgentsListLinkedDatabasesOptionalParams
+    options?: SyncAgentsListLinkedDatabasesOptionalParams,
   ): PagedAsyncIterableIterator<SyncAgentLinkedDatabase> {
     const iter = this.listLinkedDatabasesPagingAll(
       resourceGroupName,
       serverName,
       syncAgentName,
-      options
+      options,
     );
     return {
       next() {
@@ -169,9 +169,9 @@ export class SyncAgentsImpl implements SyncAgents {
           serverName,
           syncAgentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -180,7 +180,7 @@ export class SyncAgentsImpl implements SyncAgents {
     serverName: string,
     syncAgentName: string,
     options?: SyncAgentsListLinkedDatabasesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SyncAgentLinkedDatabase[]> {
     let result: SyncAgentsListLinkedDatabasesResponse;
     let continuationToken = settings?.continuationToken;
@@ -189,7 +189,7 @@ export class SyncAgentsImpl implements SyncAgents {
         resourceGroupName,
         serverName,
         syncAgentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -202,7 +202,7 @@ export class SyncAgentsImpl implements SyncAgents {
         serverName,
         syncAgentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -215,16 +215,34 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     syncAgentName: string,
-    options?: SyncAgentsListLinkedDatabasesOptionalParams
+    options?: SyncAgentsListLinkedDatabasesOptionalParams,
   ): AsyncIterableIterator<SyncAgentLinkedDatabase> {
     for await (const page of this.listLinkedDatabasesPagingPage(
       resourceGroupName,
       serverName,
       syncAgentName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists sync agents in a server.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server on which the sync agent is hosted.
+   * @param options The options parameters.
+   */
+  private _listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: SyncAgentsListByServerOptionalParams,
+  ): Promise<SyncAgentsListByServerResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, options },
+      listByServerOperationSpec,
+    );
   }
 
   /**
@@ -239,11 +257,11 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     syncAgentName: string,
-    options?: SyncAgentsGetOptionalParams
+    options?: SyncAgentsGetOptionalParams,
   ): Promise<SyncAgentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, syncAgentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -261,7 +279,7 @@ export class SyncAgentsImpl implements SyncAgents {
     serverName: string,
     syncAgentName: string,
     parameters: SyncAgent,
-    options?: SyncAgentsCreateOrUpdateOptionalParams
+    options?: SyncAgentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SyncAgentsCreateOrUpdateResponse>,
@@ -270,21 +288,20 @@ export class SyncAgentsImpl implements SyncAgents {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SyncAgentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +310,8 @@ export class SyncAgentsImpl implements SyncAgents {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,8 +319,8 @@ export class SyncAgentsImpl implements SyncAgents {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -314,16 +331,16 @@ export class SyncAgentsImpl implements SyncAgents {
         serverName,
         syncAgentName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SyncAgentsCreateOrUpdateResponse,
       OperationState<SyncAgentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -343,14 +360,14 @@ export class SyncAgentsImpl implements SyncAgents {
     serverName: string,
     syncAgentName: string,
     parameters: SyncAgent,
-    options?: SyncAgentsCreateOrUpdateOptionalParams
+    options?: SyncAgentsCreateOrUpdateOptionalParams,
   ): Promise<SyncAgentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       syncAgentName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -367,25 +384,24 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     syncAgentName: string,
-    options?: SyncAgentsDeleteOptionalParams
+    options?: SyncAgentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -394,8 +410,8 @@ export class SyncAgentsImpl implements SyncAgents {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -403,19 +419,19 @@ export class SyncAgentsImpl implements SyncAgents {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, syncAgentName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -433,33 +449,15 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     syncAgentName: string,
-    options?: SyncAgentsDeleteOptionalParams
+    options?: SyncAgentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
       syncAgentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists sync agents in a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server on which the sync agent is hosted.
-   * @param options The options parameters.
-   */
-  private _listByServer(
-    resourceGroupName: string,
-    serverName: string,
-    options?: SyncAgentsListByServerOptionalParams
-  ): Promise<SyncAgentsListByServerResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listByServerOperationSpec
-    );
   }
 
   /**
@@ -474,11 +472,11 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     syncAgentName: string,
-    options?: SyncAgentsGenerateKeyOptionalParams
+    options?: SyncAgentsGenerateKeyOptionalParams,
   ): Promise<SyncAgentsGenerateKeyResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, syncAgentName, options },
-      generateKeyOperationSpec
+      generateKeyOperationSpec,
     );
   }
 
@@ -494,11 +492,11 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     syncAgentName: string,
-    options?: SyncAgentsListLinkedDatabasesOptionalParams
+    options?: SyncAgentsListLinkedDatabasesOptionalParams,
   ): Promise<SyncAgentsListLinkedDatabasesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, syncAgentName, options },
-      listLinkedDatabasesOperationSpec
+      listLinkedDatabasesOperationSpec,
     );
   }
 
@@ -514,11 +512,11 @@ export class SyncAgentsImpl implements SyncAgents {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: SyncAgentsListByServerNextOptionalParams
+    options?: SyncAgentsListByServerNextOptionalParams,
   ): Promise<SyncAgentsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 
@@ -536,183 +534,200 @@ export class SyncAgentsImpl implements SyncAgents {
     serverName: string,
     syncAgentName: string,
     nextLink: string,
-    options?: SyncAgentsListLinkedDatabasesNextOptionalParams
+    options?: SyncAgentsListLinkedDatabasesNextOptionalParams,
   ): Promise<SyncAgentsListLinkedDatabasesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, syncAgentName, nextLink, options },
-      listLinkedDatabasesNextOperationSpec
+      listLinkedDatabasesNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
+const listByServerOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SyncAgent
+      bodyMapper: Mappers.SyncAgentListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.syncAgentName
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SyncAgent,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.syncAgentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SyncAgent
+      bodyMapper: Mappers.SyncAgent,
     },
     201: {
-      bodyMapper: Mappers.SyncAgent
+      bodyMapper: Mappers.SyncAgent,
     },
     202: {
-      bodyMapper: Mappers.SyncAgent
+      bodyMapper: Mappers.SyncAgent,
     },
     204: {
-      bodyMapper: Mappers.SyncAgent
+      bodyMapper: Mappers.SyncAgent,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters52,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters102,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.syncAgentName
+    Parameters.subscriptionId,
+    Parameters.syncAgentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.syncAgentName
-  ],
-  serializer
-};
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SyncAgentListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.syncAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/generateKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/generateKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SyncAgentKeyProperties
+      bodyMapper: Mappers.SyncAgentKeyProperties,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.syncAgentName
+    Parameters.subscriptionId,
+    Parameters.syncAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listLinkedDatabasesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/linkedDatabases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/linkedDatabases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SyncAgentLinkedDatabaseListResult
+      bodyMapper: Mappers.SyncAgentLinkedDatabaseListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.syncAgentName
+    Parameters.subscriptionId,
+    Parameters.syncAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SyncAgentListResult
+      bodyMapper: Mappers.SyncAgentListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listLinkedDatabasesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SyncAgentLinkedDatabaseListResult
+      bodyMapper: Mappers.SyncAgentLinkedDatabaseListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.syncAgentName
+    Parameters.syncAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

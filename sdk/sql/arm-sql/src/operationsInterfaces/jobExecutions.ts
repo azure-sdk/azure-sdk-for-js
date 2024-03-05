@@ -12,13 +12,13 @@ import {
   JobExecution,
   JobExecutionsListByAgentOptionalParams,
   JobExecutionsListByJobOptionalParams,
-  JobExecutionsCancelOptionalParams,
-  JobExecutionsCreateOptionalParams,
-  JobExecutionsCreateResponse,
   JobExecutionsGetOptionalParams,
   JobExecutionsGetResponse,
   JobExecutionsCreateOrUpdateOptionalParams,
-  JobExecutionsCreateOrUpdateResponse
+  JobExecutionsCreateOrUpdateResponse,
+  JobExecutionsCancelOptionalParams,
+  JobExecutionsCreateOptionalParams,
+  JobExecutionsCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface JobExecutions {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobExecutionsListByAgentOptionalParams
+    options?: JobExecutionsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobExecution>;
   /**
    * Lists a job's executions.
@@ -52,63 +52,8 @@ export interface JobExecutions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobExecutionsListByJobOptionalParams
+    options?: JobExecutionsListByJobOptionalParams,
   ): PagedAsyncIterableIterator<JobExecution>;
-  /**
-   * Requests cancellation of a job execution.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job.
-   * @param jobExecutionId The id of the job execution to cancel.
-   * @param options The options parameters.
-   */
-  cancel(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    jobExecutionId: string,
-    options?: JobExecutionsCancelOptionalParams
-  ): Promise<void>;
-  /**
-   * Starts an elastic job execution.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job to get.
-   * @param options The options parameters.
-   */
-  beginCreate(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    options?: JobExecutionsCreateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<JobExecutionsCreateResponse>,
-      JobExecutionsCreateResponse
-    >
-  >;
-  /**
-   * Starts an elastic job execution.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param jobAgentName The name of the job agent.
-   * @param jobName The name of the job to get.
-   * @param options The options parameters.
-   */
-  beginCreateAndWait(
-    resourceGroupName: string,
-    serverName: string,
-    jobAgentName: string,
-    jobName: string,
-    options?: JobExecutionsCreateOptionalParams
-  ): Promise<JobExecutionsCreateResponse>;
   /**
    * Gets a job execution.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -125,7 +70,7 @@ export interface JobExecutions {
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    options?: JobExecutionsGetOptionalParams
+    options?: JobExecutionsGetOptionalParams,
   ): Promise<JobExecutionsGetResponse>;
   /**
    * Creates or updates a job execution.
@@ -143,7 +88,7 @@ export interface JobExecutions {
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    options?: JobExecutionsCreateOrUpdateOptionalParams
+    options?: JobExecutionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobExecutionsCreateOrUpdateResponse>,
@@ -166,6 +111,61 @@ export interface JobExecutions {
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    options?: JobExecutionsCreateOrUpdateOptionalParams
+    options?: JobExecutionsCreateOrUpdateOptionalParams,
   ): Promise<JobExecutionsCreateOrUpdateResponse>;
+  /**
+   * Requests cancellation of a job execution.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job.
+   * @param jobExecutionId The id of the job execution to cancel.
+   * @param options The options parameters.
+   */
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: JobExecutionsCancelOptionalParams,
+  ): Promise<void>;
+  /**
+   * Starts an elastic job execution.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job to get.
+   * @param options The options parameters.
+   */
+  beginCreate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: JobExecutionsCreateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobExecutionsCreateResponse>,
+      JobExecutionsCreateResponse
+    >
+  >;
+  /**
+   * Starts an elastic job execution.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param jobAgentName The name of the job agent.
+   * @param jobName The name of the job to get.
+   * @param options The options parameters.
+   */
+  beginCreateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: JobExecutionsCreateOptionalParams,
+  ): Promise<JobExecutionsCreateResponse>;
 }

@@ -9,19 +9,19 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ExtendedServerBlobAuditingPolicy,
-  ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
-  ExtendedServerBlobAuditingPoliciesGetOptionalParams,
-  ExtendedServerBlobAuditingPoliciesGetResponse,
-  ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse,
+  NetworkSecurityPerimeterConfiguration,
+  NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetResponse,
+  NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  NetworkSecurityPerimeterConfigurationsReconcileResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ExtendedServerBlobAuditingPolicies. */
-export interface ExtendedServerBlobAuditingPolicies {
+/** Interface representing a NetworkSecurityPerimeterConfigurations. */
+export interface NetworkSecurityPerimeterConfigurations {
   /**
-   * Lists extended auditing settings of a server.
+   * Gets a list of NSP configurations for a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -30,51 +30,53 @@ export interface ExtendedServerBlobAuditingPolicies {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
-  ): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy>;
+    options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
   /**
-   * Gets an extended server's blob auditing policy.
+   * Gets a network security perimeter configuration.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
+   * @param nspConfigName
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams,
-  ): Promise<ExtendedServerBlobAuditingPoliciesGetResponse>;
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
   /**
-   * Creates or updates an extended server's blob auditing policy.
+   * Reconcile network security perimeter configuration for SQL Resource Provider
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param parameters Properties of extended blob auditing policy
+   * @param nspConfigName
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
+  beginReconcile(
     resourceGroupName: string,
     serverName: string,
-    parameters: ExtendedServerBlobAuditingPolicy,
-    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse>,
-      ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>,
+      NetworkSecurityPerimeterConfigurationsReconcileResponse
     >
   >;
   /**
-   * Creates or updates an extended server's blob auditing policy.
+   * Reconcile network security perimeter configuration for SQL Resource Provider
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param parameters Properties of extended blob auditing policy
+   * @param nspConfigName
    * @param options The options parameters.
    */
-  beginCreateOrUpdateAndWait(
+  beginReconcileAndWait(
     resourceGroupName: string,
     serverName: string,
-    parameters: ExtendedServerBlobAuditingPolicy,
-    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  ): Promise<ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse>;
+    nspConfigName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
 }

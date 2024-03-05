@@ -15,7 +15,9 @@ import {
   ManagedInstanceLongTermRetentionPoliciesGetOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesGetResponse,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
-  ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
+  ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse,
+  ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams,
+  ManagedInstanceLongTermRetentionPoliciesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +35,7 @@ export interface ManagedInstanceLongTermRetentionPolicies {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionPolicy>;
   /**
    * Gets a managed database's long term retention policy.
@@ -49,7 +51,7 @@ export interface ManagedInstanceLongTermRetentionPolicies {
     managedInstanceName: string,
     databaseName: string,
     policyName: ManagedInstanceLongTermRetentionPolicyName,
-    options?: ManagedInstanceLongTermRetentionPoliciesGetOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesGetOptionalParams,
   ): Promise<ManagedInstanceLongTermRetentionPoliciesGetResponse>;
   /**
    * Sets a managed database's long term retention policy.
@@ -67,12 +69,10 @@ export interface ManagedInstanceLongTermRetentionPolicies {
     databaseName: string,
     policyName: ManagedInstanceLongTermRetentionPolicyName,
     parameters: ManagedInstanceLongTermRetentionPolicy,
-    options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
-      >,
+      OperationState<ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse>,
       ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
     >
   >;
@@ -92,6 +92,43 @@ export interface ManagedInstanceLongTermRetentionPolicies {
     databaseName: string,
     policyName: ManagedInstanceLongTermRetentionPolicyName,
     parameters: ManagedInstanceLongTermRetentionPolicy,
-    options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse>;
+  /**
+   * Deletes a managed database's long term retention policy.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param policyName The policy name. Should always be Default.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    policyName: ManagedInstanceLongTermRetentionPolicyName,
+    options?: ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedInstanceLongTermRetentionPoliciesDeleteResponse>,
+      ManagedInstanceLongTermRetentionPoliciesDeleteResponse
+    >
+  >;
+  /**
+   * Deletes a managed database's long term retention policy.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param policyName The policy name. Should always be Default.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    policyName: ManagedInstanceLongTermRetentionPolicyName,
+    options?: ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams,
+  ): Promise<ManagedInstanceLongTermRetentionPoliciesDeleteResponse>;
 }

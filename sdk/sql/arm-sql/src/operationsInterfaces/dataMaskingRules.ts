@@ -9,9 +9,10 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DataMaskingRule,
+  DataMaskingPolicyName,
   DataMaskingRulesListByDatabaseOptionalParams,
   DataMaskingRulesCreateOrUpdateOptionalParams,
-  DataMaskingRulesCreateOrUpdateResponse
+  DataMaskingRulesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,13 +24,15 @@ export interface DataMaskingRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking rule applies.
    * @param options The options parameters.
    */
   listByDatabase(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataMaskingRulesListByDatabaseOptionalParams
+    dataMaskingPolicyName: DataMaskingPolicyName,
+    options?: DataMaskingRulesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DataMaskingRule>;
   /**
    * Creates or updates a database data masking rule.
@@ -37,6 +40,7 @@ export interface DataMaskingRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
    * @param dataMaskingRuleName The name of the data masking rule.
    * @param parameters The required parameters for creating or updating a data masking rule.
    * @param options The options parameters.
@@ -45,8 +49,9 @@ export interface DataMaskingRules {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
     dataMaskingRuleName: string,
     parameters: DataMaskingRule,
-    options?: DataMaskingRulesCreateOrUpdateOptionalParams
+    options?: DataMaskingRulesCreateOrUpdateOptionalParams,
   ): Promise<DataMaskingRulesCreateOrUpdateResponse>;
 }

@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   WorkloadClassifiersCreateOrUpdateOptionalParams,
   WorkloadClassifiersCreateOrUpdateResponse,
   WorkloadClassifiersDeleteOptionalParams,
-  WorkloadClassifiersListByWorkloadGroupNextResponse
+  WorkloadClassifiersListByWorkloadGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,14 +59,14 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     serverName: string,
     databaseName: string,
     workloadGroupName: string,
-    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams
+    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadClassifier> {
     const iter = this.listByWorkloadGroupPagingAll(
       resourceGroupName,
       serverName,
       databaseName,
       workloadGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +85,9 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
           databaseName,
           workloadGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -97,7 +97,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     databaseName: string,
     workloadGroupName: string,
     options?: WorkloadClassifiersListByWorkloadGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkloadClassifier[]> {
     let result: WorkloadClassifiersListByWorkloadGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         serverName,
         databaseName,
         workloadGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -121,7 +121,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         databaseName,
         workloadGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -135,17 +135,45 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     serverName: string,
     databaseName: string,
     workloadGroupName: string,
-    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams
+    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams,
   ): AsyncIterableIterator<WorkloadClassifier> {
     for await (const page of this.listByWorkloadGroupPagingPage(
       resourceGroupName,
       serverName,
       databaseName,
       workloadGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets the list of workload classifiers for a workload group
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param workloadGroupName The name of the workload group from which to receive the classifiers from.
+   * @param options The options parameters.
+   */
+  private _listByWorkloadGroup(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    workloadGroupName: string,
+    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams,
+  ): Promise<WorkloadClassifiersListByWorkloadGroupResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        workloadGroupName,
+        options,
+      },
+      listByWorkloadGroupOperationSpec,
+    );
   }
 
   /**
@@ -164,7 +192,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     databaseName: string,
     workloadGroupName: string,
     workloadClassifierName: string,
-    options?: WorkloadClassifiersGetOptionalParams
+    options?: WorkloadClassifiersGetOptionalParams,
   ): Promise<WorkloadClassifiersGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -173,9 +201,9 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         databaseName,
         workloadGroupName,
         workloadClassifierName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -197,7 +225,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     workloadGroupName: string,
     workloadClassifierName: string,
     parameters: WorkloadClassifier,
-    options?: WorkloadClassifiersCreateOrUpdateOptionalParams
+    options?: WorkloadClassifiersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkloadClassifiersCreateOrUpdateResponse>,
@@ -206,21 +234,20 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkloadClassifiersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -229,8 +256,8 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -238,8 +265,8 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -252,16 +279,16 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         workloadGroupName,
         workloadClassifierName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       WorkloadClassifiersCreateOrUpdateResponse,
       OperationState<WorkloadClassifiersCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -285,7 +312,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     workloadGroupName: string,
     workloadClassifierName: string,
     parameters: WorkloadClassifier,
-    options?: WorkloadClassifiersCreateOrUpdateOptionalParams
+    options?: WorkloadClassifiersCreateOrUpdateOptionalParams,
   ): Promise<WorkloadClassifiersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -294,7 +321,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
       workloadGroupName,
       workloadClassifierName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -315,25 +342,24 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     databaseName: string,
     workloadGroupName: string,
     workloadClassifierName: string,
-    options?: WorkloadClassifiersDeleteOptionalParams
+    options?: WorkloadClassifiersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -342,8 +368,8 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -351,8 +377,8 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -364,13 +390,13 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         databaseName,
         workloadGroupName,
         workloadClassifierName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -392,7 +418,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     databaseName: string,
     workloadGroupName: string,
     workloadClassifierName: string,
-    options?: WorkloadClassifiersDeleteOptionalParams
+    options?: WorkloadClassifiersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -400,37 +426,9 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
       databaseName,
       workloadGroupName,
       workloadClassifierName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets the list of workload classifiers for a workload group
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param workloadGroupName The name of the workload group from which to receive the classifiers from.
-   * @param options The options parameters.
-   */
-  private _listByWorkloadGroup(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    workloadGroupName: string,
-    options?: WorkloadClassifiersListByWorkloadGroupOptionalParams
-  ): Promise<WorkloadClassifiersListByWorkloadGroupResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        workloadGroupName,
-        options
-      },
-      listByWorkloadGroupOperationSpec
-    );
   }
 
   /**
@@ -449,7 +447,7 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
     databaseName: string,
     workloadGroupName: string,
     nextLink: string,
-    options?: WorkloadClassifiersListByWorkloadGroupNextOptionalParams
+    options?: WorkloadClassifiersListByWorkloadGroupNextOptionalParams,
   ): Promise<WorkloadClassifiersListByWorkloadGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -458,129 +456,142 @@ export class WorkloadClassifiersImpl implements WorkloadClassifiers {
         databaseName,
         workloadGroupName,
         nextLink,
-        options
+        options,
       },
-      listByWorkloadGroupNextOperationSpec
+      listByWorkloadGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
+const listByWorkloadGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.WorkloadClassifierListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.workloadGroupName,
-    Parameters.workloadClassifierName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadClassifier,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.workloadGroupName,
+    Parameters.workloadClassifierName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.WorkloadClassifier,
     },
     201: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.WorkloadClassifier,
     },
     202: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.WorkloadClassifier,
     },
     204: {
-      bodyMapper: Mappers.WorkloadClassifier
+      bodyMapper: Mappers.WorkloadClassifier,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters56,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters108,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.workloadGroupName,
-    Parameters.workloadClassifierName
+    Parameters.workloadClassifierName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.workloadGroupName,
-    Parameters.workloadClassifierName
-  ],
-  serializer
-};
-const listByWorkloadGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers",
-  httpMethod: "GET",
   responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadClassifierListResult
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.workloadGroupName
+    Parameters.subscriptionId,
+    Parameters.workloadGroupName,
+    Parameters.workloadClassifierName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkloadGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadClassifierListResult
+      bodyMapper: Mappers.WorkloadClassifierListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.workloadGroupName
+    Parameters.workloadGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

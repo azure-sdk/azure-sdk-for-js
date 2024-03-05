@@ -15,15 +15,15 @@ import {
   ServerTrustCertificatesGetResponse,
   ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ServerTrustCertificatesCreateOrUpdateResponse,
-  ServerTrustCertificatesDeleteOptionalParams
+  ServerTrustCertificatesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerTrustCertificates. */
 export interface ServerTrustCertificates {
   /**
-   * Gets a list of server trust certificates that were uploaded from box to the given Sql Managed
-   * Instance.
+   * Gets a list of the server trust certificates used to secure communication between SQL Server and the
+   * specified SQL Managed Instance
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -32,10 +32,10 @@ export interface ServerTrustCertificates {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerTrustCertificatesListByInstanceOptionalParams
+    options?: ServerTrustCertificatesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ServerTrustCertificate>;
   /**
-   * Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
+   * Gets a server trust certificate that was uploaded from SQL Server to SQL Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -46,10 +46,10 @@ export interface ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesGetOptionalParams
+    options?: ServerTrustCertificatesGetOptionalParams,
   ): Promise<ServerTrustCertificatesGetResponse>;
   /**
-   * Uploads a server trust certificate from box to Sql Managed Instance.
+   * Uploads a server trust certificate from SQL Server to SQL Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -62,7 +62,7 @@ export interface ServerTrustCertificates {
     managedInstanceName: string,
     certificateName: string,
     parameters: ServerTrustCertificate,
-    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams
+    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerTrustCertificatesCreateOrUpdateResponse>,
@@ -70,7 +70,7 @@ export interface ServerTrustCertificates {
     >
   >;
   /**
-   * Uploads a server trust certificate from box to Sql Managed Instance.
+   * Uploads a server trust certificate from SQL Server to SQL Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -83,10 +83,10 @@ export interface ServerTrustCertificates {
     managedInstanceName: string,
     certificateName: string,
     parameters: ServerTrustCertificate,
-    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams
+    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams,
   ): Promise<ServerTrustCertificatesCreateOrUpdateResponse>;
   /**
-   * Deletes a server trust certificate that was uploaded from box to Sql Managed Instance.
+   * Deletes a server trust certificate that was uploaded from SQL Server to SQL Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -97,10 +97,10 @@ export interface ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesDeleteOptionalParams
+    options?: ServerTrustCertificatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a server trust certificate that was uploaded from box to Sql Managed Instance.
+   * Deletes a server trust certificate that was uploaded from SQL Server to SQL Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -111,6 +111,6 @@ export interface ServerTrustCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     certificateName: string,
-    options?: ServerTrustCertificatesDeleteOptionalParams
+    options?: ServerTrustCertificatesDeleteOptionalParams,
   ): Promise<void>;
 }

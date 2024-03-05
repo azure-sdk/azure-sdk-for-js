@@ -19,7 +19,7 @@ import {
   ElasticPoolOperationsListByElasticPoolOptionalParams,
   ElasticPoolOperationsListByElasticPoolResponse,
   ElasticPoolOperationsCancelOptionalParams,
-  ElasticPoolOperationsListByElasticPoolNextResponse
+  ElasticPoolOperationsListByElasticPoolNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolOperationsListByElasticPoolOptionalParams
+    options?: ElasticPoolOperationsListByElasticPoolOptionalParams,
   ): PagedAsyncIterableIterator<ElasticPoolOperation> {
     const iter = this.listByElasticPoolPagingAll(
       resourceGroupName,
       serverName,
       elasticPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
           serverName,
           elasticPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
     serverName: string,
     elasticPoolName: string,
     options?: ElasticPoolOperationsListByElasticPoolOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ElasticPoolOperation[]> {
     let result: ElasticPoolOperationsListByElasticPoolResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
         resourceGroupName,
         serverName,
         elasticPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
         serverName,
         elasticPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,16 +117,36 @@ export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
     resourceGroupName: string,
     serverName: string,
     elasticPoolName: string,
-    options?: ElasticPoolOperationsListByElasticPoolOptionalParams
+    options?: ElasticPoolOperationsListByElasticPoolOptionalParams,
   ): AsyncIterableIterator<ElasticPoolOperation> {
     for await (const page of this.listByElasticPoolPagingPage(
       resourceGroupName,
       serverName,
       elasticPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets a list of operations performed on the elastic pool.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param elasticPoolName
+   * @param options The options parameters.
+   */
+  private _listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options?: ElasticPoolOperationsListByElasticPoolOptionalParams,
+  ): Promise<ElasticPoolOperationsListByElasticPoolResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, elasticPoolName, options },
+      listByElasticPoolOperationSpec,
+    );
   }
 
   /**
@@ -143,31 +163,11 @@ export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
     serverName: string,
     elasticPoolName: string,
     operationId: string,
-    options?: ElasticPoolOperationsCancelOptionalParams
+    options?: ElasticPoolOperationsCancelOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, elasticPoolName, operationId, options },
-      cancelOperationSpec
-    );
-  }
-
-  /**
-   * Gets a list of operations performed on the elastic pool.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param elasticPoolName
-   * @param options The options parameters.
-   */
-  private _listByElasticPool(
-    resourceGroupName: string,
-    serverName: string,
-    elasticPoolName: string,
-    options?: ElasticPoolOperationsListByElasticPoolOptionalParams
-  ): Promise<ElasticPoolOperationsListByElasticPoolResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, elasticPoolName, options },
-      listByElasticPoolOperationSpec
+      cancelOperationSpec,
     );
   }
 
@@ -185,71 +185,79 @@ export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
     serverName: string,
     elasticPoolName: string,
     nextLink: string,
-    options?: ElasticPoolOperationsListByElasticPoolNextOptionalParams
+    options?: ElasticPoolOperationsListByElasticPoolNextOptionalParams,
   ): Promise<ElasticPoolOperationsListByElasticPoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, elasticPoolName, nextLink, options },
-      listByElasticPoolNextOperationSpec
+      listByElasticPoolNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations/{operationId}/cancel",
-  httpMethod: "POST",
-  responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.elasticPoolName,
-    Parameters.operationId
-  ],
-  serializer
-};
 const listByElasticPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticPoolOperationListResult
+      bodyMapper: Mappers.ElasticPoolOperationListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.elasticPoolName
+    Parameters.subscriptionId,
+    Parameters.elasticPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations/{operationId}/cancel",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.operationId,
+    Parameters.elasticPoolName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByElasticPoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticPoolOperationListResult
+      bodyMapper: Mappers.ElasticPoolOperationListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.elasticPoolName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

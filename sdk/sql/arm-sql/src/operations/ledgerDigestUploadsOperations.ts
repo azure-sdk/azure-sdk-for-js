@@ -16,7 +16,7 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -31,13 +31,14 @@ import {
   LedgerDigestUploadsCreateOrUpdateResponse,
   LedgerDigestUploadsDisableOptionalParams,
   LedgerDigestUploadsDisableResponse,
-  LedgerDigestUploadsListByDatabaseNextResponse
+  LedgerDigestUploadsListByDatabaseNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LedgerDigestUploadsOperations operations. */
 export class LedgerDigestUploadsOperationsImpl
-  implements LedgerDigestUploadsOperations {
+  implements LedgerDigestUploadsOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -60,13 +61,13 @@ export class LedgerDigestUploadsOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams
+    options?: LedgerDigestUploadsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LedgerDigestUploads> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +85,9 @@ export class LedgerDigestUploadsOperationsImpl
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +96,7 @@ export class LedgerDigestUploadsOperationsImpl
     serverName: string,
     databaseName: string,
     options?: LedgerDigestUploadsListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LedgerDigestUploads[]> {
     let result: LedgerDigestUploadsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +105,7 @@ export class LedgerDigestUploadsOperationsImpl
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -117,7 +118,7 @@ export class LedgerDigestUploadsOperationsImpl
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,16 +131,36 @@ export class LedgerDigestUploadsOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams
+    options?: LedgerDigestUploadsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<LedgerDigestUploads> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets all ledger digest upload settings on a database.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: LedgerDigestUploadsListByDatabaseOptionalParams,
+  ): Promise<LedgerDigestUploadsListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec,
+    );
   }
 
   /**
@@ -156,7 +177,7 @@ export class LedgerDigestUploadsOperationsImpl
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsGetOptionalParams
+    options?: LedgerDigestUploadsGetOptionalParams,
   ): Promise<LedgerDigestUploadsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -164,9 +185,9 @@ export class LedgerDigestUploadsOperationsImpl
         serverName,
         databaseName,
         ledgerDigestUploads,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -186,7 +207,7 @@ export class LedgerDigestUploadsOperationsImpl
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
     parameters: LedgerDigestUploads,
-    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
+    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
@@ -195,21 +216,20 @@ export class LedgerDigestUploadsOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LedgerDigestUploadsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -218,8 +238,8 @@ export class LedgerDigestUploadsOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -227,8 +247,8 @@ export class LedgerDigestUploadsOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -240,16 +260,16 @@ export class LedgerDigestUploadsOperationsImpl
         databaseName,
         ledgerDigestUploads,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       LedgerDigestUploadsCreateOrUpdateResponse,
       OperationState<LedgerDigestUploadsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -271,7 +291,7 @@ export class LedgerDigestUploadsOperationsImpl
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
     parameters: LedgerDigestUploads,
-    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
+    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams,
   ): Promise<LedgerDigestUploadsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -279,29 +299,9 @@ export class LedgerDigestUploadsOperationsImpl
       databaseName,
       ledgerDigestUploads,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets all ledger digest upload settings on a database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  private _listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: LedgerDigestUploadsListByDatabaseOptionalParams
-  ): Promise<LedgerDigestUploadsListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
-    );
   }
 
   /**
@@ -319,7 +319,7 @@ export class LedgerDigestUploadsOperationsImpl
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsDisableOptionalParams
+    options?: LedgerDigestUploadsDisableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LedgerDigestUploadsDisableResponse>,
@@ -328,21 +328,20 @@ export class LedgerDigestUploadsOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LedgerDigestUploadsDisableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -351,8 +350,8 @@ export class LedgerDigestUploadsOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -360,8 +359,8 @@ export class LedgerDigestUploadsOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -372,16 +371,16 @@ export class LedgerDigestUploadsOperationsImpl
         serverName,
         databaseName,
         ledgerDigestUploads,
-        options
+        options,
       },
-      spec: disableOperationSpec
+      spec: disableOperationSpec,
     });
     const poller = await createHttpPoller<
       LedgerDigestUploadsDisableResponse,
       OperationState<LedgerDigestUploadsDisableResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -402,14 +401,14 @@ export class LedgerDigestUploadsOperationsImpl
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsDisableOptionalParams
+    options?: LedgerDigestUploadsDisableOptionalParams,
   ): Promise<LedgerDigestUploadsDisableResponse> {
     const poller = await this.beginDisable(
       resourceGroupName,
       serverName,
       databaseName,
       ledgerDigestUploads,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -428,141 +427,147 @@ export class LedgerDigestUploadsOperationsImpl
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: LedgerDigestUploadsListByDatabaseNextOptionalParams
+    options?: LedgerDigestUploadsListByDatabaseNextOptionalParams,
   ): Promise<LedgerDigestUploadsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploadsListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.ledgerDigestUploads
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LedgerDigestUploads,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.subscriptionId,
+    Parameters.ledgerDigestUploads,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploads,
     },
     201: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploads,
     },
     202: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploads,
     },
     204: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploads,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters60,
-  queryParameters: [Parameters.apiVersion6],
+  requestBody: Parameters.parameters44,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.ledgerDigestUploads
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LedgerDigestUploadsListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [
-    Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName
+    Parameters.ledgerDigestUploads,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const disableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}/disable",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads/{ledgerDigestUploads}/disable",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploads,
     },
     201: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploads,
     },
     202: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploads,
     },
     204: {
-      bodyMapper: Mappers.LedgerDigestUploads
+      bodyMapper: Mappers.LedgerDigestUploads,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.ledgerDigestUploads
+    Parameters.subscriptionId,
+    Parameters.ledgerDigestUploads,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LedgerDigestUploadsListResult
+      bodyMapper: Mappers.LedgerDigestUploadsListResult,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
