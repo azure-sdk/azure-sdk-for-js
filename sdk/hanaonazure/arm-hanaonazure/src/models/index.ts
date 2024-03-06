@@ -185,7 +185,7 @@ export enum KnownHanaProvisioningStatesEnum {
   /** Deleting */
   Deleting = "Deleting",
   /** Migrating */
-  Migrating = "Migrating"
+  Migrating = "Migrating",
 }
 
 /**

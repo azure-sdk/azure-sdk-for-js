@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HanaManagementClient } from "../hanaManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SapMonitor,
   SapMonitorsListNextOptionalParams,
@@ -28,7 +32,7 @@ import {
   Tags,
   SapMonitorsUpdateOptionalParams,
   SapMonitorsUpdateResponse,
-  SapMonitorsListNextResponse
+  SapMonitorsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +54,7 @@ export class SapMonitorsImpl implements SapMonitors {
    * @param options The options parameters.
    */
   public list(
-    options?: SapMonitorsListOptionalParams
+    options?: SapMonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<SapMonitor> {
     const iter = this.listPagingAll(options);
     return {
@@ -65,13 +69,13 @@ export class SapMonitorsImpl implements SapMonitors {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SapMonitorsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SapMonitor[]> {
     let result: SapMonitorsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +96,7 @@ export class SapMonitorsImpl implements SapMonitors {
   }
 
   private async *listPagingAll(
-    options?: SapMonitorsListOptionalParams
+    options?: SapMonitorsListOptionalParams,
   ): AsyncIterableIterator<SapMonitor> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -105,7 +109,7 @@ export class SapMonitorsImpl implements SapMonitors {
    * @param options The options parameters.
    */
   private _list(
-    options?: SapMonitorsListOptionalParams
+    options?: SapMonitorsListOptionalParams,
   ): Promise<SapMonitorsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -119,11 +123,11 @@ export class SapMonitorsImpl implements SapMonitors {
   get(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsGetOptionalParams
+    options?: SapMonitorsGetOptionalParams,
   ): Promise<SapMonitorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapMonitorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -138,30 +142,29 @@ export class SapMonitorsImpl implements SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     sapMonitorParameter: SapMonitor,
-    options?: SapMonitorsCreateOptionalParams
+    options?: SapMonitorsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SapMonitorsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SapMonitorsCreateResponse>,
       SapMonitorsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SapMonitorsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -170,8 +173,8 @@ export class SapMonitorsImpl implements SapMonitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -179,19 +182,22 @@ export class SapMonitorsImpl implements SapMonitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapMonitorName, sapMonitorParameter, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapMonitorName, sapMonitorParameter, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SapMonitorsCreateResponse,
+      OperationState<SapMonitorsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -208,13 +214,13 @@ export class SapMonitorsImpl implements SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     sapMonitorParameter: SapMonitor,
-    options?: SapMonitorsCreateOptionalParams
+    options?: SapMonitorsCreateOptionalParams,
   ): Promise<SapMonitorsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       sapMonitorName,
       sapMonitorParameter,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -228,25 +234,24 @@ export class SapMonitorsImpl implements SapMonitors {
   async beginDelete(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: SapMonitorsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -255,8 +260,8 @@ export class SapMonitorsImpl implements SapMonitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -264,19 +269,19 @@ export class SapMonitorsImpl implements SapMonitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapMonitorName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sapMonitorName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -291,12 +296,12 @@ export class SapMonitorsImpl implements SapMonitors {
   async beginDeleteAndWait(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsDeleteOptionalParams
+    options?: SapMonitorsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       sapMonitorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -313,11 +318,11 @@ export class SapMonitorsImpl implements SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     tagsParameter: Tags,
-    options?: SapMonitorsUpdateOptionalParams
+    options?: SapMonitorsUpdateOptionalParams,
   ): Promise<SapMonitorsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapMonitorName, tagsParameter, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -328,11 +333,11 @@ export class SapMonitorsImpl implements SapMonitors {
    */
   private _listNext(
     nextLink: string,
-    options?: SapMonitorsListNextOptionalParams
+    options?: SapMonitorsListNextOptionalParams,
   ): Promise<SapMonitorsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -340,64 +345,61 @@ export class SapMonitorsImpl implements SapMonitors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HanaOnAzure/sapMonitors",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HanaOnAzure/sapMonitors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SapMonitorListResult
+      bodyMapper: Mappers.SapMonitorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SapMonitor
+      bodyMapper: Mappers.SapMonitor,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.sapMonitorName
+    Parameters.sapMonitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SapMonitor
+      bodyMapper: Mappers.SapMonitor,
     },
     201: {
-      bodyMapper: Mappers.SapMonitor
+      bodyMapper: Mappers.SapMonitor,
     },
     202: {
-      bodyMapper: Mappers.SapMonitor
+      bodyMapper: Mappers.SapMonitor,
     },
     204: {
-      bodyMapper: Mappers.SapMonitor
+      bodyMapper: Mappers.SapMonitor,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sapMonitorParameter,
   queryParameters: [Parameters.apiVersion],
@@ -405,15 +407,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.sapMonitorName
+    Parameters.sapMonitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -421,30 +422,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.sapMonitorName
+    Parameters.sapMonitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SapMonitor
+      bodyMapper: Mappers.SapMonitor,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.tagsParameter,
   queryParameters: [Parameters.apiVersion],
@@ -452,29 +452,28 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.sapMonitorName
+    Parameters.sapMonitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SapMonitorListResult
+      bodyMapper: Mappers.SapMonitorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

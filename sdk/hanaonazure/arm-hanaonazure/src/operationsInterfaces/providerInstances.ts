@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProviderInstance,
   ProviderInstancesListOptionalParams,
@@ -15,7 +15,7 @@ import {
   ProviderInstancesGetResponse,
   ProviderInstancesCreateOptionalParams,
   ProviderInstancesCreateResponse,
-  ProviderInstancesDeleteOptionalParams
+  ProviderInstancesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ProviderInstances {
   list(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderInstance>;
   /**
    * Gets properties of a provider instance for the specified subscription, resource group, SapMonitor
@@ -45,7 +45,7 @@ export interface ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesGetOptionalParams
+    options?: ProviderInstancesGetOptionalParams,
   ): Promise<ProviderInstancesGetResponse>;
   /**
    * Creates a provider instance for the specified subscription, resource group, SapMonitor name, and
@@ -61,10 +61,10 @@ export interface ProviderInstances {
     sapMonitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesCreateResponse>,
       ProviderInstancesCreateResponse
     >
   >;
@@ -82,7 +82,7 @@ export interface ProviderInstances {
     sapMonitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<ProviderInstancesCreateResponse>;
   /**
    * Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and
@@ -96,8 +96,8 @@ export interface ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ProviderInstancesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and
    * resource name.
@@ -110,6 +110,6 @@ export interface ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
+    options?: ProviderInstancesDeleteOptionalParams,
   ): Promise<void>;
 }

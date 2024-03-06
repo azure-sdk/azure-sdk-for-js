@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SapMonitor,
   SapMonitorsListOptionalParams,
@@ -18,7 +18,7 @@ import {
   SapMonitorsDeleteOptionalParams,
   Tags,
   SapMonitorsUpdateOptionalParams,
-  SapMonitorsUpdateResponse
+  SapMonitorsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface SapMonitors {
    * @param options The options parameters.
    */
   list(
-    options?: SapMonitorsListOptionalParams
+    options?: SapMonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<SapMonitor>;
   /**
    * Gets properties of a SAP monitor for the specified subscription, resource group, and resource name.
@@ -41,7 +41,7 @@ export interface SapMonitors {
   get(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsGetOptionalParams
+    options?: SapMonitorsGetOptionalParams,
   ): Promise<SapMonitorsGetResponse>;
   /**
    * Creates a SAP monitor for the specified subscription, resource group, and resource name.
@@ -54,10 +54,10 @@ export interface SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     sapMonitorParameter: SapMonitor,
-    options?: SapMonitorsCreateOptionalParams
+    options?: SapMonitorsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SapMonitorsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SapMonitorsCreateResponse>,
       SapMonitorsCreateResponse
     >
   >;
@@ -72,7 +72,7 @@ export interface SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     sapMonitorParameter: SapMonitor,
-    options?: SapMonitorsCreateOptionalParams
+    options?: SapMonitorsCreateOptionalParams,
   ): Promise<SapMonitorsCreateResponse>;
   /**
    * Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
@@ -83,8 +83,8 @@ export interface SapMonitors {
   beginDelete(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SapMonitorsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
    * @param resourceGroupName Name of the resource group.
@@ -94,7 +94,7 @@ export interface SapMonitors {
   beginDeleteAndWait(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsDeleteOptionalParams
+    options?: SapMonitorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor
@@ -108,6 +108,6 @@ export interface SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     tagsParameter: Tags,
-    options?: SapMonitorsUpdateOptionalParams
+    options?: SapMonitorsUpdateOptionalParams,
   ): Promise<SapMonitorsUpdateResponse>;
 }
