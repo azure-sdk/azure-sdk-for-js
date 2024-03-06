@@ -877,7 +877,7 @@ dependencies:
     version: file:projects/health-insights-clinicalmatching.tgz
   '@rush-temp/health-insights-radiologyinsights':
     specifier: file:./projects/health-insights-radiologyinsights.tgz
-    version: file:projects/health-insights-radiologyinsights.tgz    
+    version: file:projects/health-insights-radiologyinsights.tgz
   '@rush-temp/identity':
     specifier: file:./projects/identity.tgz
     version: file:projects/identity.tgz
@@ -9836,6 +9836,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.4.2:
+    resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.37:
     resolution: {integrity: sha512-xV8kqRKM+jhMvcHWUKthV9fNebIzrNy//2O9ZwWcfiBFR5f25XVZPLlEajk/sf3Ra15V92isyQqnIEXRDaZWEA==}
     dev: false
@@ -14414,7 +14420,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-OYqX+Sux4gsPrID0Y4+drdjywULqEgw9v24AOmCiOQIuZutwsUmHMm4w1MTjTUaXHYerlnQ+uXB/VUvtqOkr9Q==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-7aE/ZPZXq2zYg+hYMd0a4Idl10iJu+wtTfZpqDF2Pt+K1awS3WTzFranxpK+ryA1Ixkbybp1yYXDOZu4j2IuTA==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -14426,9 +14432,11 @@ packages:
       '@types/node': 18.19.18
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
@@ -18756,7 +18764,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.3.3
+      '@_ts/max': /typescript@5.4.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.12.0)
@@ -19294,38 +19302,38 @@ packages:
     dev: false
 
   file:projects/health-insights-radiologyinsights.tgz:
-    resolution: {integrity: sha512-YZUxq+zA38cuNkYUDIoF/PRJTqCl89BoTSHefdqKb4s8OVwTSsMQQNLRVl/hUMJQKWEamwyckQbm1WQAcUpbBA==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    resolution: {integrity: sha512-LzShHe5C9t4zZLNVcQO9e9ber1j7KcYsK7AtcQ4Wyy4IcmqqSb3u0cAGnOEddemfOrtdjBA81uLXBFl47FfGUg==, tarball: file:projects/health-insights-radiologyinsights.tgz}
     name: '@rush-temp/health-insights-radiologyinsights'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
-      '@microsoft/api-extractor': 7.39.1(@types/node@18.19.17)
-      '@types/chai': 4.3.11
+      '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
+      '@types/chai': 4.3.12
       '@types/mocha': 10.0.6
-      '@types/node': 18.19.17
+      '@types/node': 18.19.18
       autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      eslint: 8.56.0
+      eslint: 8.57.0
       esm: 3.2.25
-      karma: 6.4.2(debug@4.3.4)
+      karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 2.1.2
-      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-junit-reporter: 2.0.1(karma@6.4.3)
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.4.0
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.17)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
     transitivePeerDependencies:
