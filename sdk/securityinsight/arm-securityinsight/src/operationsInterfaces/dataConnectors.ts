@@ -15,9 +15,6 @@ import {
   DataConnectorsCreateOrUpdateOptionalParams,
   DataConnectorsCreateOrUpdateResponse,
   DataConnectorsDeleteOptionalParams,
-  DataConnectorConnectBody,
-  DataConnectorsConnectOptionalParams,
-  DataConnectorsDisconnectOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +29,7 @@ export interface DataConnectors {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams
+    options?: DataConnectorsListOptionalParams,
   ): PagedAsyncIterableIterator<DataConnectorUnion>;
   /**
    * Gets a data connector.
@@ -45,7 +42,7 @@ export interface DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorId: string,
-    options?: DataConnectorsGetOptionalParams
+    options?: DataConnectorsGetOptionalParams,
   ): Promise<DataConnectorsGetResponse>;
   /**
    * Creates or updates the data connector.
@@ -60,7 +57,7 @@ export interface DataConnectors {
     workspaceName: string,
     dataConnectorId: string,
     dataConnector: DataConnectorUnion,
-    options?: DataConnectorsCreateOrUpdateOptionalParams
+    options?: DataConnectorsCreateOrUpdateOptionalParams,
   ): Promise<DataConnectorsCreateOrUpdateResponse>;
   /**
    * Delete the data connector.
@@ -73,34 +70,6 @@ export interface DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     dataConnectorId: string,
-    options?: DataConnectorsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Connects a data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param connectBody The data connector
-   * @param options The options parameters.
-   */
-  connect(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    connectBody: DataConnectorConnectBody,
-    options?: DataConnectorsConnectOptionalParams
-  ): Promise<void>;
-  /**
-   * Disconnect a data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param options The options parameters.
-   */
-  disconnect(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    options?: DataConnectorsDisconnectOptionalParams
+    options?: DataConnectorsDeleteOptionalParams,
   ): Promise<void>;
 }

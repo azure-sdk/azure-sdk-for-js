@@ -15,11 +15,11 @@ import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
   Repo,
-  RepoType,
+  RepositoryAccessProperties,
   SourceControlListRepositoriesNextOptionalParams,
   SourceControlListRepositoriesOptionalParams,
   SourceControlListRepositoriesResponse,
-  SourceControlListRepositoriesNextResponse
+  SourceControlListRepositoriesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,20 +39,20 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
    * Gets a list of repositories metadata.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param repoType The repo type.
+   * @param repositoryAccess The repository access credentials.
    * @param options The options parameters.
    */
   public listRepositories(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
-    options?: SourceControlListRepositoriesOptionalParams
+    repositoryAccess: RepositoryAccessProperties,
+    options?: SourceControlListRepositoriesOptionalParams,
   ): PagedAsyncIterableIterator<Repo> {
     const iter = this.listRepositoriesPagingAll(
       resourceGroupName,
       workspaceName,
-      repoType,
-      options
+      repositoryAccess,
+      options,
     );
     return {
       next() {
@@ -68,20 +68,20 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
         return this.listRepositoriesPagingPage(
           resourceGroupName,
           workspaceName,
-          repoType,
+          repositoryAccess,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listRepositoriesPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
+    repositoryAccess: RepositoryAccessProperties,
     options?: SourceControlListRepositoriesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Repo[]> {
     let result: SourceControlListRepositoriesResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,8 +89,8 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
       result = await this._listRepositories(
         resourceGroupName,
         workspaceName,
-        repoType,
-        options
+        repositoryAccess,
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,9 +101,9 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
       result = await this._listRepositoriesNext(
         resourceGroupName,
         workspaceName,
-        repoType,
+        repositoryAccess,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,14 +115,14 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
   private async *listRepositoriesPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
-    options?: SourceControlListRepositoriesOptionalParams
+    repositoryAccess: RepositoryAccessProperties,
+    options?: SourceControlListRepositoriesOptionalParams,
   ): AsyncIterableIterator<Repo> {
     for await (const page of this.listRepositoriesPagingPage(
       resourceGroupName,
       workspaceName,
-      repoType,
-      options
+      repositoryAccess,
+      options,
     )) {
       yield* page;
     }
@@ -132,18 +132,18 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
    * Gets a list of repositories metadata.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param repoType The repo type.
+   * @param repositoryAccess The repository access credentials.
    * @param options The options parameters.
    */
   private _listRepositories(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
-    options?: SourceControlListRepositoriesOptionalParams
+    repositoryAccess: RepositoryAccessProperties,
+    options?: SourceControlListRepositoriesOptionalParams,
   ): Promise<SourceControlListRepositoriesResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, repoType, options },
-      listRepositoriesOperationSpec
+      { resourceGroupName, workspaceName, repositoryAccess, options },
+      listRepositoriesOperationSpec,
     );
   }
 
@@ -151,20 +151,20 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
    * ListRepositoriesNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param repoType The repo type.
+   * @param repositoryAccess The repository access credentials.
    * @param nextLink The nextLink from the previous successful call to the ListRepositories method.
    * @param options The options parameters.
    */
   private _listRepositoriesNext(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
+    repositoryAccess: RepositoryAccessProperties,
     nextLink: string,
-    options?: SourceControlListRepositoriesNextOptionalParams
+    options?: SourceControlListRepositoriesNextOptionalParams,
   ): Promise<SourceControlListRepositoriesNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, repoType, nextLink, options },
-      listRepositoriesNextOperationSpec
+      { resourceGroupName, workspaceName, repositoryAccess, nextLink, options },
+      listRepositoriesNextOperationSpec,
     );
   }
 }
@@ -172,48 +172,47 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listRepositoriesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/listRepositories",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/listRepositories",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RepoList
+      bodyMapper: Mappers.RepoList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.repoType,
+  requestBody: Parameters.repositoryAccess,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listRepositoriesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RepoList
+      bodyMapper: Mappers.RepoList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

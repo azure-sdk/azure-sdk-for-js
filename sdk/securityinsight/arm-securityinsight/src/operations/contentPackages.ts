@@ -8,31 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DataConnectors } from "../operationsInterfaces";
+import { ContentPackages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  DataConnectorUnion,
-  DataConnectorsListNextOptionalParams,
-  DataConnectorsListOptionalParams,
-  DataConnectorsListResponse,
-  DataConnectorsGetOptionalParams,
-  DataConnectorsGetResponse,
-  DataConnectorsCreateOrUpdateOptionalParams,
-  DataConnectorsCreateOrUpdateResponse,
-  DataConnectorsDeleteOptionalParams,
-  DataConnectorsListNextResponse,
+  PackageModel,
+  ContentPackagesListNextOptionalParams,
+  ContentPackagesListOptionalParams,
+  ContentPackagesListResponse,
+  ContentPackagesGetOptionalParams,
+  ContentPackagesGetResponse,
+  ContentPackagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DataConnectors operations. */
-export class DataConnectorsImpl implements DataConnectors {
+/** Class containing ContentPackages operations. */
+export class ContentPackagesImpl implements ContentPackages {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class DataConnectors class.
+   * Initialize a new instance of the class ContentPackages class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -40,7 +37,7 @@ export class DataConnectorsImpl implements DataConnectors {
   }
 
   /**
-   * Gets all data connectors.
+   * Gets all installed packages.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -48,8 +45,8 @@ export class DataConnectorsImpl implements DataConnectors {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams,
-  ): PagedAsyncIterableIterator<DataConnectorUnion> {
+    options?: ContentPackagesListOptionalParams,
+  ): PagedAsyncIterableIterator<PackageModel> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -75,10 +72,10 @@ export class DataConnectorsImpl implements DataConnectors {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams,
+    options?: ContentPackagesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DataConnectorUnion[]> {
-    let result: DataConnectorsListResponse;
+  ): AsyncIterableIterator<PackageModel[]> {
+    let result: ContentPackagesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -104,8 +101,8 @@ export class DataConnectorsImpl implements DataConnectors {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams,
-  ): AsyncIterableIterator<DataConnectorUnion> {
+    options?: ContentPackagesListOptionalParams,
+  ): AsyncIterableIterator<PackageModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -116,7 +113,7 @@ export class DataConnectorsImpl implements DataConnectors {
   }
 
   /**
-   * Gets all data connectors.
+   * Gets all installed packages.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -124,8 +121,8 @@ export class DataConnectorsImpl implements DataConnectors {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataConnectorsListOptionalParams,
-  ): Promise<DataConnectorsListResponse> {
+    options?: ContentPackagesListOptionalParams,
+  ): Promise<ContentPackagesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec,
@@ -133,67 +130,21 @@ export class DataConnectorsImpl implements DataConnectors {
   }
 
   /**
-   * Gets a data connector.
+   * Gets an installed packages by its id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param packageId package Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    dataConnectorId: string,
-    options?: DataConnectorsGetOptionalParams,
-  ): Promise<DataConnectorsGetResponse> {
+    packageId: string,
+    options?: ContentPackagesGetOptionalParams,
+  ): Promise<ContentPackagesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataConnectorId, options },
+      { resourceGroupName, workspaceName, packageId, options },
       getOperationSpec,
-    );
-  }
-
-  /**
-   * Creates or updates the data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param dataConnector The data connector
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    dataConnector: DataConnectorUnion,
-    options?: DataConnectorsCreateOrUpdateOptionalParams,
-  ): Promise<DataConnectorsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        dataConnectorId,
-        dataConnector,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Delete the data connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataConnectorId: string,
-    options?: DataConnectorsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataConnectorId, options },
-      deleteOperationSpec,
     );
   }
 
@@ -208,8 +159,8 @@ export class DataConnectorsImpl implements DataConnectors {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: DataConnectorsListNextOptionalParams,
-  ): Promise<DataConnectorsListNextResponse> {
+    options?: ContentPackagesListNextOptionalParams,
+  ): Promise<ContentPackagesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec,
@@ -220,17 +171,26 @@ export class DataConnectorsImpl implements DataConnectors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentPackages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorList,
+      bodyMapper: Mappers.PackageList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderby,
+    Parameters.search,
+    Parameters.count,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.skipToken,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -241,11 +201,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentPackages/{packageId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnector,
+      bodyMapper: Mappers.PackageModel,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -257,55 +217,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataConnectorId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataConnector,
-    },
-    201: {
-      bodyMapper: Mappers.DataConnector,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.dataConnector,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataConnectorId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataConnectorId,
+    Parameters.packageId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -315,7 +227,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorList,
+      bodyMapper: Mappers.PackageList,
     },
     default: {
       bodyMapper: Mappers.CloudError,

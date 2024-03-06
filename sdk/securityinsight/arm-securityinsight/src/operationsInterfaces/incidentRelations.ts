@@ -14,14 +14,14 @@ import {
   IncidentRelationsGetResponse,
   IncidentRelationsCreateOrUpdateOptionalParams,
   IncidentRelationsCreateOrUpdateResponse,
-  IncidentRelationsDeleteOptionalParams
+  IncidentRelationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IncidentRelations. */
 export interface IncidentRelations {
   /**
-   * Gets all incident relations.
+   * Gets all relations for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -31,10 +31,10 @@ export interface IncidentRelations {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentRelationsListOptionalParams
+    options?: IncidentRelationsListOptionalParams,
   ): PagedAsyncIterableIterator<Relation>;
   /**
-   * Gets an incident relation.
+   * Gets a relation for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -46,10 +46,10 @@ export interface IncidentRelations {
     workspaceName: string,
     incidentId: string,
     relationName: string,
-    options?: IncidentRelationsGetOptionalParams
+    options?: IncidentRelationsGetOptionalParams,
   ): Promise<IncidentRelationsGetResponse>;
   /**
-   * Creates or updates the incident relation.
+   * Creates or updates a relation for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -63,10 +63,10 @@ export interface IncidentRelations {
     incidentId: string,
     relationName: string,
     relation: Relation,
-    options?: IncidentRelationsCreateOrUpdateOptionalParams
+    options?: IncidentRelationsCreateOrUpdateOptionalParams,
   ): Promise<IncidentRelationsCreateOrUpdateResponse>;
   /**
-   * Delete the incident relation.
+   * Deletes a relation for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -78,6 +78,6 @@ export interface IncidentRelations {
     workspaceName: string,
     incidentId: string,
     relationName: string,
-    options?: IncidentRelationsDeleteOptionalParams
+    options?: IncidentRelationsDeleteOptionalParams,
   ): Promise<void>;
 }

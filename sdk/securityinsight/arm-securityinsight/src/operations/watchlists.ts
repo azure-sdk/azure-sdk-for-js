@@ -21,10 +21,9 @@ import {
   WatchlistsGetOptionalParams,
   WatchlistsGetResponse,
   WatchlistsDeleteOptionalParams,
-  WatchlistsDeleteResponse,
   WatchlistsCreateOrUpdateOptionalParams,
   WatchlistsCreateOrUpdateResponse,
-  WatchlistsListNextResponse
+  WatchlistsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +40,7 @@ export class WatchlistsImpl implements Watchlists {
   }
 
   /**
-   * Gets all watchlists, without watchlist items.
+   * Get all watchlists, without watchlist items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -49,7 +48,7 @@ export class WatchlistsImpl implements Watchlists {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WatchlistsListOptionalParams
+    options?: WatchlistsListOptionalParams,
   ): PagedAsyncIterableIterator<Watchlist> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -67,9 +66,9 @@ export class WatchlistsImpl implements Watchlists {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +76,7 @@ export class WatchlistsImpl implements Watchlists {
     resourceGroupName: string,
     workspaceName: string,
     options?: WatchlistsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Watchlist[]> {
     let result: WatchlistsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +92,7 @@ export class WatchlistsImpl implements Watchlists {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,19 +104,19 @@ export class WatchlistsImpl implements Watchlists {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WatchlistsListOptionalParams
+    options?: WatchlistsListOptionalParams,
   ): AsyncIterableIterator<Watchlist> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Gets all watchlists, without watchlist items.
+   * Get all watchlists, without watchlist items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -125,30 +124,30 @@ export class WatchlistsImpl implements Watchlists {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WatchlistsListOptionalParams
+    options?: WatchlistsListOptionalParams,
   ): Promise<WatchlistsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets a watchlist, without its watchlist items.
+   * Get a watchlist, without its watchlist items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
     watchlistAlias: string,
-    options?: WatchlistsGetOptionalParams
+    options?: WatchlistsGetOptionalParams,
   ): Promise<WatchlistsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, watchlistAlias, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -156,31 +155,28 @@ export class WatchlistsImpl implements Watchlists {
    * Delete a watchlist.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     workspaceName: string,
     watchlistAlias: string,
-    options?: WatchlistsDeleteOptionalParams
-  ): Promise<WatchlistsDeleteResponse> {
+    options?: WatchlistsDeleteOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, watchlistAlias, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content
-   * type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a
-   * valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content
-   * size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can
-   * go up to 500 MB. The status of processing such large file can be polled through the URL returned in
-   * Azure-AsyncOperation header.
+   * type). To create a Watchlist and its Items, we should call this endpoint with rawContent and
+   * contentType properties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param watchlist The watchlist
    * @param options The options parameters.
    */
@@ -189,11 +185,11 @@ export class WatchlistsImpl implements Watchlists {
     workspaceName: string,
     watchlistAlias: string,
     watchlist: Watchlist,
-    options?: WatchlistsCreateOrUpdateOptionalParams
+    options?: WatchlistsCreateOrUpdateOptionalParams,
   ): Promise<WatchlistsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, watchlistAlias, watchlist, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -208,11 +204,11 @@ export class WatchlistsImpl implements Watchlists {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: WatchlistsListNextOptionalParams
+    options?: WatchlistsListNextOptionalParams,
   ): Promise<WatchlistsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -220,38 +216,36 @@ export class WatchlistsImpl implements Watchlists {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WatchlistList
+      bodyMapper: Mappers.WatchlistList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Watchlist
+      bodyMapper: Mappers.Watchlist,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -259,23 +253,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.watchlistAlias
+    Parameters.watchlistAlias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.WatchlistsDeleteHeaders
-    },
+    200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -283,26 +274,24 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.watchlistAlias
+    Parameters.watchlistAlias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Watchlist
+      bodyMapper: Mappers.Watchlist,
     },
     201: {
       bodyMapper: Mappers.Watchlist,
-      headersMapper: Mappers.WatchlistsCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.watchlist,
   queryParameters: [Parameters.apiVersion],
@@ -311,30 +300,30 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.watchlistAlias
+    Parameters.watchlistAlias,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WatchlistList
+      bodyMapper: Mappers.WatchlistList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
