@@ -235,6 +235,29 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
+export const SpringbootsitesPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpringbootsitesPatch",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SpringbootsitesProperties",
+        },
+      },
+    },
+  },
+};
+
 export const SpringbootsitesListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -435,6 +458,13 @@ export const SpringbootserversProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         type: {
           name: "String",
+        },
+      },
+      labels: {
+        serializedName: "labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
     },
@@ -710,12 +740,6 @@ export const SpringbootappsProperties: coreClient.CompositeMapper = {
           },
         },
       },
-      siteName: {
-        serializedName: "siteName",
-        type: {
-          name: "String",
-        },
-      },
       springBootVersion: {
         serializedName: "springBootVersion",
         type: {
@@ -758,6 +782,7 @@ export const SpringbootappsProperties: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -772,6 +797,13 @@ export const SpringbootappsProperties: coreClient.CompositeMapper = {
               className: "ErrorModel",
             },
           },
+        },
+      },
+      labels: {
+        serializedName: "labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
     },
@@ -1136,36 +1168,12 @@ export const SpringbootsitesModel: coreClient.CompositeMapper = {
   },
 };
 
-export const SpringbootsitesPatch: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SpringbootsitesPatch",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "SpringbootsitesProperties",
-        },
-      },
-    },
-  },
-};
-
 export const SpringbootserversModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpringbootserversModel",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
       properties: {
         serializedName: "properties",
         type: {
@@ -1183,13 +1191,6 @@ export const SpringbootserversPatch: coreClient.CompositeMapper = {
     className: "SpringbootserversPatch",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
       properties: {
         serializedName: "properties",
         type: {
@@ -1214,13 +1215,6 @@ export const SpringbootappsModel: coreClient.CompositeMapper = {
           className: "SpringbootappsProperties",
         },
       },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
     },
   },
 };
@@ -1236,13 +1230,6 @@ export const SpringbootappsPatch: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SpringbootappsProperties",
-        },
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
         },
       },
     },
@@ -1358,25 +1345,10 @@ export const SpringbootserversDeleteHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const SpringbootserversUpdateHeaders: coreClient.CompositeMapper = {
+export const SpringbootappsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SpringbootserversUpdateHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const SpringbootappsUpdateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SpringbootappsUpdateHeaders",
+    className: "SpringbootappsDeleteHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

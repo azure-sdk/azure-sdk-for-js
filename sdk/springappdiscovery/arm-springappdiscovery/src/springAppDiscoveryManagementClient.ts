@@ -118,7 +118,7 @@ export class SpringAppDiscoveryManagementClient extends coreClient.ServiceClient
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01-preview";
+    this.apiVersion = options.apiVersion || "2024-04-01-preview";
     this.springbootsites = new SpringbootsitesImpl(this);
     this.operations = new OperationsImpl(this);
     this.springbootservers = new SpringbootserversImpl(this);

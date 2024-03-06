@@ -16,6 +16,7 @@ import {
   SpringbootsitesPatch as SpringbootsitesPatchMapper,
   SpringbootserversModel as SpringbootserversModelMapper,
   SpringbootserversPatch as SpringbootserversPatchMapper,
+  SpringbootappsModel as SpringbootappsModelMapper,
   SpringbootappsPatch as SpringbootappsPatchMapper,
 } from "../models/mappers";
 
@@ -91,7 +92,7 @@ export const springbootsitesName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-01-preview",
+    defaultValue: "2024-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -193,6 +194,11 @@ export const springbootappsName: OperationURLParameter = {
 };
 
 export const springbootapps: OperationParameter = {
+  parameterPath: "springbootapps",
+  mapper: SpringbootappsModelMapper,
+};
+
+export const springbootapps1: OperationParameter = {
   parameterPath: "springbootapps",
   mapper: SpringbootappsPatchMapper,
 };

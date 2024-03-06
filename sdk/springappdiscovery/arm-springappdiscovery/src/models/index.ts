@@ -115,6 +115,14 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** The springbootsites resource patch definition. */
+export interface SpringbootsitesPatch {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** The springbootsites resource definition. */
+  properties?: SpringbootsitesProperties;
+}
+
 /** The springbootsites list resource definition. */
 export interface SpringbootsitesListResult {
   /** The springbootsites list. */
@@ -205,6 +213,8 @@ export interface SpringbootserversProperties {
   errors?: ErrorModel[];
   /** The resource provisioning state. */
   provisioningState?: ProvisioningState;
+  /** Resource labels */
+  labels?: { [propertyName: string]: string };
 }
 
 /** Defines the error. */
@@ -279,8 +289,6 @@ export interface SpringbootappsProperties {
   servers?: string[];
   /** The machine ARM id list the app belongs to. */
   machineArmIds?: string[];
-  /** The site name. */
-  siteName?: string;
   /** The spring boot version. */
   springBootVersion?: string;
   /** The static content location list. */
@@ -291,10 +299,15 @@ export interface SpringbootappsProperties {
   lastModifiedTime?: Date;
   /** Time when this springbootapps instance was last refreshed. */
   lastUpdatedTime?: Date;
-  /** The resource provisioning state. */
-  provisioningState?: ProvisioningState;
+  /**
+   * The resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /** The list of errors. */
   errors?: ErrorModel[];
+  /** Resource labels */
+  labels?: { [propertyName: string]: string };
 }
 
 export interface SpringbootappsPropertiesApplicationConfigurationsItem {
@@ -409,24 +422,14 @@ export interface SpringbootsitesModel extends TrackedResource {
   extendedLocation?: SpringbootsitesModelExtendedLocation;
 }
 
-/** The springbootsites resource patch definition. */
-export interface SpringbootsitesPatch extends TrackedResource {
-  /** The springbootsites resource definition. */
-  properties?: SpringbootsitesProperties;
-}
-
 /** The springbootservers envelope resource definition. */
 export interface SpringbootserversModel extends ProxyResource {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
   /** The springbootservers resource definition. */
   properties?: SpringbootserversProperties;
 }
 
 /** The springbootservers resource patch definition. */
 export interface SpringbootserversPatch extends ProxyResource {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
   /** The springbootsites resource definition. */
   properties?: SpringbootserversProperties;
 }
@@ -435,16 +438,12 @@ export interface SpringbootserversPatch extends ProxyResource {
 export interface SpringbootappsModel extends ProxyResource {
   /** The springbootapps resource definition. */
   properties?: SpringbootappsProperties;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
 }
 
 /** The springbootapps resource patch definition. */
 export interface SpringbootappsPatch extends ProxyResource {
   /** The springbootapps resource definition. */
   properties?: SpringbootappsProperties;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
 }
 
 /** The summary resource definition. */
@@ -483,13 +482,8 @@ export interface SpringbootserversDeleteHeaders {
   location?: string;
 }
 
-/** Defines headers for Springbootservers_update operation. */
-export interface SpringbootserversUpdateHeaders {
-  location?: string;
-}
-
-/** Defines headers for Springbootapps_update operation. */
-export interface SpringbootappsUpdateHeaders {
+/** Defines headers for Springbootapps_delete operation. */
+export interface SpringbootappsDeleteHeaders {
   location?: string;
 }
 
@@ -711,12 +705,7 @@ export type SpringbootserversDeleteResponse = SpringbootserversDeleteHeaders;
 
 /** Optional parameters. */
 export interface SpringbootserversUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type SpringbootserversUpdateResponse = SpringbootserversModel;
@@ -761,13 +750,32 @@ export interface SpringbootappsGetOptionalParams
 export type SpringbootappsGetResponse = SpringbootappsModel;
 
 /** Optional parameters. */
-export interface SpringbootappsUpdateOptionalParams
+export interface SpringbootappsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the createOrUpdate operation. */
+export type SpringbootappsCreateOrUpdateResponse = SpringbootappsModel;
+
+/** Optional parameters. */
+export interface SpringbootappsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type SpringbootappsDeleteResponse = SpringbootappsDeleteHeaders;
+
+/** Optional parameters. */
+export interface SpringbootappsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type SpringbootappsUpdateResponse = SpringbootappsModel;
