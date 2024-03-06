@@ -6126,7 +6126,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 5.0.1
+      minimatch: 5.1.6
       once: 1.4.0
     dev: false
 
@@ -13685,7 +13685,7 @@ packages:
     dev: false
 
   file:projects/arm-hanaonazure.tgz:
-    resolution: {integrity: sha512-Tm7EWu8RAk4h5S4Y3UduSysZOu8CkDLtI30vtvOHWUa7l4O6k9Dy2jxSkjV1RccQPo+l0RcYLHQGgKQY9JXZ9A==, tarball: file:projects/arm-hanaonazure.tgz}
+    resolution: {integrity: sha512-D6k0exX9ddKCUadgIxhJ4oXj0tibKJHK3Hpchq8fEo5jSg1Ter5fbK4Ar1WsLPi8Bv0GJ3O189U/YBndKmcEGQ==, tarball: file:projects/arm-hanaonazure.tgz}
     name: '@rush-temp/arm-hanaonazure'
     version: 0.0.0
     dependencies:
@@ -13697,9 +13697,11 @@ packages:
       '@types/node': 18.19.18
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3

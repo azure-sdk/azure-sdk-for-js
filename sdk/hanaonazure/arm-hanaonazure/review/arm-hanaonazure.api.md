@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Display {
@@ -110,12 +110,17 @@ export interface ProviderInstanceListResult {
 
 // @public
 export interface ProviderInstances {
-    beginCreate(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<ProviderInstancesCreateResponse>, ProviderInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ProviderInstancesCreateResponse>, ProviderInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<ProviderInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, sapMonitorName: string, providerInstanceName: string, options?: ProviderInstancesGetOptionalParams): Promise<ProviderInstancesGetResponse>;
     list(resourceGroupName: string, sapMonitorName: string, options?: ProviderInstancesListOptionalParams): PagedAsyncIterableIterator<ProviderInstance>;
+}
+
+// @public
+export interface ProviderInstancesCreateHeaders {
+    location?: string;
 }
 
 // @public
@@ -126,6 +131,11 @@ export interface ProviderInstancesCreateOptionalParams extends coreClient.Operat
 
 // @public
 export type ProviderInstancesCreateResponse = ProviderInstance;
+
+// @public
+export interface ProviderInstancesDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface ProviderInstancesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -185,13 +195,18 @@ export interface SapMonitorListResult {
 
 // @public
 export interface SapMonitors {
-    beginCreate(resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: SapMonitor, options?: SapMonitorsCreateOptionalParams): Promise<PollerLike<PollOperationState<SapMonitorsCreateResponse>, SapMonitorsCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: SapMonitor, options?: SapMonitorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SapMonitorsCreateResponse>, SapMonitorsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: SapMonitor, options?: SapMonitorsCreateOptionalParams): Promise<SapMonitorsCreateResponse>;
-    beginDelete(resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, sapMonitorName: string, options?: SapMonitorsGetOptionalParams): Promise<SapMonitorsGetResponse>;
     list(options?: SapMonitorsListOptionalParams): PagedAsyncIterableIterator<SapMonitor>;
     update(resourceGroupName: string, sapMonitorName: string, tagsParameter: Tags, options?: SapMonitorsUpdateOptionalParams): Promise<SapMonitorsUpdateResponse>;
+}
+
+// @public
+export interface SapMonitorsCreateHeaders {
+    location?: string;
 }
 
 // @public
@@ -202,6 +217,11 @@ export interface SapMonitorsCreateOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type SapMonitorsCreateResponse = SapMonitor;
+
+// @public
+export interface SapMonitorsDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface SapMonitorsDeleteOptionalParams extends coreClient.OperationOptions {

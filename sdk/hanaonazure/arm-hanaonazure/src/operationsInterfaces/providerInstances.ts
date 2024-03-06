@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProviderInstance,
   ProviderInstancesListOptionalParams,
@@ -15,15 +15,14 @@ import {
   ProviderInstancesGetResponse,
   ProviderInstancesCreateOptionalParams,
   ProviderInstancesCreateResponse,
-  ProviderInstancesDeleteOptionalParams
+  ProviderInstancesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProviderInstances. */
 export interface ProviderInstances {
   /**
-   * Gets a list of provider instances in the specified SAP monitor. The operations returns various
-   * properties of each provider instances.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -31,11 +30,10 @@ export interface ProviderInstances {
   list(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderInstance>;
   /**
-   * Gets properties of a provider instance for the specified subscription, resource group, SapMonitor
-   * name, and resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -45,11 +43,10 @@ export interface ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesGetOptionalParams
+    options?: ProviderInstancesGetOptionalParams,
   ): Promise<ProviderInstancesGetResponse>;
   /**
-   * Creates a provider instance for the specified subscription, resource group, SapMonitor name, and
-   * resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -61,16 +58,15 @@ export interface ProviderInstances {
     sapMonitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesCreateResponse>,
       ProviderInstancesCreateResponse
     >
   >;
   /**
-   * Creates a provider instance for the specified subscription, resource group, SapMonitor name, and
-   * resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -82,11 +78,10 @@ export interface ProviderInstances {
     sapMonitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<ProviderInstancesCreateResponse>;
   /**
-   * Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and
-   * resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -96,11 +91,10 @@ export interface ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ProviderInstancesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and
-   * resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -110,6 +104,6 @@ export interface ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
+    options?: ProviderInstancesDeleteOptionalParams,
   ): Promise<void>;
 }

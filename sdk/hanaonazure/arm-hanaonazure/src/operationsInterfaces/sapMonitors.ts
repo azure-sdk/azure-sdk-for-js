@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SapMonitor,
   SapMonitorsListOptionalParams,
@@ -18,22 +18,21 @@ import {
   SapMonitorsDeleteOptionalParams,
   Tags,
   SapMonitorsUpdateOptionalParams,
-  SapMonitorsUpdateResponse
+  SapMonitorsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SapMonitors. */
 export interface SapMonitors {
   /**
-   * Gets a list of SAP monitors in the specified subscription. The operations returns various properties
-   * of each SAP monitor.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param options The options parameters.
    */
   list(
-    options?: SapMonitorsListOptionalParams
+    options?: SapMonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<SapMonitor>;
   /**
-   * Gets properties of a SAP monitor for the specified subscription, resource group, and resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -41,10 +40,10 @@ export interface SapMonitors {
   get(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsGetOptionalParams
+    options?: SapMonitorsGetOptionalParams,
   ): Promise<SapMonitorsGetResponse>;
   /**
-   * Creates a SAP monitor for the specified subscription, resource group, and resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param sapMonitorParameter Request body representing a SAP Monitor
@@ -54,15 +53,15 @@ export interface SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     sapMonitorParameter: SapMonitor,
-    options?: SapMonitorsCreateOptionalParams
+    options?: SapMonitorsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SapMonitorsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SapMonitorsCreateResponse>,
       SapMonitorsCreateResponse
     >
   >;
   /**
-   * Creates a SAP monitor for the specified subscription, resource group, and resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param sapMonitorParameter Request body representing a SAP Monitor
@@ -72,10 +71,10 @@ export interface SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     sapMonitorParameter: SapMonitor,
-    options?: SapMonitorsCreateOptionalParams
+    options?: SapMonitorsCreateOptionalParams,
   ): Promise<SapMonitorsCreateResponse>;
   /**
-   * Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -83,10 +82,10 @@ export interface SapMonitors {
   beginDelete(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SapMonitorsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a SAP monitor with the specified subscription, resource group, and monitor name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -94,11 +93,10 @@ export interface SapMonitors {
   beginDeleteAndWait(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: SapMonitorsDeleteOptionalParams
+    options?: SapMonitorsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor
-   * name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param tagsParameter Request body that only contains the new Tags field
@@ -108,6 +106,6 @@ export interface SapMonitors {
     resourceGroupName: string,
     sapMonitorName: string,
     tagsParameter: Tags,
-    options?: SapMonitorsUpdateOptionalParams
+    options?: SapMonitorsUpdateOptionalParams,
   ): Promise<SapMonitorsUpdateResponse>;
 }

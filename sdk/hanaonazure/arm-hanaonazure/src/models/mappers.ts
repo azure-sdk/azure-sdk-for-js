@@ -20,13 +20,13 @@ export const OperationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Operation",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -38,18 +38,18 @@ export const Operation: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "Display"
-        }
-      }
-    }
-  }
+          className: "Display",
+        },
+      },
+    },
+  },
 };
 
 export const Display: coreClient.CompositeMapper = {
@@ -61,39 +61,39 @@ export const Display: coreClient.CompositeMapper = {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       origin: {
         serializedName: "origin",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -105,11 +105,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorResponseError"
-        }
-      }
-    }
-  }
+          className: "ErrorResponseError",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponseError: coreClient.CompositeMapper = {
@@ -121,18 +121,18 @@ export const ErrorResponseError: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SapMonitorListResult: coreClient.CompositeMapper = {
@@ -147,19 +147,19 @@ export const SapMonitorListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SapMonitor"
-            }
-          }
-        }
+              className: "SapMonitor",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -171,25 +171,25 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Tags: coreClient.CompositeMapper = {
@@ -201,11 +201,11 @@ export const Tags: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const ProviderInstanceListResult: coreClient.CompositeMapper = {
@@ -220,19 +220,19 @@ export const ProviderInstanceListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ProviderInstance"
-            }
-          }
-        }
+              className: "ProviderInstance",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TrackedResource: coreClient.CompositeMapper = {
@@ -245,18 +245,18 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProxyResource: coreClient.CompositeMapper = {
@@ -264,9 +264,9 @@ export const ProxyResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const SapMonitor: coreClient.CompositeMapper = {
@@ -279,55 +279,55 @@ export const SapMonitor: coreClient.CompositeMapper = {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       managedResourceGroupName: {
         serializedName: "properties.managedResourceGroupName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logAnalyticsWorkspaceArmId: {
         serializedName: "properties.logAnalyticsWorkspaceArmId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       enableCustomerAnalytics: {
         serializedName: "properties.enableCustomerAnalytics",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       logAnalyticsWorkspaceId: {
         serializedName: "properties.logAnalyticsWorkspaceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logAnalyticsWorkspaceSharedKey: {
         serializedName: "properties.logAnalyticsWorkspaceSharedKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sapMonitorCollectorVersion: {
         serializedName: "properties.sapMonitorCollectorVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       monitorSubnet: {
         serializedName: "properties.monitorSubnet",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProviderInstance: coreClient.CompositeMapper = {
@@ -339,28 +339,88 @@ export const ProviderInstance: coreClient.CompositeMapper = {
       typePropertiesType: {
         serializedName: "properties.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties.properties",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       metadata: {
         serializedName: "properties.metadata",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SapMonitorsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SapMonitorsCreateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SapMonitorsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SapMonitorsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ProviderInstancesCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProviderInstancesCreateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ProviderInstancesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProviderInstancesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
