@@ -737,6 +737,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-ai-translation-document':
+    specifier: file:./projects/azure-ai-translation-document.tgz
+    version: file:projects/azure-ai-translation-document.tgz
   '@rush-temp/communication-alpha-ids':
     specifier: file:./projects/communication-alpha-ids.tgz
     version: file:projects/communication-alpha-ids.tgz
@@ -877,7 +880,7 @@ dependencies:
     version: file:projects/health-insights-clinicalmatching.tgz
   '@rush-temp/health-insights-radiologyinsights':
     specifier: file:./projects/health-insights-radiologyinsights.tgz
-    version: file:projects/health-insights-radiologyinsights.tgz    
+    version: file:projects/health-insights-radiologyinsights.tgz
   '@rush-temp/identity':
     specifier: file:./projects/identity.tgz
     version: file:projects/identity.tgz
@@ -17380,6 +17383,49 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/azure-ai-translation-document.tgz:
+    resolution: {integrity: sha512-Rvlk+9oz+lN7xPES8F/p9jIbqfR6iGxQ354dIqn3WYdgndyCJ252I4ROTgftKQOEIxqGYhPUjov90szp5psfCg==, tarball: file:projects/azure-ai-translation-document.tgz}
+    name: '@rush-temp/azure-ai-translation-document'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
+      '@types/chai': 4.3.12
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.18
+      autorest: 3.7.1
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      esm: 3.2.25
+      karma: 6.4.3(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.3)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.3)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.3.0
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/communication-alpha-ids.tgz:
     resolution: {integrity: sha512-LYCxonN+mxHPYuihy+9/IAMeVNAeHh6gfHM/iQ76CgbLh0qzOeIAHE/WK/xXJsMz4cQEhewIf7DmB0MdjhnrgA==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
@@ -19294,38 +19340,38 @@ packages:
     dev: false
 
   file:projects/health-insights-radiologyinsights.tgz:
-    resolution: {integrity: sha512-YZUxq+zA38cuNkYUDIoF/PRJTqCl89BoTSHefdqKb4s8OVwTSsMQQNLRVl/hUMJQKWEamwyckQbm1WQAcUpbBA==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    resolution: {integrity: sha512-LzShHe5C9t4zZLNVcQO9e9ber1j7KcYsK7AtcQ4Wyy4IcmqqSb3u0cAGnOEddemfOrtdjBA81uLXBFl47FfGUg==, tarball: file:projects/health-insights-radiologyinsights.tgz}
     name: '@rush-temp/health-insights-radiologyinsights'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
-      '@microsoft/api-extractor': 7.39.1(@types/node@18.19.17)
-      '@types/chai': 4.3.11
+      '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
+      '@types/chai': 4.3.12
       '@types/mocha': 10.0.6
-      '@types/node': 18.19.17
+      '@types/node': 18.19.18
       autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      eslint: 8.56.0
+      eslint: 8.57.0
       esm: 3.2.25
-      karma: 6.4.2(debug@4.3.4)
+      karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 2.1.2
-      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-junit-reporter: 2.0.1(karma@6.4.3)
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.4.0
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.17)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
     transitivePeerDependencies:
