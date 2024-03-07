@@ -330,6 +330,7 @@ export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityRe
 // @public
 export interface CapacityReservationGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
     expand?: ExpandTypesForGetCapacityReservationGroups;
+    resourceIdsOnly?: ResourceIdOptionsForGetCapacityReservationGroups;
 }
 
 // @public
@@ -1248,6 +1249,7 @@ export interface DataDisk {
     lun: number;
     managedDisk?: ManagedDiskParameters;
     name?: string;
+    sourceResource?: ApiEntityReference;
     toBeDetached?: boolean;
     vhd?: VirtualHardDisk;
     writeAcceleratorEnabled?: boolean;
@@ -1265,8 +1267,12 @@ export interface DataDiskImageEncryption extends DiskImageEncryption {
 
 // @public
 export interface DataDisksToAttach {
+    caching?: CachingTypes;
+    deleteOption?: DiskDeleteOptionTypes;
+    diskEncryptionSet?: DiskEncryptionSetParameters;
     diskId: string;
     lun?: number;
+    writeAcceleratorEnabled?: boolean;
 }
 
 // @public
@@ -3222,6 +3228,7 @@ export enum KnownDiffDiskOptions {
 // @public
 export enum KnownDiffDiskPlacement {
     CacheDisk = "CacheDisk",
+    NvmeDisk = "NvmeDisk",
     ResourceDisk = "ResourceDisk"
 }
 
@@ -3249,8 +3256,10 @@ export enum KnownDiskCreateOption {
 // @public
 export enum KnownDiskCreateOptionTypes {
     Attach = "Attach",
+    Copy = "Copy",
     Empty = "Empty",
-    FromImage = "FromImage"
+    FromImage = "FromImage",
+    Restore = "Restore"
 }
 
 // @public
@@ -3644,6 +3653,13 @@ export enum KnownReplicationStatusTypes {
 }
 
 // @public
+export enum KnownResourceIdOptionsForGetCapacityReservationGroups {
+    All = "All",
+    CreatedInSubscription = "CreatedInSubscription",
+    SharedWithSubscription = "SharedWithSubscription"
+}
+
+// @public
 export enum KnownRestorePointCollectionExpandOptions {
     RestorePoints = "restorePoints"
 }
@@ -4015,6 +4031,11 @@ export enum KnownWindowsVMGuestPatchMode {
     AutomaticByOS = "AutomaticByOS",
     AutomaticByPlatform = "AutomaticByPlatform",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownZonePlacementPolicyType {
+    Any = "Any"
 }
 
 // @public
@@ -4414,6 +4435,13 @@ export interface PirSharedGalleryResource extends PirResource {
 }
 
 // @public
+export interface Placement {
+    excludeZones?: string[];
+    includeZones?: string[];
+    zonePlacementPolicy?: ZonePlacementPolicyType;
+}
+
+// @public
 export interface Plan {
     name?: string;
     product?: string;
@@ -4722,6 +4750,9 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+
+// @public
+export type ResourceIdOptionsForGetCapacityReservationGroups = string;
 
 // @public
 export interface ResourceInstanceViewStatus {
@@ -6018,6 +6049,7 @@ export interface VirtualMachine extends Resource {
     readonly managedBy?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
+    placement?: Placement;
     plan?: Plan;
     platformFaultDomain?: number;
     priority?: VirtualMachinePriorityTypes;
@@ -7666,6 +7698,7 @@ export interface VirtualMachineScaleSetVMProtectionPolicy {
 
 // @public
 export interface VirtualMachineScaleSetVMReimageParameters extends VirtualMachineReimageParameters {
+    forceUpdateOSDiskForEphemeral?: boolean;
 }
 
 // @public
@@ -8290,6 +8323,9 @@ export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
 }
+
+// @public
+export type ZonePlacementPolicyType = string;
 
 // (No @packageDocumentation comment for this package)
 

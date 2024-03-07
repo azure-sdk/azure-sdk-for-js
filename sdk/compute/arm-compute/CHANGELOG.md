@@ -1,15 +1,27 @@
 # Release History
+    
+## 21.5.0 (2024-03-07)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Placement
+  - Added Type Alias ResourceIdOptionsForGetCapacityReservationGroups
+  - Added Type Alias ZonePlacementPolicyType
+  - Interface CapacityReservationGroupsListBySubscriptionOptionalParams has a new optional parameter resourceIdsOnly
+  - Interface DataDisk has a new optional parameter sourceResource
+  - Interface DataDisksToAttach has a new optional parameter caching
+  - Interface DataDisksToAttach has a new optional parameter deleteOption
+  - Interface DataDisksToAttach has a new optional parameter diskEncryptionSet
+  - Interface DataDisksToAttach has a new optional parameter writeAcceleratorEnabled
+  - Interface VirtualMachine has a new optional parameter placement
+  - Interface VirtualMachineScaleSetVMReimageParameters has a new optional parameter forceUpdateOSDiskForEphemeral
+  - Added Enum KnownResourceIdOptionsForGetCapacityReservationGroups
+  - Added Enum KnownZonePlacementPolicyType
+  - Enum KnownDiffDiskPlacement has a new value NvmeDisk
+  - Enum KnownDiskCreateOptionTypes has a new value Copy
+  - Enum KnownDiskCreateOptionTypes has a new value Restore
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**
