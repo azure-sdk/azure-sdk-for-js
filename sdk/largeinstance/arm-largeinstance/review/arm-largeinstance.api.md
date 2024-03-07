@@ -61,7 +61,7 @@ export type AzureLargeInstanceListBySubscriptionResponse = AzureLargeInstanceLis
 
 // @public
 export interface AzureLargeInstanceListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: AzureLargeInstance[];
 }
 
@@ -204,7 +204,7 @@ export type AzureLargeStorageInstanceListBySubscriptionResponse = AzureLargeStor
 
 // @public
 export interface AzureLargeStorageInstanceListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: AzureLargeStorageInstance[];
 }
 
