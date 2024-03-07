@@ -6,7 +6,7 @@ Microsoft.ServiceLinker provider
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicelinker/arm-servicelinker) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicelinker) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
