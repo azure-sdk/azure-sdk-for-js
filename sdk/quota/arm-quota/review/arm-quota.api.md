@@ -10,19 +10,50 @@ import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
+// @public
+export interface AdditionalAttributes {
+    environment?: EnvironmentType;
+    groupId: GroupingId;
+}
+
+// @public
+export interface AllocatedToSubscription {
+    quotaAllocated?: number;
+    subscriptionId?: string;
+}
+
 // @public (undocumented)
 export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureQuotaExtensionAPIOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    groupQuotaEnforcement: GroupQuotaEnforcement;
+    // (undocumented)
+    groupQuotaLimits: GroupQuotaLimits;
+    // (undocumented)
+    groupQuotaLimitsRequests: GroupQuotaLimitsRequests;
+    // (undocumented)
+    groupQuotas: GroupQuotas;
+    // (undocumented)
+    groupQuotaSubscriptionQuotaAllocation: GroupQuotaSubscriptionQuotaAllocation;
+    // (undocumented)
+    groupQuotaSubscriptionQuotaAllocationRequests: GroupQuotaSubscriptionQuotaAllocationRequests;
+    // (undocumented)
+    groupQuotaSubscriptions: GroupQuotaSubscriptions;
     // (undocumented)
     quota: Quota;
     // (undocumented)
     quotaOperation: QuotaOperation;
     // (undocumented)
     quotaRequestStatus: QuotaRequestStatus;
+    // (undocumented)
+    subscriptionId?: string;
+    // (undocumented)
+    subscriptionRequests: SubscriptionRequests;
     // (undocumented)
     usages: Usages;
 }
@@ -35,11 +66,20 @@ export interface AzureQuotaExtensionAPIOptionalParams extends coreClient.Service
 }
 
 // @public
+export interface BillingAccountId {
+    // (undocumented)
+    id?: string;
+}
+
+// @public
 export interface CommonResourceProperties {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
 }
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface CreateGenericQuotaRequestParameters {
@@ -63,12 +103,550 @@ export interface CurrentUsagesBase {
 }
 
 // @public
+export type EnvironmentType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExceptionResponse {
     error?: ServiceError;
 }
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GroupingId {
+    groupingIdType?: GroupingIdType;
+    value?: string;
+}
+
+// @public
+export type GroupingIdType = string;
+
+// @public
+export interface GroupQuotaDetails {
+    readonly allocatedToSubscriptions?: AllocatedToSubscription[];
+    readonly availableLimit?: number;
+    comment?: string;
+    limit?: number;
+    readonly name?: GroupQuotaDetailsName;
+    readonly provisioningState?: RequestState;
+    resourceProviderScope?: string;
+    readonly unit?: string;
+}
+
+// @public
+export interface GroupQuotaDetailsName {
+    readonly localizedValue?: string;
+    readonly value?: string;
+}
+
+// @public
+export interface GroupQuotaEnforcement {
+    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, location: string, options?: GroupQuotaEnforcementCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaEnforcementCreateOrUpdateResponse>, GroupQuotaEnforcementCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, location: string, options?: GroupQuotaEnforcementCreateOrUpdateOptionalParams): Promise<GroupQuotaEnforcementCreateOrUpdateResponse>;
+    beginUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, location: string, options?: GroupQuotaEnforcementUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaEnforcementUpdateResponse>, GroupQuotaEnforcementUpdateResponse>>;
+    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, location: string, options?: GroupQuotaEnforcementUpdateOptionalParams): Promise<GroupQuotaEnforcementUpdateResponse>;
+    get(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, location: string, options?: GroupQuotaEnforcementGetOptionalParams): Promise<GroupQuotaEnforcementGetResponse>;
+    list(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, options?: GroupQuotaEnforcementListOptionalParams): PagedAsyncIterableIterator<GroupQuotasEnforcementResponse>;
+}
+
+// @public
+export interface GroupQuotaEnforcementCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotaEnforcementCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotaEnforcementCreateOrUpdateResponse = GroupQuotasEnforcementResponse;
+
+// @public
+export interface GroupQuotaEnforcementGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaEnforcementGetResponse = GroupQuotasEnforcementResponse;
+
+// @public
+export interface GroupQuotaEnforcementListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaEnforcementListNextResponse = GroupQuotasEnforcementListResponse;
+
+// @public
+export interface GroupQuotaEnforcementListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaEnforcementListResponse = GroupQuotasEnforcementListResponse;
+
+// @public
+export interface GroupQuotaEnforcementUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotaEnforcementUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotaEnforcementUpdateResponse = GroupQuotasEnforcementResponse;
+
+// @public
+export interface GroupQuotaLimit extends ProxyResource {
+    properties?: GroupQuotaDetails;
+}
+
+// @public
+export interface GroupQuotaLimitList {
+    readonly nextLink?: string;
+    value?: GroupQuotaLimit[];
+}
+
+// @public
+export interface GroupQuotaLimits {
+    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, resourceName: string, options?: GroupQuotaLimitsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaLimitsCreateOrUpdateResponse>, GroupQuotaLimitsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceName: string, options?: GroupQuotaLimitsCreateOrUpdateOptionalParams): Promise<GroupQuotaLimitsCreateOrUpdateResponse>;
+    beginUpdate(managementGroupId: string, groupQuotaName: string, resourceName: string, options?: GroupQuotaLimitsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaLimitsUpdateResponse>, GroupQuotaLimitsUpdateResponse>>;
+    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceName: string, options?: GroupQuotaLimitsUpdateOptionalParams): Promise<GroupQuotaLimitsUpdateResponse>;
+    get(managementGroupId: string, groupQuotaName: string, resourceName: string, filter: string, options?: GroupQuotaLimitsGetOptionalParams): Promise<GroupQuotaLimitsGetResponse>;
+    list(managementGroupId: string, groupQuotaName: string, filter: string, options?: GroupQuotaLimitsListOptionalParams): PagedAsyncIterableIterator<GroupQuotaLimit>;
+}
+
+// @public
+export interface GroupQuotaLimitsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotaLimitsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    groupQuotaLimitRequest?: GroupQuotaLimit;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotaLimitsCreateOrUpdateResponse = GroupQuotaLimit;
+
+// @public
+export interface GroupQuotaLimitsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaLimitsGetResponse = GroupQuotaLimit;
+
+// @public
+export interface GroupQuotaLimitsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaLimitsListNextResponse = GroupQuotaLimitList;
+
+// @public
+export interface GroupQuotaLimitsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaLimitsListResponse = GroupQuotaLimitList;
+
+// @public
+export interface GroupQuotaLimitsRequests {
+    get(managementGroupId: string, groupQuotaName: string, requestId: string, filter: string, options?: GroupQuotaLimitsRequestsGetOptionalParams): Promise<GroupQuotaLimitsRequestsGetResponse>;
+    list(managementGroupId: string, groupQuotaName: string, filter: string, options?: GroupQuotaLimitsRequestsListOptionalParams): PagedAsyncIterableIterator<SubmittedResourceRequestStatus>;
+}
+
+// @public
+export interface GroupQuotaLimitsRequestsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaLimitsRequestsGetResponse = SubmittedResourceRequestStatus;
+
+// @public
+export interface GroupQuotaLimitsRequestsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaLimitsRequestsListNextResponse = SubmittedResourceRequestStatusList;
+
+// @public
+export interface GroupQuotaLimitsRequestsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaLimitsRequestsListResponse = SubmittedResourceRequestStatusList;
+
+// @public
+export interface GroupQuotaLimitsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotaLimitsUpdateOptionalParams extends coreClient.OperationOptions {
+    groupQuotaLimitRequest?: GroupQuotaLimit;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotaLimitsUpdateResponse = GroupQuotaLimit;
+
+// @public
+export interface GroupQuotaList {
+    readonly nextLink?: string;
+    value?: GroupQuotasEntity[];
+}
+
+// @public
+export interface GroupQuotas {
+    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, options?: GroupQuotasCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotasCreateOrUpdateResponse>, GroupQuotasCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, options?: GroupQuotasCreateOrUpdateOptionalParams): Promise<GroupQuotasCreateOrUpdateResponse>;
+    beginUpdate(managementGroupId: string, groupQuotaName: string, options?: GroupQuotasUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotasUpdateResponse>, GroupQuotasUpdateResponse>>;
+    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, options?: GroupQuotasUpdateOptionalParams): Promise<GroupQuotasUpdateResponse>;
+    delete(managementGroupId: string, groupQuotaName: string, options?: GroupQuotasDeleteOptionalParams): Promise<void>;
+    get(managementGroupId: string, groupQuotaName: string, options?: GroupQuotasGetOptionalParams): Promise<GroupQuotasGetResponse>;
+    list(managementGroupId: string, options?: GroupQuotasListOptionalParams): PagedAsyncIterableIterator<GroupQuotasEntity>;
+}
+
+// @public
+export interface GroupQuotasCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotasCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    groupQuotaPutRequestBody?: GroupQuotasEntity;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotasCreateOrUpdateResponse = GroupQuotasEntity;
+
+// @public
+export interface GroupQuotasDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GroupQuotasEnforcementListResponse {
+    readonly nextLink?: string;
+    value?: GroupQuotasEnforcementResponse[];
+}
+
+// @public
+export interface GroupQuotasEnforcementResponse extends ProxyResource {
+    // (undocumented)
+    properties?: GroupQuotasEnforcementResponseProperties;
+}
+
+// @public (undocumented)
+export interface GroupQuotasEnforcementResponseProperties {
+    readonly faultCode?: string;
+    location?: string;
+    readonly provisioningState?: RequestState;
+}
+
+// @public
+export interface GroupQuotasEntity extends ProxyResource {
+    properties?: GroupQuotasEntityBase;
+}
+
+// @public
+export interface GroupQuotasEntityBase {
+    additionalAttributes?: AdditionalAttributes;
+    displayName?: string;
+    readonly provisioningState?: RequestState;
+}
+
+// @public
+export interface GroupQuotasGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotasGetResponse = GroupQuotasEntity;
+
+// @public
+export interface GroupQuotasListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotasListNextResponse = GroupQuotaList;
+
+// @public
+export interface GroupQuotasListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotasListResponse = GroupQuotaList;
+
+// @public
+export interface GroupQuotaSubscriptionId extends ProxyResource {
+    // (undocumented)
+    properties?: GroupQuotaSubscriptionIdProperties;
+}
+
+// @public
+export interface GroupQuotaSubscriptionIdList {
+    readonly nextLink?: string;
+    value?: GroupQuotaSubscriptionId[];
+}
+
+// @public (undocumented)
+export interface GroupQuotaSubscriptionIdProperties {
+    readonly provisioningState?: RequestState;
+    readonly subscriptionId?: string;
+}
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocation {
+    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, resourceName: string, allocateQuotaRequest: SubscriptionQuotaAllocations, options?: GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateResponse>, GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceName: string, allocateQuotaRequest: SubscriptionQuotaAllocations, options?: GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateOptionalParams): Promise<GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateResponse>;
+    beginUpdate(managementGroupId: string, groupQuotaName: string, resourceName: string, allocateQuotaRequest: SubscriptionQuotaAllocations, options?: GroupQuotaSubscriptionQuotaAllocationUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaSubscriptionQuotaAllocationUpdateResponse>, GroupQuotaSubscriptionQuotaAllocationUpdateResponse>>;
+    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceName: string, allocateQuotaRequest: SubscriptionQuotaAllocations, options?: GroupQuotaSubscriptionQuotaAllocationUpdateOptionalParams): Promise<GroupQuotaSubscriptionQuotaAllocationUpdateResponse>;
+    get(managementGroupId: string, groupQuotaName: string, resourceName: string, filter: string, options?: GroupQuotaSubscriptionQuotaAllocationGetOptionalParams): Promise<GroupQuotaSubscriptionQuotaAllocationGetResponse>;
+    list(managementGroupId: string, groupQuotaName: string, filter: string, options?: GroupQuotaSubscriptionQuotaAllocationListOptionalParams): PagedAsyncIterableIterator<SubscriptionQuotaAllocations>;
+}
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotaSubscriptionQuotaAllocationCreateOrUpdateResponse = SubscriptionQuotaAllocations;
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionQuotaAllocationGetResponse = SubscriptionQuotaAllocations;
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionQuotaAllocationListNextResponse = SubscriptionQuotaAllocationsList;
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionQuotaAllocationListResponse = SubscriptionQuotaAllocationsList;
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationRequests {
+    get(managementGroupId: string, groupQuotaName: string, allocationId: string, options?: GroupQuotaSubscriptionQuotaAllocationRequestsGetOptionalParams): Promise<GroupQuotaSubscriptionQuotaAllocationRequestsGetResponse>;
+    list(managementGroupId: string, groupQuotaName: string, filter: string, options?: GroupQuotaSubscriptionQuotaAllocationRequestsListOptionalParams): PagedAsyncIterableIterator<QuotaAllocationRequestStatus>;
+}
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationRequestsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionQuotaAllocationRequestsGetResponse = QuotaAllocationRequestStatus;
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationRequestsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionQuotaAllocationRequestsListNextResponse = QuotaAllocationRequestStatusList;
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationRequestsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionQuotaAllocationRequestsListResponse = QuotaAllocationRequestStatusList;
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotaSubscriptionQuotaAllocationUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotaSubscriptionQuotaAllocationUpdateResponse = SubscriptionQuotaAllocations;
+
+// @public
+export interface GroupQuotaSubscriptionRequestStatus extends ProxyResource {
+    // (undocumented)
+    properties?: GroupQuotaSubscriptionRequestStatusProperties;
+}
+
+// @public
+export interface GroupQuotaSubscriptionRequestStatusList {
+    readonly nextLink?: string;
+    value?: GroupQuotaSubscriptionRequestStatus[];
+}
+
+// @public (undocumented)
+export interface GroupQuotaSubscriptionRequestStatusProperties {
+    readonly provisioningState?: RequestState;
+    requestSubmitTime?: Date;
+    subscriptionId?: string;
+}
+
+// @public
+export interface GroupQuotaSubscriptions {
+    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, options?: GroupQuotaSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaSubscriptionsCreateOrUpdateResponse>, GroupQuotaSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, options?: GroupQuotaSubscriptionsCreateOrUpdateOptionalParams): Promise<GroupQuotaSubscriptionsCreateOrUpdateResponse>;
+    beginUpdate(managementGroupId: string, groupQuotaName: string, options?: GroupQuotaSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaSubscriptionsUpdateResponse>, GroupQuotaSubscriptionsUpdateResponse>>;
+    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, options?: GroupQuotaSubscriptionsUpdateOptionalParams): Promise<GroupQuotaSubscriptionsUpdateResponse>;
+    delete(managementGroupId: string, groupQuotaName: string, options?: GroupQuotaSubscriptionsDeleteOptionalParams): Promise<void>;
+    get(managementGroupId: string, groupQuotaName: string, options?: GroupQuotaSubscriptionsGetOptionalParams): Promise<GroupQuotaSubscriptionsGetResponse>;
+    list(managementGroupId: string, groupQuotaName: string, options?: GroupQuotaSubscriptionsListOptionalParams): PagedAsyncIterableIterator<GroupQuotaSubscriptionId>;
+}
+
+// @public
+export interface GroupQuotaSubscriptionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotaSubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotaSubscriptionsCreateOrUpdateResponse = GroupQuotaSubscriptionId;
+
+// @public
+export interface GroupQuotaSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GroupQuotaSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionsGetResponse = GroupQuotaSubscriptionId;
+
+// @public
+export interface GroupQuotaSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionsListNextResponse = GroupQuotaSubscriptionIdList;
+
+// @public
+export interface GroupQuotaSubscriptionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GroupQuotaSubscriptionsListResponse = GroupQuotaSubscriptionIdList;
+
+// @public
+export interface GroupQuotaSubscriptionsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotaSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotaSubscriptionsUpdateResponse = GroupQuotaSubscriptionId;
+
+// @public
+export interface GroupQuotasUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GroupQuotasUpdateOptionalParams extends coreClient.OperationOptions {
+    groupQuotasPatchRequestBody?: GroupQuotasEntity;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GroupQuotasUpdateResponse = GroupQuotasEntity;
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownEnvironmentType {
+    NonProduction = "NonProduction",
+    Production = "Production"
+}
+
+// @public
+export enum KnownGroupingIdType {
+    BillingId = "BillingId",
+    ServiceTreeId = "ServiceTreeId"
+}
 
 // @public
 export enum KnownLimitType {
@@ -84,6 +662,17 @@ export enum KnownQuotaLimitTypes {
 // @public
 export enum KnownQuotaRequestState {
     Accepted = "Accepted",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Invalid = "Invalid",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRequestState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Created = "Created",
     Failed = "Failed",
     InProgress = "InProgress",
     Invalid = "Invalid",
@@ -114,6 +703,17 @@ export interface LimitObject extends LimitJsonObject {
 // @public
 export type LimitType = string;
 
+// @public
+export interface LROResponse extends ProxyResource {
+    // (undocumented)
+    properties?: LROResponseProperties;
+}
+
+// @public (undocumented)
+export interface LROResponseProperties {
+    readonly provisioningState?: RequestState;
+}
+
 // @public (undocumented)
 export interface OperationDisplay {
     description?: string;
@@ -140,13 +740,56 @@ export interface OperationResponse {
 }
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface Quota {
-    beginCreateOrUpdate(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<QuotaCreateOrUpdateResponse>;
-    beginUpdate(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
-    beginUpdateAndWait(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<QuotaUpdateResponse>;
-    get(resourceName: string, scope: string, options?: QuotaGetOptionalParams): Promise<QuotaGetResponse>;
+    beginCreateOrUpdate(scope: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(scope: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<QuotaCreateOrUpdateResponse>;
+    beginUpdate(scope: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
+    beginUpdateAndWait(scope: string, resourceName: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<QuotaUpdateResponse>;
+    get(scope: string, resourceName: string, options?: QuotaGetOptionalParams): Promise<QuotaGetResponse>;
     list(scope: string, options?: QuotaListOptionalParams): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
+}
+
+// @public
+export interface QuotaAllocationRequestBase {
+    // (undocumented)
+    properties?: QuotaAllocationRequestBaseProperties;
+}
+
+// @public (undocumented)
+export interface QuotaAllocationRequestBaseProperties {
+    limit?: number;
+    readonly name?: QuotaAllocationRequestBasePropertiesName;
+    resourceProviderScope?: string;
+}
+
+// @public
+export interface QuotaAllocationRequestBasePropertiesName {
+    readonly localizedValue?: string;
+    readonly value?: string;
+}
+
+// @public
+export interface QuotaAllocationRequestStatus extends ProxyResource {
+    // (undocumented)
+    properties?: QuotaAllocationRequestStatusProperties;
+}
+
+// @public
+export interface QuotaAllocationRequestStatusList {
+    readonly nextLink?: string;
+    value?: QuotaAllocationRequestStatus[];
+}
+
+// @public (undocumented)
+export interface QuotaAllocationRequestStatusProperties {
+    readonly faultCode?: string;
+    readonly provisioningState?: RequestState;
+    requestedResource?: QuotaAllocationRequestBase;
+    readonly requestSubmitTime?: Date;
 }
 
 // @public
@@ -291,7 +934,7 @@ export type QuotaRequestState = string;
 
 // @public
 export interface QuotaRequestStatus {
-    get(id: string, scope: string, options?: QuotaRequestStatusGetOptionalParams): Promise<QuotaRequestStatusGetResponse>;
+    get(scope: string, id: string, options?: QuotaRequestStatusGetOptionalParams): Promise<QuotaRequestStatusGetResponse>;
     list(scope: string, options?: QuotaRequestStatusListOptionalParams): PagedAsyncIterableIterator<QuotaRequestDetails>;
 }
 
@@ -357,6 +1000,24 @@ export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
 export type QuotaUpdateResponse = CurrentQuotaLimitBase;
 
 // @public
+export type RequestState = string;
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceBaseRequest {
+    limits?: number;
+    readonly resourceName?: string;
+    readonly unit?: string;
+}
+
+// @public
 export interface ResourceName {
     readonly localizedValue?: string;
     value?: string;
@@ -376,19 +1037,108 @@ export interface ServiceErrorDetail {
 }
 
 // @public
+export interface SubmittedResourceRequestStatus {
+    readonly faultCode?: string;
+    readonly provisioningState?: RequestState;
+    requestedResource?: QuotaAllocationRequestBase;
+    readonly requestSubmitTime?: Date;
+}
+
+// @public
+export interface SubmittedResourceRequestStatusList {
+    readonly nextLink?: string;
+    value?: SubmittedResourceRequestStatus[];
+}
+
+// @public
 export interface SubRequest {
     limit?: LimitJsonObjectUnion;
     readonly message?: string;
     name?: ResourceName;
     readonly provisioningState?: QuotaRequestState;
-    readonly resourceType?: string;
+    resourceType?: string;
     readonly subRequestId?: string;
     unit?: string;
 }
 
 // @public
+export interface SubscriptionGroupQuotaAssignment {
+    groupQuotaId?: string;
+    quotaAllocated?: number;
+}
+
+// @public
+export interface SubscriptionQuotaAllocationRequestList {
+    readonly nextLink?: string;
+    value?: QuotaAllocationRequestStatus[];
+}
+
+// @public
+export interface SubscriptionQuotaAllocations extends ProxyResource {
+    properties?: SubscriptionQuotaDetails;
+}
+
+// @public
+export interface SubscriptionQuotaAllocationsList {
+    readonly nextLink?: string;
+    value?: SubscriptionQuotaAllocations[];
+}
+
+// @public
+export interface SubscriptionQuotaDetails {
+    limit?: number;
+    readonly name?: SubscriptionQuotaDetailsName;
+    readonly provisioningState?: RequestState;
+    resourceProviderScope?: string;
+    readonly shareableQuota?: number;
+}
+
+// @public
+export interface SubscriptionQuotaDetailsName {
+    readonly localizedValue?: string;
+    readonly value?: string;
+}
+
+// @public
+export interface SubscriptionRequests {
+    get(managementGroupId: string, groupQuotaName: string, requestId: string, options?: SubscriptionRequestsGetOptionalParams): Promise<SubscriptionRequestsGetResponse>;
+    list(managementGroupId: string, groupQuotaName: string, options?: SubscriptionRequestsListOptionalParams): PagedAsyncIterableIterator<GroupQuotaSubscriptionRequestStatus>;
+}
+
+// @public
+export interface SubscriptionRequestsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionRequestsGetResponse = GroupQuotaSubscriptionRequestStatus;
+
+// @public
+export interface SubscriptionRequestsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionRequestsListNextResponse = GroupQuotaSubscriptionRequestStatusList;
+
+// @public
+export interface SubscriptionRequestsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionRequestsListResponse = GroupQuotaSubscriptionRequestStatusList;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface Usages {
-    get(resourceName: string, scope: string, options?: UsagesGetOptionalParams): Promise<UsagesGetResponse>;
+    get(scope: string, resourceName: string, options?: UsagesGetOptionalParams): Promise<UsagesGetResponse>;
     list(scope: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<CurrentUsagesBase>;
 }
 

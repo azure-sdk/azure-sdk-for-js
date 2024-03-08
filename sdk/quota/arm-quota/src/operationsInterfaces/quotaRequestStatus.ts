@@ -11,7 +11,7 @@ import {
   QuotaRequestDetails,
   QuotaRequestStatusListOptionalParams,
   QuotaRequestStatusGetOptionalParams,
-  QuotaRequestStatusGetResponse
+  QuotaRequestStatusGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,23 +29,23 @@ export interface QuotaRequestStatus {
    */
   list(
     scope: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaRequestDetails>;
   /**
    * Get the quota request details and status by quota request ID for the resources of the resource
    * provider at a specific location. The quota request ID **id** is returned in the response of the PUT
    * operation.
-   * @param id Quota request ID.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param id Quota request ID.
    * @param options The options parameters.
    */
   get(
-    id: string,
     scope: string,
-    options?: QuotaRequestStatusGetOptionalParams
+    id: string,
+    options?: QuotaRequestStatusGetOptionalParams,
   ): Promise<QuotaRequestStatusGetResponse>;
 }

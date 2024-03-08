@@ -20,7 +20,7 @@ import {
   QuotaRequestStatusListResponse,
   QuotaRequestStatusGetOptionalParams,
   QuotaRequestStatusGetResponse,
-  QuotaRequestStatusListNextResponse
+  QuotaRequestStatusListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
    */
   public list(
     scope: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaRequestDetails> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -63,14 +63,14 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: QuotaRequestStatusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<QuotaRequestDetails[]> {
     let result: QuotaRequestStatusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
 
   private async *listPagingAll(
     scope: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): AsyncIterableIterator<QuotaRequestDetails> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -103,22 +103,22 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
    * Get the quota request details and status by quota request ID for the resources of the resource
    * provider at a specific location. The quota request ID **id** is returned in the response of the PUT
    * operation.
-   * @param id Quota request ID.
    * @param scope The target Azure resource URI. For example,
    *              `/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/`.
    *              This is the target Azure resource URI for the List GET operation. If a `{resourceName}` is added
    *              after `/quotas`, then it's the target Azure resource URI in the GET operation for the specific
    *              resource.
+   * @param id Quota request ID.
    * @param options The options parameters.
    */
   get(
-    id: string,
     scope: string,
-    options?: QuotaRequestStatusGetOptionalParams
+    id: string,
+    options?: QuotaRequestStatusGetOptionalParams,
   ): Promise<QuotaRequestStatusGetResponse> {
     return this.client.sendOperationRequest(
-      { id, scope, options },
-      getOperationSpec
+      { scope, id, options },
+      getOperationSpec,
     );
   }
 
@@ -134,11 +134,11 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
    */
   private _list(
     scope: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): Promise<QuotaRequestStatusListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -155,11 +155,11 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: QuotaRequestStatusListNextOptionalParams
+    options?: QuotaRequestStatusListNextOptionalParams,
   ): Promise<QuotaRequestStatusListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,50 +171,50 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestDetails
+      bodyMapper: Mappers.QuotaRequestDetails,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Quota/quotaRequests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestDetailsList
+      bodyMapper: Mappers.QuotaRequestDetailsList,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.filter,
+    Parameters.filter1,
     Parameters.top,
-    Parameters.skiptoken
+    Parameters.skiptoken,
   ],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestDetailsList
+      bodyMapper: Mappers.QuotaRequestDetailsList,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
