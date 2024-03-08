@@ -23,10 +23,7 @@ export interface ClientRequestIdHeaderOutput {
 }
 
 // @public
-function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
-
-// @public
-function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
+function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): MessagesServiceClient;
 export default createClient;
 
 // @public
