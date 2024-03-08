@@ -125,8 +125,11 @@ export interface ErrorAdditionalInfo {
 export interface CatalogListResult {
   /** The Catalog items on this page */
   value: Catalog[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -179,8 +182,11 @@ export interface CatalogUpdate {
 export interface CertificateListResult {
   /** The Certificate items on this page */
   value: Certificate[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** The properties of certificate */
@@ -247,16 +253,22 @@ export interface CountElementsResponse {
 export interface ImageListResult {
   /** The Image items on this page */
   value: Image[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** The response of a Deployment list operation. */
 export interface DeploymentListResult {
   /** The Deployment items on this page */
   value: Deployment[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Request of the action to list device groups for a catalog. */
@@ -269,16 +281,22 @@ export interface ListDeviceGroupsRequest {
 export interface DeviceGroupListResult {
   /** The DeviceGroup items on this page */
   value: DeviceGroup[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Paged collection of DeviceInsight items */
 export interface PagedDeviceInsight {
   /** The DeviceInsight items on this page */
   value: DeviceInsight[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Device insight report. */
@@ -305,16 +323,22 @@ export interface DeviceInsight {
 export interface DeviceListResult {
   /** The Device items on this page */
   value: Device[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** The response of a Product list operation. */
 export interface ProductListResult {
   /** The Product items on this page */
   value: Product[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** The type used for update operations of the Product. */
@@ -370,12 +394,6 @@ export interface DevicePatchProperties {
   deviceGroupId: string;
 }
 
-/** Image upload request body. */
-export interface ImageUploadRequestBody {
-  /** . */
-  images: string;
-}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -391,10 +409,18 @@ export interface ProxyResource extends Resource {}
 export interface ProofOfPossessionNonceResponse extends CertificateProperties {}
 
 /** Response to the action call for count devices in a catalog. */
+export interface CountDevicesResponse extends CountElementsResponse {}
+
+/** Response to the action call for count devices in a catalog (preview API). */
 export interface CountDeviceResponse extends CountElementsResponse {}
 
 /** An Azure Sphere catalog */
 export interface Catalog extends TrackedResource {
+  /**
+   * The Azure Sphere tenant ID associated with the catalog.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
   /**
    * The status of the last operation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -584,6 +610,14 @@ export interface CatalogsDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for Catalogs_uploadImage operation. */
+export interface CatalogsUploadImageHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
 /** Defines headers for Images_createOrUpdate operation. */
 export interface ImagesCreateOrUpdateHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -646,6 +680,8 @@ export interface DeviceGroupsDeleteHeaders {
 export interface DeviceGroupsClaimDevicesHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for Deployments_createOrUpdate operation. */
@@ -686,6 +722,8 @@ export interface DevicesDeleteHeaders {
 export interface DevicesGenerateCapabilityImageHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -695,7 +733,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -712,7 +750,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -739,7 +777,7 @@ export enum KnownProvisioningState {
   /** The resource is being deleted */
   Deleting = "Deleting",
   /** The resource create request has been accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -766,7 +804,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -790,7 +828,7 @@ export enum KnownCertificateStatus {
   /** Certificate has expired */
   Expired = "Expired",
   /** Certificate has been revoked */
-  Revoked = "Revoked"
+  Revoked = "Revoked",
 }
 
 /**
@@ -810,7 +848,7 @@ export enum KnownRegionalDataBoundary {
   /** No data boundary */
   None = "None",
   /** EU data boundary */
-  EU = "EU"
+  EU = "EU",
 }
 
 /**
@@ -872,7 +910,7 @@ export enum KnownImageType {
   /** manifest set image type */
   ManifestSet = "ManifestSet",
   /** Other image type */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -912,7 +950,7 @@ export enum KnownOSFeedType {
   /** Retail OS feed type. */
   Retail = "Retail",
   /** Retail evaluation OS feed type. */
-  RetailEval = "RetailEval"
+  RetailEval = "RetailEval",
 }
 
 /**
@@ -930,7 +968,7 @@ export enum KnownUpdatePolicy {
   /** Update all policy. */
   UpdateAll = "UpdateAll",
   /** No update for 3rd party app policy. */
-  No3RdPartyAppUpdates = "No3rdPartyAppUpdates"
+  No3RdPartyAppUpdates = "No3rdPartyAppUpdates",
 }
 
 /**
@@ -948,7 +986,7 @@ export enum KnownAllowCrashDumpCollection {
   /** Crash dump collection enabled */
   Enabled = "Enabled",
   /** Crash dump collection disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -966,7 +1004,7 @@ export enum KnownCapabilityType {
   /** Application development capability */
   ApplicationDevelopment = "ApplicationDevelopment",
   /** Field servicing capability */
-  FieldServicing = "FieldServicing"
+  FieldServicing = "FieldServicing",
 }
 
 /**
@@ -978,6 +1016,24 @@ export enum KnownCapabilityType {
  * **FieldServicing**: Field servicing capability
  */
 export type CapabilityType = string;
+
+/** Known values of {@link Versions} that the service accepts. */
+export enum KnownVersions {
+  /** Public preview API version. */
+  V20220901 = "2022-09-01-preview",
+  /** Initial GA API version. */
+  V20240401 = "2024-04-01",
+}
+
+/**
+ * Defines values for Versions. \
+ * {@link KnownVersions} can be used interchangeably with Versions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2022-09-01-preview**: Public preview API version. \
+ * **2024-04-01**: Initial GA API version.
+ */
+export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1047,7 +1103,7 @@ export interface CatalogsCountDevicesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the countDevices operation. */
-export type CatalogsCountDevicesResponse = CountDeviceResponse;
+export type CatalogsCountDevicesResponse = CountDevicesResponse;
 
 /** Optional parameters. */
 export interface CatalogsListDeploymentsOptionalParams
@@ -1112,6 +1168,18 @@ export interface CatalogsListDevicesOptionalParams
 
 /** Contains response data for the listDevices operation. */
 export type CatalogsListDevicesResponse = DeviceListResult;
+
+/** Optional parameters. */
+export interface CatalogsUploadImageOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the uploadImage operation. */
+export type CatalogsUploadImageResponse = CatalogsUploadImageHeaders;
 
 /** Optional parameters. */
 export interface CatalogsListBySubscriptionNextOptionalParams
@@ -1190,7 +1258,8 @@ export interface CertificatesRetrieveProofOfPossessionNonceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the retrieveProofOfPossessionNonce operation. */
-export type CertificatesRetrieveProofOfPossessionNonceResponse = ProofOfPossessionNonceResponse;
+export type CertificatesRetrieveProofOfPossessionNonceResponse =
+  ProofOfPossessionNonceResponse;
 
 /** Optional parameters. */
 export interface CertificatesListByCatalogNextOptionalParams
@@ -1301,7 +1370,7 @@ export interface ProductsCountDevicesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the countDevices operation. */
-export type ProductsCountDevicesResponse = CountDeviceResponse;
+export type ProductsCountDevicesResponse = CountDevicesResponse;
 
 /** Optional parameters. */
 export interface ProductsGenerateDefaultDeviceGroupsOptionalParams
@@ -1322,7 +1391,8 @@ export interface ProductsGenerateDefaultDeviceGroupsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateDefaultDeviceGroupsNext operation. */
-export type ProductsGenerateDefaultDeviceGroupsNextResponse = DeviceGroupListResult;
+export type ProductsGenerateDefaultDeviceGroupsNextResponse =
+  DeviceGroupListResult;
 
 /** Optional parameters. */
 export interface DeviceGroupsListByProductOptionalParams
@@ -1397,7 +1467,7 @@ export interface DeviceGroupsCountDevicesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the countDevices operation. */
-export type DeviceGroupsCountDevicesResponse = CountDeviceResponse;
+export type DeviceGroupsCountDevicesResponse = CountDevicesResponse;
 
 /** Optional parameters. */
 export interface DeviceGroupsListByProductNextOptionalParams
@@ -1513,7 +1583,8 @@ export interface DevicesGenerateCapabilityImageOptionalParams
 }
 
 /** Contains response data for the generateCapabilityImage operation. */
-export type DevicesGenerateCapabilityImageResponse = SignedCapabilityImageResponse;
+export type DevicesGenerateCapabilityImageResponse =
+  SignedCapabilityImageResponse;
 
 /** Optional parameters. */
 export interface DevicesListByDeviceGroupNextOptionalParams
