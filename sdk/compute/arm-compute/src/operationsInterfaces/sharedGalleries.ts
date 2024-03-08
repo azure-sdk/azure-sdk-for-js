@@ -6,26 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  SharedGallery,
-  SharedGalleriesListOptionalParams,
   SharedGalleriesGetOptionalParams,
-  SharedGalleriesGetResponse
+  SharedGalleriesGetResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a SharedGalleries. */
 export interface SharedGalleries {
-  /**
-   * List shared galleries by subscription id or tenant id.
-   * @param location Resource location.
-   * @param options The options parameters.
-   */
-  list(
-    location: string,
-    options?: SharedGalleriesListOptionalParams
-  ): PagedAsyncIterableIterator<SharedGallery>;
   /**
    * Get a shared gallery by subscription id or tenant id.
    * @param location Resource location.
@@ -35,6 +22,6 @@ export interface SharedGalleries {
   get(
     location: string,
     galleryUniqueName: string,
-    options?: SharedGalleriesGetOptionalParams
+    options?: SharedGalleriesGetOptionalParams,
   ): Promise<SharedGalleriesGetResponse>;
 }

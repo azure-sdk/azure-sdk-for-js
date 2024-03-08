@@ -928,18 +928,6 @@ export interface CloudServiceVaultSecretGroup {
 }
 
 // @public
-export interface CommunityGalleries {
-    get(location: string, publicGalleryName: string, options?: CommunityGalleriesGetOptionalParams): Promise<CommunityGalleriesGetResponse>;
-}
-
-// @public
-export interface CommunityGalleriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleriesGetResponse = CommunityGallery;
-
-// @public
 export interface CommunityGallery extends PirCommunityGalleryResource {
     artifactTags?: {
         [propertyName: string]: string;
@@ -1093,8 +1081,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     cloudServices: CloudServices;
     // (undocumented)
     cloudServicesUpdateDomain: CloudServicesUpdateDomain;
-    // (undocumented)
-    communityGalleries: CommunityGalleries;
     // (undocumented)
     communityGalleryImages: CommunityGalleryImages;
     // (undocumented)
@@ -2540,6 +2526,7 @@ export interface GalleryArtifactSource {
 // @public
 export interface GalleryArtifactVersionFullSource extends GalleryArtifactVersionSource {
     communityGalleryImageId?: string;
+    virtualMachineId?: string;
 }
 
 // @public
@@ -5264,7 +5251,6 @@ export type SettingNames = "AutoLogon" | "FirstLogonCommands";
 // @public
 export interface SharedGalleries {
     get(location: string, galleryUniqueName: string, options?: SharedGalleriesGetOptionalParams): Promise<SharedGalleriesGetResponse>;
-    list(location: string, options?: SharedGalleriesListOptionalParams): PagedAsyncIterableIterator<SharedGallery>;
 }
 
 // @public
@@ -5273,21 +5259,6 @@ export interface SharedGalleriesGetOptionalParams extends coreClient.OperationOp
 
 // @public
 export type SharedGalleriesGetResponse = SharedGallery;
-
-// @public
-export interface SharedGalleriesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SharedGalleriesListNextResponse = SharedGalleryList;
-
-// @public
-export interface SharedGalleriesListOptionalParams extends coreClient.OperationOptions {
-    sharedTo?: SharedToValues;
-}
-
-// @public
-export type SharedGalleriesListResponse = SharedGalleryList;
 
 // @public
 export interface SharedGallery extends PirSharedGalleryResource {

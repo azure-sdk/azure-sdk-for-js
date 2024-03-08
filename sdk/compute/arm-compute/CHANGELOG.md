@@ -1,15 +1,18 @@
 # Release History
+    
+## 22.0.0 (2024-03-08)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
+  - Interface GalleryArtifactVersionFullSource has a new optional parameter virtualMachineId
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group CommunityGalleries
+  - Removed operation SharedGalleries.list
+  - Class ComputeManagementClient no longer has parameter communityGalleries
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**
