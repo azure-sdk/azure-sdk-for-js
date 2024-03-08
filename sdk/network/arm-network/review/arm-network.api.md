@@ -1175,11 +1175,6 @@ export interface ApplicationGatewayWafDynamicManifestResultList {
 }
 
 // @public
-export interface ApplicationGatewayWafDynamicManifests {
-    list(location: string, options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams): PagedAsyncIterableIterator<ApplicationGatewayWafDynamicManifestResult>;
-}
-
-// @public
 export interface ApplicationGatewayWafDynamicManifestsDefault {
     get(location: string, options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams): Promise<ApplicationGatewayWafDynamicManifestsDefaultGetResponse>;
 }
@@ -1190,20 +1185,6 @@ export interface ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams e
 
 // @public
 export type ApplicationGatewayWafDynamicManifestsDefaultGetResponse = ApplicationGatewayWafDynamicManifestResult;
-
-// @public
-export interface ApplicationGatewayWafDynamicManifestsGetNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationGatewayWafDynamicManifestsGetNextResponse = ApplicationGatewayWafDynamicManifestResultList;
-
-// @public
-export interface ApplicationGatewayWafDynamicManifestsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationGatewayWafDynamicManifestsGetResponse = ApplicationGatewayWafDynamicManifestResultList;
 
 // @public
 export type ApplicationGatewayWafRuleActionTypes = string;
@@ -1255,8 +1236,6 @@ export interface ApplicationSecurityGroupListResult {
 
 // @public
 export interface ApplicationSecurityGroups {
-    beginCreateOrUpdate(resourceGroupName: string, applicationSecurityGroupName: string, parameters: ApplicationSecurityGroup, options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationSecurityGroupsCreateOrUpdateResponse>, ApplicationSecurityGroupsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, applicationSecurityGroupName: string, parameters: ApplicationSecurityGroup, options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams): Promise<ApplicationSecurityGroupsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, applicationSecurityGroupName: string, options?: ApplicationSecurityGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, applicationSecurityGroupName: string, options?: ApplicationSecurityGroupsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, applicationSecurityGroupName: string, options?: ApplicationSecurityGroupsGetOptionalParams): Promise<ApplicationSecurityGroupsGetResponse>;
@@ -1264,15 +1243,6 @@ export interface ApplicationSecurityGroups {
     listAll(options?: ApplicationSecurityGroupsListAllOptionalParams): PagedAsyncIterableIterator<ApplicationSecurityGroup>;
     updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: TagsObject, options?: ApplicationSecurityGroupsUpdateTagsOptionalParams): Promise<ApplicationSecurityGroupsUpdateTagsResponse>;
 }
-
-// @public
-export interface ApplicationSecurityGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ApplicationSecurityGroupsCreateOrUpdateResponse = ApplicationSecurityGroup;
 
 // @public
 export interface ApplicationSecurityGroupsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -9031,8 +9001,6 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     applicationGatewayPrivateLinkResources: ApplicationGatewayPrivateLinkResources;
     // (undocumented)
     applicationGateways: ApplicationGateways;
-    // (undocumented)
-    applicationGatewayWafDynamicManifests: ApplicationGatewayWafDynamicManifests;
     // (undocumented)
     applicationGatewayWafDynamicManifestsDefault: ApplicationGatewayWafDynamicManifestsDefault;
     // (undocumented)

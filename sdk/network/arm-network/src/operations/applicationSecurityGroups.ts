@@ -30,8 +30,6 @@ import {
   ApplicationSecurityGroupsDeleteOptionalParams,
   ApplicationSecurityGroupsGetOptionalParams,
   ApplicationSecurityGroupsGetResponse,
-  ApplicationSecurityGroupsCreateOrUpdateOptionalParams,
-  ApplicationSecurityGroupsCreateOrUpdateResponse,
   TagsObject,
   ApplicationSecurityGroupsUpdateTagsOptionalParams,
   ApplicationSecurityGroupsUpdateTagsResponse,
@@ -270,106 +268,6 @@ export class ApplicationSecurityGroupsImpl
   }
 
   /**
-   * Creates or updates an application security group.
-   * @param resourceGroupName The name of the resource group.
-   * @param applicationSecurityGroupName The name of the application security group.
-   * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    applicationSecurityGroupName: string,
-    parameters: ApplicationSecurityGroup,
-    options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationSecurityGroupsCreateOrUpdateResponse>,
-      ApplicationSecurityGroupsCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ApplicationSecurityGroupsCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        applicationSecurityGroupName,
-        parameters,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ApplicationSecurityGroupsCreateOrUpdateResponse,
-      OperationState<ApplicationSecurityGroupsCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates an application security group.
-   * @param resourceGroupName The name of the resource group.
-   * @param applicationSecurityGroupName The name of the application security group.
-   * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    applicationSecurityGroupName: string,
-    parameters: ApplicationSecurityGroup,
-    options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams,
-  ): Promise<ApplicationSecurityGroupsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      applicationSecurityGroupName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Updates an application security group's tags.
    * @param resourceGroupName The name of the resource group.
    * @param applicationSecurityGroupName The name of the application security group.
@@ -489,38 +387,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.applicationSecurityGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationSecurityGroup,
-    },
-    201: {
-      bodyMapper: Mappers.ApplicationSecurityGroup,
-    },
-    202: {
-      bodyMapper: Mappers.ApplicationSecurityGroup,
-    },
-    204: {
-      bodyMapper: Mappers.ApplicationSecurityGroup,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.applicationSecurityGroupName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {

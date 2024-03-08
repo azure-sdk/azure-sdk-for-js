@@ -1969,34 +1969,6 @@ export const ApplicationGatewayFirewallManifestRuleSet: coreClient.CompositeMapp
     },
   };
 
-export const ApplicationGatewayWafDynamicManifestResultList: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ApplicationGatewayWafDynamicManifestResultList",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ApplicationGatewayWafDynamicManifestResult",
-              },
-            },
-          },
-        },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
 export const ApplicationSecurityGroupListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -16745,6 +16717,34 @@ export const ManagedRuleOverride: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const ApplicationGatewayWafDynamicManifestResultList: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ApplicationGatewayWafDynamicManifestResultList",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ApplicationGatewayWafDynamicManifestResult",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const FirewallPolicyNatRuleCollectionAction: coreClient.CompositeMapper =
   {

@@ -705,14 +705,6 @@ export interface ApplicationGatewayFirewallManifestRuleSet {
   ruleGroups: ApplicationGatewayFirewallRuleGroup[];
 }
 
-/** Response for ApplicationGatewayWafDynamicManifests API service call. */
-export interface ApplicationGatewayWafDynamicManifestResultList {
-  /** The list of application gateway waf manifest. */
-  value?: ApplicationGatewayWafDynamicManifestResult[];
-  /** URL to get the next set of results. */
-  nextLink?: string;
-}
-
 /** A list of application security groups. */
 export interface ApplicationSecurityGroupListResult {
   /** A list of application security groups. */
@@ -5861,6 +5853,14 @@ export interface ManagedRuleOverride {
   state?: ManagedRuleEnabledState;
   /** Describes the override action to be applied when rule matches. */
   action?: ActionType;
+}
+
+/** Response for ApplicationGatewayWafDynamicManifests API service call. */
+export interface ApplicationGatewayWafDynamicManifestResultList {
+  /** The list of application gateway waf manifest. */
+  value?: ApplicationGatewayWafDynamicManifestResult[];
+  /** URL to get the next set of results. */
+  nextLink?: string;
 }
 
 /** Properties of the FirewallPolicyNatRuleCollectionAction. */
@@ -16839,22 +16839,6 @@ export type ApplicationGatewayWafDynamicManifestsDefaultGetResponse =
   ApplicationGatewayWafDynamicManifestResult;
 
 /** Optional parameters. */
-export interface ApplicationGatewayWafDynamicManifestsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ApplicationGatewayWafDynamicManifestsGetResponse =
-  ApplicationGatewayWafDynamicManifestResultList;
-
-/** Optional parameters. */
-export interface ApplicationGatewayWafDynamicManifestsGetNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getNext operation. */
-export type ApplicationGatewayWafDynamicManifestsGetNextResponse =
-  ApplicationGatewayWafDynamicManifestResultList;
-
-/** Optional parameters. */
 export interface ApplicationSecurityGroupsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -16869,19 +16853,6 @@ export interface ApplicationSecurityGroupsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type ApplicationSecurityGroupsGetResponse = ApplicationSecurityGroup;
-
-/** Optional parameters. */
-export interface ApplicationSecurityGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ApplicationSecurityGroupsCreateOrUpdateResponse =
-  ApplicationSecurityGroup;
 
 /** Optional parameters. */
 export interface ApplicationSecurityGroupsUpdateTagsOptionalParams

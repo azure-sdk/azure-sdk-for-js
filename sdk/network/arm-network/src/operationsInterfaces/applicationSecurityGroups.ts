@@ -15,8 +15,6 @@ import {
   ApplicationSecurityGroupsDeleteOptionalParams,
   ApplicationSecurityGroupsGetOptionalParams,
   ApplicationSecurityGroupsGetResponse,
-  ApplicationSecurityGroupsCreateOrUpdateOptionalParams,
-  ApplicationSecurityGroupsCreateOrUpdateResponse,
   TagsObject,
   ApplicationSecurityGroupsUpdateTagsOptionalParams,
   ApplicationSecurityGroupsUpdateTagsResponse,
@@ -74,37 +72,6 @@ export interface ApplicationSecurityGroups {
     applicationSecurityGroupName: string,
     options?: ApplicationSecurityGroupsGetOptionalParams,
   ): Promise<ApplicationSecurityGroupsGetResponse>;
-  /**
-   * Creates or updates an application security group.
-   * @param resourceGroupName The name of the resource group.
-   * @param applicationSecurityGroupName The name of the application security group.
-   * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    applicationSecurityGroupName: string,
-    parameters: ApplicationSecurityGroup,
-    options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationSecurityGroupsCreateOrUpdateResponse>,
-      ApplicationSecurityGroupsCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Creates or updates an application security group.
-   * @param resourceGroupName The name of the resource group.
-   * @param applicationSecurityGroupName The name of the application security group.
-   * @param parameters Parameters supplied to the create or update ApplicationSecurityGroup operation.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    applicationSecurityGroupName: string,
-    parameters: ApplicationSecurityGroup,
-    options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams,
-  ): Promise<ApplicationSecurityGroupsCreateOrUpdateResponse>;
   /**
    * Updates an application security group's tags.
    * @param resourceGroupName The name of the resource group.

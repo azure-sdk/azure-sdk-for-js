@@ -10,7 +10,6 @@ export * from "./applicationGateways";
 export * from "./applicationGatewayPrivateLinkResources";
 export * from "./applicationGatewayPrivateEndpointConnections";
 export * from "./applicationGatewayWafDynamicManifestsDefault";
-export * from "./applicationGatewayWafDynamicManifests";
 export * from "./applicationSecurityGroups";
 export * from "./availableDelegations";
 export * from "./availableResourceGroupDelegations";

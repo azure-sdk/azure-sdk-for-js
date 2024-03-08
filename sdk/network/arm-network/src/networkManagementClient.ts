@@ -22,7 +22,6 @@ import {
   ApplicationGatewayPrivateLinkResourcesImpl,
   ApplicationGatewayPrivateEndpointConnectionsImpl,
   ApplicationGatewayWafDynamicManifestsDefaultImpl,
-  ApplicationGatewayWafDynamicManifestsImpl,
   ApplicationSecurityGroupsImpl,
   AvailableDelegationsImpl,
   AvailableResourceGroupDelegationsImpl,
@@ -156,7 +155,6 @@ import {
   ApplicationGatewayPrivateLinkResources,
   ApplicationGatewayPrivateEndpointConnections,
   ApplicationGatewayWafDynamicManifestsDefault,
-  ApplicationGatewayWafDynamicManifests,
   ApplicationSecurityGroups,
   AvailableDelegations,
   AvailableResourceGroupDelegations,
@@ -382,7 +380,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.1.0`;
+    const packageDetails = `azsdk-js-arm-network/34.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -443,8 +441,6 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       new ApplicationGatewayPrivateEndpointConnectionsImpl(this);
     this.applicationGatewayWafDynamicManifestsDefault =
       new ApplicationGatewayWafDynamicManifestsDefaultImpl(this);
-    this.applicationGatewayWafDynamicManifests =
-      new ApplicationGatewayWafDynamicManifestsImpl(this);
     this.applicationSecurityGroups = new ApplicationSecurityGroupsImpl(this);
     this.availableDelegations = new AvailableDelegationsImpl(this);
     this.availableResourceGroupDelegations =
@@ -1666,7 +1662,6 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   applicationGatewayPrivateLinkResources: ApplicationGatewayPrivateLinkResources;
   applicationGatewayPrivateEndpointConnections: ApplicationGatewayPrivateEndpointConnections;
   applicationGatewayWafDynamicManifestsDefault: ApplicationGatewayWafDynamicManifestsDefault;
-  applicationGatewayWafDynamicManifests: ApplicationGatewayWafDynamicManifests;
   applicationSecurityGroups: ApplicationSecurityGroups;
   availableDelegations: AvailableDelegations;
   availableResourceGroupDelegations: AvailableResourceGroupDelegations;
@@ -2019,7 +2014,7 @@ const listActiveConnectivityConfigurationsOperationSpec: coreClient.OperationSpe
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.parameters7,
+    requestBody: Parameters.parameters6,
     queryParameters: [Parameters.apiVersion, Parameters.top],
     urlParameters: [
       Parameters.$host,
@@ -2042,7 +2037,7 @@ const listActiveSecurityAdminRulesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
@@ -2067,7 +2062,7 @@ const listNetworkManagerEffectiveConnectivityConfigurationsOperationSpec: coreCl
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.parameters8,
+    requestBody: Parameters.parameters7,
     queryParameters: [Parameters.apiVersion, Parameters.top],
     urlParameters: [
       Parameters.$host,
@@ -2091,7 +2086,7 @@ const listNetworkManagerEffectiveSecurityAdminRulesOperationSpec: coreClient.Ope
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.parameters8,
+    requestBody: Parameters.parameters7,
     queryParameters: [Parameters.apiVersion, Parameters.top],
     urlParameters: [
       Parameters.$host,

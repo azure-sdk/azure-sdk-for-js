@@ -1,5 +1,15 @@
 # Release History
     
+## 34.0.0 (2024-03-08)
+    
+**Breaking Changes**
+
+  - Removed operation group ApplicationGatewayWafDynamicManifests
+  - Removed operation ApplicationSecurityGroups.beginCreateOrUpdate
+  - Removed operation ApplicationSecurityGroups.beginCreateOrUpdateAndWait
+  - Class NetworkManagementClient no longer has parameter applicationGatewayWafDynamicManifests
+    
+    
 ## 33.1.0 (2024-02-02)
     
 **Features**
