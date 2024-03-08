@@ -6,16 +6,24 @@ export interface AudioTranscriptionOptions {
   /**
    * The audio data to transcribe. This must be the binary content of a file in one of the supported media formats:
    *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   *
+   * NOTE: The following type 'File' is part of WebAPI and available since Node 20. If your Node version is lower than Node 20.
+   * You could leverage our helpers 'createFile' or 'createFileFromStream' to create a File object. They could help you specify filename, type, and others.
    */
-  file: string;
+  file:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   /** The optional filename or descriptive identifier to associate with with the audio data. */
   filename?: string;
   /**
    * The requested format of the transcription response data, which will influence the content and detail of the result.
    *
-   * Possible values: json, verbose_json, text, srt, vtt
+   * Possible values: "json", "verbose_json", "text", "srt", "vtt"
    */
-  response_format?: string;
+  responseFormat?: string;
   /**
    * The primary spoken language of the audio data to be transcribed, supplied as a two-letter ISO-639-1 language code
    * such as 'en' or 'fr'.
@@ -42,16 +50,24 @@ export interface AudioTranslationOptions {
   /**
    * The audio data to translate. This must be the binary content of a file in one of the supported media formats:
    *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   *
+   * NOTE: The following type 'File' is part of WebAPI and available since Node 20. If your Node version is lower than Node 20.
+   * You could leverage our helpers 'createFile' or 'createFileFromStream' to create a File object. They could help you specify filename, type, and others.
    */
-  file: string;
+  file:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   /** The optional filename or descriptive identifier to associate with with the audio data. */
   filename?: string;
   /**
    * The requested format of the translation response data, which will influence the content and detail of the result.
    *
-   * Possible values: json, verbose_json, text, srt, vtt
+   * Possible values: "json", "verbose_json", "text", "srt", "vtt"
    */
-  response_format?: string;
+  responseFormat?: string;
   /**
    * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
    * prompt should match the primary spoken language of the audio data.
@@ -76,7 +92,7 @@ export interface CompletionsOptions {
   /** The prompts to generate completions from. */
   prompt: string[];
   /** The maximum number of tokens to generate. */
-  max_tokens?: number;
+  maxTokens?: number;
   /**
    * The sampling temperature to use that controls the apparent creativity of generated completions.
    * Higher values will make output more random while lower values will make results more focused
@@ -93,7 +109,7 @@ export interface CompletionsOptions {
    * It is not recommended to modify temperature and top_p for the same completions request as the
    * interaction of these two settings is difficult to predict.
    */
-  top_p?: number;
+  topP?: number;
   /**
    * A map between GPT token IDs and bias scores that influences the probability of specific tokens
    * appearing in a completions response. Token IDs are computed via external tokenizer tools, while
@@ -101,7 +117,7 @@ export interface CompletionsOptions {
    * a full ban or exclusive selection of a token, respectively. The exact behavior of a given bias
    * score varies by model.
    */
-  logit_bias?: Record<string, number>;
+  logitBias?: Record<string, number>;
   /**
    * An identifier for the caller or end user of the operation. This may be used for tracking
    * or rate-limiting purposes.
@@ -119,6 +135,8 @@ export interface CompletionsOptions {
    * tokens within a completions response.
    */
   logprobs?: number;
+  /** The suffix that comes after a completion of inserted text */
+  suffix?: string;
   /**
    * A value specifying whether completions responses should include input prompts as prefixes to
    * their generated output.
@@ -132,14 +150,14 @@ export interface CompletionsOptions {
    * Positive values will make tokens less likely to appear when they already exist and increase the
    * model's likelihood to output new topics.
    */
-  presence_penalty?: number;
+  presencePenalty?: number;
   /**
    * A value that influences the probability of generated tokens appearing based on their cumulative
    * frequency in generated text.
    * Positive values will make tokens less likely to appear as their frequency increases and
    * decrease the likelihood of the model repeating the same statements verbatim.
    */
-  frequency_penalty?: number;
+  frequencyPenalty?: number;
   /**
    * A value that controls how many completions will be internally generated prior to response
    * formulation.
@@ -148,7 +166,7 @@ export interface CompletionsOptions {
    * Because this setting can generate many completions, it may quickly consume your token quota.
    * Use carefully and ensure reasonable settings for max_tokens and stop.
    */
-  best_of?: number;
+  bestOf?: number;
   /** A value indicating whether chat completions should be streamed for this request. */
   stream?: boolean;
   /**
@@ -180,9 +198,9 @@ export interface ChatCompletionsOptions {
    *  Specifying a particular function via `{"name": "my_function"}` forces the model to call that function.
    *  "none" is the default when no functions are present. "auto" is the default if functions are present.
    */
-  function_call?: string | FunctionName;
+  functionCall?: string | FunctionName;
   /** The maximum number of tokens to generate. */
-  max_tokens?: number;
+  maxTokens?: number;
   /**
    * The sampling temperature to use that controls the apparent creativity of generated completions.
    * Higher values will make output more random while lower values will make results more focused
@@ -199,7 +217,7 @@ export interface ChatCompletionsOptions {
    * It is not recommended to modify temperature and top_p for the same completions request as the
    * interaction of these two settings is difficult to predict.
    */
-  top_p?: number;
+  topP?: number;
   /**
    * A map between GPT token IDs and bias scores that influences the probability of specific tokens
    * appearing in a completions response. Token IDs are computed via external tokenizer tools, while
@@ -207,7 +225,7 @@ export interface ChatCompletionsOptions {
    * a full ban or exclusive selection of a token, respectively. The exact behavior of a given bias
    * score varies by model.
    */
-  logit_bias?: Record<string, number>;
+  logitBias?: Record<string, number>;
   /**
    * An identifier for the caller or end user of the operation. This may be used for tracking
    * or rate-limiting purposes.
@@ -228,14 +246,14 @@ export interface ChatCompletionsOptions {
    * Positive values will make tokens less likely to appear when they already exist and increase the
    * model's likelihood to output new topics.
    */
-  presence_penalty?: number;
+  presencePenalty?: number;
   /**
    * A value that influences the probability of generated tokens appearing based on their cumulative
    * frequency in generated text.
    * Positive values will make tokens less likely to appear as their frequency increases and
    * decrease the likelihood of the model repeating the same statements verbatim.
    */
-  frequency_penalty?: number;
+  frequencyPenalty?: number;
   /** A value indicating whether chat completions should be streamed for this request. */
   stream?: boolean;
   /**
@@ -257,16 +275,16 @@ export interface ChatCompletionsOptions {
    * system_fingerprint response parameter to monitor changes in the backend."
    */
   seed?: number;
-  /**
-   * An object specifying the format that the model must output. Used to enable JSON mode.
-   *
-   * Possible values: text, json_object
-   */
-  response_format?: string;
+  /** Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model. */
+  logprobs?: boolean | null;
+  /** An integer between 0 and 5 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used. */
+  top_logprobs?: number | null;
+  /** An object specifying the format that the model must output. Used to enable JSON mode. */
+  responseFormat?: ChatCompletionsResponseFormat;
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */
   tools?: Array<ChatCompletionsToolDefinition>;
   /** If specified, the model will configure which of the provided tools it can use for the chat completions response. */
-  tool_choice?: string | ChatCompletionsNamedToolSelection;
+  toolChoice?: string | ChatCompletionsNamedToolSelection;
 }
 
 /** An abstract representation of a chat message as provided in a request. */
@@ -317,20 +335,20 @@ export interface ChatMessageImageContentItem
   /** The discriminated object type: always 'image_url' for this type. */
   type: "image_url";
   /** An internet location, which must be accessible to the model,from which the image may be retrieved. */
-  image_url: ChatMessageImageUrl;
-  /**
-   * The evaluation quality setting to use, which controls relative prioritization of speed, token consumption, and
-   * accuracy.
-   *
-   * Possible values: auto, low, high
-   */
-  detail?: string;
+  imageUrl: ChatMessageImageUrl;
 }
 
 /** An internet location from which the model may retrieve an image. */
 export interface ChatMessageImageUrl {
   /** The URL of the image. */
   url: string;
+  /**
+   * The evaluation quality setting to use, which controls relative prioritization of speed, token consumption, and
+   * accuracy.
+   *
+   * Possible values: "auto", "low", "high"
+   */
+  detail?: string;
 }
 
 /** A request chat message representing response or action from the assistant. */
@@ -345,12 +363,12 @@ export interface ChatRequestAssistantMessage extends ChatRequestMessageParent {
    * The tool calls that must be resolved and have their outputs appended to subsequent input messages for the chat
    * completions request to resolve as configured.
    */
-  tool_calls?: Array<ChatCompletionsToolCall>;
+  toolCalls?: Array<ChatCompletionsToolCall>;
   /**
    * The function call that must be resolved and have its output appended to subsequent input messages for the chat
    * completions request to resolve as configured.
    */
-  function_call?: FunctionCall;
+  functionCall?: FunctionCall;
 }
 
 /**
@@ -395,7 +413,7 @@ export interface ChatRequestToolMessage extends ChatRequestMessageParent {
   /** The content of the message. */
   content: string | null;
   /** The ID of the tool call resolved by the provided content. */
-  tool_call_id: string;
+  toolCallId: string;
 }
 
 /** A request chat message representing requested output from a configured function. */
@@ -440,22 +458,22 @@ export interface AzureChatExtensionConfigurationParent {
 }
 
 /**
- * A specific representation of configurable options for Azure Cognitive Search when using it as an Azure OpenAI chat
+ * A specific representation of configurable options for Azure Search when using it as an Azure OpenAI chat
  * extension.
  */
-export interface AzureCognitiveSearchChatExtensionConfiguration
+export interface AzureSearchChatExtensionConfiguration
   extends AzureChatExtensionConfigurationParent {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cognitive Search.
    */
-  type: "AzureCognitiveSearch";
-  /** The parameters to use when configuring Azure Cognitive Search. */
-  parameters: AzureCognitiveSearchChatExtensionParameters;
+  type: "azure_search";
+  /** The parameters to use when configuring Azure Search. */
+  parameters: AzureSearchChatExtensionParameters;
 }
 
-/** Parameters for Azure Cognitive Search when used as an Azure OpenAI chat extension. */
-export interface AzureCognitiveSearchChatExtensionParameters {
+/** Parameters for Azure Cognitive Search when used as an Azure OpenAI chat extension. The supported authentication types are APIKey, SystemAssignedManagedIdentity and UserAssignedManagedIdentity. */
+export interface AzureSearchChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -476,24 +494,18 @@ export interface AzureCognitiveSearchChatExtensionParameters {
   endpoint: string;
   /** The name of the index to use as available in the referenced Azure Cognitive Search resource. */
   indexName: string;
-  /** The API key to use when interacting with the Azure Cognitive Search resource. */
-  key?: string;
   /** Customized field mapping behavior to use when interacting with the search index. */
-  fieldsMapping?: AzureCognitiveSearchIndexFieldMappingOptions;
+  fieldsMapping?: AzureSearchIndexFieldMappingOptions;
   /**
    * The query type to use with Azure Cognitive Search.
    *
-   * Possible values: simple, semantic, vector, vectorSimpleHybrid, vectorSemanticHybrid
+   * Possible values: "simple", "semantic", "vector", "vector_simple_hybrid", "vector_semantic_hybrid"
    */
   queryType?: string;
   /** The additional semantic configuration for the query. */
   semanticConfiguration?: string;
   /** Search filter. */
   filter?: string;
-  /** When using embeddings for search, specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of format https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings?api-version={api-version}. */
-  embeddingEndpoint?: string;
-  /** When using embeddings, specifies the API key to use with the provided embeddings endpoint. */
-  embeddingKey?: string;
   /** The embedding dependency for vector search. */
   embeddingDependency?: OnYourDataVectorizationSource;
 }
@@ -507,7 +519,7 @@ export interface OnYourDataAuthenticationOptionsParent {
 export interface OnYourDataApiKeyAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of API key. */
-  type: "APIKey";
+  type: "api_key";
   /** The API key to use for authentication. */
   key: string;
 }
@@ -516,7 +528,7 @@ export interface OnYourDataApiKeyAuthenticationOptions
 export interface OnYourDataConnectionStringAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of connection string. */
-  type: "ConnectionString";
+  type: "connection_string";
   /** The connection string to use for authentication. */
   connectionString: string;
 }
@@ -525,31 +537,49 @@ export interface OnYourDataConnectionStringAuthenticationOptions
 export interface OnYourDataKeyAndKeyIdAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of Elasticsearch key and key ID pair. */
-  type: "KeyAndKeyId";
+  type: "key_and_key_id";
   /** The key to use for authentication. */
   key: string;
   /** The key ID to use for authentication. */
   keyId: string;
 }
 
+/** The authentication options for Azure OpenAI On Your Data when using an Elasticsearch encoded API key. */
+export interface OnYourDataEncodedApiKeyAuthenticationOptions
+  extends OnYourDataAuthenticationOptionsParent {
+  /** The authentication type of Elasticsearch encoded API Key. */
+  type: "encoded_api_key";
+  /** The encoded API key to use for authentication. */
+  encodedApiKey: string;
+}
+
+/** The authentication options for Azure OpenAI On Your Data when using access token. */
+export interface OnYourDataAccessTokenAuthenticationOptions
+  extends OnYourDataAuthenticationOptionsParent {
+  /** The authentication type of access token. */
+  type: "access_token";
+  /** The access token to use for authentication. */
+  accessToken: string;
+}
+
 /** The authentication options for Azure OpenAI On Your Data when using a system-assigned managed identity. */
 export interface OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of system-assigned managed identity. */
-  type: "SystemAssignedManagedIdentity";
+  type: "system_assigned_managed_identity";
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using a user-assigned managed identity. */
 export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
   /** The authentication type of user-assigned managed identity. */
-  type: "UserAssignedManagedIdentity";
+  type: "user_assigned_managed_identity";
   /** The resource ID of the user-assigned managed identity to use for authentication. */
   managedIdentityResourceId: string;
 }
 
-/** Optional settings to control how fields are processed when using a configured Azure Cognitive Search resource. */
-export interface AzureCognitiveSearchIndexFieldMappingOptions {
+/** Optional settings to control how fields are processed when using a configured Azure Search resource. */
+export interface AzureSearchIndexFieldMappingOptions {
   /** The name of the index field to use as a title. */
   titleField?: string;
   /** The name of the index field to use as a URL. */
@@ -578,7 +608,7 @@ export interface OnYourDataVectorizationSourceParent {
 export interface OnYourDataEndpointVectorizationSource
   extends OnYourDataVectorizationSourceParent {
   /** The type of vectorization source to use. Always 'Endpoint' for this type. */
-  type: "Endpoint";
+  type: "endpoint";
   /** Specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings. The api-version query parameter is not allowed. */
   endpoint: string;
   /** Specifies the authentication options to use when retrieving embeddings from the specified endpoint. */
@@ -592,7 +622,7 @@ export interface OnYourDataEndpointVectorizationSource
 export interface OnYourDataDeploymentNameVectorizationSource
   extends OnYourDataVectorizationSourceParent {
   /** The type of vectorization source to use. Always 'DeploymentName' for this type. */
-  type: "DeploymentName";
+  type: "deployment_name";
   /** The embedding model deployment name within the same Azure OpenAI resource. This enables you to use vector search without Azure OpenAI api-key and without Azure OpenAI public network access. */
   deploymentName: string;
 }
@@ -604,7 +634,7 @@ export interface OnYourDataDeploymentNameVectorizationSource
 export interface OnYourDataModelIdVectorizationSource
   extends OnYourDataVectorizationSourceParent {
   /** The type of vectorization source to use. Always 'ModelId' for this type. */
-  type: "ModelId";
+  type: "model_id";
   /** The embedding model ID build inside the search service. Currently only supported by Elasticsearch®. */
   modelId: string;
 }
@@ -619,12 +649,12 @@ export interface AzureMachineLearningIndexChatExtensionConfiguration
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Machine Learning vector index.
    */
-  type: "AzureMLIndex";
+  type: "azure_ml_index";
   /** The parameters for the Azure Machine Learning vector index chat extension. */
   parameters: AzureMachineLearningIndexChatExtensionParameters;
 }
 
-/** Parameters for the Azure Machine Learning vector index chat extension. */
+/** Parameters for the Azure Machine Learning vector index chat extension. The supported authentication types are AccessToken, SystemAssignedManagedIdentity and UserAssignedManagedIdentity. */
 export interface AzureMachineLearningIndexChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
@@ -653,7 +683,7 @@ export interface AzureMachineLearningIndexChatExtensionParameters {
 }
 
 /**
- * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
+ * A specific representation of configurable options for Azure Cosmos DB when using it as an Azure OpenAI chat
  * extension.
  */
 export interface AzureCosmosDBChatExtensionConfiguration
@@ -662,14 +692,14 @@ export interface AzureCosmosDBChatExtensionConfiguration
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cosmos DB.
    */
-  type: "AzureCosmosDB";
+  type: "azure_cosmos_db";
   /** The parameters to use when configuring Azure OpenAI CosmosDB chat extensions. */
   parameters: AzureCosmosDBChatExtensionParameters;
 }
 
 /**
  * Parameters to use when configuring Azure OpenAI On Your Data chat extensions when using Azure Cosmos DB for
- * MongoDB vCore.
+ * MongoDB vCore. The supported authentication type is ConnectionString.
  */
 export interface AzureCosmosDBChatExtensionParameters {
   /**
@@ -697,11 +727,21 @@ export interface AzureCosmosDBChatExtensionParameters {
   /** Customized field mapping behavior to use when interacting with the search index. */
   fieldsMapping: AzureCosmosDBFieldMappingOptions;
   /** The embedding dependency for vector search. */
-  embeddingDependency?: OnYourDataVectorizationSource;
+  embeddingDependency: OnYourDataVectorizationSource;
 }
 
 /** Optional settings to control how fields are processed when using a configured Azure Cosmos DB resource. */
 export interface AzureCosmosDBFieldMappingOptions {
+  /** The name of the index field to use as a title. */
+  titleField?: string;
+  /** The name of the index field to use as a URL. */
+  urlField?: string;
+  /** The name of the index field to use as a filepath. */
+  filepathField?: string;
+  /** The names of index fields that should be treated as content. */
+  contentFields: string[];
+  /** The separator pattern that content fields should use. */
+  contentFieldsSeparator?: string;
   /** The names of fields that represent vector data. */
   vectorFields: string[];
 }
@@ -716,12 +756,12 @@ export interface ElasticsearchChatExtensionConfiguration
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Elasticsearch®.
    */
-  type: "Elasticsearch";
+  type: "elasticsearch";
   /** The parameters to use when configuring Elasticsearch®. */
   parameters: ElasticsearchChatExtensionParameters;
 }
 
-/** Parameters to use when configuring Elasticsearch® as an Azure OpenAI chat extension. */
+/** Parameters to use when configuring Elasticsearch® as an Azure OpenAI chat extension. The supported authentication types are KeyAndKeyId and EncodedAPIKey. */
 export interface ElasticsearchChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
@@ -748,7 +788,7 @@ export interface ElasticsearchChatExtensionParameters {
   /**
    * The query type of Elasticsearch®.
    *
-   * Possible values: simple, vector
+   * Possible values: "simple", "vector"
    */
   queryType?: string;
   /** The embedding dependency for vector search. */
@@ -772,7 +812,7 @@ export interface ElasticsearchIndexFieldMappingOptions {
 }
 
 /**
- * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
+ * A specific representation of configurable options for Pinecone when using it as an Azure OpenAI chat
  * extension.
  */
 export interface PineconeChatExtensionConfiguration
@@ -781,12 +821,12 @@ export interface PineconeChatExtensionConfiguration
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Pinecone.
    */
-  type: "Pinecone";
+  type: "pinecone";
   /** The parameters to use when configuring Azure OpenAI chat extensions. */
   parameters: PineconeChatExtensionParameters;
 }
 
-/** Parameters for configuring Azure OpenAI Pinecone chat extensions. */
+/** Parameters for configuring Azure OpenAI Pinecone chat extensions. The supported authentication type is APIKey. */
 export interface PineconeChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
@@ -811,7 +851,7 @@ export interface PineconeChatExtensionParameters {
   /** Customized field mapping behavior to use when interacting with the search index. */
   fieldsMapping: PineconeFieldMappingOptions;
   /** The embedding dependency for vector search. */
-  embeddingDependency?: OnYourDataVectorizationSource;
+  embeddingDependency: OnYourDataVectorizationSource;
 }
 
 /** Optional settings to control how fields are processed when using a configured Pinecone resource. */
@@ -823,13 +863,9 @@ export interface PineconeFieldMappingOptions {
   /** The name of the index field to use as a filepath. */
   filepathField?: string;
   /** The names of index fields that should be treated as content. */
-  contentFields?: string[];
+  contentFields: string[];
   /** The separator pattern that content fields should use. */
   contentFieldsSeparator?: string;
-  /** The names of fields that represent vector data. */
-  vectorFields?: string[];
-  /** The names of fields that represent image vector data. */
-  imageVectorFields?: string[];
 }
 
 /** A representation of the available Azure OpenAI enhancement configurations. */
@@ -850,6 +886,31 @@ export interface AzureChatGroundingEnhancementConfiguration {
 export interface AzureChatOCREnhancementConfiguration {
   /** Specifies whether the enhancement is enabled. */
   enabled: boolean;
+}
+
+/**
+ * An abstract representation of a response format configuration usable by Chat Completions. Can be used to enable JSON
+ * mode.
+ */
+export interface ChatCompletionsResponseFormatParent {
+  type: string;
+}
+
+/**
+ * The standard Chat Completions response format that can freely generate text and is not guaranteed to produce response
+ * content that adheres to a specific schema.
+ */
+export interface ChatCompletionsTextResponseFormat
+  extends ChatCompletionsResponseFormatParent {
+  /** The discriminated object type, which is always 'text' for this format. */
+  type: "text";
+}
+
+/** A response format for Chat Completions that restricts responses to emitting valid JSON objects. */
+export interface ChatCompletionsJsonResponseFormat
+  extends ChatCompletionsResponseFormatParent {
+  /** The discriminated object type, which is always 'json_object' for this format. */
+  type: "json_object";
 }
 
 /** An abstract representation of a tool that can be used by the model to improve a chat completions response. */
@@ -876,8 +937,14 @@ export interface ChatCompletionsNamedFunctionToolSelection
   extends ChatCompletionsNamedToolSelectionParent {
   /** The object type, which is always 'function'. */
   type: "function";
+  /** The function that should be called. */
+  function: ChatCompletionsFunctionToolSelection;
+}
+
+/** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
+export interface ChatCompletionsFunctionToolSelection {
   /** The name of the function that should be called. */
-  name: "string";
+  name: string;
 }
 
 /** Represents the request data used to generate images. */
@@ -900,31 +967,53 @@ export interface ImageGenerationOptions {
    * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
    * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
    *
-   * Possible values: 256x256, 512x512, 1024x1024, 1792x1024, 1024x1792
+   * Possible values: "256x256", "512x512", "1024x1024", "1792x1024", "1024x1792"
    */
   size?: string;
   /**
    * The format in which image generation response items should be presented.
    *
-   * Possible values: url, b64_json
+   * Possible values: "url", "b64_json"
    */
-  response_format?: string;
+  responseFormat?: string;
   /**
    * The desired image generation quality level to use.
    * Only configurable with dall-e-3 models.
    *
-   * Possible values: standard, hd
+   * Possible values: "standard", "hd"
    */
   quality?: string;
   /**
    * The desired image generation style to use.
    * Only configurable with dall-e-3 models.
    *
-   * Possible values: natural, vivid
+   * Possible values: "natural", "vivid"
    */
   style?: string;
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
   user?: string;
+}
+
+/** A representation of the request options that control the behavior of a text-to-speech operation. */
+export interface SpeechGenerationOptions {
+  /** The text to generate audio for. The maximum length is 4096 characters. */
+  input: string;
+  /**
+   * The voice to use for text-to-speech.
+   *
+   * Possible values: "alloy", "echo", "fable", "onyx", "nova", "shimmer"
+   */
+  voice: string;
+  /**
+   * The audio output format for the spoken text. By default, the MP3 format will be used.
+   *
+   * Possible values: "mp3", "opus", "aac", "flac"
+   */
+  responseFormat?: string;
+  /** The speed of speech for generated audio. Values are valid in the range from 0.25 to 4.0, with 1.0 the default and higher values corresponding to faster speech. */
+  speed?: number;
+  /** The model to use for this text-to-speech request. */
+  model?: string;
 }
 
 /**
@@ -952,10 +1041,13 @@ export interface EmbeddingsOptions {
    * as we have observed inferior results when newlines are present.
    */
   input: string[];
+  /** When using Azure OpenAI, specifies the input type to use for embedding search. */
+  inputType?: string;
 }
 
 /** An abstract representation of a chat message as provided in a request. */
 export type ChatRequestMessage =
+  | ChatRequestMessageParent
   | ChatRequestSystemMessage
   | ChatRequestUserMessage
   | ChatRequestAssistantMessage
@@ -963,39 +1055,57 @@ export type ChatRequestMessage =
   | ChatRequestFunctionMessage;
 /** An abstract representation of a structured content item within a chat message. */
 export type ChatMessageContentItem =
+  | ChatMessageContentItemParent
   | ChatMessageTextContentItem
   | ChatMessageImageContentItem;
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
  */
-export type ChatCompletionsToolCall = ChatCompletionsFunctionToolCall;
+export type ChatCompletionsToolCall =
+  | ChatCompletionsToolCallParent
+  | ChatCompletionsFunctionToolCall;
 /**
  *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
  *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
  *   The use of this configuration is compatible only with Azure OpenAI.
  */
 export type AzureChatExtensionConfiguration =
-  | AzureCognitiveSearchChatExtensionConfiguration
+  | AzureChatExtensionConfigurationParent
+  | AzureSearchChatExtensionConfiguration
   | AzureMachineLearningIndexChatExtensionConfiguration
   | AzureCosmosDBChatExtensionConfiguration
   | ElasticsearchChatExtensionConfiguration
   | PineconeChatExtensionConfiguration;
 /** The authentication options for Azure OpenAI On Your Data. */
 export type OnYourDataAuthenticationOptions =
+  | OnYourDataAuthenticationOptionsParent
   | OnYourDataApiKeyAuthenticationOptions
   | OnYourDataConnectionStringAuthenticationOptions
   | OnYourDataKeyAndKeyIdAuthenticationOptions
+  | OnYourDataEncodedApiKeyAuthenticationOptions
+  | OnYourDataAccessTokenAuthenticationOptions
   | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
   | OnYourDataUserAssignedManagedIdentityAuthenticationOptions;
 /** An abstract representation of a vectorization source for Azure OpenAI On Your Data with vector search. */
 export type OnYourDataVectorizationSource =
+  | OnYourDataVectorizationSourceParent
   | OnYourDataEndpointVectorizationSource
   | OnYourDataDeploymentNameVectorizationSource
   | OnYourDataModelIdVectorizationSource;
+/**
+ * An abstract representation of a response format configuration usable by Chat Completions. Can be used to enable JSON
+ * mode.
+ */
+export type ChatCompletionsResponseFormat =
+  | ChatCompletionsResponseFormatParent
+  | ChatCompletionsTextResponseFormat
+  | ChatCompletionsJsonResponseFormat;
 /** An abstract representation of a tool that can be used by the model to improve a chat completions response. */
 export type ChatCompletionsToolDefinition =
-  ChatCompletionsFunctionToolDefinition;
+  | ChatCompletionsToolDefinitionParent
+  | ChatCompletionsFunctionToolDefinition;
 /** An abstract representation of an explicit, named tool selection to use for a chat completions request. */
 export type ChatCompletionsNamedToolSelection =
-  ChatCompletionsNamedFunctionToolSelection;
+  | ChatCompletionsNamedToolSelectionParent
+  | ChatCompletionsNamedFunctionToolSelection;
