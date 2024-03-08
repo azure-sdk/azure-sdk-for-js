@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureApiCenter client.
 
-Azure API Center Resource Provider.
+Azure API Center Resource Provider. tetetetetetet
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apicenter/arm-apicenter) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-apicenter) |

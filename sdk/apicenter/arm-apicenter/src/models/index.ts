@@ -1038,7 +1038,7 @@ export type EnvironmentServerType = string;
 /** Known values of {@link Versions} that the service accepts. */
 export enum KnownVersions {
   /** The initial service version */
-  V20240301 = "2024-03-01",
+  V20240301 = "2023-03-01",
 }
 
 /**
@@ -1046,7 +1046,7 @@ export enum KnownVersions {
  * {@link KnownVersions} can be used interchangeably with Versions,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-03-01**: The initial service version
+ * **2023-03-01**: The initial service version
  */
 export type Versions = string;
 

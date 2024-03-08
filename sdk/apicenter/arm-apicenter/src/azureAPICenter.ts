@@ -70,7 +70,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-apicenter/1.0.0`;
+    const packageDetails = `azsdk-js-arm-apicenter/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -124,7 +124,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-01";
+    this.apiVersion = options.apiVersion || "2023-03-01";
     this.operations = new OperationsImpl(this);
     this.services = new ServicesImpl(this);
     this.metadataSchemas = new MetadataSchemasImpl(this);
